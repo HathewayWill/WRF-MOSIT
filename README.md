@@ -107,15 +107,15 @@ This is a BASH script that provides options to install the following Weather Res
 - Script will check for System Architecture Type and Storage Space requirements.
 
 - Once running the script users will be provided with options to select how the WRF_Master_Script will compile and install the various packages.
--- First option, Which compiler users want to use Intel or GNU compilers.
-    - Please note that Hurricane WRF (HWRF) can only use Intel Compilers
-- Second option, Which graphic display package should be installed.  GrADS or OpenGrADS
-- Third option, Auto Configuration.  This allows users to have a one-click install
-- Fourth option, Secondary WPS geography file download choice.
-  - Author of script reccomends selecting "YES" if user is unsure.
-- Fifth option, Optional WPS geography file download cohice.
-  - Author of script reccomends selecting "YES" if user is unsure.
-- Last option, Pick which WRF software user wants to install
+    - First option, Which compiler users want to use Intel or GNU compilers.
+         - Please note that Hurricane WRF (HWRF) can only use Intel Compilers
+    - Second option, Which graphic display package should be installed.  GrADS or OpenGrADS
+    - Third option, Auto Configuration.  This allows users to have a one-click install
+    - Fourth option, Secondary WPS geography file download choice.
+      - Author of script reccomends selecting "YES" if user is unsure.
+    - Fifth option, Optional WPS geography file download cohice.
+      - Author of script reccomends selecting "YES" if user is unsure.
+    - Last option, Pick which WRF software user wants to install
 
 
 ---
@@ -151,7 +151,10 @@ Sponsorships help the author push updates to the end user faster, maintain and u
 - Biswas, M. K., Bernardet, L., Abarca, S., Ginis, I., Grell, E., Kalina, E., … Zhang, Z. (2018). Hurricane Weather Research and Forecasting (HWRF) Model: 2017 Scientific Documentation (No. NCAR/TN-544+STR). doi:10.5065/D6MK6BPR
 - WRF CHEM
 - WRF CHEM Tools
-- WRF Hydro
+- D. Gochis et al.
+The WRF-hydro model technical description and user guide, version 1.0
+NCAR Tech. Doc.
+(2013)
 - Freitas, S. R. ; Longo, K. M. ; Alonso, M. F. ; Pirre, M. ; Marecal, V. ; Grell, G. ; Stockler,
 R. ; Mello, R. F. ; Sánchez Gácita, M. . PREP-CHEM-SRC 1.0: a preprocessor of trace
 gas and aerosol emission fields for regional and global atmospheric chemistry
