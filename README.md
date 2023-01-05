@@ -158,5 +158,3 @@ gas and aerosol emission fields for regional and global atmospheric chemistry
 models. Geoscientific Model Development, v. 4, p. 419-433, 2011
 
 ---
-
-Copyright (c) [2023] [William Hatheway] ???
