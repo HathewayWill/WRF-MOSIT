@@ -148,6 +148,8 @@ Sponsorships help the author push updates to the end user faster, maintain and u
 ---
 #### Citation:
 #### Hatheway, W. (2023). Weather Research & Forecasting Self Install Script (Version 1.0) [Computer software]
+---
+#### References:
 - Skamarock, W. C., J. B. Klemp, J. Dudhia, D. O. Gill, Z. Liu, J. Berner, W. Wang, J. G. Powers, M. G. Duda, D. M. Barker, and X.-Y. Huang, 2019: A Description of the Advanced Research WRF Version 4. NCAR Tech. Note NCAR/TN-556+STR, 145 pp. doi:10.5065/1dfh-6p97
 - Biswas, M. K., Bernardet, L., Abarca, S., Ginis, I., Grell, E., Kalina, E., … Zhang, Z. (2018). Hurricane Weather Research and Forecasting (HWRF) Model: 2017 Scientific Documentation (No. NCAR/TN-544+STR). doi:10.5065/D6MK6BPR
 - WRF CHEM
