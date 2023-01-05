@@ -125,9 +125,10 @@ This is a BASH script that provides options to install the following Weather Res
 - Tested with current available libraries on 01/01/2023, execptions have been noted in the script documentation.
 ---
 
-### Sponsorships and donations accepted but NOT required
+### Sponsorships and donations accepted but not required
 Click here!
 [![](https://img.shields.io/static/v1?label=Sponsor&message=%E2%9D%A4&logo=GitHub&color=%23fe8e86)](https://github.com/sponsors/HathewayWill)
+Sponsorships help the author push updates to the users faster, maintain and update code, provide end user support.
 
 ---
 #### Estimated Run Time ~ 60 to 120 Minutes @ 10mbps download speed.
