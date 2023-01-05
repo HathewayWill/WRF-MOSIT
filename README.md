@@ -154,10 +154,12 @@ Sponsorships help the author push updates to the end user faster, maintain and u
 - Biswas, M. K., Bernardet, L., Abarca, S., Ginis, I., Grell, E., Kalina, E., … Zhang, Z. (2018). Hurricane Weather Research and Forecasting (HWRF) Model: 2017 Scientific Documentation (No. NCAR/TN-544+STR). doi:10.5065/D6MK6BPR
 - WRF CHEM
 - WRF CHEM Tools
-- D. Gochis et al.
-The WRF-hydro model technical description and user guide, version 1.0
-NCAR Tech. Doc.
-(2013)
+- Gochis, D.J., M. Barlage, R. Cabell, M. Casali, A. Dugger, K. FitzGerald,
+M. McAllister, J. McCreight, A. RafieeiNasab, L. Read, K. Sampson, D.
+Yates, Y. Zhang (2020).  The WRF-Hydro® modeling system technical
+description, (Version 5.2.0).  NCAR Technical Note. 108 pages. Available
+online at:
+https://ral.ucar.edu/sites/default/files/public/projects/wrf-hydro/technical-description-user-guide/wrf-hydrov5.2technicaldescription.pdf
 - Freitas, S. R. ; Longo, K. M. ; Alonso, M. F. ; Pirre, M. ; Marecal, V. ; Grell, G. ; Stockler,
 R. ; Mello, R. F. ; Sánchez Gácita, M. . PREP-CHEM-SRC 1.0: a preprocessor of trace
 gas and aerosol emission fields for regional and global atmospheric chemistry
