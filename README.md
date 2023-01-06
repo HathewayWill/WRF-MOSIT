@@ -154,7 +154,8 @@ Sponsorships help the author push updates to the end user faster, maintain and u
 - Biswas, M. K., Bernardet, L., Abarca, S., Ginis, I., Grell, E., Kalina, E., … Zhang, Z. (2018). Hurricane Weather Research and Forecasting (HWRF) Model: 2017 Scientific Documentation (No. NCAR/TN-544+STR). doi:10.5065/D6MK6BPR
 - Peckham, S., G. A. Grell, S. A. McKeen, M. Barth, G. Pfister, C. Wiedinmyer, J. D. Fast, W. I. Gustafson, R. Zaveri, R. C. Easter, J. Barnard, E. Chapman, M. Hewson, R. Schmitz, M. Salzmann, S. Freitas, 2011: WRF-Chem Version 3.3 User's Guide. NOAA Technical Memo., 98 pp.
 
-- WRF CHEM Tools
+- "We acknowledge use of the WRF-Chem preprocessor tool {name of tool} provided by the Atmospheric Chemistry Observations and Modeling Lab (ACOM) of NCAR."
+
 - Gochis, D.J., M. Barlage, R. Cabell, M. Casali, A. Dugger, K. FitzGerald,
 M. McAllister, J. McCreight, A. RafieeiNasab, L. Read, K. Sampson, D.
 Yates, Y. Zhang (2020).  The WRF-Hydro® modeling system technical
