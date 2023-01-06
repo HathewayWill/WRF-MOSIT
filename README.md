@@ -43,6 +43,32 @@ This is a BASH script that provides options to install the following Weather Res
         - Intel-HPCKIT
         - Intel-AIKIT
 ---
+### Software Packages
+- WRF
+    - WRF v4.4.2
+    - WPS v4.4
+    - WRF PLUS v4.4.2
+    - WRFDA 4DVAR v4.4.2    
+- WRF-CHEM
+    - WRF Chem w/KPP 4.4.2
+    - WPS 4.4
+    - WRFDA Chem 3DVAR
+- WRF-Hydro Standalone
+    - WRF-Hydro v5.2
+- WRF-Hydro Coupled
+    - WRF-Hydro v5.2
+    - WRF v4.4.2
+    - WPS v4.4 
+- Hurricane WRF (HWRF)
+    - HWRF Utilties v4.0a
+    - POMTC v4.0a
+    - NCEP Coupler v4.0a
+    - GFDL Vortex Tracker v4.0a
+    - GSI v4.0a
+    - UPP v4.0a
+    - WRF v4.3.3
+    - WPS 4.3.1
+---
 ### Pre/Post Processing Packages Installed
 - WRF
     - Development Testbed Center (DTC) Model Evaluation Tools (MET) v11.0.0
