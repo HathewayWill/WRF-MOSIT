@@ -42,6 +42,7 @@ This is a BASH script that provides options to install the following Weather Res
         - Intel-Basekit
         - Intel-HPCKIT
         - Intel-AIKIT
+  
 ---
 ### Software Packages
 - WRF
@@ -159,7 +160,7 @@ Click here!
 - Sponsorships help the author push updates to the end user faster, maintain and update code, develop new code, provide end user support, and end user consultanting.
 ---
 #### Estimated Run Time ~ 60 to 120 Minutes @ 10mbps download speed.
-
+- Intel compilers take slightly more time to install packages.
 ---
 ### Special thanks to:
 - Youtube's meteoadriatic 
