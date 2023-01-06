@@ -61,7 +61,7 @@ This is a BASH script that provides options to install the following Weather Res
     - WRF v4.4.2
     - WPS v4.4 
 - Hurricane WRF (HWRF)
-    - HWRF Utilties v4.0a
+    - HWRF Utilities v4.0a
     - POMTC v4.0a
     - NCEP Coupler v4.0a
     - GFDL Vortex Tracker v4.0a
