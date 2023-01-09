@@ -43,12 +43,12 @@ fi
 ############################### Intel or GNU Compiler Option #############
 
 
-if [ "$SYSTEMBIT" = "32" ] && [ "$SYSTEMOS" = "Darwin" ]; then
+if [ "$SYSTEMBIT" = "32" ] && [ "$SYSTEMOS" = "MacOS" ]; then
   echo "Your system is not compatibile with this script."
   exit ;
 fi
 
-if [ "$SYSTEMBIT" = "64" ] && [ "$SYSTEMOS" = "Darwin" ]; then
+if [ "$SYSTEMBIT" = "64" ] && [ "$SYSTEMOS" = "MacOS" ]; then
   echo "Your system is a 64bit version of MacOS"
   echo " "
   echo "Intel compilers are not compatibile with this script"
@@ -61,8 +61,6 @@ if [ "$SYSTEMBIT" = "64" ] && [ "$SYSTEMOS" = "Darwin" ]; then
   echo "Installing Homebrew and Xcode Command Line Tools now"
   echo " "
   echo "Please enter password when prompted"
-  chsh -s /bin/bash
-  bash
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
 fi
 
@@ -108,49 +106,77 @@ if [ "$SYSTEMBIT" = "32" ] && [ "$SYSTEMOS" = "Linux" ]; then
 fi
 
 ################### System Information Tests ##############################
-export HOME=`cd;pwd`
-export Storage_Space_Size=$(df -h --output=avail ${HOME} | awk 'NR==2 {print $1}' | tr -cd '[:digit:]')
-export Storage_Space_Units=$(df -h --output=avail ${HOME} | awk 'NR==2 {print $1}' | tr -cd '[:alpha:]')
-export Storage_Space_Required="350"
-echo "-------------------------------------------------- "
-echo " "
-echo " Testing for Storage Space for installation"
-echo " "
 
-case $Storage_Space_Units in
-    [Pp]* )
+if [ "$SYSTEMOS" = "Linux" ]; then
 
-      echo " "
-      echo "Sufficient storage space for installation found"
-      echo "-------------------------------------------------- " ;;
-    [Tt]* )
-      echo " "
-      echo "Sufficient storage space for installation found"
-      echo "-------------------------------------------------- " ;;
-    [Gg]* )
-      if [[ ${Storage_Space_Size} -lt ${Storage_Space_Required} ]]; then
+  export HOME=`cd;pwd`
+  export Storage_Space_Size=$(df -h --output=avail ${HOME} | awk 'NR==2 {print $1}' | tr -cd '[:digit:]')
+  export Storage_Space_Units=$(df -h --output=avail ${HOME} | awk 'NR==2 {print $1}' | tr -cd '[:alpha:]')
+  export Storage_Space_Required="350"
+  echo "-------------------------------------------------- "
+  echo " "
+  echo " Testing for Storage Space for installation"
+  echo " "
+
+  case $Storage_Space_Units in
+      [Pp]* )
+
         echo " "
-        echo "Not enough storage space for installation"
-        echo "-------------------------------------------------- "
-        exit
-      else
+        echo "Sufficient storage space for installation found"
+        echo "-------------------------------------------------- " ;;
+      [Tt]* )
         echo " "
-        echo "Sufficient storage space for installation found."
+        echo "Sufficient storage space for installation found"
+        echo "-------------------------------------------------- " ;;
+      [Gg]* )
+        if [[ ${Storage_Space_Size} -lt ${Storage_Space_Required} ]]; then
+          echo " "
+          echo "Not enough storage space for installation"
+          echo "-------------------------------------------------- "
+          exit
+        else
+          echo " "
+          echo "Sufficient storage space for installation found."
+          echo "-------------------------------------------------- "
+        fi ;;
+      [MmKk]* )
+        echo " "
+        echo "Not enough storage space for installation."
         echo "-------------------------------------------------- "
-      fi ;;
-    [MmKk]* )
+        exit ;;
+      * )
       echo " "
       echo "Not enough storage space for installation."
       echo "-------------------------------------------------- "
       exit ;;
-    * )
-    echo " "
-    echo "Not enough storage space for installation."
-    echo "-------------------------------------------------- "
-    exit ;;
-  esac
+    esac
 
-echo " "
+  echo " "
+fi
+
+echo $SYSTEMOS
+
+if [ "$SYSTEMOS" = "MacOS" ]; then
+  while true; do
+    read -p "Do you have 350GB of storage space available for this instllation (Y/N) " yn
+    case $yn in
+      [Yy]* )
+      echo "-------------------------------------------------- "
+      echo " "
+      echo "Installation will move forward"
+      break
+        ;;
+      [Nn]* )
+      echo " "
+      echo "Not enough storage space available. Exiting script."
+      break
+        ;;
+      * ) echo "Please answer yes or no.";;
+    esac
+  done
+fi
+
+
 
 
 ############################# Chose GrADS or OpenGrADS #########################
@@ -320,7 +346,6 @@ done
 echo " "
 echo "Beginning Installation"
 echo " "
-
 
 ############################ DTC's MET & METPLUS ##################################################
 
@@ -621,7 +646,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ]; then
   #SED statement needed to fix bug in MET compile script.  Can be removed after bugfix
   sed -i '426s|fi|export LIB_Z=${LIB_DIR}/lib \nfi|g' $WRF_FOLDER/MET-11.0.0/compile_MET_all.sh
 
-  ./compile_MET_all.sh |& tee compile_MET_all.log
+  ./compile_MET_all.sh | tee compile_MET_all.log
 
   export PATH=$WRF_FOLDER/MET-11.0.0/bin:$PATH
 
@@ -821,7 +846,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   F90= ./configure --prefix=$DIR/MPICH --with-device=ch3 FFLAGS="$fallow_argument -m64" FCFLAGS="$fallow_argument -m64"
 
   make -j $CPU_HALF_EVEN
-  make -j $CPU_HALF_EVEN install |& tee make.install.log
+  make -j $CPU_HALF_EVEN install | tee make.install.log
   #make check
 
 
@@ -922,7 +947,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   export LIBS="-lnetcdf -lpnetcdf -lcurl -lhdf5_hl -lhdf5 -lz -ldl"
   CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-shared --enable-parallel-tests --enable-hdf5
   make -j $CPU_HALF_EVEN
-  make -j $CPU_HALF_EVEN install |& tee make.install.log
+  make -j $CPU_HALF_EVEN install | tee make.install.log
   #make check
 
 
@@ -1388,7 +1413,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   export LIBS="-lnetcdf -lpnetcdf -lcurl -lhdf5_hl -lhdf5 -lz -ldl"
   CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-shared --enable-parallel-tests --enable-hdf5
   make -j $CPU_HALF_EVEN
-  make -j $CPU_HALF_EVEN install |& tee make.install.log
+  make -j $CPU_HALF_EVEN install | tee make.install.log
   #make check
 
 
@@ -1607,7 +1632,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
     sed -i '58s|-L/scratchin/grupos/catt-brams/shared/libs/zlib-1.2.8/lib|-L${DIR}/grib2/lib|' include.mk.intel.wrf #Changing zlib Location
     sed -i '71s|-convert big_endian|-convert big_endian -diag-disable 6405  |' include.mk.intel.wrf
 
-    make OPT=intel.wrf CHEM=RADM_WRF_FIM AER=SIMPLE |& tee make.log  # Compiling and making of PRE-CHEM-SRC-1.5
+    make OPT=intel.wrf CHEM=RADM_WRF_FIM AER=SIMPLE | tee make.log  # Compiling and making of PRE-CHEM-SRC-1.5
 
 
     # IF statement to check that all files were created.
@@ -2231,7 +2256,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
   cd mpich-4.0.3/
   F90= ./configure --prefix=$DIR/MPICH --with-device=ch3 FFLAGS="$fallow_argument -m64" FCFLAGS="$fallow_argument -m64"
   make -j $CPU_HALF_EVEN
-  make -j $CPU_HALF_EVEN install |& tee make.install.log
+  make -j $CPU_HALF_EVEN install | tee make.install.log
   #make check
 
 
@@ -2249,7 +2274,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
   cd zlib-1.2.13/
   ./configure --prefix=$DIR/grib2
   make -j $CPU_HALF_EVEN
-  make -j $CPU_HALF_EVEN install |& tee make.install.log
+  make -j $CPU_HALF_EVEN install | tee make.install.log
 #make check
 
   echo " "
@@ -2261,7 +2286,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
   cd libpng-1.6.39/
   ./configure --prefix=$DIR/grib2
   make -j $CPU_HALF_EVEN
-  make -j $CPU_HALF_EVEN install |& tee make.install.log
+  make -j $CPU_HALF_EVEN install | tee make.install.log
   #make check
   echo " "
 #############################JasPer############################
@@ -2271,7 +2296,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
   autoreconf -i
   ./configure --prefix=$DIR/grib2
   make -j $CPU_HALF_EVEN
-  make -j $CPU_HALF_EVEN install |& tee make.install.log
+  make -j $CPU_HALF_EVEN install | tee make.install.log
   #make check
 
   export JASPERLIB=$DIR/grib2/lib
@@ -2285,7 +2310,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
   cd hdf5-hdf5-1_13_2
   ./configure --prefix=$DIR/grib2 --with-zlib=$DIR/grib2 --enable-hl --enable-fortran
   make -j $CPU_HALF_EVEN
-  make -j $CPU_HALF_EVEN install |& tee make.install.log
+  make -j $CPU_HALF_EVEN install | tee make.install.log
   #make check
 
   export HDF5=$DIR/grib2
@@ -2301,7 +2326,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
   export LIBS="-lhdf5_hl -lhdf5 -lz -lcurl -lgfortran -lgcc -lm -ldl"
   ./configure --prefix=$DIR/NETCDF --with-zlib=$DIR/grib2 --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-shared
   make -j $CPU_HALF_EVEN
-  make -j $CPU_HALF_EVEN install |& tee make.install.log
+  make -j $CPU_HALF_EVEN install | tee make.install.log
 #make check
 
   export PATH=$DIR/NETCDF/bin:$PATH
@@ -2318,7 +2343,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
   export LIBS="-lnetcdf -lm -lcurl -lhdf5_hl -lhdf5 -lz -ldl"
   CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-shared
   make -j $CPU_HALF_EVEN
-  make -j $CPU_HALF_EVEN install |& tee make.install.log
+  make -j $CPU_HALF_EVEN install | tee make.install.log
   #make check
 
 
@@ -2348,7 +2373,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
   echo "Environment Testing "
   echo "Test 1"
   gfortran TEST_1_fortran_only_fixed.f
-  ./a.out |& tee env_test1.txt
+  ./a.out | tee env_test1.txt
   export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test1.txt | awk  '{print$1}')
    if [ $TEST_PASS -ge 1 ]
       then
@@ -2362,7 +2387,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
   echo " "
   echo "Test 2"
   gfortran TEST_2_fortran_only_free.f90
-  ./a.out |& tee env_test2.txt
+  ./a.out | tee env_test2.txt
   export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test2.txt | awk  '{print$1}')
    if [ $TEST_PASS -ge 1 ]
       then
@@ -2377,7 +2402,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
   echo " "
   echo "Test 3"
   gcc TEST_3_c_only.c
-  ./a.out |& tee env_test3.txt
+  ./a.out | tee env_test3.txt
   export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test3.txt | awk  '{print$1}')
    if [ $TEST_PASS -ge 1 ]
       then
@@ -2394,7 +2419,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
   gcc -c -m64 TEST_4_fortran+c_c.c
   gfortran -c -m64 TEST_4_fortran+c_f.f90
   gfortran -m64 TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
-  ./a.out |& tee env_test4.txt
+  ./a.out | tee env_test4.txt
   export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test4.txt | awk  '{print$1}')
    if [ $TEST_PASS -ge 1 ]
       then
@@ -2422,7 +2447,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
   gfortran 01_fortran+c+netcdf_f.o 01_fortran+c+netcdf_c.o \
        -L${NETCDF}/lib -lnetcdff -lnetcdf
 
-       ./a.out |& tee comp_test1.txt
+       ./a.out | tee comp_test1.txt
        export TEST_PASS=$(grep -w -o -c "SUCCESS" comp_test1.txt | awk  '{print$1}')
         if [ $TEST_PASS -ge 1 ]
            then
@@ -2443,7 +2468,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
   02_fortran+c+netcdf+mpi_c.o \
        -L${NETCDF}/lib -lnetcdff -lnetcdf
 
-  mpirun ./a.out |& tee comp_test2.txt
+  mpirun ./a.out | tee comp_test2.txt
   export TEST_PASS=$(grep -w -o -c "SUCCESS" comp_test2.txt | awk  '{print$1}')
    if [ $TEST_PASS -ge 1 ]
       then
@@ -3095,7 +3120,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_STANDALONE" = "1" ]; then
   cd zlib-1.2.13/
     CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX ./configure --prefix=$DIR/grib2
   make -j $CPU_HALF_EVEN
-  make -j $CPU_HALF_EVEN install |& tee make.install.log
+  make -j $CPU_HALF_EVEN install | tee make.install.log
   #make check
 
   echo " "
@@ -3107,7 +3132,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_STANDALONE" = "1" ]; then
   cd libpng-1.6.39/
     CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX ./configure --prefix=$DIR/grib2
   make -j $CPU_HALF_EVEN
-  make -j $CPU_HALF_EVEN install |& tee make.install.log
+  make -j $CPU_HALF_EVEN install | tee make.install.log
   #make check
   echo " "
   #############################JasPer############################
@@ -3117,7 +3142,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_STANDALONE" = "1" ]; then
   autoreconf -i
     CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX ./configure --prefix=$DIR/grib2
   make -j $CPU_HALF_EVEN
-  make -j $CPU_HALF_EVEN install |& tee make.install.log
+  make -j $CPU_HALF_EVEN install | tee make.install.log
   #make check
   export JASPERLIB=$DIR/grib2/lib
   export JASPERINC=$DIR/grib2/include
@@ -3130,7 +3155,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_STANDALONE" = "1" ]; then
   cd hdf5-hdf5-1_13_2
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX ./configure --prefix=$DIR/grib2 --with-zlib=$DIR/grib2  --enable-hl --enable-fortran --enable-parallel
   make -j $CPU_HALF_EVEN
-  make -j $CPU_HALF_EVEN install |& tee make.install.log
+  make -j $CPU_HALF_EVEN install | tee make.install.log
   #make check
 
   export HDF5=$DIR/grib2
@@ -3165,7 +3190,7 @@ export PNETCDF=$DIR/grib2
   export LIBS="-lhdf5_hl -lhdf5 -lz -lcurl -lgfortran -lgcc -lm -ldl"
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX ./configure --prefix=$DIR/NETCDF --with-zlib=$DIR/grib2 --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-shared --enable-pnetcdf --enable-cdf5 --enable-parallel-tests
   make -j $CPU_HALF_EVEN
-  make -j $CPU_HALF_EVEN install |& tee make.install.log
+  make -j $CPU_HALF_EVEN install | tee make.install.log
   #make check
 
   export PATH=$DIR/NETCDF/bin:$PATH
@@ -3182,7 +3207,7 @@ export PNETCDF=$DIR/grib2
   export LIBS="-lnetcdf -pnetcdf -lm -lcurl -lhdf5_hl -lhdf5 -lz -ldl"
   CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-shared --enable-parallel-tests --enable-hdf5
   make -j $CPU_HALF_EVEN
-  make -j $CPU_HALF_EVEN install |& tee make.install.log
+  make -j $CPU_HALF_EVEN install | tee make.install.log
   #make check
 
 
@@ -3212,7 +3237,7 @@ export PNETCDF=$DIR/grib2
   echo "Environment Testing "
   echo "Test 1"
   gfortran TEST_1_fortran_only_fixed.f
-  ./a.out |& tee env_test1.txt
+  ./a.out | tee env_test1.txt
   export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test1.txt | awk  '{print$1}')
    if [ $TEST_PASS -ge 1 ]
       then
@@ -3226,7 +3251,7 @@ export PNETCDF=$DIR/grib2
   echo " "
   echo "Test 2"
   gfortran TEST_2_fortran_only_free.f90
-  ./a.out |& tee env_test2.txt
+  ./a.out | tee env_test2.txt
   export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test2.txt | awk  '{print$1}')
    if [ $TEST_PASS -ge 1 ]
       then
@@ -3241,7 +3266,7 @@ export PNETCDF=$DIR/grib2
   echo " "
   echo "Test 3"
   gcc TEST_3_c_only.c
-  ./a.out |& tee env_test3.txt
+  ./a.out | tee env_test3.txt
   export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test3.txt | awk  '{print$1}')
    if [ $TEST_PASS -ge 1 ]
       then
@@ -3258,7 +3283,7 @@ export PNETCDF=$DIR/grib2
   gcc -c -m64 TEST_4_fortran+c_c.c
   gfortran -c -m64 TEST_4_fortran+c_f.f90
   gfortran -m64 TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
-  ./a.out |& tee env_test4.txt
+  ./a.out | tee env_test4.txt
   export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test4.txt | awk  '{print$1}')
    if [ $TEST_PASS -ge 1 ]
       then
@@ -3286,7 +3311,7 @@ export PNETCDF=$DIR/grib2
   gfortran 01_fortran+c+netcdf_f.o 01_fortran+c+netcdf_c.o \
        -L${NETCDF}/lib -lnetcdff -lnetcdf
 
-       ./a.out |& tee comp_test1.txt
+       ./a.out | tee comp_test1.txt
        export TEST_PASS=$(grep -w -o -c "SUCCESS" comp_test1.txt | awk  '{print$1}')
         if [ $TEST_PASS -ge 1 ]
            then
@@ -3307,7 +3332,7 @@ export PNETCDF=$DIR/grib2
   02_fortran+c+netcdf+mpi_c.o \
        -L${NETCDF}/lib -lnetcdff -lnetcdf
 
-  mpirun ./a.out |& tee comp_test2.txt
+  mpirun ./a.out | tee comp_test2.txt
   export TEST_PASS=$(grep -w -o -c "SUCCESS" comp_test2.txt | awk  '{print$1}')
    if [ $TEST_PASS -ge 1 ]
       then
@@ -3595,7 +3620,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   cd zlib-1.2.13/
   ./configure --prefix=$DIR/grib2
   make -j $CPU_HALF_EVEN
-  make -j $CPU_HALF_EVEN install |& tee make.install.log
+  make -j $CPU_HALF_EVEN install | tee make.install.log
   #make check
 
   echo " "
@@ -3606,7 +3631,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   F90= ./configure --prefix=$DIR/MPICH --with-device=ch3 FFLAGS="$fallow_argument -m64" FCFLAGS="$fallow_argument -m64"
 
   make -j $CPU_HALF_EVEN
-  make -j $CPU_HALF_EVEN install |& tee make.install.log
+  make -j $CPU_HALF_EVEN install | tee make.install.log
   #make check
 
 
@@ -3628,7 +3653,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   cd libpng-1.6.39/
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX ./configure --prefix=$DIR/grib2
   make -j $CPU_HALF_EVEN
-  make -j $CPU_HALF_EVEN install |& tee make.install.log
+  make -j $CPU_HALF_EVEN install | tee make.install.log
   #make check
   echo " "
   #############################JasPer############################
@@ -3638,7 +3663,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   autoreconf -i
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX ./configure --prefix=$DIR/grib2
   make -j $CPU_HALF_EVEN
-  make -j $CPU_HALF_EVEN install |& tee make.install.log
+  make -j $CPU_HALF_EVEN install | tee make.install.log
   #make check
 
   export JASPERLIB=$DIR/grib2/lib
@@ -3652,7 +3677,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   cd hdf5-hdf5-1_13_2
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX ./configure --prefix=$DIR/grib2 --with-zlib=$DIR/grib2 --enable-hl --enable-fortran --enable-parallel
   make -j $CPU_HALF_EVEN
-  make -j $CPU_HALF_EVEN install |& tee make.install.log
+  make -j $CPU_HALF_EVEN install | tee make.install.log
   #make check
 
   export HDF5=$DIR/grib2
@@ -3690,7 +3715,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   export LIBS="-lhdf5_hl -lhdf5 -lz -lcurl -lgfortran -lgcc -lm -ldl"
   CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-shared --enable-pnetcdf --enable-cdf5 --enable-parallel-tests
   make -j $CPU_HALF_EVEN
-  make -j $CPU_HALF_EVEN install |& tee make.install.log
+  make -j $CPU_HALF_EVEN install | tee make.install.log
   #make check
 
   export PATH=$DIR/NETCDF/bin:$PATH
@@ -3706,7 +3731,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   export LIBS="-lnetcdf -lpnetcdf -lcurl -lhdf5_hl -lhdf5 -lz -ldl"
   CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-shared --enable-parallel-tests --enable-hdf5
   make -j $CPU_HALF_EVEN
-  make -j $CPU_HALF_EVEN install |& tee make.install.log
+  make -j $CPU_HALF_EVEN install | tee make.install.log
   #make check
 
   echo " "
@@ -3733,7 +3758,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   echo "Environment Testing "
   echo "Test 1"
   gfortran TEST_1_fortran_only_fixed.f
-  ./a.out |& tee env_test1.txt
+  ./a.out | tee env_test1.txt
   export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test1.txt | awk  '{print$1}')
    if [ $TEST_PASS -ge 1 ]
       then
@@ -3747,7 +3772,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   echo " "
   echo "Test 2"
   gfortran TEST_2_fortran_only_free.f90
-  ./a.out |& tee env_test2.txt
+  ./a.out | tee env_test2.txt
   export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test2.txt | awk  '{print$1}')
    if [ $TEST_PASS -ge 1 ]
       then
@@ -3762,7 +3787,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   echo " "
   echo "Test 3"
   gcc TEST_3_c_only.c
-  ./a.out |& tee env_test3.txt
+  ./a.out | tee env_test3.txt
   export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test3.txt | awk  '{print$1}')
    if [ $TEST_PASS -ge 1 ]
       then
@@ -3779,7 +3804,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   gcc -c -m64 TEST_4_fortran+c_c.c
   gfortran -c -m64 TEST_4_fortran+c_f.f90
   gfortran -m64 TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
-  ./a.out |& tee env_test4.txt
+  ./a.out | tee env_test4.txt
   export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test4.txt | awk  '{print$1}')
    if [ $TEST_PASS -ge 1 ]
       then
@@ -3807,7 +3832,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   gfortran 01_fortran+c+netcdf_f.o 01_fortran+c+netcdf_c.o \
        -L${NETCDF}/lib -lnetcdff -lnetcdf
 
-       ./a.out |& tee comp_test1.txt
+       ./a.out | tee comp_test1.txt
        export TEST_PASS=$(grep -w -o -c "SUCCESS" comp_test1.txt | awk  '{print$1}')
         if [ $TEST_PASS -ge 1 ]
            then
@@ -3828,7 +3853,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   02_fortran+c+netcdf+mpi_c.o \
        -L${NETCDF}/lib -lnetcdff -lnetcdf
 
-  mpirun ./a.out |& tee comp_test2.txt
+  mpirun ./a.out | tee comp_test2.txt
   export TEST_PASS=$(grep -w -o -c "SUCCESS" comp_test2.txt | awk  '{print$1}')
    if [ $TEST_PASS -ge 1 ]
       then
@@ -3943,7 +3968,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   fi
 
 
-  ./compile |& tee upp_compile.log
+  ./compile | tee upp_compile.log
   cd $WRFHYDRO_FOLDER/UPPV4.1/scripts
   chmod +x run_unipost
 
@@ -4255,7 +4280,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
       ./configure  #option 2 for gfortran
   fi
 
-  ./compile_offline_NoahMP.sh setEnvar.sh |& tee noahmp.log
+  ./compile_offline_NoahMP.sh setEnvar.sh | tee noahmp.log
 
 
   read -t 5 -p "I am going to wait for 5 seconds only ..."
@@ -4575,9 +4600,9 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   cd zlib-1.2.13/
 
   CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS="-fPIC -fPIE -diag-disable=10441 -O3"  ./configure --prefix=$DIR/grib2
-  make -j $CPU_HALF_EVEN |& tee zlib.make.log
-  # make check |& tee zlib.makecheck.log
-  make -j $CPU_HALF_EVEN install |& tee zlib.makeinstall.log
+  make -j $CPU_HALF_EVEN | tee zlib.make.log
+  # make check | tee zlib.makecheck.log
+  make -j $CPU_HALF_EVEN install | tee zlib.makeinstall.log
 
   echo " "
   ############################# LibPNG ############################
@@ -4593,9 +4618,9 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 
   CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS="-fPIC -fPIE -diag-disable=10441 -O3"   ./configure --prefix=$DIR/grib2
 
-  make -j $CPU_HALF_EVEN |& tee libpng.make.log
-  #make -j $CPU_HALF_EVEN check |& tee libpng.makecheck.log
-  make -j $CPU_HALF_EVEN install |& tee libpng.makeinstall.log
+  make -j $CPU_HALF_EVEN | tee libpng.make.log
+  #make -j $CPU_HALF_EVEN check | tee libpng.makecheck.log
+  make -j $CPU_HALF_EVEN install | tee libpng.makeinstall.log
 
   echo " "
   ############################# JasPer ############################
@@ -4606,8 +4631,8 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 
   CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS="-fPIC -fPIE -diag-disable=10441 -O3"   ./configure --prefix=$DIR/grib2
 
-  make -j $CPU_HALF_EVEN |& tee jasper.make.log
-  make  -j $CPU_HALF_EVEN install |& tee jasper.makeinstall.log
+  make -j $CPU_HALF_EVEN | tee jasper.make.log
+  make  -j $CPU_HALF_EVEN install | tee jasper.makeinstall.log
 
   # other libraries below need these variables to be set
   export JASPERLIB=$DIR/grib2/lib
@@ -4622,8 +4647,8 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 
   CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS="-fPIC -fPIE -diag-disable=10441 -O3" ./configure --prefix=$DIR/grib2 --with-zlib=$DIR/grib2 --enable-hl --enable-fortran --enable-parallel
 
-  make -j $CPU_HALF_EVEN |& tee hdf5.make.log
-  make -j $CPU_HALF_EVEN install |& tee hdf5.makeinstall.log
+  make -j $CPU_HALF_EVEN | tee hdf5.make.log
+  make -j $CPU_HALF_EVEN install | tee hdf5.makeinstall.log
 
   # other libraries below need these variables to be set
   export HDF5=$DIR/grib2
@@ -4674,10 +4699,10 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   export LDFLAGS=-L$DIR/grib2/lib
   export LIBS="-lhdf5_hl -lhdf5 -lz -lcurl -lm -ldl"
 
-  CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS="-fPIC -fPIE -diag-disable=10441 -O3" ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-shared --enable-pnetcdf --enable-cdf5 --enable-parallel-tests |& tee netcdf.configure.log
+  CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS="-fPIC -fPIE -diag-disable=10441 -O3" ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-shared --enable-pnetcdf --enable-cdf5 --enable-parallel-tests | tee netcdf.configure.log
 
-  make -j $CPU_HALF_EVEN |& tee netcdf.make.log
-  make -j $CPU_HALF_EVEN install |& tee netcdf.makeinstall.log
+  make -j $CPU_HALF_EVEN | tee netcdf.make.log
+  make -j $CPU_HALF_EVEN install | tee netcdf.makeinstall.log
 
   # other libraries below need these variables to be set
   export PATH=$DIR/NETCDF/bin:$PATH
@@ -4698,8 +4723,8 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 
   CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS="-fPIC -fPIE -diag-disable=10441 -O3"   ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-parallel-tests --enable-hdf5
 
-  make -j $CPU_HALF_EVEN |& tee netcdf-f.make.log
-  make  -j $CPU_HALF_EVEN install |& tee netcdf-f.makeinstall.log
+  make -j $CPU_HALF_EVEN | tee netcdf-f.make.log
+  make  -j $CPU_HALF_EVEN install | tee netcdf-f.makeinstall.log
 
 
   echo " "
@@ -4723,7 +4748,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   echo "Environment Testing "
   echo "Test 1"
   ifort TEST_1_fortran_only_fixed.f
-  ./a.out |& tee env_test1.txt
+  ./a.out | tee env_test1.txt
   export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test1.txt | awk  '{print$1}')
    if [ $TEST_PASS -ge 1 ]
       then
@@ -4737,7 +4762,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   echo " "
   echo "Test 2"
   ifort TEST_2_fortran_only_free.f90
-  ./a.out |& tee env_test2.txt
+  ./a.out | tee env_test2.txt
   export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test2.txt | awk  '{print$1}')
    if [ $TEST_PASS -ge 1 ]
       then
@@ -4752,7 +4777,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   echo " "
   echo "Test 3"
   icc TEST_3_c_only.c
-  ./a.out |& tee env_test3.txt
+  ./a.out | tee env_test3.txt
   export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test3.txt | awk  '{print$1}')
    if [ $TEST_PASS -ge 1 ]
       then
@@ -4769,7 +4794,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   icc -c -m64 TEST_4_fortran+c_c.c
   ifort -c -m64 TEST_4_fortran+c_f.f90
   ifort -m64 TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
-  ./a.out |& tee env_test4.txt
+  ./a.out | tee env_test4.txt
   export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test4.txt | awk  '{print$1}')
    if [ $TEST_PASS -ge 1 ]
       then
@@ -4797,7 +4822,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   ifort 01_fortran+c+netcdf_f.o 01_fortran+c+netcdf_c.o \
        -L${NETCDF}/lib -lnetcdff -lnetcdf
 
-       ./a.out |& tee comp_test1.txt
+       ./a.out | tee comp_test1.txt
        export TEST_PASS=$(grep -w -o -c "SUCCESS" comp_test1.txt | awk  '{print$1}')
         if [ $TEST_PASS -ge 1 ]
            then
@@ -4818,7 +4843,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   02_fortran+c+netcdf+mpi_c.o \
        -L${NETCDF}/lib -lnetcdff -lnetcdf
 
-  mpirun ./a.out |& tee comp_test2.txt
+  mpirun ./a.out | tee comp_test2.txt
   export TEST_PASS=$(grep -w -o -c "SUCCESS" comp_test2.txt | awk  '{print$1}')
    if [ $TEST_PASS -ge 1 ]
       then
@@ -4859,7 +4884,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
     then
       echo yes | ./make_ncep_libs.sh -s linux -c intel -d $DIR/nceplibs -o 0 -m 1 -a upp
     else
-      ./make_ncep_libs.sh -s linux -c intel -d $DIR/nceplibs -o 0 -m 1 -a upp |& tee make_nceplibs.log
+      ./make_ncep_libs.sh -s linux -c intel -d $DIR/nceplibs -o 0 -m 1 -a upp | tee make_nceplibs.log
   fi
 
 
@@ -4889,7 +4914,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   sed -i '26s/ mpicc/ mpiicc/g' $WRFHYDRO_FOLDER/UPPV4.1/configure.upp
 
 
-  ./compile |& tee upp_compile.log
+  ./compile | tee upp_compile.log
   cd $WRFHYDRO_FOLDER/UPPV4.1/scripts
   chmod +x run_unipost
 
@@ -5093,7 +5118,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 
 
 
-  ./compile_offline_NoahMP.sh setEnvar.sh |& tee noahmp.log
+  ./compile_offline_NoahMP.sh setEnvar.sh | tee noahmp.log
 
   # IF statement to check that all files were created.
    cd $WRFHYDRO_FOLDER/Hydro-Basecode/wrf_hydro_nwm_public-5.2.0/trunk/NDHMS/Run
@@ -5172,7 +5197,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 
 
 
-  ./compile -j $CPU_HALF_EVEN em_real |& tee em_real_intel.log
+  ./compile -j $CPU_HALF_EVEN em_real | tee em_real_intel.log
 
   export WRF_DIR=$WRFHYDRO_FOLDER/WRFV4.4.2
 
@@ -6061,7 +6086,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK_PICK" = "1" ]; then
   cd zlib-1.2.13/
   ./configure --prefix=$DIR/grib2
   make -j $CPU_HALF_EVEN
-  make -j $CPU_HALF_EVEN install |& tee make.install.log
+  make -j $CPU_HALF_EVEN install | tee make.install.log
   #make check
 
   echo " "
@@ -6072,7 +6097,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK_PICK" = "1" ]; then
   F90= ./configure --prefix=$DIR/MPICH --with-device=ch3 FFLAGS="$fallow_argument -m64" FCFLAGS="$fallow_argument -m64"
 
   make -j $CPU_HALF_EVEN
-  make -j $CPU_HALF_EVEN install |& tee make.install.log
+  make -j $CPU_HALF_EVEN install | tee make.install.log
   #make check
 
 
@@ -6094,7 +6119,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK_PICK" = "1" ]; then
   cd libpng-1.6.39/
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX ./configure --prefix=$DIR/grib2
   make -j $CPU_HALF_EVEN
-  make -j $CPU_HALF_EVEN install |& tee make.install.log
+  make -j $CPU_HALF_EVEN install | tee make.install.log
   #make check
   echo " "
   #############################JasPer############################
@@ -6104,7 +6129,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK_PICK" = "1" ]; then
   autoreconf -i
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX ./configure --prefix=$DIR/grib2
   make -j $CPU_HALF_EVEN
-  make -j $CPU_HALF_EVEN install |& tee make.install.log
+  make -j $CPU_HALF_EVEN install | tee make.install.log
   #make check
 
   export JASPERLIB=$DIR/grib2/lib
@@ -6118,7 +6143,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK_PICK" = "1" ]; then
   cd hdf5-hdf5-1_13_2
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX ./configure --prefix=$DIR/grib2 --with-zlib=$DIR/grib2 --enable-hl --enable-fortran --enable-parallel
   make -j $CPU_HALF_EVEN
-  make -j $CPU_HALF_EVEN install |& tee make.install.log
+  make -j $CPU_HALF_EVEN install | tee make.install.log
   #make check
 
   export HDF5=$DIR/grib2
@@ -6160,7 +6185,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK_PICK" = "1" ]; then
   export LIBS="-lhdf5_hl -lhdf5 -lz -lcurl -lgfortran -lgcc -lm -ldl"
   CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-shared --enable-pnetcdf --enable-cdf5 --enable-parallel-tests
   make -j $CPU_HALF_EVEN
-  make -j $CPU_HALF_EVEN install |& tee make.install.log
+  make -j $CPU_HALF_EVEN install | tee make.install.log
   #make check
 
   export PATH=$DIR/NETCDF/bin:$PATH
@@ -6176,7 +6201,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK_PICK" = "1" ]; then
   export LIBS="-lnetcdf -lpnetcdf -lcurl -lhdf5_hl -lhdf5 -lz -ldl"
   CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-shared --enable-parallel-tests --enable-hdf5
   make -j $CPU_HALF_EVEN
-  make -j $CPU_HALF_EVEN install |& tee make.install.log
+  make -j $CPU_HALF_EVEN install | tee make.install.log
   #make check
 
 
@@ -6202,7 +6227,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK_PICK" = "1" ]; then
   echo "Environment Testing "
   echo "Test 1"
   gfortran TEST_1_fortran_only_fixed.f
-  ./a.out |& tee env_test1.txt
+  ./a.out | tee env_test1.txt
   export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test1.txt | awk  '{print$1}')
    if [ $TEST_PASS -ge 1 ]
       then
@@ -6216,7 +6241,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK_PICK" = "1" ]; then
   echo " "
   echo "Test 2"
   gfortran TEST_2_fortran_only_free.f90
-  ./a.out |& tee env_test2.txt
+  ./a.out | tee env_test2.txt
   export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test2.txt | awk  '{print$1}')
    if [ $TEST_PASS -ge 1 ]
       then
@@ -6231,7 +6256,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK_PICK" = "1" ]; then
   echo " "
   echo "Test 3"
   gcc TEST_3_c_only.c
-  ./a.out |& tee env_test3.txt
+  ./a.out | tee env_test3.txt
   export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test3.txt | awk  '{print$1}')
    if [ $TEST_PASS -ge 1 ]
       then
@@ -6248,7 +6273,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK_PICK" = "1" ]; then
   gcc -c -m64 TEST_4_fortran+c_c.c
   gfortran -c -m64 TEST_4_fortran+c_f.f90
   gfortran -m64 TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
-  ./a.out |& tee env_test4.txt
+  ./a.out | tee env_test4.txt
   export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test4.txt | awk  '{print$1}')
    if [ $TEST_PASS -ge 1 ]
       then
@@ -6276,7 +6301,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK_PICK" = "1" ]; then
   gfortran 01_fortran+c+netcdf_f.o 01_fortran+c+netcdf_c.o \
        -L${NETCDF}/lib -lnetcdff -lnetcdf
 
-       ./a.out |& tee comp_test1.txt
+       ./a.out | tee comp_test1.txt
        export TEST_PASS=$(grep -w -o -c "SUCCESS" comp_test1.txt | awk  '{print$1}')
         if [ $TEST_PASS -ge 1 ]
            then
@@ -6297,7 +6322,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK_PICK" = "1" ]; then
   02_fortran+c+netcdf+mpi_c.o \
        -L${NETCDF}/lib -lnetcdff -lnetcdf
 
-  mpirun ./a.out |& tee comp_test2.txt
+  mpirun ./a.out | tee comp_test2.txt
   export TEST_PASS=$(grep -w -o -c "SUCCESS" comp_test2.txt | awk  '{print$1}')
    if [ $TEST_PASS -ge 1 ]
       then
@@ -6725,7 +6750,7 @@ sed -i '919s/==/=/g' $WRFCHEM_FOLDER/WRFDA/configure
         ./configure  wrfda  #Option 34 for gfortran/gcc and distribunted memory
   fi
   echo " "
-  ./compile -j $CPU_HALF_EVEN all_wrfvar |& tee compile1.log
+  ./compile -j $CPU_HALF_EVEN all_wrfvar | tee compile1.log
   echo " "
   # IF statement to check that all files were created.
    cd $WRFCHEM_FOLDER/WRFDA/var/da
@@ -7073,9 +7098,9 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK_PICK" = "1" ]; then
   cd zlib-1.2.13/
 
   CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS="-fPIC -fPIE -diag-disable=10441 -O3" ./configure --prefix=$DIR/grib2
-  make -j $CPU_HALF_EVEN |& tee zlib.make.log
-  # make check |& tee zlib.makecheck.log
-  make -j $CPU_HALF_EVEN install |& tee zlib.makeinstall.log
+  make -j $CPU_HALF_EVEN | tee zlib.make.log
+  # make check | tee zlib.makecheck.log
+  make -j $CPU_HALF_EVEN install | tee zlib.makeinstall.log
 
   echo " "
   ############################# LibPNG ############################
@@ -7091,9 +7116,9 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK_PICK" = "1" ]; then
 
   CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS="-fPIC -fPIE -diag-disable=10441 -O3"   ./configure --prefix=$DIR/grib2
 
-  make -j $CPU_HALF_EVEN |& tee libpng.make.log
-  #make -j $CPU_HALF_EVEN check |& tee libpng.makecheck.log
-  make -j $CPU_HALF_EVEN install |& tee libpng.makeinstall.log
+  make -j $CPU_HALF_EVEN | tee libpng.make.log
+  #make -j $CPU_HALF_EVEN check | tee libpng.makecheck.log
+  make -j $CPU_HALF_EVEN install | tee libpng.makeinstall.log
 
   echo " "
   ############################# JasPer ############################
@@ -7104,8 +7129,8 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK_PICK" = "1" ]; then
 
   CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS="-fPIC -fPIE -diag-disable=10441 -O3"  ./configure --prefix=$DIR/grib2
 
-  make -j $CPU_HALF_EVEN |& tee jasper.make.log
-  make  -j $CPU_HALF_EVEN install |& tee jasper.makeinstall.log
+  make -j $CPU_HALF_EVEN | tee jasper.make.log
+  make  -j $CPU_HALF_EVEN install | tee jasper.makeinstall.log
 
   # other libraries below need these variables to be set
   export JASPERLIB=$DIR/grib2/lib
@@ -7120,8 +7145,8 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK_PICK" = "1" ]; then
 
   CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS="-fPIC -fPIE -diag-disable=10441 -O3"  ./configure --prefix=$DIR/grib2 --with-zlib=$DIR/grib2 --enable-hl --enable-fortran --enable-parallel
 
-  make -j $CPU_HALF_EVEN |& tee hdf5.make.log
-  make -j $CPU_HALF_EVEN install |& tee hdf5.makeinstall.log
+  make -j $CPU_HALF_EVEN | tee hdf5.make.log
+  make -j $CPU_HALF_EVEN install | tee hdf5.makeinstall.log
 
   # other libraries below need these variables to be set
   export HDF5=$DIR/grib2
@@ -7160,10 +7185,10 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK_PICK" = "1" ]; then
   export LDFLAGS=-L$DIR/grib2/lib
   export LIBS="-lhdf5_hl -lhdf5 -lz -lcurl -lgfortran -lgcc -lm -ldl"
 
-  CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS="-fPIC -fPIE -diag-disable=10441 -O3"   ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-shared --enable-pnetcdf --enable-cdf5 --enable-parallel-tests |& tee netcdf.configure.log
+  CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS="-fPIC -fPIE -diag-disable=10441 -O3"   ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-shared --enable-pnetcdf --enable-cdf5 --enable-parallel-tests | tee netcdf.configure.log
 
-  make -j $CPU_HALF_EVEN |& tee netcdf.make.log
-  make -j $CPU_HALF_EVEN install |& tee netcdf.makeinstall.log
+  make -j $CPU_HALF_EVEN | tee netcdf.make.log
+  make -j $CPU_HALF_EVEN install | tee netcdf.makeinstall.log
 
   # other libraries below need these variables to be set
   export PATH=$DIR/NETCDF/bin:$PATH
@@ -7183,8 +7208,8 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK_PICK" = "1" ]; then
   export LIBS="-lnetcdf -lpnetcdf -lcurl -lhdf5_hl -lhdf5 -lz -ldl"
   CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-shared --enable-parallel-tests --enable-hdf5
 
-  make -j $CPU_HALF_EVEN |& tee netcdf-f.make.log
-  make  -j $CPU_HALF_EVEN install |& tee netcdf-f.makeinstall.log
+  make -j $CPU_HALF_EVEN | tee netcdf-f.make.log
+  make  -j $CPU_HALF_EVEN install | tee netcdf-f.makeinstall.log
 
 
   echo " "
@@ -7208,7 +7233,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK_PICK" = "1" ]; then
   echo "Environment Testing "
   echo "Test 1"
   ifort TEST_1_fortran_only_fixed.f
-  ./a.out |& tee env_test1.txt
+  ./a.out | tee env_test1.txt
   export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test1.txt | awk  '{print$1}')
    if [ $TEST_PASS -ge 1 ]
       then
@@ -7222,7 +7247,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK_PICK" = "1" ]; then
   echo " "
   echo "Test 2"
   ifort TEST_2_fortran_only_free.f90
-  ./a.out |& tee env_test2.txt
+  ./a.out | tee env_test2.txt
   export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test2.txt | awk  '{print$1}')
    if [ $TEST_PASS -ge 1 ]
       then
@@ -7237,7 +7262,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK_PICK" = "1" ]; then
   echo " "
   echo "Test 3"
   icc TEST_3_c_only.c
-  ./a.out |& tee env_test3.txt
+  ./a.out | tee env_test3.txt
   export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test3.txt | awk  '{print$1}')
    if [ $TEST_PASS -ge 1 ]
       then
@@ -7254,7 +7279,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK_PICK" = "1" ]; then
   icc -c -m64 TEST_4_fortran+c_c.c
   ifort -c -m64 TEST_4_fortran+c_f.f90
   ifort -m64 TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
-  ./a.out |& tee env_test4.txt
+  ./a.out | tee env_test4.txt
   export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test4.txt | awk  '{print$1}')
    if [ $TEST_PASS -ge 1 ]
       then
@@ -7282,7 +7307,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK_PICK" = "1" ]; then
   ifort 01_fortran+c+netcdf_f.o 01_fortran+c+netcdf_c.o \
        -L${NETCDF}/lib -lnetcdff -lnetcdf
 
-       ./a.out |& tee comp_test1.txt
+       ./a.out | tee comp_test1.txt
        export TEST_PASS=$(grep -w -o -c "SUCCESS" comp_test1.txt | awk  '{print$1}')
         if [ $TEST_PASS -ge 1 ]
            then
@@ -7303,7 +7328,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK_PICK" = "1" ]; then
   02_fortran+c+netcdf+mpi_c.o \
        -L${NETCDF}/lib -lnetcdff -lnetcdf
 
-  mpirun ./a.out |& tee comp_test2.txt
+  mpirun ./a.out | tee comp_test2.txt
   export TEST_PASS=$(grep -w -o -c "SUCCESS" comp_test2.txt | awk  '{print$1}')
    if [ $TEST_PASS -ge 1 ]
       then
@@ -7558,7 +7583,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK_PICK" = "1" ]; then
   sed -i '170s|mpif90 -f90=$(SFC)|mpiifort|g' $WRFCHEM_FOLDER/WRFDA/configure.wrf
   sed -i '171s|mpicc -cc=$(SCC)|mpiicc|g' $WRFCHEM_FOLDER/WRFDA/configure.wrf
 
-  ./compile -j $CPU_HALF_EVEN all_wrfvar |& tee compile1.log
+  ./compile -j $CPU_HALF_EVEN all_wrfvar | tee compile1.log
   echo " "
   # IF statement to check that all files were created.
    cd $WRFCHEM_FOLDER/WRFDA/var/da
@@ -7629,7 +7654,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK_PICK" = "1" ]; then
   sed -i '170s|mpif90 -f90=$(SFC)|mpiifort|g' $WRFCHEM_FOLDER/WRFV4.4.2/configure.wrf
   sed -i '171s|mpicc -cc=$(SCC)|mpiicc|g' $WRFCHEM_FOLDER/WRFV4.4.2/configure.wrf
 
-  ./compile -j $CPU_HALF_EVEN em_real |& tee em_real_intel.log
+  ./compile -j $CPU_HALF_EVEN em_real | tee em_real_intel.log
 
   export WRF_DIR=$WRFCHEM_FOLDER/WRFV4.4.2
 
@@ -8540,7 +8565,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   cd zlib-1.2.13/
   ./configure --prefix=$DIR/grib2
   make -j $CPU_HALF_EVEN
-  make -j $CPU_HALF_EVEN install |& tee make.install.log
+  make -j $CPU_HALF_EVEN install | tee make.install.log
   #make check
 
   echo " "
@@ -8552,7 +8577,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   F90= ./configure --prefix=$DIR/MPICH --with-device=ch3 FFLAGS=$fallow_argument FCFLAGS=$fallow_argument
 
   make -j $CPU_HALF_EVEN
-  make -j $CPU_HALF_EVEN install |& tee make.install.log
+  make -j $CPU_HALF_EVEN install | tee make.install.log
   # make check
 
 
@@ -8575,7 +8600,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   cd libpng-1.6.39/
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX ./configure --prefix=$DIR/grib2
   make -j $CPU_HALF_EVEN
-  make -j $CPU_HALF_EVEN install |& tee make.install.log
+  make -j $CPU_HALF_EVEN install | tee make.install.log
   #make check
   echo " "
   #############################JasPer############################
@@ -8585,7 +8610,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   ./configure --prefix=$DIR/grib2
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX ./configure --prefix=$DIR/grib2
   make -j $CPU_HALF_EVEN
-  make -j $CPU_HALF_EVEN install |& tee make.install.log
+  make -j $CPU_HALF_EVEN install | tee make.install.log
   #make check
 
   export JASPERLIB=$DIR/grib2/lib
@@ -8599,7 +8624,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   cd hdf5-hdf5-1_13_2
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX ./configure --prefix=$DIR/grib2 --with-zlib=$DIR/grib2 --enable-hl --enable-fortran --enable-parallel
   make -j $CPU_HALF_EVEN
-  make -j $CPU_HALF_EVEN install |& tee make.install.log
+  make -j $CPU_HALF_EVEN install | tee make.install.log
   #make check
 
   export HDF5=$DIR/grib2
@@ -8639,7 +8664,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   export LIBS="-lhdf5_hl -lhdf5 -lz -lcurl -lgfortran -lgcc -lm -ldl"
   CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-shared --enable-pnetcdf --enable-cdf5 --enable-parallel-tests
   make -j $CPU_HALF_EVEN
-  make -j $CPU_HALF_EVEN install |& tee make.install.log
+  make -j $CPU_HALF_EVEN install | tee make.install.log
   #make check
 
   export PATH=$DIR/NETCDF/bin:$PATH
@@ -8655,7 +8680,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   export LIBS="-lnetcdf -lpnetcdf -lcurl -lhdf5_hl -lhdf5 -lz -ldl"
   CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-shared --enable-parallel-tests --enable-hdf5
   make -j $CPU_HALF_EVEN
-  make -j $CPU_HALF_EVEN install |& tee make.install.log
+  make -j $CPU_HALF_EVEN install | tee make.install.log
   #make check
 
   echo " "
@@ -8681,7 +8706,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   echo "Environment Testing "
   echo "Test 1"
   gfortran TEST_1_fortran_only_fixed.f
-  ./a.out |& tee env_test1.txt
+  ./a.out | tee env_test1.txt
   export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test1.txt | awk  '{print$1}')
    if [ $TEST_PASS -ge 1 ]
       then
@@ -8695,7 +8720,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   echo " "
   echo "Test 2"
   gfortran TEST_2_fortran_only_free.f90
-  ./a.out |& tee env_test2.txt
+  ./a.out | tee env_test2.txt
   export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test2.txt | awk  '{print$1}')
    if [ $TEST_PASS -ge 1 ]
       then
@@ -8710,7 +8735,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   echo " "
   echo "Test 3"
   gcc TEST_3_c_only.c
-  ./a.out |& tee env_test3.txt
+  ./a.out | tee env_test3.txt
   export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test3.txt | awk  '{print$1}')
    if [ $TEST_PASS -ge 1 ]
       then
@@ -8727,7 +8752,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   gcc -c -m64 TEST_4_fortran+c_c.c
   gfortran -c -m64 TEST_4_fortran+c_f.f90
   gfortran -m64 TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
-  ./a.out |& tee env_test4.txt
+  ./a.out | tee env_test4.txt
   export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test4.txt | awk  '{print$1}')
    if [ $TEST_PASS -ge 1 ]
       then
@@ -8755,7 +8780,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   gfortran 01_fortran+c+netcdf_f.o 01_fortran+c+netcdf_c.o \
        -L${NETCDF}/lib -lnetcdff -lnetcdf
 
-       ./a.out |& tee comp_test1.txt
+       ./a.out | tee comp_test1.txt
        export TEST_PASS=$(grep -w -o -c "SUCCESS" comp_test1.txt | awk  '{print$1}')
         if [ $TEST_PASS -ge 1 ]
            then
@@ -8776,7 +8801,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   02_fortran+c+netcdf+mpi_c.o \
        -L${NETCDF}/lib -lnetcdff -lnetcdf
 
-  mpirun ./a.out |& tee comp_test2.txt
+  mpirun ./a.out | tee comp_test2.txt
   export TEST_PASS=$(grep -w -o -c "SUCCESS" comp_test2.txt | awk  '{print$1}')
    if [ $TEST_PASS -ge 1 ]
       then
@@ -9325,7 +9350,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
         ./configure  4dvar  #Option 18 for gfortran/gcc and distribunted memory
   fi
   echo " "
-  ./compile all_wrfvar |& tee compile1.log
+  ./compile all_wrfvar | tee compile1.log
   echo " "
   # IF statement to check that all files were created.
    cd $WRF_FOLDER/WRFDA/var/da
@@ -9565,9 +9590,9 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   cd zlib-1.2.13/
 
   CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS="-fPIC -fPIE -diag-disable=10441 -O3"  ./configure --prefix=$DIR/grib2
-  make -j $CPU_HALF_EVEN |& tee zlib.make.log
-  # make check |& tee zlib.makecheck.log
-  make -j $CPU_HALF_EVEN install |& tee zlib.makeinstall.log
+  make -j $CPU_HALF_EVEN | tee zlib.make.log
+  # make check | tee zlib.makecheck.log
+  make -j $CPU_HALF_EVEN install | tee zlib.makeinstall.log
 
   echo " "
   ############################# LibPNG ############################
@@ -9583,9 +9608,9 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 
   CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS="-fPIC -fPIE -diag-disable=10441 -O3"  ./configure --prefix=$DIR/grib2
 
-  make -j $CPU_HALF_EVEN |& tee libpng.make.log
-  #make -j $CPU_HALF_EVEN check |& tee libpng.makecheck.log
-  make -j $CPU_HALF_EVEN install |& tee libpng.makeinstall.log
+  make -j $CPU_HALF_EVEN | tee libpng.make.log
+  #make -j $CPU_HALF_EVEN check | tee libpng.makecheck.log
+  make -j $CPU_HALF_EVEN install | tee libpng.makeinstall.log
 
   echo " "
   ############################# JasPer ############################
@@ -9596,8 +9621,8 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 
   CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS="-fPIC -fPIE -diag-disable=10441 -O3"  ./configure --prefix=$DIR/grib2
 
-  make -j $CPU_HALF_EVEN |& tee jasper.make.log
-  make  -j $CPU_HALF_EVEN install |& tee jasper.makeinstall.log
+  make -j $CPU_HALF_EVEN | tee jasper.make.log
+  make  -j $CPU_HALF_EVEN install | tee jasper.makeinstall.log
 
   # other libraries below need these variables to be set
   export JASPERLIB=$DIR/grib2/lib
@@ -9612,8 +9637,8 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 
   CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS="-fPIC -fPIE -diag-disable=10441 -O3" ./configure --prefix=$DIR/grib2 --with-zlib=$DIR/grib2 --enable-hl --enable-fortran --enable-parallel
 
-  make -j $CPU_HALF_EVEN |& tee hdf5.make.log
-  make -j $CPU_HALF_EVEN install |& tee hdf5.makeinstall.log
+  make -j $CPU_HALF_EVEN | tee hdf5.make.log
+  make -j $CPU_HALF_EVEN install | tee hdf5.makeinstall.log
 
   # other libraries below need these variables to be set
   export HDF5=$DIR/grib2
@@ -9652,10 +9677,10 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   export LDFLAGS=-L$DIR/grib2/lib
   export LIBS="-lhdf5_hl -lhdf5 -lz -lcurl -lgfortran -lgcc -lm -ldl"
 
-  CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS="-fPIC -fPIE -diag-disable=10441 -O3"  ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-shared --enable-pnetcdf --enable-cdf5 --enable-parallel-tests |& tee netcdf.configure.log
+  CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS="-fPIC -fPIE -diag-disable=10441 -O3"  ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-shared --enable-pnetcdf --enable-cdf5 --enable-parallel-tests | tee netcdf.configure.log
 
-  make -j $CPU_HALF_EVEN |& tee netcdf.make.log
-  make -j $CPU_HALF_EVEN install |& tee netcdf.makeinstall.log
+  make -j $CPU_HALF_EVEN | tee netcdf.make.log
+  make -j $CPU_HALF_EVEN install | tee netcdf.makeinstall.log
 
   # other libraries below need these variables to be set
   export PATH=$DIR/NETCDF/bin:$PATH
@@ -9675,8 +9700,8 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   export LIBS="-lnetcdf -lpnetcdf -lcurl -lhdf5_hl -lhdf5 -lz -ldl"
   CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS="-fPIC -fPIE -diag-disable=10441 -O3"  ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-parallel-tests --enable-hdf5
 
-  make -j $CPU_HALF_EVEN |& tee netcdf-f.make.log
-  make  -j $CPU_HALF_EVEN install |& tee netcdf-f.makeinstall.log
+  make -j $CPU_HALF_EVEN | tee netcdf-f.make.log
+  make  -j $CPU_HALF_EVEN install | tee netcdf-f.makeinstall.log
 
 
   echo " "
@@ -9700,7 +9725,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   echo "Environment Testing "
   echo "Test 1"
   ifort TEST_1_fortran_only_fixed.f
-  ./a.out |& tee env_test1.txt
+  ./a.out | tee env_test1.txt
   export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test1.txt | awk  '{print$1}')
    if [ $TEST_PASS -ge 1 ]
       then
@@ -9714,7 +9739,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   echo " "
   echo "Test 2"
   ifort TEST_2_fortran_only_free.f90
-  ./a.out |& tee env_test2.txt
+  ./a.out | tee env_test2.txt
   export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test2.txt | awk  '{print$1}')
    if [ $TEST_PASS -ge 1 ]
       then
@@ -9729,7 +9754,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   echo " "
   echo "Test 3"
   icc TEST_3_c_only.c
-  ./a.out |& tee env_test3.txt
+  ./a.out | tee env_test3.txt
   export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test3.txt | awk  '{print$1}')
    if [ $TEST_PASS -ge 1 ]
       then
@@ -9746,7 +9771,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   icc -c -m64 TEST_4_fortran+c_c.c
   ifort -c -m64 TEST_4_fortran+c_f.f90
   ifort -m64 TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
-  ./a.out |& tee env_test4.txt
+  ./a.out | tee env_test4.txt
   export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test4.txt | awk  '{print$1}')
    if [ $TEST_PASS -ge 1 ]
       then
@@ -9774,7 +9799,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   ifort 01_fortran+c+netcdf_f.o 01_fortran+c+netcdf_c.o \
        -L${NETCDF}/lib -lnetcdff -lnetcdf
 
-       ./a.out |& tee comp_test1.txt
+       ./a.out | tee comp_test1.txt
        export TEST_PASS=$(grep -w -o -c "SUCCESS" comp_test1.txt | awk  '{print$1}')
         if [ $TEST_PASS -ge 1 ]
            then
@@ -9795,7 +9820,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   02_fortran+c+netcdf+mpi_c.o \
        -L${NETCDF}/lib -lnetcdff -lnetcdf
 
-  mpirun ./a.out |& tee comp_test2.txt
+  mpirun ./a.out | tee comp_test2.txt
   export TEST_PASS=$(grep -w -o -c "SUCCESS" comp_test2.txt | awk  '{print$1}')
    if [ $TEST_PASS -ge 1 ]
       then
@@ -10078,7 +10103,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
     sed -i '68s|mpicc|mpiicc|g' $WRF_FOLDER/WPS-4.4/configure.wps
 
 
-  ./compile |& tee compile.wps.log
+  ./compile | tee compile.wps.log
 
 
   echo " "
@@ -10127,7 +10152,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   sed -i '171s|mpicc -cc=$(SCC)|mpiicc|g' $WRF_FOLDER/WRFPLUS/configure.wrf
 
 
-  ./compile -j $CPU_HALF_EVEN wrfplus |& tee wrfplus.compile.log
+  ./compile -j $CPU_HALF_EVEN wrfplus | tee wrfplus.compile.log
   export WRFPLUS_DIR=$WRF_FOLDER/WRFPLUS
 
 
@@ -10177,7 +10202,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   sed -i '171s|mpicc -cc=$(SCC)|mpiicc|g' $WRF_FOLDER/WRFDA/configure.wrf
 
 
-  ./compile all_wrfvar |& tee wrfda.compile.log
+  ./compile all_wrfvar | tee wrfda.compile.log
   echo " "
   # IF statement to check that all files were created.
    cd $WRF_FOLDER/WRFDA/var/da
@@ -11066,9 +11091,9 @@ if [ "$HWRF_PICK" = "1" ]; then
   cd zlib-1.2.13/
 
   CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS="-fPIC -diag-disable=10441" ./configure --prefix=$DIR/grib2
-  make -j $CPU_HALF_EVEN |& tee zlib.make.log
-  # make check |& tee zlib.makecheck.log
-  make -j $CPU_HALF_EVEN install |& tee zlib.makeinstall.log
+  make -j $CPU_HALF_EVEN | tee zlib.make.log
+  # make check | tee zlib.makecheck.log
+  make -j $CPU_HALF_EVEN install | tee zlib.makeinstall.log
 
   ############################# LibPNG ############################
 
@@ -11083,9 +11108,9 @@ if [ "$HWRF_PICK" = "1" ]; then
 
   CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS="-fPIC -diag-disable=10441" ./configure --prefix=$DIR/grib2
 
-  make -j $CPU_HALF_EVEN |& tee libpng.make.log
-  #make -j $CPU_HALF_EVEN check |& tee libpng.makecheck.log
-  make -j $CPU_HALF_EVEN install |& tee libpng.makeinstall.log
+  make -j $CPU_HALF_EVEN | tee libpng.make.log
+  #make -j $CPU_HALF_EVEN check | tee libpng.makecheck.log
+  make -j $CPU_HALF_EVEN install | tee libpng.makeinstall.log
 
   ############################# JasPer ############################
 
@@ -11095,9 +11120,9 @@ if [ "$HWRF_PICK" = "1" ]; then
 
   CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS="-fPIC -diag-disable=10441" ./configure --prefix=$DIR/grib2
 
-  make -j $CPU_HALF_EVEN |& tee jasper.make.log
-  #make -j $CPU_HALF_EVEN check |& tee jasper.makecheck.log
-  make -j $CPU_HALF_EVEN install |& tee jasper.makeinstall.log
+  make -j $CPU_HALF_EVEN | tee jasper.make.log
+  #make -j $CPU_HALF_EVEN check | tee jasper.makecheck.log
+  make -j $CPU_HALF_EVEN install | tee jasper.makeinstall.log
 
   # other libraries below need these variables to be set
   export JASPERLIB=$DIR/grib2/lib
@@ -11111,9 +11136,9 @@ if [ "$HWRF_PICK" = "1" ]; then
 
   CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS="-fPIC -diag-disable=10441"  ./configure --prefix=$DIR/grib2 --with-zlib=$DIR/grib2 --enable-hl --enable-fortran --enable-parallel
 
-  make -j $CPU_HALF_EVEN |& tee hdf5.make.log
-  #make VERBOSE=1 -j $CPU_HALF_EVEN check |& tee hdf5.makecheck.log
-  make -j $CPU_HALF_EVEN install |& tee hdf5.makeinstall.log
+  make -j $CPU_HALF_EVEN | tee hdf5.make.log
+  #make VERBOSE=1 -j $CPU_HALF_EVEN check | tee hdf5.makecheck.log
+  make -j $CPU_HALF_EVEN install | tee hdf5.makeinstall.log
 
   # other libraries below need these variables to be set
   export HDF5=$DIR/grib2
@@ -11129,10 +11154,10 @@ if [ "$HWRF_PICK" = "1" ]; then
 
   CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS="-fPIC -diag-disable=10441" ./configure --prefix=$DIR/grib2
 
-  make -j $CPU_HALF_EVEN |& tee pnetcdf.make.log
-  #make check |& tee pnetcdf.makecheck.log
-  #make ptests |& tee ptests.log
-  make -j $CPU_HALF_EVEN install |& tee pnetcdf.makeinstall.log
+  make -j $CPU_HALF_EVEN | tee pnetcdf.make.log
+  #make check | tee pnetcdf.makecheck.log
+  #make ptests | tee ptests.log
+  make -j $CPU_HALF_EVEN install | tee pnetcdf.makeinstall.log
 
   # other libraries below need these variables to be set
   export PNETCDF=$DIR/grib2
@@ -11150,10 +11175,10 @@ if [ "$HWRF_PICK" = "1" ]; then
   export LDFLAGS=-L$DIR/grib2/lib
   export LIBS="-lhdf5_hl -lhdf5 -lz -lcurl -lpnetcdf -lm -ldl"
 
-  CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS="-fPIC -diag-disable=10441"  ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-pnetcdf --enable-parallel-tests |& tee netcdf.configure.log
-  make -j $CPU_HALF_EVEN |& tee netcdf.make.log
-  #make check |& tee netcdf.makecheck.log
-  make -j $CPU_HALF_EVEN install |& tee netcdf.makeinstall.log
+  CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS="-fPIC -diag-disable=10441"  ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-pnetcdf --enable-parallel-tests | tee netcdf.configure.log
+  make -j $CPU_HALF_EVEN | tee netcdf.make.log
+  #make check | tee netcdf.makecheck.log
+  make -j $CPU_HALF_EVEN install | tee netcdf.makeinstall.log
 
   # other libraries below need these variables to be set
   export PATH=$DIR/NETCDF/bin:$PATH
@@ -11173,9 +11198,9 @@ if [ "$HWRF_PICK" = "1" ]; then
 
   CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS="-fPIC -diag-disable=10441"  ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-parallel-tests --enable-hdf5
 
-  make -j $CPU_HALF_EVEN |& tee netcdf-f.make.log
-  #make check |& tee netcdf-f.makecheck.log
-  make -j $CPU_HALF_EVEN install |& tee netcdf-f.makeinstall.log
+  make -j $CPU_HALF_EVEN | tee netcdf-f.make.log
+  #make check | tee netcdf-f.makecheck.log
+  make -j $CPU_HALF_EVEN install | tee netcdf-f.makeinstall.log
 
   ############################ WRF 4.3.3 #################################
   ## WRF v4.3.3
@@ -11213,7 +11238,7 @@ if [ "$HWRF_PICK" = "1" ]; then
   sed -i '170s|mpif90 -f90=$(SFC)|mpiifort|g' $HWRF_FOLDER/WRF/WRF-4.3.3/configure.wrf
   sed -i '171s|mpicc -cc=$(SCC)|mpiicc|g' $HWRF_FOLDER/WRF/WRF-4.3.3/configure.wrf
 
-  ./compile -j $CPU_HALF_EVEN nmm_real |& tee wrf.nmm.log
+  ./compile -j $CPU_HALF_EVEN nmm_real | tee wrf.nmm.log
 
   export WRF_DIR=$HWRF_FOLDER/WRF/WRF-4.3.3
 
@@ -11249,7 +11274,7 @@ if [ "$HWRF_PICK" = "1" ]; then
   sed -i '65s|mpif90|mpiifort|g' $HWRF_FOLDER/WRF/WPS-4.3.1/configure.wps
   sed -i '66s|mpicc|mpiicc|g' $HWRF_FOLDER/WRF/WPS-4.3.1/configure.wps
 
-  ./compile |& tee compile_wps.log
+  ./compile | tee compile_wps.log
 
   # IF statement to check that all files were created.
    cd $HWRF_FOLDER/WRF/WPS-4.3.1
@@ -11383,7 +11408,7 @@ if [ "$HWRF_PICK" = "1" ]; then
   sed -i '41s/ mpif90 -f90=$(SFC)/ mpiifort/g' $HWRF_FOLDER/MPIPOM-TC/configure.pom
   sed -i '42s/ mpif90 -f90=$(SFC) -free / mpiifort -free/g' $HWRF_FOLDER/MPIPOM-TC/configure.pom
 
-  ./compile |& tee ocean.log
+  ./compile | tee ocean.log
 
   # IF statement to check that all files were created.
   cd $HWRF_FOLDER/MPIPOM-TC/ocean_exec
