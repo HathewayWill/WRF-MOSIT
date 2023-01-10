@@ -74,7 +74,7 @@ if [ "$SYSTEMBIT" = "64" ] && [ "$SYSTEMOS" = "Linux" ];
 
   -GNU
 
-  Please answer Intel or GNU (case sensative).
+  Please answer Intel or GNU and press enter (case sensative).
   " yn; do
 
     case $yn in
@@ -183,7 +183,7 @@ fi
 while read -p "Which graphic display software should be install?
 -OpenGrADS
 -GrADS
-Please answer with either OpenGrADS or GrADS
+Please answer with either OpenGrADS or GrADS and press enter.
     " yn; do
 
   case $yn in
@@ -299,7 +299,7 @@ while read -p "Which version of WRF would you like to install?
 -WRFHYDRO_COUPLED
 -WRFHYDRO_STANDALONE
 -HURRICANE_WRF
-Please enter one of the above options (Case Sensative):
+Please enter one of the above options and press enter (Case Sensative):
 " yn; do
 
   case $yn in
