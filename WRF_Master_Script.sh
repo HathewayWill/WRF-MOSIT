@@ -158,7 +158,7 @@ echo $SYSTEMOS
 
 if [ "$SYSTEMOS" = "MacOS" ]; then
   while true; do
-    read -p "Do you have 350GB of storage space available for this instllation (Y/N) " yn
+    read -p "Do you have minimum of 350GB of storage space available for this instllation (Y/N) " yn
     case $yn in
       [Yy]* )
       echo "-------------------------------------------------- "
@@ -5410,6 +5410,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   #default gcc path /usr/bin/gcc
   #default homebrew path /usr/local/bin
 
+  echo "Please enter password for linking GNU libraries"
   sudo ln -sf /usr/local/bin/gcc-1* /usr/local/bin/gcc
   sudo ln -sf /usr/local/bin/g++-1* /usr/local/bin/g++
   sudo ln -sf /usr/local/bin/gfortran-1* /usr/local/bin/gfortran
@@ -7867,6 +7868,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK_PICK" = "1" ]; then
   #default gcc path /usr/bin/gcc
   #default homebrew path /usr/local/bin
 
+  echo "Please enter password for linking GNU libraries"
   sudo ln -sf /usr/local/bin/gcc-1* /usr/local/bin/gcc
   sudo ln -sf /usr/local/bin/g++-1* /usr/local/bin/g++
   sudo ln -sf /usr/local/bin/gfortran-1* /usr/local/bin/gfortran
@@ -10375,7 +10377,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   #Symlink to avoid clang conflicts with compilers
   #default gcc path /usr/bin/gcc
   #default homebrew path /usr/local/bin
-
+  echo "Please enter password for linking GNU libraries"
   sudo ln -sf /usr/local/bin/gcc-1* /usr/local/bin/gcc
   sudo ln -sf /usr/local/bin/g++-1* /usr/local/bin/g++
   sudo ln -sf /usr/local/bin/gfortran-1* /usr/local/bin/gfortran
@@ -10464,7 +10466,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   export LD_LIBRARY_PATH=$DIR/NETCDF/lib:$LD_LIBRARY_PATH
   export CPPFLAGS="-I$DIR/NETCDF/include -I$DIR/grib2/include"
   export LDFLAGS="-L$DIR/NETCDF/lib -L$DIR/grib2/lib"
-  export LIBS="-lnetcdf -lm -lcurl libcurl4-openssl-dev -lhdf5_hl -lhdf5 -lz -ldl"
+  export LIBS="-lnetcdf -lm -lcurl -lhdf5_hl -lhdf5 -lz -ldl"
   ./configure --prefix=$DIR/NETCDF --disable-shared
   make
   make install
