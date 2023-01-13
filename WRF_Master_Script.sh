@@ -635,7 +635,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ]; then
   #SED statement needed to fix bug in MET compile script.  Can be removed after bugfix
   sed -i '426s|fi|export LIB_Z=${LIB_DIR}/lib \nfi|g' $DTC_FOLDER/MET-11.0.0/compile_MET_all.sh
 
-  ./compile_MET_all.sh |& tee compile_MET_all.log
+  ./compile_MET_all.sh | tee compile_MET_all.log
 
   export PATH=$DTC_FOLDER/MET-11.0.0/bin:$PATH
 
