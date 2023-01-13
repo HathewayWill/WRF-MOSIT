@@ -3996,7 +3996,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 
   if [ $GCC_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GFORTRAN_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GPLUSPLUS_VERSION_MAJOR_VERSION -ge $version_10 ]
   then
-    sed -i '32s/-ffree-form -O -fno-second-underscore -fconvert=big-endian -frecord-marker=4/-ffree-form -O -fno-second-underscore -fconvert=big-endian -frecord-marker=4 $fallow_argument /g' configure.arwp
+    sed -i '32s/-ffree-form -O -fno-second-underscore -fconvert=big-endian -frecord-marker=4/-ffree-form -O -fno-second-underscore -fconvert=big-endian -frecord-marker=4 ${fallow_argument} /g' configure.arwp
   fi
 
 
@@ -4113,9 +4113,9 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 
     sed -i '31s/-lncarg -lncarg_gks -lncarg_c -lX11 -lm -lcairo/-lncarg -lncarg_gks -lncarg_c -lX11 -lm -lcairo -lfontconfig -lpixman-1 -lfreetype -lhdf5 -lhdf5_hl /g' configure.oa
 
-    sed -i '39s/-frecord-marker=4/-frecord-marker=4 $fallow_argument /g' configure.oa
+    sed -i '39s/-frecord-marker=4/-frecord-marker=4 ${fallow_argument} /g' configure.oa
 
-    sed -i '44s/=	/=	$fallow_argument /g' configure.oa
+    sed -i '44s/=	/=	${fallow_argument} /g' configure.oa
 
     sed -i '45s/-C -P -traditional/-P -traditional/g' configure.oa
 
@@ -4166,7 +4166,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 
   sed -i '31s|-L${NCARG_ROOT}/lib -lncarg -lncarg_gks -lncarg_c -lX11 -lXext -lpng -lz CONFIGURE_NCARG_LIB| -L${NCARG_ROOT}/lib -lncarg -lncarg_gks -lncarg_c -lX11 -lXext -lpng -lz -lcairo -lfontconfig -lpixman-1 -lfreetype -lexpat -lpthread -lbz2 -lXrender -lgfortran -lgcc -L</usr/lib/x86_64-linux-gnu/> -lm -lhdf5 -lhdf5_hl |g' $WRFHYDRO_FOLDER/RIP4/arch/preamble
 
-  sed -i '33s| -O|$fallow_argument -O |g' $WRFHYDRO_FOLDER/RIP4/arch/configure.defaults
+  sed -i '33s| -O|${fallow_argument} -O |g' $WRFHYDRO_FOLDER/RIP4/arch/configure.defaults
 
   sed -i '35s|=|= -L$WRFHYDRO_FOLDER/LIBS/grib2/lib -lhdf5 -lhdf5_hl |g' $WRFHYDRO_FOLDER/RIP4/arch/configure.defaults
 
@@ -6463,7 +6463,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK_PICK" = "1" ]; then
 
   if [ $GCC_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GFORTRAN_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GPLUSPLUS_VERSION_MAJOR_VERSION -ge $version_10 ]
   then
-    sed -i '32s/-ffree-form -O -fno-second-underscore -fconvert=big-endian -frecord-marker=4/-ffree-form -O -fno-second-underscore -fconvert=big-endian -frecord-marker=4 $fallow_argument /g' configure.arwp
+    sed -i '32s/-ffree-form -O -fno-second-underscore -fconvert=big-endian -frecord-marker=4/-ffree-form -O -fno-second-underscore -fconvert=big-endian -frecord-marker=4 ${fallow_argument} /g' configure.arwp
   fi
 
 
@@ -6593,9 +6593,9 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK_PICK" = "1" ]; then
 
     sed -i '31s/-lncarg -lncarg_gks -lncarg_c -lX11 -lm -lcairo/-lncarg -lncarg_gks -lncarg_c -lX11 -lm -lcairo -lfontconfig -lpixman-1 -lfreetype -lhdf5 -lhdf5_hl /g' configure.oa
 
-    sed -i '39s/-frecord-marker=4/-frecord-marker=4 $fallow_argument /g' configure.oa
+    sed -i '39s/-frecord-marker=4/-frecord-marker=4 ${fallow_argument} /g' configure.oa
 
-    sed -i '44s/=	/=	$fallow_argument /g' configure.oa
+    sed -i '44s/=	/=	${fallow_argument} /g' configure.oa
 
     sed -i '45s/-C -P -traditional/-P -traditional/g' configure.oa
 
@@ -6648,7 +6648,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK_PICK" = "1" ]; then
 
   sed -i '31s|-L${NCARG_ROOT}/lib -lncarg -lncarg_gks -lncarg_c -lX11 -lXext -lpng -lz CONFIGURE_NCARG_LIB| -L${NCARG_ROOT}/lib -lncarg -lncarg_gks -lncarg_c -lX11 -lXext -lpng -lz -lcairo -lfontconfig -lpixman-1 -lfreetype -lexpat -lpthread -lbz2 -lXrender -lgfortran -lgcc -L</usr/lib/x86_64-linux-gnu/> -lm -lhdf5 -lhdf5_hl |g' $WRFCHEM_FOLDER/RIP4/arch/preamble
 
-  sed -i '33s| -O|$fallow_argument -O |g' $WRFCHEM_FOLDER/RIP4/arch/configure.defaults
+  sed -i '33s| -O|${fallow_argument} -O |g' $WRFCHEM_FOLDER/RIP4/arch/configure.defaults
 
   sed -i '35s|=|= -L$WRFCHEM_FOLDER/LIBS/grib2/lib -lhdf5 -lhdf5_hl |g' $WRFCHEM_FOLDER/RIP4/arch/configure.defaults
 
@@ -8958,7 +8958,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 
   if [ $GCC_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GFORTRAN_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GPLUSPLUS_VERSION_MAJOR_VERSION -ge $version_10 ]
   then
-    sed -i '32s/-ffree-form -O -fno-second-underscore -fconvert=big-endian -frecord-marker=4/-ffree-form -O -fno-second-underscore -fconvert=big-endian -frecord-marker=4 $fallow_argument /g' configure.arwp
+    sed -i '32s/-ffree-form -O -fno-second-underscore -fconvert=big-endian -frecord-marker=4/-ffree-form -O -fno-second-underscore -fconvert=big-endian -frecord-marker=4 ${fallow_argument} /g' configure.arwp
   fi
 
 
@@ -9090,9 +9090,9 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 
   sed -i '31s/-lncarg -lncarg_gks -lncarg_c -lX11 -lm -lcairo/-lncarg -lncarg_gks -lncarg_c -lX11 -lm -lcairo -lfontconfig -lpixman-1 -lfreetype -lhdf5 -lhdf5_hl /g' configure.oa
 
-  sed -i '39s/-frecord-marker=4/-frecord-marker=4 $fallow_argument /g' configure.oa
+  sed -i '39s/-frecord-marker=4/-frecord-marker=4 ${fallow_argument} /g' configure.oa
 
-  sed -i '44s/=	/=	$fallow_argument /g' configure.oa
+  sed -i '44s/=	/=	${fallow_argument} /g' configure.oa
 
   sed -i '45s/-C -P -traditional/-P -traditional/g' configure.oa
 
@@ -9144,7 +9144,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 
   sed -i '31s|-L${NCARG_ROOT}/lib -lncarg -lncarg_gks -lncarg_c -lX11 -lXext -lpng -lz CONFIGURE_NCARG_LIB| -L${NCARG_ROOT}/lib -lncarg -lncarg_gks -lncarg_c -lX11 -lXext -lpng -lz -lcairo -lfontconfig -lpixman-1 -lfreetype -lexpat -lpthread -lbz2 -lXrender -lgfortran -lgcc -L</usr/lib/x86_64-linux-gnu/> -lm -lhdf5 -lhdf5_hl |g' $WRF_FOLDER/RIP4/arch/preamble
 
-  sed -i '33s| -O|$fallow_argument -O |g' $WRF_FOLDER/RIP4/arch/configure.defaults
+  sed -i '33s| -O|${fallow_argument} -O |g' $WRF_FOLDER/RIP4/arch/configure.defaults
 
   sed -i '35s|=|= -L$WRF_FOLDER/LIBS/grib2/lib -lhdf5 -lhdf5_hl |g' $WRF_FOLDER/RIP4/arch/configure.defaults
 
