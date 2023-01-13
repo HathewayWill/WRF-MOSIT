@@ -34,7 +34,7 @@ if [ "$SYSTEMOS" = "Linux" ]; then
    export YUM=$(command -v yum)
     if [ "$YUM" != "" ]; then
    echo " yum found"
-   read -p "Your system is a CentOS based system which is not compatible with this script"
+   read -r -p "Your system is a CentOS based system which is not compatible with this script"
    exit ;
     fi
 
@@ -68,7 +68,7 @@ if [ "$SYSTEMBIT" = "64" ] && [ "$SYSTEMOS" = "Linux" ];
   then
     echo "Your system is 64bit version of Debian Linux Kernal"
     echo " "
-  while read -p "Which compiler do you want to use?
+  while read -r -p "Which compiler do you want to use?
   -Intel
    --Please note that Hurricane WRF (HWRF) is on compatibile with Intel Compilers.
 
@@ -158,7 +158,7 @@ echo $SYSTEMOS
 
 if [ "$SYSTEMOS" = "MacOS" ]; then
   while true; do
-    read -p "Do you have minimum of 350GB of storage space available for this instllation (Y/N) " yn
+    read -r -p "Do you have minimum of 350GB of FREE storage space available for this instllation (Y/N) " yn
     case $yn in
       [Yy]* )
       echo "-------------------------------------------------- "
@@ -180,7 +180,7 @@ fi
 
 
 ############################# Chose GrADS or OpenGrADS #########################
-while read -p "Which graphic display software should be install?
+while read -r -p "Which graphic display software should be install?
 -OpenGrADS
 -GrADS
 Please answer with either OpenGrADS or GrADS and press enter.
@@ -213,7 +213,7 @@ echo " "
 ################################# Auto Configuration Test ##################
 
 while true; do
-  read -p "
+  read -r -p "
   Would you like the script to select all the configure options for you?
   Please note, that you should not have to type anything else in the terminal.
   (Y/N)    " yn
@@ -238,12 +238,12 @@ echo " "
 while true; do
   echo "-------------------------------------------------- "
   echo " "
-  echo "Would you like to download the WPS Geographical Input Data for Specific Applications?"
+  echo "Would you like to download the WPS Geographical Input Data for Specific Applications? (Optional)"
   echo " "
   echo "Specific Applicaitons files can be viewed here:  "
   echo " "
   echo "https://www2.mmm.ucar.edu/wrf/users/download/get_sources_wps_geog.html"
-  read -p "(Y/N)   " yn
+  read -r -p "(Y/N)   " yn
   case $yn in
     [Yy]* )
       export WPS_Specific_Applications=1  #variable set for "YES" for specific application data
@@ -267,12 +267,12 @@ echo " "
 while true; do
     echo "-------------------------------------------------- "
     echo " "
-    echo "Would you like to download the GEOG Optional WPS Geographical Input Data?"
+    echo "Would you like to download the GEOG Optional WPS Geographical Input Data? (Optional)"
     echo " "
     echo "Optional Geogrpahical files can be viewed here:  "
     echo " "
     echo "https://www2.mmm.ucar.edu/wrf/users/download/get_sources_wps_geog.html"
-    read -p "(Y/N)    " yn
+    read -r -p "(Y/N)    " yn
     echo " "
   case $yn in
     [Yy]* )
@@ -293,7 +293,7 @@ echo " "
 
 ############################## Choice for which version of WRF to Install ############
 
-while read -p "Which version of WRF would you like to install?
+while read -r -p "Which version of WRF would you like to install?
 -WRF
 -WRFCHEM
 -WRFHYDRO_COUPLED
@@ -534,173 +534,11 @@ if [ "$Ubuntu_64bit_Intel" = "1" ]; then
   $WRF_FOLDER/METplus-5.0.0/ush/run_metplus.py -c $WRF_FOLDER/METplus-5.0.0/parm/use_cases/met_tool_wrapper/GridStat/GridStat.conf
   export PATH=$WRF_FOLDER/METplus-5.0.0/ush:$PATH
   echo " "
-  read -t 5 -p "MET and METPLUS sucessfully installed with intel compilers"
+  read -r -t 5 -p "MET and METPLUS sucessfully installed with intel compilers"
 
 fi
 
 
-
-if [ "$Ubuntu_64bit_GNU" = "1" ]; then
-
-  export HOME=`cd;pwd`
-  #Basic Package Management for Model Evaluation Tools (MET)
-
-
-  #############################basic package managment############################
-  sudo apt -y update
-  sudo apt -y upgrade
-  sudo apt -y install python3 python3-dev emacs flex bison libpixman-1-dev libjpeg-dev pkg-config libpng-dev unzip python2 python2-dev python3-pip pipenv gcc gfortran g++ libtool automake autoconf make m4 default-jre default-jdk csh ksh git libncurses5 libncurses6 mlocate pkg-config build-essential curl libcurl4-openssl-dev
-
-  #Downloading latest dateutil due to python3.8 running old version.
-  pip3 install python-dateutil==2.8
-
-  #Directory Listings
-
-
-  if [ "$WRFCHEM_PICK" = "1" ]; then
-    mkdir $HOME/WRFCHEM
-    export WRF_FOLDER=$HOME/WRFCHEM
-  fi
-
-  if [ "$WRFHYDRO_PICK" = "1" ]; then
-    mkdir $HOME/WRFHYDRO_COUPLED
-    export WRF_FOLDER=$HOME/WRFHYDRO_COUPLED
-  fi
-
-  if [ "$WRF_PICK" = "1" ]; then
-    mkdir $HOME/WRF
-    export WRF_FOLDER=$HOME/WRF
-  fi
-  mkdir $WRF_FOLDER/MET-11.0.0
-  mkdir $WRF_FOLDER/MET-11.0.0/Downloads
-  mkdir $WRF_FOLDER/METplus-5.0.0
-  mkdir $WRF_FOLDER/METplus-5.0.0/Downloads
-
-
-
-  #Downloading MET and untarring files
-  #Note weblinks change often update as needed.
-  cd $WRF_FOLDER/MET-11.0.0/Downloads
-
-  wget -c -4 https://raw.githubusercontent.com/dtcenter/MET/main_v11.0/internal/scripts/installation/compile_MET_all.sh
-
-  wget -c -4 https://dtcenter.ucar.edu/dfiles/code/METplus/MET/installation/tar_files.tgz
-
-  wget -c -4 https://github.com/dtcenter/MET/archive/refs/tags/v11.0.0.tar.gz
-
-
-
-  cp compile_MET_all.sh $WRF_FOLDER/MET-11.0.0
-  tar -xvzf tar_files.tgz -C $WRF_FOLDER/MET-11.0.0
-  cp v11.0.0.tar.gz $WRF_FOLDER/MET-11.0.0/tar_files
-  cd $WRF_FOLDER/MET-11.0.0
-
-
-
-  # Installation of Model Evaluation Tools
-  export CC=/usr/bin/gcc
-  export CXX=/usr/bin/g++
-  export FC=/usr/bin/gfortran
-  export F77=/usr/bin/gfortran
-  export CFLAGS="-fPIC -fPIE -O3"
-
-  cd $WRF_FOLDER/MET-11.0.0
-  export GCC_VERSION=$(/usr/bin/gcc -dumpfullversion | awk '{print$1}')
-  export GFORTRAN_VERSION=$(/usr/bin/gfortran -dumpfullversion | awk '{print$1}')
-  export GPLUSPLUS_VERSION=$(/usr/bin/g++ -dumpfullversion | awk '{print$1}')
-
-  export GCC_VERSION_MAJOR_VERSION=$(echo $GCC_VERSION | awk -F. '{print $1}')
-  export GFORTRAN_VERSION_MAJOR_VERSION=$(echo $GFORTRAN_VERSION | awk -F. '{print $1}')
-  export GPLUSPLUS_VERSION_MAJOR_VERSION=$(echo $GPLUSPLUS_VERSION | awk -F. '{print $1}')
-
-  export version_10="10"
-
-  if [ $GCC_VERSION_MAJOR_VERSION -lt $version_10 ] || [ $GFORTRAN_VERSION_MAJOR_VERSION -lt $version_10 ] || [ $GPLUSPLUS_VERSION_MAJOR_VERSION -lt $version_10 ]
-  then
-    sed -i 's/-fno-second-underscore -fallow-argument-mismatch/-fno-second-underscore -Wno-argument-mismatch/g' compile_MET_all.sh
-  fi
-
-
-  export PYTHON_VERSION=$(/usr/bin/python3 -V 2>&1|awk '{print $2}')
-  export PYTHON_VERSION_MAJOR_VERSION=$(echo $PYTHON_VERSION | awk -F. '{print $1}')
-  export PYTHON_VERSION_MINOR_VERSION=$(echo $PYTHON_VERSION | awk -F. '{print $2}')
-  export PYTHON_VERSION_COMBINED=$PYTHON_VERSION_MAJOR_VERSION.$PYTHON_VERSION_MINOR_VERSION
-
-
-  export FC=/usr/bin/gfortran
-  export F77=/usr/bin/gfortran
-  export F90=/usr/bin/gfortran
-  export gcc_version=$(gcc -dumpfullversion)
-  export TEST_BASE=$WRF_FOLDER/MET-11.0.0
-  export COMPILER=gnu_$gcc_version
-  export MET_SUBDIR=${TEST_BASE}
-  export MET_TARBALL=v11.0.0.tar.gz
-  export USE_MODULES=FALSE
-  export MET_PYTHON=/usr
-  export MET_PYTHON_CC=-I${MET_PYTHON}/include/python${PYTHON_VERSION_COMBINED}
-  export MET_PYTHON_LD=-L${MET_PYTHON}/lib/python${PYTHON_VERSION_COMBINED}/config-${PYTHON_VERSION_COMBINED}-x86_64-linux-gnu\ -L${MET_PYTHON}/lib\ -lpython${PYTHON_VERSION_COMBINED}\ -lcrypt\ -lpthread\ -ldl\ -lutil\ -lm
-  export SET_D64BIT=FALSE
-
-
-  chmod 775 compile_MET_all.sh
-  #SED statement needed to fix bug in MET compile script.  Can be removed after bugfix
-  sed -i '426s|fi|export LIB_Z=${LIB_DIR}/lib \nfi|g' $WRF_FOLDER/MET-11.0.0/compile_MET_all.sh
-
-  ./compile_MET_all.sh | tee compile_MET_all.log
-
-  export PATH=$WRF_FOLDER/MET-11.0.0/bin:$PATH
-
-  #basic Package Management for Model Evaluation Tools (METplus)
-
-  sudo apt-get -y update
-  sudo apt-get -y upgrade
-
-
-
-#Directory Listings for Model Evaluation Tools (METplus
-
-  mkdir $WRF_FOLDER/METplus-5.0.0
-  mkdir $WRF_FOLDER/METplus-5.0.0/Sample_Data
-  mkdir $WRF_FOLDER/METplus-5.0.0/Output
-  mkdir $WRF_FOLDER/METplus-5.0.0/Downloads
-
-
-
-#Downloading METplus and untarring files
-
-  cd $WRF_FOLDER/METplus-5.0.0/Downloads
-  wget -c -4 https://github.com/dtcenter/METplus/archive/refs/tags/v5.0.0.tar.gz
-  tar -xvzf v5.0.0.tar.gz -C $WRF_FOLDER
-
-
-
-# Insatlllation of Model Evaluation Tools Plus
-  cd $WRF_FOLDER/METplus-5.0.0/parm/metplus_config
-
-  sed -i "s|MET_INSTALL_DIR = /path/to|MET_INSTALL_DIR = $WRF_FOLDER/MET-11.0.0|" defaults.conf
-  sed -i "s|INPUT_BASE = /path/to|INPUT_BASE = $WRF_FOLDER/METplus-5.0.0/Sample_Data|" defaults.conf
-  sed -i "s|OUTPUT_BASE = /path/to|OUTPUT_BASE = $WRF_FOLDER/METplus-5.0.0/Output|" defaults.conf
-
-
-# Downloading Sample Data
-
-  cd $WRF_FOLDER/METplus-5.0.0/Downloads
-  wget -c -4 https://dtcenter.ucar.edu/dfiles/code/METplus/METplus_Data/v5.0/sample_data-met_tool_wrapper-5.0.tgz
-  tar -xvzf sample_data-met_tool_wrapper-5.0.tgz -C $WRF_FOLDER/METplus-5.0.0/Sample_Data
-
-
-# Testing if installation of MET & METPlus was sucessfull
-# If you see in terminal "METplus has successfully finished running."
-# Then MET & METPLUS is sucessfully installed
-
-  echo 'Testing MET & METPLUS Installation.'
-  $WRF_FOLDER/METplus-5.0.0/ush/run_metplus.py -c $WRF_FOLDER/METplus-5.0.0/parm/use_cases/met_tool_wrapper/GridStat/GridStat.conf
-
-  export PATH=$WRF_FOLDER/METplus-5.0.0/ush:$PATH
-
-  read -t 5 -p "MET and METPLUS sucessfully installed with GNU compilers."
-
-fi
 
 
 
@@ -944,7 +782,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   export LD_LIBRARY_PATH=$DIR/NETCDF/lib:$LD_LIBRARY_PATH
   export CPPFLAGS="-I$DIR/NETCDF/include -I$DIR/grib2/include"
   export LDFLAGS="-L$DIR/NETCDF/lib -L$DIR/grib2/lib"
-  export LIBS="-lnetcdf -lpnetcdf -lcurl -lhdf5_hl -lhdf5 -lz -ldl"
+  export LIBS="-lnetcdf -lpnetcdf -lcurl -lhdf5_hl -lhdf5 -lz -lm -ldl -lgcc -lgfortran"
   CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-shared --enable-parallel-tests --enable-hdf5
   make -j $CPU_HALF_EVEN
   make -j $CPU_HALF_EVEN install | tee make.install.log
@@ -1182,10 +1020,10 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
       if (($n >= 2))
         then
           echo "All expected files created."
-          read -t 5 -p "Finished installing WRF-CHEM-PREP. I am going to wait for 5 seconds only ..."
+          read -r -t 5 -p "Finished installing WRF-CHEM-PREP. I am going to wait for 5 seconds only ..."
         else
           echo "Missing one or more expected files. Exiting the script."
-          read -p "Please contact script authors for assistance, press 'Enter' to exit script."
+          read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
           exit
       fi
       echo " "
@@ -1198,7 +1036,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   echo "WRF CHEM Tools & PREP_CHEM_SRC compiled with latest version of NETCDF files available on 01/01/2023"
   echo "If error occurs using WRFCHEM tools please update your NETCDF libraries or reconfigure with older libraries"
   echo "This is a WRC Chem Community tool made by a private user and is not supported by UCAR/NCAR"
-  read -t 5 -p "BASH Script Finished"
+  read -r -t 5 -p "BASH Script Finished"
 
 fi
 
@@ -1410,7 +1248,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   export LD_LIBRARY_PATH=$DIR/NETCDF/lib:$LD_LIBRARY_PATH
   export CPPFLAGS="-I$DIR/NETCDF/include -I$DIR/grib2/include"
   export LDFLAGS="-L$DIR/NETCDF/lib -L$DIR/grib2/lib"
-  export LIBS="-lnetcdf -lpnetcdf -lcurl -lhdf5_hl -lhdf5 -lz -ldl"
+  export LIBS="-lnetcdf -lpnetcdf -lcurl -lhdf5_hl -lhdf5 -lz -lm -ldl -lgcc -lgfortran"
   CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-shared --enable-parallel-tests --enable-hdf5
   make -j $CPU_HALF_EVEN
   make -j $CPU_HALF_EVEN install | tee make.install.log
@@ -1641,10 +1479,10 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
     if (($n >= 2))
      then
      echo "All expected files created."
-     read -t 5 -p "Finished installing WRF-CHEM-PREP. I am going to wait for 5 seconds only ..."
+     read -r -t 5 -p "Finished installing WRF-CHEM-PREP. I am going to wait for 5 seconds only ..."
     else
      echo "Missing one or more expected files. Exiting the script."
-     read -p "Please contact script authors for assistance, press 'Enter' to exit script."
+     read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
      exit
     fi
     echo " "
@@ -1657,7 +1495,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   echo "WRF CHEM Tools & PREP-CHEM-SRC compiled with latest version of NETCDF files available on 01/01/2023"
   echo "If error occurs using WRFCHEM tools please update your NETCDF libraries or reconfigure with older libraries"
   echo "This is a WRC Chem Community tool made by a private user and is not supported by UCAR/NCAR"
-  read -t 5 -p "BASH Script Finished"
+  read -r -t 5 -p "BASH Script Finished"
 
 
 
@@ -1817,7 +1655,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
     export LD_LIBRARY_PATH=$DIR/NETCDF/lib:$LD_LIBRARY_PATH
     export CPPFLAGS="-I$DIR/NETCDF/include -I$DIR/grib2/include"
     export LDFLAGS="-L$DIR/NETCDF/lib -L$DIR/grib2/lib"
-    export LIBS="-lnetcdf -lm -lcurl -lhdf5_hl -lhdf5 -lz -ldl"
+    export LIBS="-lnetcdf -lm -lcurl -lhdf5_hl -lhdf5 -lz -ldl -lgcc -lgfortran -lm"
     ./configure --prefix=$DIR/NETCDF --disable-shared
     make
     make install
@@ -1856,7 +1694,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
         echo "Environment Compiler Test 1 Failed"
         exit
     fi
-    read -t 3 -p "I am going to wait for 3 seconds only ..."
+    read -r -t 3 -p "I am going to wait for 3 seconds only ..."
 
     echo " "
     echo "Test 2"
@@ -1871,7 +1709,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
         exit
     fi
     echo " "
-    read -t 3 -p "I am going to wait for 3 seconds only ..."
+    read -r -t 3 -p "I am going to wait for 3 seconds only ..."
 
     echo " "
     echo "Test 3"
@@ -1886,7 +1724,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
         exit
     fi
     echo " "
-    read -t 3 -p "I am going to wait for 3 seconds only ..."
+    read -r -t 3 -p "I am going to wait for 3 seconds only ..."
 
     echo " "
     echo "Test 4"
@@ -1903,7 +1741,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
         exit
     fi
     echo " "
-    read -t 3 -p "I am going to wait for 3 seconds only ..."
+    read -r -t 3 -p "I am going to wait for 3 seconds only ..."
 
     echo " "
     ############## Testing Environment #####
@@ -1931,7 +1769,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
              exit
          fi
        echo " "
-       read -t 3 -p "I am going to wait for 3 seconds only ..."
+       read -r -t 3 -p "I am going to wait for 3 seconds only ..."
 
     echo " "
 
@@ -1952,7 +1790,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
         exit
     fi
     echo " "
-    read -t 3 -p "I am going to wait for 3 seconds only ..."
+    read -r -t 3 -p "I am going to wait for 3 seconds only ..."
     echo " "
 
     echo " All tests completed and passed"
@@ -2170,7 +2008,6 @@ fi
 
 if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 
-
 #############################basic package managment############################
   sudo apt -y update
   sudo apt -y upgrade
@@ -2340,7 +2177,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
   export LD_LIBRARY_PATH=$DIR/NETCDF/lib:$LD_LIBRARY_PATH
   export CPPFLAGS="-I$DIR/NETCDF/include -I$DIR/grib2/include"
   export LDFLAGS="-L$DIR/NETCDF/lib -L$DIR/grib2/lib"
-  export LIBS="-lnetcdf -lm -lcurl -lhdf5_hl -lhdf5 -lz -ldl"
+  export LIBS="-lnetcdf -lm -lcurl -lhdf5_hl -lhdf5 -lz -ldl -lgcc -lgfortran -lm"
   CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-shared
   make -j $CPU_HALF_EVEN
   make -j $CPU_HALF_EVEN install | tee make.install.log
@@ -2382,7 +2219,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
         echo "Environment Compiler Test 1 Failed"
         exit
     fi
-  read -t 3 -p "I am going to wait for 3 seconds only ..."
+  read -r -t 3 -p "I am going to wait for 3 seconds only ..."
 
   echo " "
   echo "Test 2"
@@ -2397,7 +2234,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
         exit
     fi
   echo " "
-  read -t 3 -p "I am going to wait for 3 seconds only ..."
+  read -r -t 3 -p "I am going to wait for 3 seconds only ..."
 
   echo " "
   echo "Test 3"
@@ -2412,7 +2249,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
         exit
     fi
   echo " "
-  read -t 3 -p "I am going to wait for 3 seconds only ..."
+  read -r -t 3 -p "I am going to wait for 3 seconds only ..."
 
   echo " "
   echo "Test 4"
@@ -2429,7 +2266,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
         exit
     fi
   echo " "
-  read -t 3 -p "I am going to wait for 3 seconds only ..."
+  read -r -t 3 -p "I am going to wait for 3 seconds only ..."
 
   echo " "
   ############## Testing Environment #####
@@ -2457,7 +2294,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
              exit
          fi
        echo " "
-       read -t 3 -p "I am going to wait for 3 seconds only ..."
+       read -r -t 3 -p "I am going to wait for 3 seconds only ..."
 
   echo " "
 
@@ -2478,7 +2315,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
         exit
     fi
   echo " "
-  read -t 3 -p "I am going to wait for 3 seconds only ..."
+  read -r -t 3 -p "I am going to wait for 3 seconds only ..."
   echo " "
 
   echo " All tests completed and passed"
@@ -2611,7 +2448,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
   echo " "
   #####################################BASH Script Finished##############################
   echo "WRF HYDRO Standalone sucessfully configured and compiled"
-  read -t 5 -p "Congratulations! You've successfully installed all required files to run the Weather Research Forecast Model HYDRO verison 5.2."
+  read -r -t 5 -p "Congratulations! You've successfully installed all required files to run the Weather Research Forecast Model HYDRO verison 5.2."
 
   ##########################  Export PATH and LD_LIBRARY_PATH ################################
   cd $HOME
@@ -2753,7 +2590,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
   export LD_LIBRARY_PATH=$DIR/NETCDF/lib:$LD_LIBRARY_PATH
   export CPPFLAGS="-I$DIR/NETCDF/include -I$DIR/grib2/include"
   export LDFLAGS="-L$DIR/NETCDF/lib -L$DIR/grib2/lib"
-  export LIBS="-lnetcdf -lm -lcurl -lhdf5_hl -lhdf5 -lz -ldl"
+  export LIBS="-lnetcdf -lm -lcurl -lhdf5_hl -lhdf5 -lz -ldl -lgcc -lgfortran -lm"
   ./configure --prefix=$DIR/NETCDF --disable-shared
   make
   make install
@@ -2792,7 +2629,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
         echo "Environment Compiler Test 1 Failed"
         exit
     fi
-  read -t 3 -p "I am going to wait for 3 seconds only ..."
+  read -r -t 3 -p "I am going to wait for 3 seconds only ..."
 
   echo " "
   echo "Test 2"
@@ -2807,7 +2644,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
         exit
     fi
   echo " "
-  read -t 3 -p "I am going to wait for 3 seconds only ..."
+  read -r -t 3 -p "I am going to wait for 3 seconds only ..."
 
   echo " "
   echo "Test 3"
@@ -2822,7 +2659,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
         exit
     fi
   echo " "
-  read -t 3 -p "I am going to wait for 3 seconds only ..."
+  read -r -t 3 -p "I am going to wait for 3 seconds only ..."
 
   echo " "
   echo "Test 4"
@@ -2839,7 +2676,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
         exit
     fi
   echo " "
-  read -t 3 -p "I am going to wait for 3 seconds only ..."
+  read -r -t 3 -p "I am going to wait for 3 seconds only ..."
 
   echo " "
   ############## Testing Environment #####
@@ -2867,7 +2704,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
              exit
          fi
        echo " "
-       read -t 3 -p "I am going to wait for 3 seconds only ..."
+       read -r -t 3 -p "I am going to wait for 3 seconds only ..."
 
   echo " "
 
@@ -2888,7 +2725,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
         exit
     fi
   echo " "
-  read -t 3 -p "I am going to wait for 3 seconds only ..."
+  read -r -t 3 -p "I am going to wait for 3 seconds only ..."
   echo " "
 
   echo " All tests completed and passed"
@@ -3246,7 +3083,7 @@ export PNETCDF=$DIR/grib2
         echo "Environment Compiler Test 1 Failed"
         exit
     fi
-  read -t 3 -p "I am going to wait for 3 seconds only ..."
+  read -r -t 3 -p "I am going to wait for 3 seconds only ..."
 
   echo " "
   echo "Test 2"
@@ -3261,7 +3098,7 @@ export PNETCDF=$DIR/grib2
         exit
     fi
   echo " "
-  read -t 3 -p "I am going to wait for 3 seconds only ..."
+  read -r -t 3 -p "I am going to wait for 3 seconds only ..."
 
   echo " "
   echo "Test 3"
@@ -3276,7 +3113,7 @@ export PNETCDF=$DIR/grib2
         exit
     fi
   echo " "
-  read -t 3 -p "I am going to wait for 3 seconds only ..."
+  read -r -t 3 -p "I am going to wait for 3 seconds only ..."
 
   echo " "
   echo "Test 4"
@@ -3293,7 +3130,7 @@ export PNETCDF=$DIR/grib2
         exit
     fi
   echo " "
-  read -t 3 -p "I am going to wait for 3 seconds only ..."
+  read -r -t 3 -p "I am going to wait for 3 seconds only ..."
 
   echo " "
   ############## Testing Environment #####
@@ -3321,7 +3158,7 @@ export PNETCDF=$DIR/grib2
              exit
          fi
        echo " "
-       read -t 3 -p "I am going to wait for 3 seconds only ..."
+       read -r -t 3 -p "I am going to wait for 3 seconds only ..."
 
   echo " "
 
@@ -3342,7 +3179,7 @@ export PNETCDF=$DIR/grib2
         exit
     fi
   echo " "
-  read -t 3 -p "I am going to wait for 3 seconds only ..."
+  read -r -t 3 -p "I am going to wait for 3 seconds only ..."
   echo " "
 
   echo " All tests completed and passed"
@@ -3475,7 +3312,7 @@ export PNETCDF=$DIR/grib2
   echo " "
   #####################################BASH Script Finished##############################
   echo "WRF HYDRO Standalone sucessfully configured and compiled"
-  read -t 5 -p "Congratulations! You've successfully installed all required files to run the Weather Research Forecast Model HYDRO verison 5.2."
+  read -r -t 5 -p "Congratulations! You've successfully installed all required files to run the Weather Research Forecast Model HYDRO verison 5.2."
 
   ##########################  Export PATH and LD_LIBRARY_PATH ################################
   cd $HOME
@@ -3728,7 +3565,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   export LD_LIBRARY_PATH=$DIR/NETCDF/lib:$LD_LIBRARY_PATH
   export CPPFLAGS="-I$DIR/NETCDF/include -I$DIR/grib2/include"
   export LDFLAGS="-L$DIR/NETCDF/lib -L$DIR/grib2/lib"
-  export LIBS="-lnetcdf -lpnetcdf -lcurl -lhdf5_hl -lhdf5 -lz -ldl"
+  export LIBS="-lnetcdf -lpnetcdf -lcurl -lhdf5_hl -lhdf5 -lz -lm -ldl -lgcc -lgfortran"
   CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-shared --enable-parallel-tests --enable-hdf5
   make -j $CPU_HALF_EVEN
   make -j $CPU_HALF_EVEN install | tee make.install.log
@@ -3767,7 +3604,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
         echo "Environment Compiler Test 1 Failed"
         exit
     fi
-  read -t 3 -p "I am going to wait for 3 seconds only ..."
+  read -r -t 3 -p "I am going to wait for 3 seconds only ..."
 
   echo " "
   echo "Test 2"
@@ -3782,7 +3619,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
         exit
     fi
   echo " "
-  read -t 3 -p "I am going to wait for 3 seconds only ..."
+  read -r -t 3 -p "I am going to wait for 3 seconds only ..."
 
   echo " "
   echo "Test 3"
@@ -3797,7 +3634,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
         exit
     fi
   echo " "
-  read -t 3 -p "I am going to wait for 3 seconds only ..."
+  read -r -t 3 -p "I am going to wait for 3 seconds only ..."
 
   echo " "
   echo "Test 4"
@@ -3814,7 +3651,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
         exit
     fi
   echo " "
-  read -t 3 -p "I am going to wait for 3 seconds only ..."
+  read -r -t 3 -p "I am going to wait for 3 seconds only ..."
 
   echo " "
   ############## Testing Environment #####
@@ -3842,7 +3679,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
              exit
          fi
        echo " "
-       read -t 3 -p "I am going to wait for 3 seconds only ..."
+       read -r -t 3 -p "I am going to wait for 3 seconds only ..."
 
   echo " "
 
@@ -3863,7 +3700,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
         exit
     fi
   echo " "
-  read -t 3 -p "I am going to wait for 3 seconds only ..."
+  read -r -t 3 -p "I am going to wait for 3 seconds only ..."
   echo " "
 
   echo " All tests completed and passed"
@@ -4145,10 +3982,10 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
    if (( $n == 3 ))
     then
     echo "All expected files created."
-    read -t 5 -p "Finished installing OBSGRID. I am going to wait for 5 seconds only ..."
+    read -r -t 5 -p "Finished installing OBSGRID. I am going to wait for 5 seconds only ..."
    else
     echo "Missing one or more expected files. Exiting the script."
-    read -p "Please contact script authors for assistance, press 'Enter' to exit script."
+    read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
     exit
    fi
 
@@ -4201,10 +4038,10 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
    if (( $n == 12 ))
       then
         echo "All expected files created."
-        read -t 5 -p "Finished installing RIP4. I am going to wait for 5 seconds only ..."
+        read -r -t 5 -p "Finished installing RIP4. I am going to wait for 5 seconds only ..."
       else
         echo "Missing one or more expected files. Exiting the script."
-        read -p "Please contact script authors for assistance, press 'Enter' to exit script."
+        read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
         exit
    fi
 
@@ -4283,7 +4120,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   ./compile_offline_NoahMP.sh setEnvar.sh | tee noahmp.log
 
 
-  read -t 5 -p "I am going to wait for 5 seconds only ..."
+  read -r -t 5 -p "I am going to wait for 5 seconds only ..."
   echo " "
   ############################ WRF 4.4.2  #################################
   ## WRF v4.4.2
@@ -4338,10 +4175,10 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   if (($n >= 3))
    then
    echo "All expected files created."
-   read -t 5 -p "Finished installing WRF. I am going to wait for 5 seconds only ..."
+   read -r -t 5 -p "Finished installing WRF. I am going to wait for 5 seconds only ..."
   else
    echo "Missing one or more expected files. Exiting the script."
-   read -p "Please contact script authors for assistance, press 'Enter' to exit script."
+   read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
    exit
   fi
 
@@ -4374,10 +4211,10 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
    if (($n == 3))
     then
       echo "All expected files created."
-      read -t 5 -p "Finished installing WPS. I am going to wait for 5 seconds only ..."
+      read -r -t 5 -p "Finished installing WPS. I am going to wait for 5 seconds only ..."
    else
      echo "Missing one or more expected files. Exiting the script."
-     read -p "Please contact script authors for assistance, press 'Enter' to exit script."
+     read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
      exit
    fi
 
@@ -4757,7 +4594,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
         echo "Environment Compiler Test 1 Failed"
         exit
     fi
-  read -t 3 -p "I am going to wait for 3 seconds only ..."
+  read -r -t 3 -p "I am going to wait for 3 seconds only ..."
 
   echo " "
   echo "Test 2"
@@ -4772,7 +4609,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
         exit
     fi
   echo " "
-  read -t 3 -p "I am going to wait for 3 seconds only ..."
+  read -r -t 3 -p "I am going to wait for 3 seconds only ..."
 
   echo " "
   echo "Test 3"
@@ -4787,7 +4624,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
         exit
     fi
   echo " "
-  read -t 3 -p "I am going to wait for 3 seconds only ..."
+  read -r -t 3 -p "I am going to wait for 3 seconds only ..."
 
   echo " "
   echo "Test 4"
@@ -4804,7 +4641,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
         exit
     fi
   echo " "
-  read -t 3 -p "I am going to wait for 3 seconds only ..."
+  read -r -t 3 -p "I am going to wait for 3 seconds only ..."
 
   echo " "
   ############## Testing Environment #####
@@ -4832,7 +4669,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
              exit
          fi
        echo " "
-       read -t 3 -p "I am going to wait for 3 seconds only ..."
+       read -r -t 3 -p "I am going to wait for 3 seconds only ..."
 
   echo " "
 
@@ -4853,7 +4690,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
         exit
     fi
   echo " "
-  read -t 3 -p "I am going to wait for 3 seconds only ..."
+  read -r -t 3 -p "I am going to wait for 3 seconds only ..."
   echo " "
 
   echo " All tests completed and passed"
@@ -4924,10 +4761,10 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
    if (( $n == 1 ))
     then
     echo "All expected files created."
-    read -t 5 -p "Finished installing UPPV4.1. I am going to wait for 5 seconds only ..."
+    read -r -t 5 -p "Finished installing UPPV4.1. I am going to wait for 5 seconds only ..."
    else
     echo "Missing one or more expected files. Exiting the script."
-    read -p "Please contact script authors for assistance, press 'Enter' to exit script."
+    read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
     exit
    fi
 
@@ -5127,17 +4964,17 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
    if (($n == 2))
     then
     echo "All expected files created."
-    read -t 5 -p "Finished installing WRF Hydro Basecode. I am going to wait for 5 seconds only ..."
+    read -r -t 5 -p "Finished installing WRF Hydro Basecode. I am going to wait for 5 seconds only ..."
    else
     echo "Missing one or more expected files. Exiting the script."
-    read -p "Please contact script authors for assistance, press 'Enter' to exit script."
+    read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
     exit
    fi
    echo " "
 
 
 
-  read -t 5 -p "I am going to wait for 5 seconds only ..."
+  read -r -t 5 -p "I am going to wait for 5 seconds only ..."
   echo " "
 
   ############################ WRF 4.4.2  #################################
@@ -5208,10 +5045,10 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   if (($n >= 3))
    then
      echo "All expected files created."
-     read -t 5 -p "Finished installing WRF. I am going to wait for 5 seconds only ..."
+     read -r -t 5 -p "Finished installing WRF. I am going to wait for 5 seconds only ..."
    else
      echo "Missing one or more expected files. Exiting the script."
-     read -p "Please contact script authors for assistance, press 'Enter' to exit script."
+     read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
      exit
   fi
   echo " "
@@ -5248,10 +5085,10 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
    if (($n == 3))
     then
       echo "All expected files created."
-      read -t 5 -p "Finished installing WPS. I am going to wait for 5 seconds only ..."
+      read -r -t 5 -p "Finished installing WPS. I am going to wait for 5 seconds only ..."
    else
       echo "Missing one or more expected files. Exiting the script."
-      read -p "Please contact script authors for assistance, press 'Enter' to exit script."
+      read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
       exit
    fi
    echo " "
@@ -5498,7 +5335,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   export LD_LIBRARY_PATH=$DIR/NETCDF/lib:$LD_LIBRARY_PATH
   export CPPFLAGS="-I$DIR/NETCDF/include -I$DIR/grib2/include"
   export LDFLAGS="-L$DIR/NETCDF/lib -L$DIR/grib2/lib"
-  export LIBS="-lnetcdf -lm -lcurl -lhdf5_hl -lhdf5 -lz -ldl"
+  export LIBS="-lnetcdf -lm -lcurl -lhdf5_hl -lhdf5 -lz -ldl -lgcc -lgfortran -lm"
   ./configure --prefix=$DIR/NETCDF --disable-shared
   make
   make install
@@ -5537,7 +5374,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
         echo "Environment Compiler Test 1 Failed"
         exit
     fi
-  read -t 3 -p "I am going to wait for 3 seconds only ..."
+  read -r -t 3 -p "I am going to wait for 3 seconds only ..."
 
   echo " "
   echo "Test 2"
@@ -5552,7 +5389,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
         exit
     fi
   echo " "
-  read -t 3 -p "I am going to wait for 3 seconds only ..."
+  read -r -t 3 -p "I am going to wait for 3 seconds only ..."
 
   echo " "
   echo "Test 3"
@@ -5567,7 +5404,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
         exit
     fi
   echo " "
-  read -t 3 -p "I am going to wait for 3 seconds only ..."
+  read -r -t 3 -p "I am going to wait for 3 seconds only ..."
 
   echo " "
   echo "Test 4"
@@ -5584,7 +5421,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
         exit
     fi
   echo " "
-  read -t 3 -p "I am going to wait for 3 seconds only ..."
+  read -r -t 3 -p "I am going to wait for 3 seconds only ..."
 
   echo " "
   ############## Testing Environment #####
@@ -5612,7 +5449,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
              exit
          fi
        echo " "
-       read -t 3 -p "I am going to wait for 3 seconds only ..."
+       read -r -t 3 -p "I am going to wait for 3 seconds only ..."
 
   echo " "
 
@@ -5633,7 +5470,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
         exit
     fi
   echo " "
-  read -t 3 -p "I am going to wait for 3 seconds only ..."
+  read -r -t 3 -p "I am going to wait for 3 seconds only ..."
   echo " "
 
   echo " All tests completed and passed"
@@ -5808,10 +5645,10 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   if (($n >= 3))
    then
      echo "All expected files created."
-     read -t 5 -p "Finished installing WRF. I am going to wait for 5 seconds only ..."
+     read -r -t 5 -p "Finished installing WRF. I am going to wait for 5 seconds only ..."
   else
     echo "Missing one or more expected files. Exiting the script."
-    read -p "Please contact script authors for assistance, press 'Enter' to exit script."
+    read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
     exit
   fi
   echo " "
@@ -5841,10 +5678,10 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
    if (($n == 3))
     then
       echo "All expected files created."
-      read -t 5 -p "Finished installing WPS. I am going to wait for 5 seconds only ..."
+      read -r -t 5 -p "Finished installing WPS. I am going to wait for 5 seconds only ..."
    else
      echo "Missing one or more expected files. Exiting the script."
-     read -p "Please contact script authors for assistance, press 'Enter' to exit script."
+     read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
      exit
    fi
 
@@ -6199,7 +6036,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK_PICK" = "1" ]; then
   export LD_LIBRARY_PATH=$DIR/NETCDF/lib:$LD_LIBRARY_PATH
   export CPPFLAGS="-I$DIR/NETCDF/include -I$DIR/grib2/include"
   export LDFLAGS="-L$DIR/NETCDF/lib -L$DIR/grib2/lib"
-  export LIBS="-lnetcdf -lpnetcdf -lcurl -lhdf5_hl -lhdf5 -lz -ldl"
+  export LIBS="-lnetcdf -lpnetcdf -lcurl -lhdf5_hl -lhdf5 -lz -lm -ldl -lgcc -lgfortran"
   CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-shared --enable-parallel-tests --enable-hdf5
   make -j $CPU_HALF_EVEN
   make -j $CPU_HALF_EVEN install | tee make.install.log
@@ -6237,7 +6074,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK_PICK" = "1" ]; then
         echo "Environment Compiler Test 1 Failed"
         exit
     fi
-  read -t 3 -p "I am going to wait for 3 seconds only ..."
+  read -r -t 3 -p "I am going to wait for 3 seconds only ..."
 
   echo " "
   echo "Test 2"
@@ -6252,7 +6089,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK_PICK" = "1" ]; then
         exit
     fi
   echo " "
-  read -t 3 -p "I am going to wait for 3 seconds only ..."
+  read -r -t 3 -p "I am going to wait for 3 seconds only ..."
 
   echo " "
   echo "Test 3"
@@ -6267,7 +6104,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK_PICK" = "1" ]; then
         exit
     fi
   echo " "
-  read -t 3 -p "I am going to wait for 3 seconds only ..."
+  read -r -t 3 -p "I am going to wait for 3 seconds only ..."
 
   echo " "
   echo "Test 4"
@@ -6284,7 +6121,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK_PICK" = "1" ]; then
         exit
     fi
   echo " "
-  read -t 3 -p "I am going to wait for 3 seconds only ..."
+  read -r -t 3 -p "I am going to wait for 3 seconds only ..."
 
   echo " "
   ############## Testing Environment #####
@@ -6312,7 +6149,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK_PICK" = "1" ]; then
              exit
          fi
        echo " "
-       read -t 3 -p "I am going to wait for 3 seconds only ..."
+       read -r -t 3 -p "I am going to wait for 3 seconds only ..."
 
   echo " "
 
@@ -6333,7 +6170,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK_PICK" = "1" ]; then
         exit
     fi
   echo " "
-  read -t 3 -p "I am going to wait for 3 seconds only ..."
+  read -r -t 3 -p "I am going to wait for 3 seconds only ..."
   echo " "
 
   echo " All tests completed and passed"
@@ -6627,10 +6464,10 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK_PICK" = "1" ]; then
    if (( $n == 3 ))
       then
           echo "All expected files created."
-          read -t 5 -p "Finished installing OBSGRID. I am going to wait for 5 seconds only ..."
+          read -r -t 5 -p "Finished installing OBSGRID. I am going to wait for 5 seconds only ..."
       else
           echo "Missing one or more expected files. Exiting the script."
-          read -p "Please contact script authors for assistance, press 'Enter' to exit script."
+          read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
           exit
    fi
 
@@ -6684,10 +6521,10 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK_PICK" = "1" ]; then
    if (( $n == 12 ))
     then
     echo "All expected files created."
-    read -t 5 -p "Finished installing RIP4. I am going to wait for 5 seconds only ..."
+    read -r -t 5 -p "Finished installing RIP4. I am going to wait for 5 seconds only ..."
    else
     echo "Missing one or more expected files. Exiting the script."
-    read -p "Please contact script authors for assistance, press 'Enter' to exit script."
+    read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
     exit
    fi
 
@@ -6761,10 +6598,10 @@ sed -i '919s/==/=/g' $WRFCHEM_FOLDER/WRFDA/configure
    if (( ( $n == 43 ) && ( $m == 1) ))
     then
     echo "All expected files created."
-    read -t 5 -p "Finished installing WRFDA-CHEM 3DVAR. I am going to wait for 5 seconds only ..."
+    read -r -t 5 -p "Finished installing WRFDA-CHEM 3DVAR. I am going to wait for 5 seconds only ..."
    else
     echo "Missing one or more expected files. Exiting the script."
-    read -p "Please contact script authors for assistance, press 'Enter' to exit script."
+    read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
     exit
    fi
   echo " "
@@ -6838,10 +6675,10 @@ sed -i '919s/==/=/g' $WRFCHEM_FOLDER/WRFDA/configure
   if (($n >= 3))
    then
    echo "All expected files created."
-   read -t 5 -p "Finished installing WRF. I am going to wait for 5 seconds only ..."
+   read -r -t 5 -p "Finished installing WRF. I am going to wait for 5 seconds only ..."
   else
    echo "Missing one or more expected files. Exiting the script."
-   read -p "Please contact script authors for assistance, press 'Enter' to exit script."
+   read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
    exit
   fi
   echo " "
@@ -6873,10 +6710,10 @@ sed -i '919s/==/=/g' $WRFCHEM_FOLDER/WRFDA/configure
    if (($n == 3))
     then
     echo "All expected files created."
-    read -t 5 -p "Finished installing WPS. I am going to wait for 5 seconds only ..."
+    read -r -t 5 -p "Finished installing WPS. I am going to wait for 5 seconds only ..."
    else
     echo "Missing one or more expected files. Exiting the script."
-    read -p "Please contact script authors for assistance, press 'Enter' to exit script."
+    read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
     exit
    fi
 
@@ -7206,7 +7043,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK_PICK" = "1" ]; then
   export LD_LIBRARY_PATH=$DIR/NETCDF/lib:$LD_LIBRARY_PATH
   export CPPFLAGS="-I$DIR/NETCDF/include -I$DIR/grib2/include"
   export LDFLAGS="-L$DIR/NETCDF/lib -L$DIR/grib2/lib"
-  export LIBS="-lnetcdf -lpnetcdf -lcurl -lhdf5_hl -lhdf5 -lz -ldl"
+  export LIBS="-lnetcdf -lpnetcdf -lcurl -lhdf5_hl -lhdf5 -lz -lm -ldl -lgcc -lgfortran"
   CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-shared --enable-parallel-tests --enable-hdf5
 
   make -j $CPU_HALF_EVEN | tee netcdf-f.make.log
@@ -7243,7 +7080,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK_PICK" = "1" ]; then
         echo "Environment Compiler Test 1 Failed"
         exit
     fi
-  read -t 3 -p "I am going to wait for 3 seconds only ..."
+  read -r -t 3 -p "I am going to wait for 3 seconds only ..."
 
   echo " "
   echo "Test 2"
@@ -7258,7 +7095,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK_PICK" = "1" ]; then
         exit
     fi
   echo " "
-  read -t 3 -p "I am going to wait for 3 seconds only ..."
+  read -r -t 3 -p "I am going to wait for 3 seconds only ..."
 
   echo " "
   echo "Test 3"
@@ -7273,7 +7110,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK_PICK" = "1" ]; then
         exit
     fi
   echo " "
-  read -t 3 -p "I am going to wait for 3 seconds only ..."
+  read -r -t 3 -p "I am going to wait for 3 seconds only ..."
 
   echo " "
   echo "Test 4"
@@ -7290,7 +7127,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK_PICK" = "1" ]; then
         exit
     fi
   echo " "
-  read -t 3 -p "I am going to wait for 3 seconds only ..."
+  read -r -t 3 -p "I am going to wait for 3 seconds only ..."
 
   echo " "
   ############## Testing Environment #####
@@ -7318,7 +7155,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK_PICK" = "1" ]; then
              exit
          fi
        echo " "
-       read -t 3 -p "I am going to wait for 3 seconds only ..."
+       read -r -t 3 -p "I am going to wait for 3 seconds only ..."
 
   echo " "
 
@@ -7339,7 +7176,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK_PICK" = "1" ]; then
         exit
     fi
   echo " "
-  read -t 3 -p "I am going to wait for 3 seconds only ..."
+  read -r -t 3 -p "I am going to wait for 3 seconds only ..."
   echo " "
 
   echo " All tests completed and passed"
@@ -7409,10 +7246,10 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK_PICK" = "1" ]; then
    if (( $n == 1 ))
     then
     echo "All expected files created."
-    read -t 5 -p "Finished installing UPPV4.1. I am going to wait for 5 seconds only ..."
+    read -r -t 5 -p "Finished installing UPPV4.1. I am going to wait for 5 seconds only ..."
    else
     echo "Missing one or more expected files. Exiting the script."
-    read -p "Please contact script authors for assistance, press 'Enter' to exit script."
+    read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
     exit
    fi
 
@@ -7594,10 +7431,10 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK_PICK" = "1" ]; then
    if (( ( $n == 43 ) && ( $m == 1) ))
     then
     echo "All expected files created."
-    read -t 5 -p "Finished installing WRFDA-CHEM 3DVAR. I am going to wait for 5 seconds only ..."
+    read -r -t 5 -p "Finished installing WRFDA-CHEM 3DVAR. I am going to wait for 5 seconds only ..."
    else
     echo "Missing one or more expected files. Exiting the script."
-    read -p "Please contact script authors for assistance, press 'Enter' to exit script."
+    read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
     exit
    fi
   echo " "
@@ -7666,10 +7503,10 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK_PICK" = "1" ]; then
   if (($n >= 3))
    then
    echo "All expected files created."
-   read -t 5 -p "Finished installing WRF. I am going to wait for 5 seconds only ..."
+   read -r -t 5 -p "Finished installing WRF. I am going to wait for 5 seconds only ..."
   else
    echo "Missing one or more expected files. Exiting the script."
-   read -p "Please contact script authors for assistance, press 'Enter' to exit script."
+   read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
    exit
   fi
   echo " "
@@ -7706,10 +7543,10 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK_PICK" = "1" ]; then
    if (($n == 3))
       then
         echo "All expected files created."
-        read -t 5 -p "Finished installing WPS. I am going to wait for 5 seconds only ..."
+        read -r -t 5 -p "Finished installing WPS. I am going to wait for 5 seconds only ..."
       else
         echo "Missing one or more expected files. Exiting the script."
-        read -p "Please contact script authors for assistance, press 'Enter' to exit script."
+        read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
         exit
    fi
    echo " "
@@ -7957,7 +7794,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK_PICK" = "1" ]; then
   export LD_LIBRARY_PATH=$DIR/NETCDF/lib:$LD_LIBRARY_PATH
   export CPPFLAGS="-I$DIR/NETCDF/include -I$DIR/grib2/include"
   export LDFLAGS="-L$DIR/NETCDF/lib -L$DIR/grib2/lib"
-  export LIBS="-lnetcdf -lm -lcurl -lhdf5_hl -lhdf5 -lz -ldl"
+  export LIBS="-lnetcdf -lm -lcurl -lhdf5_hl -lhdf5 -lz -ldl -lgcc -lgfortran -lm"
   ./configure --prefix=$DIR/NETCDF --disable-shared
   make
   make install
@@ -7996,7 +7833,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK_PICK" = "1" ]; then
       echo "Environment Compiler Test 1 Failed"
       exit
   fi
-  read -t 3 -p "I am going to wait for 3 seconds only ..."
+  read -r -t 3 -p "I am going to wait for 3 seconds only ..."
 
   echo " "
   echo "Test 2"
@@ -8011,7 +7848,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK_PICK" = "1" ]; then
       exit
   fi
   echo " "
-  read -t 3 -p "I am going to wait for 3 seconds only ..."
+  read -r -t 3 -p "I am going to wait for 3 seconds only ..."
 
   echo " "
   echo "Test 3"
@@ -8026,7 +7863,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK_PICK" = "1" ]; then
       exit
   fi
   echo " "
-  read -t 3 -p "I am going to wait for 3 seconds only ..."
+  read -r -t 3 -p "I am going to wait for 3 seconds only ..."
 
   echo " "
   echo "Test 4"
@@ -8043,7 +7880,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK_PICK" = "1" ]; then
       exit
   fi
   echo " "
-  read -t 3 -p "I am going to wait for 3 seconds only ..."
+  read -r -t 3 -p "I am going to wait for 3 seconds only ..."
 
   echo " "
   ############## Testing Environment #####
@@ -8071,7 +7908,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK_PICK" = "1" ]; then
            exit
        fi
      echo " "
-     read -t 3 -p "I am going to wait for 3 seconds only ..."
+     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
 
   echo " "
 
@@ -8092,7 +7929,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK_PICK" = "1" ]; then
       exit
   fi
   echo " "
-  read -t 3 -p "I am going to wait for 3 seconds only ..."
+  read -r -t 3 -p "I am going to wait for 3 seconds only ..."
   echo " "
 
   echo " All tests completed and passed"
@@ -8226,10 +8063,10 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK_PICK" = "1" ]; then
   if (($n >= 3))
     then
         echo "All expected files created."
-        read -t 5 -p "Finished installing WRF. I am going to wait for 5 seconds only ..."
+        read -r -t 5 -p "Finished installing WRF. I am going to wait for 5 seconds only ..."
       else
         echo "Missing one or more expected files. Exiting the script."
-        read -p "Please contact script authors for assistance, press 'Enter' to exit script."
+        read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
         exit
   fi
   echo " "
@@ -8260,10 +8097,10 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK_PICK" = "1" ]; then
   if (($n == 3))
     then
       echo "All expected files created."
-      read -t 5 -p "Finished installing WPS. I am going to wait for 5 seconds only ..."
+      read -r -t 5 -p "Finished installing WPS. I am going to wait for 5 seconds only ..."
     else
       echo "Missing one or more expected files. Exiting the script."
-      read -p "Please contact script authors for assistance, press 'Enter' to exit script."
+      read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
       exit
   fi
   echo " "
@@ -8312,10 +8149,10 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK_PICK" = "1" ]; then
    if (( ( $n == 43 ) && ( $m == 1) ))
       then
         echo "All expected files created."
-        read -t 5 -p "Finished installing WRFDA-CHEM 3DVAR. I am going to wait for 5 seconds only ..."
+        read -r -t 5 -p "Finished installing WRFDA-CHEM 3DVAR. I am going to wait for 5 seconds only ..."
       else
         echo "Missing one or more expected files. Exiting the script."
-        read -p "Please contact script authors for assistance, press 'Enter' to exit script."
+        read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
         exit
    fi
   echo " "
@@ -8679,7 +8516,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   export LD_LIBRARY_PATH=$DIR/NETCDF/lib:$LD_LIBRARY_PATH
   export CPPFLAGS="-I$DIR/NETCDF/include -I$DIR/grib2/include"
   export LDFLAGS="-L$DIR/NETCDF/lib -L$DIR/grib2/lib"
-  export LIBS="-lnetcdf -lpnetcdf -lcurl -lhdf5_hl -lhdf5 -lz -ldl"
+  export LIBS="-lnetcdf -lpnetcdf -lcurl -lhdf5_hl -lhdf5 -lz -lm -ldl -lgcc -lgfortran"
   CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-shared --enable-parallel-tests --enable-hdf5
   make -j $CPU_HALF_EVEN
   make -j $CPU_HALF_EVEN install | tee make.install.log
@@ -8717,7 +8554,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
         echo "Environment Compiler Test 1 Failed"
         exit
     fi
-  read -t 3 -p "I am going to wait for 3 seconds only ..."
+  read -r -t 3 -p "I am going to wait for 3 seconds only ..."
 
   echo " "
   echo "Test 2"
@@ -8732,7 +8569,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
         exit
     fi
   echo " "
-  read -t 3 -p "I am going to wait for 3 seconds only ..."
+  read -r -t 3 -p "I am going to wait for 3 seconds only ..."
 
   echo " "
   echo "Test 3"
@@ -8747,7 +8584,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
         exit
     fi
   echo " "
-  read -t 3 -p "I am going to wait for 3 seconds only ..."
+  read -r -t 3 -p "I am going to wait for 3 seconds only ..."
 
   echo " "
   echo "Test 4"
@@ -8764,7 +8601,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
         exit
     fi
   echo " "
-  read -t 3 -p "I am going to wait for 3 seconds only ..."
+  read -r -t 3 -p "I am going to wait for 3 seconds only ..."
 
   echo " "
   ############## Testing Environment #####
@@ -8792,7 +8629,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
              exit
          fi
        echo " "
-       read -t 3 -p "I am going to wait for 3 seconds only ..."
+       read -r -t 3 -p "I am going to wait for 3 seconds only ..."
 
   echo " "
 
@@ -8813,7 +8650,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
         exit
     fi
   echo " "
-  read -t 3 -p "I am going to wait for 3 seconds only ..."
+  read -r -t 3 -p "I am going to wait for 3 seconds only ..."
   echo " "
 
   echo " All tests completed and passed"
@@ -8926,10 +8763,10 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
    if (( $n == 1 ))
     then
       echo "All expected files created."
-      read -t 5 -p "Finished installing UPPV4.1. I am going to wait for 5 seconds only ..."
+      read -r -t 5 -p "Finished installing UPPV4.1. I am going to wait for 5 seconds only ..."
    else
      echo "Missing one or more expected files. Exiting the script."
-     read -p "Please contact script authors for assistance, press 'Enter' to exit script."
+     read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
      exit
    fi
 
@@ -9123,10 +8960,10 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
    if (( $n == 3 ))
     then
       echo "All expected files created."
-      read -t 5 -p "Finished installing OBSGRID. I am going to wait for 5 seconds only ..."
+      read -r -t 5 -p "Finished installing OBSGRID. I am going to wait for 5 seconds only ..."
    else
      echo "Missing one or more expected files. Exiting the script."
-     read -p "Please contact script authors for assistance, press 'Enter' to exit script."
+     read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
      exit
    fi
 
@@ -9238,10 +9075,10 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   if (($n >= 3))
    then
    echo "All expected files created."
-   read -t 5 -p "Finished installing WRF. I am going to wait for 5 seconds only ..."
+   read -r -t 5 -p "Finished installing WRF. I am going to wait for 5 seconds only ..."
   else
    echo "Missing one or more expected files. Exiting the script."
-   read -p "Please contact script authors for assistance, press 'Enter' to exit script."
+   read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
    exit
   fi
   echo " "
@@ -9273,10 +9110,10 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
    if (($n == 3))
     then
       echo "All expected files created."
-      read -t 5 -p "Finished installing WPS. I am going to wait for 5 seconds only ..."
+      read -r -t 5 -p "Finished installing WPS. I am going to wait for 5 seconds only ..."
    else
      echo "Missing one or more expected files. Exiting the script."
-     read -p "Please contact script authors for assistance, press 'Enter' to exit script."
+     read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
      exit
    fi
    echo " "
@@ -9317,10 +9154,10 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
    if (( $n == 1 ))
     then
       echo "All expected files created."
-      read -t 5 -p "Finished installing WRF Plus 4DVAR. I am going to wait for 5 seconds only ..."
+      read -r -t 5 -p "Finished installing WRF Plus 4DVAR. I am going to wait for 5 seconds only ..."
    else
      echo "Missing one or more expected files. Exiting the script."
-     read -p "Please contact script authors for assistance, press 'Enter' to exit script."
+     read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
      exit
    fi
   echo " "
@@ -9362,10 +9199,10 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
    if (( ( $n == 43 ) && ( $m == 1) ))
     then
       echo "All expected files created."
-      read -t 5 -p "Finished installing WRFDA 4DVAR. I am going to wait for 5 seconds only ..."
+      read -r -t 5 -p "Finished installing WRFDA 4DVAR. I am going to wait for 5 seconds only ..."
    else
      echo "Missing one or more expected files. Exiting the script."
-     read -p "Please contact script authors for assistance, press 'Enter' to exit script."
+     read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
      exit
    fi
   echo " "
@@ -9699,7 +9536,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   export LD_LIBRARY_PATH=$DIR/NETCDF/lib:$LD_LIBRARY_PATH
   export CPPFLAGS="-I$DIR/NETCDF/include -I$DIR/grib2/include"
   export LDFLAGS="-L$DIR/NETCDF/lib -L$DIR/grib2/lib"
-  export LIBS="-lnetcdf -lpnetcdf -lcurl -lhdf5_hl -lhdf5 -lz -ldl"
+  export LIBS="-lnetcdf -lpnetcdf -lcurl -lhdf5_hl -lhdf5 -lz -lm -ldl -lgcc -lgfortran"
   CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS="-fPIC -fPIE -diag-disable=10441 -O3"  ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-parallel-tests --enable-hdf5
 
   make -j $CPU_HALF_EVEN | tee netcdf-f.make.log
@@ -9736,7 +9573,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
         echo "Environment Compiler Test 1 Failed"
         exit
     fi
-  read -t 3 -p "I am going to wait for 3 seconds only ..."
+  read -r -t 3 -p "I am going to wait for 3 seconds only ..."
 
   echo " "
   echo "Test 2"
@@ -9751,7 +9588,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
         exit
     fi
   echo " "
-  read -t 3 -p "I am going to wait for 3 seconds only ..."
+  read -r -t 3 -p "I am going to wait for 3 seconds only ..."
 
   echo " "
   echo "Test 3"
@@ -9766,7 +9603,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
         exit
     fi
   echo " "
-  read -t 3 -p "I am going to wait for 3 seconds only ..."
+  read -r -t 3 -p "I am going to wait for 3 seconds only ..."
 
   echo " "
   echo "Test 4"
@@ -9783,7 +9620,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
         exit
     fi
   echo " "
-  read -t 3 -p "I am going to wait for 3 seconds only ..."
+  read -r -t 3 -p "I am going to wait for 3 seconds only ..."
 
   echo " "
   ############## Testing Environment #####
@@ -9811,7 +9648,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
              exit
          fi
        echo " "
-       read -t 3 -p "I am going to wait for 3 seconds only ..."
+       read -r -t 3 -p "I am going to wait for 3 seconds only ..."
 
   echo " "
 
@@ -9832,7 +9669,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
         exit
     fi
   echo " "
-  read -t 3 -p "I am going to wait for 3 seconds only ..."
+  read -r -t 3 -p "I am going to wait for 3 seconds only ..."
   echo " "
 
   echo " All tests completed and passed"
@@ -9902,10 +9739,10 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
    if (( $n == 1 ))
     then
       echo "All expected files created."
-      read -t 5 -p "Finished installing UPPV4.1. I am going to wait for 5 seconds only ..."
+      read -r -t 5 -p "Finished installing UPPV4.1. I am going to wait for 5 seconds only ..."
    else
      echo "Missing one or more expected files. Exiting the script."
-     read -p "Please contact script authors for assistance, press 'Enter' to exit script."
+     read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
      exit
    fi
 
@@ -10075,10 +9912,10 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   if (($n >= 3))
    then
    echo "All expected files created."
-   read -t 5 -p "Finished installing WRF. I am going to wait for 5 seconds only ..."
+   read -r -t 5 -p "Finished installing WRF. I am going to wait for 5 seconds only ..."
   else
    echo "Missing one or more expected files. Exiting the script."
-   read -p "Please contact script authors for assistance, press 'Enter' to exit script."
+   read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
    exit
   fi
   echo " "
@@ -10115,10 +9952,10 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
    if (($n == 3))
     then
       echo "All expected files created."
-      read -t 5 -p "Finished installing WPS. I am going to wait for 5 seconds only ..."
+      read -r -t 5 -p "Finished installing WPS. I am going to wait for 5 seconds only ..."
    else
      echo "Missing one or more expected files. Exiting the script."
-     read -p "Please contact script authors for assistance, press 'Enter' to exit script."
+     read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
      exit
    fi
    echo " "
@@ -10165,10 +10002,10 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
    if (( $n == 1 ))
     then
     echo "All expected files created."
-    read -t 5 -p "Finished installing WRF Plus 4DVAR. I am going to wait for 5 seconds only ..."
+    read -r -t 5 -p "Finished installing WRF Plus 4DVAR. I am going to wait for 5 seconds only ..."
    else
     echo "Missing one or more expected files. Exiting the script."
-    read -p "Please contact script authors for assistance, press 'Enter' to exit script."
+    read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
     exit
    fi
   echo " "
@@ -10214,10 +10051,10 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
    if (( ( $n == 43 ) && ( $m == 1) ))
     then
     echo "All expected files created."
-    read -t 5 -p "Finished installing WRFDA 4DVAR. I am going to wait for 5 seconds only ..."
+    read -r -t 5 -p "Finished installing WRFDA 4DVAR. I am going to wait for 5 seconds only ..."
    else
     echo "Missing one or more expected files. Exiting the script."
-    read -p "Please contact script authors for assistance, press 'Enter' to exit script."
+    read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
     exit
    fi
 
@@ -10466,7 +10303,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   export LD_LIBRARY_PATH=$DIR/NETCDF/lib:$LD_LIBRARY_PATH
   export CPPFLAGS="-I$DIR/NETCDF/include -I$DIR/grib2/include"
   export LDFLAGS="-L$DIR/NETCDF/lib -L$DIR/grib2/lib"
-  export LIBS="-lnetcdf -lm -lcurl -lhdf5_hl -lhdf5 -lz -ldl"
+  export LIBS="-lnetcdf -lm -lcurl -lhdf5_hl -lhdf5 -lz -ldl -lgcc -lgfortran -lm"
   ./configure --prefix=$DIR/NETCDF --disable-shared
   make
   make install
@@ -10505,7 +10342,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
         echo "Environment Compiler Test 1 Failed"
         exit
     fi
-  read -t 3 -p "I am going to wait for 3 seconds only ..."
+  read -r -t 3 -p "I am going to wait for 3 seconds only ..."
 
   echo " "
   echo "Test 2"
@@ -10520,7 +10357,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
         exit
     fi
   echo " "
-  read -t 3 -p "I am going to wait for 3 seconds only ..."
+  read -r -t 3 -p "I am going to wait for 3 seconds only ..."
 
   echo " "
   echo "Test 3"
@@ -10535,7 +10372,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
         exit
     fi
   echo " "
-  read -t 3 -p "I am going to wait for 3 seconds only ..."
+  read -r -t 3 -p "I am going to wait for 3 seconds only ..."
 
   echo " "
   echo "Test 4"
@@ -10552,7 +10389,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
         exit
     fi
   echo " "
-  read -t 3 -p "I am going to wait for 3 seconds only ..."
+  read -r -t 3 -p "I am going to wait for 3 seconds only ..."
 
   echo " "
   ############## Testing Environment #####
@@ -10580,7 +10417,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
              exit
          fi
        echo " "
-       read -t 3 -p "I am going to wait for 3 seconds only ..."
+       read -r -t 3 -p "I am going to wait for 3 seconds only ..."
 
   echo " "
 
@@ -10601,7 +10438,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
         exit
     fi
   echo " "
-  read -t 3 -p "I am going to wait for 3 seconds only ..."
+  read -r -t 3 -p "I am going to wait for 3 seconds only ..."
   echo " "
 
   echo " All tests completed and passed"
@@ -10714,10 +10551,10 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   if (($n >= 3))
    then
      echo "All expected files created."
-     read -t 5 -p "Finished installing WRF. I am going to wait for 5 seconds only ..."
+     read -r -t 5 -p "Finished installing WRF. I am going to wait for 5 seconds only ..."
    else
      echo "Missing one or more expected files. Exiting the script."
-     read -p "Please contact script authors for assistance, press 'Enter' to exit script."
+     read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
      exit
   fi
   echo " "
@@ -10748,10 +10585,10 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
    if (($n == 3))
     then
       echo "All expected files created."
-      read -t 5 -p "Finished installing WPS. I am going to wait for 5 seconds only ..."
+      read -r -t 5 -p "Finished installing WPS. I am going to wait for 5 seconds only ..."
     else
       echo "Missing one or more expected files. Exiting the script."
-      read -p "Please contact script authors for assistance, press 'Enter' to exit script."
+      read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
       exit
    fi
    echo " "
@@ -10794,10 +10631,10 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
    if (( $n == 1 ))
     then
       echo "All expected files created."
-      read -t 5 -p "Finished installing WRF Plus 4DVAR. I am going to wait for 5 seconds only ..."
+      read -r -t 5 -p "Finished installing WRF Plus 4DVAR. I am going to wait for 5 seconds only ..."
     else
       echo "Missing one or more expected files. Exiting the script."
-      read -p "Please contact script authors for assistance, press 'Enter' to exit script."
+      read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
       exit
    fi
 
@@ -10843,10 +10680,10 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
    if (( ( $n == 43 ) && ( $m == 1) ))
     then
     echo "All expected files created."
-    read -t 5 -p "Finished installing WRFDA 4DVAR. I am going to wait for 5 seconds only ..."
+    read -r -t 5 -p "Finished installing WRFDA 4DVAR. I am going to wait for 5 seconds only ..."
    else
     echo "Missing one or more expected files. Exiting the script."
-    read -p "Please contact script authors for assistance, press 'Enter' to exit script."
+    read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
     exit
    fi
 
@@ -11250,10 +11087,10 @@ if [ "$HWRF_PICK" = "1" ]; then
   if (($n == 2))
    then
    echo "All expected files created."
-   read -t 5 -p "Finished installing WRF. I am going to wait for 5 seconds only ..."
+   read -r -t 5 -p "Finished installing WRF. I am going to wait for 5 seconds only ..."
   else
    echo "Missing one or more expected files. Exiting the script."
-    read -p "Please contact script authors for assistance, press 'Enter' to exit script."
+    read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
     exit
   fi
 
@@ -11284,10 +11121,10 @@ if [ "$HWRF_PICK" = "1" ]; then
    if (($n == 3))
     then
     echo "All expected files created."
-    read -t 5 -p "Finished installing WPS. I am going to wait for 5 seconds only ..."
+    read -r -t 5 -p "Finished installing WPS. I am going to wait for 5 seconds only ..."
    else
     echo "Missing one or more expected files. Exiting the script."
-    read -p "Please contact script authors for assistance, press 'Enter' to exit script."
+    read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
     exit
    fi
 
@@ -11363,10 +11200,10 @@ if [ "$HWRF_PICK" = "1" ]; then
    if (($n == 79)) && (($m == 28))
      then
     echo "All expected files created."
-    read -t 5 -p "Finished installing HWRF-UTILITIES. I am going to wait for 5 seconds only ..."
+    read -r -t 5 -p "Finished installing HWRF-UTILITIES. I am going to wait for 5 seconds only ..."
    else
     echo "Missing one or more expected files. Exiting the script."
-    read -p "Please contact script authors for assistance, press 'Enter' to exit script."
+    read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
     exit
    fi
 
@@ -11419,10 +11256,10 @@ if [ "$HWRF_PICK" = "1" ]; then
    if (($n == 9)) && (($m == 12))
      then
     echo "All expected files created."
-    read -t 5 -p "Finished installing MPIPOM-TC. I am going to wait for 5 seconds only ..."
+    read -r -t 5 -p "Finished installing MPIPOM-TC. I am going to wait for 5 seconds only ..."
    else
     echo "Missing one or more expected files. Exiting the script."
-    read -p "Please contact script authors for assistance, press 'Enter' to exit script."
+    read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
     exit
    fi
 
@@ -11464,10 +11301,10 @@ if [ "$HWRF_PICK" = "1" ]; then
    if (($n == 3))
      then
     echo "All expected files created."
-    read -t 5 -p "Finished installing GFDL_VORTEX_TRACKER. I am going to wait for 5 seconds only ..."
+    read -r -t 5 -p "Finished installing GFDL_VORTEX_TRACKER. I am going to wait for 5 seconds only ..."
    else
     echo "Missing one or more expected files. Exiting the script."
-    read -p "Please contact script authors for assistance, press 'Enter' to exit script."
+    read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
     exit
    fi
 
@@ -11498,10 +11335,10 @@ if [ "$HWRF_PICK" = "1" ]; then
    if (($n == 1))
      then
     echo "All expected files created."
-    read -t 5 -p "Finished installing NCEP_COUPLER. I am going to wait for 5 seconds only ..."
+    read -r -t 5 -p "Finished installing NCEP_COUPLER. I am going to wait for 5 seconds only ..."
    else
     echo "Missing one or more expected files. Exiting the script."
-    read -p "Please contact script authors for assistance, press 'Enter' to exit script."
+    read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
     exit
    fi
 
@@ -11541,10 +11378,10 @@ if [ "$HWRF_PICK" = "1" ]; then
    if (($n == 6)) && (($m == 13))
      then
     echo "All expected files created."
-    read -t 5 -p "Finished installing UPP. I am going to wait for 5 seconds only ..."
+    read -r -t 5 -p "Finished installing UPP. I am going to wait for 5 seconds only ..."
    else
     echo "Missing one or more expected files. Exiting the script."
-    read -p "Please contact script authors for assistance, press 'Enter' to exit script."
+    read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
     exit
    fi
 
