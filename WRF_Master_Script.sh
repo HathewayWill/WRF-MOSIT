@@ -540,6 +540,157 @@ fi
 
 
 
+if [ "$Ubuntu_64bit_GNU" = "1" ]; then
+
+  export HOME=`cd;pwd`
+  #Basic Package Management for Model Evaluation Tools (MET)
+
+
+  #############################basic package managment############################
+  sudo apt -y update
+  sudo apt -y upgrade
+  sudo apt -y install python3 python3-dev emacs flex bison libpixman-1-dev libjpeg-dev pkg-config libpng-dev unzip python2 python2-dev python3-pip pipenv gcc gfortran g++ libtool automake autoconf make m4 default-jre default-jdk csh ksh git libncurses5 libncurses6 mlocate pkg-config build-essential curl libcurl4-openssl-dev
+
+  #Downloading latest dateutil due to python3.8 running old version.
+  pip3 install python-dateutil==2.8
+
+  #Directory Listings
+
+
+
+  mkdir $HOME/DTC
+  export DTC_FOLDER=$HOME/DTC
+  mkdir $DTC_FOLDER/MET-11.0.0
+  mkdir $DTC_FOLDER/MET-11.0.0/Downloads
+  mkdir $DTC_FOLDER/METplus-5.0.0
+  mkdir $DTC_FOLDER/METplus-5.0.0/Downloads
+
+
+
+  #Downloading MET and untarring files
+  #Note weblinks change often update as needed.
+  cd $DTC_FOLDER/MET-11.0.0/Downloads
+
+  wget -c -4 https://raw.githubusercontent.com/dtcenter/MET/main_v11.0/internal/scripts/installation/compile_MET_all.sh
+
+  wget -c -4 https://dtcenter.ucar.edu/dfiles/code/METplus/MET/installation/tar_files.tgz
+
+  wget -c -4 https://github.com/dtcenter/MET/archive/refs/tags/v11.0.0.tar.gz
+
+
+
+  cp compile_MET_all.sh $DTC_FOLDER/MET-11.0.0
+  tar -xvzf tar_files.tgz -C $DTC_FOLDER/MET-11.0.0
+  cp v11.0.0.tar.gz $DTC_FOLDER/MET-11.0.0/tar_files
+  cd $DTC_FOLDER/MET-11.0.0
+
+
+
+  # Installation of Model Evaluation Tools
+  export CC=/usr/bin/gcc
+  export CXX=/usr/bin/g++
+  export FC=/usr/bin/gfortran
+  export F77=/usr/bin/gfortran
+  export CFLAGS="-fPIC -fPIE -O3"
+
+  cd $DTC_FOLDER/MET-11.0.0
+  export GCC_VERSION=$(/usr/bin/gcc -dumpfullversion | awk '{print$1}')
+  export GFORTRAN_VERSION=$(/usr/bin/gfortran -dumpfullversion | awk '{print$1}')
+  export GPLUSPLUS_VERSION=$(/usr/bin/g++ -dumpfullversion | awk '{print$1}')
+
+  export GCC_VERSION_MAJOR_VERSION=$(echo $GCC_VERSION | awk -F. '{print $1}')
+  export GFORTRAN_VERSION_MAJOR_VERSION=$(echo $GFORTRAN_VERSION | awk -F. '{print $1}')
+  export GPLUSPLUS_VERSION_MAJOR_VERSION=$(echo $GPLUSPLUS_VERSION | awk -F. '{print $1}')
+
+  export version_10="10"
+
+  if [ $GCC_VERSION_MAJOR_VERSION -lt $version_10 ] || [ $GFORTRAN_VERSION_MAJOR_VERSION -lt $version_10 ] || [ $GPLUSPLUS_VERSION_MAJOR_VERSION -lt $version_10 ]
+  then
+    sed -i 's/-fno-second-underscore -fallow-argument-mismatch/-fno-second-underscore -Wno-argument-mismatch/g' compile_MET_all.sh
+  fi
+
+
+  export PYTHON_VERSION=$(/usr/bin/python3 -V 2>&1|awk '{print $2}')
+  export PYTHON_VERSION_MAJOR_VERSION=$(echo $PYTHON_VERSION | awk -F. '{print $1}')
+  export PYTHON_VERSION_MINOR_VERSION=$(echo $PYTHON_VERSION | awk -F. '{print $2}')
+  export PYTHON_VERSION_COMBINED=$PYTHON_VERSION_MAJOR_VERSION.$PYTHON_VERSION_MINOR_VERSION
+
+
+  export FC=/usr/bin/gfortran
+  export F77=/usr/bin/gfortran
+  export F90=/usr/bin/gfortran
+  export gcc_version=$(gcc -dumpfullversion)
+  export TEST_BASE=$DTC_FOLDER/MET-11.0.0
+  export COMPILER=gnu_$gcc_version
+  export MET_SUBDIR=${TEST_BASE}
+  export MET_TARBALL=v11.0.0.tar.gz
+  export USE_MODULES=FALSE
+  export MET_PYTHON=/usr
+  export MET_PYTHON_CC=-I${MET_PYTHON}/include/python${PYTHON_VERSION_COMBINED}
+  export MET_PYTHON_LD=-L${MET_PYTHON}/lib/python${PYTHON_VERSION_COMBINED}/config-${PYTHON_VERSION_COMBINED}-x86_64-linux-gnu\ -L${MET_PYTHON}/lib\ -lpython${PYTHON_VERSION_COMBINED}\ -lcrypt\ -lpthread -r\ -ldl\ -lutil\ -lm
+  export SET_D64BIT=FALSE
+
+
+  chmod 775 compile_MET_all.sh
+  #SED statement needed to fix bug in MET compile script.  Can be removed after bugfix
+  sed -i '426s|fi|export LIB_Z=${LIB_DIR}/lib \nfi|g' $DTC_FOLDER/MET-11.0.0/compile_MET_all.sh
+
+  ./compile_MET_all.sh |& tee compile_MET_all.log
+
+  export PATH=$DTC_FOLDER/MET-11.0.0/bin:$PATH
+
+  #basic Package Management for Model Evaluation Tools (METplus)
+
+  sudo apt-get -y update
+  sudo apt-get -y upgrade
+
+
+
+#Directory Listings for Model Evaluation Tools (METplus
+
+  mkdir $DTC_FOLDER/METplus-5.0.0
+  mkdir $DTC_FOLDER/METplus-5.0.0/Sample_Data
+  mkdir $DTC_FOLDER/METplus-5.0.0/Output
+  mkdir $DTC_FOLDER/METplus-5.0.0/Downloads
+
+
+
+#Downloading METplus and untarring files
+
+  cd $DTC_FOLDER/METplus-5.0.0/Downloads
+  wget -c -4 https://github.com/dtcenter/METplus/archive/refs/tags/v5.0.0.tar.gz
+  tar -xvzf v5.0.0.tar.gz -C $DTC_FOLDER
+
+
+
+# Insatlllation of Model Evaluation Tools Plus
+  cd $DTC_FOLDER/METplus-5.0.0/parm/metplus_config
+
+  sed -i "s|MET_INSTALL_DIR = /path/to|MET_INSTALL_DIR = $DTC_FOLDER/MET-11.0.0|" defaults.conf
+  sed -i "s|INPUT_BASE = /path/to|INPUT_BASE = $DTC_FOLDER/METplus-5.0.0/Sample_Data|" defaults.conf
+  sed -i "s|OUTPUT_BASE = /path/to|OUTPUT_BASE = $DTC_FOLDER/METplus-5.0.0/Output|" defaults.conf
+
+
+# Downloading Sample Data
+
+  cd $DTC_FOLDER/METplus-5.0.0/Downloads
+  wget -c -4 https://dtcenter.ucar.edu/dfiles/code/METplus/METplus_Data/v5.0/sample_data-met_tool_wrapper-5.0.tgz
+  tar -xvzf sample_data-met_tool_wrapper-5.0.tgz -C $DTC_FOLDER/METplus-5.0.0/Sample_Data
+
+
+# Testing if installation of MET & METPlus was sucessfull
+# If you see in terminal "METplus has successfully finished running."
+# Then MET & METPLUS is sucessfully installed
+
+  echo 'Testing MET & METPLUS Installation.'
+  $DTC_FOLDER/METplus-5.0.0/ush/run_metplus.py -c $DTC_FOLDER/METplus-5.0.0/parm/use_cases/met_tool_wrapper/GridStat/GridStat.conf
+
+  export PATH=$DTC_FOLDER/METplus-5.0.0/ush:$PATH
+
+  read -r -t 5 -p "MET and METPLUS sucessfully installed with GNU compilers."
+
+fi
+
 
 
 
