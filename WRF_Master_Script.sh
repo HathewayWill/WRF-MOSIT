@@ -4113,7 +4113,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 
     sed -i '31s/-lncarg -lncarg_gks -lncarg_c -lX11 -lm -lcairo/-lncarg -lncarg_gks -lncarg_c -lX11 -lm -lcairo -lfontconfig -lpixman-1 -lfreetype -lhdf5 -lhdf5_hl /g' configure.oa
 
-    sed -i '39s/-frecord-marker=4/-frecord-marker=4 -fallow-argument-mismatch /g' configure.oa
+    sed -i '39s/-frecord-marker=4/-frecord-marker=4 $fallow_argument /g' configure.oa
 
     sed -i '44s/=	/=	-fallow-argument-mismatch /g' configure.oa
 
@@ -6593,7 +6593,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK_PICK" = "1" ]; then
 
     sed -i '31s/-lncarg -lncarg_gks -lncarg_c -lX11 -lm -lcairo/-lncarg -lncarg_gks -lncarg_c -lX11 -lm -lcairo -lfontconfig -lpixman-1 -lfreetype -lhdf5 -lhdf5_hl /g' configure.oa
 
-    sed -i '39s/-frecord-marker=4/-frecord-marker=4 -fallow-argument-mismatch /g' configure.oa
+    sed -i '39s/-frecord-marker=4/-frecord-marker=4 $fallow_argument /g' configure.oa
 
     sed -i '44s/=	/=	-fallow-argument-mismatch /g' configure.oa
 
@@ -9090,7 +9090,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 
   sed -i '31s/-lncarg -lncarg_gks -lncarg_c -lX11 -lm -lcairo/-lncarg -lncarg_gks -lncarg_c -lX11 -lm -lcairo -lfontconfig -lpixman-1 -lfreetype -lhdf5 -lhdf5_hl /g' configure.oa
 
-  sed -i '39s/-frecord-marker=4/-frecord-marker=4 -fallow-argument-mismatch /g' configure.oa
+  sed -i '39s/-frecord-marker=4/-frecord-marker=4 $fallow_argument /g' configure.oa
 
   sed -i '44s/=	/=	-fallow-argument-mismatch /g' configure.oa
 
