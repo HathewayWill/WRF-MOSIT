@@ -182,7 +182,7 @@ fi
 ############################# Chose GrADS or OpenGrADS #########################
 while read -r -p "Which graphic display software should be install?
 -OpenGrADS
--GrADS
+-GrADS (Not available for MacOS)
 Please answer with either OpenGrADS or GrADS and press enter.
     " yn; do
 
@@ -410,7 +410,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ]; then
     export WRF_FOLDER=$HOME/WRFCHEM_Intel
   fi
 
-  if [ "$WRFHYDRO_PICK" = "1" ]; then
+  if [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
     mkdir $HOME/WRFHYDRO_COUPLED_Intel
     export WRF_FOLDER=$HOME/WRFHYDRO_COUPLED_Intel
   fi
@@ -556,20 +556,38 @@ if [ "$Ubuntu_64bit_GNU" = "1" ]; then
 
   #Directory Listings
 
+  #Directory Listings
+  if [ "$WRFCHEM_PICK" = "1" ]; then
+    mkdir $HOME/WRFCHEM
+    export WRF_FOLDER=$HOME/WRFCHEM
+  fi
+
+  if [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
+    mkdir $HOME/WRFHYDRO_COUPLED
+    export WRF_FOLDER=$HOME/WRFHYDRO_COUPLED
+  fi
+
+  if [ "$WRF_PICK" = "1" ]; then
+    mkdir $HOME/WRF
+    export WRF_FOLDER=$HOME/WRF
+  fi
+
+  if [ "$HWRF_PICK" = "1" ]; then
+    mkdir $HOME/HWRF
+    export WRF_FOLDER=$HOME/HWRF
+  fi
 
 
-  mkdir $HOME/DTC
-  export DTC_FOLDER=$HOME/DTC
-  mkdir $DTC_FOLDER/MET-11.0.0
-  mkdir $DTC_FOLDER/MET-11.0.0/Downloads
-  mkdir $DTC_FOLDER/METplus-5.0.0
-  mkdir $DTC_FOLDER/METplus-5.0.0/Downloads
+  mkdir $WRF_FOLDER/MET-11.0.0
+  mkdir $WRF_FOLDER/MET-11.0.0/Downloads
+  mkdir $WRF_FOLDER/METplus-5.0.0
+  mkdir $WRF_FOLDER/METplus-5.0.0/Downloads
 
 
 
   #Downloading MET and untarring files
   #Note weblinks change often update as needed.
-  cd $DTC_FOLDER/MET-11.0.0/Downloads
+  cd $WRF_FOLDER/MET-11.0.0/Downloads
 
   wget -c -4 https://raw.githubusercontent.com/dtcenter/MET/main_v11.0/internal/scripts/installation/compile_MET_all.sh
 
@@ -579,10 +597,10 @@ if [ "$Ubuntu_64bit_GNU" = "1" ]; then
 
 
 
-  cp compile_MET_all.sh $DTC_FOLDER/MET-11.0.0
-  tar -xvzf tar_files.tgz -C $DTC_FOLDER/MET-11.0.0
-  cp v11.0.0.tar.gz $DTC_FOLDER/MET-11.0.0/tar_files
-  cd $DTC_FOLDER/MET-11.0.0
+  cp compile_MET_all.sh $WRF_FOLDER/MET-11.0.0
+  tar -xvzf tar_files.tgz -C $WRF_FOLDER/MET-11.0.0
+  cp v11.0.0.tar.gz $WRF_FOLDER/MET-11.0.0/tar_files
+  cd $WRF_FOLDER/MET-11.0.0
 
 
 
@@ -593,7 +611,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ]; then
   export F77=/usr/bin/gfortran
   export CFLAGS="-fPIC -fPIE -O3"
 
-  cd $DTC_FOLDER/MET-11.0.0
+  cd $WRF_FOLDER/MET-11.0.0
   export GCC_VERSION=$(/usr/bin/gcc -dumpfullversion | awk '{print$1}')
   export GFORTRAN_VERSION=$(/usr/bin/gfortran -dumpfullversion | awk '{print$1}')
   export GPLUSPLUS_VERSION=$(/usr/bin/g++ -dumpfullversion | awk '{print$1}')
@@ -620,7 +638,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ]; then
   export F77=/usr/bin/gfortran
   export F90=/usr/bin/gfortran
   export gcc_version=$(gcc -dumpfullversion)
-  export TEST_BASE=$DTC_FOLDER/MET-11.0.0
+  export TEST_BASE=$WRF_FOLDER/MET-11.0.0
   export COMPILER=gnu_$gcc_version
   export MET_SUBDIR=${TEST_BASE}
   export MET_TARBALL=v11.0.0.tar.gz
@@ -633,11 +651,11 @@ if [ "$Ubuntu_64bit_GNU" = "1" ]; then
 
   chmod 775 compile_MET_all.sh
   #SED statement needed to fix bug in MET compile script.  Can be removed after bugfix
-  sed -i '426s|fi|export LIB_Z=${LIB_DIR}/lib \nfi|g' $DTC_FOLDER/MET-11.0.0/compile_MET_all.sh
+  sed -i '426s|fi|export LIB_Z=${LIB_DIR}/lib \nfi|g' $WRF_FOLDER/MET-11.0.0/compile_MET_all.sh
 
   ./compile_MET_all.sh | tee compile_MET_all.log
 
-  export PATH=$DTC_FOLDER/MET-11.0.0/bin:$PATH
+  export PATH=$WRF_FOLDER/MET-11.0.0/bin:$PATH
 
   #basic Package Management for Model Evaluation Tools (METplus)
 
@@ -648,34 +666,34 @@ if [ "$Ubuntu_64bit_GNU" = "1" ]; then
 
 #Directory Listings for Model Evaluation Tools (METplus
 
-  mkdir $DTC_FOLDER/METplus-5.0.0
-  mkdir $DTC_FOLDER/METplus-5.0.0/Sample_Data
-  mkdir $DTC_FOLDER/METplus-5.0.0/Output
-  mkdir $DTC_FOLDER/METplus-5.0.0/Downloads
+  mkdir $WRF_FOLDER/METplus-5.0.0
+  mkdir $WRF_FOLDER/METplus-5.0.0/Sample_Data
+  mkdir $WRF_FOLDER/METplus-5.0.0/Output
+  mkdir $WRF_FOLDER/METplus-5.0.0/Downloads
 
 
 
 #Downloading METplus and untarring files
 
-  cd $DTC_FOLDER/METplus-5.0.0/Downloads
+  cd $WRF_FOLDER/METplus-5.0.0/Downloads
   wget -c -4 https://github.com/dtcenter/METplus/archive/refs/tags/v5.0.0.tar.gz
-  tar -xvzf v5.0.0.tar.gz -C $DTC_FOLDER
+  tar -xvzf v5.0.0.tar.gz -C $WRF_FOLDER
 
 
 
 # Insatlllation of Model Evaluation Tools Plus
-  cd $DTC_FOLDER/METplus-5.0.0/parm/metplus_config
+  cd $WRF_FOLDER/METplus-5.0.0/parm/metplus_config
 
-  sed -i "s|MET_INSTALL_DIR = /path/to|MET_INSTALL_DIR = $DTC_FOLDER/MET-11.0.0|" defaults.conf
-  sed -i "s|INPUT_BASE = /path/to|INPUT_BASE = $DTC_FOLDER/METplus-5.0.0/Sample_Data|" defaults.conf
-  sed -i "s|OUTPUT_BASE = /path/to|OUTPUT_BASE = $DTC_FOLDER/METplus-5.0.0/Output|" defaults.conf
+  sed -i "s|MET_INSTALL_DIR = /path/to|MET_INSTALL_DIR = $WRF_FOLDER/MET-11.0.0|" defaults.conf
+  sed -i "s|INPUT_BASE = /path/to|INPUT_BASE = $WRF_FOLDER/METplus-5.0.0/Sample_Data|" defaults.conf
+  sed -i "s|OUTPUT_BASE = /path/to|OUTPUT_BASE = $WRF_FOLDER/METplus-5.0.0/Output|" defaults.conf
 
 
 # Downloading Sample Data
 
-  cd $DTC_FOLDER/METplus-5.0.0/Downloads
+  cd $WRF_FOLDER/METplus-5.0.0/Downloads
   wget -c -4 https://dtcenter.ucar.edu/dfiles/code/METplus/METplus_Data/v5.0/sample_data-met_tool_wrapper-5.0.tgz
-  tar -xvzf sample_data-met_tool_wrapper-5.0.tgz -C $DTC_FOLDER/METplus-5.0.0/Sample_Data
+  tar -xvzf sample_data-met_tool_wrapper-5.0.tgz -C $WRF_FOLDER/METplus-5.0.0/Sample_Data
 
 
 # Testing if installation of MET & METPlus was sucessfull
@@ -683,15 +701,11 @@ if [ "$Ubuntu_64bit_GNU" = "1" ]; then
 # Then MET & METPLUS is sucessfully installed
 
   echo 'Testing MET & METPLUS Installation.'
-  $DTC_FOLDER/METplus-5.0.0/ush/run_metplus.py -c $DTC_FOLDER/METplus-5.0.0/parm/use_cases/met_tool_wrapper/GridStat/GridStat.conf
+  $WRF_FOLDER/METplus-5.0.0/ush/run_metplus.py -c $WRF_FOLDER/METplus-5.0.0/parm/use_cases/met_tool_wrapper/GridStat/GridStat.conf
 
-  export PATH=$DTC_FOLDER/METplus-5.0.0/ush:$PATH
-
-  read -r -t 5 -p "MET and METPLUS sucessfully installed with GNU compilers."
-
+  export PATH=$WRF_FOLDER/METplus-5.0.0/ush:$PATH
+   read -r -t 5 -p "MET and METPLUS sucessfully installed with GNU compilers."
 fi
-
-
 
 
 ##################################### WRFCHEM Tools ###############################################
@@ -3512,9 +3526,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   export DIR=$WRFHYDRO_FOLDER/Libs
   cd $WRFHYDRO_FOLDER/
   mkdir Downloads
-  mkdir WRFPLUS
   mkdir $WRFHYDRO_FOLDER/Hydro-Basecode
-  mkdir WRFDA
   mkdir Libs
   export DIR=$WRFHYDRO_FOLDER/Libs
   mkdir Libs/grib2
@@ -4166,7 +4178,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 
   sed -i '31s|-L${NCARG_ROOT}/lib -lncarg -lncarg_gks -lncarg_c -lX11 -lXext -lpng -lz CONFIGURE_NCARG_LIB| -L${NCARG_ROOT}/lib -lncarg -lncarg_gks -lncarg_c -lX11 -lXext -lpng -lz -lcairo -lfontconfig -lpixman-1 -lfreetype -lexpat -lpthread -lbz2 -lXrender -lgfortran -lgcc -L</usr/lib/x86_64-linux-gnu/> -lm -lhdf5 -lhdf5_hl |g' $WRFHYDRO_FOLDER/RIP4/arch/preamble
 
-  sed -i '33s| -O|${fallow_argument} -O |g' $WRFHYDRO_FOLDER/RIP4/arch/configure.defaults
+  sed -i '33s| -O|-fallow-argument-mismatch -O |g' $WRFHYDRO_FOLDER/RIP4/arch/configure.defaults
 
   sed -i '35s|=|= -L$WRFHYDRO_FOLDER/LIBS/grib2/lib -lhdf5 -lhdf5_hl |g' $WRFHYDRO_FOLDER/RIP4/arch/configure.defaults
 
@@ -4262,8 +4274,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 
   if [ ${auto_config} -eq 1 ]
     then
-        sed -i '83s/`echo $theArgument | tr '[:upper:]' '[:lower:]'`/2/g' $WRFHYDRO_FOLDER/Hydro-Basecode/wrf_hydro_nwm_public-5.2.0/trunk/NDHMS/configure
-        ./configure
+      echo 2 | ./configure
     else
       ./configure  #option 2 for gfortran
   fi
@@ -4299,12 +4310,12 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   source setEnvar.sh
   cd $WRFHYDRO_FOLDER/WRFV4.4.2
 
-  ./clean -a
+  ./clean
 
   # SED statements to fix configure error
-  sed -i '186s/==/=/g' $WRF_FOLDER/WRFV4.4.2/configure
-  sed -i '318s/==/=/g' $WRF_FOLDER/WRFV4.4.2/configure
-  sed -i '919s/==/=/g' $WRF_FOLDER/WRFV4.4.2/configure
+  sed -i '186s/==/=/g' $WRFHYDRO_FOLDER/WRFV4.4.2/configure
+  sed -i '318s/==/=/g' $WRFHYDRO_FOLDER/WRFV4.4.2/configure
+  sed -i '919s/==/=/g' $WRFHYDRO_FOLDER/WRFV4.4.2/configure
 
 
   if [ ${auto_config} -eq 1 ]
@@ -5096,7 +5107,6 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 
   if [ ${auto_config} -eq 1 ]
     then
-        sed -i '83s/`echo $theArgument | tr '[:upper:]' '[:lower:]'`/3/g' $WERF_FOLDER/Hydro-Basecode/wrf_hydro_nwm_public-5.2.0/trunk/NDHMS/configure
         echo 3 | ./configure
     else
       ./configure  #Option 3 intel with distributed memory option 1 for basic nesting
@@ -5159,7 +5169,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   cd $WRFHYDRO_FOLDER/WRFV4.4.2
 
 
-  ./clean -a
+  ./clean
 
   # SED statements to fix configure error
   sed -i '186s/==/=/g' $WRFHYDRO_FOLDER/WRFV4.4.2/configure
@@ -5368,9 +5378,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   export WRFHYDRO_FOLDER=$HOME/WRFHYDRO_COUPLED
   cd $WRFHYDRO_FOLDER/
   mkdir Downloads
-  mkdir WRFPLUS
   mkdir $WRFHYDRO_FOLDER/Hydro-Basecode
-  mkdir WRFDA
   mkdir Libs
   export DIR=$WRFHYDRO_FOLDER/Libs
   mkdir Libs/grib2
@@ -6648,7 +6656,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK_PICK" = "1" ]; then
 
   sed -i '31s|-L${NCARG_ROOT}/lib -lncarg -lncarg_gks -lncarg_c -lX11 -lXext -lpng -lz CONFIGURE_NCARG_LIB| -L${NCARG_ROOT}/lib -lncarg -lncarg_gks -lncarg_c -lX11 -lXext -lpng -lz -lcairo -lfontconfig -lpixman-1 -lfreetype -lexpat -lpthread -lbz2 -lXrender -lgfortran -lgcc -L</usr/lib/x86_64-linux-gnu/> -lm -lhdf5 -lhdf5_hl |g' $WRFCHEM_FOLDER/RIP4/arch/preamble
 
-  sed -i '33s| -O|${fallow_argument} -O |g' $WRFCHEM_FOLDER/RIP4/arch/configure.defaults
+  sed -i '33s| -O|-fallow-argument-mismatch -O |g' $WRFCHEM_FOLDER/RIP4/arch/configure.defaults
 
   sed -i '35s|=|= -L$WRFCHEM_FOLDER/LIBS/grib2/lib -lhdf5 -lhdf5_hl |g' $WRFCHEM_FOLDER/RIP4/arch/configure.defaults
 
@@ -9144,7 +9152,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 
   sed -i '31s|-L${NCARG_ROOT}/lib -lncarg -lncarg_gks -lncarg_c -lX11 -lXext -lpng -lz CONFIGURE_NCARG_LIB| -L${NCARG_ROOT}/lib -lncarg -lncarg_gks -lncarg_c -lX11 -lXext -lpng -lz -lcairo -lfontconfig -lpixman-1 -lfreetype -lexpat -lpthread -lbz2 -lXrender -lgfortran -lgcc -L</usr/lib/x86_64-linux-gnu/> -lm -lhdf5 -lhdf5_hl |g' $WRF_FOLDER/RIP4/arch/preamble
 
-  sed -i '33s| -O|${fallow_argument} -O |g' $WRF_FOLDER/RIP4/arch/configure.defaults
+  sed -i '33s| -O|-fallow-argument-mismatch -O |g' $WRF_FOLDER/RIP4/arch/configure.defaults
 
   sed -i '35s|=|= -L$WRF_FOLDER/LIBS/grib2/lib -lhdf5 -lhdf5_hl |g' $WRF_FOLDER/RIP4/arch/configure.defaults
 
