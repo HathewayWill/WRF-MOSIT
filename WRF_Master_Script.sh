@@ -5994,7 +5994,7 @@ fi
 ##############################################################
 
 
-if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK_PICK" = "1" ]; then
+if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 
 
   #############################basic package managment############################
@@ -7005,7 +7005,7 @@ sed -i '919s/==/=/g' $WRFCHEM_FOLDER/WRFDA/configure
 
 fi
 
-if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK_PICK" = "1" ]; then
+if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 
   ############################# Basic package managment ############################
 
@@ -7835,7 +7835,8 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK_PICK" = "1" ]; then
 
 fi
 
-if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK_PICK" = "1" ]; then
+if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
+
 
 
   #############################basic package managment############################
