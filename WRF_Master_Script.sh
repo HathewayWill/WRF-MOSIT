@@ -1751,9 +1751,9 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
     #default gcc path /usr/bin/gcc
     #default homebrew path /usr/local/bin
 
-    echo $PASSWD | sudo ln -S -s -f /usr/local/bin/gcc-1* /usr/local/bin/gcc
-    echo $PASSWD | sudo ln -S -s -f /usr/local/bin/g++-1* /usr/local/bin/g++
-    echo $PASSWD | sudo ln -S -s -f /usr/local/bin/gfortran-1* /usr/local/bin/gfortran
+    echo $PASSWD | sudo -S ln -sf /usr/local/bin/gcc-1* /usr/local/bin/gcc
+    echo $PASSWD | sudo -S ln -sf /usr/local/bin/g++-1* /usr/local/bin/g++
+    echo $PASSWD | sudo -S ln -sf /usr/local/bin/gfortran-1* /usr/local/bin/gfortran
 
     export CC=gcc
     export CXX=g++
@@ -5426,9 +5426,9 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   #default homebrew path /usr/local/bin
 
   echo "Please enter password for linking GNU libraries"
-  echo $PASSWD | sudo ln -S -s -f /usr/local/bin/gcc-1* /usr/local/bin/gcc
-  echo $PASSWD | sudo ln -S -s -f /usr/local/bin/g++-1* /usr/local/bin/g++
-  echo $PASSWD | sudo ln -S -s -f /usr/local/bin/gfortran-1* /usr/local/bin/gfortran
+  echo $PASSWD | sudo -S ln -sf /usr/local/bin/gcc-1* /usr/local/bin/gcc
+  echo $PASSWD | sudo -S ln -sf /usr/local/bin/g++-1* /usr/local/bin/g++
+  echo $PASSWD | sudo -S ln -sf /usr/local/bin/gfortran-1* /usr/local/bin/gfortran
 
   export CC=gcc
   export CXX=g++
@@ -7884,9 +7884,9 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK_PICK" = "1" ]; then
   #default homebrew path /usr/local/bin
 
   echo "Please enter password for linking GNU libraries"
-  echo $PASSWD | sudo ln -S -s -f /usr/local/bin/gcc-1* /usr/local/bin/gcc
-  echo $PASSWD | sudo ln -S -s -f /usr/local/bin/g++-1* /usr/local/bin/g++
-  echo $PASSWD | sudo ln -S -s -f /usr/local/bin/gfortran-1* /usr/local/bin/gfortran
+  echo $PASSWD | sudo -S ln -sf /usr/local/bin/gcc-1* /usr/local/bin/gcc
+  echo $PASSWD | sudo -S ln -sf /usr/local/bin/g++-1* /usr/local/bin/g++
+  echo $PASSWD | sudo -S ln -sf /usr/local/bin/gfortran-1* /usr/local/bin/gfortran
 
   export CC=gcc
   export CXX=g++
@@ -10393,9 +10393,9 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   #default gcc path /usr/bin/gcc
   #default homebrew path /usr/local/bin
   echo "Please enter password for linking GNU libraries"
-  echo $PASSWD | sudo ln -S -s -f /usr/local/bin/gcc-1* /usr/local/bin/gcc
-  echo $PASSWD | sudo ln -S -s -f /usr/local/bin/g++-1* /usr/local/bin/g++
-  echo $PASSWD | sudo ln -S -s -f /usr/local/bin/gfortran-1* /usr/local/bin/gfortran
+  echo $PASSWD | sudo -S ln -sf /usr/local/bin/gcc-1* /usr/local/bin/gcc
+  echo $PASSWD | sudo -S ln -sf /usr/local/bin/g++-1* /usr/local/bin/g++
+  echo $PASSWD | sudo -S ln -sf /usr/local/bin/gfortran-1* /usr/local/bin/gfortran
 
   export CC=gcc
   export CXX=g++
