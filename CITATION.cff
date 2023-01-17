@@ -11,5 +11,5 @@ identifiers:
   - type: url
     value: >-
       https://github.com/HathewayWill/WRF-MASTER
-version: 1.0
+version: 1.0.1
 date-released: '2023-01-01'

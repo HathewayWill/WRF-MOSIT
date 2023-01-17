@@ -154,7 +154,7 @@ if [ "$SYSTEMOS" = "Linux" ]; then
   echo " "
 fi
 
-echo $SYSTEMOS
+
 
 if [ "$SYSTEMOS" = "MacOS" ]; then
   while true; do
@@ -189,15 +189,17 @@ Please answer with either OpenGrADS or GrADS and press enter.
   case $yn in
   OpenGrADS)
 
-    echo "-------------------------------------------------- "
+
     echo " "
     echo "OpenGrADS selected for installation"
+    echo "-------------------------------------------------- "
     export GRADS_PICK=1    #variable set for grads or opengrads choice
     break
     ;;
   GrADS)
     echo " "
     echo "GrADS selected for installation"
+    echo "-------------------------------------------------- "
     export GRADS_PICK=2   #variable set for grads or opengrads choice
     break
     ;;
@@ -213,6 +215,7 @@ echo " "
 ################################# Auto Configuration Test ##################
 
 while true; do
+  echo " Auto Configuration Check"
   read -r -p "
   Would you like the script to select all the configure options for you?
   Please note, that you should not have to type anything else in the terminal.
@@ -343,9 +346,25 @@ esac
 done
 
 
+############################# Enter sudo users information #############################
+echo "-------------------------------------------------- "
+while true; do
+  echo " "
+  read -r -s -p "
+  Password is only save locally and will not be seen when typing.
+  Please enter your sudo password:
+
+  " yn
+  export PASSWD=$yn
+  echo "-------------------------------------------------- "
+  break
+done
+
 echo " "
 echo "Beginning Installation"
 echo " "
+
+
 
 ############################ DTC's MET & METPLUS ##################################################
 
@@ -357,8 +376,8 @@ if [ "$Ubuntu_64bit_Intel" = "1" ]; then
 
 
 
-  sudo apt -y update
-  sudo apt -y upgrade
+  echo $PASSWD | sudo -S apt -y update
+  echo $PASSWD | sudo -S apt -y upgrade
 
   # download the key to system keyring; this and the following echo command are
   # needed in order to install the Intel compilers
@@ -370,13 +389,13 @@ if [ "$Ubuntu_64bit_Intel" = "1" ]; then
   echo "deb [signed-by=/usr/share/keyrings/oneapi-archive-keyring.gpg] https://apt.repos.intel.com/oneapi all main" | sudo tee /etc/apt/sources.list.d/oneAPI.list
 
   # this update should get the Intel package info from the Intel repository
-  sudo apt -y update
-  sudo apt -y upgrade
-  sudo apt -y install python3 python3-dev emacs flex bison libpixman-1-dev libjpeg-dev pkg-config libpng-dev unzip python2 python2-dev python3-pip pipenv gcc gfortran g++ libtool automake autoconf make m4 default-jre default-jdk csh ksh git libncurses5 libncurses6 mlocate pkg-config build-essential curl libcurl4-openssl-dev
+  echo $PASSWD | sudo -S apt -y update
+  echo $PASSWD | sudo -S apt -y upgrade
+  echo $PASSWD | sudo -S apt -y install python3 python3-dev emacs flex bison libpixman-1-dev libjpeg-dev pkg-config libpng-dev unzip python2 python2-dev python3-pip pipenv gcc gfortran g++ libtool automake autoconf make m4 default-jre default-jdk csh ksh git libncurses5 libncurses6 mlocate pkg-config build-essential curl libcurl4-openssl-dev
 
   # install the Intel compilers
-  sudo apt -y install intel-basekit intel-hpckit intel-aikit
-  sudo apt -y update
+  echo $PASSWD | sudo -S apt -y install intel-basekit intel-hpckit intel-aikit
+  echo $PASSWD | sudo -S apt -y update
 
 
   # make sure some critical packages have been installed
@@ -488,8 +507,8 @@ if [ "$Ubuntu_64bit_Intel" = "1" ]; then
 
 #Basic Package Management for Model Evaluation Tools (METplus)
 
-  sudo apt-get -y update
-  sudo apt-get -y upgrade
+  echo $PASSWD | sudo -S apt -y update
+  echo $PASSWD | sudo -S apt -y upgrade
 
 
 
@@ -547,9 +566,9 @@ if [ "$Ubuntu_64bit_GNU" = "1" ]; then
 
 
   #############################basic package managment############################
-  sudo apt -y update
-  sudo apt -y upgrade
-  sudo apt -y install python3 python3-dev emacs flex bison libpixman-1-dev libjpeg-dev pkg-config libpng-dev unzip python2 python2-dev python3-pip pipenv gcc gfortran g++ libtool automake autoconf make m4 default-jre default-jdk csh ksh git libncurses5 libncurses6 mlocate pkg-config build-essential curl libcurl4-openssl-dev
+  echo $PASSWD | sudo -S apt -y update
+  echo $PASSWD | sudo -S apt -y upgrade
+  echo $PASSWD | sudo -S apt -y install python3 python3-dev emacs flex bison libpixman-1-dev libjpeg-dev pkg-config libpng-dev unzip python2 python2-dev python3-pip pipenv gcc gfortran g++ libtool automake autoconf make m4 default-jre default-jdk csh ksh git libncurses5 libncurses6 mlocate pkg-config build-essential curl libcurl4-openssl-dev
 
   #Downloading latest dateutil due to python3.8 running old version.
   pip3 install python-dateutil==2.8
@@ -659,8 +678,8 @@ if [ "$Ubuntu_64bit_GNU" = "1" ]; then
 
   #basic Package Management for Model Evaluation Tools (METplus)
 
-  sudo apt-get -y update
-  sudo apt-get -y upgrade
+  echo $PASSWD | sudo -S apt -y update
+  echo $PASSWD | sudo -S apt -y upgrade
 
 
 
@@ -730,9 +749,9 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 
   # Basic Package Management for WRF-CHEM Tools and Processors
 
-  sudo apt-get -y update
-  sudo apt-get -y upgrade
-  sudo apt -y install python3 python3-dev emacs flex bison libpixman-1-dev libjpeg-dev pkg-config libpng-dev unzip python2 python2-dev python3-pip pipenv gcc gfortran g++ libtool automake autoconf make m4 default-jre default-jdk csh ksh git libncurses5 libncurses6 mlocate pkg-config build-essential curl libcurl4-openssl-dev byacc flex
+  echo $PASSWD | sudo -S apt -y update
+  echo $PASSWD | sudo -S apt -y upgrade
+  echo $PASSWD | sudo -S apt -y install python3 python3-dev emacs flex bison libpixman-1-dev libjpeg-dev pkg-config libpng-dev unzip python2 python2-dev python3-pip pipenv gcc gfortran g++ libtool automake autoconf make m4 default-jre default-jdk csh ksh git libncurses5 libncurses6 mlocate pkg-config build-essential curl libcurl4-openssl-dev byacc flex
 
   #Directory Listings
   export HOME=`cd;pwd`
@@ -1209,8 +1228,8 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 
 
 
-  sudo apt -y update
-  sudo apt -y upgrade
+  echo $PASSWD | sudo -S apt -y update
+  echo $PASSWD | sudo -S apt -y upgrade
 
   # download the key to system keyring; this and the following echo command are
   # needed in order to install the Intel compilers
@@ -1222,20 +1241,20 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   echo "deb [signed-by=/usr/share/keyrings/oneapi-archive-keyring.gpg] https://apt.repos.intel.com/oneapi all main" | sudo tee /etc/apt/sources.list.d/oneAPI.list
 
   # this update should get the Intel package info from the Intel repository
-  sudo apt -y update
+  echo $PASSWD | sudo -S apt -y update
 
 
   # Basic Package Management for WRF-CHEM Tools and Processors
 
-  sudo apt-get -y update
-  sudo apt-get -y upgrade
-  sudo apt -y install gcc gfortran g++ libtool automake autoconf make m4 default-jre default-jdk csh ksh git build-essential unzip mlocate byacc flex git python3 python3-dev python2 python2-dev curl cmake libcurl4-openssl-dev pkg-config build-essential
+  echo $PASSWD | sudo -S apt -y update
+  echo $PASSWD | sudo -S apt -y upgrade
+  echo $PASSWD | sudo -S apt -y install gcc gfortran g++ libtool automake autoconf make m4 default-jre default-jdk csh ksh git build-essential unzip mlocate byacc flex git python3 python3-dev python2 python2-dev curl cmake libcurl4-openssl-dev pkg-config build-essential
 
 
   # install the Intel compilers
-  sudo apt -y install intel-basekit intel-hpckit intel-aikit
-  sudo apt -y update
-  sudo apt -y upgrade
+  echo $PASSWD | sudo -S apt -y install intel-basekit intel-hpckit intel-aikit
+  echo $PASSWD | sudo -S apt -y update
+  echo $PASSWD | sudo -S apt -y upgrade
 
   # make sure some critical packages have been installed
   which cmake pkg-config make gcc g++
@@ -2174,9 +2193,9 @@ fi
 if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 
 #############################basic package managment############################
-  sudo apt -y update
-  sudo apt -y upgrade
-  sudo apt -y install gcc gfortran g++ libtool automake autoconf make m4 default-jre default-jdk csh ksh tcsh okular cmake time xorg openbox xauth git python3 python3-dev python2 python2-dev cmake mlocate pkg-config
+  echo $PASSWD | sudo -S apt -y update
+  echo $PASSWD | sudo -S apt -y upgrade
+  echo $PASSWD | sudo -S apt -y install gcc gfortran g++ libtool automake autoconf make m4 default-jre default-jdk csh ksh tcsh okular cmake time xorg openbox xauth git python3 python3-dev python2 python2-dev cmake mlocate pkg-config
 
   echo " "
 ##############################Directory Listing############################
@@ -3025,8 +3044,8 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_STANDALONE" = "1" ]; then
 
   ############################# Basic package managment ############################
 
-  sudo apt -y update
-  sudo apt -y upgrade
+  echo $PASSWD | sudo -S apt -y update
+  echo $PASSWD | sudo -S apt -y upgrade
 
   # download the key to system keyring; this and the following echo command are
   # needed in order to install the Intel compilers
@@ -3038,14 +3057,14 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_STANDALONE" = "1" ]; then
   echo "deb [signed-by=/usr/share/keyrings/oneapi-archive-keyring.gpg] https://apt.repos.intel.com/oneapi all main" | sudo tee /etc/apt/sources.list.d/oneAPI.list
 
   # this update should get the Intel package info from the Intel repository
-  sudo apt -y update
+  echo $PASSWD | sudo -S apt -y update
 
   # necessary binary packages (especially pkg-config and build-essential)
-  sudo apt -y install git apt gcc gfortran g++ libtool automake autoconf make m4 default-jre default-jdk csh ksh tcsh okular cmake time xorg openbox xauth python3 python3-dev python2 python2-dev mlocate curl libcurl4-openssl-dev pkg-config
+  echo $PASSWD | sudo -S apt -y install git apt gcc gfortran g++ libtool automake autoconf make m4 default-jre default-jdk csh ksh tcsh okular cmake time xorg openbox xauth python3 python3-dev python2 python2-dev mlocate curl libcurl4-openssl-dev pkg-config
 
   # install the Intel compilers
-  sudo apt -y install intel-basekit intel-hpckit intel-aikit
-  sudo apt -y update
+  echo $PASSWD | sudo -S apt -y install intel-basekit intel-hpckit intel-aikit
+  echo $PASSWD | sudo -S apt -y update
 
 
   # make sure some critical packages have been installed
@@ -3515,9 +3534,9 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 
 
   #############################basic package managment############################
-  sudo apt -y update
-  sudo apt -y upgrade
-  sudo apt -y install apt gcc gfortran g++ libtool automake autoconf make m4 default-jre default-jdk csh ksh tcsh okular cmake time xorg openbox xauth git python3 python3-dev python2 python2-dev mlocate curl libcurl4-openssl-dev pkg-config build-essential
+  echo $PASSWD | sudo -S apt -y update
+  echo $PASSWD | sudo -S apt -y upgrade
+  echo $PASSWD | sudo -S apt -y install apt gcc gfortran g++ libtool automake autoconf make m4 default-jre default-jdk csh ksh tcsh okular cmake time xorg openbox xauth git python3 python3-dev python2 python2-dev mlocate curl libcurl4-openssl-dev pkg-config build-essential
   echo " "
   ##############################Directory Listing############################
   export HOME=`cd;pwd`
@@ -4496,8 +4515,8 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 
   ############################# Basic package managment ############################
 
-  sudo apt -y update
-  sudo apt -y upgrade
+  echo $PASSWD | sudo -S apt -y update
+  echo $PASSWD | sudo -S apt -y upgrade
 
   # download the key to system keyring; this and the following echo command are
   # needed in order to install the Intel compilers
@@ -4509,14 +4528,14 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   echo "deb [signed-by=/usr/share/keyrings/oneapi-archive-keyring.gpg] https://apt.repos.intel.com/oneapi all main" | sudo tee /etc/apt/sources.list.d/oneAPI.list
 
   # this update should get the Intel package info from the Intel repository
-  sudo apt -y update
+  echo $PASSWD | sudo -S apt -y update
 
   # necessary binary packages (especially pkg-config and build-essential)
-  sudo apt -y install git apt gcc gfortran g++ libtool automake autoconf make m4 default-jre default-jdk csh ksh tcsh okular cmake time xorg openbox xauth python3 python3-dev python2 python2-dev mlocate curl libcurl4-openssl-dev build-essential pkg-config
+  echo $PASSWD | sudo -S apt -y install git apt gcc gfortran g++ libtool automake autoconf make m4 default-jre default-jdk csh ksh tcsh okular cmake time xorg openbox xauth python3 python3-dev python2 python2-dev mlocate curl libcurl4-openssl-dev build-essential pkg-config
 
   # install the Intel compilers
-  sudo apt -y install intel-basekit intel-hpckit intel-aikit
-  sudo apt -y update
+  echo $PASSWD | sudo -S apt -y install intel-basekit intel-hpckit intel-aikit
+  echo $PASSWD | sudo -S apt -y update
 
 
   # make sure some critical packages have been installed
@@ -4991,7 +5010,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   ########################################################################
   if [[ $GRADS_PICK -eq 2 ]]; then
 
-    sudo apt -y install grads
+    echo $PASSWD | sudo -S apt -y install grads
 
   fi
 
@@ -5979,9 +5998,9 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK_PICK" = "1" ]; then
 
 
   #############################basic package managment############################
-  sudo apt -y update
-  sudo apt -y upgrade
-  sudo apt -y install gcc gfortran g++ libtool automake autoconf make m4 default-jre default-jdk csh ksh git build-essential unzip mlocate byacc flex python3 python3-dev python2 python2-dev cmake curl mlocate libcurl4-openssl-dev pkg-config build-essential
+  echo $PASSWD | sudo -S apt -y update
+  echo $PASSWD | sudo -S apt -y upgrade
+  echo $PASSWD | sudo -S apt -y install gcc gfortran g++ libtool automake autoconf make m4 default-jre default-jdk csh ksh git build-essential unzip mlocate byacc flex python3 python3-dev python2 python2-dev cmake curl mlocate libcurl4-openssl-dev pkg-config build-essential
 
 
 
@@ -6516,7 +6535,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK_PICK" = "1" ]; then
   ########################################################################
   if [[ $GRADS_PICK -eq 2 ]]; then
 
-    sudo apt -y install grads
+    echo $PASSWD | sudo -S apt -y install grads
 
   fi
 
@@ -6990,8 +7009,8 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK_PICK" = "1" ]; then
 
   ############################# Basic package managment ############################
 
-  sudo apt -y update
-  sudo apt -y upgrade
+  echo $PASSWD | sudo -S apt -y update
+  echo $PASSWD | sudo -S apt -y upgrade
 
   # download the key to system keyring; this and the following echo command are
   # needed in order to install the Intel compilers
@@ -7003,14 +7022,14 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK_PICK" = "1" ]; then
   echo "deb [signed-by=/usr/share/keyrings/oneapi-archive-keyring.gpg] https://apt.repos.intel.com/oneapi all main" | sudo tee /etc/apt/sources.list.d/oneAPI.list
 
   # this update should get the Intel package info from the Intel repository
-  sudo apt -y update
+  echo $PASSWD | sudo -S apt -y update
 
   # necessary binary packages (especially pkg-config and build-essential)
-  sudo apt -y install git gcc gfortran g++ libtool automake autoconf make m4 default-jre default-jdk csh ksh python3 python3-dev python2 python2-dev mlocate curl cmake libcurl4-openssl-dev pkg-config build-essential
+  echo $PASSWD | sudo -S apt -y install git gcc gfortran g++ libtool automake autoconf make m4 default-jre default-jdk csh ksh python3 python3-dev python2 python2-dev mlocate curl cmake libcurl4-openssl-dev pkg-config build-essential
 
   # install the Intel compilers
-  sudo apt -y install intel-basekit intel-hpckit intel-aikit
-  sudo apt -y update
+  echo $PASSWD | sudo -S apt -y install intel-basekit intel-hpckit intel-aikit
+  echo $PASSWD | sudo -S apt -y update
 
 
   # make sure some critical packages have been installed
@@ -7470,7 +7489,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK_PICK" = "1" ]; then
   ########################################################################
   if [[ $GRADS_PICK -eq 2 ]]; then
 
-    sudo apt -y install grads
+    echo $PASSWD | sudo -S apt -y install grads
 
   fi
 
@@ -8452,9 +8471,9 @@ fi
 if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 
   #############################basic package managment############################
-  sudo apt -y update
-  sudo apt -y upgrade
-  sudo apt -y install gcc gfortran g++ libtool automake autoconf make m4 default-jre default-jdk csh ksh git python3 python3-dev python2 python2-dev mlocate curl cmake libcurl4-openssl-dev build-essential pkg-config
+  echo $PASSWD | sudo -S apt -y update
+  echo $PASSWD | sudo -S apt -y upgrade
+  echo $PASSWD | sudo -S apt -y install gcc gfortran g++ libtool automake autoconf make m4 default-jre default-jdk csh ksh git python3 python3-dev python2 python2-dev mlocate curl cmake libcurl4-openssl-dev build-essential pkg-config
 
   echo " "
   ##############################Directory Listing############################
@@ -9009,7 +9028,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   ########################################################################
   if [[ $GRADS_PICK -eq 2 ]]; then
 
-    sudo apt -y install grads
+    echo $PASSWD | sudo -S apt -y install grads
 
   fi
 
@@ -9483,8 +9502,8 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 
   ############################# Basic package managment ############################
 
-  sudo apt -y update
-  sudo apt -y upgrade
+  echo $PASSWD | sudo -S apt -y update
+  echo $PASSWD | sudo -S apt -y upgrade
 
   # download the key to system keyring; this and the following echo command are
   # needed in order to install the Intel compilers
@@ -9496,14 +9515,14 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   echo "deb [signed-by=/usr/share/keyrings/oneapi-archive-keyring.gpg] https://apt.repos.intel.com/oneapi all main" | sudo tee /etc/apt/sources.list.d/oneAPI.list
 
   # this update should get the Intel package info from the Intel repository
-  sudo apt -y update
+  echo $PASSWD | sudo -S apt -y update
 
   # necessary binary packages (especially pkg-config and build-essential)
-  sudo apt -y install git gcc gfortran g++ libtool automake autoconf make m4 default-jre default-jdk csh ksh python3 python3-dev python2 python2-dev mlocate curl cmake libcurl4-openssl-dev pkg-config build-essential
+  echo $PASSWD | sudo -S apt -y install git gcc gfortran g++ libtool automake autoconf make m4 default-jre default-jdk csh ksh python3 python3-dev python2 python2-dev mlocate curl cmake libcurl4-openssl-dev pkg-config build-essential
 
   # install the Intel compilers
-  sudo apt -y install intel-basekit intel-hpckit intel-aikit
-  sudo apt -y update
+  echo $PASSWD | sudo -S apt -y install intel-basekit intel-hpckit intel-aikit
+  echo $PASSWD | sudo -S apt -y update
 
 
   # make sure some critical packages have been installed
@@ -9963,7 +9982,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   ########################################################################
   if [[ $GRADS_PICK -eq 2 ]]; then
 
-    sudo apt -y install grads
+    echo $PASSWD | sudo -S apt -y install grads
 
   fi
 
@@ -10987,8 +11006,8 @@ if [ "$HWRF_PICK" = "1" ]; then
 
   ############################# Basic package managment ############################
 
-  sudo apt -y update
-  sudo apt -y upgrade
+  echo $PASSWD | sudo -S apt -y update
+  echo $PASSWD | sudo -S apt -y upgrade
 
   # download the key to system keyring; this and the following echo command are
   # needed in order to install the Intel compilers
@@ -10999,14 +11018,14 @@ if [ "$HWRF_PICK" = "1" ]; then
   echo "deb [signed-by=/usr/share/keyrings/oneapi-archive-keyring.gpg] https://apt.repos.intel.com/oneapi all main" | sudo tee /etc/apt/sources.list.d/oneAPI.list
 
   # this update should get the Intel package info from the Intel repository
-  sudo apt -y update
+  echo $PASSWD | sudo -S apt -y update
 
   # necessary binary packages (especially pkg-config and build-essential)
-  sudo apt -y install gcc gfortran g++ libtool automake autoconf make m4 default-jre default-jdk csh ksh python3 python3-dev python2 python2-dev mlocate curl cmake libcurl4-openssl-dev pkg-config build-essential
+  echo $PASSWD | sudo -S apt -y install gcc gfortran g++ libtool automake autoconf make m4 default-jre default-jdk csh ksh python3 python3-dev python2 python2-dev mlocate curl cmake libcurl4-openssl-dev pkg-config build-essential
 
   # install the Intel compilers
-  sudo apt -y install intel-basekit intel-hpckit intel-aikit
-  sudo apt -y update
+  echo $PASSWD | sudo -S apt -y install intel-basekit intel-hpckit intel-aikit
+  echo $PASSWD | sudo -S apt -y update
 
   # make sure some critical packages have been installed
   which cmake pkg-config make gcc g++
