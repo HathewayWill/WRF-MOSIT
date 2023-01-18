@@ -42,7 +42,7 @@ This is a BASH script that provides options to install the following Weather Res
         - Intel-Basekit
         - Intel-HPCKIT
         - Intel-AIKIT
-  
+
 ---
 ### Software Packages
 - WRF
@@ -59,7 +59,7 @@ This is a BASH script that provides options to install the following Weather Res
 - WRF-Hydro Coupled
     - WRF-Hydro v5.2
     - WRF v4.4.2
-    - WPS v4.4 
+    - WPS v4.4
 - Hurricane WRF (HWRF)
     - HWRF Utilities v4.0a
     - POMTC v4.0a
@@ -77,7 +77,7 @@ This is a BASH script that provides options to install the following Weather Res
     - Development Testbed Center (DTC) Unified Post Processor (UPP) v4.1
     - ARWPost v3
     - WRF-Python (Conda installed)
-    - OpenGrADS 
+    - OpenGrADS
     - GrADS
     - NCAR Command Langauge (Conda installed)
 - WRF-CHEM
@@ -163,7 +163,7 @@ Click here!
 - Intel compilers take slightly more time to install packages.
 ---
 ### Special thanks to:
-- Youtube's meteoadriatic 
+- Youtube's meteoadriatic
 - GitHub user jamal919
 - University of Manchester's  Doug L
 - University of Tunis El Manar's Hosni S.
@@ -192,5 +192,7 @@ https://ral.ucar.edu/sites/default/files/public/projects/wrf-hydro/technical-des
 R. ; Mello, R. F. ; Sánchez Gácita, M. . PREP-CHEM-SRC 1.0: a preprocessor of trace
 gas and aerosol emission fields for regional and global atmospheric chemistry
 models. Geoscientific Model Development, v. 4, p. 419-433, 2011
+- Shamsaei, K., Juliano, T., Igrashkina, N., Ebrahimian, H., Kosovic, B., Taciroglu, E. (2022) WRF-Fire Wikipage. doi: 10.5281/zenodo.6667633 [access date]
+￼
 
 ---

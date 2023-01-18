@@ -1685,6 +1685,16 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 
 fi
 
+if [ "$macos_64bit_GNU" = "1" ]  && [ "$WRFCHEM_PICK" = "1" ]; then
+
+  cd $HOME
+  git clone https://github.com/HathewayWill/WRFCHEM-TOOLS-MASTER.git
+  cd WRFCHEM-TOOLS-MASTER
+  chmod 775 *.sh
+  ./WRFCHEM_TOOLS_Master_Script.sh
+  cd $HOME
+
+fi
 
 ############################################# WRF Hydro Standalone #################################
 ## WRFHYDRO Standalone installation with parallel process.
