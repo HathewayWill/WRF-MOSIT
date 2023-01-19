@@ -173,7 +173,7 @@ Click here!
 - UCAR's Katelyn F., Jim B., Jordan P., Kevin M.,
 ---
 #### Citation:
-#### Hatheway, W. (2023). Weather Research & Forecasting Self Install Script (Version 1.0.1) [Computer software]
+#### Hatheway, W. (2023). Weather Research & Forecasting Self Install Script (Version 1.0.2) [Computer software]
 ---
 #### References:
 - Skamarock, W. C., J. B. Klemp, J. Dudhia, D. O. Gill, Z. Liu, J. Berner, W. Wang, J. G. Powers, M. G. Duda, D. M. Barker, and X.-Y. Huang, 2019: A Description of the Advanced Research WRF Version 4. NCAR Tech. Note NCAR/TN-556+STR, 145 pp. doi:10.5065/1dfh-6p97
@@ -193,6 +193,6 @@ R. ; Mello, R. F. ; Sánchez Gácita, M. . PREP-CHEM-SRC 1.0: a preprocessor of 
 gas and aerosol emission fields for regional and global atmospheric chemistry
 models. Geoscientific Model Development, v. 4, p. 419-433, 2011
 - Shamsaei, K., Juliano, T., Igrashkina, N., Ebrahimian, H., Kosovic, B., Taciroglu, E. (2022) WRF-Fire Wikipage. doi: 10.5281/zenodo.6667633 [access date]
-￼
+ 
 
 ---

@@ -183,6 +183,7 @@ fi
 while read -r -p "Which graphic display software should be install?
 -OpenGrADS
 -GrADS (Not available for MacOS)
+
 Please answer with either OpenGrADS or GrADS and press enter.
     " yn; do
 
@@ -219,6 +220,7 @@ while true; do
   read -r -p "
   Would you like the script to select all the configure options for you?
   Please note, that you should not have to type anything else in the terminal.
+
   (Y/N)    " yn
   case $yn in
     [Yy]* )
@@ -245,7 +247,8 @@ while true; do
   echo " "
   echo "Specific Applicaitons files can be viewed here:  "
   echo " "
-  echo "https://www2.mmm.ucar.edu/wrf/users/download/get_sources_wps_geog.html"
+  printf '\e]8;;https://www2.mmm.ucar.edu/wrf/users/download/get_sources_wps_geog.html\e\\Specific GEOG Applications Website (right click to open link) \e]8;;\e\\\n'
+  echo " "
   read -r -p "(Y/N)   " yn
   case $yn in
     [Yy]* )
@@ -274,7 +277,8 @@ while true; do
     echo " "
     echo "Optional Geogrpahical files can be viewed here:  "
     echo " "
-    echo "https://www2.mmm.ucar.edu/wrf/users/download/get_sources_wps_geog.html"
+    printf '\e]8;;https://www2.mmm.ucar.edu/wrf/users/download/get_sources_wps_geog.html\e\\Optional GEOG File Applications Website (right click to open link) \e]8;;\e\\\n'
+    echo " "
     read -r -p "(Y/N)    " yn
     echo " "
   case $yn in
@@ -492,15 +496,13 @@ if [ "$Ubuntu_64bit_Intel" = "1" ]; then
   export USE_MODULES=FALSE
   export MET_PYTHON=/opt/intel/oneapi/intelpython/python${PYTHON_VERSION_COMBINED}
   export MET_PYTHON_CC=-I${MET_PYTHON}/include/python${PYTHON_VERSION_COMBINED}
-  export MET_PYTHON_LD=-L${MET_PYTHON}/lib/python${PYTHON_VERSION_COMBINED}/config-${PYTHON_VERSION_COMBINED}-x86_64-linux-gnu\ -L${MET_PYTHON}/lib\ -lpython${PYTHON_VERSION_COMBINED}\ -lcrypt\ -lpthread\ -ldl\ -lm\ -lm  #investigate -lutil
+  export MET_PYTHON_LD=-L${MET_PYTHON}/lib/python${PYTHON_VERSION_COMBINED}/config-${PYTHON_VERSION_COMBINED}-x86_64-linux-gnu\ -L${MET_PYTHON}/lib\ -lpython${PYTHON_VERSION_COMBINED}\ -lcrypt\ -lpthread\ -ldl\ -lm\ -lm
   export SET_D64BIT=FALSE
 
 
   chmod 775 compile_MET_all.sh
-  # SED statement needed to fix bug in MET compile script.  Can be removed after bugfix
-  sed -i '426s|fi|export LIB_Z=${LIB_DIR}/lib \nfi|g' $WRF_FOLDER/MET-11.0.0/compile_MET_all.sh
 
-  ./compile_MET_all.sh
+  time ./compile_MET_all.sh
 
   export PATH=$WRF_FOLDER/MET-11.0.0/bin:$PATH            #Add MET executables to path
 
@@ -573,7 +575,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ]; then
   #Downloading latest dateutil due to python3.8 running old version.
   pip3 install python-dateutil==2.8
 
-  #Directory Listings
+
 
   #Directory Listings
   if [ "$WRFCHEM_PICK" = "1" ]; then
@@ -585,6 +587,12 @@ if [ "$Ubuntu_64bit_GNU" = "1" ]; then
     mkdir $HOME/WRFHYDRO_COUPLED
     export WRF_FOLDER=$HOME/WRFHYDRO_COUPLED
   fi
+
+  if [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
+    mkdir $HOME/WRFHYDRO_STANDALONE
+    export WRF_FOLDER=$HOME/WRFHYDRO_STANDALONE
+  fi
+
 
   if [ "$WRF_PICK" = "1" ]; then
     mkdir $HOME/WRF
@@ -641,12 +649,6 @@ if [ "$Ubuntu_64bit_GNU" = "1" ]; then
 
   export version_10="10"
 
-  if [ $GCC_VERSION_MAJOR_VERSION -lt $version_10 ] || [ $GFORTRAN_VERSION_MAJOR_VERSION -lt $version_10 ] || [ $GPLUSPLUS_VERSION_MAJOR_VERSION -lt $version_10 ]
-  then
-    sed -i 's/-fno-second-underscore -fallow-argument-mismatch/-fno-second-underscore -Wno-argument-mismatch/g' compile_MET_all.sh
-  fi
-
-
   export PYTHON_VERSION=$(/usr/bin/python3 -V 2>&1|awk '{print $2}')
   export PYTHON_VERSION_MAJOR_VERSION=$(echo $PYTHON_VERSION | awk -F. '{print $1}')
   export PYTHON_VERSION_MINOR_VERSION=$(echo $PYTHON_VERSION | awk -F. '{print $2}')
@@ -669,10 +671,8 @@ if [ "$Ubuntu_64bit_GNU" = "1" ]; then
 
 
   chmod 775 compile_MET_all.sh
-  #SED statement needed to fix bug in MET compile script.  Can be removed after bugfix
-  sed -i '426s|fi|export LIB_Z=${LIB_DIR}/lib \nfi|g' $WRF_FOLDER/MET-11.0.0/compile_MET_all.sh
 
-  ./compile_MET_all.sh | tee compile_MET_all.log
+  time ./compile_MET_all.sh | tee compile_MET_all.log
 
   export PATH=$WRF_FOLDER/MET-11.0.0/bin:$PATH
 
@@ -1813,89 +1813,130 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 
   echo " "
 
-#############################zlib############################
-#Uncalling compilers due to comfigure issue with zlib1.2.12
-#With CC & CXX definied ./configure uses different compiler Flags
+  #############################zlib############################
+    #Uncalling compilers due to comfigure issue with zlib1.2.13
+    #With CC & CXX definied ./configure uses different compiler Flags
 
-  cd $WRFHYDRO_FOLDER/Downloads
-  tar -xvzf v1.2.13.tar.gz
-  cd zlib-1.2.13/
-  ./configure --prefix=$DIR/grib2
-  make -j $CPU_HALF_EVEN
-  make -j $CPU_HALF_EVEN install | tee make.install.log
-#make check
+    cd $WRFHYDRO_FOLDER/Downloads
+    tar -xvzf v1.2.13.tar.gz
+    cd zlib-1.2.13/
+    ./configure --prefix=$DIR/grib2
+    make -j $CPU_HALF_EVEN
+    make -j $CPU_HALF_EVEN install | tee make.install.log
+    #make check
 
-  echo " "
-#############################libpng############################
-  cd $WRFHYDRO_FOLDER/Downloads
-  export LDFLAGS=-L$DIR/grib2/lib
-  export CPPFLAGS=-I$DIR/grib2/include
-  tar -xvzf libpng-1.6.39.tar.gz
-  cd libpng-1.6.39/
-  ./configure --prefix=$DIR/grib2
-  make -j $CPU_HALF_EVEN
-  make -j $CPU_HALF_EVEN install | tee make.install.log
-  #make check
-  echo " "
-#############################JasPer############################
-  cd $WRFHYDRO_FOLDER/Downloads
-  unzip jasper-1.900.1.zip
-  cd jasper-1.900.1/
-  autoreconf -i
-  ./configure --prefix=$DIR/grib2
-  make -j $CPU_HALF_EVEN
-  make -j $CPU_HALF_EVEN install | tee make.install.log
-  #make check
+    echo " "
+    ##############################MPICH############################
+    cd $WRFHYDRO_FOLDER/Downloads
+    tar -xvzf mpich-4.0.3.tar.gz
+    cd mpich-4.0.3/
+    F90= ./configure --prefix=$DIR/MPICH --with-device=ch3 FFLAGS="$fallow_argument -m64" FCFLAGS="$fallow_argument -m64"
 
-  export JASPERLIB=$DIR/grib2/lib
-  export JASPERINC=$DIR/grib2/include
-
-  echo " "
-
-#############################hdf5 library for netcdf4 functionality############################
-  cd $WRFHYDRO_FOLDER/Downloads
-  tar -xvzf hdf5-1_13_2.tar.gz
-  cd hdf5-hdf5-1_13_2
-  ./configure --prefix=$DIR/grib2 --with-zlib=$DIR/grib2 --enable-hl --enable-fortran
-  make -j $CPU_HALF_EVEN
-  make -j $CPU_HALF_EVEN install | tee make.install.log
-  #make check
-
-  export HDF5=$DIR/grib2
-  export LD_LIBRARY_PATH=$DIR/grib2/lib:$LD_LIBRARY_PATH
-
-  echo " "
-##############################Install NETCDF C Library############################
-  cd $WRFHYDRO_FOLDER/Downloads
-  tar -xzvf v4.9.0.tar.gz
-  cd netcdf-c-4.9.0/
-  export CPPFLAGS=-I$DIR/grib2/include
-  export LDFLAGS=-L$DIR/grib2/lib
-  export LIBS="-lhdf5_hl -lhdf5 -lz -lcurl -lgfortran -lgcc -lm -ldl"
-  ./configure --prefix=$DIR/NETCDF --with-zlib=$DIR/grib2 --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-shared
-  make -j $CPU_HALF_EVEN
-  make -j $CPU_HALF_EVEN install | tee make.install.log
-#make check
-
-  export PATH=$DIR/NETCDF/bin:$PATH
-  export NETCDF=$DIR/NETCDF
-
-  echo " "
-##############################NetCDF fortran library############################
-  cd $WRFHYDRO_FOLDER/Downloads
-  tar -xvzf v4.6.0.tar.gz
-  cd netcdf-fortran-4.6.0/
-  export LD_LIBRARY_PATH=$DIR/NETCDF/lib:$LD_LIBRARY_PATH
-  export CPPFLAGS="-I$DIR/NETCDF/include -I$DIR/grib2/include"
-  export LDFLAGS="-L$DIR/NETCDF/lib -L$DIR/grib2/lib"
-  export LIBS="-lnetcdf -lm -lcurl -lhdf5_hl -lhdf5 -lz -ldl -lgcc -lgfortran -lm"
-  CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-shared
-  make -j $CPU_HALF_EVEN
-  make -j $CPU_HALF_EVEN install | tee make.install.log
-  #make check
+    make -j $CPU_HALF_EVEN
+    make -j $CPU_HALF_EVEN install | tee make.install.log
+    #make check
 
 
-  echo " "
+    export PATH=$DIR/MPICH/bin:$PATH
+
+    export MPIFC=$DIR/MPICH/bin/mpifort
+    export MPIF77=$DIR/MPICH/bin/mpifort
+    export MPIF90=$DIR/MPICH/bin/mpifort
+    export MPICC=$DIR/MPICH/bin/mpicc
+    export MPICXX=$DIR/MPICH/bin/mpicxx
+
+
+    echo " "
+    #############################libpng############################
+    cd $WRFHYDRO_FOLDER/Downloads
+    export LDFLAGS=-L$DIR/grib2/lib
+    export CPPFLAGS=-I$DIR/grib2/include
+    tar -xvzf libpng-1.6.39.tar.gz
+    cd libpng-1.6.39/
+    CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX ./configure --prefix=$DIR/grib2
+    make -j $CPU_HALF_EVEN
+    make -j $CPU_HALF_EVEN install | tee make.install.log
+    #make check
+    echo " "
+    #############################JasPer############################
+    cd $WRFHYDRO_FOLDER/Downloads
+    unzip jasper-1.900.1.zip
+    cd jasper-1.900.1/
+    autoreconf -i
+    CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX ./configure --prefix=$DIR/grib2
+    make -j $CPU_HALF_EVEN
+    make -j $CPU_HALF_EVEN install | tee make.install.log
+    #make check
+
+    export JASPERLIB=$DIR/grib2/lib
+    export JASPERINC=$DIR/grib2/include
+
+
+    echo " "
+    #############################hdf5 library for netcdf4 functionality############################
+    cd $WRFHYDRO_FOLDER/Downloads
+    tar -xvzf hdf5-1_13_2.tar.gz
+    cd hdf5-hdf5-1_13_2
+    CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX ./configure --prefix=$DIR/grib2 --with-zlib=$DIR/grib2 --enable-hl --enable-fortran --enable-parallel
+    make -j $CPU_HALF_EVEN
+    make -j $CPU_HALF_EVEN install | tee make.install.log
+    #make check
+
+    export HDF5=$DIR/grib2
+    export PHDF5=$DIR/grib2
+    export LD_LIBRARY_PATH=$DIR/grib2/lib:$LD_LIBRARY_PATH
+
+
+    #############################Install Parallel-netCDF##############################
+    #Make file created with half of available cpu cores
+    #Hard path for MPI added
+    ##################################################################################
+    cd $WRFHYDRO_FOLDER/Downloads
+    wget -c -4  https://parallel-netcdf.github.io/Release/pnetcdf-1.12.3.tar.gz
+    tar -xvzf pnetcdf-1.12.3.tar.gz
+    cd pnetcdf-1.12.3
+    export MPIFC=$DIR/MPICH/bin/mpifort
+    export MPIF77=$DIR/MPICH/bin/mpifort
+    export MPIF90=$DIR/MPICH/bin/mpifort
+    export MPICC=$DIR/MPICH/bin/mpicc
+    export MPICXX=$DIR/MPICH/bin/mpicxx
+    ./configure --prefix=$DIR/grib2  --enable-shared --enable-static
+
+    make -j $CPU_HALF_EVEN
+    make -j $CPU_HALF_EVEN install
+    #make check
+
+    export PNETCDF=$DIR/grib2
+
+    ##############################Install NETCDF C Library############################
+    cd $WRFHYDRO_FOLDER/Downloads
+    tar -xzvf v4.9.0.tar.gz
+    cd netcdf-c-4.9.0/
+    export CPPFLAGS=-I$DIR/grib2/include
+    export LDFLAGS=-L$DIR/grib2/lib
+    export LIBS="-lhdf5_hl -lhdf5 -lz -lcurl -lgfortran -lgcc -lm -ldl"
+    CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-shared --enable-pnetcdf --enable-cdf5 --enable-parallel-tests
+    make -j $CPU_HALF_EVEN
+    make -j $CPU_HALF_EVEN install | tee make.install.log
+    #make check
+
+    export PATH=$DIR/NETCDF/bin:$PATH
+    export NETCDF=$DIR/NETCDF
+    echo " "
+    ##############################NetCDF fortran library############################
+    cd $WRFHYDRO_FOLDER/Downloads
+    tar -xvzf v4.6.0.tar.gz
+    cd netcdf-fortran-4.6.0/
+    export LD_LIBRARY_PATH=$DIR/NETCDF/lib:$LD_LIBRARY_PATH
+    export CPPFLAGS="-I$DIR/NETCDF/include -I$DIR/grib2/include"
+    export LDFLAGS="-L$DIR/NETCDF/lib -L$DIR/grib2/lib"
+    export LIBS="-lnetcdf -lpnetcdf -lcurl -lhdf5_hl -lhdf5 -lz -lm -ldl -lgcc -lgfortran"
+    CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-shared --enable-parallel-tests --enable-hdf5
+    make -j $CPU_HALF_EVEN
+    make -j $CPU_HALF_EVEN install | tee make.install.log
+    #make check
+
+    echo " "
 
 
   #################################### System Environment Tests ##############
@@ -3467,7 +3508,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
       ./make_ncep_libs.sh -s linux -c gnu -d $DIR/nceplibs -o 0 -m 1 -a upp
   fi
 
-
+  export PATH=$DIR/nceplibs:$PATH
 
   echo " "
   ################################UPPv4.1######################################
@@ -4431,7 +4472,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
     else
       ./make_ncep_libs.sh -s linux -c intel -d $DIR/nceplibs -o 0 -m 1 -a upp | tee make_nceplibs.log
   fi
-
+  export PATH=$DIR/nceplibs:$PATH
 
   echo " "
   ################################UPPv4.1######################################
@@ -5931,6 +5972,9 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
     else
       ./make_ncep_libs.sh -s linux -c gnu -d $DIR/nceplibs -o 0 -m 1 -a upp
   fi
+
+  export PATH=$DIR/nceplibs:$PATH
+
   echo " "
   ################################UPPv4.1######################################
   #Previous verison of UPP
@@ -6913,7 +6957,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
     else
       ./make_ncep_libs.sh -s linux -c intel -d $DIR/nceplibs -o 0 -m 1 -a upp
   fi
-
+ export PATH=$DIR/nceplibs:$PATH
 
   echo " "
   ################################UPPv4.1######################################
@@ -8411,6 +8455,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
       ./make_ncep_libs.sh -s linux -c gnu -d $DIR/nceplibs -o 0 -m 1 -a upp
   fi
 
+  export PATH=$DIR/nceplibs:$PATH
 
   echo " "
   ################################UPPv4.1######################################
@@ -9406,6 +9451,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
       ./make_ncep_libs.sh -s linux -c intel -d $DIR/nceplibs -o 0 -m 1 -a upp
   fi
 
+  export PATH=$DIR/nceplibs:$PATH
 
   echo " "
   ################################UPPv4.1######################################
@@ -11184,6 +11230,45 @@ if [ "$HWRF_PICK" = "1" ]; then
 
 
 fi
+
+
+##########################  Export PATH and LD_LIBRARY_PATH ################################
+cd $HOME
+
+while read -r -p "Would to append your exports to your terminal profile (bashrc)?
+  This will allow users to execute all the programs installed in this script.
+
+  Please note that if users choose YES the user will not be able to install another WRF version in parallel with the one the user installed on the same system.
+
+  For example:  Users could not have WRF AND WRFCHEM installed if YES is chosen.
+  if NO is chosen then users could have WRF OR WRFCHEM installed on the same sytem if NO is chosen.
+
+  Please answer (Y/N) )and press enter (case sensative).
+  " yn; do
+
+    case $yn in
+    [Yy]* )
+      echo "-------------------------------------------------- "
+      echo " "
+      echo "Exporting to bashrc"
+      echo "export PATH=$DIR/bin:$PATH" >> ~/.bashrc
+      echo "export LD_LIBRARY_PATH=$DIR/lib:$LD_LIBRARY_PATH" >> ~/.bashrc
+      break
+      ;;
+    [Nn]* )
+      echo "-------------------------------------------------- "
+      echo " "
+      echo "Exports will NOT be added to bashrc"
+      break
+      ;;
+      * )
+     echo " "
+     echo "Please answer YES or NO (case sensative).";;
+
+  esac
+done
+
+
 
 
 
