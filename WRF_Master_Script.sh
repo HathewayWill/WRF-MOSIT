@@ -6344,7 +6344,7 @@ sed -i '919s/==/=/g' $WRFCHEM_FOLDER/WRFDA/configure
    n=$(ls ./*.exe | wc -l)
    cd $WRFCHEM_FOLDER/WRFDA/var/obsproc/src
    m=$(ls ./*.exe | wc -l)
-   if (( ( $n == 42 ) && ( $m == 1) ))
+   if (( ( $n == 43 ) && ( $m == 1) ))
     then
     echo "All expected files created."
     read -r -t 5 -p "Finished installing WRFDA-CHEM 3DVAR. I am going to wait for 5 seconds only ..."
@@ -7176,7 +7176,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
    n=$(ls ./*.exe | wc -l)
    cd $WRFCHEM_FOLDER/WRFDA/var/obsproc/src
    m=$(ls ./*.exe | wc -l)
-   if (( ( $n == 42 ) && ( $m == 1) ))
+   if (( ( $n == 43 ) && ( $m == 1) ))
     then
     echo "All expected files created."
     read -r -t 5 -p "Finished installing WRFDA-CHEM 3DVAR. I am going to wait for 5 seconds only ..."
@@ -7893,7 +7893,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
    n=$(ls ./*.exe | wc -l)
    cd $WRFCHEM_FOLDER/WRFDA/var/obsproc/src
    m=$(ls ./*.exe | wc -l)
-   if (( ( $n == 42 ) && ( $m == 1) ))
+   if (( ( $n == 43 ) && ( $m == 1) ))
       then
         echo "All expected files created."
         read -r -t 5 -p "Finished installing WRFDA-CHEM 3DVAR. I am going to wait for 5 seconds only ..."
