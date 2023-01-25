@@ -6318,8 +6318,6 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   cd $WRFCHEM_FOLDER/WRFDA
 
   ulimit -s unlimited
-  export WRF_EM_CORE=1
-  export WRF_NMM_CORE=0
   export WRF_CHEM=1
   export WRFIO_NCD_LARGE_FILE_SUPPORT=1
 
@@ -7150,8 +7148,6 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   cd $WRFCHEM_FOLDER/WRFDA
 
   ulimit -s unlimited
-  export WRF_EM_CORE=1
-  export WRF_NMM_CORE=0
   export WRF_CHEM=1
   export WRFIO_NCD_LARGE_FILE_SUPPORT=1
 
@@ -7872,8 +7868,6 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   cd $WRFCHEM_FOLDER/WRFDA
 
 
-  export WRF_EM_CORE=1
-  export WRF_NMM_CORE=0
   export WRF_CHEM=1
   export WRFIO_NCD_LARGE_FILE_SUPPORT=1
 
