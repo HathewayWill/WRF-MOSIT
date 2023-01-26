@@ -89,7 +89,7 @@ This is a BASH script that provides options to install the following Weather Res
     - OpenGrADS
     - GrADS
     - NCAR Command Langauge (Conda installed)
-    - Prep-Chem-SRC v1.5
+    - Prep-Chem-SRC v1.5 (GNU only)
     - WRF CHEM Tools
         - Mozbc
         - Megan Bio Emiss
