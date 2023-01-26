@@ -70,7 +70,7 @@ if [ "$SYSTEMBIT" = "64" ] && [ "$SYSTEMOS" = "Linux" ];
     echo " "
   while read -r -p "Which compiler do you want to use?
   -Intel
-   --Please note that Hurricane WRF (HWRF) is on compatibile with Intel Compilers.
+   --Please note that Hurricane WRF (HWRF) is only compatibile with Intel Compilers.
 
   -GNU
 
