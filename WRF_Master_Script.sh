@@ -1611,68 +1611,6 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   echo "###########################################"
   echo " "
 
-  ######################################### PREP-CHEM-SRC ##############################################
-  # PREP-CHEM-SRC is a pollutant emissions numerical too developed at CPTEC/INPE
-  # whose function is to create data of atmospheric pollutant emissions from biomass burning,
-  # photosynthesis or other forest transformation processes, combustion of oil-based products
-  # by vehicles or industry, charcoal production, and many other processes.
-  # The system is maintained and developed at CPTEC/INPE by the GMAI group, which not
-  # only updates versions of data such as EDGAR, RETRO, MEGAN, etc., but also
-  # implements new functionalities such as volcanic emissions which is present now in this
-  # version.
-  # The purpose of this guide is to present how to install, compile and run the pre-processor.
-  # Finally, the steps for utilizing the emissions data in the CCATT-BRAMS, WRF-Chem and
-  # FIM-Chem models are presented.
-  # We recommend that you read the article “PREP-CHEM-SRC – 1.0: a preprocessor of
-  # trace gas and aerosol emission fields for regional and global atmospheric chemistry
-  # models” (Freitas et al., 2010 - http://www.geosci-model-dev.net/4/419/2011/gmd-4-419-
-  # 2011.pdf).
-  # Email: mailto:atende.cptec@inpe.br
-  # WEB: http://brams.cptec.inpe.br
-  # http:// meioambiente.cptec.inpe.br
-  # Prep-Chem-Src v1.5.0 (note v1.8.3 is in Beta still)
-  #########################################################################################################
-
-
-
-    # Downloading PREP-CHEM-SRC-1.5 and untarring files
-    cd $WRFCHEM_FOLDER/WRF_CHEM_Tools/Downloads
-    mkdir $WRFCHEM_FOLDER/WRF_CHEM_Tools/PREP-CHEM-SRC-1.5
-    wget -4 -c http://ftp.cptec.inpe.br/pesquisa/bramsrd/BRAMS_5.4/PREP-CHEM/PREP-CHEM-SRC-1.5.tar.gz
-
-    tar -xzvf PREP-CHEM-SRC-1.5.tar.gz -C $WRFCHEM_FOLDER/WRF_CHEM_Tools/PREP-CHEM-SRC-1.5
-
-    cd $WRFCHEM_FOLDER/WRF_CHEM_Tools/PREP-CHEM-SRC-1.5
-
-
-    # Installation of PREP-CHEM-SRC-1.5
-
-    cd $WRFCHEM_FOLDER/WRF_CHEM_Tools/PREP-CHEM-SRC-1.5/bin/build
-
-    sed -i '48s|/scratchin/grupos/catt-brams/shared/libs/intel/netcdf-4.1.3|${DIR}/NETCDF|' include.mk.intel.wrf  #Changing NETDCF Location
-    sed -i '56s|/scratchin/grupos/catt-brams/shared/libs/intel/hdf5-1.8.13-serial|${DIR}/grib2|' include.mk.intel.wrf #Changing HDF5 Location
-    sed -i '58s|-L/scratchin/grupos/catt-brams/shared/libs/zlib-1.2.8/lib|-L${DIR}/grib2/lib|' include.mk.intel.wrf #Changing zlib Location
-    sed -i '71s|-convert big_endian|-convert big_endian -diag-disable 6405  |' include.mk.intel.wrf
-
-    make OPT=intel.wrf CHEM=RADM_WRF_FIM AER=SIMPLE | tee make.log  # Compiling and making of PRE-CHEM-SRC-1.5
-
-
-    # IF statement to check that all files were created.
-    cd $WRFCHEM_FOLDER/WRF_CHEM_Tools/PREP-CHEM-SRC-1.5/bin
-    n=$(ls ./*.exe | wc -l)
-    if (($n >= 2))
-     then
-     echo "All expected files created."
-     read -r -t 5 -p "Finished installing WRF-CHEM-PREP. I am going to wait for 5 seconds only ..."
-    else
-     echo "Missing one or more expected files. Exiting the script."
-     read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
-     exit
-    fi
-    echo " "
-
-
-
 
   #####################################BASH Script Finished##############################
   echo " "
