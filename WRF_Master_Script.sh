@@ -6902,7 +6902,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   #since the WRF was written
   #Option 8 gfortran compiler with distributed memory
   #############################################################################
-  cd $WRF_FOLDER
+  cd $WRFCHEM_FOLDER
   git clone -b dtc_post_v4.1.0 --recurse-submodules https://github.com/NOAA-EMC/EMC_post UPPV4.1
   cd UPPV4.1
   mkdir postprd
