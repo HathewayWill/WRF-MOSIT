@@ -173,7 +173,7 @@ Click here!
 - UCAR's Katelyn F., Jim B., Jordan P., Kevin M.,
 ---
 #### Citation:
-#### Hatheway, W. (2023). Weather Research & Forecasting Self Install Script (Version 1.0.2) [Computer software]
+#### Hatheway, W. (2023). Weather Research & Forecasting Self Install Script (Version 1.0.3) [Computer software]
 ---
 #### References:
 - Skamarock, W. C., J. B. Klemp, J. Dudhia, D. O. Gill, Z. Liu, J. Berner, W. Wang, J. G. Powers, M. G. Duda, D. M. Barker, and X.-Y. Huang, 2019: A Description of the Advanced Research WRF Version 4. NCAR Tech. Note NCAR/TN-556+STR, 145 pp. doi:10.5065/1dfh-6p97
