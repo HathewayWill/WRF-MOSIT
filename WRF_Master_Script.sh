@@ -2967,6 +2967,12 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   cd $WRFHYDRO_FOLDER/Downloads
   wget -c -4 https://github.com/wrf-model/WRF/releases/download/v4.4.2/v4.4.2.tar.gz -O WRF-4.4.2.tar.gz
   tar -xvzf WRF-4.4.2.tar.gz -C $WRFHYDRO_FOLDER/
+  
+    # If statment for changing folder name
+  if [ -d "$WRFHYDRO_FOLDER/WRF" ]; then
+  mv -f $WRFHYDRO_FOLDER/WRF $WRFHYDRO_FOLDER/WRFV4.4.2
+  fi
+  
   cd $WRFHYDRO_FOLDER/WRFV4.4.2
   export WRFIO_NCD_LARGE_FILE_SUPPORT=1
 
@@ -3823,6 +3829,12 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 
   wget -c -4 https://github.com/wrf-model/WRF/releases/download/v4.4.2/v4.4.2.tar.gz -O WRF-4.4.2.tar.gz
   tar -xvzf WRF-4.4.2.tar.gz -C $WRFHYDRO_FOLDER/
+ 
+  # If statment for changing folder name
+  if [ -d "$WRFHYDRO_FOLDER/WRF" ]; then
+  mv -f $WRFHYDRO_FOLDER/WRF $WRFHYDRO_FOLDER/WRFV4.4.2
+  fi
+  
   cd $WRFHYDRO_FOLDER/WRFV4.4.2
 
   export WRFIO_NCD_LARGE_FILE_SUPPORT=1
@@ -4436,6 +4448,12 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   cd $WRFHYDRO_FOLDER/Downloads
   wget -c -4 https://github.com/wrf-model/WRF/releases/download/v4.4.2/v4.4.2.tar.gz -O WRF-4.4.2.tar.gz
   tar -xvzf WRF-4.4.2.tar.gz -C $WRFHYDRO_FOLDER/
+  
+  # If statment for changing folder name
+  if [ -d "$WRFHYDRO_FOLDER/WRF" ]; then
+  mv -f $WRFHYDRO_FOLDER/WRF $WRFHYDRO_FOLDER/WRFV4.4.2
+  fi
+  
   cd $WRFHYDRO_FOLDER/WRFV4.4.2
   export WRFIO_NCD_LARGE_FILE_SUPPORT=1
 
@@ -5392,10 +5410,16 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   wget -c -4 https://github.com/wrf-model/WRF/releases/download/v4.4.2/v4.4.2.tar.gz -O WRF-4.4.2.tar.gz
   mkdir $WRFCHEM_FOLDER/WRFDA
   tar -xvzf WRF-4.4.2.tar.gz -C $WRFCHEM_FOLDER/WRFDA
+
+  # If statment for changing folder name
+  if [ -d "$WRFCHEM_FOLDER/WRFDA/WRF" ]; then
+  mv -f $WRFCHEM_FOLDER/WRFDA/WRF $WRFCHEM_FOLDER/WRFDA/WRFV4.4.2
+  fi
     cd $WRFCHEM_FOLDER/WRFDA/WRFV4.4.2
+
   mv * $WRFCHEM_FOLDER/WRFDA
   cd $WRFCHEM_FOLDER/WRFDA
-  rm -r WRFV4.4.2/
+  rm -rf WRFV4.4.2/
   cd $WRFCHEM_FOLDER/WRFDA
 
   ulimit -s unlimited
@@ -5471,6 +5495,11 @@ sed -i '919s/==/=/g' $WRFCHEM_FOLDER/WRFDA/configure
   cd $WRFCHEM_FOLDER/Downloads
   wget -c -4 https://github.com/wrf-model/WRF/releases/download/v4.4.2/v4.4.2.tar.gz -O WRF-4.4.2.tar.gz
   tar -xvzf WRF-4.4.2.tar.gz -C $WRFCHEM_FOLDER/
+
+  # If statment for changing folder name
+  if [ -d "$WRFCHEM_FOLDER/WRF" ]; then
+  mv -f $WRFCHEM_FOLDER/WRF $WRFCHEM_FOLDER/WRFV4.4.2
+  fi
   cd $WRFCHEM_FOLDER/WRFV4.4.2
 
   cd chem/KPP
@@ -6222,10 +6251,14 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   wget -c -4 https://github.com/wrf-model/WRF/releases/download/v4.4.2/v4.4.2.tar.gz -O WRF-4.4.2.tar.gz
   mkdir $WRFCHEM_FOLDER/WRFDA
   tar -xvzf WRF-4.4.2.tar.gz -C $WRFCHEM_FOLDER/WRFDA
+  # If statment for changing folder name
+  if [ -d "$WRFCHEM_FOLDER/WRFDA/WRF" ]; then
+  mv -f $WRFCHEM_FOLDER/WRFDA/WRF $WRFCHEM_FOLDER/WRFDA/WRFV4.4.2
+  fi
     cd $WRFCHEM_FOLDER/WRFDA/WRFV4.4.2
   mv * $WRFCHEM_FOLDER/WRFDA
   cd $WRFCHEM_FOLDER/WRFDA
-  rm -r WRFV4.4.2/
+  rm -rf WRFV4.4.2/
   cd $WRFCHEM_FOLDER/WRFDA
 
   ulimit -s unlimited
@@ -6294,6 +6327,10 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   cd $WRFCHEM_FOLDER/Downloads
   wget -c -4 https://github.com/wrf-model/WRF/releases/download/v4.4.2/v4.4.2.tar.gz -O WRF-4.4.2.tar.gz
   tar -xvzf WRF-4.4.2.tar.gz -C $WRFCHEM_FOLDER/
+  # If statment for changing folder name
+  if [ -d "$WRFCHEM_FOLDER/WRF" ]; then
+  mv -f $WRFCHEM_FOLDER/WRF $WRFCHEM_FOLDER/WRFV4.4.2
+  fi
   cd $WRFCHEM_FOLDER/WRFV4.4.2
 
   cd chem/KPP
@@ -6859,6 +6896,11 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   cd $WRFCHEM_FOLDER/Downloads
   wget -c -4 https://github.com/wrf-model/WRF/releases/download/v4.4.2/v4.4.2.tar.gz -O WRF-4.4.2.tar.gz
   tar -xvzf WRF-4.4.2.tar.gz -C $WRFCHEM_FOLDER/
+
+  # If statment for changing folder name
+  if [ -d "$WRFCHEM_FOLDER/WRF" ]; then
+  mv -f $WRFCHEM_FOLDER/WRF $WRFCHEM_FOLDER/WRFV4.4.2
+  fi
   cd $WRFCHEM_FOLDER/WRFV4.4.2
 
 
@@ -6942,10 +6984,14 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   wget -c -4 https://github.com/wrf-model/WRF/releases/download/v4.4.2/v4.4.2.tar.gz -O WRF-4.4.2.tar.gz
   mkdir $WRFCHEM_FOLDER/WRFDA
   tar -xvzf WRF-4.4.2.tar.gz -C $WRFCHEM_FOLDER/WRFDA
+  # If statment for changing folder name
+  if [ -d "$WRFCHEM_FOLDER/WRFDA/WRF" ]; then
+  mv -f $WRFCHEM_FOLDER/WRFDA/WRF $WRFCHEM_FOLDER/WRFDA/WRFV4.4.2
+  fi
     cd $WRFCHEM_FOLDER/WRFDA/WRFV4.4.2
   mv * $WRFCHEM_FOLDER/WRFDA
   cd $WRFCHEM_FOLDER/WRFDA
-  rm -r WRFV4.4.2/
+  rm -rf WRFV4.4.2/
   cd $WRFCHEM_FOLDER/WRFDA
 
 
@@ -7868,6 +7914,12 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   cd $WRF_FOLDER/Downloads
   wget -c -4 https://github.com/wrf-model/WRF/releases/download/v4.4.2/v4.4.2.tar.gz -O WRF-4.4.2.tar.gz
   tar -xvzf WRF-4.4.2.tar.gz -C $WRF_FOLDER/
+
+  # If statment for changing folder name
+  if [ -d "$WRF_FOLDER/WRF" ]; then
+  mv -f $WRF_FOLDER/WRF $WRF_FOLDER/WRFV4.4.2
+  fi
+
   cd $WRF_FOLDER/WRFV4.4.2
   export WRFIO_NCD_LARGE_FILE_SUPPORT=1
   ./clean -a
@@ -7950,10 +8002,16 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   ########################################################################
   cd $WRF_FOLDER/Downloads
   tar -xvzf WRF-4.4.2.tar.gz -C $WRF_FOLDER/WRFPLUS
+
+  # If statment for changing folder name
+  if [ -d "$WRF_FOLDER/WRFPLUS/WRF" ]; then
+  mv -f $WRF_FOLDER/WRFPLUS/WRF $WRF_FOLDER/WRFPLUS/WRFV4.4.2
+  fi
+
   cd $WRF_FOLDER/WRFPLUS/WRFV4.4.2
   mv * $WRF_FOLDER/WRFPLUS
   cd $WRF_FOLDER/WRFPLUS
-  rm -r WRFV4.4.2/
+  rm -rf WRFV4.4.2/
   export NETCDF=$DIR/NETCDF
   export HDF5=$DIR/grib2
   export LD_LIBRARY_PATH=$DIR/grib2/lib:$LD_LIBRARY_PATH
@@ -7995,10 +8053,16 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   cd $WRF_FOLDER/Downloads
   mkdir $WRF_FOLDER/WRFDA
   tar -xvzf WRF-4.4.2.tar.gz -C $WRF_FOLDER/WRFDA
-    cd $WRF_FOLDER/WRFDA/WRFV4.4.2
+
+  # If statment for changing folder name
+  if [ -d "$WRF_FOLDER/WRFDA/WRF" ]; then
+  mv -f $WRF_FOLDER/WRFDA/WRF $WRF_FOLDER/WRFDA/WRFV4.4.2
+  fi
+
+  cd $WRF_FOLDER/WRFDA/WRFV4.4.2
   mv * $WRF_FOLDER/WRFDA
   cd $WRF_FOLDER/WRFDA
-  rm -r WRFV4.4.2/
+  rm -rf WRFV4.4.2/
   export NETCDF=$DIR/NETCDF
   export HDF5=$DIR/grib2
   export LD_LIBRARY_PATH=$DIR/grib2/lib:$LD_LIBRARY_PATH
@@ -8708,6 +8772,13 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   cd $WRF_FOLDER/Downloads
   wget -c -4 https://github.com/wrf-model/WRF/releases/download/v4.4.2/v4.4.2.tar.gz -O WRF-4.4.2.tar.gz
   tar -xvzf WRF-4.4.2.tar.gz -C $WRF_FOLDER/
+
+    # If statment for changing folder name
+    if [ -d "$WRF_FOLDER/WRF" ]; then
+    mv -f $WRF_FOLDER/WRF $WRF_FOLDER/WRFV4.4.2
+    fi
+
+
   cd $WRF_FOLDER/WRFV4.4.2
   export WRFIO_NCD_LARGE_FILE_SUPPORT=1
   ./clean -a
@@ -8794,10 +8865,17 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   cd $WRF_FOLDER/Downloads
   mkdir $WRF_FOLDER/WRFPLUS
   tar -xvzf WRF-4.4.2.tar.gz -C $WRF_FOLDER/WRFPLUS
+
+    # If statment for changing folder name
+    if [ -d "$WRF_FOLDER/WRFPLUS/WRF" ]; then
+    mv -f $WRF_FOLDER/WRFPLUS/WRF $WRF_FOLDER/WRFPLUS/WRFV4.4.2
+    fi
+
+
   cd $WRF_FOLDER/WRFPLUS/WRFV4.4.2
   mv * $WRF_FOLDER/WRFPLUS
   cd $WRF_FOLDER/WRFPLUS
-  rm -r WRFV4.4.2/
+  rm -rf WRFV4.4.2/
   export NETCDF=$DIR/NETCDF
   export HDF5=$DIR/grib2
   export LD_LIBRARY_PATH=$DIR/grib2/lib:$LD_LIBRARY_PATH
@@ -8843,10 +8921,16 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   ########################################################################
   cd $WRF_FOLDER/Downloads
   tar -xvzf WRF-4.4.2.tar.gz -C $WRF_FOLDER/WRFDA
+
+  # If statment for changing folder name
+  if [ -d "$WRF_FOLDER/WRFDA/WRF" ]; then
+  mv -f $WRF_FOLDER/WRFDA/WRF $WRF_FOLDER/WRFDA/WRFV4.4.2
+  fi
+
   cd $WRF_FOLDER/WRFDA/WRFV4.4.2
   mv * $WRF_FOLDER/WRFDA
   cd $WRF_FOLDER/WRFDA
-  rm -r WRFV4.4.2/
+  rm -rf WRFV4.4.2/
   export NETCDF=$DIR/NETCDF
   export HDF5=$DIR/grib2
   export LD_LIBRARY_PATH=$DIR/grib2/lib:$LD_LIBRARY_PATH
@@ -9352,6 +9436,12 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   cd $WRF_FOLDER/Downloads
   wget -c -4 https://github.com/wrf-model/WRF/releases/download/v4.4.2/v4.4.2.tar.gz -O WRF-4.4.2.tar.gz
   tar -xvzf WRF-4.4.2.tar.gz -C $WRF_FOLDER/
+
+  # If statment for changing folder name
+  if [ -d "$WRF_FOLDER/WRF" ]; then
+  mv -f $WRF_FOLDER/WRF $WRF_FOLDER/WRFV4.4.2
+  fi
+
   cd $WRF_FOLDER/WRFV4.4.2
 
   ./clean
@@ -9429,10 +9519,16 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 
   cd $WRF_FOLDER/Downloads
   tar -xvzf WRF-4.4.2.tar.gz -C $WRF_FOLDER/WRFPLUS
+
+  # If statment for changing folder name
+  if [ -d "$WRF_FOLDER/WRFPLUS/WRF" ]; then
+  mv -f $WRF_FOLDER/WRFPLUS/WRF $WRF_FOLDER/WRFPLUS/WRFV4.4.2
+  fi
+
   cd $WRF_FOLDER/WRFPLUS/WRFV4.4.2
   mv * $WRF_FOLDER/WRFPLUS
   cd $WRF_FOLDER/WRFPLUS
-  rm -r WRFV4.4.2/
+  rm -rf WRFV4.4.2/
   export NETCDF=$DIR/NETCDF
   export HDF5=$DIR/grib2
   export LD_LIBRARY_PATH=$DIR/grib2/lib:$LD_LIBRARY_PATH
@@ -9475,10 +9571,16 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 
   cd $WRF_FOLDER/Downloads
   tar -xvzf WRF-4.4.2.tar.gz -C $WRF_FOLDER/WRFDA
+
+  # If statment for changing folder name
+  if [ -d "$WRF_FOLDER/WRFDA/WRF" ]; then
+  mv -f $WRF_FOLDER/WRFDA/WRF $WRF_FOLDER/WRFDA/WRFV4.4.2
+  fi
+
   cd $WRF_FOLDER/WRFDA/WRFV4.4.2
   mv * $WRF_FOLDER/WRFDA
   cd $WRF_FOLDER/WRFDA
-  rm -r WRFV4.4.2/
+  rm -rf WRFV4.4.2/
   export NETCDF=$DIR/NETCDF
   export HDF5=$DIR/grib2
   export LD_LIBRARY_PATH=$DIR/grib2/lib:$LD_LIBRARY_PATH
