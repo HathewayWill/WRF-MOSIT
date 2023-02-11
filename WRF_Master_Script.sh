@@ -6994,7 +6994,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   rm -rf WRFV4.4.2/
   cd $WRFCHEM_FOLDER/WRFDA
 
-
+  ulimit -s unlimited
   export WRF_CHEM=1
   export WRFIO_NCD_LARGE_FILE_SUPPORT=1
 
