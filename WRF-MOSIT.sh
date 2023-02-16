@@ -746,10 +746,10 @@ fi
 if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 
   cd $HOME
-  git clone https://github.com/HathewayWill/WRFCHEM-TOOLS-MASTER.git
-  cd WRFCHEM-TOOLS-MASTER
+  git clone https://github.com/HathewayWill/WRFCHEM-TOOLS-MOSIT.git
+  cd WRFCHEM-TOOLS-MOSIT
   chmod 775 *.sh
-  ./WRFCHEM_TOOLS_Master_Script.sh $PASSWD $Ubuntu_64bit_GNU
+  ./WRFCHEM_TOOLS_MOSIT.sh $PASSWD $Ubuntu_64bit_GNU
   cd $HOME
 
 fi
@@ -757,10 +757,10 @@ fi
 if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 
   cd $HOME
-  git clone https://github.com/HathewayWill/WRFCHEM-TOOLS-MASTER.git
-  cd WRFCHEM-TOOLS-MASTER
+  git clone https://github.com/HathewayWill/WRFCHEM-TOOLS-MOSIT.git
+  cd WRFCHEM-TOOLS-MOSIT
   chmod 775 *.sh
-  ./WRFCHEM_TOOLS_Master_Script.sh $PASSWD $Ubuntu_64bit_Intel
+  ./WRFCHEM_TOOLS_MOSIT.sh $PASSWD $Ubuntu_64bit_Intel
   cd $HOME
 
 fi
@@ -768,10 +768,10 @@ fi
 if [ "$macos_64bit_GNU" = "1" ]  && [ "$WRFCHEM_PICK" = "1" ]; then
 
   cd $HOME
-  git clone https://github.com/HathewayWill/WRFCHEM-TOOLS-MASTER.git
-  cd WRFCHEM-TOOLS-MASTER
+  git clone https://github.com/HathewayWill/WRFCHEM-TOOLS-MOSIT.git
+  cd WRFCHEM-TOOLS-MOSIT
   chmod 775 *.sh
-  ./WRFCHEM_TOOLS_Master_Script.sh $PASSWD $macos_64bit_GNU
+  ./WRFCHEM_TOOLS_MOSIT.sh $PASSWD $macos_64bit_GNU
   cd $HOME
 
 fi
