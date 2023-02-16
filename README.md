@@ -128,11 +128,11 @@ This is a BASH script that provides options to install the following Weather Res
 
 > git clone https://github.com/HathewayWill/WRF-MASTER.git
 
-> cd $HOME/WRF-MASTER
+> cd $HOME/WRF-MOSIT
 
 > chmod 775 *.sh
 >
-> ./WRF_Master_Script.sh | tee WRF.MASTER.log
+> ./WRF-MOSIT.sh | tee WRF.MASTER.log
 
 - Script will check for System Architecture Type and Storage Space requirements.
 
