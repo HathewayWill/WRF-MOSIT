@@ -1,4 +1,5 @@
-<a href="https://info.flagcounter.com/OuSc"><img src="https://s11.flagcounter.com/countxl/OuSc/bg_FFFFFF/txt_000000/border_CCCCCC/columns_8/maxflags_250/viewers_0/labels_0/pageviews_1/flags_1/percent_0/" alt="Flag Counter" border="0"></a>
+<a href="https://www.worldflagcounter.com/details/isZ"><img src="https://www.worldflagcounter.com/isZ/" alt="Flag Counter"></a>
+
 
 ### WRF Multi Operational System Install Toolkit
 This is a BASH script that provides options to install the following Weather Research & Forecasting Model (WRF) packages in 64-bit systems:
