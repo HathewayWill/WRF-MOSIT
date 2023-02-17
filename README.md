@@ -1,4 +1,4 @@
-<a href="https://www.worldflagcounter.com/details/isZ"><img src="https://www.worldflagcounter.com/isZ/" alt="Flag Counter"></a>
+<a href="https://www.worldflagcounter.com/details/is1"><img src="https://www.worldflagcounter.com/is1/" alt="Flag Counter"></a>
 
 
 ### WRF Multi Operational System Install Toolkit
