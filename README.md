@@ -105,11 +105,11 @@ This is a BASH script that provides options to install the following Weather Res
         - FINN
 
 - WRF-Hydro Standalone
-    - Development Testbed Center (DTC) Model Evaluation Tools (MET) v11.0.0
-    - Development Testbed Center (DTC) Enhanced Model Evaluation Tools (METplus) v5.0.0
+    - Development Testbed Center (DTC) Model Evaluation Tools (MET) v11.0.1
+    - Development Testbed Center (DTC) Enhanced Model Evaluation Tools (METplus) v5.0.1
 - WRF-Hydo Coupled
-    - Development Testbed Center (DTC) Model Evaluation Tools (MET) v11.0.0
-    - Development Testbed Center (DTC) Enhanced Model Evaluation Tools (METplus) v5.0.0
+    - Development Testbed Center (DTC) Model Evaluation Tools (MET) v11.0.1
+    - Development Testbed Center (DTC) Enhanced Model Evaluation Tools (METplus) v5.0.1
     - Development Testbed Center (DTC) Unified Post Processor (UPP) v4.1
     - ARWPost v3
     - WRF-Python (Conda installed)
@@ -118,8 +118,8 @@ This is a BASH script that provides options to install the following Weather Res
     - NCAR Command Langauge (Conda installed)
     - WRF-GIS-Preprocessor (Conda installed)
 - HWRF
-    - Development Testbed Center (DTC) Model Evaluation Tools (MET) v11.0.0
-    - Development Testbed Center (DTC) Enhanced Model Evaluation Tools (METplus) v5.0.0
+    - Development Testbed Center (DTC) Model Evaluation Tools (MET) v11.0.1
+    - Development Testbed Center (DTC) Enhanced Model Evaluation Tools (METplus) v5.0.1
     - Development Testbed Center (DTC) Unified Post Processor (UPP) v4.1
 ---
 ### Installation
@@ -175,7 +175,7 @@ Click here!
 - UCAR's Katelyn F., Jim B., Jordan P., Kevin M.,
 ---
 #### Citation:
-#### Hatheway, W. (2023). Weather Research & Forecasting Multi Operational System Install Toolkit (Version 1.1) [Computer software]
+#### Hatheway, W. (2023). Weather Research & Forecasting Multi Operational System Install Toolkit (Version 1.2.1) [Computer software]
 ---
 #### References:
 - Skamarock, W. C., J. B. Klemp, J. Dudhia, D. O. Gill, Z. Liu, J. Berner, W. Wang, J. G. Powers, M. G. Duda, D. M. Barker, and X.-Y. Huang, 2019: A Description of the Advanced Research WRF Version 4. NCAR Tech. Note NCAR/TN-556+STR, 145 pp. doi:10.5065/1dfh-6p97
