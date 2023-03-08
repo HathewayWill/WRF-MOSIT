@@ -124,7 +124,7 @@ This is a BASH script that provides options to install the following Weather Res
 - (Make sure to download folder into your Home Directory): $HOME
 
 
-> git clone https://github.com/HathewayWill/WRF-MASTER.git
+> git clone https://github.com/HathewayWill/WRF-MOSIT.git
 
 > cd $HOME/WRF-MASTER
 
