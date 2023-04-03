@@ -157,25 +157,49 @@ fi
 
 
 if [ "$SYSTEMOS" = "MacOS" ]; then
-  while true; do
-    read -r -p "Do you have minimum of 350GB of FREE storage space available for this instllation (Y/N) " yn
-    case $yn in
-      [Yy]* )
-      echo "-------------------------------------------------- "
-      echo " "
-      echo "Installation will move forward"
-      break
-        ;;
-      [Nn]* )
-      echo " "
-      echo "Not enough storage space available. Exiting script."
-      break
-        ;;
-      * ) echo "Please answer yes or no.";;
-    esac
-  done
-fi
+  export Storage_Space_Size=$(df -h / | awk 'NR==2 {print $1}' | tr -cd '[:digit:]')
+  export Storage_Space_Units=$(df -h / | awk 'NR==2 {print $1}' | tr -cd '[:alpha:]')
+  export Storage_Space_Required="350"
+  echo "-------------------------------------------------- "
+  echo " "
+  echo " Testing for Storage Space for installation"
+  echo " "
 
+  case $Storage_Space_Units in
+      [Pp]* )
+
+        echo " "
+        echo "Sufficient storage space for installation found"
+        echo "-------------------------------------------------- " ;;
+      [Tt]* )
+        echo " "
+        echo "Sufficient storage space for installation found"
+        echo "-------------------------------------------------- " ;;
+      [Gg]* )
+        if [[ ${Storage_Space_Size} -lt ${Storage_Space_Required} ]]; then
+          echo " "
+          echo "Not enough storage space for installation. 350GB is required for installation."
+          echo "-------------------------------------------------- "
+          exit
+        else
+          echo " "
+          echo "Sufficient storage space for installation found."
+          echo "-------------------------------------------------- "
+        fi ;;
+      [MmKk]* )
+        echo " "
+        echo "Not enough storage space for installation. 350GB is required for installation."
+        echo "-------------------------------------------------- "
+        exit ;;
+      * )
+      echo " "
+      echo "Not enough storage space for installation. 350GB is required for installation."
+      echo "-------------------------------------------------- "
+      exit ;;
+    esac
+
+  echo " "
+fi
 
 
 
