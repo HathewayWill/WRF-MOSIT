@@ -130,7 +130,7 @@ This is a BASH script that provides options to install the following Weather Res
 
 > chmod 775 *.sh
 >
-> ./WRF_Master_Script.sh | tee WRF.MASTER.log
+> ./WRF-MOSIT.sh | tee WRF.MOSIT.log
 
 - Script will check for System Architecture Type and Storage Space requirements.
 
