@@ -20,11 +20,11 @@ This is a BASH script that provides options to install the following Weather Res
 - Libraries are manually installed in sub-folders utilizing either Intel or GNU Compilers.
     - Libraries installed with GNU compilers
         - zlib (1.2.13)
-        - MPICH (4.0.3)
+        - MPICH (4.1.1)
         - libpng (1.6.39)
         - JasPer (1.900.1)
-        - HDF5 (1.13.2)
-        - PHDF5 (1.13.2)
+        - HDF5 (1.14.0)
+        - PHDF5 (1.14.0)
         - Parallel-NetCDF (1.12.3)
         - NetCDF-C (4.9.0)
         - NetCDF-Fortran (4.6.0)
@@ -33,8 +33,8 @@ This is a BASH script that provides options to install the following Weather Res
         - zlib (1.2.13)
         - libpng (1.6.39)
         - JasPer (1.900.1)
-        - HDF5 (1.13.2)
-        - PHDF5 (1.13.2)
+        - HDF5 (1.14.0)
+        - PHDF5 (1.14.0)
         - Parallel-NetCDF (1.12.3)
         - NetCDF-C (4.9.0)
         - NetCDF-Fortran (4.6.0)
@@ -46,20 +46,20 @@ This is a BASH script that provides options to install the following Weather Res
 ---
 ### Software Packages
 - WRF
-    - WRF v4.4.2
-    - WPS v4.4
-    - WRF PLUS v4.4.2
-    - WRFDA 4DVAR v4.4.2    
+    - WRF v4.5
+    - WPS v4.5
+    - WRF PLUS v4.5
+    - WRFDA 4DVAR v4.5    
 - WRF-CHEM
-    - WRF Chem w/KPP 4.4.2
-    - WPS 4.4
+    - WRF Chem w/KPP 4.5
+    - WPS 4.5
     - WRFDA Chem 3DVAR
 - WRF-Hydro Standalone
     - WRF-Hydro v5.2
 - WRF-Hydro Coupled
     - WRF-Hydro v5.2
-    - WRF v4.4.2
-    - WPS v4.4
+    - WRF v4.5
+    - WPS v4.5
 - Hurricane WRF (HWRF)
     - HWRF Utilities v4.0a
     - POMTC v4.0a
@@ -173,7 +173,7 @@ Click here!
 - UCAR's Katelyn F., Jim B., Jordan P., Kevin M.,
 ---
 #### Citation:
-#### Hatheway, W. (2023). Weather Research & Forecasting Self Install Script (Version 1.3.0) [Computer software]
+#### Hatheway, W. (2023). Weather Research & Forecasting Self Install Script (Version 1.4.0) [Computer software]
 ---
 #### References:
 - Skamarock, W. C., J. B. Klemp, J. Dudhia, D. O. Gill, Z. Liu, J. Berner, W. Wang, J. G. Powers, M. G. Duda, D. M. Barker, and X.-Y. Huang, 2019: A Description of the Advanced Research WRF Version 4. NCAR Tech. Note NCAR/TN-556+STR, 145 pp. doi:10.5065/1dfh-6p97

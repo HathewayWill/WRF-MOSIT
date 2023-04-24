@@ -472,8 +472,8 @@ if [ "$Ubuntu_64bit_Intel" = "1" ]; then
     export WRF_FOLDER=$HOME/HWRF
   fi
 
-  mkdir $WRF_FOLDER/MET-11.0.1
-  mkdir $WRF_FOLDER/MET-11.0.1/Downloads
+  mkdir $WRF_FOLDER/MET-11.0.2
+  mkdir $WRF_FOLDER/MET-11.0.2/Downloads
   mkdir $WRF_FOLDER/METplus-5.0.1
   mkdir $WRF_FOLDER/METplus-5.0.1/Downloads
 
@@ -481,22 +481,22 @@ if [ "$Ubuntu_64bit_Intel" = "1" ]; then
 
   #Downloading MET and untarring files
   #Note weblinks change often update as needed.
-  cd $WRF_FOLDER/MET-11.0.1/Downloads
+  cd $WRF_FOLDER/MET-11.0.2/Downloads
   wget -c -4 https://raw.githubusercontent.com/dtcenter/MET/main_v11.0/internal/scripts/installation/compile_MET_all.sh
 
   wget -c -4 https://dtcenter.ucar.edu/dfiles/code/METplus/MET/installation/tar_files.tgz
 
-  wget -c -4 https://github.com/dtcenter/MET/archive/refs/tags/v11.0.1.tar.gz
+  wget -c -4 https://github.com/dtcenter/MET/archive/refs/tags/v11.0.2.tar.gz
 
 
-  cp compile_MET_all.sh $WRF_FOLDER/MET-11.0.1
-  tar -xvzf tar_files.tgz -C $WRF_FOLDER/MET-11.0.1
-  cp v11.0.1.tar.gz $WRF_FOLDER/MET-11.0.1/tar_files
-  cd $WRF_FOLDER/MET-11.0.1
+  cp compile_MET_all.sh $WRF_FOLDER/MET-11.0.2
+  tar -xvzf tar_files.tgz -C $WRF_FOLDER/MET-11.0.2
+  cp v11.0.2.tar.gz $WRF_FOLDER/MET-11.0.2/tar_files
+  cd $WRF_FOLDER/MET-11.0.2
 
 
 
-  cd $WRF_FOLDER/MET-11.0.1
+  cd $WRF_FOLDER/MET-11.0.2
 
 
 
@@ -513,10 +513,10 @@ if [ "$Ubuntu_64bit_Intel" = "1" ]; then
   export F77=ifort
   export F90=ifort
   export gcc_version=$(icc -dumpversion -diag-disable=10441)
-  export TEST_BASE=$WRF_FOLDER/MET-11.0.1
+  export TEST_BASE=$WRF_FOLDER/MET-11.0.2
   export COMPILER=intel_$gcc_version
   export MET_SUBDIR=${TEST_BASE}
-  export MET_TARBALL=v11.0.1.tar.gz
+  export MET_TARBALL=v11.0.2.tar.gz
   export USE_MODULES=FALSE
   export MET_PYTHON=/opt/intel/oneapi/intelpython/python${PYTHON_VERSION_COMBINED}
   export MET_PYTHON_CC=-I${MET_PYTHON}/include/python${PYTHON_VERSION_COMBINED}
@@ -528,7 +528,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ]; then
 
   time ./compile_MET_all.sh
 
-  export PATH=$WRF_FOLDER/MET-11.0.1/bin:$PATH            #Add MET executables to path
+  export PATH=$WRF_FOLDER/MET-11.0.2/bin:$PATH            #Add MET executables to path
 
 
 #Basic Package Management for Model Evaluation Tools (METplus)
@@ -559,7 +559,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ]; then
 # Insatlllation of Model Evaluation Tools Plus
   cd $WRF_FOLDER/METplus-5.0.1/parm/metplus_config
 
-  sed -i "s|MET_INSTALL_DIR = /path/to|MET_INSTALL_DIR = $WRF_FOLDER/MET-11.0.1|" defaults.conf
+  sed -i "s|MET_INSTALL_DIR = /path/to|MET_INSTALL_DIR = $WRF_FOLDER/MET-11.0.2|" defaults.conf
   sed -i "s|INPUT_BASE = /path/to|INPUT_BASE = $WRF_FOLDER/METplus-5.0.1/Sample_Data|" defaults.conf
   sed -i "s|OUTPUT_BASE = /path/to|OUTPUT_BASE = $WRF_FOLDER/METplus-5.0.1/Output|" defaults.conf
 
@@ -629,8 +629,8 @@ if [ "$Ubuntu_64bit_GNU" = "1" ]; then
   fi
 
 
-  mkdir $WRF_FOLDER/MET-11.0.1
-  mkdir $WRF_FOLDER/MET-11.0.1/Downloads
+  mkdir $WRF_FOLDER/MET-11.0.2
+  mkdir $WRF_FOLDER/MET-11.0.2/Downloads
   mkdir $WRF_FOLDER/METplus-5.0.1
   mkdir $WRF_FOLDER/METplus-5.0.1/Downloads
 
@@ -638,20 +638,20 @@ if [ "$Ubuntu_64bit_GNU" = "1" ]; then
 
   #Downloading MET and untarring files
   #Note weblinks change often update as needed.
-  cd $WRF_FOLDER/MET-11.0.1/Downloads
+  cd $WRF_FOLDER/MET-11.0.2/Downloads
 
   wget -c -4 https://raw.githubusercontent.com/dtcenter/MET/main_v11.0/internal/scripts/installation/compile_MET_all.sh
 
   wget -c -4 https://dtcenter.ucar.edu/dfiles/code/METplus/MET/installation/tar_files.tgz
 
-  wget -c -4 https://github.com/dtcenter/MET/archive/refs/tags/v11.0.1.tar.gz
+  wget -c -4 https://github.com/dtcenter/MET/archive/refs/tags/v11.0.2.tar.gz
 
 
 
-  cp compile_MET_all.sh $WRF_FOLDER/MET-11.0.1
-  tar -xvzf tar_files.tgz -C $WRF_FOLDER/MET-11.0.1
-  cp v11.0.1.tar.gz $WRF_FOLDER/MET-11.0.1/tar_files
-  cd $WRF_FOLDER/MET-11.0.1
+  cp compile_MET_all.sh $WRF_FOLDER/MET-11.0.2
+  tar -xvzf tar_files.tgz -C $WRF_FOLDER/MET-11.0.2
+  cp v11.0.2.tar.gz $WRF_FOLDER/MET-11.0.2/tar_files
+  cd $WRF_FOLDER/MET-11.0.2
 
 
 
@@ -662,7 +662,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ]; then
   export F77=/usr/bin/gfortran
   export CFLAGS="-fPIC -fPIE -O3"
 
-  cd $WRF_FOLDER/MET-11.0.1
+  cd $WRF_FOLDER/MET-11.0.2
   export GCC_VERSION=$(/usr/bin/gcc -dumpfullversion | awk '{print$1}')
   export GFORTRAN_VERSION=$(/usr/bin/gfortran -dumpfullversion | awk '{print$1}')
   export GPLUSPLUS_VERSION=$(/usr/bin/g++ -dumpfullversion | awk '{print$1}')
@@ -683,10 +683,10 @@ if [ "$Ubuntu_64bit_GNU" = "1" ]; then
   export F77=/usr/bin/gfortran
   export F90=/usr/bin/gfortran
   export gcc_version=$(gcc -dumpfullversion)
-  export TEST_BASE=$WRF_FOLDER/MET-11.0.1
+  export TEST_BASE=$WRF_FOLDER/MET-11.0.2
   export COMPILER=gnu_$gcc_version
   export MET_SUBDIR=${TEST_BASE}
-  export MET_TARBALL=v11.0.1.tar.gz
+  export MET_TARBALL=v11.0.2.tar.gz
   export USE_MODULES=FALSE
   export MET_PYTHON=/usr
   export MET_PYTHON_CC=-I${MET_PYTHON}/include/python${PYTHON_VERSION_COMBINED}
@@ -698,7 +698,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ]; then
 
   time ./compile_MET_all.sh | tee compile_MET_all.log
 
-  export PATH=$WRF_FOLDER/MET-11.0.1/bin:$PATH
+  export PATH=$WRF_FOLDER/MET-11.0.2/bin:$PATH
 
   #basic Package Management for Model Evaluation Tools (METplus)
 
@@ -727,7 +727,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ]; then
 # Insatlllation of Model Evaluation Tools Plus
   cd $WRF_FOLDER/METplus-5.0.1/parm/metplus_config
 
-  sed -i "s|MET_INSTALL_DIR = /path/to|MET_INSTALL_DIR = $WRF_FOLDER/MET-11.0.1|" defaults.conf
+  sed -i "s|MET_INSTALL_DIR = /path/to|MET_INSTALL_DIR = $WRF_FOLDER/MET-11.0.2|" defaults.conf
   sed -i "s|INPUT_BASE = /path/to|INPUT_BASE = $WRF_FOLDER/METplus-5.0.1/Sample_Data|" defaults.conf
   sed -i "s|OUTPUT_BASE = /path/to|OUTPUT_BASE = $WRF_FOLDER/METplus-5.0.1/Output|" defaults.conf
 
@@ -804,7 +804,7 @@ fi
 ############################################# WRF Hydro Standalone #################################
 ## WRFHYDRO Standalone installation with parallel process.
 # Download and install required library and data files for WRFHYDRO.
-# Tested in Ubuntu 20.04.4 LTS & Ubuntu 22.04 & MacOS Ventura 64bit
+# Tested in Ubuntu 20.04.5 LTS & Ubuntu 22.04 & MacOS Ventura 64bit
 # Built in 64-bit system
 # Built with Intel or GNU compilers
 # Tested with current available libraries on 01/01/2023
@@ -846,12 +846,14 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 ##############################Downloading Libraries############################
   cd Downloads
   wget -c -4 https://github.com/madler/zlib/archive/refs/tags/v1.2.13.tar.gz
-  wget -c -4 https://github.com/HDFGroup/hdf5/archive/refs/tags/hdf5-1_13_2.tar.gz
-  wget -c -4 https://github.com/Unidata/netcdf-c/archive/refs/tags/v4.9.0.tar.gz
+  wget -c -4 https://github.com/HDFGroup/hdf5/archive/refs/tags/hdf5-1_14_0.tar.gz
+  wget -c -4 https://github.com/Unidata/netcdf-c/archive/refs/tags/v4.9.2.tar.gz
   wget -c -4 https://github.com/Unidata/netcdf-fortran/archive/refs/tags/v4.6.0.tar.gz
-  wget -c -4 https://github.com/pmodels/mpich/releases/download/v4.0.3/mpich-4.0.3.tar.gz
   wget -c -4 https://download.sourceforge.net/libpng/libpng-1.6.39.tar.gz
   wget -c -4 https://www.ece.uvic.ca/~frodo/jasper/software/jasper-1.900.1.zip
+  wget -c -4 https://github.com/pmodels/mpich/releases/download/v4.0.3/mpich-4.0.3.tar.gz
+  wget -c -4  https://parallel-netcdf.github.io/Release/pnetcdf-1.12.3.tar.gz
+  wget -c -4 https://sourceforge.net/projects/opengrads/files/grads2/2.2.1.oga.1/Linux%20%2864%20Bits%29/opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz
 
 
 
@@ -926,8 +928,8 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
     tar -xvzf v1.2.13.tar.gz
     cd zlib-1.2.13/
     ./configure --prefix=$DIR/grib2
-    make -j $CPU_HALF_EVEN
-    make -j $CPU_HALF_EVEN install | tee make.install.log
+    make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+    make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
     #make check
 
     echo " "
@@ -937,8 +939,8 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
     cd mpich-4.0.3/
     F90= ./configure --prefix=$DIR/MPICH --with-device=ch3 FFLAGS="$fallow_argument -m64" FCFLAGS="$fallow_argument -m64"
 
-    make -j $CPU_HALF_EVEN
-    make -j $CPU_HALF_EVEN install | tee make.install.log
+    make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+    make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
     #make check
 
 
@@ -959,8 +961,8 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
     tar -xvzf libpng-1.6.39.tar.gz
     cd libpng-1.6.39/
     CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX ./configure --prefix=$DIR/grib2
-    make -j $CPU_HALF_EVEN
-    make -j $CPU_HALF_EVEN install | tee make.install.log
+    make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+    make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
     #make check
     echo " "
     #############################JasPer############################
@@ -969,8 +971,8 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
     cd jasper-1.900.1/
     autoreconf -i
     CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX ./configure --prefix=$DIR/grib2
-    make -j $CPU_HALF_EVEN
-    make -j $CPU_HALF_EVEN install | tee make.install.log
+    make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+    make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
     #make check
 
     export JASPERLIB=$DIR/grib2/lib
@@ -980,11 +982,11 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
     echo " "
     #############################hdf5 library for netcdf4 functionality############################
     cd $WRFHYDRO_FOLDER/Downloads
-    tar -xvzf hdf5-1_13_2.tar.gz
-    cd hdf5-hdf5-1_13_2
+    tar -xvzf hdf5-1_14_0.tar.gz
+    cd hdf5-hdf5-1_14_0
     CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX ./configure --prefix=$DIR/grib2 --with-zlib=$DIR/grib2 --enable-hl --enable-fortran --enable-parallel
-    make -j $CPU_HALF_EVEN
-    make -j $CPU_HALF_EVEN install | tee make.install.log
+    make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+    make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
     #make check
 
     export HDF5=$DIR/grib2
@@ -997,7 +999,6 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
     #Hard path for MPI added
     ##################################################################################
     cd $WRFHYDRO_FOLDER/Downloads
-    wget -c -4  https://parallel-netcdf.github.io/Release/pnetcdf-1.12.3.tar.gz
     tar -xvzf pnetcdf-1.12.3.tar.gz
     cd pnetcdf-1.12.3
     export MPIFC=$DIR/MPICH/bin/mpifort
@@ -1021,8 +1022,8 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
     export LDFLAGS=-L$DIR/grib2/lib
     export LIBS="-lhdf5_hl -lhdf5 -lz -lcurl -lgfortran -lgcc -lm -ldl -lpnetcdf"
     CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-shared --enable-pnetcdf --enable-cdf5 --enable-parallel-tests
-    make -j $CPU_HALF_EVEN
-    make -j $CPU_HALF_EVEN install | tee make.install.log
+    make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+    make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
     #make check
 
     export PATH=$DIR/NETCDF/bin:$PATH
@@ -1037,8 +1038,8 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
     export LDFLAGS="-L$DIR/NETCDF/lib -L$DIR/grib2/lib"
     export LIBS="-lnetcdf -lpnetcdf -lcurl -lhdf5_hl -lhdf5 -lz -lm -ldl -lgcc -lgfortran"
     CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-shared --enable-parallel-tests --enable-hdf5
-    make -j $CPU_HALF_EVEN
-    make -j $CPU_HALF_EVEN install | tee make.install.log
+    make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+    make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
     #make check
 
     echo " "
@@ -1352,11 +1353,14 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 
   cd Downloads
   wget -c -4 https://github.com/madler/zlib/archive/refs/tags/v1.2.13.tar.gz
-  wget -c -4 https://github.com/HDFGroup/hdf5/archive/refs/tags/hdf5-1_13_2.tar.gz
-  wget -c -4 https://github.com/Unidata/netcdf-c/archive/refs/tags/v4.9.0.tar.gz
+  wget -c -4 https://github.com/HDFGroup/hdf5/archive/refs/tags/hdf5-1_14_0.tar.gz
+  wget -c -4 https://github.com/Unidata/netcdf-c/archive/refs/tags/v4.9.2.tar.gz
+  wget -c -4 https://github.com/Unidata/netcdf-fortran/archive/refs/tags/v4.6.0.tar.gz
   wget -c -4 https://download.sourceforge.net/libpng/libpng-1.6.39.tar.gz
   wget -c -4 https://www.ece.uvic.ca/~frodo/jasper/software/jasper-1.900.1.zip
-  wget -c -4 https://github.com/Unidata/netcdf-fortran/archive/refs/tags/v4.6.0.tar.gz
+  wget -c -4 https://github.com/pmodels/mpich/releases/download/v4.0.3/mpich-4.0.3.tar.gz
+  wget -c -4  https://parallel-netcdf.github.io/Release/pnetcdf-1.12.3.tar.gz
+  wget -c -4 https://sourceforge.net/projects/opengrads/files/grads2/2.2.1.oga.1/Linux%20%2864%20Bits%29/opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz
 
 
 
@@ -1412,8 +1416,8 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
   #############################hdf5 library for netcdf4 functionality############################
 
   cd $WRFHYDRO_FOLDER/Downloads
-  tar -xvzf hdf5-1_13_2.tar.gz
-  cd hdf5-hdf5-1_13_2
+  tar -xvzf hdf5-1_14_0.tar.gz
+  cd hdf5-hdf5-1_14_0
   ./configure --prefix=$DIR/grib2 --with-zlib=$DIR/grib2 --enable-hl --enable-fortran
   make
   make install
@@ -1795,12 +1799,13 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; the
   ##############################Downloading Libraries############################
   cd Downloads
   wget -c -4 https://github.com/madler/zlib/archive/refs/tags/v1.2.13.tar.gz
-  wget -c -4 https://github.com/HDFGroup/hdf5/archive/refs/tags/hdf5-1_13_2.tar.gz
+  wget -c -4 https://github.com/HDFGroup/hdf5/archive/refs/tags/hdf5-1_14_0.tar.gz
   wget -c -4 https://github.com/Unidata/netcdf-c/archive/refs/tags/v4.9.0.tar.gz
   wget -c -4 https://github.com/Unidata/netcdf-fortran/archive/refs/tags/v4.6.0.tar.gz
   wget -c -4 https://download.sourceforge.net/libpng/libpng-1.6.39.tar.gz
   wget -c -4 https://www.ece.uvic.ca/~frodo/jasper/software/jasper-1.900.1.zip
-
+  wget -c -4  https://parallel-netcdf.github.io/Release/pnetcdf-1.12.3.tar.gz
+  wget -c -4 https://sourceforge.net/projects/opengrads/files/grads2/2.2.1.oga.1/Linux%20%2864%20Bits%29/opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz
 
 
   echo " "
@@ -1845,8 +1850,8 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; the
 
   #############################hdf5 library for netcdf4 functionality############################
   cd $WRFHYDRO_FOLDER/Downloads
-  tar -xvzf hdf5-1_13_2.tar.gz
-  cd hdf5-hdf5-1_13_2
+  tar -xvzf hdf5-1_14_0.tar.gz
+  cd hdf5-hdf5-1_14_0
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX ./configure --prefix=$DIR/grib2 --with-zlib=$DIR/grib2  --enable-hl --enable-fortran --enable-parallel
   make -j $CPU_HALF_EVEN
   make -j $CPU_HALF_EVEN install | tee make.install.log
@@ -1862,7 +1867,6 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; the
 #Hard path for MPI added
 ##################################################################################
 cd $WRFHYDRO_FOLDER/Downloads
-wget -c -4  https://parallel-netcdf.github.io/Release/pnetcdf-1.12.3.tar.gz
 tar -xvzf pnetcdf-1.12.3.tar.gz
 cd pnetcdf-1.12.3
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX ./configure --prefix=$DIR/grib2  --enable-shared --enable-static
@@ -2183,7 +2187,7 @@ fi
 ################################### WRF Hydro Coupled ##############
 ## WRFHYDRO Coupled installation with parallel process.
 # Download and install required library and data files for WRFHYDRO Coupled.
-# Tested in Ubuntu 20.04.4 LTS & Ubuntu 22.04 & MacOS Ventura 64bit
+# Tested in Ubuntu 20.04.5 LTS & Ubuntu 22.04 & MacOS Ventura 64bit
 # Built in 64-bit system
 # Built with Intel or GNU compilers
 # Tested with current available libraries on 01/01/2023
@@ -2251,12 +2255,14 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   ##############################Downloading Libraries############################
   cd Downloads
   wget -c -4 https://github.com/madler/zlib/archive/refs/tags/v1.2.13.tar.gz
-  wget -c -4 https://github.com/HDFGroup/hdf5/archive/refs/tags/hdf5-1_13_2.tar.gz
-  wget -c -4 https://github.com/Unidata/netcdf-c/archive/refs/tags/v4.9.0.tar.gz
+  wget -c -4 https://github.com/HDFGroup/hdf5/archive/refs/tags/hdf5-1_14_0.tar.gz
+  wget -c -4 https://github.com/Unidata/netcdf-c/archive/refs/tags/v4.9.2.tar.gz
   wget -c -4 https://github.com/Unidata/netcdf-fortran/archive/refs/tags/v4.6.0.tar.gz
-  wget -c -4 https://github.com/pmodels/mpich/releases/download/v4.0.3/mpich-4.0.3.tar.gz
   wget -c -4 https://download.sourceforge.net/libpng/libpng-1.6.39.tar.gz
   wget -c -4 https://www.ece.uvic.ca/~frodo/jasper/software/jasper-1.900.1.zip
+  wget -c -4 https://github.com/pmodels/mpich/releases/download/v4.0.3/mpich-4.0.3.tar.gz
+  wget -c -4  https://parallel-netcdf.github.io/Release/pnetcdf-1.12.3.tar.gz
+  wget -c -4 https://sourceforge.net/projects/opengrads/files/grads2/2.2.1.oga.1/Linux%20%2864%20Bits%29/opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz
   wget -c -4 https://sourceforge.net/projects/opengrads/files/grads2/2.2.1.oga.1/Linux%20%2864%20Bits%29/opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz
 
 
@@ -2365,8 +2371,8 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   echo " "
   #############################hdf5 library for netcdf4 functionality############################
   cd $WRFHYDRO_FOLDER/Downloads
-  tar -xvzf hdf5-1_13_2.tar.gz
-  cd hdf5-hdf5-1_13_2
+  tar -xvzf hdf5-1_14_0.tar.gz
+  cd hdf5-hdf5-1_14_0
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX ./configure --prefix=$DIR/grib2 --with-zlib=$DIR/grib2 --enable-hl --enable-fortran --enable-parallel
   make -j $CPU_HALF_EVEN
   make -j $CPU_HALF_EVEN install | tee make.install.log
@@ -2382,7 +2388,6 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   #Hard path for MPI added
   ##################################################################################
   cd $WRFHYDRO_FOLDER/Downloads
-  wget -c -4  https://parallel-netcdf.github.io/Release/pnetcdf-1.12.3.tar.gz
   tar -xvzf pnetcdf-1.12.3.tar.gz
   cd pnetcdf-1.12.3
   export MPIFC=$DIR/MPICH/bin/mpifort
@@ -2976,8 +2981,8 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 
   read -r -t 5 -p "I am going to wait for 5 seconds only ..."
   echo " "
-  ############################ WRF 4.4.2  #################################
-  ## WRF v4.4.2
+  ############################ WRF 4.5  #################################
+  ## WRF v4.5
   ## Downloaded from git tagged releases
   # option 34, option 1 for gfortran and distributed memory w/basic nesting
   # large file support enable with WRFiO_NCD_LARGE_FILE_SUPPORT=1
@@ -2989,37 +2994,37 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   # Note that you need set nocolons = .true. in the section &time_control of namelist.input
   ########################################################################
   cd $WRFHYDRO_FOLDER/Downloads
-  wget -c -4 https://github.com/wrf-model/WRF/releases/download/v4.4.2/v4.4.2.tar.gz -O WRF-4.4.2.tar.gz
-  tar -xvzf WRF-4.4.2.tar.gz -C $WRFHYDRO_FOLDER/
+  wget -c -4 https://github.com/wrf-model/WRF/releases/download/v4.5/v4.5.tar.gz -O WRF-4.5.tar.gz
+  tar -xvzf WRF-4.5.tar.gz -C $WRFHYDRO_FOLDER/
 
     # If statment for changing folder name
   if [ -d "$WRFHYDRO_FOLDER/WRF" ]; then
-  mv -f $WRFHYDRO_FOLDER/WRF $WRFHYDRO_FOLDER/WRFV4.4.2
+  mv -f $WRFHYDRO_FOLDER/WRF $WRFHYDRO_FOLDER/WRFV4.5
   fi
 
-  cd $WRFHYDRO_FOLDER/WRFV4.4.2
+  cd $WRFHYDRO_FOLDER/WRFV4.5
   export WRFIO_NCD_LARGE_FILE_SUPPORT=1
 
   #Replace old version of WRF-Hydro distributed with WRF with updated WRF-Hydro source code
-  rm -r $WRFHYDRO_FOLDER/WRFV4.4.2/hydro/
-  cp -r $WRFHYDRO_FOLDER/Hydro-Basecode/wrf_hydro_nwm_public-5.2.0/trunk/NDHMS $WRFHYDRO_FOLDER/WRFV4.4.2/hydro
+  rm -r $WRFHYDRO_FOLDER/WRFV4.5/hydro/
+  cp -r $WRFHYDRO_FOLDER/Hydro-Basecode/wrf_hydro_nwm_public-5.2.0/trunk/NDHMS $WRFHYDRO_FOLDER/WRFV4.5/hydro
 
-  cd $WRFHYDRO_FOLDER/WRFV4.4.2/hydro
+  cd $WRFHYDRO_FOLDER/WRFV4.5/hydro
   source setEnvar.sh
-  cd $WRFHYDRO_FOLDER/WRFV4.4.2
+  cd $WRFHYDRO_FOLDER/WRFV4.5
 
   ./clean
 
   # SED statements to fix configure error
-  sed -i '186s/==/=/g' $WRFHYDRO_FOLDER/WRFV4.4.2/configure
-  sed -i '318s/==/=/g' $WRFHYDRO_FOLDER/WRFV4.4.2/configure
-  sed -i '919s/==/=/g' $WRFHYDRO_FOLDER/WRFV4.4.2/configure
+  sed -i '186s/==/=/g' $WRFHYDRO_FOLDER/WRFV4.5/configure
+  sed -i '318s/==/=/g' $WRFHYDRO_FOLDER/WRFV4.5/configure
+  sed -i '919s/==/=/g' $WRFHYDRO_FOLDER/WRFV4.5/configure
 
 
   if [ ${auto_config} -eq 1 ]
     then
-        sed -i '428s/.*/  $response = "34 \\n";/g' $WRFHYDRO_FOLDER/WRFV4.4.2/arch/Config.pl # Answer for compiler choice
-        sed -i '869s/.*/  $response = "1 \\n";/g' $WRFHYDRO_FOLDER/WRFV4.4.2/arch/Config.pl  #Answer for basic nesting
+        sed -i '433s/.*/  $response = "34 \\n";/g' $WRFHYDRO_FOLDER/WRFV4.5/arch/Config.pl # Answer for compiler choice
+        sed -i '898s/.*/  $response = "1 \\n";/g' $WRFHYDRO_FOLDER/WRFV4.5/arch/Config.pl  #Answer for basic nesting
         ./configure
     else
       ./configure  #Option 34 gfortran compiler with distributed memory option 1 for basic nesting
@@ -3027,10 +3032,10 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 
   ./compile -j $CPU_HALF_EVEN em_real
 
-  export WRF_DIR=$WRFHYDRO_FOLDER/WRFV4.4.2
+  export WRF_DIR=$WRFHYDRO_FOLDER/WRFV4.5
 
   # IF statement to check that all files were created.
-  cd $WRFHYDRO_FOLDER/WRFV4.4.2/main
+  cd $WRFHYDRO_FOLDER/WRFV4.5/main
   n=$(ls ./*.exe | wc -l)
   if (($n >= 3))
    then
@@ -3043,16 +3048,16 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   fi
 
   echo " "
-  ############################WPSV4.4#####################################
-  ## WPS v4.4
+  ############################WPSV4.5#####################################
+  ## WPS v4.5
   ## Downloaded from git tagged releases
   #Option 3 for gfortran and distributed memory
   ########################################################################
 
   cd $WRFHYDRO_FOLDER/Downloads
-  wget -c -4 https://github.com/wrf-model/WPS/archive/refs/tags/v4.4.tar.gz -O WPS-4.4.tar.gz
-  tar -xvzf WPS-4.4.tar.gz -C $WRFHYDRO_FOLDER/
-  cd $WRFHYDRO_FOLDER/WPS-4.4
+  wget -c -4 https://github.com/wrf-model/WPS/archive/refs/tags/v4.5.tar.gz -O WPS-4.5.tar.gz
+  tar -xvzf WPS-4.5.tar.gz -C $WRFHYDRO_FOLDER/
+  cd $WRFHYDRO_FOLDER/WPS-4.5
   ./clean -a
 
   if [ ${auto_config} -eq 1 ]
@@ -3066,7 +3071,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 
   echo " "
   # IF statement to check that all files were created.
-   cd $WRFHYDRO_FOLDER/WPS-4.4
+   cd $WRFHYDRO_FOLDER/WPS-4.5
    n=$(ls ./*.exe | wc -l)
    if (($n == 3))
     then
@@ -3282,11 +3287,13 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 
   cd $WRFHYDRO_FOLDER/Downloads
   wget -c -4 https://github.com/madler/zlib/archive/refs/tags/v1.2.13.tar.gz
-  wget -c -4 https://github.com/HDFGroup/hdf5/archive/refs/tags/hdf5-1_13_2.tar.gz
+  wget -c -4 https://github.com/HDFGroup/hdf5/archive/refs/tags/hdf5-1_14_0.tar.gz
   wget -c -4 https://github.com/Unidata/netcdf-c/archive/refs/tags/v4.9.0.tar.gz
   wget -c -4 https://github.com/Unidata/netcdf-fortran/archive/refs/tags/v4.6.0.tar.gz
   wget -c -4 https://download.sourceforge.net/libpng/libpng-1.6.39.tar.gz
   wget -c -4 https://www.ece.uvic.ca/~frodo/jasper/software/jasper-1.900.1.zip
+  wget -c -4 https://sourceforge.net/projects/opengrads/files/grads2/2.2.1.oga.1/Linux%20%2864%20Bits%29/opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz
+  wget -c -4  https://parallel-netcdf.github.io/Release/pnetcdf-1.12.3.tar.gz
   wget -c -4 https://sourceforge.net/projects/opengrads/files/grads2/2.2.1.oga.1/Linux%20%2864%20Bits%29/opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz
 
   echo " "
@@ -3339,8 +3346,8 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   ############################# HDF5 library for NetCDF4 & parallel functionality ############################
 
   cd $WRFHYDRO_FOLDER/Downloads
-  tar -xvzf hdf5-1_13_2.tar.gz
-  cd hdf5-hdf5-1_13_2
+  tar -xvzf hdf5-1_14_0.tar.gz
+  cd hdf5-hdf5-1_14_0
 
   CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS="-fPIC -fPIE -diag-disable=10441 -O3" ./configure --prefix=$DIR/grib2 --with-zlib=$DIR/grib2 --enable-hl --enable-fortran --enable-parallel
 
@@ -3360,7 +3367,6 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
    #Hard path for MPI added
    ##################################################################################
   cd $WRFHYDRO_FOLDER/Downloads
-  wget -c -4  https://parallel-netcdf.github.io/Release/pnetcdf-1.12.3.tar.gz
   tar -xvzf pnetcdf-1.12.3.tar.gz
   cd pnetcdf-1.12.3
   export CC=icc
@@ -3836,8 +3842,8 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   read -r -t 5 -p "I am going to wait for 5 seconds only ..."
   echo " "
 
-  ############################ WRF 4.4.2  #################################
-  ## WRF v4.4.2
+  ############################ WRF 4.5  #################################
+  ## WRF v4.5
   ## Downloaded from git tagged releases
   # option 15, option 1 for intel and distributed memory w/basic nesting
   # large file support enable with WRFiO_NCD_LARGE_FILE_SUPPORT=1
@@ -3851,61 +3857,61 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 
   cd $WRFHYDRO_FOLDER/Downloads
 
-  wget -c -4 https://github.com/wrf-model/WRF/releases/download/v4.4.2/v4.4.2.tar.gz -O WRF-4.4.2.tar.gz
-  tar -xvzf WRF-4.4.2.tar.gz -C $WRFHYDRO_FOLDER/
+  wget -c -4 https://github.com/wrf-model/WRF/releases/download/v4.5/v4.5.tar.gz -O WRF-4.5.tar.gz
+  tar -xvzf WRF-4.5.tar.gz -C $WRFHYDRO_FOLDER/
 
   # If statment for changing folder name
   if [ -d "$WRFHYDRO_FOLDER/WRF" ]; then
-  mv -f $WRFHYDRO_FOLDER/WRF $WRFHYDRO_FOLDER/WRFV4.4.2
+  mv -f $WRFHYDRO_FOLDER/WRF $WRFHYDRO_FOLDER/WRFV4.5
   fi
 
-  cd $WRFHYDRO_FOLDER/WRFV4.4.2
+  cd $WRFHYDRO_FOLDER/WRFV4.5
 
   export WRFIO_NCD_LARGE_FILE_SUPPORT=1
 
 
   #Replace old version of WRF-Hydro distributed with WRF with updated WRF-Hydro source code
-  rm -r $WRFHYDRO_FOLDER/WRFV4.4.2/hydro/
-  cp -r $WRFHYDRO_FOLDER/Hydro-Basecode/wrf_hydro_nwm_public-5.2.0/trunk/NDHMS $WRFHYDRO_FOLDER/WRFV4.4.2/hydro
+  rm -r $WRFHYDRO_FOLDER/WRFV4.5/hydro/
+  cp -r $WRFHYDRO_FOLDER/Hydro-Basecode/wrf_hydro_nwm_public-5.2.0/trunk/NDHMS $WRFHYDRO_FOLDER/WRFV4.5/hydro
 
-  cd $WRFHYDRO_FOLDER/WRFV4.4.2/hydro
+  cd $WRFHYDRO_FOLDER/WRFV4.5/hydro
   source setEnvar.sh
-  cd $WRFHYDRO_FOLDER/WRFV4.4.2
+  cd $WRFHYDRO_FOLDER/WRFV4.5
 
 
   ./clean
 
   # SED statements to fix configure error
-  sed -i '186s/==/=/g' $WRFHYDRO_FOLDER/WRFV4.4.2/configure
-  sed -i '318s/==/=/g' $WRFHYDRO_FOLDER/WRFV4.4.2/configure
-  sed -i '919s/==/=/g' $WRFHYDRO_FOLDER/WRFV4.4.2/configure
+  sed -i '186s/==/=/g' $WRFHYDRO_FOLDER/WRFV4.5/configure
+  sed -i '318s/==/=/g' $WRFHYDRO_FOLDER/WRFV4.5/configure
+  sed -i '919s/==/=/g' $WRFHYDRO_FOLDER/WRFV4.5/configure
 
 
 
   if [ ${auto_config} -eq 1 ]
     then
-        sed -i '428s/.*/  $response = "15 \\n";/g' $WRFHYDRO_FOLDER/WRFV4.4.2/arch/Config.pl # Answer for compiler choice
-        sed -i '869s/.*/  $response = "1 \\n";/g' $WRFHYDRO_FOLDER/WRFV4.4.2/arch/Config.pl  #Answer for basic nesting
+        sed -i '433s/.*/  $response = "15 \\n";/g' $WRFHYDRO_FOLDER/WRFV4.5/arch/Config.pl # Answer for compiler choice
+        sed -i '898s/.*/  $response = "1 \\n";/g' $WRFHYDRO_FOLDER/WRFV4.5/arch/Config.pl  #Answer for basic nesting
         ./configure
     else
       ./configure  #Option 15 intel compiler with distributed memory option 1 for basic nesting
   fi
 
 
-  sed -i '63s/mpif90/mpiifort/g' $WRFHYDRO_FOLDER/WRFV4.4.2/hydro/macros
+  sed -i '63s/mpif90/mpiifort/g' $WRFHYDRO_FOLDER/WRFV4.5/hydro/macros
   #Need to remove mpich/GNU config calls to Intel config calls
-  sed -i '170s|mpif90 -f90=$(SFC)|mpiifort|g' $WRFHYDRO_FOLDER/WRFV4.4.2/configure.wrf
-  sed -i '171s|mpicc -cc=$(SCC)|mpiicc|g' $WRFHYDRO_FOLDER/WRFV4.4.2/configure.wrf
+  sed -i '169s|mpif90 -f90=$(SFC)|mpiifort|g' $WRFHYDRO_FOLDER/WRFV4.5/configure.wrf
+  sed -i '170s|mpicc -cc=$(SCC)|mpiicc|g' $WRFHYDRO_FOLDER/WRFV4.5/configure.wrf
 
 
 
   ./compile -j $CPU_HALF_EVEN em_real | tee em_real_intel.log
 
-  export WRF_DIR=$WRFHYDRO_FOLDER/WRFV4.4.2
+  export WRF_DIR=$WRFHYDRO_FOLDER/WRFV4.5
 
 
   # IF statement to check that all files were created.
-  cd $WRFHYDRO_FOLDER/WRFV4.4.2/main
+  cd $WRFHYDRO_FOLDER/WRFV4.5/main
   n=$(ls ./*.exe | wc -l)
   if (($n >= 3))
    then
@@ -3917,16 +3923,16 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
      exit
   fi
   echo " "
-  ############################WPSV4.4#####################################
-  ## WPS v4.4
+  ############################WPSV4.5#####################################
+  ## WPS v4.5
   ## Downloaded from git tagged releases
   #Option 3 for gfortran and distributed memory
   ########################################################################
 
   cd $WRFHYDRO_FOLDER/Downloads
-  wget -c -4 https://github.com/wrf-model/WPS/archive/refs/tags/v4.4.tar.gz -O WPS-4.4.tar.gz
-  tar -xvzf WPS-4.4.tar.gz -C $WRFHYDRO_FOLDER/
-  cd $WRFHYDRO_FOLDER/WPS-4.4
+  wget -c -4 https://github.com/wrf-model/WPS/archive/refs/tags/v4.5.tar.gz -O WPS-4.5.tar.gz
+  tar -xvzf WPS-4.5.tar.gz -C $WRFHYDRO_FOLDER/
+  cd $WRFHYDRO_FOLDER/WPS-4.5
   ./clean -a
 
   if [ ${auto_config} -eq 1 ]
@@ -3936,8 +3942,8 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
       ./configure  #Option 19 intel compiler with distributed memory
   fi
 
-  sed -i '67s|mpif90|mpiifort|g' $WRFHYDRO_FOLDER/WPS-4.4/configure.wps
-  sed -i '68s|mpicc|mpiicc|g' $WRFHYDRO_FOLDER/WPS-4.4/configure.wps
+  sed -i '67s|mpif90|mpiifort|g' $WRFHYDRO_FOLDER/WPS-4.5/configure.wps
+  sed -i '68s|mpicc|mpiicc|g' $WRFHYDRO_FOLDER/WPS-4.5/configure.wps
 
 
   ./compile
@@ -3945,7 +3951,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 
   echo " "
   # IF statement to check that all files were created.
-   cd $WRFHYDRO_FOLDER/WPS-4.4
+   cd $WRFHYDRO_FOLDER/WPS-4.5
    n=$(ls ./*.exe | wc -l)
    if (($n == 3))
     then
@@ -4097,7 +4103,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 
   cd Downloads
   wget -c -4 https://github.com/madler/zlib/archive/refs/tags/v1.2.13.tar.gz
-  wget -c -4 https://github.com/HDFGroup/hdf5/archive/refs/tags/hdf5-1_13_2.tar.gz
+  wget -c -4 https://github.com/HDFGroup/hdf5/archive/refs/tags/hdf5-1_14_0.tar.gz
   wget -c -4 https://github.com/Unidata/netcdf-c/archive/refs/tags/v4.9.0.tar.gz
   wget -c -4 https://github.com/Unidata/netcdf-fortran/archive/refs/tags/v4.6.0.tar.gz
   wget -c -4 https://download.sourceforge.net/libpng/libpng-1.6.39.tar.gz
@@ -4163,8 +4169,8 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   #############################hdf5 library for netcdf4 functionality############################
 
   cd $WRFHYDRO_FOLDER/Downloads
-  tar -xvzf hdf5-1_13_2.tar.gz
-  cd hdf5-hdf5-1_13_2
+  tar -xvzf hdf5-1_14_0.tar.gz
+  cd hdf5-hdf5-1_14_0
   ./configure --prefix=$DIR/grib2 --with-zlib=$DIR/grib2 --enable-hl --enable-fortran
   make
   make install
@@ -4462,41 +4468,41 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   ls -lah RUN/*.exe  #Test to see if .exe files have compiled
 
   echo " "
-  ############################ WRF 4.4.2  #################################
-  ## WRF v4.4.2
+  ############################ WRF 4.5  #################################
+  ## WRF v4.5
   ## Downloaded from git tagged releases
   # option 21, option 1 for gfortran and distributed memory w/basic nesting
   # large file support enable with WRFiO_NCD_LARGE_FILE_SUPPORT=1
   ########################################################################
 
   cd $WRFHYDRO_FOLDER/Downloads
-  wget -c -4 https://github.com/wrf-model/WRF/releases/download/v4.4.2/v4.4.2.tar.gz -O WRF-4.4.2.tar.gz
-  tar -xvzf WRF-4.4.2.tar.gz -C $WRFHYDRO_FOLDER/
+  wget -c -4 https://github.com/wrf-model/WRF/releases/download/v4.5/v4.5.tar.gz -O WRF-4.5.tar.gz
+  tar -xvzf WRF-4.5.tar.gz -C $WRFHYDRO_FOLDER/
 
   # If statment for changing folder name
   if [ -d "$WRFHYDRO_FOLDER/WRF" ]; then
-  mv -f $WRFHYDRO_FOLDER/WRF $WRFHYDRO_FOLDER/WRFV4.4.2
+  mv -f $WRFHYDRO_FOLDER/WRF $WRFHYDRO_FOLDER/WRFV4.5
   fi
 
-  cd $WRFHYDRO_FOLDER/WRFV4.4.2
+  cd $WRFHYDRO_FOLDER/WRFV4.5
   export WRFIO_NCD_LARGE_FILE_SUPPORT=1
 
 
   #Replace old version of WRF-Hydro distributed with WRF with updated WRF-Hydro source code
-  rm -r $WRFHYDRO_FOLDER/WRFV4.4.2/hydro/
-  cp -r $WRFHYDRO_FOLDER/Hydro-Basecode/wrf_hydro_nwm_public-5.2.0/trunk/NDHMS $WRFHYDRO_FOLDER/WRFV4.4.2/hydro
+  rm -r $WRFHYDRO_FOLDER/WRFV4.5/hydro/
+  cp -r $WRFHYDRO_FOLDER/Hydro-Basecode/wrf_hydro_nwm_public-5.2.0/trunk/NDHMS $WRFHYDRO_FOLDER/WRFV4.5/hydro
 
-  cd $WRFHYDRO_FOLDER/WRFV4.4.2/hydro
+  cd $WRFHYDRO_FOLDER/WRFV4.5/hydro
   source setEnvar.sh
-  cd $WRFHYDRO_FOLDER/WRFV4.4.2
+  cd $WRFHYDRO_FOLDER/WRFV4.5
 
 
   ./clean
 
   if [ ${auto_config} -eq 1 ]
     then
-        sed -i'' -e '428s/.*/  $response = "17 \\n";/g' $WRFHYDRO_FOLDER/WRFV4.4.2/arch/Config.pl # Answer for compiler choice
-        sed -i'' -e  '869s/.*/  $response = "1 \\n";/g' $WRFHYDRO_FOLDER/WRFV4.4.2/arch/Config.pl  #Answer for basic nesting
+        sed -i'' -e '433s/.*/  $response = "17 \\n";/g' $WRFHYDRO_FOLDER/WRFV4.5/arch/Config.pl # Answer for compiler choice
+        sed -i'' -e  '898s/.*/  $response = "1 \\n";/g' $WRFHYDRO_FOLDER/WRFV4.5/arch/Config.pl  #Answer for basic nesting
       ./configure
     else
     ./configure  #Option 17 gfortran compiler with distributed memory option 1 for basic nesting
@@ -4506,10 +4512,10 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 
   ./compile em_real
 
-  export WRF_DIR=$WRFHYDRO_FOLDER/WRFV4.4.2
+  export WRF_DIR=$WRFHYDRO_FOLDER/WRFV4.5
 
   # IF statement to check that all files were created.
-  cd $WRFHYDRO_FOLDER/WRFV4.4.2/main
+  cd $WRFHYDRO_FOLDER/WRFV4.5/main
   n=$(ls ./*.exe | wc -l)
   if (($n >= 3))
    then
@@ -4521,16 +4527,16 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
     exit
   fi
   echo " "
-  ############################WPSV4.4#####################################
-  ## WPS v4.4
+  ############################WPSV4.5#####################################
+  ## WPS v4.5
   ## Downloaded from git tagged releases
   #Option 3 for gfortran and distributed memory
   ########################################################################
 
   cd $WRFHYDRO_FOLDER/Downloads
-  wget -c -4 https://github.com/wrf-model/WPS/archive/refs/tags/v4.4.tar.gz -O WPS-4.4.tar.gz
-  tar -xvzf WPS-4.4.tar.gz -C $WRFHYDRO_FOLDER/
-  cd $WRFHYDRO_FOLDER/WPS-4.4
+  wget -c -4 https://github.com/wrf-model/WPS/archive/refs/tags/v4.5.tar.gz -O WPS-4.5.tar.gz
+  tar -xvzf WPS-4.5.tar.gz -C $WRFHYDRO_FOLDER/
+  cd $WRFHYDRO_FOLDER/WPS-4.5
   ./clean -a
 
   if [ ${auto_config} -eq 1 ]
@@ -4542,7 +4548,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   ./compile
 
   # IF statement to check that all files were created.
-   cd $WRFHYDRO_FOLDER/WPS-4.4
+   cd $WRFHYDRO_FOLDER/WPS-4.5
    n=$(ls ./*.exe | wc -l)
    if (($n == 3))
     then
@@ -4668,7 +4674,7 @@ fi
 ########################### WRF CHEM ##########################
 ## WRFCHEM installation with parallel process.
 # Download and install required library and data files for WRFCHEM/KPP $ WRF 3DVAR for Chemistry.
-# Tested in Ubuntu 20.04.4 LTS & Ubuntu 22.04 & MacOS Ventura 64bit
+# Tested in Ubuntu 20.04.5 LTS & Ubuntu 22.04 & MacOS Ventura 64bit
 # Built in 64-bit system
 # Built with Intel or GNU compilers
 # Tested with current available libraries on 01/01/2023
@@ -4732,12 +4738,14 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   ##############################Downloading Libraries############################
   cd Downloads
   wget -c -4 https://github.com/madler/zlib/archive/refs/tags/v1.2.13.tar.gz
-  wget -c -4 https://github.com/HDFGroup/hdf5/archive/refs/tags/hdf5-1_13_2.tar.gz
-  wget -c -4 https://github.com/Unidata/netcdf-c/archive/refs/tags/v4.9.0.tar.gz
+  wget -c -4 https://github.com/HDFGroup/hdf5/archive/refs/tags/hdf5-1_14_0.tar.gz
+  wget -c -4 https://github.com/Unidata/netcdf-c/archive/refs/tags/v4.9.2.tar.gz
   wget -c -4 https://github.com/Unidata/netcdf-fortran/archive/refs/tags/v4.6.0.tar.gz
-  wget -c -4 https://github.com/pmodels/mpich/releases/download/v4.0.3/mpich-4.0.3.tar.gz
   wget -c -4 https://download.sourceforge.net/libpng/libpng-1.6.39.tar.gz
   wget -c -4 https://www.ece.uvic.ca/~frodo/jasper/software/jasper-1.900.1.zip
+  wget -c -4 https://github.com/pmodels/mpich/releases/download/v4.0.3/mpich-4.0.3.tar.gz
+  wget -c -4  https://parallel-netcdf.github.io/Release/pnetcdf-1.12.3.tar.gz
+  wget -c -4 https://sourceforge.net/projects/opengrads/files/grads2/2.2.1.oga.1/Linux%20%2864%20Bits%29/opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz
   wget -c -4 https://sourceforge.net/projects/opengrads/files/grads2/2.2.1.oga.1/Linux%20%2864%20Bits%29/opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz
 
   echo " "
@@ -4846,8 +4854,8 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   echo " "
   #############################hdf5 library for netcdf4 functionality############################
   cd $WRFCHEM_FOLDER/Downloads
-  tar -xvzf hdf5-1_13_2.tar.gz
-  cd hdf5-hdf5-1_13_2
+  tar -xvzf hdf5-1_14_0.tar.gz
+  cd hdf5-hdf5-1_14_0
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX ./configure --prefix=$DIR/grib2 --with-zlib=$DIR/grib2 --enable-hl --enable-fortran --enable-parallel
   make -j $CPU_HALF_EVEN
   make -j $CPU_HALF_EVEN install | tee make.install.log
@@ -4865,7 +4873,6 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   #Hard path for MPI added
   ##################################################################################
   cd $WRFCHEM_FOLDER/Downloads
-  wget -c -4  https://parallel-netcdf.github.io/Release/pnetcdf-1.12.3.tar.gz
   tar -xvzf pnetcdf-1.12.3.tar.gz
   cd pnetcdf-1.12.3
   export MPIFC=$DIR/MPICH/bin/mpifort
@@ -5423,7 +5430,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   echo " "
 
   ############################WRFDA 3DVAR###############################
-  ## WRFDA v4.4.2 3DVAR
+  ## WRFDA v4.5 3DVAR
   ## Downloaded from git tagged releases
   ## Does not include RTTOV Libarary for radiation data.  If wanted will need to install library then reconfigure
   ##Note: if you intend to run both 3DVAR and 4DVAR experiments, it is not necessary to compile the code twice.
@@ -5431,19 +5438,19 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   ########################################################################
   cd $WRFCHEM_FOLDER/Downloads
   cd $WRFCHEM_FOLDER/Downloads
-  wget -c -4 https://github.com/wrf-model/WRF/releases/download/v4.4.2/v4.4.2.tar.gz -O WRF-4.4.2.tar.gz
+  wget -c -4 https://github.com/wrf-model/WRF/releases/download/v4.5/v4.5.tar.gz -O WRF-4.5.tar.gz
   mkdir $WRFCHEM_FOLDER/WRFDA
-  tar -xvzf WRF-4.4.2.tar.gz -C $WRFCHEM_FOLDER/WRFDA
+  tar -xvzf WRF-4.5.tar.gz -C $WRFCHEM_FOLDER/WRFDA
 
   # If statment for changing folder name
   if [ -d "$WRFCHEM_FOLDER/WRFDA/WRF" ]; then
-  mv -f $WRFCHEM_FOLDER/WRFDA/WRF $WRFCHEM_FOLDER/WRFDA/WRFV4.4.2
+  mv -f $WRFCHEM_FOLDER/WRFDA/WRF $WRFCHEM_FOLDER/WRFDA/WRFV4.5
   fi
-    cd $WRFCHEM_FOLDER/WRFDA/WRFV4.4.2
+    cd $WRFCHEM_FOLDER/WRFDA/WRFV4.5
 
   mv * $WRFCHEM_FOLDER/WRFDA
   cd $WRFCHEM_FOLDER/WRFDA
-  rm -rf WRFV4.4.2/
+  rm -rf WRFV4.5/
   cd $WRFCHEM_FOLDER/WRFDA
 
   ulimit -s unlimited
@@ -5482,8 +5489,8 @@ sed -i '919s/==/=/g' $WRFCHEM_FOLDER/WRFDA/configure
    fi
   echo " "
 
-  ############################ WRFCHEM 4.4.2 #################################
-  ## WRF CHEM v4.4.2
+  ############################ WRFCHEM 4.5 #################################
+  ## WRF CHEM v4.5
   ## Downloaded from git tagged releases
   # option 34, option 1 for gfortran and distributed memory w/basic nesting
   # If the script comes back asking to locate a file (libfl.a)
@@ -5508,8 +5515,8 @@ sed -i '919s/==/=/g' $WRFCHEM_FOLDER/WRFDA/configure
   export YACC='/usr/bin/yacc -d'
   export FLEX=/usr/bin/flex
   export FLEX_LIB_DIR=/usr/lib/x86_64-linux-gnu/
-  export KPP_HOME=$WRFCHEM_FOLDER/WRFV4.4.2/chem/KPP/kpp/kpp-2.1
-  export WRF_SRC_ROOT_DIR=$WRFCHEM_FOLDER/WRFV4.4.2
+  export KPP_HOME=$WRFCHEM_FOLDER/WRFV4.5/chem/KPP/kpp/kpp-2.1
+  export WRF_SRC_ROOT_DIR=$WRFCHEM_FOLDER/WRFV4.5
   export PATH=$KPP_HOME/bin:$PATH
   export SED=/usr/bin/sed
   export WRFIO_NCD_LARGE_FILE_SUPPORT=1
@@ -5522,9 +5529,9 @@ sed -i '919s/==/=/g' $WRFCHEM_FOLDER/WRFDA/configure
 
   # If statment for changing folder name
   if [ -d "$WRFCHEM_FOLDER/WRF" ]; then
-  mv -f $WRFCHEM_FOLDER/WRF $WRFCHEM_FOLDER/WRFV4.4.2
+  mv -f $WRFCHEM_FOLDER/WRF $WRFCHEM_FOLDER/WRFV4.5
   fi
-  cd $WRFCHEM_FOLDER/WRFV4.4.2
+  cd $WRFCHEM_FOLDER/WRFV4.5
 
   cd chem/KPP
   sed -i -e 's/="-O"/="-O0"/' configure_kpp
@@ -5534,14 +5541,14 @@ sed -i '919s/==/=/g' $WRFCHEM_FOLDER/WRFDA/configure
 
 
   # SED statements to fix configure error
-  sed -i '186s/==/=/g' $WRFCHEM_FOLDER/WRFV4.4.2/configure
-  sed -i '318s/==/=/g' $WRFCHEM_FOLDER/WRFV4.4.2/configure
-  sed -i '919s/==/=/g' $WRFCHEM_FOLDER/WRFV4.4.2/configure
+  sed -i '186s/==/=/g' $WRFCHEM_FOLDER/WRFV4.5/configure
+  sed -i '318s/==/=/g' $WRFCHEM_FOLDER/WRFV4.5/configure
+  sed -i '919s/==/=/g' $WRFCHEM_FOLDER/WRFV4.5/configure
 
   if [ ${auto_config} -eq 1 ]
     then
-        sed -i '428s/.*/  $response = "34 \\n";/g' $WRFCHEM_FOLDER/WRFV4.4.2/arch/Config.pl # Answer for compiler choice
-        sed -i '869s/.*/  $response = "1 \\n";/g' $WRFCHEM_FOLDER/WRFV4.4.2/arch/Config.pl  #Answer for basic nesting
+        sed -i '433s/.*/  $response = "34 \\n";/g' $WRFCHEM_FOLDER/WRFV4.5/arch/Config.pl # Answer for compiler choice
+        sed -i '898s/.*/  $response = "1 \\n";/g' $WRFCHEM_FOLDER/WRFV4.5/arch/Config.pl  #Answer for basic nesting
         ./configure
     else
       ./configure  #Option 34 gfortran compiler with distributed memory option 1 for basic nesting
@@ -5549,9 +5556,9 @@ sed -i '919s/==/=/g' $WRFCHEM_FOLDER/WRFDA/configure
 
   ./compile -j $CPU_HALF_EVEN em_real
 
-  export WRF_DIR=$WRFCHEM_FOLDER/WRFV4.4.2
+  export WRF_DIR=$WRFCHEM_FOLDER/WRFV4.5
   # IF statement to check that all files were created.
-  cd $WRFCHEM_FOLDER/WRFV4.4.2/main
+  cd $WRFCHEM_FOLDER/WRFV4.5/main
   n=$(ls ./*.exe | wc -l)
   if (($n >= 3))
    then
@@ -5563,16 +5570,16 @@ sed -i '919s/==/=/g' $WRFCHEM_FOLDER/WRFDA/configure
    exit
   fi
   echo " "
-  ############################WPSV4.4#####################################
-  ## WPS v4.4
+  ############################WPSV4.5#####################################
+  ## WPS v4.5
   ## Downloaded from git tagged releases
   #Option 3 for gfortran and distributed memory
   ########################################################################
 
   cd $WRFCHEM_FOLDER/Downloads
-  wget -c -4 https://github.com/wrf-model/WPS/archive/refs/tags/v4.4.tar.gz -O WPS-4.4.tar.gz
-  tar -xvzf WPS-4.4.tar.gz -C $WRFCHEM_FOLDER/
-  cd $WRFCHEM_FOLDER/WPS-4.4
+  wget -c -4 https://github.com/wrf-model/WPS/archive/refs/tags/v4.5.tar.gz -O WPS-4.5.tar.gz
+  tar -xvzf WPS-4.5.tar.gz -C $WRFCHEM_FOLDER/
+  cd $WRFCHEM_FOLDER/WPS-4.5
 
   ./clean -a
 
@@ -5586,7 +5593,7 @@ sed -i '919s/==/=/g' $WRFCHEM_FOLDER/WRFDA/configure
 
   echo " "
   # IF statement to check that all files were created.
-   cd $WRFCHEM_FOLDER/WPS-4.4
+   cd $WRFCHEM_FOLDER/WPS-4.5
    n=$(ls ./*.exe | wc -l)
    if (($n == 3))
     then
@@ -5801,11 +5808,13 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 
   cd $WRFCHEM_FOLDER/Downloads
   wget -c -4 https://github.com/madler/zlib/archive/refs/tags/v1.2.13.tar.gz
-  wget -c -4 https://github.com/HDFGroup/hdf5/archive/refs/tags/hdf5-1_13_2.tar.gz
+  wget -c -4 https://github.com/HDFGroup/hdf5/archive/refs/tags/hdf5-1_14_0.tar.gz
   wget -c -4 https://github.com/Unidata/netcdf-c/archive/refs/tags/v4.9.0.tar.gz
   wget -c -4 https://github.com/Unidata/netcdf-fortran/archive/refs/tags/v4.6.0.tar.gz
   wget -c -4 https://download.sourceforge.net/libpng/libpng-1.6.39.tar.gz
   wget -c -4 https://www.ece.uvic.ca/~frodo/jasper/software/jasper-1.900.1.zip
+  wget -c -4 https://sourceforge.net/projects/opengrads/files/grads2/2.2.1.oga.1/Linux%20%2864%20Bits%29/opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz
+  wget -c -4  https://parallel-netcdf.github.io/Release/pnetcdf-1.12.3.tar.gz
   wget -c -4 https://sourceforge.net/projects/opengrads/files/grads2/2.2.1.oga.1/Linux%20%2864%20Bits%29/opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz
 
   echo " "
@@ -5858,8 +5867,8 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   ############################# HDF5 library for NetCDF4 & parallel functionality ############################
 
   cd $WRFCHEM_FOLDER/Downloads
-  tar -xvzf hdf5-1_13_2.tar.gz
-  cd hdf5-hdf5-1_13_2
+  tar -xvzf hdf5-1_14_0.tar.gz
+  cd hdf5-hdf5-1_14_0
 
   CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS="-fPIC -fPIE -diag-disable=10441 -O3"  ./configure --prefix=$DIR/grib2 --with-zlib=$DIR/grib2 --enable-hl --enable-fortran --enable-parallel
 
@@ -5879,7 +5888,6 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   #Hard path for MPI added
   ##################################################################################
   cd $WRFCHEM_FOLDER/Downloads
-  wget -c -4  https://parallel-netcdf.github.io/Release/pnetcdf-1.12.3.tar.gz
   tar -xvzf pnetcdf-1.12.3.tar.gz
   cd pnetcdf-1.12.3
   ./configure --prefix=$DIR/grib2  --enable-shared --enable-static
@@ -6264,7 +6272,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 
 
   ############################WRFDA 3DVAR###############################
-  ## WRFDA v4.4.2 3DVAR
+  ## WRFDA v4.5 3DVAR
   ## Downloaded from git tagged releases
   ## Does not include RTTOV Libarary for radiation data.  If wanted will need to install library then reconfigure
   ##Note: if you intend to run both 3DVAR and 4DVAR experiments, it is not necessary to compile the code twice.
@@ -6272,17 +6280,17 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   ########################################################################
   cd $WRFCHEM_FOLDER/Downloads
   cd $WRFCHEM_FOLDER/Downloads
-  wget -c -4 https://github.com/wrf-model/WRF/releases/download/v4.4.2/v4.4.2.tar.gz -O WRF-4.4.2.tar.gz
+  wget -c -4 https://github.com/wrf-model/WRF/releases/download/v4.5/v4.5.tar.gz -O WRF-4.5.tar.gz
   mkdir $WRFCHEM_FOLDER/WRFDA
-  tar -xvzf WRF-4.4.2.tar.gz -C $WRFCHEM_FOLDER/WRFDA
+  tar -xvzf WRF-4.5.tar.gz -C $WRFCHEM_FOLDER/WRFDA
   # If statment for changing folder name
   if [ -d "$WRFCHEM_FOLDER/WRFDA/WRF" ]; then
-  mv -f $WRFCHEM_FOLDER/WRFDA/WRF $WRFCHEM_FOLDER/WRFDA/WRFV4.4.2
+  mv -f $WRFCHEM_FOLDER/WRFDA/WRF $WRFCHEM_FOLDER/WRFDA/WRFV4.5
   fi
-    cd $WRFCHEM_FOLDER/WRFDA/WRFV4.4.2
+    cd $WRFCHEM_FOLDER/WRFDA/WRFV4.5
   mv * $WRFCHEM_FOLDER/WRFDA
   cd $WRFCHEM_FOLDER/WRFDA
-  rm -rf WRFV4.4.2/
+  rm -rf WRFV4.5/
   cd $WRFCHEM_FOLDER/WRFDA
 
   ulimit -s unlimited
@@ -6300,8 +6308,8 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   echo " "
 
   #Need to remove mpich/GNU config calls to Intel config calls
-  sed -i '170s|mpif90 -f90=$(SFC)|mpiifort|g' $WRFCHEM_FOLDER/WRFDA/configure.wrf
-  sed -i '171s|mpicc -cc=$(SCC)|mpiicc|g' $WRFCHEM_FOLDER/WRFDA/configure.wrf
+  sed -i '169s|mpif90 -f90=$(SFC)|mpiifort|g' $WRFCHEM_FOLDER/WRFDA/configure.wrf
+  sed -i '170s|mpicc -cc=$(SCC)|mpiicc|g' $WRFCHEM_FOLDER/WRFDA/configure.wrf
 
   ./compile -j $CPU_HALF_EVEN all_wrfvar | tee compile1.log
   echo " "
@@ -6323,8 +6331,8 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 
 
 
-  ############################ WRF 4.4.2  #################################
-  ## WRF v4.4.2
+  ############################ WRF 4.5  #################################
+  ## WRF v4.5
   ## Downloaded from git tagged releases
   # option 15, option 1 for intel and distributed memory w/basic nesting
   # large file support enable with WRFiO_NCD_LARGE_FILE_SUPPORT=1
@@ -6340,8 +6348,8 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   export YACC='/usr/bin/yacc -d'
   export FLEX=/usr/bin/flex
   export FLEX_LIB_DIR=/usr/lib/x86_64-linux-gnu/
-  export KPP_HOME=$WRFCHEM_FOLDER/WRFV4.4.2/chem/KPP/kpp/kpp-2.1
-  export WRF_SRC_ROOT_DIR=$WRFCHEM_FOLDER/WRFV4.4.2
+  export KPP_HOME=$WRFCHEM_FOLDER/WRFV4.5/chem/KPP/kpp/kpp-2.1
+  export WRF_SRC_ROOT_DIR=$WRFCHEM_FOLDER/WRFV4.5
   export PATH=$KPP_HOME/bin:$PATH
   export SED=/usr/bin/sed
   export WRFIO_NCD_LARGE_FILE_SUPPORT=1
@@ -6349,13 +6357,13 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 
 
   cd $WRFCHEM_FOLDER/Downloads
-  wget -c -4 https://github.com/wrf-model/WRF/releases/download/v4.4.2/v4.4.2.tar.gz -O WRF-4.4.2.tar.gz
-  tar -xvzf WRF-4.4.2.tar.gz -C $WRFCHEM_FOLDER/
+  wget -c -4 https://github.com/wrf-model/WRF/releases/download/v4.5/v4.5.tar.gz -O WRF-4.5.tar.gz
+  tar -xvzf WRF-4.5.tar.gz -C $WRFCHEM_FOLDER/
   # If statment for changing folder name
   if [ -d "$WRFCHEM_FOLDER/WRF" ]; then
-  mv -f $WRFCHEM_FOLDER/WRF $WRFCHEM_FOLDER/WRFV4.4.2
+  mv -f $WRFCHEM_FOLDER/WRF $WRFCHEM_FOLDER/WRFV4.5
   fi
-  cd $WRFCHEM_FOLDER/WRFV4.4.2
+  cd $WRFCHEM_FOLDER/WRFV4.5
 
   cd chem/KPP
   sed -i -e 's/="-O"/="-O0"/' configure_kpp
@@ -6367,24 +6375,24 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 
   if [ ${auto_config} -eq 1 ]
     then
-        sed -i '428s/.*/  $response = "15 \\n";/g' $WRFCHEM_FOLDER/WRFV4.4.2/arch/Config.pl # Answer for compiler choice
-        sed -i '869s/.*/  $response = "1 \\n";/g' $WRFCHEM_FOLDER/WRFV4.4.2/arch/Config.pl  #Answer for basic nesting
+        sed -i '433s/.*/  $response = "15 \\n";/g' $WRFCHEM_FOLDER/WRFV4.5/arch/Config.pl # Answer for compiler choice
+        sed -i '898s/.*/  $response = "1 \\n";/g' $WRFCHEM_FOLDER/WRFV4.5/arch/Config.pl  #Answer for basic nesting
         ./configure
     else
       ./configure  #Option 15 intel compiler with distributed memory option 1 for basic nesting
   fi
 
   #Need to remove mpich/GNU config calls to Intel config calls
-  sed -i '170s|mpif90 -f90=$(SFC)|mpiifort|g' $WRFCHEM_FOLDER/WRFV4.4.2/configure.wrf
-  sed -i '171s|mpicc -cc=$(SCC)|mpiicc|g' $WRFCHEM_FOLDER/WRFV4.4.2/configure.wrf
+  sed -i '169s|mpif90 -f90=$(SFC)|mpiifort|g' $WRFCHEM_FOLDER/WRFV4.5/configure.wrf
+  sed -i '170s|mpicc -cc=$(SCC)|mpiicc|g' $WRFCHEM_FOLDER/WRFV4.5/configure.wrf
 
   ./compile -j $CPU_HALF_EVEN em_real | tee em_real_intel.log
 
-  export WRF_DIR=$WRFCHEM_FOLDER/WRFV4.4.2
+  export WRF_DIR=$WRFCHEM_FOLDER/WRFV4.5
 
 
   # IF statement to check that all files were created.
-  cd $WRFCHEM_FOLDER/WRFV4.4.2/main
+  cd $WRFCHEM_FOLDER/WRFV4.5/main
   n=$(ls ./*.exe | wc -l)
   if (($n >= 3))
    then
@@ -6396,16 +6404,16 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
    exit
   fi
   echo " "
-  ############################WPSV4.4#####################################
-  ## WPS v4.4
+  ############################WPSV4.5#####################################
+  ## WPS v4.5
   ## Downloaded from git tagged releases
   #Option 3 for gfortran and distributed memory
   ########################################################################
 
   cd $WRFCHEM_FOLDER/Downloads
-  wget -c -4 https://github.com/wrf-model/WPS/archive/refs/tags/v4.4.tar.gz -O WPS-4.4.tar.gz
-  tar -xvzf WPS-4.4.tar.gz -C $WRFCHEM_FOLDER/
-  cd $WRFCHEM_FOLDER/WPS-4.4
+  wget -c -4 https://github.com/wrf-model/WPS/archive/refs/tags/v4.5.tar.gz -O WPS-4.5.tar.gz
+  tar -xvzf WPS-4.5.tar.gz -C $WRFCHEM_FOLDER/
+  cd $WRFCHEM_FOLDER/WPS-4.5
   ./clean -a
 
   if [ ${auto_config} -eq 1 ]
@@ -6415,8 +6423,8 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
         ./configure  #Option 19 intel compiler with distributed memory
     fi
 
-    sed -i '67s|mpif90|mpiifort|g' $WRFCHEM_FOLDER/WPS-4.4/configure.wps
-    sed -i '68s|mpicc|mpiicc|g' $WRFCHEM_FOLDER/WPS-4.4/configure.wps
+    sed -i '67s|mpif90|mpiifort|g' $WRFCHEM_FOLDER/WPS-4.5/configure.wps
+    sed -i '68s|mpicc|mpiicc|g' $WRFCHEM_FOLDER/WPS-4.5/configure.wps
 
 
   ./compile
@@ -6424,7 +6432,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 
   echo " "
   # IF statement to check that all files were created.
-   cd $WRFCHEM_FOLDER/WPS-4.4
+   cd $WRFCHEM_FOLDER/WPS-4.5
    n=$(ls ./*.exe | wc -l)
    if (($n == 3))
       then
@@ -6573,7 +6581,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 
   cd Downloads
   wget -c -4 https://github.com/madler/zlib/archive/refs/tags/v1.2.13.tar.gz
-  wget -c -4 https://github.com/HDFGroup/hdf5/archive/refs/tags/hdf5-1_13_2.tar.gz
+  wget -c -4 https://github.com/HDFGroup/hdf5/archive/refs/tags/hdf5-1_14_0.tar.gz
   wget -c -4 https://github.com/Unidata/netcdf-c/archive/refs/tags/v4.9.0.tar.gz
   wget -c -4 https://github.com/Unidata/netcdf-fortran/archive/refs/tags/v4.6.0.tar.gz
   wget -c -4 https://download.sourceforge.net/libpng/libpng-1.6.39.tar.gz
@@ -6644,8 +6652,8 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   #############################hdf5 library for netcdf4 functionality############################
 
   cd $WRFCHEM_FOLDER/Downloads
-  tar -xvzf hdf5-1_13_2.tar.gz
-  cd hdf5-hdf5-1_13_2
+  tar -xvzf hdf5-1_14_0.tar.gz
+  cd hdf5-hdf5-1_14_0
   ./configure --prefix=$DIR/grib2 --with-zlib=$DIR/grib2 --enable-hl --enable-fortran
   make
   make install
@@ -6893,8 +6901,8 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 
 
   echo " "
-  ############################ WRFCHEM 4.4.2 #################################
-  ## WRF CHEM v4.4.2
+  ############################ WRFCHEM 4.5 #################################
+  ## WRF CHEM v4.5
   ## Downloaded from git tagged releases
   # option 17, option 1 for gfortran and distributed memory w/basic nesting
   # If the script comes back asking to locate a file (libfl.a)
@@ -6918,14 +6926,14 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 
   #Downloading WRF code
   cd $WRFCHEM_FOLDER/Downloads
-  wget -c -4 https://github.com/wrf-model/WRF/releases/download/v4.4.2/v4.4.2.tar.gz -O WRF-4.4.2.tar.gz
-  tar -xvzf WRF-4.4.2.tar.gz -C $WRFCHEM_FOLDER/
+  wget -c -4 https://github.com/wrf-model/WRF/releases/download/v4.5/v4.5.tar.gz -O WRF-4.5.tar.gz
+  tar -xvzf WRF-4.5.tar.gz -C $WRFCHEM_FOLDER/
 
   # If statment for changing folder name
   if [ -d "$WRFCHEM_FOLDER/WRF" ]; then
-  mv -f $WRFCHEM_FOLDER/WRF $WRFCHEM_FOLDER/WRFV4.4.2
+  mv -f $WRFCHEM_FOLDER/WRF $WRFCHEM_FOLDER/WRFV4.5
   fi
-  cd $WRFCHEM_FOLDER/WRFV4.4.2
+  cd $WRFCHEM_FOLDER/WRFV4.5
 
 
   ./clean -a
@@ -6933,22 +6941,22 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 
   if [ ${auto_config} -eq 1 ]
     then
-      sed -i'' -e '428s/.*/  $response = "17 \\n";/g' $WRFCHEM_FOLDER/WRFV4.4.2/arch/Config.pl # Answer for compiler choice
-      sed -i'' -e '869s/.*/  $response = "1 \\n";/g' $WRFCHEM_FOLDER/WRFV4.4.2/arch/Config.pl  #Answer for basic nesting
+      sed -i'' -e '433s/.*/  $response = "17 \\n";/g' $WRFCHEM_FOLDER/WRFV4.5/arch/Config.pl # Answer for compiler choice
+      sed -i'' -e '898s/.*/  $response = "1 \\n";/g' $WRFCHEM_FOLDER/WRFV4.5/arch/Config.pl  #Answer for basic nesting
       ./configure
     else
     ./configure  #Option 17 gfortran compiler with distributed memory option 1 for basic nesting
   fi
 
-  sed -i'' -e 's/-w -O3 -c/-w -O3 -c -fPIC -fPIE -Wno-implicit-function-declaration/g' $WRFCHEM_FOLDER/WRFV4.4.2/configure.wrf
+  sed -i'' -e 's/-w -O3 -c/-w -O3 -c -fPIC -fPIE -Wno-implicit-function-declaration/g' $WRFCHEM_FOLDER/WRFV4.5/configure.wrf
 
 
   ./compile em_real | tee em_real_compile.log
 
-  export WRF_DIR=$WRFCHEM_FOLDER/WRFV4.4.2
+  export WRF_DIR=$WRFCHEM_FOLDER/WRFV4.5
 
   # IF statement to check that all files were created.
-  cd $WRFCHEM_FOLDER/WRFV4.4.2/main
+  cd $WRFCHEM_FOLDER/WRFV4.5/main
   n=$(ls ./*.exe | wc -l)
   if (($n >= 3))
     then
@@ -6960,16 +6968,16 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
         exit
   fi
   echo " "
-  ############################WPSV4.4#####################################
-  ## WPS v4.4
+  ############################WPSV4.5#####################################
+  ## WPS v4.5
   ## Downloaded from git tagged releases
   #Option 3 for gfortran and distributed memory
   ########################################################################
 
   cd $WRFCHEM_FOLDER/Downloads
-  wget -c -4 https://github.com/wrf-model/WPS/archive/refs/tags/v4.4.tar.gz -O WPS-4.4.tar.gz
-  tar -xvzf WPS-4.4.tar.gz -C $WRFCHEM_FOLDER/
-  cd $WRFCHEM_FOLDER/WPS-4.4
+  wget -c -4 https://github.com/wrf-model/WPS/archive/refs/tags/v4.5.tar.gz -O WPS-4.5.tar.gz
+  tar -xvzf WPS-4.5.tar.gz -C $WRFCHEM_FOLDER/
+  cd $WRFCHEM_FOLDER/WPS-4.5
   ./clean -a
 
   if [ ${auto_config} -eq 1 ]
@@ -6982,7 +6990,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   ./compile | tee compile19.log
 
   # IF statement to check that all files were created.
-  cd $WRFCHEM_FOLDER/WPS-4.4
+  cd $WRFCHEM_FOLDER/WPS-4.5
   n=$(ls ./*.exe | wc -l)
   if (($n == 3))
     then
@@ -6997,7 +7005,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 
 
   ############################WRFDA 3DVAR###############################
-  ## WRFDA v4.4.2 3DVAR
+  ## WRFDA v4.5 3DVAR
   ## Downloaded from git tagged releases
   ## Does not include RTTOV Libarary for radiation data.  If wanted will need to install library then reconfigure
   ##Note: if you intend to run both 3DVAR and 4DVAR experiments, it is not necessary to compile the code twice.
@@ -7005,17 +7013,17 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   ########################################################################
   cd $WRFCHEM_FOLDER/Downloads
   cd $WRFCHEM_FOLDER/Downloads
-  wget -c -4 https://github.com/wrf-model/WRF/releases/download/v4.4.2/v4.4.2.tar.gz -O WRF-4.4.2.tar.gz
+  wget -c -4 https://github.com/wrf-model/WRF/releases/download/v4.5/v4.5.tar.gz -O WRF-4.5.tar.gz
   mkdir $WRFCHEM_FOLDER/WRFDA
-  tar -xvzf WRF-4.4.2.tar.gz -C $WRFCHEM_FOLDER/WRFDA
+  tar -xvzf WRF-4.5.tar.gz -C $WRFCHEM_FOLDER/WRFDA
   # If statment for changing folder name
   if [ -d "$WRFCHEM_FOLDER/WRFDA/WRF" ]; then
-  mv -f $WRFCHEM_FOLDER/WRFDA/WRF $WRFCHEM_FOLDER/WRFDA/WRFV4.4.2
+  mv -f $WRFCHEM_FOLDER/WRFDA/WRF $WRFCHEM_FOLDER/WRFDA/WRFV4.5
   fi
-    cd $WRFCHEM_FOLDER/WRFDA/WRFV4.4.2
+    cd $WRFCHEM_FOLDER/WRFDA/WRFV4.5
   mv * $WRFCHEM_FOLDER/WRFDA
   cd $WRFCHEM_FOLDER/WRFDA
-  rm -rf WRFV4.4.2/
+  rm -rf WRFV4.5/
   cd $WRFCHEM_FOLDER/WRFDA
 
   ulimit -s unlimited
@@ -7165,7 +7173,7 @@ fi
 ########################### WRF  ##########################
 ## WRF installation with parallel process.
 # Download and install required library and data files for WRF, WRFPLUS, WRFDA 4DVAR, WPS.
-# Tested in Ubuntu 20.04.4 LTS & Ubuntu 22.04 & MacOS Ventura 64bit
+# Tested in Ubuntu 20.04.5 LTS & Ubuntu 22.04 & MacOS Ventura 64bit
 # Built in 64-bit system
 # Built with Intel or GNU compilers
 # Tested with current available libraries on 01/01/2023
@@ -7233,12 +7241,14 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   #Force use of ipv4 with -4
   cd Downloads
   wget -c -4 https://github.com/madler/zlib/archive/refs/tags/v1.2.13.tar.gz
-  wget -c -4 https://github.com/HDFGroup/hdf5/archive/refs/tags/hdf5-1_13_2.tar.gz
-  wget -c -4 https://github.com/Unidata/netcdf-c/archive/refs/tags/v4.9.0.tar.gz
+  wget -c -4 https://github.com/HDFGroup/hdf5/archive/refs/tags/hdf5-1_14_0.tar.gz
+  wget -c -4 https://github.com/Unidata/netcdf-c/archive/refs/tags/v4.9.2.tar.gz
   wget -c -4 https://github.com/Unidata/netcdf-fortran/archive/refs/tags/v4.6.0.tar.gz
-  wget -c -4 https://github.com/pmodels/mpich/releases/download/v4.0.3/mpich-4.0.3.tar.gz
   wget -c -4 https://download.sourceforge.net/libpng/libpng-1.6.39.tar.gz
   wget -c -4 https://www.ece.uvic.ca/~frodo/jasper/software/jasper-1.900.1.zip
+  wget -c -4 https://github.com/pmodels/mpich/releases/download/v4.0.3/mpich-4.0.3.tar.gz
+  wget -c -4  https://parallel-netcdf.github.io/Release/pnetcdf-1.12.3.tar.gz
+  wget -c -4 https://sourceforge.net/projects/opengrads/files/grads2/2.2.1.oga.1/Linux%20%2864%20Bits%29/opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz
   wget -c -4 https://sourceforge.net/projects/opengrads/files/grads2/2.2.1.oga.1/Linux%20%2864%20Bits%29/opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz
 
 
@@ -7351,8 +7361,8 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   echo " "
   #############################hdf5 library for netcdf4 functionality############################
   cd $WRF_FOLDER/Downloads
-  tar -xvzf hdf5-1_13_2.tar.gz
-  cd hdf5-hdf5-1_13_2
+  tar -xvzf hdf5-1_14_0.tar.gz
+  cd hdf5-hdf5-1_14_0
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX ./configure --prefix=$DIR/grib2 --with-zlib=$DIR/grib2 --enable-hl --enable-fortran --enable-parallel
   make -j $CPU_HALF_EVEN
   make -j $CPU_HALF_EVEN install | tee make.install.log
@@ -7369,7 +7379,6 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   #Hard path for MPI added
   ##################################################################################
   cd $WRF_FOLDER/Downloads
-  wget -c -4  https://parallel-netcdf.github.io/Release/pnetcdf-1.12.3.tar.gz
   tar -xvzf pnetcdf-1.12.3.tar.gz
   cd pnetcdf-1.12.3
   export MPIFC=$DIR/MPICH/bin/mpifort
@@ -7923,8 +7932,8 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 
 
   echo " "
-  ############################ WRF 4.4.2  #################################
-  ## WRF v4.4.2
+  ############################ WRF 4.5  #################################
+  ## WRF v4.5
   ## Downloaded from git tagged releases
   # option 34, option 1 for gfortran and distributed memory w/basic nesting
   # large file support enable with WRFiO_NCD_LARGE_FILE_SUPPORT=1
@@ -7936,28 +7945,28 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   # Note that you need set nocolons = .true. in the section &time_control of namelist.input
   ########################################################################
   cd $WRF_FOLDER/Downloads
-  wget -c -4 https://github.com/wrf-model/WRF/releases/download/v4.4.2/v4.4.2.tar.gz -O WRF-4.4.2.tar.gz
-  tar -xvzf WRF-4.4.2.tar.gz -C $WRF_FOLDER/
+  wget -c -4 https://github.com/wrf-model/WRF/releases/download/v4.5/v4.5.tar.gz -O WRF-4.5.tar.gz
+  tar -xvzf WRF-4.5.tar.gz -C $WRF_FOLDER/
 
   # If statment for changing folder name
   if [ -d "$WRF_FOLDER/WRF" ]; then
-  mv -f $WRF_FOLDER/WRF $WRF_FOLDER/WRFV4.4.2
+  mv -f $WRF_FOLDER/WRF $WRF_FOLDER/WRFV4.5
   fi
 
-  cd $WRF_FOLDER/WRFV4.4.2
+  cd $WRF_FOLDER/WRFV4.5
   export WRFIO_NCD_LARGE_FILE_SUPPORT=1
   ./clean -a
 
 # SED statements to fix configure error
-  sed -i '186s/==/=/g' $WRF_FOLDER/WRFV4.4.2/configure
-  sed -i '318s/==/=/g' $WRF_FOLDER/WRFV4.4.2/configure
-  sed -i '919s/==/=/g' $WRF_FOLDER/WRFV4.4.2/configure
+  sed -i '186s/==/=/g' $WRF_FOLDER/WRFV4.5/configure
+  sed -i '318s/==/=/g' $WRF_FOLDER/WRFV4.5/configure
+  sed -i '919s/==/=/g' $WRF_FOLDER/WRFV4.5/configure
 
 
   if [ ${auto_config} -eq 1 ]
     then
-        sed -i '428s/.*/  $response = "34 \\n";/g' $WRF_FOLDER/WRFV4.4.2/arch/Config.pl # Answer for compiler choice
-        sed -i '869s/.*/  $response = "1 \\n";/g' $WRF_FOLDER/WRFV4.4.2/arch/Config.pl  #Answer for basic nesting
+        sed -i '433s/.*/  $response = "34 \\n";/g' $WRF_FOLDER/WRFV4.5/arch/Config.pl # Answer for compiler choice
+        sed -i '898s/.*/  $response = "1 \\n";/g' $WRF_FOLDER/WRFV4.5/arch/Config.pl  #Answer for basic nesting
         ./configure
     else
       ./configure  #Option 34 gfortran compiler with distributed memory option 1 for basic nesting
@@ -7965,11 +7974,11 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 
   ./compile -j $CPU_HALF_EVEN em_real
 
-  export WRF_DIR=$WRF_FOLDER/WRFV4.4.2
+  export WRF_DIR=$WRF_FOLDER/WRFV4.5
 
 
   # IF statement to check that all files were created.
-  cd $WRF_FOLDER/WRFV4.4.2/main
+  cd $WRF_FOLDER/WRFV4.5/main
   n=$(ls ./*.exe | wc -l)
   if (($n >= 3))
    then
@@ -7981,16 +7990,16 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
    exit
   fi
   echo " "
-  ############################WPSV4.4#####################################
-  ## WPS v4.4
+  ############################WPSV4.5#####################################
+  ## WPS v4.5
   ## Downloaded from git tagged releases
   #Option 3 for gfortran and distributed memory
   ########################################################################
 
   cd $WRF_FOLDER/Downloads
-  wget -c -4 https://github.com/wrf-model/WPS/archive/refs/tags/v4.4.tar.gz -O WPS-4.4.tar.gz
-  tar -xvzf WPS-4.4.tar.gz -C $WRF_FOLDER/
-  cd $WRF_FOLDER/WPS-4.4
+  wget -c -4 https://github.com/wrf-model/WPS/archive/refs/tags/v4.5.tar.gz -O WPS-4.5.tar.gz
+  tar -xvzf WPS-4.5.tar.gz -C $WRF_FOLDER/
+  cd $WRF_FOLDER/WPS-4.5
   ./clean -a
 
   if [ ${auto_config} -eq 1 ]
@@ -8004,7 +8013,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 
   echo " "
   # IF statement to check that all files were created.
-   cd $WRF_FOLDER/WPS-4.4
+   cd $WRF_FOLDER/WPS-4.5
    n=$(ls ./*.exe | wc -l)
    if (($n == 3))
     then
@@ -8017,7 +8026,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
    fi
    echo " "
   ############################WRFPLUS 4DVAR###############################
-  ## WRFPLUS v4.4.2 4DVAR
+  ## WRFPLUS v4.5 4DVAR
   ## Downloaded from git tagged releases
   ## WRFPLUS is built within the WRF git folder
   ## Does not include RTTOV Libarary for radiation data.  If wanted will need to install library then reconfigure
@@ -8025,17 +8034,17 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   #Option 18 for gfortran/gcc and distribunted memory
   ########################################################################
   cd $WRF_FOLDER/Downloads
-  tar -xvzf WRF-4.4.2.tar.gz -C $WRF_FOLDER/WRFPLUS
+  tar -xvzf WRF-4.5.tar.gz -C $WRF_FOLDER/WRFPLUS
 
   # If statment for changing folder name
   if [ -d "$WRF_FOLDER/WRFPLUS/WRF" ]; then
-  mv -f $WRF_FOLDER/WRFPLUS/WRF $WRF_FOLDER/WRFPLUS/WRFV4.4.2
+  mv -f $WRF_FOLDER/WRFPLUS/WRF $WRF_FOLDER/WRFPLUS/WRFV4.5
   fi
 
-  cd $WRF_FOLDER/WRFPLUS/WRFV4.4.2
+  cd $WRF_FOLDER/WRFPLUS/WRFV4.5
   mv * $WRF_FOLDER/WRFPLUS
   cd $WRF_FOLDER/WRFPLUS
-  rm -rf WRFV4.4.2/
+  rm -rf WRFV4.5/
   export NETCDF=$DIR/NETCDF
   export HDF5=$DIR/grib2
   export LD_LIBRARY_PATH=$DIR/grib2/lib:$LD_LIBRARY_PATH
@@ -8067,7 +8076,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
    fi
   echo " "
   ############################WRFDA 4DVAR###############################
-  ## WRFDA v4.4.2 4DVAR
+  ## WRFDA v4.5 4DVAR
   ## Downloaded from git tagged releases
   ## WRFDA is built within the WRFPLUS folder
   ## Does not include RTTOV Libarary for radiation data.  If wanted will need to install library then reconfigure
@@ -8076,17 +8085,17 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   ########################################################################
   cd $WRF_FOLDER/Downloads
   mkdir $WRF_FOLDER/WRFDA
-  tar -xvzf WRF-4.4.2.tar.gz -C $WRF_FOLDER/WRFDA
+  tar -xvzf WRF-4.5.tar.gz -C $WRF_FOLDER/WRFDA
 
   # If statment for changing folder name
   if [ -d "$WRF_FOLDER/WRFDA/WRF" ]; then
-  mv -f $WRF_FOLDER/WRFDA/WRF $WRF_FOLDER/WRFDA/WRFV4.4.2
+  mv -f $WRF_FOLDER/WRFDA/WRF $WRF_FOLDER/WRFDA/WRFV4.5
   fi
 
-  cd $WRF_FOLDER/WRFDA/WRFV4.4.2
+  cd $WRF_FOLDER/WRFDA/WRFV4.5
   mv * $WRF_FOLDER/WRFDA
   cd $WRF_FOLDER/WRFDA
-  rm -rf WRFV4.4.2/
+  rm -rf WRFV4.5/
   export NETCDF=$DIR/NETCDF
   export HDF5=$DIR/grib2
   export LD_LIBRARY_PATH=$DIR/grib2/lib:$LD_LIBRARY_PATH
@@ -8325,11 +8334,13 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 
   cd $WRF_FOLDER/Downloads
   wget -c -4 https://github.com/madler/zlib/archive/refs/tags/v1.2.13.tar.gz
-  wget -c -4 https://github.com/HDFGroup/hdf5/archive/refs/tags/hdf5-1_13_2.tar.gz
+  wget -c -4 https://github.com/HDFGroup/hdf5/archive/refs/tags/hdf5-1_14_0.tar.gz
   wget -c -4 https://github.com/Unidata/netcdf-c/archive/refs/tags/v4.9.0.tar.gz
   wget -c -4 https://github.com/Unidata/netcdf-fortran/archive/refs/tags/v4.6.0.tar.gz
   wget -c -4 https://download.sourceforge.net/libpng/libpng-1.6.39.tar.gz
   wget -c -4 https://www.ece.uvic.ca/~frodo/jasper/software/jasper-1.900.1.zip
+  wget -c -4 https://sourceforge.net/projects/opengrads/files/grads2/2.2.1.oga.1/Linux%20%2864%20Bits%29/opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz
+  wget -c -4  https://parallel-netcdf.github.io/Release/pnetcdf-1.12.3.tar.gz
   wget -c -4 https://sourceforge.net/projects/opengrads/files/grads2/2.2.1.oga.1/Linux%20%2864%20Bits%29/opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz
 
   echo " "
@@ -8382,8 +8393,8 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   ############################# HDF5 library for NetCDF4 & parallel functionality ############################
 
   cd $WRF_FOLDER/Downloads
-  tar -xvzf hdf5-1_13_2.tar.gz
-  cd hdf5-hdf5-1_13_2
+  tar -xvzf hdf5-1_14_0.tar.gz
+  cd hdf5-hdf5-1_14_0
 
   CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS="-fPIC -fPIE -diag-disable=10441 -O3" ./configure --prefix=$DIR/grib2 --with-zlib=$DIR/grib2 --enable-hl --enable-fortran --enable-parallel
 
@@ -8404,7 +8415,6 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   #Hard path for MPI added
   ##################################################################################
   cd $WRF_FOLDER/Downloads
-  wget -c -4  https://parallel-netcdf.github.io/Release/pnetcdf-1.12.3.tar.gz
   tar -xvzf pnetcdf-1.12.3.tar.gz
   cd pnetcdf-1.12.3
   ./configure --prefix=$DIR/grib2  --enable-shared --enable-static
@@ -8787,46 +8797,46 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   conda deactivate
 
   echo " "
-  ############################ WRF 4.4.2  #################################
-  ## WRF v4.4.2
+  ############################ WRF 4.5  #################################
+  ## WRF v4.5
   ## Downloaded from git tagged releases
   # option 15, option 1 for intel and distributed memory w/basic nesting
   # large file support enable with WRFiO_NCD_LARGE_FILE_SUPPORT=1
   ########################################################################
   cd $WRF_FOLDER/Downloads
-  wget -c -4 https://github.com/wrf-model/WRF/releases/download/v4.4.2/v4.4.2.tar.gz -O WRF-4.4.2.tar.gz
-  tar -xvzf WRF-4.4.2.tar.gz -C $WRF_FOLDER/
+  wget -c -4 https://github.com/wrf-model/WRF/releases/download/v4.5/v4.5.tar.gz -O WRF-4.5.tar.gz
+  tar -xvzf WRF-4.5.tar.gz -C $WRF_FOLDER/
 
     # If statment for changing folder name
     if [ -d "$WRF_FOLDER/WRF" ]; then
-    mv -f $WRF_FOLDER/WRF $WRF_FOLDER/WRFV4.4.2
+    mv -f $WRF_FOLDER/WRF $WRF_FOLDER/WRFV4.5
     fi
 
 
-  cd $WRF_FOLDER/WRFV4.4.2
+  cd $WRF_FOLDER/WRFV4.5
   export WRFIO_NCD_LARGE_FILE_SUPPORT=1
   ./clean -a
 
   if [ ${auto_config} -eq 1 ]
     then
-        sed -i '428s/.*/  $response = "15 \\n";/g' $WRF_FOLDER/WRFV4.4.2/arch/Config.pl # Answer for compiler choice
-        sed -i '869s/.*/  $response = "1 \\n";/g' $WRF_FOLDER/WRFV4.4.2/arch/Config.pl  #Answer for basic nesting
+        sed -i '433s/.*/  $response = "15 \\n";/g' $WRF_FOLDER/WRFV4.5/arch/Config.pl # Answer for compiler choice
+        sed -i '898s/.*/  $response = "1 \\n";/g' $WRF_FOLDER/WRFV4.5/arch/Config.pl  #Answer for basic nesting
         ./configure
     else
       ./configure  #Option 15 intel compiler with distributed memory option 1 for basic nesting
   fi
 
   #Need to remove mpich/GNU config calls to Intel config calls
-  sed -i '170s|mpif90 -f90=$(SFC)|mpiifort|g' $WRF_FOLDER/WRFV4.4.2/configure.wrf
-  sed -i '171s|mpicc -cc=$(SCC)|mpiicc|g' $WRF_FOLDER/WRFV4.4.2/configure.wrf
+  sed -i '169s|mpif90 -f90=$(SFC)|mpiifort|g' $WRF_FOLDER/WRFV4.5/configure.wrf
+  sed -i '170s|mpicc -cc=$(SCC)|mpiicc|g' $WRF_FOLDER/WRFV4.5/configure.wrf
 
   ./compile -j $CPU_HALF_EVEN em_real
 
-  export WRF_DIR=$WRF_FOLDER/WRFV4.4.2
+  export WRF_DIR=$WRF_FOLDER/WRFV4.5
 
 
   # IF statement to check that all files were created.
-  cd $WRF_FOLDER/WRFV4.4.2/main
+  cd $WRF_FOLDER/WRFV4.5/main
   n=$(ls ./*.exe | wc -l)
   if (($n >= 3))
    then
@@ -8838,16 +8848,16 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
    exit
   fi
   echo " "
-  ############################WPSV4.4#####################################
-  ## WPS v4.4
+  ############################WPSV4.5#####################################
+  ## WPS v4.5
   ## Downloaded from git tagged releases
   #Option 3 for gfortran and distributed memory
   ########################################################################
 
   cd $WRF_FOLDER/Downloads
-  wget -c -4 https://github.com/wrf-model/WPS/archive/refs/tags/v4.4.tar.gz -O WPS-4.4.tar.gz
-  tar -xvzf WPS-4.4.tar.gz -C $WRF_FOLDER/
-  cd $WRF_FOLDER/WPS-4.4
+  wget -c -4 https://github.com/wrf-model/WPS/archive/refs/tags/v4.5.tar.gz -O WPS-4.5.tar.gz
+  tar -xvzf WPS-4.5.tar.gz -C $WRF_FOLDER/
+  cd $WRF_FOLDER/WPS-4.5
   ./clean -a
 
   if [ ${auto_config} -eq 1 ]
@@ -8857,8 +8867,8 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
         ./configure  #Option 19 intel compiler with distributed memory
     fi
 
-    sed -i '67s|mpif90|mpiifort|g' $WRF_FOLDER/WPS-4.4/configure.wps
-    sed -i '68s|mpicc|mpiicc|g' $WRF_FOLDER/WPS-4.4/configure.wps
+    sed -i '67s|mpif90|mpiifort|g' $WRF_FOLDER/WPS-4.5/configure.wps
+    sed -i '68s|mpicc|mpiicc|g' $WRF_FOLDER/WPS-4.5/configure.wps
 
 
   ./compile | tee compile.wps.log
@@ -8866,7 +8876,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 
   echo " "
   # IF statement to check that all files were created.
-   cd $WRF_FOLDER/WPS-4.4
+   cd $WRF_FOLDER/WPS-4.5
    n=$(ls ./*.exe | wc -l)
    if (($n == 3))
     then
@@ -8879,7 +8889,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
    fi
    echo " "
   ############################WRFPLUS 4DVAR###############################
-  ## WRFPLUS v4.4.2 4DVAR
+  ## WRFPLUS v4.5 4DVAR
   ## Downloaded from git tagged releases
   ## WRFPLUS is built within the WRF git folder
   ## Does not include RTTOV Libarary for radiation data.  If wanted will need to install library then reconfigure
@@ -8888,18 +8898,18 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   ########################################################################
   cd $WRF_FOLDER/Downloads
   mkdir $WRF_FOLDER/WRFPLUS
-  tar -xvzf WRF-4.4.2.tar.gz -C $WRF_FOLDER/WRFPLUS
+  tar -xvzf WRF-4.5.tar.gz -C $WRF_FOLDER/WRFPLUS
 
     # If statment for changing folder name
     if [ -d "$WRF_FOLDER/WRFPLUS/WRF" ]; then
-    mv -f $WRF_FOLDER/WRFPLUS/WRF $WRF_FOLDER/WRFPLUS/WRFV4.4.2
+    mv -f $WRF_FOLDER/WRFPLUS/WRF $WRF_FOLDER/WRFPLUS/WRFV4.5
     fi
 
 
-  cd $WRF_FOLDER/WRFPLUS/WRFV4.4.2
+  cd $WRF_FOLDER/WRFPLUS/WRFV4.5
   mv * $WRF_FOLDER/WRFPLUS
   cd $WRF_FOLDER/WRFPLUS
-  rm -rf WRFV4.4.2/
+  rm -rf WRFV4.5/
   export NETCDF=$DIR/NETCDF
   export HDF5=$DIR/grib2
   export LD_LIBRARY_PATH=$DIR/grib2/lib:$LD_LIBRARY_PATH
@@ -8913,8 +8923,8 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
     fi
   echo " "
 
-  sed -i '170s|mpif90 -f90=$(SFC)|mpiifort|g' $WRF_FOLDER/WRFPLUS/configure.wrf
-  sed -i '171s|mpicc -cc=$(SCC)|mpiicc|g' $WRF_FOLDER/WRFPLUS/configure.wrf
+  sed -i '169s|mpif90 -f90=$(SFC)|mpiifort|g' $WRF_FOLDER/WRFPLUS/configure.wrf
+  sed -i '170s|mpicc -cc=$(SCC)|mpiicc|g' $WRF_FOLDER/WRFPLUS/configure.wrf
 
 
   ./compile -j $CPU_HALF_EVEN wrfplus | tee wrfplus.compile.log
@@ -8936,7 +8946,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
    fi
   echo " "
   ############################WRFDA 4DVAR###############################
-  ## WRFDA v4.4.2 4DVAR
+  ## WRFDA v4.5 4DVAR
   ## Downloaded from git tagged releases
   ## WRFDA is built within the WRFPLUS folder
   ## Does not include RTTOV Libarary for radiation data.  If wanted will need to install library then reconfigure
@@ -8944,17 +8954,17 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   #Option 8 for intel and distribunted memory
   ########################################################################
   cd $WRF_FOLDER/Downloads
-  tar -xvzf WRF-4.4.2.tar.gz -C $WRF_FOLDER/WRFDA
+  tar -xvzf WRF-4.5.tar.gz -C $WRF_FOLDER/WRFDA
 
   # If statment for changing folder name
   if [ -d "$WRF_FOLDER/WRFDA/WRF" ]; then
-  mv -f $WRF_FOLDER/WRFDA/WRF $WRF_FOLDER/WRFDA/WRFV4.4.2
+  mv -f $WRF_FOLDER/WRFDA/WRF $WRF_FOLDER/WRFDA/WRFV4.5
   fi
 
-  cd $WRF_FOLDER/WRFDA/WRFV4.4.2
+  cd $WRF_FOLDER/WRFDA/WRFV4.5
   mv * $WRF_FOLDER/WRFDA
   cd $WRF_FOLDER/WRFDA
-  rm -rf WRFV4.4.2/
+  rm -rf WRFV4.5/
   export NETCDF=$DIR/NETCDF
   export HDF5=$DIR/grib2
   export LD_LIBRARY_PATH=$DIR/grib2/lib:$LD_LIBRARY_PATH
@@ -8969,8 +8979,8 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
     fi
   echo " "
 
-  sed -i '170s|mpif90 -f90=$(SFC)|mpiifort|g' $WRF_FOLDER/WRFDA/configure.wrf
-  sed -i '171s|mpicc -cc=$(SCC)|mpiicc|g' $WRF_FOLDER/WRFDA/configure.wrf
+  sed -i '169s|mpif90 -f90=$(SFC)|mpiifort|g' $WRF_FOLDER/WRFDA/configure.wrf
+  sed -i '170s|mpicc -cc=$(SCC)|mpiicc|g' $WRF_FOLDER/WRFDA/configure.wrf
 
 
   ./compile all_wrfvar | tee wrfda.compile.log
@@ -9130,7 +9140,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 
   cd Downloads
   wget -c -4 https://github.com/madler/zlib/archive/refs/tags/v1.2.13.tar.gz
-  wget -c -4 https://github.com/HDFGroup/hdf5/archive/refs/tags/hdf5-1_13_2.tar.gz
+  wget -c -4 https://github.com/HDFGroup/hdf5/archive/refs/tags/hdf5-1_14_0.tar.gz
   wget -c -4 https://github.com/Unidata/netcdf-c/archive/refs/tags/v4.9.0.tar.gz
   wget -c -4 https://github.com/Unidata/netcdf-fortran/archive/refs/tags/v4.6.0.tar.gz
   wget -c -4 https://download.sourceforge.net/libpng/libpng-1.6.39.tar.gz
@@ -9200,8 +9210,8 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   #############################hdf5 library for netcdf4 functionality############################
 
   cd $WRF_FOLDER/Downloads
-  tar -xvzf hdf5-1_13_2.tar.gz
-  cd hdf5-hdf5-1_13_2
+  tar -xvzf hdf5-1_14_0.tar.gz
+  cd hdf5-hdf5-1_14_0
   ./configure --prefix=$DIR/grib2 --with-zlib=$DIR/grib2 --enable-hl --enable-fortran
   make
   make install
@@ -9449,8 +9459,8 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 
 
   echo " "
-  ############################ WRF 4.4.2  #################################
-  ## WRF v4.4.2
+  ############################ WRF 4.5  #################################
+  ## WRF v4.5
   ## Downloaded from git tagged releases
   # option 17, option 1 for gfortran and distributed memory w/basic nesting
   # large file support enable with WRFiO_NCD_LARGE_FILE_SUPPORT=1
@@ -9458,22 +9468,22 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 
   export WRFIO_NCD_LARGE_FILE_SUPPORT=1
   cd $WRF_FOLDER/Downloads
-  wget -c -4 https://github.com/wrf-model/WRF/releases/download/v4.4.2/v4.4.2.tar.gz -O WRF-4.4.2.tar.gz
-  tar -xvzf WRF-4.4.2.tar.gz -C $WRF_FOLDER/
+  wget -c -4 https://github.com/wrf-model/WRF/releases/download/v4.5/v4.5.tar.gz -O WRF-4.5.tar.gz
+  tar -xvzf WRF-4.5.tar.gz -C $WRF_FOLDER/
 
   # If statment for changing folder name
   if [ -d "$WRF_FOLDER/WRF" ]; then
-  mv -f $WRF_FOLDER/WRF $WRF_FOLDER/WRFV4.4.2
+  mv -f $WRF_FOLDER/WRF $WRF_FOLDER/WRFV4.5
   fi
 
-  cd $WRF_FOLDER/WRFV4.4.2
+  cd $WRF_FOLDER/WRFV4.5
 
   ./clean
 
   if [ ${auto_config} -eq 1 ]
     then
-        sed -i'' -e '428s/.*/  $response = "17 \\n";/g' $WRF_FOLDER/WRFV4.4.2/arch/Config.pl # Answer for compiler choice
-        sed -i'' -e '869s/.*/  $response = "1 \\n";/g' $WRF_FOLDER/WRFV4.4.2/arch/Config.pl  #Answer for basic nesting
+        sed -i'' -e '433s/.*/  $response = "17 \\n";/g' $WRF_FOLDER/WRFV4.5/arch/Config.pl # Answer for compiler choice
+        sed -i'' -e '898s/.*/  $response = "1 \\n";/g' $WRF_FOLDER/WRFV4.5/arch/Config.pl  #Answer for basic nesting
         ./configure
     else
       ./configure  #Option 17 gfortran compiler with distributed memory option 1 for basic nesting
@@ -9481,10 +9491,10 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 
   ./compile em_real
 
-  export WRF_DIR=$WRF_FOLDER/WRFV4.4.2
+  export WRF_DIR=$WRF_FOLDER/WRFV4.5
 
   # IF statement to check that all files were created.
-  cd $WRF_FOLDER/WRFV4.4.2/main
+  cd $WRF_FOLDER/WRFV4.5/main
   n=$(ls ./*.exe | wc -l)
   if (($n >= 3))
    then
@@ -9496,16 +9506,16 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
      exit
   fi
   echo " "
-  ############################WPSV4.4#####################################
-  ## WPS v4.4
+  ############################WPSV4.5#####################################
+  ## WPS v4.5
   ## Downloaded from git tagged releases
   #Option 3 for gfortran and distributed memory
   ########################################################################
 
   cd $WRF_FOLDER/Downloads
-  wget -c -4 https://github.com/wrf-model/WPS/archive/refs/tags/v4.4.tar.gz -O WPS-4.4.tar.gz
-  tar -xvzf WPS-4.4.tar.gz -C $WRF_FOLDER/
-  cd $WRF_FOLDER/WPS-4.4
+  wget -c -4 https://github.com/wrf-model/WPS/archive/refs/tags/v4.5.tar.gz -O WPS-4.5.tar.gz
+  tar -xvzf WPS-4.5.tar.gz -C $WRF_FOLDER/
+  cd $WRF_FOLDER/WPS-4.5
   ./clean -a
 
   if [ ${auto_config} -eq 1 ]
@@ -9518,7 +9528,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
     ./compile | tee compile19.log
 
   # IF statement to check that all files were created.
-   cd $WRF_FOLDER/WPS-4.4
+   cd $WRF_FOLDER/WPS-4.5
    n=$(ls ./*.exe | wc -l)
    if (($n == 3))
     then
@@ -9533,7 +9543,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 
 
   ############################WRFPLUS 4DVAR###############################
-  ## WRFPLUS v4.4.2 4DVAR
+  ## WRFPLUS v4.5 4DVAR
   ## Downloaded from git tagged releases
   ## WRFPLUS is built within the WRF git folder
   ## Does not include RTTOV Libarary for radiation data.  If wanted will need to install library then reconfigure
@@ -9542,17 +9552,17 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   ########################################################################
 
   cd $WRF_FOLDER/Downloads
-  tar -xvzf WRF-4.4.2.tar.gz -C $WRF_FOLDER/WRFPLUS
+  tar -xvzf WRF-4.5.tar.gz -C $WRF_FOLDER/WRFPLUS
 
   # If statment for changing folder name
   if [ -d "$WRF_FOLDER/WRFPLUS/WRF" ]; then
-  mv -f $WRF_FOLDER/WRFPLUS/WRF $WRF_FOLDER/WRFPLUS/WRFV4.4.2
+  mv -f $WRF_FOLDER/WRFPLUS/WRF $WRF_FOLDER/WRFPLUS/WRFV4.5
   fi
 
-  cd $WRF_FOLDER/WRFPLUS/WRFV4.4.2
+  cd $WRF_FOLDER/WRFPLUS/WRFV4.5
   mv * $WRF_FOLDER/WRFPLUS
   cd $WRF_FOLDER/WRFPLUS
-  rm -rf WRFV4.4.2/
+  rm -rf WRFV4.5/
   export NETCDF=$DIR/NETCDF
   export HDF5=$DIR/grib2
   export LD_LIBRARY_PATH=$DIR/grib2/lib:$LD_LIBRARY_PATH
@@ -9585,7 +9595,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 
   echo " "
   ############################WRFDA 4DVAR###############################
-  ## WRFDA v4.4.2 4DVAR
+  ## WRFDA v4.5 4DVAR
   ## Downloaded from git tagged releases
   ## WRFDA is built within the WRFPLUS folder
   ## Does not include RTTOV Libarary for radiation data.  If wanted will need to install library then reconfigure
@@ -9594,17 +9604,17 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   ########################################################################
 
   cd $WRF_FOLDER/Downloads
-  tar -xvzf WRF-4.4.2.tar.gz -C $WRF_FOLDER/WRFDA
+  tar -xvzf WRF-4.5.tar.gz -C $WRF_FOLDER/WRFDA
 
   # If statment for changing folder name
   if [ -d "$WRF_FOLDER/WRFDA/WRF" ]; then
-  mv -f $WRF_FOLDER/WRFDA/WRF $WRF_FOLDER/WRFDA/WRFV4.4.2
+  mv -f $WRF_FOLDER/WRFDA/WRF $WRF_FOLDER/WRFDA/WRFV4.5
   fi
 
-  cd $WRF_FOLDER/WRFDA/WRFV4.4.2
+  cd $WRF_FOLDER/WRFDA/WRFV4.5
   mv * $WRF_FOLDER/WRFDA
   cd $WRF_FOLDER/WRFDA
-  rm -rf WRFV4.4.2/
+  rm -rf WRFV4.5/
   export NETCDF=$DIR/NETCDF
   export HDF5=$DIR/grib2
   export LD_LIBRARY_PATH=$DIR/grib2/lib:$LD_LIBRARY_PATH
@@ -9755,7 +9765,7 @@ fi
 ################################################################
 ## HWRF installation with parallel process.
 # Download and install required library and data files for HWRF.
-# Tested in Ubuntu 20.04.4 LTS & Ubuntu 22.04 LTS
+# Tested in Ubuntu 20.04.5 LTS & Ubuntu 22.04 LTS
 # Built in 64-bit system
 # Tested with current available libraries on 01/01/2023
 # Intel compilers utilized
@@ -9856,7 +9866,7 @@ if [ "$HWRF_PICK" = "1" ]; then
 
   cd Downloads
   wget -c -4 https://github.com/madler/zlib/archive/refs/tags/v1.2.13.tar.gz
-  wget -c -4 https://github.com/HDFGroup/hdf5/archive/refs/tags/hdf5-1_13_2.tar.gz
+  wget -c -4 https://github.com/HDFGroup/hdf5/archive/refs/tags/hdf5-1_14_0.tar.gz
   wget -c -4 https://github.com/Unidata/netcdf-c/archive/refs/tags/v4.9.0.tar.gz
   wget -c -4 https://github.com/Unidata/netcdf-fortran/archive/refs/tags/v4.6.0.tar.gz
   wget -c -4 https://download.sourceforge.net/libpng/libpng-1.6.39.tar.gz
@@ -9920,8 +9930,8 @@ if [ "$HWRF_PICK" = "1" ]; then
   ############################# HDF5 library for NetCDF4 & parallel functionality ############################
 
   cd $HWRF_FOLDER/Downloads
-  tar -xvzf hdf5-1_13_2.tar.gz
-  cd hdf5-hdf5-1_13_2
+  tar -xvzf hdf5-1_14_0.tar.gz
+  cd hdf5-hdf5-1_14_0
 
   CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS="-fPIC -diag-disable=10441"  ./configure --prefix=$DIR/grib2 --with-zlib=$DIR/grib2 --enable-hl --enable-fortran --enable-parallel
 
@@ -10024,8 +10034,8 @@ if [ "$HWRF_PICK" = "1" ]; then
   CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 ./configure # option 15
 
   # Need to remove mpich/GNU config calls to Intel config calls
-  sed -i '170s|mpif90 -f90=$(SFC)|mpiifort|g' $HWRF_FOLDER/WRF/WRF-4.3.3/configure.wrf
-  sed -i '171s|mpicc -cc=$(SCC)|mpiicc|g' $HWRF_FOLDER/WRF/WRF-4.3.3/configure.wrf
+  sed -i '169s|mpif90 -f90=$(SFC)|mpiifort|g' $HWRF_FOLDER/WRF/WRF-4.3.3/configure.wrf
+  sed -i '170s|mpicc -cc=$(SCC)|mpiicc|g' $HWRF_FOLDER/WRF/WRF-4.3.3/configure.wrf
 
   ./compile -j $CPU_HALF_EVEN nmm_real | tee wrf.nmm.log
 
