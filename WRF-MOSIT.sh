@@ -5524,8 +5524,8 @@ sed -i '919s/==/=/g' $WRFCHEM_FOLDER/WRFDA/configure
   #Downloading WRF code
 
   cd $WRFCHEM_FOLDER/Downloads
-  wget -c -4 https://github.com/wrf-model/WRF/releases/download/v4.4.2/v4.4.2.tar.gz -O WRF-4.4.2.tar.gz
-  tar -xvzf WRF-4.4.2.tar.gz -C $WRFCHEM_FOLDER/
+  wget -c -4 https://github.com/wrf-model/WRF/releases/download/v4.5/v4.5.tar.gz -O WRF-4.5.tar.gz
+  tar -xvzf WRF-4.5.tar.gz -C $WRFCHEM_FOLDER/
 
   # If statment for changing folder name
   if [ -d "$WRFCHEM_FOLDER/WRF" ]; then
