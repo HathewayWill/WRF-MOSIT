@@ -1285,12 +1285,15 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
   source $Miniconda_Install_DIR/etc/profile.d/conda.sh
   conda init bash
   conda activate base
-  conda create -n wrf-python -c conda-forge wrf-python -y
+  conda create -n wrf-python
   conda activate wrf-python
-  conda update -n wrf-python --all -y
-  conda activate wrf-python
-  conda install -c conda-forge matplotlib -y
-  conda install -c conda-forge NETCDF4 -y
+  conda install -c conda-forge netcdf4=1.5.8 -y --freeze-installed
+  conda install -c conda-forge imageio=2.27.0 -y --freeze-installed
+  conda install -c conda-forge basemap=1.3.6 -y --freeze-installed
+  conda install -c conda-forge metpy=1.4.1 -y --freeze-installed
+  conda install -c conda-forge wrf-python=1.3.4.1 -y --freeze-installed
+
+
 
   ################ NEEDS TO BE IN Master folder #######################
   cp  $HOME/WRF-MASTER/SurfaceRunoff.py $WRFHYDRO_FOLDER/domain/NWM
@@ -1692,12 +1695,15 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
   source $Miniconda_Install_DIR/etc/profile.d/conda.sh
   conda init bash
   conda activate base
-  conda create -n wrf-python -c conda-forge wrf-python -y
+  conda create -n wrf-python
   conda activate wrf-python
-  conda update -n wrf-python --all -y
-  conda activate wrf-python
-  conda install -c conda-forge matplotlib -y
-  conda install -c conda-forge NETCDF4 -y
+  conda install -c conda-forge netcdf4=1.5.8 -y --freeze-installed
+  conda install -c conda-forge imageio=2.27.0 -y --freeze-installed
+  conda install -c conda-forge basemap=1.3.6 -y --freeze-installed
+  conda install -c conda-forge metpy=1.4.1 -y --freeze-installed
+  conda install -c conda-forge wrf-python=1.3.4.1 -y --freeze-installed
+
+
 
   cp  $HOME/WRF-MASTER/SurfaceRunoff.py $WRFHYDRO_FOLDER/domain/NWM
 
@@ -2152,12 +2158,15 @@ export PNETCDF=$DIR/grib2
   source $Miniconda_Install_DIR/etc/profile.d/conda.sh
   conda init bash
   conda activate base
-  conda create -n wrf-python -c conda-forge wrf-python -y
+  conda create -n wrf-python
   conda activate wrf-python
-  conda update -n wrf-python --all -y
-  conda activate wrf-python
-  conda install -c conda-forge matplotlib -y
-  conda install -c conda-forge NETCDF4 -y
+  conda install -c conda-forge netcdf4=1.5.8 -y --freeze-installed
+  conda install -c conda-forge imageio=2.27.0 -y --freeze-installed
+  conda install -c conda-forge basemap=1.3.6 -y --freeze-installed
+  conda install -c conda-forge metpy=1.4.1 -y --freeze-installed
+  conda install -c conda-forge wrf-python=1.3.4.1 -y --freeze-installed
+
+
 
   ################ NEEDS TO BE IN Master folder #######################
   cp  $HOME/WRF-MASTER/SurfaceRunoff.py $WRFHYDRO_FOLDER/domain/NWM
@@ -2917,9 +2926,14 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   source $Miniconda_Install_DIR/etc/profile.d/conda.sh
   conda init bash
   conda activate base
-  conda create -n wrf-python -c conda-forge wrf-python -y
+  conda create -n wrf-python
   conda activate wrf-python
-  conda update -n wrf-python --all -y
+  conda install -c conda-forge netcdf4=1.5.8 -y --freeze-installed
+  conda install -c conda-forge imageio=2.27.0 -y --freeze-installed
+  conda install -c conda-forge basemap=1.3.6 -y --freeze-installed
+  conda install -c conda-forge metpy=1.4.1 -y --freeze-installed
+  conda install -c conda-forge wrf-python=1.3.4.1 -y --freeze-installed
+
   conda deactivate
   conda deactivate
   conda deactivate
@@ -3757,9 +3771,14 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   source $Miniconda_Install_DIR/etc/profile.d/conda.sh
   conda init bash
   conda activate base
-  conda create -n wrf-python -c conda-forge wrf-python -y
+  conda create -n wrf-python
   conda activate wrf-python
-  conda update -n wrf-python --all -y
+  conda install -c conda-forge netcdf4=1.5.8 -y --freeze-installed
+  conda install -c conda-forge imageio=2.27.0 -y --freeze-installed
+  conda install -c conda-forge basemap=1.3.6 -y --freeze-installed
+  conda install -c conda-forge metpy=1.4.1 -y --freeze-installed
+  conda install -c conda-forge wrf-python=1.3.4.1 -y --freeze-installed
+
   conda deactivate
   conda deactivate
   conda deactivate
@@ -4407,9 +4426,15 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   source $Miniconda_Install_DIR/etc/profile.d/conda.sh
   conda init bash
   conda activate base
-  conda create -n wrf-python -c conda-forge wrf-python -y
+  conda create -n wrf-python
   conda activate wrf-python
-  conda update -n wrf-python --all -y
+  conda install -c conda-forge netcdf4=1.5.8 -y --freeze-installed
+  conda install -c conda-forge imageio=2.27.0 -y --freeze-installed
+  conda install -c conda-forge basemap=1.3.6 -y --freeze-installed
+  conda install -c conda-forge metpy=1.4.1 -y --freeze-installed
+  conda install -c conda-forge wrf-python=1.3.4.1 -y --freeze-installed
+
+
   conda deactivate
   conda deactivate
   conda deactivate
@@ -5418,9 +5443,14 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   source $Miniconda_Install_DIR/etc/profile.d/conda.sh
   conda init bash
   conda activate base
-  conda create -n wrf-python -c conda-forge wrf-python -y
+  conda create -n wrf-python
   conda activate wrf-python
-  conda update -n wrf-python --all -y
+  conda install -c conda-forge netcdf4=1.5.8 -y --freeze-installed
+  conda install -c conda-forge imageio=2.27.0 -y --freeze-installed
+  conda install -c conda-forge basemap=1.3.6 -y --freeze-installed
+  conda install -c conda-forge metpy=1.4.1 -y --freeze-installed
+  conda install -c conda-forge wrf-python=1.3.4.1 -y --freeze-installed
+
   conda deactivate
   conda deactivate
   conda deactivate
@@ -6260,9 +6290,14 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   source $Miniconda_Install_DIR/etc/profile.d/conda.sh
   conda init bash
   conda activate base
-  conda create -n wrf-python -c conda-forge wrf-python -y
+  conda create -n wrf-python
   conda activate wrf-python
-  conda update -n wrf-python --all -y
+  conda install -c conda-forge netcdf4=1.5.8 -y --freeze-installed
+  conda install -c conda-forge imageio=2.27.0 -y --freeze-installed
+  conda install -c conda-forge basemap=1.3.6 -y --freeze-installed
+  conda install -c conda-forge metpy=1.4.1 -y --freeze-installed
+  conda install -c conda-forge wrf-python=1.3.4.1 -y --freeze-installed
+
   conda deactivate
   conda deactivate
   conda deactivate
@@ -6890,9 +6925,14 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   source $Miniconda_Install_DIR/etc/profile.d/conda.sh
   conda init bash
   conda activate base
-  conda create -n wrf-python -c conda-forge wrf-python -y
+  conda create -n wrf-python
   conda activate wrf-python
-  conda update -n wrf-python --all -y
+  conda install -c conda-forge netcdf4=1.5.8 -y --freeze-installed
+  conda install -c conda-forge imageio=2.27.0 -y --freeze-installed
+  conda install -c conda-forge basemap=1.3.6 -y --freeze-installed
+  conda install -c conda-forge metpy=1.4.1 -y --freeze-installed
+  conda install -c conda-forge wrf-python=1.3.4.1 -y --freeze-installed
+
   conda deactivate
   conda deactivate
   conda deactivate
@@ -7922,9 +7962,14 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   source $Miniconda_Install_DIR/etc/profile.d/conda.sh
   conda init bash
   conda activate base
-  conda create -n wrf-python -c conda-forge wrf-python -y
+  conda create -n wrf-python
   conda activate wrf-python
-  conda update -n wrf-python --all -y
+  conda install -c conda-forge netcdf4=1.5.8 -y --freeze-installed
+  conda install -c conda-forge imageio=2.27.0 -y --freeze-installed
+  conda install -c conda-forge basemap=1.3.6 -y --freeze-installed
+  conda install -c conda-forge metpy=1.4.1 -y --freeze-installed
+  conda install -c conda-forge wrf-python=1.3.4.1 -y --freeze-installed
+
   conda deactivate
   conda deactivate
   conda deactivate
@@ -8789,9 +8834,14 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   source $Miniconda_Install_DIR/etc/profile.d/conda.sh
   conda init bash
   conda activate base
-  conda create -n wrf-python -c conda-forge wrf-python -y
+  conda create -n wrf-python
   conda activate wrf-python
-  conda update -n wrf-python --all -y
+  conda install -c conda-forge netcdf4=1.5.8 -y --freeze-installed
+  conda install -c conda-forge imageio=2.27.0 -y --freeze-installed
+  conda install -c conda-forge basemap=1.3.6 -y --freeze-installed
+  conda install -c conda-forge metpy=1.4.1 -y --freeze-installed
+  conda install -c conda-forge wrf-python=1.3.4.1 -y --freeze-installed
+
   conda deactivate
   conda deactivate
   conda deactivate
@@ -9448,9 +9498,14 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   source $Miniconda_Install_DIR/etc/profile.d/conda.sh
   conda init bash
   conda activate base
-  conda create -n wrf-python -c conda-forge wrf-python -y
+  conda create -n wrf-python
   conda activate wrf-python
-  conda update -n wrf-python --all -y
+  conda install -c conda-forge netcdf4=1.5.8 -y --freeze-installed
+  conda install -c conda-forge imageio=2.27.0 -y --freeze-installed
+  conda install -c conda-forge basemap=1.3.6 -y --freeze-installed
+  conda install -c conda-forge metpy=1.4.1 -y --freeze-installed
+  conda install -c conda-forge wrf-python=1.3.4.1 -y --freeze-installed
+
   conda deactivate
   conda deactivate
   conda deactivate
