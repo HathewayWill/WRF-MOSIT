@@ -1285,7 +1285,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
   source $Miniconda_Install_DIR/etc/profile.d/conda.sh
   conda init bash
   conda activate base
-  conda create -n wrf-python
+  conda create -n wrf-python -y
   conda activate wrf-python
   conda install -c conda-forge netcdf4=1.5.8 -y --freeze-installed
   conda install -c conda-forge imageio=2.27.0 -y --freeze-installed
@@ -1695,7 +1695,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
   source $Miniconda_Install_DIR/etc/profile.d/conda.sh
   conda init bash
   conda activate base
-  conda create -n wrf-python
+  conda create -n wrf-python -y
   conda activate wrf-python
   conda install -c conda-forge netcdf4=1.5.8 -y --freeze-installed
   conda install -c conda-forge imageio=2.27.0 -y --freeze-installed
@@ -2158,7 +2158,7 @@ export PNETCDF=$DIR/grib2
   source $Miniconda_Install_DIR/etc/profile.d/conda.sh
   conda init bash
   conda activate base
-  conda create -n wrf-python
+  conda create -n wrf-python -y
   conda activate wrf-python
   conda install -c conda-forge netcdf4=1.5.8 -y --freeze-installed
   conda install -c conda-forge imageio=2.27.0 -y --freeze-installed
@@ -2926,7 +2926,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   source $Miniconda_Install_DIR/etc/profile.d/conda.sh
   conda init bash
   conda activate base
-  conda create -n wrf-python
+  conda create -n wrf-python -y
   conda activate wrf-python
   conda install -c conda-forge netcdf4=1.5.8 -y --freeze-installed
   conda install -c conda-forge imageio=2.27.0 -y --freeze-installed
@@ -3771,7 +3771,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   source $Miniconda_Install_DIR/etc/profile.d/conda.sh
   conda init bash
   conda activate base
-  conda create -n wrf-python
+  conda create -n wrf-python -y
   conda activate wrf-python
   conda install -c conda-forge netcdf4=1.5.8 -y --freeze-installed
   conda install -c conda-forge imageio=2.27.0 -y --freeze-installed
@@ -4426,7 +4426,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   source $Miniconda_Install_DIR/etc/profile.d/conda.sh
   conda init bash
   conda activate base
-  conda create -n wrf-python
+  conda create -n wrf-python -y
   conda activate wrf-python
   conda install -c conda-forge netcdf4=1.5.8 -y --freeze-installed
   conda install -c conda-forge imageio=2.27.0 -y --freeze-installed
@@ -5443,7 +5443,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   source $Miniconda_Install_DIR/etc/profile.d/conda.sh
   conda init bash
   conda activate base
-  conda create -n wrf-python
+  conda create -n wrf-python -y
   conda activate wrf-python
   conda install -c conda-forge netcdf4=1.5.8 -y --freeze-installed
   conda install -c conda-forge imageio=2.27.0 -y --freeze-installed
@@ -6290,7 +6290,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   source $Miniconda_Install_DIR/etc/profile.d/conda.sh
   conda init bash
   conda activate base
-  conda create -n wrf-python
+  conda create -n wrf-python -y
   conda activate wrf-python
   conda install -c conda-forge netcdf4=1.5.8 -y --freeze-installed
   conda install -c conda-forge imageio=2.27.0 -y --freeze-installed
@@ -6925,7 +6925,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   source $Miniconda_Install_DIR/etc/profile.d/conda.sh
   conda init bash
   conda activate base
-  conda create -n wrf-python
+  conda create -n wrf-python -y
   conda activate wrf-python
   conda install -c conda-forge netcdf4=1.5.8 -y --freeze-installed
   conda install -c conda-forge imageio=2.27.0 -y --freeze-installed
@@ -7962,7 +7962,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   source $Miniconda_Install_DIR/etc/profile.d/conda.sh
   conda init bash
   conda activate base
-  conda create -n wrf-python
+  conda create -n wrf-python -y
   conda activate wrf-python
   conda install -c conda-forge netcdf4=1.5.8 -y --freeze-installed
   conda install -c conda-forge imageio=2.27.0 -y --freeze-installed
@@ -8834,7 +8834,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   source $Miniconda_Install_DIR/etc/profile.d/conda.sh
   conda init bash
   conda activate base
-  conda create -n wrf-python
+  conda create -n wrf-python -y
   conda activate wrf-python
   conda install -c conda-forge netcdf4=1.5.8 -y --freeze-installed
   conda install -c conda-forge imageio=2.27.0 -y --freeze-installed
@@ -9498,7 +9498,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   source $Miniconda_Install_DIR/etc/profile.d/conda.sh
   conda init bash
   conda activate base
-  conda create -n wrf-python
+  conda create -n wrf-python -y
   conda activate wrf-python
   conda install -c conda-forge netcdf4=1.5.8 -y --freeze-installed
   conda install -c conda-forge imageio=2.27.0 -y --freeze-installed
