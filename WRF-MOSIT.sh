@@ -851,7 +851,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
   wget -c -4 https://github.com/Unidata/netcdf-fortran/archive/refs/tags/v4.6.0.tar.gz
   wget -c -4 https://download.sourceforge.net/libpng/libpng-1.6.39.tar.gz
   wget -c -4 https://www.ece.uvic.ca/~frodo/jasper/software/jasper-1.900.1.zip
-  wget -c -4 https://github.com/pmodels/mpich/releases/download/v4.0.3/mpich-4.0.3.tar.gz
+  wget -c -4 https://github.com/pmodels/mpich/releases/download/v4.1.1/mpich-4.1.1.tar.gz
   wget -c -4  https://parallel-netcdf.github.io/Release/pnetcdf-1.12.3.tar.gz
   wget -c -4 https://sourceforge.net/projects/opengrads/files/grads2/2.2.1.oga.1/Linux%20%2864%20Bits%29/opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz
 
@@ -907,8 +907,8 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 
 ##############################MPICH############################
   cd $WRFHYDRO_FOLDER/Downloads
-  tar -xvzf mpich-4.0.3.tar.gz
-  cd mpich-4.0.3/
+  tar -xvzf mpich-4.1.1.tar.gz
+  cd mpich-4.1.1/
   F90= ./configure --prefix=$DIR/MPICH --with-device=ch3 FFLAGS="$fallow_argument -m64" FCFLAGS="$fallow_argument -m64"
   make -j $CPU_HALF_EVEN
   make -j $CPU_HALF_EVEN install | tee make.install.log
@@ -935,8 +935,8 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
     echo " "
     ##############################MPICH############################
     cd $WRFHYDRO_FOLDER/Downloads
-    tar -xvzf mpich-4.0.3.tar.gz
-    cd mpich-4.0.3/
+    tar -xvzf mpich-4.1.1.tar.gz
+    cd mpich-4.1.1/
     F90= ./configure --prefix=$DIR/MPICH --with-device=ch3 FFLAGS="$fallow_argument -m64" FCFLAGS="$fallow_argument -m64"
 
     make -j $CPU_HALF_EVEN 2>&1 | tee make.log
@@ -1016,8 +1016,8 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 
     ##############################Install NETCDF C Library############################
     cd $WRFHYDRO_FOLDER/Downloads
-    tar -xzvf v4.9.0.tar.gz
-    cd netcdf-c-4.9.0/
+    tar -xzvf v4.9.2.tar.gz
+    cd netcdf-c-4.9.2/
     export CPPFLAGS=-I$DIR/grib2/include
     export LDFLAGS=-L$DIR/grib2/lib
     export LIBS="-lhdf5_hl -lhdf5 -lz -lcurl -lgfortran -lgcc -lm -ldl -lpnetcdf"
@@ -1361,7 +1361,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
   wget -c -4 https://github.com/Unidata/netcdf-fortran/archive/refs/tags/v4.6.0.tar.gz
   wget -c -4 https://download.sourceforge.net/libpng/libpng-1.6.39.tar.gz
   wget -c -4 https://www.ece.uvic.ca/~frodo/jasper/software/jasper-1.900.1.zip
-  wget -c -4 https://github.com/pmodels/mpich/releases/download/v4.0.3/mpich-4.0.3.tar.gz
+  wget -c -4 https://github.com/pmodels/mpich/releases/download/v4.1.1/mpich-4.1.1.tar.gz
   wget -c -4  https://parallel-netcdf.github.io/Release/pnetcdf-1.12.3.tar.gz
   wget -c -4 https://sourceforge.net/projects/opengrads/files/grads2/2.2.1.oga.1/Linux%20%2864%20Bits%29/opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz
 
@@ -1432,8 +1432,8 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
   echo " "
   ##############################Install NETCDF C Library############################
   cd $WRFHYDRO_FOLDER/Downloads
-  tar -xzvf v4.9.0.tar.gz
-  cd netcdf-c-4.9.0/
+  tar -xzvf v4.9.2.tar.gz
+  cd netcdf-c-4.9.2/
   export CPPFLAGS=-I$DIR/grib2/include
   export LDFLAGS=-L$DIR/grib2/lib
   export LIBS="-lhdf5_hl -lhdf5 -lz -lcurl -lgfortran -lgcc -lm -ldl -lpnetcdf"
@@ -1806,7 +1806,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; the
   cd Downloads
   wget -c -4 https://github.com/madler/zlib/archive/refs/tags/v1.2.13.tar.gz
   wget -c -4 https://github.com/HDFGroup/hdf5/archive/refs/tags/hdf5-1_14_0.tar.gz
-  wget -c -4 https://github.com/Unidata/netcdf-c/archive/refs/tags/v4.9.0.tar.gz
+  wget -c -4 https://github.com/Unidata/netcdf-c/archive/refs/tags/v4.9.2.tar.gz
   wget -c -4 https://github.com/Unidata/netcdf-fortran/archive/refs/tags/v4.6.0.tar.gz
   wget -c -4 https://download.sourceforge.net/libpng/libpng-1.6.39.tar.gz
   wget -c -4 https://www.ece.uvic.ca/~frodo/jasper/software/jasper-1.900.1.zip
@@ -1887,8 +1887,8 @@ export PNETCDF=$DIR/grib2
 
   ##############################Install NETCDF C Library############################
   cd $WRFHYDRO_FOLDER/Downloads
-  tar -xzvf v4.9.0.tar.gz
-  cd netcdf-c-4.9.0/
+  tar -xzvf v4.9.2.tar.gz
+  cd netcdf-c-4.9.2/
   export CPPFLAGS=-I$DIR/grib2/include
   export LDFLAGS=-L$DIR/grib2/lib
   export LIBS="-lhdf5_hl -lhdf5 -lz -lcurl -lgfortran -lgcc -lm -ldl -lpnetcdf"
@@ -2269,10 +2269,10 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   wget -c -4 https://github.com/Unidata/netcdf-fortran/archive/refs/tags/v4.6.0.tar.gz
   wget -c -4 https://download.sourceforge.net/libpng/libpng-1.6.39.tar.gz
   wget -c -4 https://www.ece.uvic.ca/~frodo/jasper/software/jasper-1.900.1.zip
-  wget -c -4 https://github.com/pmodels/mpich/releases/download/v4.0.3/mpich-4.0.3.tar.gz
+  wget -c -4 https://github.com/pmodels/mpich/releases/download/v4.1.1/mpich-4.1.1.tar.gz
   wget -c -4  https://parallel-netcdf.github.io/Release/pnetcdf-1.12.3.tar.gz
   wget -c -4 https://sourceforge.net/projects/opengrads/files/grads2/2.2.1.oga.1/Linux%20%2864%20Bits%29/opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz
-  wget -c -4 https://sourceforge.net/projects/opengrads/files/grads2/2.2.1.oga.1/Linux%20%2864%20Bits%29/opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz
+
 
 
 
@@ -2333,8 +2333,8 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   echo " "
   ##############################MPICH############################
   cd $WRFHYDRO_FOLDER/Downloads
-  tar -xvzf mpich-4.0.3.tar.gz
-  cd mpich-4.0.3/
+  tar -xvzf mpich-4.1.1.tar.gz
+  cd mpich-4.1.1/
   F90= ./configure --prefix=$DIR/MPICH --with-device=ch3 FFLAGS="$fallow_argument -m64" FCFLAGS="$fallow_argument -m64"
 
   make -j $CPU_HALF_EVEN
@@ -2414,8 +2414,8 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 
   ##############################Install NETCDF C Library############################
   cd $WRFHYDRO_FOLDER/Downloads
-  tar -xzvf v4.9.0.tar.gz
-  cd netcdf-c-4.9.0/
+  tar -xzvf v4.9.2.tar.gz
+  cd netcdf-c-4.9.2/
   export CPPFLAGS=-I$DIR/grib2/include
   export LDFLAGS=-L$DIR/grib2/lib
   export LIBS="-lhdf5_hl -lhdf5 -lz -lcurl -lgfortran -lgcc -lm -ldl -lpnetcdf"
@@ -2676,6 +2676,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 
   ./compile | tee upp_compile.log
   cd $WRFHYDRO_FOLDER/UPPV4.1/scripts
+  echo $PASSWD | sudo -S cpan install XML::LibXML
   chmod +x run_unipost
 
 
@@ -3302,13 +3303,13 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   cd $WRFHYDRO_FOLDER/Downloads
   wget -c -4 https://github.com/madler/zlib/archive/refs/tags/v1.2.13.tar.gz
   wget -c -4 https://github.com/HDFGroup/hdf5/archive/refs/tags/hdf5-1_14_0.tar.gz
-  wget -c -4 https://github.com/Unidata/netcdf-c/archive/refs/tags/v4.9.0.tar.gz
+  wget -c -4 https://github.com/Unidata/netcdf-c/archive/refs/tags/v4.9.2.tar.gz
   wget -c -4 https://github.com/Unidata/netcdf-fortran/archive/refs/tags/v4.6.0.tar.gz
   wget -c -4 https://download.sourceforge.net/libpng/libpng-1.6.39.tar.gz
   wget -c -4 https://www.ece.uvic.ca/~frodo/jasper/software/jasper-1.900.1.zip
   wget -c -4 https://sourceforge.net/projects/opengrads/files/grads2/2.2.1.oga.1/Linux%20%2864%20Bits%29/opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz
   wget -c -4  https://parallel-netcdf.github.io/Release/pnetcdf-1.12.3.tar.gz
-  wget -c -4 https://sourceforge.net/projects/opengrads/files/grads2/2.2.1.oga.1/Linux%20%2864%20Bits%29/opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz
+
 
   echo " "
   ############################# ZLib ############################
@@ -3408,8 +3409,8 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   ############################## Install NETCDF-C Library ############################
 
   cd $WRFHYDRO_FOLDER/Downloads
-  tar -xzvf v4.9.0.tar.gz
-  cd netcdf-c-4.9.0/
+  tar -xzvf v4.9.2.tar.gz
+  cd netcdf-c-4.9.2/
 
   # these variables need to be set for the NetCDF-C install to work
   export CPPFLAGS=-I$DIR/grib2/include
@@ -3633,6 +3634,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 
   ./compile | tee upp_compile.log
   cd $WRFHYDRO_FOLDER/UPPV4.1/scripts
+  echo $PASSWD | sudo -S cpan install XML::LibXML
   chmod +x run_unipost
 
   # IF statement to check that all files were created.
@@ -4123,7 +4125,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   cd Downloads
   wget -c -4 https://github.com/madler/zlib/archive/refs/tags/v1.2.13.tar.gz
   wget -c -4 https://github.com/HDFGroup/hdf5/archive/refs/tags/hdf5-1_14_0.tar.gz
-  wget -c -4 https://github.com/Unidata/netcdf-c/archive/refs/tags/v4.9.0.tar.gz
+  wget -c -4 https://github.com/Unidata/netcdf-c/archive/refs/tags/v4.9.2.tar.gz
   wget -c -4 https://github.com/Unidata/netcdf-fortran/archive/refs/tags/v4.6.0.tar.gz
   wget -c -4 https://download.sourceforge.net/libpng/libpng-1.6.39.tar.gz
   wget -c -4 https://www.ece.uvic.ca/~frodo/jasper/software/jasper-1.900.1.zip
@@ -4201,8 +4203,8 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   echo " "
   ##############################Install NETCDF C Library############################
   cd $WRFHYDRO_FOLDER/Downloads
-  tar -xzvf v4.9.0.tar.gz
-  cd netcdf-c-4.9.0/
+  tar -xzvf v4.9.2.tar.gz
+  cd netcdf-c-4.9.2/
   export CPPFLAGS=-I$DIR/grib2/include
   export LDFLAGS=-L$DIR/grib2/lib
   export LIBS="-lhdf5_hl -lhdf5 -lz -lcurl -lgfortran -lgcc -lm -ldl -lpnetcdf"
@@ -4768,10 +4770,10 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   wget -c -4 https://github.com/Unidata/netcdf-fortran/archive/refs/tags/v4.6.0.tar.gz
   wget -c -4 https://download.sourceforge.net/libpng/libpng-1.6.39.tar.gz
   wget -c -4 https://www.ece.uvic.ca/~frodo/jasper/software/jasper-1.900.1.zip
-  wget -c -4 https://github.com/pmodels/mpich/releases/download/v4.0.3/mpich-4.0.3.tar.gz
+  wget -c -4 https://github.com/pmodels/mpich/releases/download/v4.1.1/mpich-4.1.1.tar.gz
   wget -c -4  https://parallel-netcdf.github.io/Release/pnetcdf-1.12.3.tar.gz
   wget -c -4 https://sourceforge.net/projects/opengrads/files/grads2/2.2.1.oga.1/Linux%20%2864%20Bits%29/opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz
-  wget -c -4 https://sourceforge.net/projects/opengrads/files/grads2/2.2.1.oga.1/Linux%20%2864%20Bits%29/opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz
+
 
   echo " "
   #############################Compilers############################
@@ -4832,8 +4834,8 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   echo " "
   ##############################MPICH############################
   cd $WRFCHEM_FOLDER/Downloads
-  tar -xvzf mpich-4.0.3.tar.gz
-  cd mpich-4.0.3/
+  tar -xvzf mpich-4.1.1.tar.gz
+  cd mpich-4.1.1/
   F90= ./configure --prefix=$DIR/MPICH --with-device=ch3 FFLAGS="$fallow_argument -m64" FCFLAGS="$fallow_argument -m64"
 
   make -j $CPU_HALF_EVEN
@@ -4917,8 +4919,8 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 
   ##############################Install NETCDF C Library############################
   cd $WRFCHEM_FOLDER/Downloads
-  tar -xzvf v4.9.0.tar.gz
-  cd netcdf-c-4.9.0/
+  tar -xzvf v4.9.2.tar.gz
+  cd netcdf-c-4.9.2/
   export CPPFLAGS=-I$DIR/grib2/include
   export LDFLAGS=-L$DIR/grib2/lib
   export LIBS="-lhdf5_hl -lhdf5 -lz -lcurl -lgfortran -lgcc -lm -ldl -lpnetcdf"
@@ -5178,6 +5180,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 
   ./compile
   cd $WRFCHEM_FOLDER/UPPV4.1/scripts
+  echo $PASSWD | sudo -S cpan install XML::LibXML
   chmod +x run_unipost
 
 
@@ -5839,13 +5842,13 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   cd $WRFCHEM_FOLDER/Downloads
   wget -c -4 https://github.com/madler/zlib/archive/refs/tags/v1.2.13.tar.gz
   wget -c -4 https://github.com/HDFGroup/hdf5/archive/refs/tags/hdf5-1_14_0.tar.gz
-  wget -c -4 https://github.com/Unidata/netcdf-c/archive/refs/tags/v4.9.0.tar.gz
+  wget -c -4 https://github.com/Unidata/netcdf-c/archive/refs/tags/v4.9.2.tar.gz
   wget -c -4 https://github.com/Unidata/netcdf-fortran/archive/refs/tags/v4.6.0.tar.gz
   wget -c -4 https://download.sourceforge.net/libpng/libpng-1.6.39.tar.gz
   wget -c -4 https://www.ece.uvic.ca/~frodo/jasper/software/jasper-1.900.1.zip
   wget -c -4 https://sourceforge.net/projects/opengrads/files/grads2/2.2.1.oga.1/Linux%20%2864%20Bits%29/opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz
   wget -c -4  https://parallel-netcdf.github.io/Release/pnetcdf-1.12.3.tar.gz
-  wget -c -4 https://sourceforge.net/projects/opengrads/files/grads2/2.2.1.oga.1/Linux%20%2864%20Bits%29/opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz
+
 
   echo " "
   ############################# ZLib ############################
@@ -5933,8 +5936,8 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   ############################## Install NETCDF-C Library ############################
 
   cd $WRFCHEM_FOLDER/Downloads
-  tar -xzvf v4.9.0.tar.gz
-  cd netcdf-c-4.9.0/
+  tar -xzvf v4.9.2.tar.gz
+  cd netcdf-c-4.9.2/
 
   # these variables need to be set for the NetCDF-C install to work
   export CPPFLAGS=-I$DIR/grib2/include
@@ -6156,6 +6159,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 
   ./compile
   cd $WRFCHEM_FOLDER/UPPV4.1/scripts
+  echo $PASSWD | sudo -S cpan install XML::LibXML
   chmod +x run_unipost
 
   # IF statement to check that all files were created.
@@ -6617,7 +6621,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   cd Downloads
   wget -c -4 https://github.com/madler/zlib/archive/refs/tags/v1.2.13.tar.gz
   wget -c -4 https://github.com/HDFGroup/hdf5/archive/refs/tags/hdf5-1_14_0.tar.gz
-  wget -c -4 https://github.com/Unidata/netcdf-c/archive/refs/tags/v4.9.0.tar.gz
+  wget -c -4 https://github.com/Unidata/netcdf-c/archive/refs/tags/v4.9.2.tar.gz
   wget -c -4 https://github.com/Unidata/netcdf-fortran/archive/refs/tags/v4.6.0.tar.gz
   wget -c -4 https://download.sourceforge.net/libpng/libpng-1.6.39.tar.gz
   wget -c -4 https://www.ece.uvic.ca/~frodo/jasper/software/jasper-1.900.1.zip
@@ -6700,8 +6704,8 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   echo " "
   ##############################Install NETCDF C Library############################
   cd $WRFCHEM_FOLDER/Downloads
-  tar -xzvf v4.9.0.tar.gz
-  cd netcdf-c-4.9.0/
+  tar -xzvf v4.9.2.tar.gz
+  cd netcdf-c-4.9.2/
   export CPPFLAGS=-I$DIR/grib2/include
   export LDFLAGS=-L$DIR/grib2/lib
   export LIBS="-lhdf5_hl -lhdf5 -lz -lcurl -lgfortran -lgcc -lm -ldl -lpnetcdf"
@@ -7286,10 +7290,10 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   wget -c -4 https://github.com/Unidata/netcdf-fortran/archive/refs/tags/v4.6.0.tar.gz
   wget -c -4 https://download.sourceforge.net/libpng/libpng-1.6.39.tar.gz
   wget -c -4 https://www.ece.uvic.ca/~frodo/jasper/software/jasper-1.900.1.zip
-  wget -c -4 https://github.com/pmodels/mpich/releases/download/v4.0.3/mpich-4.0.3.tar.gz
+  wget -c -4 https://github.com/pmodels/mpich/releases/download/v4.1.1/mpich-4.1.1.tar.gz
   wget -c -4  https://parallel-netcdf.github.io/Release/pnetcdf-1.12.3.tar.gz
   wget -c -4 https://sourceforge.net/projects/opengrads/files/grads2/2.2.1.oga.1/Linux%20%2864%20Bits%29/opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz
-  wget -c -4 https://sourceforge.net/projects/opengrads/files/grads2/2.2.1.oga.1/Linux%20%2864%20Bits%29/opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz
+
 
 
 
@@ -7353,8 +7357,8 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   ##############################MPICH############################
   #F90= due to compiler issues with mpich install
   cd $WRF_FOLDER/Downloads
-  tar -xvzf mpich-4.0.3.tar.gz
-  cd mpich-4.0.3/
+  tar -xvzf mpich-4.1.1.tar.gz
+  cd mpich-4.1.1/
   F90= ./configure --prefix=$DIR/MPICH --with-device=ch3 FFLAGS=$fallow_argument FCFLAGS=$fallow_argument
 
   make -j $CPU_HALF_EVEN
@@ -7437,8 +7441,8 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 
   ##############################Install NETCDF C Library############################
   cd $WRF_FOLDER/Downloads
-  tar -xzvf v4.9.0.tar.gz
-  cd netcdf-c-4.9.0/
+  tar -xzvf v4.9.2.tar.gz
+  cd netcdf-c-4.9.2/
   export CPPFLAGS=-I$DIR/grib2/include
   export LDFLAGS=-L$DIR/grib2/lib
   export LIBS="-lhdf5_hl -lhdf5 -lz -lcurl -lgfortran -lgcc -lm -ldl -lpnetcdf"
@@ -7697,6 +7701,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 
   ./compile
   cd $WRF_FOLDER/UPPV4.1/scripts
+  echo $PASSWD | sudo -S cpan install XML::LibXML
   chmod +x run_unipost
 
   # IF statement to check that all files were created.
@@ -8380,13 +8385,13 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   cd $WRF_FOLDER/Downloads
   wget -c -4 https://github.com/madler/zlib/archive/refs/tags/v1.2.13.tar.gz
   wget -c -4 https://github.com/HDFGroup/hdf5/archive/refs/tags/hdf5-1_14_0.tar.gz
-  wget -c -4 https://github.com/Unidata/netcdf-c/archive/refs/tags/v4.9.0.tar.gz
+  wget -c -4 https://github.com/Unidata/netcdf-c/archive/refs/tags/v4.9.2.tar.gz
   wget -c -4 https://github.com/Unidata/netcdf-fortran/archive/refs/tags/v4.6.0.tar.gz
   wget -c -4 https://download.sourceforge.net/libpng/libpng-1.6.39.tar.gz
   wget -c -4 https://www.ece.uvic.ca/~frodo/jasper/software/jasper-1.900.1.zip
   wget -c -4 https://sourceforge.net/projects/opengrads/files/grads2/2.2.1.oga.1/Linux%20%2864%20Bits%29/opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz
   wget -c -4  https://parallel-netcdf.github.io/Release/pnetcdf-1.12.3.tar.gz
-  wget -c -4 https://sourceforge.net/projects/opengrads/files/grads2/2.2.1.oga.1/Linux%20%2864%20Bits%29/opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz
+
 
   echo " "
   ############################# ZLib ############################
@@ -8474,8 +8479,8 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   ############################## Install NETCDF-C Library ############################
 
   cd $WRF_FOLDER/Downloads
-  tar -xzvf v4.9.0.tar.gz
-  cd netcdf-c-4.9.0/
+  tar -xzvf v4.9.2.tar.gz
+  cd netcdf-c-4.9.2/
 
   # these variables need to be set for the NetCDF-C install to work
   export CPPFLAGS=-I$DIR/grib2/include
@@ -8698,6 +8703,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 
   ./compile
   cd $WRF_FOLDER/UPPV4.1/scripts
+  echo $PASSWD | sudo -S cpan install XML::LibXML
   chmod +x run_unipost
 
   # IF statement to check that all files were created.
@@ -9191,7 +9197,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   cd Downloads
   wget -c -4 https://github.com/madler/zlib/archive/refs/tags/v1.2.13.tar.gz
   wget -c -4 https://github.com/HDFGroup/hdf5/archive/refs/tags/hdf5-1_14_0.tar.gz
-  wget -c -4 https://github.com/Unidata/netcdf-c/archive/refs/tags/v4.9.0.tar.gz
+  wget -c -4 https://github.com/Unidata/netcdf-c/archive/refs/tags/v4.9.2.tar.gz
   wget -c -4 https://github.com/Unidata/netcdf-fortran/archive/refs/tags/v4.6.0.tar.gz
   wget -c -4 https://download.sourceforge.net/libpng/libpng-1.6.39.tar.gz
   wget -c -4 https://www.ece.uvic.ca/~frodo/jasper/software/jasper-1.900.1.zip
@@ -9273,8 +9279,8 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   echo " "
   ##############################Install NETCDF C Library############################
   cd $WRF_FOLDER/Downloads
-  tar -xzvf v4.9.0.tar.gz
-  cd netcdf-c-4.9.0/
+  tar -xzvf v4.9.2.tar.gz
+  cd netcdf-c-4.9.2/
   export CPPFLAGS=-I$DIR/grib2/include
   export LDFLAGS=-L$DIR/grib2/lib
   export LIBS="-lhdf5_hl -lhdf5 -lz -lcurl -lgfortran -lgcc -lm -ldl -lpnetcdf"
@@ -9922,7 +9928,7 @@ if [ "$HWRF_PICK" = "1" ]; then
   cd Downloads
   wget -c -4 https://github.com/madler/zlib/archive/refs/tags/v1.2.13.tar.gz
   wget -c -4 https://github.com/HDFGroup/hdf5/archive/refs/tags/hdf5-1_14_0.tar.gz
-  wget -c -4 https://github.com/Unidata/netcdf-c/archive/refs/tags/v4.9.0.tar.gz
+  wget -c -4 https://github.com/Unidata/netcdf-c/archive/refs/tags/v4.9.2.tar.gz
   wget -c -4 https://github.com/Unidata/netcdf-fortran/archive/refs/tags/v4.6.0.tar.gz
   wget -c -4 https://download.sourceforge.net/libpng/libpng-1.6.39.tar.gz
   wget -c -4 https://www.ece.uvic.ca/~frodo/jasper/software/jasper-1.900.1.zip
@@ -10021,8 +10027,8 @@ if [ "$HWRF_PICK" = "1" ]; then
   ############################## Install NETCDF-C Library ############################
 
   cd $HWRF_FOLDER/Downloads
-  tar -xzvf v4.9.0.tar.gz
-  cd netcdf-c-4.9.0/
+  tar -xzvf v4.9.2.tar.gz
+  cd netcdf-c-4.9.2/
 
   # these variables need to be set for the NetCDF-C install to work
   export CPPFLAGS=-I$DIR/grib2/include
