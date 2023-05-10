@@ -123,6 +123,7 @@ This is a BASH script that provides options to install the following Weather Res
 ### Installation
 - (Make sure to download folder into your Home Directory): $HOME
 
+> cd $HOME
 
 > git clone https://github.com/HathewayWill/WRF-MOSIT.git
 
