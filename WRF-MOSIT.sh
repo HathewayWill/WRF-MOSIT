@@ -427,7 +427,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ]; then
 
 
   # make sure some critical packages have been installed
-  which cmake pkg-config make gcc g++
+  which cmake libxml2 libxml2-dev pkg-config make gcc g++
 
   # add the Intel compiler file paths to various environment variables
   source /opt/intel/oneapi/setvars.sh
@@ -827,7 +827,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 #############################basic package managment############################
   echo $PASSWD | sudo -S apt -y update
   echo $PASSWD | sudo -S apt -y upgrade
-  echo $PASSWD | sudo -S apt -y install gcc gfortran g++ libtool automake autoconf make m4 default-jre default-jdk csh ksh tcsh okular cmake time xorg openbox xauth git python3 python3-dev python2 python2-dev cmake mlocate pkg-config
+  echo $PASSWD | sudo -S apt -y install gcc gfortran g++ libtool automake autoconf make m4 default-jre default-jdk csh ksh tcsh okular cmake libxml2 libxml2-dev time xorg openbox xauth git python3 python3-dev python2 python2-dev cmake libxml2 libxml2-dev mlocate pkg-config
 
   echo " "
 ##############################Directory Listing############################
@@ -1336,7 +1336,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
   brew install gcc libtool automake autoconf make m4 java ksh  mpich grads ksh tcsh
   brew install snap
   brew install python@3.9
-  brew install gcc libtool automake autoconf make m4 java ksh git wget mpich grads ksh tcsh python@3.9 cmake xorgproto xorgrgb xauth curl
+  brew install gcc libtool automake autoconf make m4 java ksh git wget mpich grads ksh tcsh python@3.9 cmake libxml2 libxml2-dev xorgproto xorgrgb xauth curl
 
   ##############################Directory Listing############################
 
@@ -1743,7 +1743,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; the
   echo $PASSWD | sudo -S apt -y update
 
   # necessary binary packages (especially pkg-config and build-essential)
-  echo $PASSWD | sudo -S apt -y install git apt gcc gfortran g++ libtool automake autoconf make m4 default-jre default-jdk csh ksh tcsh okular cmake time xorg openbox xauth python3 python3-dev python2 python2-dev mlocate curl libcurl4-openssl-dev pkg-config
+  echo $PASSWD | sudo -S apt -y install git apt gcc gfortran g++ libtool automake autoconf make m4 default-jre default-jdk csh ksh tcsh okular cmake libxml2 libxml2-dev time xorg openbox xauth python3 python3-dev python2 python2-dev mlocate curl libcurl4-openssl-dev pkg-config
 
   # install the Intel compilers
   echo $PASSWD | sudo -S apt -y install intel-basekit intel-hpckit intel-aikit
@@ -1751,7 +1751,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; the
 
 
   # make sure some critical packages have been installed
-  which cmake pkg-config make gcc g++
+  which cmake libxml2 libxml2-dev pkg-config make gcc g++
 
   # add the Intel compiler file paths to various environment variables
   source /opt/intel/oneapi/setvars.sh
@@ -2222,7 +2222,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   #############################basic package managment############################
   echo $PASSWD | sudo -S apt -y update
   echo $PASSWD | sudo -S apt -y upgrade
-  echo $PASSWD | sudo -S apt -y install apt gcc gfortran g++ libtool automake autoconf make m4 default-jre default-jdk csh ksh tcsh okular cmake time xorg openbox xauth git python3 python3-dev python2 python2-dev mlocate curl libcurl4-openssl-dev pkg-config build-essential
+  echo $PASSWD | sudo -S apt -y install apt gcc gfortran g++ libtool automake autoconf make m4 default-jre default-jdk csh ksh tcsh okular cmake libxml2 libxml2-dev time xorg openbox xauth git python3 python3-dev python2 python2-dev mlocate curl libcurl4-openssl-dev pkg-config build-essential
   echo " "
   ##############################Directory Listing############################
   export HOME=`cd;pwd`
@@ -3230,7 +3230,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   echo $PASSWD | sudo -S apt -y update
 
   # necessary binary packages (especially pkg-config and build-essential)
-  echo $PASSWD | sudo -S apt -y install git apt gcc gfortran g++ libtool automake autoconf make m4 default-jre default-jdk csh ksh tcsh okular cmake time xorg openbox xauth python3 python3-dev python2 python2-dev mlocate curl libcurl4-openssl-dev build-essential pkg-config
+  echo $PASSWD | sudo -S apt -y install git apt gcc gfortran g++ libtool automake autoconf make m4 default-jre default-jdk csh ksh tcsh okular cmake libxml2 libxml2-dev time xorg openbox xauth python3 python3-dev python2 python2-dev mlocate curl libcurl4-openssl-dev build-essential pkg-config
 
   # install the Intel compilers
   echo $PASSWD | sudo -S apt -y install intel-basekit intel-hpckit intel-aikit
@@ -3238,7 +3238,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 
 
   # make sure some critical packages have been installed
-  which cmake pkg-config make gcc g++
+  which cmake libxml2 libxml2-dev pkg-config make gcc g++
 
   # add the Intel compiler file paths to various environment variables
   source /opt/intel/oneapi/setvars.sh
@@ -4724,7 +4724,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   #############################basic package managment############################
   echo $PASSWD | sudo -S apt -y update
   echo $PASSWD | sudo -S apt -y upgrade
-  echo $PASSWD | sudo -S apt -y install gcc gfortran g++ libtool automake autoconf make m4 default-jre default-jdk csh ksh git build-essential unzip mlocate byacc flex python3 python3-dev python2 python2-dev cmake curl mlocate libcurl4-openssl-dev pkg-config build-essential
+  echo $PASSWD | sudo -S apt -y install gcc gfortran g++ libtool automake autoconf make m4 default-jre default-jdk csh ksh git build-essential unzip mlocate byacc flex python3 python3-dev python2 python2-dev cmake libxml2 libxml2-dev curl mlocate libcurl4-openssl-dev pkg-config build-essential
 
 
 
@@ -5768,7 +5768,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   echo $PASSWD | sudo -S apt -y update
 
   # necessary binary packages (especially pkg-config and build-essential)
-  echo $PASSWD | sudo -S apt -y install git gcc gfortran g++ libtool automake autoconf make m4 default-jre default-jdk csh ksh python3 python3-dev python2 python2-dev mlocate curl cmake libcurl4-openssl-dev pkg-config build-essential
+  echo $PASSWD | sudo -S apt -y install git gcc gfortran g++ libtool automake autoconf make m4 default-jre default-jdk csh ksh python3 python3-dev python2 python2-dev mlocate curl cmake libxml2 libxml2-dev libcurl4-openssl-dev pkg-config build-essential
 
   # install the Intel compilers
   echo $PASSWD | sudo -S apt -y install intel-basekit intel-hpckit intel-aikit
@@ -5776,7 +5776,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 
 
   # make sure some critical packages have been installed
-  which cmake pkg-config make gcc g++
+  which cmake libxml2 libxml2-dev pkg-config make gcc g++
 
   # add the Intel compiler file paths to various environment variables
   source /opt/intel/oneapi/setvars.sh
@@ -6598,7 +6598,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   brew install gcc libtool automake autoconf make m4 java ksh  mpich grads ksh tcsh
   brew install snap
   brew install python@3.9
-  brew install gcc libtool automake autoconf make m4 java ksh git wget mpich grads ksh tcsh python@3.9 cmake xorgproto xorgrgb xauth curl flex byacc bison gnu-sed
+  brew install gcc libtool automake autoconf make m4 java ksh git wget mpich grads ksh tcsh python@3.9 cmake libxml2 libxml2-dev xorgproto xorgrgb xauth curl flex byacc bison gnu-sed
 
 
   ##############################Directory Listing############################
@@ -7239,7 +7239,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   #############################basic package managment############################
   echo $PASSWD | sudo -S apt -y update
   echo $PASSWD | sudo -S apt -y upgrade
-  echo $PASSWD | sudo -S apt -y install gcc gfortran g++ libtool automake autoconf make m4 default-jre default-jdk csh ksh git python3 python3-dev python2 python2-dev mlocate curl cmake libcurl4-openssl-dev build-essential pkg-config
+  echo $PASSWD | sudo -S apt -y install gcc gfortran g++ libtool automake autoconf make m4 default-jre default-jdk csh ksh git python3 python3-dev python2 python2-dev mlocate curl cmake libxml2 libxml2-dev libcurl4-openssl-dev build-essential pkg-config
 
   echo " "
   ##############################Directory Listing############################
@@ -8310,7 +8310,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   echo $PASSWD | sudo -S apt -y update
 
   # necessary binary packages (especially pkg-config and build-essential)
-  echo $PASSWD | sudo -S apt -y install git gcc gfortran g++ libtool automake autoconf make m4 default-jre default-jdk csh ksh python3 python3-dev python2 python2-dev mlocate curl cmake libcurl4-openssl-dev pkg-config build-essential
+  echo $PASSWD | sudo -S apt -y install git gcc gfortran g++ libtool automake autoconf make m4 default-jre default-jdk csh ksh python3 python3-dev python2 python2-dev mlocate curl cmake libxml2 libxml2-dev libcurl4-openssl-dev pkg-config build-essential
 
   # install the Intel compilers
   echo $PASSWD | sudo -S apt -y install intel-basekit intel-hpckit intel-aikit
@@ -8318,7 +8318,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 
 
   # make sure some critical packages have been installed
-  which cmake pkg-config make gcc g++
+  which cmake libxml2 libxml2-dev pkg-config make gcc g++
 
   # add the Intel compiler file paths to various environment variables
   source /opt/intel/oneapi/setvars.sh
@@ -9173,7 +9173,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   brew install gcc libtool automake autoconf make m4 java ksh  mpich grads ksh tcsh
   brew install snap
   brew install python@3.9
-  brew install gcc libtool automake autoconf make m4 java ksh git wget mpich grads ksh tcsh python@3.9 cmake xorgproto xorgrgb xauth curl
+  brew install gcc libtool automake autoconf make m4 java ksh git wget mpich grads ksh tcsh python@3.9 cmake libxml2 libxml2-dev xorgproto xorgrgb xauth curl
 
 
   ##############################Directory Listing############################
@@ -9864,14 +9864,14 @@ if [ "$HWRF_PICK" = "1" ]; then
   echo $PASSWD | sudo -S apt -y update
 
   # necessary binary packages (especially pkg-config and build-essential)
-  echo $PASSWD | sudo -S apt -y install gcc gfortran g++ libtool automake autoconf make m4 default-jre default-jdk csh ksh python3 python3-dev python2 python2-dev mlocate curl cmake libcurl4-openssl-dev pkg-config build-essential
+  echo $PASSWD | sudo -S apt -y install gcc gfortran g++ libtool automake autoconf make m4 default-jre default-jdk csh ksh python3 python3-dev python2 python2-dev mlocate curl cmake libxml2 libxml2-dev libcurl4-openssl-dev pkg-config build-essential
 
   # install the Intel compilers
   echo $PASSWD | sudo -S apt -y install intel-basekit intel-hpckit intel-aikit
   echo $PASSWD | sudo -S apt -y update
 
   # make sure some critical packages have been installed
-  which cmake pkg-config make gcc g++
+  which cmake libxml2 libxml2-dev pkg-config make gcc g++
 
   # add the Intel compiler file paths to various environment variables
   source /opt/intel/oneapi/setvars.sh
@@ -10156,7 +10156,7 @@ if [ "$HWRF_PICK" = "1" ]; then
   cd lapack-3.10.1
   cp make.inc.example make.inc
 
-  # changing some variables and flags for the cmake build process
+  # changing some variables and flags for the cmake libxml2 libxml2-dev build process
   sed -i '9s/ gcc/ icc /g' make.inc
   sed -i '20s/ gfortran/ ifort /g' make.inc
   sed -i '21s/ -O2 -frecursive/  -O2/g' make.inc
@@ -10166,9 +10166,9 @@ if [ "$HWRF_PICK" = "1" ]; then
 
   mkdir build && cd build
 
-  # this library uses cmake instead of make to build itself
-  cmake -DCMAKE_INSTALL_LIBDIR=$HWRF_FOLDER/Libs/LAPACK ..
-  cmake --build . -j $CPU_HALF_EVEN --target install
+  # this library uses cmake libxml2 libxml2-dev instead of make to build itself
+  cmake libxml2 libxml2-dev -Dcmake libxml2 libxml2-dev_INSTALL_LIBDIR=$HWRF_FOLDER/Libs/LAPACK ..
+  cmake libxml2 libxml2-dev --build . -j $CPU_HALF_EVEN --target install
 
   # other libraries below need these variables to be set
   export LAPACK_DIR=$HWRF_FOLDER/Libs/LAPACK
