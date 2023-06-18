@@ -8983,7 +8983,8 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   sed -i '170s|mpicc -cc=$(SCC)|mpiicc|g' $WRF_FOLDER/WRFPLUS/configure.wrf
 
 
-  ./compile -j $CPU_HALF_EVEN wrfplus | tee wrfplus.compile.log
+  ./compile -j $CPU_HALF_EVEN wrfplus 2>&1 | tee wrfplus1.compile.log
+  ./compile -j $CPU_HALF_EVEN wrfplus 2>&1 | tee wrfplus2.compile.log
   export WRFPLUS_DIR=$WRF_FOLDER/WRFPLUS
 
 
