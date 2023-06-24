@@ -11,5 +11,5 @@ identifiers:
   - type: url
     value: >-
       https://github.com/HathewayWill/WRF-MOSIT
-version: 1.4.0
-date-released: '2023-04-21'
+version: 1.4.1
+date-released: '2023-06-23'
