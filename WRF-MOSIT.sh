@@ -16,7 +16,6 @@ if [ "$SYS_ARCH" = "x86_64" ]; then
 else
   export SYSTEMBIT="32"
 fi
-
 ############################# System OS Version #############################
 # Macos or linux
 # Make note that this script only works for Debian Linux kernals
@@ -34,10 +33,9 @@ if [ "$SYSTEMOS" = "Linux" ]; then
    export YUM=$(command -v yum)
     if [ "$YUM" != "" ]; then
    echo " yum found"
-   read -r -p "Your system is a CentOS based system which is not compatible with this script"
-   exit ;
+   echo "Your system is a CentOS based Kernal"
+   export SYSTEMOS=CentOS;
     fi
-
 fi
 
 ############################### Intel or GNU Compiler Option #############
@@ -62,6 +60,13 @@ if [ "$SYSTEMBIT" = "64" ] && [ "$SYSTEMOS" = "MacOS" ]; then
   echo " "
   echo "Please enter password when prompted"
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
+
+ (echo; echo 'eval "$(/usr/local/bin/brew shellenv)"') >> /Users/workhorse/.profile
+ eval "$(/usr/local/bin/brew shellenv)"
+
+ chsh -s /bin/bash
+
+
 fi
 
 if [ "$SYSTEMBIT" = "64" ] && [ "$SYSTEMOS" = "Linux" ];
@@ -131,53 +136,6 @@ if [ "$SYSTEMOS" = "Linux" ]; then
       [Gg]* )
         if [[ ${Storage_Space_Size} -lt ${Storage_Space_Required} ]]; then
           echo " "
-          echo "Not enough storage space for installation"
-          echo "-------------------------------------------------- "
-          exit
-        else
-          echo " "
-          echo "Sufficient storage space for installation found."
-          echo "-------------------------------------------------- "
-        fi ;;
-      [MmKk]* )
-        echo " "
-        echo "Not enough storage space for installation."
-        echo "-------------------------------------------------- "
-        exit ;;
-      * )
-      echo " "
-      echo "Not enough storage space for installation."
-      echo "-------------------------------------------------- "
-      exit ;;
-    esac
-
-  echo " "
-fi
-
-
-
-if [ "$SYSTEMOS" = "MacOS" ]; then
-  export Storage_Space_Size=$(df -h / | awk 'NR==2 {print $1}' | tr -cd '[:digit:]')
-  export Storage_Space_Units=$(df -h / | awk 'NR==2 {print $1}' | tr -cd '[:alpha:]')
-  export Storage_Space_Required="350"
-  echo "-------------------------------------------------- "
-  echo " "
-  echo " Testing for Storage Space for installation"
-  echo " "
-
-  case $Storage_Space_Units in
-      [Pp]* )
-
-        echo " "
-        echo "Sufficient storage space for installation found"
-        echo "-------------------------------------------------- " ;;
-      [Tt]* )
-        echo " "
-        echo "Sufficient storage space for installation found"
-        echo "-------------------------------------------------- " ;;
-      [Gg]* )
-        if [[ ${Storage_Space_Size} -lt ${Storage_Space_Required} ]]; then
-          echo " "
           echo "Not enough storage space for installation. 350GB is required for installation."
           echo "-------------------------------------------------- "
           exit
@@ -201,6 +159,50 @@ if [ "$SYSTEMOS" = "MacOS" ]; then
   echo " "
 fi
 
+if [ "$SYSTEMOS" = "MacOS" ]; then
+  export Storage_Space_Size=$(df -h / | awk 'NR==2 {print $2}' | tr -cd '[:digit:]')
+  export Storage_Space_Units=$(df -h / | awk 'NR==2 {print $2}' | tr -cd '[:alpha:]')
+  export Storage_Space_Required="350"
+  echo "-------------------------------------------------- "
+  echo " "
+  echo " Testing for Storage Space for installation"
+  echo " "
+
+  case $Storage_Space_Units in
+      [Pi]* )
+
+        echo " "
+        echo "Sufficient storage space for installation found"
+        echo "-------------------------------------------------- " ;;
+      [Ti]* )
+        echo " "
+        echo "Sufficient storage space for installation found"
+        echo "-------------------------------------------------- " ;;
+      [Gi]* )
+        if [[ ${Storage_Space_Size} -lt ${Storage_Space_Required} ]]; then
+          echo " "
+          echo "Not enough storage space for installation. 350GB is required for installation."
+          echo "-------------------------------------------------- "
+          exit
+        else
+          echo " "
+          echo "Sufficient storage space for installation found."
+          echo "-------------------------------------------------- "
+        fi ;;
+      [MiKi]* )
+        echo " "
+        echo "Not enough storage space for installation. 350GB is required for installation."
+        echo "-------------------------------------------------- "
+        exit ;;
+      * )
+      echo " "
+      echo "Not enough storage space for installation. 350GB is required for installation."
+      echo "-------------------------------------------------- "
+      exit ;;
+    esac
+
+  echo " "
+fi
 
 
 ############################# Chose GrADS or OpenGrADS #########################
@@ -232,7 +234,7 @@ Please answer with either OpenGrADS or GrADS and press enter.
    echo " "
    echo "Please answer OpenGrADS or GrADS (case sensative).";;
 
-esac
+  esac
 done
 
 echo " "
@@ -259,9 +261,33 @@ while true; do
   esac
 done
 
+echo " "
 
+################################# DTC MET Tools Test ##################
+
+while true; do
+  echo " NCAR's DTC MET Tools Install"
+  read -r -p "
+  Would you like the script to install the NCAR's DTC Model Evaluation Tools?
+
+
+  (Y/N)    " yn
+  case $yn in
+    [Yy]* )
+      export DTC_MET=1  #variable set for one click config and installation
+      break
+      ;;
+    [Nn]* )
+      export DTC_MET=0  #variable set for manual config and installation
+      break
+      ;;
+    * ) echo "Please answer yes or no.";;
+  esac
+done
 
 echo " "
+
+
 ################################# GEOG WPS Geographical Input Data Mandatory for Specific Applications ##################
 
 while true; do
@@ -286,9 +312,6 @@ while true; do
     * ) echo "Please answer yes or no.";;
   esac
 done
-
-
-
 
 echo " "
 
@@ -329,7 +352,7 @@ while read -r -p "Which version of WRF would you like to install?
 -WRFCHEM
 -WRFHYDRO_COUPLED
 -WRFHYDRO_STANDALONE
--HURRICANE_WRF
+-HURRICANE_WRF  (Not available on CentOS Kernal & MacOS)
 Please enter one of the above options and press enter (Case Sensative):
 " yn; do
 
@@ -370,9 +393,8 @@ Please enter one of the above options and press enter (Case Sensative):
    echo " "
    echo "Please answer WRF, WRFCHEM, WRFHYDRO_COUPLED, WRFHYDRO_STANDALONE (All Upper Case).";;
 
-esac
+  esac
 done
-
 
 ############################# Enter sudo users information #############################
 echo "-------------------------------------------------- "
@@ -392,18 +414,15 @@ echo " "
 echo "Beginning Installation"
 echo " "
 
-
-
 ############################ DTC's MET & METPLUS ##################################################
 
 ###################################################################################################
 
 
-
-if [ "$Ubuntu_64bit_Intel" = "1" ]; then
-
+if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$DTC_MET" = "1" ]; then
 
 
+  echo "MET INSTALLING"
   echo $PASSWD | sudo -S apt -y update
   echo $PASSWD | sudo -S apt -y upgrade
 
@@ -419,15 +438,21 @@ if [ "$Ubuntu_64bit_Intel" = "1" ]; then
   # this update should get the Intel package info from the Intel repository
   echo $PASSWD | sudo -S apt -y update
   echo $PASSWD | sudo -S apt -y upgrade
-  echo $PASSWD | sudo -S apt -y install python3 python3-dev emacs flex bison libpixman-1-dev libjpeg-dev pkg-config libpng-dev unzip python2 python2-dev python3-pip pipenv gcc gfortran g++ libtool automake autoconf make m4 default-jre default-jdk csh ksh git libncurses5 libncurses6 mlocate pkg-config build-essential curl libcurl4-openssl-dev
+  echo $PASSWD | sudo -S apt -y install autoconf automake bison build-essential byacc cmake csh curl default-jdk default-jre emacs flex g++ gawk gcc gfortran git ksh libcurl4-openssl-dev libjpeg-dev libncurses5 libncurses6 libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev m4 make mlocate ncview okular openbox pipenv pkg-config python2 python2-dev python3 python3-dev python3-pip tcsh unzip xauth xorg time
 
   # install the Intel compilers
-  echo $PASSWD | sudo -S apt -y install intel-basekit intel-hpckit intel-aikit
+  echo $PASSWD | sudo -S apt -y install intel-basekit
+  echo $PASSWD | sudo -S apt -y install intel-hpckit
+  echo $PASSWD | sudo -S apt -y install intel-oneapi-python
+
+
+
+
   echo $PASSWD | sudo -S apt -y update
 
 
   # make sure some critical packages have been installed
-  which cmake libxml2 libxml2-dev pkg-config make gcc g++
+  which cmake pkg-config make gcc g++
 
   # add the Intel compiler file paths to various environment variables
   source /opt/intel/oneapi/setvars.sh
@@ -443,13 +468,14 @@ if [ "$Ubuntu_64bit_Intel" = "1" ]; then
   export MPIF90=mpiifort
   export MPICC=mpiicc
   export MPICXX=mpiicpc
-  export CFLAGS="-fPIC -fPIE -O3 -diag-disable=10441"
+  export CFLAGS="-fPIC -fPIE -O3 -diag-disable=10441 "
   export FFLAGS="-m64"
   export FCFLAGS="-m64"
   #########################
 
   #Downloading latest dateutil due to python3.8 running old version.
   pip3 install python-dateutil==2.8
+  pip3 install python-dateutil
 
   #Directory Listings
   if [ "$WRFCHEM_PICK" = "1" ]; then
@@ -474,8 +500,8 @@ if [ "$Ubuntu_64bit_Intel" = "1" ]; then
 
   mkdir $WRF_FOLDER/MET-11.0.2
   mkdir $WRF_FOLDER/MET-11.0.2/Downloads
-  mkdir $WRF_FOLDER/METplus-5.0.1
-  mkdir $WRF_FOLDER/METplus-5.0.1/Downloads
+  mkdir $WRF_FOLDER/METplus-5.0.2
+  mkdir $WRF_FOLDER/METplus-5.0.2/Downloads
 
 
 
@@ -520,8 +546,10 @@ if [ "$Ubuntu_64bit_Intel" = "1" ]; then
   export USE_MODULES=FALSE
   export MET_PYTHON=/opt/intel/oneapi/intelpython/python${PYTHON_VERSION_COMBINED}
   export MET_PYTHON_CC=-I${MET_PYTHON}/include/python${PYTHON_VERSION_COMBINED}
-  export MET_PYTHON_LD=-L${MET_PYTHON}/lib/python${PYTHON_VERSION_COMBINED}/config-${PYTHON_VERSION_COMBINED}-x86_64-linux-gnu\ -L${MET_PYTHON}/lib\ -lpython${PYTHON_VERSION_COMBINED}\ -lcrypt\ -lpthread\ -ldl\ -lm\ -lm
+  export MET_PYTHON_LD=-L${MET_PYTHON}/lib/python${PYTHON_VERSION_COMBINED}/config-${PYTHON_VERSION_COMBINED}-x86_64-linux-gnu\ -L${MET_PYTHON}/lib\ -lpython${PYTHON_VERSION_COMBINED}\ -lcrypt\ -lpthread -r\ -ldl\ -lm\ -lm
   export SET_D64BIT=FALSE
+
+
 
 
   chmod 775 compile_MET_all.sh
@@ -531,62 +559,59 @@ if [ "$Ubuntu_64bit_Intel" = "1" ]; then
   export PATH=$WRF_FOLDER/MET-11.0.2/bin:$PATH            #Add MET executables to path
 
 
-#Basic Package Management for Model Evaluation Tools (METplus)
+ #Basic Package Management for Model Evaluation Tools (METplus)
 
   echo $PASSWD | sudo -S apt -y update
   echo $PASSWD | sudo -S apt -y upgrade
 
 
 
-#Directory Listings for Model Evaluation Tools (METplus
+ #Directory Listings for Model Evaluation Tools (METplus
 
-  mkdir $WRF_FOLDER/METplus-5.0.1
-  mkdir $WRF_FOLDER/METplus-5.0.1/Sample_Data
-  mkdir $WRF_FOLDER/METplus-5.0.1/Output
-  mkdir $WRF_FOLDER/METplus-5.0.1/Downloads
-
-
-
-
-#Downloading METplus and untarring files
-
-  cd $WRF_FOLDER/METplus-5.0.1/Downloads
-  wget -c -4 https://github.com/dtcenter/METplus/archive/refs/tags/v5.0.1.tar.gz
-  tar -xvzf v5.0.1.tar.gz -C $WRF_FOLDER
+  mkdir $WRF_FOLDER/METplus-5.0.2
+  mkdir $WRF_FOLDER/METplus-5.0.2/Sample_Data
+  mkdir $WRF_FOLDER/METplus-5.0.2/Output
+  mkdir $WRF_FOLDER/METplus-5.0.2/Downloads
 
 
 
-# Insatlllation of Model Evaluation Tools Plus
-  cd $WRF_FOLDER/METplus-5.0.1/parm/metplus_config
+
+ #Downloading METplus and untarring files
+
+  cd $WRF_FOLDER/METplus-5.0.2/Downloads
+  wget -c -4 https://github.com/dtcenter/METplus/archive/refs/tags/v5.0.2.tar.gz
+  tar -xvzf v5.0.2.tar.gz -C $WRF_FOLDER
+
+
+
+ # Insatlllation of Model Evaluation Tools Plus
+  cd $WRF_FOLDER/METplus-5.0.2/parm/metplus_config
 
   sed -i "s|MET_INSTALL_DIR = /path/to|MET_INSTALL_DIR = $WRF_FOLDER/MET-11.0.2|" defaults.conf
-  sed -i "s|INPUT_BASE = /path/to|INPUT_BASE = $WRF_FOLDER/METplus-5.0.1/Sample_Data|" defaults.conf
-  sed -i "s|OUTPUT_BASE = /path/to|OUTPUT_BASE = $WRF_FOLDER/METplus-5.0.1/Output|" defaults.conf
+  sed -i "s|INPUT_BASE = /path/to|INPUT_BASE = $WRF_FOLDER/METplus-5.0.2/Sample_Data|" defaults.conf
+  sed -i "s|OUTPUT_BASE = /path/to|OUTPUT_BASE = $WRF_FOLDER/METplus-5.0.2/Output|" defaults.conf
 
 
-# Downloading Sample Data
+ # Downloading Sample Data
 
-  cd $WRF_FOLDER/METplus-5.0.1/Downloads
+  cd $WRF_FOLDER/METplus-5.0.2/Downloads
   wget -c -4 https://dtcenter.ucar.edu/dfiles/code/METplus/METplus_Data/v5.0/sample_data-met_tool_wrapper-5.0.tgz
-  tar -xvzf sample_data-met_tool_wrapper-5.0.tgz -C $WRF_FOLDER/METplus-5.0.1/Sample_Data
+  tar -xvzf sample_data-met_tool_wrapper-5.0.tgz -C $WRF_FOLDER/METplus-5.0.2/Sample_Data
 
 
-# Testing if installation of MET & METPlus was sucessfull
-# If you see in terminal "METplus has successfully finished running."
-# Then MET & METPLUS is sucessfully installed
+ # Testing if installation of MET & METPlus was sucessfull
+ # If you see in terminal "METplus has successfully finished running."
+ # Then MET & METPLUS is sucessfully installed
 
   echo 'Testing MET & METPLUS Installation.'
-  $WRF_FOLDER/METplus-5.0.1/ush/run_metplus.py -c $WRF_FOLDER/METplus-5.0.1/parm/use_cases/met_tool_wrapper/GridStat/GridStat.conf
-  export PATH=$WRF_FOLDER/METplus-5.0.1/ush:$PATH
+  $WRF_FOLDER/METplus-5.0.2/ush/run_metplus.py -c $WRF_FOLDER/METplus-5.0.2/parm/use_cases/met_tool_wrapper/GridStat/GridStat.conf
+  export PATH=$WRF_FOLDER/METplus-5.0.2/ush:$PATH
   echo " "
   read -r -t 5 -p "MET and METPLUS sucessfully installed with intel compilers"
-
 fi
 
-
-
-if [ "$Ubuntu_64bit_GNU" = "1" ]; then
-
+if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$DTC_MET" = "1" ]; then
+  echo "MET INSTALLING"
   export HOME=`cd;pwd`
   #Basic Package Management for Model Evaluation Tools (MET)
 
@@ -594,10 +619,11 @@ if [ "$Ubuntu_64bit_GNU" = "1" ]; then
   #############################basic package managment############################
   echo $PASSWD | sudo -S apt -y update
   echo $PASSWD | sudo -S apt -y upgrade
-  echo $PASSWD | sudo -S apt -y install python3 python3-dev emacs flex bison libpixman-1-dev libjpeg-dev pkg-config libpng-dev unzip python2 python2-dev python3-pip pipenv gcc gfortran g++ libtool automake autoconf make m4 default-jre default-jdk csh ksh git libncurses5 libncurses6 mlocate pkg-config build-essential curl libcurl4-openssl-dev
+  echo $PASSWD | sudo -S apt -y install autoconf automake bison build-essential byacc cmake csh curl default-jdk default-jre emacs flex g++ gawk gcc gfortran git ksh libcurl4-openssl-dev libjpeg-dev libncurses5 libncurses6 libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev m4 make mlocate ncview okular openbox pipenv pkg-config python2 python2-dev python3 python3-dev python3-pip tcsh unzip xauth xorg time
 
   #Downloading latest dateutil due to python3.8 running old version.
   pip3 install python-dateutil==2.8
+  pip3 install python-dateutil
 
 
 
@@ -631,8 +657,8 @@ if [ "$Ubuntu_64bit_GNU" = "1" ]; then
 
   mkdir $WRF_FOLDER/MET-11.0.2
   mkdir $WRF_FOLDER/MET-11.0.2/Downloads
-  mkdir $WRF_FOLDER/METplus-5.0.1
-  mkdir $WRF_FOLDER/METplus-5.0.1/Downloads
+  mkdir $WRF_FOLDER/METplus-5.0.2
+  mkdir $WRF_FOLDER/METplus-5.0.2/Downloads
 
 
 
@@ -656,16 +682,16 @@ if [ "$Ubuntu_64bit_GNU" = "1" ]; then
 
 
   # Installation of Model Evaluation Tools
-  export CC=/usr/bin/gcc
-  export CXX=/usr/bin/g++
-  export FC=/usr/bin/gfortran
-  export F77=/usr/bin/gfortran
-  export CFLAGS="-fPIC -fPIE -O3"
+  export CC=gcc
+  export CXX=g++
+  export FC=gfortran
+  export F77=gfortran
+  export CFLAGS="-fPIC -fPIE -O3 "
 
   cd $WRF_FOLDER/MET-11.0.2
-  export GCC_VERSION=$(/usr/bin/gcc -dumpfullversion | awk '{print$1}')
-  export GFORTRAN_VERSION=$(/usr/bin/gfortran -dumpfullversion | awk '{print$1}')
-  export GPLUSPLUS_VERSION=$(/usr/bin/g++ -dumpfullversion | awk '{print$1}')
+  export GCC_VERSION=$(gcc -dumpfullversion | awk '{print$1}')
+  export GFORTRAN_VERSION=$(gfortran -dumpfullversion | awk '{print$1}')
+  export GPLUSPLUS_VERSION=$(g++ -dumpfullversion | awk '{print$1}')
 
   export GCC_VERSION_MAJOR_VERSION=$(echo $GCC_VERSION | awk -F. '{print $1}')
   export GFORTRAN_VERSION_MAJOR_VERSION=$(echo $GFORTRAN_VERSION | awk -F. '{print $1}')
@@ -690,13 +716,13 @@ if [ "$Ubuntu_64bit_GNU" = "1" ]; then
   export USE_MODULES=FALSE
   export MET_PYTHON=/usr
   export MET_PYTHON_CC=-I${MET_PYTHON}/include/python${PYTHON_VERSION_COMBINED}
-  export MET_PYTHON_LD=-L${MET_PYTHON}/lib/python${PYTHON_VERSION_COMBINED}/config-${PYTHON_VERSION_COMBINED}-x86_64-linux-gnu\ -L${MET_PYTHON}/lib\ -lpython${PYTHON_VERSION_COMBINED}\ -lcrypt\ -ldl\ -lutil\ -lm
+  export MET_PYTHON_LD="$(python3-config --ldflags --embed) -L${MET_PYTHON}/lib -lpython${PYTHON_VERSION_COMBINED}"
   export SET_D64BIT=FALSE
 
 
   chmod 775 compile_MET_all.sh
 
-  time ./compile_MET_all.sh | tee compile_MET_all.log
+  time ./compile_MET_all.sh 2>&1 | tee compile_MET_all.log
 
   export PATH=$WRF_FOLDER/MET-11.0.2/bin:$PATH
 
@@ -707,49 +733,217 @@ if [ "$Ubuntu_64bit_GNU" = "1" ]; then
 
 
 
-#Directory Listings for Model Evaluation Tools (METplus
+ #Directory Listings for Model Evaluation Tools (METplus
 
-  mkdir $WRF_FOLDER/METplus-5.0.1
-  mkdir $WRF_FOLDER/METplus-5.0.1/Sample_Data
-  mkdir $WRF_FOLDER/METplus-5.0.1/Output
-  mkdir $WRF_FOLDER/METplus-5.0.1/Downloads
-
-
-
-#Downloading METplus and untarring files
-
-  cd $WRF_FOLDER/METplus-5.0.1/Downloads
-  wget -c -4 https://github.com/dtcenter/METplus/archive/refs/tags/v5.0.1.tar.gz
-  tar -xvzf v5.0.1.tar.gz -C $WRF_FOLDER
+  mkdir $WRF_FOLDER/METplus-5.0.2
+  mkdir $WRF_FOLDER/METplus-5.0.2/Sample_Data
+  mkdir $WRF_FOLDER/METplus-5.0.2/Output
+  mkdir $WRF_FOLDER/METplus-5.0.2/Downloads
 
 
 
-# Insatlllation of Model Evaluation Tools Plus
-  cd $WRF_FOLDER/METplus-5.0.1/parm/metplus_config
+ #Downloading METplus and untarring files
+
+  cd $WRF_FOLDER/METplus-5.0.2/Downloads
+  wget -c -4 https://github.com/dtcenter/METplus/archive/refs/tags/v5.0.2.tar.gz
+  tar -xvzf v5.0.2.tar.gz -C $WRF_FOLDER
+
+
+
+ # Insatlllation of Model Evaluation Tools Plus
+  cd $WRF_FOLDER/METplus-5.0.2/parm/metplus_config
 
   sed -i "s|MET_INSTALL_DIR = /path/to|MET_INSTALL_DIR = $WRF_FOLDER/MET-11.0.2|" defaults.conf
-  sed -i "s|INPUT_BASE = /path/to|INPUT_BASE = $WRF_FOLDER/METplus-5.0.1/Sample_Data|" defaults.conf
-  sed -i "s|OUTPUT_BASE = /path/to|OUTPUT_BASE = $WRF_FOLDER/METplus-5.0.1/Output|" defaults.conf
+  sed -i "s|INPUT_BASE = /path/to|INPUT_BASE = $WRF_FOLDER/METplus-5.0.2/Sample_Data|" defaults.conf
+  sed -i "s|OUTPUT_BASE = /path/to|OUTPUT_BASE = $WRF_FOLDER/METplus-5.0.2/Output|" defaults.conf
 
 
-# Downloading Sample Data
+ # Downloading Sample Data
 
-  cd $WRF_FOLDER/METplus-5.0.1/Downloads
+  cd $WRF_FOLDER/METplus-5.0.2/Downloads
   wget -c -4 https://dtcenter.ucar.edu/dfiles/code/METplus/METplus_Data/v5.0/sample_data-met_tool_wrapper-5.0.tgz
-  tar -xvzf sample_data-met_tool_wrapper-5.0.tgz -C $WRF_FOLDER/METplus-5.0.1/Sample_Data
+  tar -xvzf sample_data-met_tool_wrapper-5.0.tgz -C $WRF_FOLDER/METplus-5.0.2/Sample_Data
 
 
-# Testing if installation of MET & METPlus was sucessfull
-# If you see in terminal "METplus has successfully finished running."
-# Then MET & METPLUS is sucessfully installed
+ # Testing if installation of MET & METPlus was sucessfull
+ # If you see in terminal "METplus has successfully finished running."
+ # Then MET & METPLUS is sucessfully installed
 
   echo 'Testing MET & METPLUS Installation.'
-  $WRF_FOLDER/METplus-5.0.1/ush/run_metplus.py -c $WRF_FOLDER/METplus-5.0.1/parm/use_cases/met_tool_wrapper/GridStat/GridStat.conf
+  $WRF_FOLDER/METplus-5.0.2/ush/run_metplus.py -c $WRF_FOLDER/METplus-5.0.2/parm/use_cases/met_tool_wrapper/GridStat/GridStat.conf
 
-  export PATH=$WRF_FOLDER/METplus-5.0.1/ush:$PATH
+  export PATH=$WRF_FOLDER/METplus-5.0.2/ush:$PATH
    read -r -t 5 -p "MET and METPLUS sucessfully installed with GNU compilers."
 fi
 
+if [ "$macos_64bit_GNU" = "1" ] && [ "$DTC_MET" = "1" ]; then
+
+  echo "MET INSTALLING"
+  brew install wget
+  brew install git
+  brew install gcc@13
+  brew install libtool
+  brew install automake
+  brew install autoconf
+  brew install make
+  brew install m4
+  brew install java
+  brew install ksh
+  brew install mpich
+  brew install grads
+  brew install ksh
+  brew install tcsh
+  brew install snap
+  brew install python@3.10
+  brew install cmake
+  brew install xorgproto
+  brew install xorgrgb
+  brew install xauth
+  brew install curl
+  brew install flex
+  brew install byacc
+  brew install bison
+  brew install gnu-sed
+
+
+   echo $PASSWD | sudo -S pip3 install python-dateutil
+
+
+  #Directory Listings
+  if [ "$WRFCHEM_PICK" = "1" ]; then
+    mkdir $HOME/WRFCHEM
+    export WRF_FOLDER=$HOME/WRFCHEM
+  fi
+
+  if [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
+    mkdir $HOME/WRFHYDRO_COUPLED
+    export WRF_FOLDER=$HOME/WRFHYDRO_COUPLED
+  fi
+
+  if [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
+    mkdir $HOME/WRFHYDRO_STANDALONE
+    export WRF_FOLDER=$HOME/WRFHYDRO_STANDALONE
+  fi
+
+
+  if [ "$WRF_PICK" = "1" ]; then
+    mkdir $HOME/WRF
+    export WRF_FOLDER=$HOME/WRF
+  fi
+
+
+
+  mkdir $WRF_FOLDER/MET-11.0.2
+  mkdir $WRF_FOLDER/MET-11.0.2/Downloads
+  mkdir $WRF_FOLDER/METplus-5.0.2
+  mkdir $WRF_FOLDER/METplus-5.0.2/Downloads
+
+
+
+  #Symlink to avoid clang conflicts with compilers
+  #default gcc path /usr/bin/gcc
+  #default homebrew path /usr/local/bin
+
+  echo "Please enter password for linking GNU libraries"
+
+  echo $PASSWD | sudo -S ln -sf /usr/local/bin/gcc-13 /usr/local/bin/gcc
+  echo $PASSWD | sudo -S ln -sf /usr/local/bin/g++-13 /usr/local/bin/g++
+  echo $PASSWD | sudo -S ln -sf /usr/local/bin/gfortran-13 /usr/local/bin/gfortran
+  echo $PASSWD | sudo -S ln -sf /usr/local/bin/python3.10 /usr/local/bin/python3
+
+
+  cd $WRF_FOLDER/MET-11.0.2/Downloads
+
+ wget -c -4 https://raw.githubusercontent.com/dtcenter/MET/main_v11.0/internal/scripts/installation/compile_MET_all.sh
+
+  wget -c -4 https://dtcenter.ucar.edu/dfiles/code/METplus/MET/installation/tar_files.tgz
+
+  wget -c -4 https://github.com/dtcenter/MET/archive/refs/tags/v11.0.2.tar.gz
+
+  cp compile_MET_all.sh $WRF_FOLDER/MET-11.0.2
+  tar -xvzf tar_files.tgz -C $WRF_FOLDER/MET-11.0.2
+  cp v11.0.2.tar.gz $WRF_FOLDER/MET-11.0.2/tar_files
+  cd $WRF_FOLDER/MET-11.0.2
+
+
+
+  cd $WRF_FOLDER/MET-11.0.2
+
+
+
+  export PYTHON_VERSION=$(python3 -V 2>1|awk '{print $2}')
+  export PYTHON_VERSION_MAJOR_VERSION=$(echo $PYTHON_VERSION | awk -F. '{print $1}')
+  export PYTHON_VERSION_MINOR_VERSION=$(echo $PYTHON_VERSION | awk -F. '{print $2}')
+  export PYTHON_VERSION_COMBINED=$PYTHON_VERSION_MAJOR_VERSION.$PYTHON_VERSION_MINOR_VERSION
+
+  export CC=/usr/local/bin/gcc
+  export CXX=/usr/local/bin/g++
+  export CFLAGS="-fPIC -fPIE -O3  -Wno-implicit-function-declaration"
+  export FC=/usr/local/bin/gfortran
+  export F77=/usr/local/bin/gfortran
+  export F90=/usr/local/bin/gfortran
+  export gcc_version=$(gcc -dumpfullversion)
+  export TEST_BASE=$WRF_FOLDER/MET-11.0.2
+  export COMPILER=gnu_$gcc_version
+  export MET_SUBDIR=${TEST_BASE}
+  export MET_TARBALL=v11.0.2.tar.gz
+  export USE_MODULES=FALSE
+  export MET_PYTHON=/usr/local
+
+  export MET_PYTHON_CC=-I$MET_PYTHON/opt/python@$PYTHON_VERSION_COMBINED//Frameworks/Python.framework/Versions/$PYTHON_VERSION_COMBINED/include/python$PYTHON_VERSION_COMBINED
+  export MET_PYTHON_LD="-L$MET_PYTHON//opt/python@$PYTHON_VERSION_COMBINED/Frameworks/Python.framework/Versions/$PYTHON_VERSION_COMBINED/lib/python$PYTHON_VERSION_COMBINED/config-$PYTHON_VERSION_COMBINED-darwin -lpython$PYTHON_VERSION_COMBINED -ldl -framework CoreFoundation"
+
+
+  export SET_D64BIT=FALSE
+
+
+  chmod 775 compile_MET_all.sh
+
+  sed -i'' -e "831s/export/#export/g" compile_MET_all.sh
+  time ./compile_MET_all.sh 2>&1 | tee compile_MET_all.log
+
+  export PATH=$WRF_FOLDER/MET-11.0.2/bin:$PATH
+
+  mkdir $WRF_FOLDER/METplus-5.0.2
+  mkdir $WRF_FOLDER/METplus-5.0.2/Sample_Data
+  mkdir $WRF_FOLDER/METplus-5.0.2/Output
+  mkdir $WRF_FOLDER/METplus-5.0.2/Downloads
+
+
+
+ #Downloading METplus and untarring files
+
+  cd $WRF_FOLDER/METplus-5.0.2/Downloads
+  wget -c -4 https://github.com/dtcenter/METplus/archive/refs/tags/v5.0.2.tar.gz
+  tar -xvzf v5.0.2.tar.gz -C $WRF_FOLDER
+
+
+
+ # Insatlllation of Model Evaluation Tools Plus
+  cd $WRF_FOLDER/METplus-5.0.2/parm/metplus_config
+
+  sed -i'' -e "s|MET_INSTALL_DIR = /path/to|MET_INSTALL_DIR = $WRF_FOLDER/MET-11.0.2|" defaults.conf
+  sed -i'' -e "s|INPUT_BASE = /path/to|INPUT_BASE = $WRF_FOLDER/METplus-5.0.2/Sample_Data|" defaults.conf
+  sed -i'' -e "s|OUTPUT_BASE = /path/to|OUTPUT_BASE = $WRF_FOLDER/METplus-5.0.2/Output|" defaults.conf
+
+
+ # Downloading Sample Data
+
+  cd $WRF_FOLDER/METplus-5.0.2/Downloads
+  wget -c -4 https://dtcenter.ucar.edu/dfiles/code/METplus/METplus_Data/v5.0/sample_data-met_tool_wrapper-5.0.tgz
+  tar -xvzf sample_data-met_tool_wrapper-5.0.tgz -C $WRF_FOLDER/METplus-5.0.2/Sample_Data
+
+
+ # Testing if installation of MET & METPlus was sucessfull
+ # If you see in terminal "METplus has successfully finished running."
+ # Then MET & METPLUS is sucessfully installed
+
+  echo 'Testing MET & METPLUS Installation.'
+  $WRF_FOLDER/METplus-5.0.2/ush/run_metplus.py -c $WRF_FOLDER/METplus-5.0.2/parm/use_cases/met_tool_wrapper/GridStat/GridStat.conf
+
+  export PATH=$WRF_FOLDER/METplus-5.0.2/ush:$PATH
+   read -r -t 5 -p "MET and METPLUS sucessfully installed with GNU compilers."
+fi
 
 ##################################### WRFCHEM Tools ###############################################
 # This script will install the WRFCHEM pre-processor tools.
@@ -766,7 +960,6 @@ fi
 # This script installs the WRFCHEM Tools with gnu or intel compilers.
 ####################################################################################################
 
-
 if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 
   cd $HOME
@@ -775,7 +968,6 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   chmod 775 *.sh
   ./WRFCHEM_TOOLS_MOSIT.sh $PASSWD $Ubuntu_64bit_GNU
   cd $HOME
-
 fi
 
 if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
@@ -786,7 +978,6 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   chmod 775 *.sh
   ./WRFCHEM_TOOLS_MOSIT.sh $PASSWD $Ubuntu_64bit_Intel
   cd $HOME
-
 fi
 
 if [ "$macos_64bit_GNU" = "1" ]  && [ "$WRFCHEM_PICK" = "1" ]; then
@@ -797,17 +988,16 @@ if [ "$macos_64bit_GNU" = "1" ]  && [ "$WRFCHEM_PICK" = "1" ]; then
   chmod 775 *.sh
   ./WRFCHEM_TOOLS_MOSIT.sh $PASSWD $macos_64bit_GNU
   cd $HOME
-
 fi
 
 
 ############################################# WRF Hydro Standalone #################################
 ## WRFHYDRO Standalone installation with parallel process.
 # Download and install required library and data files for WRFHYDRO.
-# Tested in Ubuntu 20.04.5 LTS & Ubuntu 22.04 & MacOS Ventura 64bit
+# Tested in Ubuntu 20.04.5 LTS & Ubuntu 22.04, Rocky Linux 9 & MacOS Ventura 64bit
 # Built in 64-bit system
 # Built with Intel or GNU compilers
-# Tested with current available libraries on 01/01/2023
+# Tested with current available libraries on 03/01/2023
 # If newer libraries exist edit script paths for changes
 #Estimated Run Time ~ 30 - 60 Minutes with 10mb/s downloadspeed.
 # Special thanks to:
@@ -820,14 +1010,12 @@ fi
 # UCAR's Katelyn F., Jim B., Jordan P., Kevin M.,
 ##############################################################
 
-
-
 if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 
 #############################basic package managment############################
   echo $PASSWD | sudo -S apt -y update
   echo $PASSWD | sudo -S apt -y upgrade
-  echo $PASSWD | sudo -S apt -y install gcc gfortran g++ libtool automake autoconf make m4 default-jre default-jdk csh ksh tcsh okular cmake libxml2 libxml2-dev time xorg openbox xauth git python3 python3-dev python2 python2-dev cmake libxml2 libxml2-dev mlocate pkg-config
+  echo $PASSWD | sudo -S apt -y install autoconf automake bison build-essential byacc cmake csh curl default-jdk default-jre emacs flex g++ gawk gcc gfortran git ksh libcurl4-openssl-dev libjpeg-dev libncurses5 libncurses6 libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev m4 make mlocate ncview okular openbox pipenv pkg-config python2 python2-dev python3 python3-dev python3-pip tcsh unzip xauth xorg time
 
   echo " "
 ##############################Directory Listing############################
@@ -846,14 +1034,12 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 ##############################Downloading Libraries############################
   cd Downloads
   wget -c -4 https://github.com/madler/zlib/archive/refs/tags/v1.2.13.tar.gz
-  wget -c -4 https://github.com/HDFGroup/hdf5/archive/refs/tags/hdf5-1_14_0.tar.gz
+  wget -c -4 https://github.com/HDFGroup/hdf5/archive/refs/tags/hdf5-1_14_1-2.tar.gz
   wget -c -4 https://github.com/Unidata/netcdf-c/archive/refs/tags/v4.9.2.tar.gz
   wget -c -4 https://github.com/Unidata/netcdf-fortran/archive/refs/tags/v4.6.0.tar.gz
+  wget -c -4 https://github.com/pmodels/mpich/releases/download/v4.1.2/mpich-4.1.2.tar.gz
   wget -c -4 https://download.sourceforge.net/libpng/libpng-1.6.39.tar.gz
   wget -c -4 https://www.ece.uvic.ca/~frodo/jasper/software/jasper-1.900.1.zip
-  wget -c -4 https://github.com/pmodels/mpich/releases/download/v4.1.1/mpich-4.1.1.tar.gz
-  wget -c -4  https://parallel-netcdf.github.io/Release/pnetcdf-1.12.3.tar.gz
-  wget -c -4 https://sourceforge.net/projects/opengrads/files/grads2/2.2.1.oga.1/Linux%20%2864%20Bits%29/opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz
 
 
 
@@ -863,7 +1049,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
   export CXX=g++
   export FC=gfortran
   export F77=gfortran
-  export CFLAGS="-fPIC -fPIE -O3"
+  export CFLAGS="-fPIC -fPIE -O3 "
 
   export gcc_version="$(gcc -dumpversion)"
   export gfortran_version="$(gfortran -dumpversion)"
@@ -907,11 +1093,11 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 
 ##############################MPICH############################
   cd $WRFHYDRO_FOLDER/Downloads
-  tar -xvzf mpich-4.1.1.tar.gz
-  cd mpich-4.1.1/
+  tar -xvzf mpich-4.1.2.tar.gz
+  cd mpich-4.1.2/
   F90= ./configure --prefix=$DIR/MPICH --with-device=ch3 FFLAGS="$fallow_argument -m64" FCFLAGS="$fallow_argument -m64"
-  make -j $CPU_HALF_EVEN
-  make -j $CPU_HALF_EVEN install | tee make.install.log
+  make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+  make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
   #make check
 
 
@@ -935,8 +1121,8 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
     echo " "
     ##############################MPICH############################
     cd $WRFHYDRO_FOLDER/Downloads
-    tar -xvzf mpich-4.1.1.tar.gz
-    cd mpich-4.1.1/
+    tar -xvzf mpich-4.1.2.tar.gz
+    cd mpich-4.1.2/
     F90= ./configure --prefix=$DIR/MPICH --with-device=ch3 FFLAGS="$fallow_argument -m64" FCFLAGS="$fallow_argument -m64"
 
     make -j $CPU_HALF_EVEN 2>&1 | tee make.log
@@ -960,7 +1146,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
     export CPPFLAGS=-I$DIR/grib2/include
     tar -xvzf libpng-1.6.39.tar.gz
     cd libpng-1.6.39/
-    CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX ./configure --prefix=$DIR/grib2
+    CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS ./configure --prefix=$DIR/grib2
     make -j $CPU_HALF_EVEN 2>&1 | tee make.log
     make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
     #make check
@@ -970,7 +1156,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
     unzip jasper-1.900.1.zip
     cd jasper-1.900.1/
     autoreconf -i
-    CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX ./configure --prefix=$DIR/grib2
+    CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS ./configure --prefix=$DIR/grib2
     make -j $CPU_HALF_EVEN 2>&1 | tee make.log
     make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
     #make check
@@ -982,9 +1168,9 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
     echo " "
     #############################hdf5 library for netcdf4 functionality############################
     cd $WRFHYDRO_FOLDER/Downloads
-    tar -xvzf hdf5-1_14_0.tar.gz
-    cd hdf5-hdf5-1_14_0
-    CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX ./configure --prefix=$DIR/grib2 --with-zlib=$DIR/grib2 --enable-hl --enable-fortran --enable-parallel
+    tar -xvzf hdf5-1_14_1-2.tar.gz
+    cd hdf5-hdf5-1_14_1-2
+    CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS ./configure --prefix=$DIR/grib2 --with-zlib=$DIR/grib2 --enable-hl --enable-fortran --enable-parallel
     make -j $CPU_HALF_EVEN 2>&1 | tee make.log
     make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
     #make check
@@ -1008,8 +1194,8 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
     export MPICXX=$DIR/MPICH/bin/mpicxx
     ./configure --prefix=$DIR/grib2  --enable-shared --enable-static
 
-    make -j $CPU_HALF_EVEN
-    make -j $CPU_HALF_EVEN install
+    make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+    make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
     #make check
 
     export PNETCDF=$DIR/grib2
@@ -1282,19 +1468,25 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
   ########### WRf-Python compiled via Conda  ##################
   ########### This is the preferred method by NCAR      ##################
   ##### https://wrf-python.readthedocs.io/en/latest/installation.html  ##################
+  conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
+
+  ######################### Climate Data Operators ############
+  ######################### CDO compiled via Conda ###########
+  ####################### This is the preferred method #######
+  ################### https://bairdlangenbrunner.github.io/python-for-climate-scientists/conda/setting-up-conda-environments.html #######################
+
   source $Miniconda_Install_DIR/etc/profile.d/conda.sh
   conda init bash
   conda activate base
-  conda create -n wrf-python -y
-  conda activate wrf-python
-  conda install -c conda-forge netcdf4=1.5.8 -y --freeze-installed
-  conda install -c conda-forge imageio=2.27.0 -y --freeze-installed
-  conda install -c conda-forge basemap=1.3.6 -y --freeze-installed
-  conda install -c conda-forge metpy=1.4.1 -y --freeze-installed
-  conda install -c conda-forge wrf-python=1.3.4.1 -y --freeze-installed
+  conda create --name cdo_stable -y
+  source activate cdo_stable
+  conda install -c conda-forge cdo -y
+  conda update --all -y
+  conda deactivate
+  conda deactivate
+  conda deactivate
 
-
-
+  echo " "
   ################ NEEDS TO BE IN Master folder #######################
   cp  $HOME/WRF-MASTER/SurfaceRunoff.py $WRFHYDRO_FOLDER/domain/NWM
 
@@ -1318,7 +1510,6 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 
 fi
 
-
 if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 
 ## WRF installation with parallel process.
@@ -1332,11 +1523,32 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 
 #############################basic package managment############################
 
-  brew install wget git
-  brew install gcc libtool automake autoconf make m4 java ksh  mpich grads ksh tcsh
-  brew install snap
-  brew install python@3.9
-  brew install gcc libtool automake autoconf make m4 java ksh git wget mpich grads ksh tcsh python@3.9 cmake libxml2 libxml2-dev xorgproto xorgrgb xauth curl
+    brew install wget
+    brew install git
+    brew install gcc@13
+    brew install libtool
+    brew install automake
+    brew install autoconf
+    brew install make
+    brew install m4
+    brew install java
+    brew install ksh
+    brew install mpich
+    brew install grads
+    brew install ksh
+    brew install tcsh
+    brew install snap
+    brew install python@3.10
+    brew install cmake
+    brew install xorgproto
+    brew install xorgrgb
+    brew install xauth
+    brew install curl
+    brew install flex
+    brew install byacc
+    brew install bison
+    brew install gnu-sed
+
 
   ##############################Directory Listing############################
 
@@ -1352,114 +1564,236 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
   mkdir Libs/NETCDF
 
   echo " "
-  ##############################Downloading Libraries############################
+  #############################Core Management####################################
+  export CPU_CORE=$(sysctl -n hw.ncpu)                                             # number of available threads on system
+  export CPU_6CORE="6"
+  export CPU_HALF=$(($CPU_CORE / 2))
+  #1/2 of availble cores on system
+  export CPU_HALF_EVEN=$(( $CPU_HALF - ($CPU_HALF % 2) ))
+  #Forces CPU cores to even number to avoid partial core export. ie 7 cores would be 3.5 cores.
 
-  cd Downloads
-  wget -c -4 https://github.com/madler/zlib/archive/refs/tags/v1.2.13.tar.gz
-  wget -c -4 https://github.com/HDFGroup/hdf5/archive/refs/tags/hdf5-1_14_0.tar.gz
-  wget -c -4 https://github.com/Unidata/netcdf-c/archive/refs/tags/v4.9.2.tar.gz
-  wget -c -4 https://github.com/Unidata/netcdf-fortran/archive/refs/tags/v4.6.0.tar.gz
-  wget -c -4 https://download.sourceforge.net/libpng/libpng-1.6.39.tar.gz
-  wget -c -4 https://www.ece.uvic.ca/~frodo/jasper/software/jasper-1.900.1.zip
-  wget -c -4 https://github.com/pmodels/mpich/releases/download/v4.1.1/mpich-4.1.1.tar.gz
-  wget -c -4  https://parallel-netcdf.github.io/Release/pnetcdf-1.12.3.tar.gz
-  wget -c -4 https://sourceforge.net/projects/opengrads/files/grads2/2.2.1.oga.1/Linux%20%2864%20Bits%29/opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz
+  if [ $CPU_CORE -le $CPU_6CORE ]
+  #If statement for low core systems.  Forces computers to only use 1 core if there are 4 cores or less on the system.
+  then
+    export CPU_HALF_EVEN="2"
+  else
+    export CPU_HALF_EVEN=$(( $CPU_HALF - ($CPU_HALF % 2) ))
+  fi
+
+
+  echo "##########################################"
+  echo "Number of Threads being used $CPU_HALF_EVEN"
+  echo "##########################################"
+  echo " "
+
+
+    ##############################Downloading Libraries############################
+
+    cd $WRFHYDRO_FOLDER/Downloads
+    wget -c -4 https://github.com/madler/zlib/archive/refs/tags/v1.2.13.tar.gz
+    wget -c -4 https://github.com/HDFGroup/hdf5/archive/refs/tags/hdf5-1_14_1-2.tar.gz
+    wget -c -4 https://github.com/Unidata/netcdf-c/archive/refs/tags/v4.9.2.tar.gz
+    wget -c -4 https://github.com/Unidata/netcdf-fortran/archive/refs/tags/v4.6.0.tar.gz
+    wget -c -4 https://download.sourceforge.net/libpng/libpng-1.6.39.tar.gz
+    wget -c -4 https://www.ece.uvic.ca/~frodo/jasper/software/jasper-1.900.1.zip
+    wget -c -4 https://github.com/pmodels/mpich/releases/download/v4.1.2/mpich-4.1.2.tar.gz
+    wget -c -4  https://parallel-netcdf.github.io/Release/pnetcdf-1.12.3.tar.gz
+    wget -c -4 https://sourceforge.net/projects/opengrads/files/grads2/2.2.1.oga.1/Linux%20%2864%20Bits%29/opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz
+
+
+
+
+    echo " "
+
+    #############################Compilers############################
+
+
+    #Symlink to avoid clang conflicts with compilers
+    #default gcc path /usr/bin/gcc
+    #default homebrew path /usr/local/bin
+
+    echo $PASSWD | sudo -S ln -sf /usr/local/bin/gcc-13 /usr/local/bin/gcc
+    echo $PASSWD | sudo -S ln -sf /usr/local/bin/g++-13 /usr/local/bin/g++
+    echo $PASSWD | sudo -S ln -sf /usr/local/bin/gfortran-13 /usr/local/bin/gfortran
+    echo $PASSWD | sudo -S ln -sf /usr/local/bin/python3.10 /usr/local/bin/python3
+
+    export CC=gcc
+    export CXX=g++
+    export FC=gfortran
+    export F77=gfortran
+    export CFLAGS="-fPIC -fPIE -Wno-implicit-function-declaration -Wall"
+
+    echo " "
+
+
+    #IF statement for GNU compiler issue
+  export GCC_VERSION=$(gcc -dumpfullversion | awk '{print$1}')
+  export GFORTRAN_VERSION=$(gfortran -dumpfullversion | awk '{print$1}')
+  export GPLUSPLUS_VERSION=$(g++ -dumpfullversion | awk '{print$1}')
+
+  export GCC_VERSION_MAJOR_VERSION=$(echo $GCC_VERSION | awk -F. '{print $1}')
+  export GFORTRAN_VERSION_MAJOR_VERSION=$(echo $GFORTRAN_VERSION | awk -F. '{print $1}')
+  export GPLUSPLUS_VERSION_MAJOR_VERSION=$(echo $GPLUSPLUS_VERSION | awk -F. '{print $1}')
+
+  export version_10="10"
+
+  if [ $GCC_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GFORTRAN_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GPLUSPLUS_VERSION_MAJOR_VERSION -ge $version_10 ]
+  then
+    export fallow_argument=-fallow-argument-mismatch
+    export boz_argument=-fallow-invalid-boz
+  else
+    export fallow_argument=
+    export boz_argument=
+  fi
+
+
+  export FFLAGS="$fallow_argument -m64"
+  export FCFLAGS="$fallow_argument -m64"
+
+
+  echo "##########################################"
+  echo "FFLAGS = $FFLAGS"
+  echo "FCFLAGS = $FCFLAGS"
+  echo "##########################################"
 
 
 
   echo " "
-  #############################Compilers############################
+
+    #############################zlib############################
+    #Uncalling compilers due to comfigure issue with zlib1.2.12
+    #With CC & CXX definied ./configure uses different compiler Flags
+
+    cd $WRFHYDRO_FOLDER/Downloads
+    tar -xvzf v1.2.13.tar.gz
+    cd zlib-1.2.13/
+    ./configure --prefix=$DIR/grib2
+    make -j $CPU_HALF_EVEN
+    make -j $CPU_HALF_EVEN install 2>&1 | tee install.log
+    #make check
+
+    echo " "
 
 
-  export CC=/usr/local/Cellar/gcc/1*/bin/gcc-1*
-  export CXX=/usr/local/Cellar/gcc/1*/bin/g++-1*
-  export FC=/usr/local/Cellar/gcc/1*/bin/gfortran-1*
-  export F77=/usr/local/Cellar/gcc/1*/bin/gfortran-1*
-  export CFLAGS="-fPIC -fPIE -O3 -Wno-implicit-function-declaration"
-
-  echo " "
-  #############################zlib############################
-  #Uncalling compilers due to comfigure issue with zlib1.2.12
-  #With CC & CXX definied ./configure uses different compiler Flags
-
+  ##############################MPICH############################
   cd $WRFHYDRO_FOLDER/Downloads
-  tar -xvzf v1.2.13.tar.gz
-  cd zlib-1.2.13/
-  ./configure --prefix=$DIR/grib2
-  make
-  make install
+  tar -xvzf mpich-4.1.2.tar.gz
+  cd mpich-4.1.2/
+  F90= ./configure --prefix=$DIR/MPICH --with-device=ch3 FFLAGS="$fallow_argument -m64" FCFLAGS="$fallow_argument -m64"
+
+  make -j $CPU_HALF_EVEN 2>&1 | tee install.log
+  make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
   #make check
 
+
+  export PATH=$DIR/MPICH/bin:$PATH
+
+  export MPIFC=$DIR/MPICH/bin/mpifort
+  export MPIF77=$DIR/MPICH/bin/mpifort
+  export MPIF90=$DIR/MPICH/bin/mpifort
+  export MPICC=$DIR/MPICH/bin/mpicc
+  export MPICXX=$DIR/MPICH/bin/mpicxx
+
+
   echo " "
+
+
   #############################libpng############################
-  cd $WRFHYDRO_FOLDER/Downloads
-  export LDFLAGS=-L$DIR/grib2/lib
-  export CPPFLAGS=-I$DIR/grib2/include
-  tar -xvzf libpng-1.6.39.tar.gz
-  cd libpng-1.6.39/
-  ./configure --prefix=$DIR/grib2
-  make
-  make install
-  #make check
+    cd $WRFHYDRO_FOLDER/Downloads
+    export LDFLAGS=-L$DIR/grib2/lib
+    export CPPFLAGS=-I$DIR/grib2/include
+    tar -xvzf libpng-1.6.39.tar.gz
+    cd libpng-1.6.39/
+    CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX ./configure --prefix=$DIR/grib2
+    make -j $CPU_HALF_EVEN
+    make -j $CPU_HALF_EVEN install 2>&1 | tee install.log
+    #make check
+    #make check
 
-  echo " "
-  #############################JasPer############################
+    echo " "
+    #############################JasPer############################
 
-  cd $WRFHYDRO_FOLDER/Downloads
-  unzip jasper-1.900.1.zip
-  cd jasper-1.900.1/
-  autoreconf -i
-  ./configure --prefix=$DIR/grib2
-  make
-  make install
-  export JASPERLIB=$DIR/grib2/lib
-  export JASPERINC=$DIR/grib2/include
+    cd $WRFHYDRO_FOLDER/Downloads
+    unzip jasper-1.900.1.zip
+    cd jasper-1.900.1/
+    autoreconf -i
+    CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX ./configure --prefix=$DIR/grib2
+    make -j $CPU_HALF_EVEN
+    make -j $CPU_HALF_EVEN install 2>&1 | tee install.log
+    export JASPERLIB=$DIR/grib2/lib
+    export JASPERINC=$DIR/grib2/include
 
-  echo " "
-  #############################hdf5 library for netcdf4 functionality############################
+    echo " "
+    #############################hdf5 library for netcdf4 functionality############################
 
-  cd $WRFHYDRO_FOLDER/Downloads
-  tar -xvzf hdf5-1_14_0.tar.gz
-  cd hdf5-hdf5-1_14_0
-  ./configure --prefix=$DIR/grib2 --with-zlib=$DIR/grib2 --enable-hl --enable-fortran
-  make
-  make install
-  #make check
+    cd $WRFHYDRO_FOLDER/Downloads
+    tar -xvzf hdf5-1_14_1-2.tar.gz
+    cd hdf5-hdf5-1_14_1-2
+    CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX ./configure --prefix=$DIR/grib2 --with-zlib=$DIR/grib2 --enable-hl --enable-fortran --enable-parallel
+    make -j $CPU_HALF_EVEN
+    make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
+    #make check
 
-  export HDF5=$DIR/grib2
-  export LD_LIBRARY_PATH=$DIR/grib2/lib:$LD_LIBRARY_PATH
+    export HDF5=$DIR/grib2
+    export PHDF5=$DIR/grib2
+    export LD_LIBRARY_PATH=$DIR/grib2/lib:$LD_LIBRARY_PATH
 
-  echo " "
-  ##############################Install NETCDF C Library############################
-  cd $WRFHYDRO_FOLDER/Downloads
-  tar -xzvf v4.9.2.tar.gz
-  cd netcdf-c-4.9.2/
-  export CPPFLAGS=-I$DIR/grib2/include
-  export LDFLAGS=-L$DIR/grib2/lib
-  export LIBS="-lhdf5_hl -lhdf5 -lz -lcurl -lgfortran -lgcc -lm -ldl -lpnetcdf"
-  ./configure --prefix=$DIR/NETCDF --with-zlib=$DIR/grib2 --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-shared
-  make
-  make install
-  #make check
+    echo " "
 
-  export PATH=$DIR/NETCDF/bin:$PATH
-  export NETCDF=$DIR/NETCDF
+    #############################Install Parallel-netCDF##############################
+    #Make file created with half of available cpu cores
+    #Hard path for MPI added
+    ##################################################################################
+    cd $WRFHYDRO_FOLDER/Downloads
+    tar -xvzf pnetcdf-1.12.3.tar.gz
+    cd pnetcdf-1.12.3
+    export MPIFC=$DIR/MPICH/bin/mpifort
+    export MPIF77=$DIR/MPICH/bin/mpifort
+    export MPIF90=$DIR/MPICH/bin/mpifort
+    export MPICC=$DIR/MPICH/bin/mpicc
+    export MPICXX=$DIR/MPICH/bin/mpicxx
+    ./configure --prefix=$DIR/grib2  --enable-shared --enable-static
 
-  echo " "
-  ##############################NetCDF fortran library############################
+    make -j $CPU_HALF_EVEN
+    make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
+    #make check
 
-  cd $WRFHYDRO_FOLDER/Downloads
-  tar -xvzf v4.6.0.tar.gz
-  cd netcdf-fortran-4.6.0/
-  export LD_LIBRARY_PATH=$DIR/NETCDF/lib:$LD_LIBRARY_PATH
-  export CPPFLAGS="-I$DIR/NETCDF/include -I$DIR/grib2/include"
-  export LDFLAGS="-L$DIR/NETCDF/lib -L$DIR/grib2/lib"
-  export LIBS="-lnetcdf -lm -lcurl -lhdf5_hl -lhdf5 -lz -ldl -lgcc -lgfortran -lm"
-  ./configure --prefix=$DIR/NETCDF --disable-shared
-  make
-  make install
-  #make check
+    export PNETCDF=$DIR/grib2
 
+
+
+
+    ##############################Install NETCDF C Library############################
+    cd $WRFHYDRO_FOLDER/Downloads
+    tar -xzvf v4.9.2.tar.gz
+    cd netcdf-c-4.9.2/
+    export CPPFLAGS=-I$DIR/grib2/include
+    export LDFLAGS=-L$DIR/grib2/lib
+    export LIBS="-lhdf5_hl -lhdf5 -lz -lcurl -lgfortran -lgcc -lm -ldl -lpnetcdf"
+    CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-shared --enable-pnetcdf --enable-cdf5 --enable-parallel-tests
+    make -j $CPU_HALF_EVEN
+    make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
+    #make check
+
+    export PATH=$DIR/NETCDF/bin:$PATH
+    export NETCDF=$DIR/NETCDF
+    echo " "
+
+    ##############################NetCDF fortran library############################
+    cd $WRFHYDRO_FOLDER/Downloads
+    tar -xvzf v4.6.0.tar.gz
+    cd netcdf-fortran-4.6.0/
+    export LD_LIBRARY_PATH=$DIR/NETCDF/lib:$LD_LIBRARY_PATH
+    export CPPFLAGS="-I$DIR/NETCDF/include -I$DIR/grib2/include"
+    export LDFLAGS="-L$DIR/NETCDF/lib -L$DIR/grib2/lib"
+    export LIBS="-lnetcdf -lpnetcdf -lcurl -lhdf5_hl -lhdf5 -lz -lm -ldl -lgcc -lgfortran"
+    CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-shared --enable-parallel-tests --enable-hdf5
+    make -j $CPU_HALF_EVEN
+    make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
+    #make check
+
+
+    echo " "
 
   #################################### System Environment Tests ##############
   mkdir -p $WRFHYDRO_FOLDER/Tests/Environment
@@ -1692,18 +2026,8 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
   ########### WRf-Python compiled via Conda  ##################
   ########### This is the preferred method by NCAR      ##################
   ##### https://wrf-python.readthedocs.io/en/latest/installation.html  ##################
-  source $Miniconda_Install_DIR/etc/profile.d/conda.sh
-  conda init bash
-  conda activate base
-  conda create -n wrf-python -y
-  conda activate wrf-python
-  conda install -c conda-forge netcdf4=1.5.8 -y --freeze-installed
-  conda install -c conda-forge imageio=2.27.0 -y --freeze-installed
-  conda install -c conda-forge basemap=1.3.6 -y --freeze-installed
-  conda install -c conda-forge metpy=1.4.1 -y --freeze-installed
-  conda install -c conda-forge wrf-python=1.3.4.1 -y --freeze-installed
-
-
+  conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
+  echo " "
 
   cp  $HOME/WRF-MASTER/SurfaceRunoff.py $WRFHYDRO_FOLDER/domain/NWM
 
@@ -1743,15 +2067,20 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; the
   echo $PASSWD | sudo -S apt -y update
 
   # necessary binary packages (especially pkg-config and build-essential)
-  echo $PASSWD | sudo -S apt -y install git apt gcc gfortran g++ libtool automake autoconf make m4 default-jre default-jdk csh ksh tcsh okular cmake libxml2 libxml2-dev time xorg openbox xauth python3 python3-dev python2 python2-dev mlocate curl libcurl4-openssl-dev pkg-config
+  echo $PASSWD | sudo -S apt -y install autoconf automake bison build-essential byacc cmake csh curl default-jdk default-jre emacs flex g++ gawk gcc gfortran git ksh libcurl4-openssl-dev libjpeg-dev libncurses5 libncurses6 libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev m4 make mlocate ncview okular openbox pipenv pkg-config python2 python2-dev python3 python3-dev python3-pip tcsh unzip xauth xorg time
 
   # install the Intel compilers
-  echo $PASSWD | sudo -S apt -y install intel-basekit intel-hpckit intel-aikit
+  echo $PASSWD | sudo -S apt -y install intel-basekit
+  echo $PASSWD | sudo -S apt -y install intel-hpckit
+  echo $PASSWD | sudo -S apt -y install intel-oneapi-python
+
+
+
   echo $PASSWD | sudo -S apt -y update
 
 
   # make sure some critical packages have been installed
-  which cmake libxml2 libxml2-dev pkg-config make gcc g++
+  which cmake pkg-config make gcc g++
 
   # add the Intel compiler file paths to various environment variables
   source /opt/intel/oneapi/setvars.sh
@@ -1767,7 +2096,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; the
   export MPIF90=mpiifort
   export MPICC=mpiicc
   export MPICXX=mpiicpc
-  export CFLAGS="-fPIC -fPIE -O3 -diag-disable=10441"
+  export CFLAGS="-fPIC -fPIE -O3  -diag-disable=10441"
   ############################# CPU Core Management ####################################
 
   export CPU_CORE=$(nproc)                                   # number of available threads on system
@@ -1805,13 +2134,15 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; the
   ##############################Downloading Libraries############################
   cd Downloads
   wget -c -4 https://github.com/madler/zlib/archive/refs/tags/v1.2.13.tar.gz
-  wget -c -4 https://github.com/HDFGroup/hdf5/archive/refs/tags/hdf5-1_14_0.tar.gz
+  wget -c -4 https://github.com/HDFGroup/hdf5/archive/refs/tags/hdf5-1_14_1-2.tar.gz
   wget -c -4 https://github.com/Unidata/netcdf-c/archive/refs/tags/v4.9.2.tar.gz
   wget -c -4 https://github.com/Unidata/netcdf-fortran/archive/refs/tags/v4.6.0.tar.gz
   wget -c -4 https://download.sourceforge.net/libpng/libpng-1.6.39.tar.gz
   wget -c -4 https://www.ece.uvic.ca/~frodo/jasper/software/jasper-1.900.1.zip
+  wget -c -4 https://github.com/pmodels/mpich/releases/download/v4.1.2/mpich-4.1.2.tar.gz
   wget -c -4  https://parallel-netcdf.github.io/Release/pnetcdf-1.12.3.tar.gz
   wget -c -4 https://sourceforge.net/projects/opengrads/files/grads2/2.2.1.oga.1/Linux%20%2864%20Bits%29/opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz
+
 
 
   echo " "
@@ -1823,9 +2154,9 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; the
   cd $WRFHYDRO_FOLDER/Downloads
   tar -xvzf v1.2.13.tar.gz
   cd zlib-1.2.13/
-    CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX ./configure --prefix=$DIR/grib2
-  make -j $CPU_HALF_EVEN
-  make -j $CPU_HALF_EVEN install | tee make.install.log
+    CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS ./configure --prefix=$DIR/grib2
+  make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+  make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
   #make check
 
   echo " "
@@ -1835,9 +2166,9 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; the
   export CPPFLAGS=-I$DIR/grib2/include
   tar -xvzf libpng-1.6.39.tar.gz
   cd libpng-1.6.39/
-    CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX ./configure --prefix=$DIR/grib2
-  make -j $CPU_HALF_EVEN
-  make -j $CPU_HALF_EVEN install | tee make.install.log
+    CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS ./configure --prefix=$DIR/grib2
+  make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+  make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
   #make check
   echo " "
   #############################JasPer############################
@@ -1845,9 +2176,9 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; the
   unzip jasper-1.900.1.zip
   cd jasper-1.900.1/
   autoreconf -i
-    CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX ./configure --prefix=$DIR/grib2
-  make -j $CPU_HALF_EVEN
-  make -j $CPU_HALF_EVEN install | tee make.install.log
+    CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS ./configure --prefix=$DIR/grib2
+  make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+  make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
   #make check
   export JASPERLIB=$DIR/grib2/lib
   export JASPERINC=$DIR/grib2/include
@@ -1856,11 +2187,11 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; the
 
   #############################hdf5 library for netcdf4 functionality############################
   cd $WRFHYDRO_FOLDER/Downloads
-  tar -xvzf hdf5-1_14_0.tar.gz
-  cd hdf5-hdf5-1_14_0
-  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX ./configure --prefix=$DIR/grib2 --with-zlib=$DIR/grib2  --enable-hl --enable-fortran --enable-parallel
-  make -j $CPU_HALF_EVEN
-  make -j $CPU_HALF_EVEN install | tee make.install.log
+  tar -xvzf hdf5-1_14_1-2.tar.gz
+  cd hdf5-hdf5-1_14_1-2
+  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS ./configure --prefix=$DIR/grib2 --with-zlib=$DIR/grib2  --enable-hl --enable-fortran --enable-parallel
+  make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+  make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
   #make check
 
   export HDF5=$DIR/grib2
@@ -1875,10 +2206,10 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; the
 cd $WRFHYDRO_FOLDER/Downloads
 tar -xvzf pnetcdf-1.12.3.tar.gz
 cd pnetcdf-1.12.3
-  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX ./configure --prefix=$DIR/grib2  --enable-shared --enable-static
+  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS ./configure --prefix=$DIR/grib2  --enable-shared --enable-static
 
 make -j $CPU_HALF_EVEN
-make -j $CPU_HALF_EVEN install
+make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 #make check
 
 export PNETCDF=$DIR/grib2
@@ -1892,9 +2223,9 @@ export PNETCDF=$DIR/grib2
   export CPPFLAGS=-I$DIR/grib2/include
   export LDFLAGS=-L$DIR/grib2/lib
   export LIBS="-lhdf5_hl -lhdf5 -lz -lcurl -lgfortran -lgcc -lm -ldl -lpnetcdf"
-  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX ./configure --prefix=$DIR/NETCDF --with-zlib=$DIR/grib2 --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-shared --enable-pnetcdf --enable-cdf5 --enable-parallel-tests
-  make -j $CPU_HALF_EVEN
-  make -j $CPU_HALF_EVEN install | tee make.install.log
+  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS ./configure --prefix=$DIR/NETCDF --with-zlib=$DIR/grib2 --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-shared --enable-pnetcdf --enable-cdf5 --enable-parallel-tests
+  make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+  make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
   #make check
 
   export PATH=$DIR/NETCDF/bin:$PATH
@@ -1910,8 +2241,8 @@ export PNETCDF=$DIR/grib2
   export LDFLAGS="-L$DIR/NETCDF/lib -L$DIR/grib2/lib"
   export LIBS="-lnetcdf -pnetcdf -lm -lcurl -lhdf5_hl -lhdf5 -lz -ldl"
   CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-shared --enable-parallel-tests --enable-hdf5
-  make -j $CPU_HALF_EVEN
-  make -j $CPU_HALF_EVEN install | tee make.install.log
+  make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+  make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
   #make check
 
 
@@ -2155,18 +2486,8 @@ export PNETCDF=$DIR/grib2
   ########### WRf-Python compiled via Conda  ##################
   ########### This is the preferred method by NCAR      ##################
   ##### https://wrf-python.readthedocs.io/en/latest/installation.html  ##################
-  source $Miniconda_Install_DIR/etc/profile.d/conda.sh
-  conda init bash
-  conda activate base
-  conda create -n wrf-python -y
-  conda activate wrf-python
-  conda install -c conda-forge netcdf4=1.5.8 -y --freeze-installed
-  conda install -c conda-forge imageio=2.27.0 -y --freeze-installed
-  conda install -c conda-forge basemap=1.3.6 -y --freeze-installed
-  conda install -c conda-forge metpy=1.4.1 -y --freeze-installed
-  conda install -c conda-forge wrf-python=1.3.4.1 -y --freeze-installed
-
-
+  conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
+  echo " "
 
   ################ NEEDS TO BE IN Master folder #######################
   cp  $HOME/WRF-MASTER/SurfaceRunoff.py $WRFHYDRO_FOLDER/domain/NWM
@@ -2192,14 +2513,13 @@ export PNETCDF=$DIR/grib2
 fi
 
 
-
 ################################### WRF Hydro Coupled ##############
 ## WRFHYDRO Coupled installation with parallel process.
 # Download and install required library and data files for WRFHYDRO Coupled.
-# Tested in Ubuntu 20.04.5 LTS & Ubuntu 22.04 & MacOS Ventura 64bit
+# Tested in Ubuntu 20.04.5 LTS & Ubuntu 22.04, Rocky Linux 9 & MacOS Ventura 64bit
 # Built in 64-bit system
 # Built with Intel or GNU compilers
-# Tested with current available libraries on 01/01/2023
+# Tested with current available libraries on 03/01/2023
 # If newer libraries exist edit script paths for changes
 #Estimated Run Time ~ 90 - 150 Minutes with 10mb/s downloadspeed.
 # Special thanks to:
@@ -2212,9 +2532,6 @@ fi
 # UCAR's Katelyn F., Jim B., Jordan P., Kevin M.,
 ##############################################################
 
-
-
-
 if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 
 
@@ -2222,7 +2539,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   #############################basic package managment############################
   echo $PASSWD | sudo -S apt -y update
   echo $PASSWD | sudo -S apt -y upgrade
-  echo $PASSWD | sudo -S apt -y install apt gcc gfortran g++ libtool automake autoconf make m4 default-jre default-jdk csh ksh tcsh okular cmake libxml2 libxml2-dev time xorg openbox xauth git python3 python3-dev python2 python2-dev mlocate curl libcurl4-openssl-dev pkg-config build-essential
+  echo $PASSWD | sudo -S apt -y install autoconf automake bison build-essential byacc cmake csh curl default-jdk default-jre emacs flex g++ gawk gcc gfortran git ksh libcurl4-openssl-dev libjpeg-dev libncurses5 libncurses6 libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev m4 make mlocate ncview okular openbox pipenv pkg-config python2 python2-dev python3 python3-dev python3-pip tcsh unzip xauth xorg time
   echo " "
   ##############################Directory Listing############################
   export HOME=`cd;pwd`
@@ -2264,15 +2581,14 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   ##############################Downloading Libraries############################
   cd Downloads
   wget -c -4 https://github.com/madler/zlib/archive/refs/tags/v1.2.13.tar.gz
-  wget -c -4 https://github.com/HDFGroup/hdf5/archive/refs/tags/hdf5-1_14_0.tar.gz
+  wget -c -4 https://github.com/HDFGroup/hdf5/archive/refs/tags/hdf5-1_14_1-2.tar.gz
   wget -c -4 https://github.com/Unidata/netcdf-c/archive/refs/tags/v4.9.2.tar.gz
   wget -c -4 https://github.com/Unidata/netcdf-fortran/archive/refs/tags/v4.6.0.tar.gz
   wget -c -4 https://download.sourceforge.net/libpng/libpng-1.6.39.tar.gz
   wget -c -4 https://www.ece.uvic.ca/~frodo/jasper/software/jasper-1.900.1.zip
-  wget -c -4 https://github.com/pmodels/mpich/releases/download/v4.1.1/mpich-4.1.1.tar.gz
+  wget -c -4 https://github.com/pmodels/mpich/releases/download/v4.1.2/mpich-4.1.2.tar.gz
   wget -c -4  https://parallel-netcdf.github.io/Release/pnetcdf-1.12.3.tar.gz
   wget -c -4 https://sourceforge.net/projects/opengrads/files/grads2/2.2.1.oga.1/Linux%20%2864%20Bits%29/opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz
-
 
 
 
@@ -2282,7 +2598,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   export CXX=g++
   export FC=gfortran
   export F77=gfortran
-  export CFLAGS="-fPIC -fPIE -O3"
+  export CFLAGS="-fPIC -fPIE -O3 "
 
 
 
@@ -2326,19 +2642,19 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   tar -xvzf v1.2.13.tar.gz
   cd zlib-1.2.13/
   ./configure --prefix=$DIR/grib2
-  make -j $CPU_HALF_EVEN
-  make -j $CPU_HALF_EVEN install | tee make.install.log
+  make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+  make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
   #make check
 
   echo " "
   ##############################MPICH############################
   cd $WRFHYDRO_FOLDER/Downloads
-  tar -xvzf mpich-4.1.1.tar.gz
-  cd mpich-4.1.1/
+  tar -xvzf mpich-4.1.2.tar.gz
+  cd mpich-4.1.2/
   F90= ./configure --prefix=$DIR/MPICH --with-device=ch3 FFLAGS="$fallow_argument -m64" FCFLAGS="$fallow_argument -m64"
 
-  make -j $CPU_HALF_EVEN
-  make -j $CPU_HALF_EVEN install | tee make.install.log
+  make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+  make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
   #make check
 
 
@@ -2358,9 +2674,9 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   export CPPFLAGS=-I$DIR/grib2/include
   tar -xvzf libpng-1.6.39.tar.gz
   cd libpng-1.6.39/
-  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX ./configure --prefix=$DIR/grib2
-  make -j $CPU_HALF_EVEN
-  make -j $CPU_HALF_EVEN install | tee make.install.log
+  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS ./configure --prefix=$DIR/grib2
+  make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+  make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
   #make check
   echo " "
   #############################JasPer############################
@@ -2368,9 +2684,9 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   unzip jasper-1.900.1.zip
   cd jasper-1.900.1/
   autoreconf -i
-  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX ./configure --prefix=$DIR/grib2
-  make -j $CPU_HALF_EVEN
-  make -j $CPU_HALF_EVEN install | tee make.install.log
+  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS ./configure --prefix=$DIR/grib2
+  make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+  make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
   #make check
 
   export JASPERLIB=$DIR/grib2/lib
@@ -2380,11 +2696,11 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   echo " "
   #############################hdf5 library for netcdf4 functionality############################
   cd $WRFHYDRO_FOLDER/Downloads
-  tar -xvzf hdf5-1_14_0.tar.gz
-  cd hdf5-hdf5-1_14_0
-  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX ./configure --prefix=$DIR/grib2 --with-zlib=$DIR/grib2 --enable-hl --enable-fortran --enable-parallel
-  make -j $CPU_HALF_EVEN
-  make -j $CPU_HALF_EVEN install | tee make.install.log
+  tar -xvzf hdf5-1_14_1-2.tar.gz
+  cd hdf5-hdf5-1_14_1-2
+  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS ./configure --prefix=$DIR/grib2 --with-zlib=$DIR/grib2 --enable-hl --enable-fortran --enable-parallel
+  make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+  make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
   #make check
 
   export HDF5=$DIR/grib2
@@ -2406,8 +2722,8 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   export MPICXX=$DIR/MPICH/bin/mpicxx
   ./configure --prefix=$DIR/grib2  --enable-shared --enable-static
 
-  make -j $CPU_HALF_EVEN
-  make -j $CPU_HALF_EVEN install
+  make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+  make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
   #make check
 
   export PNETCDF=$DIR/grib2
@@ -2420,8 +2736,8 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   export LDFLAGS=-L$DIR/grib2/lib
   export LIBS="-lhdf5_hl -lhdf5 -lz -lcurl -lgfortran -lgcc -lm -ldl -lpnetcdf"
   CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-shared --enable-pnetcdf --enable-cdf5 --enable-parallel-tests
-  make -j $CPU_HALF_EVEN
-  make -j $CPU_HALF_EVEN install | tee make.install.log
+  make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+  make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
   #make check
 
   export PATH=$DIR/NETCDF/bin:$PATH
@@ -2436,8 +2752,8 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   export LDFLAGS="-L$DIR/NETCDF/lib -L$DIR/grib2/lib"
   export LIBS="-lnetcdf -lpnetcdf -lcurl -lhdf5_hl -lhdf5 -lz -lm -ldl -lgcc -lgfortran"
   CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-shared --enable-parallel-tests --enable-hdf5
-  make -j $CPU_HALF_EVEN
-  make -j $CPU_HALF_EVEN install | tee make.install.log
+  make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+  make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
   #make check
 
   echo " "
@@ -2924,17 +3240,21 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   ########### WRf-Python compiled via Conda  ##################
   ########### This is the preferred method by NCAR      ##################
   ##### https://wrf-python.readthedocs.io/en/latest/installation.html  ##################
+  conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
+
+
+  ######################### Climate Data Operators ############
+  ######################### CDO compiled via Conda ###########
+  ####################### This is the preferred method #######
+  ################### https://bairdlangenbrunner.github.io/python-for-climate-scientists/conda/setting-up-conda-environments.html #######################
+
   source $Miniconda_Install_DIR/etc/profile.d/conda.sh
   conda init bash
   conda activate base
-  conda create -n wrf-python -y
-  conda activate wrf-python
-  conda install -c conda-forge netcdf4=1.5.8 -y --freeze-installed
-  conda install -c conda-forge imageio=2.27.0 -y --freeze-installed
-  conda install -c conda-forge basemap=1.3.6 -y --freeze-installed
-  conda install -c conda-forge metpy=1.4.1 -y --freeze-installed
-  conda install -c conda-forge wrf-python=1.3.4.1 -y --freeze-installed
-
+  conda create --name cdo_stable -y
+  source activate cdo_stable
+  conda install -c conda-forge cdo -y
+  conda update --all -y
   conda deactivate
   conda deactivate
   conda deactivate
@@ -3045,7 +3365,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
       ./configure  #Option 34 gfortran compiler with distributed memory option 1 for basic nesting
   fi
 
-  ./compile -j $CPU_HALF_EVEN em_real
+  ./compile -j $CPU_HALF_EVEN em_real 2>&1 | tee compile.log
 
   export WRF_DIR=$WRFHYDRO_FOLDER/WRFV4.5
 
@@ -3230,15 +3550,20 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   echo $PASSWD | sudo -S apt -y update
 
   # necessary binary packages (especially pkg-config and build-essential)
-  echo $PASSWD | sudo -S apt -y install git apt gcc gfortran g++ libtool automake autoconf make m4 default-jre default-jdk csh ksh tcsh okular cmake libxml2 libxml2-dev time xorg openbox xauth python3 python3-dev python2 python2-dev mlocate curl libcurl4-openssl-dev build-essential pkg-config
+  echo $PASSWD | sudo -S apt -y install autoconf automake bison build-essential byacc cmake csh curl default-jdk default-jre emacs flex g++ gawk gcc gfortran git ksh libcurl4-openssl-dev libjpeg-dev libncurses5 libncurses6 libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev m4 make mlocate ncview okular openbox pipenv pkg-config python2 python2-dev python3 python3-dev python3-pip tcsh unzip xauth xorg time
 
   # install the Intel compilers
-  echo $PASSWD | sudo -S apt -y install intel-basekit intel-hpckit intel-aikit
+  echo $PASSWD | sudo -S apt -y install intel-basekit
+  echo $PASSWD | sudo -S apt -y install intel-hpckit
+  echo $PASSWD | sudo -S apt -y install intel-oneapi-python
+
+
+
   echo $PASSWD | sudo -S apt -y update
 
 
   # make sure some critical packages have been installed
-  which cmake libxml2 libxml2-dev pkg-config make gcc g++
+  which cmake pkg-config make gcc g++
 
   # add the Intel compiler file paths to various environment variables
   source /opt/intel/oneapi/setvars.sh
@@ -3254,7 +3579,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   export MPIF90=mpiifort
   export MPICC=mpiicc
   export MPICXX=mpiicpc
-  export CFLAGS="-fPIC -fPIE -O3"
+  export CFLAGS="-fPIC -fPIE -O3 -diag-disable=10441 "
   export FFLAGS="-m64"
   export FCFLAGS="-m64"
   ############################# CPU Core Management ####################################
@@ -3302,13 +3627,14 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 
   cd $WRFHYDRO_FOLDER/Downloads
   wget -c -4 https://github.com/madler/zlib/archive/refs/tags/v1.2.13.tar.gz
-  wget -c -4 https://github.com/HDFGroup/hdf5/archive/refs/tags/hdf5-1_14_0.tar.gz
+  wget -c -4 https://github.com/HDFGroup/hdf5/archive/refs/tags/hdf5-1_14_1-2.tar.gz
   wget -c -4 https://github.com/Unidata/netcdf-c/archive/refs/tags/v4.9.2.tar.gz
   wget -c -4 https://github.com/Unidata/netcdf-fortran/archive/refs/tags/v4.6.0.tar.gz
   wget -c -4 https://download.sourceforge.net/libpng/libpng-1.6.39.tar.gz
   wget -c -4 https://www.ece.uvic.ca/~frodo/jasper/software/jasper-1.900.1.zip
-  wget -c -4 https://sourceforge.net/projects/opengrads/files/grads2/2.2.1.oga.1/Linux%20%2864%20Bits%29/opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz
+  wget -c -4 https://github.com/pmodels/mpich/releases/download/v4.1.2/mpich-4.1.2.tar.gz
   wget -c -4  https://parallel-netcdf.github.io/Release/pnetcdf-1.12.3.tar.gz
+  wget -c -4 https://sourceforge.net/projects/opengrads/files/grads2/2.2.1.oga.1/Linux%20%2864%20Bits%29/opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz
 
 
   echo " "
@@ -3318,10 +3644,10 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   tar -xvzf v1.2.13.tar.gz
   cd zlib-1.2.13/
 
-  CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS="-fPIC -fPIE -diag-disable=10441 -O3"  ./configure --prefix=$DIR/grib2
-  make -j $CPU_HALF_EVEN | tee zlib.make.log
+  CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS=$CFLAGS  ./configure --prefix=$DIR/grib2
+  make -j $CPU_HALF_EVEN 2>&1 | tee zlib.make.log
   # make check | tee zlib.makecheck.log
-  make -j $CPU_HALF_EVEN install | tee zlib.makeinstall.log
+  make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log | tee zlib.makeinstall.log
 
   echo " "
   ############################# LibPNG ############################
@@ -3335,11 +3661,11 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   tar -xvzf libpng-1.6.39.tar.gz
   cd libpng-1.6.39/
 
-  CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS="-fPIC -fPIE -diag-disable=10441 -O3"   ./configure --prefix=$DIR/grib2
+  CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS=$CFLAGS   ./configure --prefix=$DIR/grib2
 
-  make -j $CPU_HALF_EVEN | tee libpng.make.log
+  make -j $CPU_HALF_EVEN 2>&1 | tee libpng.make.log
   #make -j $CPU_HALF_EVEN check | tee libpng.makecheck.log
-  make -j $CPU_HALF_EVEN install | tee libpng.makeinstall.log
+  make -j $CPU_HALF_EVEN install 2>&1 | tee libpng.makeinstall.log
 
   echo " "
   ############################# JasPer ############################
@@ -3348,10 +3674,10 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   unzip jasper-1.900.1.zip
   cd jasper-1.900.1/
 
-  CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS="-fPIC -fPIE -diag-disable=10441 -O3"   ./configure --prefix=$DIR/grib2
+  CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS=$CFLAGS   ./configure --prefix=$DIR/grib2
 
-  make -j $CPU_HALF_EVEN | tee jasper.make.log
-  make  -j $CPU_HALF_EVEN install | tee jasper.makeinstall.log
+  make -j $CPU_HALF_EVEN 2>&1 | tee jasper.make.log
+  make  -j $CPU_HALF_EVEN install 2>&1 | tee jasper.makeinstall.log
 
   # other libraries below need these variables to be set
   export JASPERLIB=$DIR/grib2/lib
@@ -3361,13 +3687,13 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   ############################# HDF5 library for NetCDF4 & parallel functionality ############################
 
   cd $WRFHYDRO_FOLDER/Downloads
-  tar -xvzf hdf5-1_14_0.tar.gz
-  cd hdf5-hdf5-1_14_0
+  tar -xvzf hdf5-1_14_1-2.tar.gz
+  cd hdf5-hdf5-1_14_1-2
 
-  CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS="-fPIC -fPIE -diag-disable=10441 -O3" ./configure --prefix=$DIR/grib2 --with-zlib=$DIR/grib2 --enable-hl --enable-fortran --enable-parallel
+  CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS=$CFLAGS ./configure --prefix=$DIR/grib2 --with-zlib=$DIR/grib2 --enable-hl --enable-fortran --enable-parallel
 
-  make -j $CPU_HALF_EVEN | tee hdf5.make.log
-  make -j $CPU_HALF_EVEN install | tee hdf5.makeinstall.log
+  make -j $CPU_HALF_EVEN 2>&1 | tee hdf5.make.log
+  make -j $CPU_HALF_EVEN install 2>&1 | tee hdf5.makeinstall.log
 
   # other libraries below need these variables to be set
   export HDF5=$DIR/grib2
@@ -3394,13 +3720,13 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   export MPIF90=mpiifort
   export MPICC=mpiicc
   export MPICXX=mpiicpc
-  export CFLAGS="-fPIC -fPIE -O3 -diag-disable=10441"
+  export CFLAGS="-fPIC -fPIE -O3  -diag-disable=10441"
   export FFLAGS="-m64"
   export FCFLAGS="-m64"
    ./configure --prefix=$DIR/grib2  --enable-shared --enable-static
 
-  make -j $CPU_HALF_EVEN
-  make -j $CPU_HALF_EVEN install
+  make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+  make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
   #make check
 
   export PNETCDF=$DIR/grib2
@@ -3417,10 +3743,10 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   export LDFLAGS=-L$DIR/grib2/lib
   export LIBS="-lhdf5_hl -lhdf5 -lz -lcurl -lm -ldl"
 
-  CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS="-fPIC -fPIE -diag-disable=10441 -O3" ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-shared --enable-pnetcdf --enable-cdf5 --enable-parallel-tests | tee netcdf.configure.log
+  CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS=$CFLAGS ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-shared --enable-pnetcdf --enable-cdf5 --enable-parallel-tests | tee netcdf.configure.log
 
-  make -j $CPU_HALF_EVEN | tee netcdf.make.log
-  make -j $CPU_HALF_EVEN install | tee netcdf.makeinstall.log
+  make -j $CPU_HALF_EVEN 2>&1 | tee netcdf.make.log
+  make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log | tee netcdf.makeinstall.log
 
   # other libraries below need these variables to be set
   export PATH=$DIR/NETCDF/bin:$PATH
@@ -3439,10 +3765,10 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   export LDFLAGS="-L$DIR/NETCDF/lib -L$DIR/grib2/lib"
   export LIBS="-lnetcdf -lpnetcdf -lcurl -lm -lcurl -lhdf5_hl -lhdf5 -lz -ldl"
 
-  CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS="-fPIC -fPIE -diag-disable=10441 -O3"   ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-parallel-tests --enable-hdf5
+  CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS=$CFLAGS   ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-parallel-tests --enable-hdf5
 
-  make -j $CPU_HALF_EVEN | tee netcdf-f.make.log
-  make  -j $CPU_HALF_EVEN install | tee netcdf-f.makeinstall.log
+  make -j $CPU_HALF_EVEN 2>&1 | tee netcdf-f.make.log
+  make  -j $CPU_HALF_EVEN install 2>&1 | tee netcdf-f.makeinstall.log
 
 
   echo " "
@@ -3770,20 +4096,25 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   ########### WRf-Python compiled via Conda  ##################
   ########### This is the preferred method by NCAR      ##################
   ##### https://wrf-python.readthedocs.io/en/latest/installation.html  ##################
+  conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
+
+
+  ######################### Climate Data Operators ############
+  ######################### CDO compiled via Conda ###########
+  ####################### This is the preferred method #######
+  ################### https://bairdlangenbrunner.github.io/python-for-climate-scientists/conda/setting-up-conda-environments.html #######################
+
   source $Miniconda_Install_DIR/etc/profile.d/conda.sh
   conda init bash
   conda activate base
-  conda create -n wrf-python -y
-  conda activate wrf-python
-  conda install -c conda-forge netcdf4=1.5.8 -y --freeze-installed
-  conda install -c conda-forge imageio=2.27.0 -y --freeze-installed
-  conda install -c conda-forge basemap=1.3.6 -y --freeze-installed
-  conda install -c conda-forge metpy=1.4.1 -y --freeze-installed
-  conda install -c conda-forge wrf-python=1.3.4.1 -y --freeze-installed
+  conda create --name cdo_stable -y
+  source activate cdo_stable
+  conda install -c conda-forge cdo -y
+  conda update --all -y
+  conda deactivate
+  conda deactivate
+  conda deactivate
 
-  conda deactivate
-  conda deactivate
-  conda deactivate
   echo " "
 
   ########################## WRF Hydro GIS PreProcessor ##############################
@@ -3926,7 +4257,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 
 
 
-  ./compile -j $CPU_HALF_EVEN em_real | tee em_real_intel.log
+  ./compile -j $CPU_HALF_EVEN em_real 2>&1 | tee compile.log | tee em_real_intel.log
 
   export WRF_DIR=$WRFHYDRO_FOLDER/WRFV4.5
 
@@ -4089,18 +4420,38 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 
 fi
 
-
 if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 
 
 
   #############################basic package managment############################
 
-  brew install wget git
-  brew install gcc libtool automake autoconf make m4 java ksh  mpich grads ksh tcsh
-  brew install snap
-  brew install python@3.9
-  brew install gcc libtool automake autoconf make m4 java ksh git wget mpich grads ksh tcsh python@3.9
+    brew install wget
+    brew install git
+    brew install gcc@13
+    brew install libtool
+    brew install automake
+    brew install autoconf
+    brew install make
+    brew install m4
+    brew install java
+    brew install ksh
+    brew install mpich
+    brew install grads
+    brew install ksh
+    brew install tcsh
+    brew install snap
+    brew install python@3.10
+    brew install cmake
+    brew install xorgproto
+    brew install xorgrgb
+    brew install xauth
+    brew install curl
+    brew install flex
+    brew install byacc
+    brew install bison
+    brew install gnu-sed
+
 
   ##############################Directory Listing############################
 
@@ -4120,118 +4471,236 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 
   echo " "
 
-  ##############################Downloading Libraries############################
+  #############################Core Management####################################
+  export CPU_CORE=$(sysctl -n hw.ncpu)                                             # number of available threads on system
+  export CPU_6CORE="6"
+  export CPU_HALF=$(($CPU_CORE / 2))
+  #1/2 of availble cores on system
+  export CPU_HALF_EVEN=$(( $CPU_HALF - ($CPU_HALF % 2) ))
+  #Forces CPU cores to even number to avoid partial core export. ie 7 cores would be 3.5 cores.
 
-  cd Downloads
-  wget -c -4 https://github.com/madler/zlib/archive/refs/tags/v1.2.13.tar.gz
-  wget -c -4 https://github.com/HDFGroup/hdf5/archive/refs/tags/hdf5-1_14_0.tar.gz
-  wget -c -4 https://github.com/Unidata/netcdf-c/archive/refs/tags/v4.9.2.tar.gz
-  wget -c -4 https://github.com/Unidata/netcdf-fortran/archive/refs/tags/v4.6.0.tar.gz
-  wget -c -4 https://download.sourceforge.net/libpng/libpng-1.6.39.tar.gz
-  wget -c -4 https://www.ece.uvic.ca/~frodo/jasper/software/jasper-1.900.1.zip
+  if [ $CPU_CORE -le $CPU_6CORE ]
+  #If statement for low core systems.  Forces computers to only use 1 core if there are 4 cores or less on the system.
+  then
+    export CPU_HALF_EVEN="2"
+  else
+    export CPU_HALF_EVEN=$(( $CPU_HALF - ($CPU_HALF % 2) ))
+  fi
+
+
+  echo "##########################################"
+  echo "Number of Threads being used $CPU_HALF_EVEN"
+  echo "##########################################"
   echo " "
-  #############################Compilers############################
 
 
-  #Symlink to avoid clang conflicts with compilers
-  #default gcc path /usr/bin/gcc
-  #default homebrew path /usr/local/bin
+    ##############################Downloading Libraries############################
 
-  echo "Please enter password for linking GNU libraries"
-  echo $PASSWD | sudo -S ln -sf /usr/local/bin/gcc-1* /usr/local/bin/gcc
-  echo $PASSWD | sudo -S ln -sf /usr/local/bin/g++-1* /usr/local/bin/g++
-  echo $PASSWD | sudo -S ln -sf /usr/local/bin/gfortran-1* /usr/local/bin/gfortran
+    cd $WRFHYDRO_FOLDER/Downloads
+    wget -c -4 https://github.com/madler/zlib/archive/refs/tags/v1.2.13.tar.gz
+    wget -c -4 https://github.com/HDFGroup/hdf5/archive/refs/tags/hdf5-1_14_1-2.tar.gz
+    wget -c -4 https://github.com/Unidata/netcdf-c/archive/refs/tags/v4.9.2.tar.gz
+    wget -c -4 https://github.com/Unidata/netcdf-fortran/archive/refs/tags/v4.6.0.tar.gz
+    wget -c -4 https://download.sourceforge.net/libpng/libpng-1.6.39.tar.gz
+    wget -c -4 https://www.ece.uvic.ca/~frodo/jasper/software/jasper-1.900.1.zip
+    wget -c -4 https://github.com/pmodels/mpich/releases/download/v4.1.2/mpich-4.1.2.tar.gz
+    wget -c -4  https://parallel-netcdf.github.io/Release/pnetcdf-1.12.3.tar.gz
+    wget -c -4 https://sourceforge.net/projects/opengrads/files/grads2/2.2.1.oga.1/Linux%20%2864%20Bits%29/opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz
 
-  export CC=gcc
-  export CXX=g++
-  export FC=gfortran
-  export F77=gfortran
-  export CFLAGS="-fPIC -fPIE -O3 -Wno-implicit-function-declaration"
+
+
+
+    echo " "
+
+    #############################Compilers############################
+
+
+    #Symlink to avoid clang conflicts with compilers
+    #default gcc path /usr/bin/gcc
+    #default homebrew path /usr/local/bin
+
+    echo $PASSWD | sudo -S ln -sf /usr/local/bin/gcc-13 /usr/local/bin/gcc
+    echo $PASSWD | sudo -S ln -sf /usr/local/bin/g++-13 /usr/local/bin/g++
+    echo $PASSWD | sudo -S ln -sf /usr/local/bin/gfortran-13 /usr/local/bin/gfortran
+    echo $PASSWD | sudo -S ln -sf /usr/local/bin/python3.10 /usr/local/bin/python3
+
+    export CC=gcc
+    export CXX=g++
+    export FC=gfortran
+    export F77=gfortran
+    export CFLAGS="-fPIC -fPIE -Wno-implicit-function-declaration -Wall"
+
+    echo " "
+
+
+    #IF statement for GNU compiler issue
+  export GCC_VERSION=$(gcc -dumpfullversion | awk '{print$1}')
+  export GFORTRAN_VERSION=$(gfortran -dumpfullversion | awk '{print$1}')
+  export GPLUSPLUS_VERSION=$(g++ -dumpfullversion | awk '{print$1}')
+
+  export GCC_VERSION_MAJOR_VERSION=$(echo $GCC_VERSION | awk -F. '{print $1}')
+  export GFORTRAN_VERSION_MAJOR_VERSION=$(echo $GFORTRAN_VERSION | awk -F. '{print $1}')
+  export GPLUSPLUS_VERSION_MAJOR_VERSION=$(echo $GPLUSPLUS_VERSION | awk -F. '{print $1}')
+
+  export version_10="10"
+
+  if [ $GCC_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GFORTRAN_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GPLUSPLUS_VERSION_MAJOR_VERSION -ge $version_10 ]
+  then
+    export fallow_argument=-fallow-argument-mismatch
+    export boz_argument=-fallow-invalid-boz
+  else
+    export fallow_argument=
+    export boz_argument=
+  fi
+
+
+  export FFLAGS="$fallow_argument -m64"
+  export FCFLAGS="$fallow_argument -m64"
+
+
+  echo "##########################################"
+  echo "FFLAGS = $FFLAGS"
+  echo "FCFLAGS = $FCFLAGS"
+  echo "##########################################"
+
+
 
   echo " "
-  #############################zlib############################
-  #Uncalling compilers due to comfigure issue with zlib1.2.12
-  #With CC & CXX definied ./configure uses different compiler Flags
 
+    #############################zlib############################
+    #Uncalling compilers due to comfigure issue with zlib1.2.12
+    #With CC & CXX definied ./configure uses different compiler Flags
+
+    cd $WRFHYDRO_FOLDER/Downloads
+    tar -xvzf v1.2.13.tar.gz
+    cd zlib-1.2.13/
+    ./configure --prefix=$DIR/grib2
+    make -j $CPU_HALF_EVEN
+    make -j $CPU_HALF_EVEN install 2>&1 | tee install.log
+    #make check
+
+    echo " "
+
+
+  ##############################MPICH############################
   cd $WRFHYDRO_FOLDER/Downloads
-  tar -xvzf v1.2.13.tar.gz
-  cd zlib-1.2.13/
-  ./configure --prefix=$DIR/grib2
-  make
-  make install
+  tar -xvzf mpich-4.1.2.tar.gz
+  cd mpich-4.1.2/
+  F90= ./configure --prefix=$DIR/MPICH --with-device=ch3 FFLAGS="$fallow_argument -m64" FCFLAGS="$fallow_argument -m64"
+
+  make -j $CPU_HALF_EVEN 2>&1 | tee install.log
+  make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
   #make check
 
+
+  export PATH=$DIR/MPICH/bin:$PATH
+
+  export MPIFC=$DIR/MPICH/bin/mpifort
+  export MPIF77=$DIR/MPICH/bin/mpifort
+  export MPIF90=$DIR/MPICH/bin/mpifort
+  export MPICC=$DIR/MPICH/bin/mpicc
+  export MPICXX=$DIR/MPICH/bin/mpicxx
+
+
   echo " "
+
+
   #############################libpng############################
-  cd $WRFHYDRO_FOLDER/Downloads
-  export LDFLAGS=-L$DIR/grib2/lib
-  export CPPFLAGS=-I$DIR/grib2/include
-  tar -xvzf libpng-1.6.39.tar.gz
-  cd libpng-1.6.39/
-  ./configure --prefix=$DIR/grib2
-  make
-  make install
-  #make check
+    cd $WRFHYDRO_FOLDER/Downloads
+    export LDFLAGS=-L$DIR/grib2/lib
+    export CPPFLAGS=-I$DIR/grib2/include
+    tar -xvzf libpng-1.6.39.tar.gz
+    cd libpng-1.6.39/
+    CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX ./configure --prefix=$DIR/grib2
+    make -j $CPU_HALF_EVEN
+    make -j $CPU_HALF_EVEN install 2>&1 | tee install.log
+    #make check
+    #make check
 
-  echo " "
-  #############################JasPer############################
+    echo " "
+    #############################JasPer############################
 
-  cd $WRFHYDRO_FOLDER/Downloads
-  unzip jasper-1.900.1.zip
-  cd jasper-1.900.1/
-  autoreconf -i
-  ./configure --prefix=$DIR/grib2
-  make
-  make install
-  export JASPERLIB=$DIR/grib2/lib
-  export JASPERINC=$DIR/grib2/include
+    cd $WRFHYDRO_FOLDER/Downloads
+    unzip jasper-1.900.1.zip
+    cd jasper-1.900.1/
+    autoreconf -i
+    CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX ./configure --prefix=$DIR/grib2
+    make -j $CPU_HALF_EVEN
+    make -j $CPU_HALF_EVEN install 2>&1 | tee install.log
+    export JASPERLIB=$DIR/grib2/lib
+    export JASPERINC=$DIR/grib2/include
 
-  echo " "
-  #############################hdf5 library for netcdf4 functionality############################
+    echo " "
+    #############################hdf5 library for netcdf4 functionality############################
 
-  cd $WRFHYDRO_FOLDER/Downloads
-  tar -xvzf hdf5-1_14_0.tar.gz
-  cd hdf5-hdf5-1_14_0
-  ./configure --prefix=$DIR/grib2 --with-zlib=$DIR/grib2 --enable-hl --enable-fortran
-  make
-  make install
-  #make check
+    cd $WRFHYDRO_FOLDER/Downloads
+    tar -xvzf hdf5-1_14_1-2.tar.gz
+    cd hdf5-hdf5-1_14_1-2
+    CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX ./configure --prefix=$DIR/grib2 --with-zlib=$DIR/grib2 --enable-hl --enable-fortran --enable-parallel
+    make -j $CPU_HALF_EVEN
+    make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
+    #make check
 
-  export HDF5=$DIR/grib2
-  export LD_LIBRARY_PATH=$DIR/grib2/lib:$LD_LIBRARY_PATH
+    export HDF5=$DIR/grib2
+    export PHDF5=$DIR/grib2
+    export LD_LIBRARY_PATH=$DIR/grib2/lib:$LD_LIBRARY_PATH
 
-  echo " "
-  ##############################Install NETCDF C Library############################
-  cd $WRFHYDRO_FOLDER/Downloads
-  tar -xzvf v4.9.2.tar.gz
-  cd netcdf-c-4.9.2/
-  export CPPFLAGS=-I$DIR/grib2/include
-  export LDFLAGS=-L$DIR/grib2/lib
-  export LIBS="-lhdf5_hl -lhdf5 -lz -lcurl -lgfortran -lgcc -lm -ldl -lpnetcdf"
-  ./configure --prefix=$DIR/NETCDF --with-zlib=$DIR/grib2 --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-shared
-  make
-  make install
-  #make check
+    echo " "
 
-  export PATH=$DIR/NETCDF/bin:$PATH
-  export NETCDF=$DIR/NETCDF
+    #############################Install Parallel-netCDF##############################
+    #Make file created with half of available cpu cores
+    #Hard path for MPI added
+    ##################################################################################
+    cd $WRFHYDRO_FOLDER/Downloads
+    tar -xvzf pnetcdf-1.12.3.tar.gz
+    cd pnetcdf-1.12.3
+    export MPIFC=$DIR/MPICH/bin/mpifort
+    export MPIF77=$DIR/MPICH/bin/mpifort
+    export MPIF90=$DIR/MPICH/bin/mpifort
+    export MPICC=$DIR/MPICH/bin/mpicc
+    export MPICXX=$DIR/MPICH/bin/mpicxx
+    ./configure --prefix=$DIR/grib2  --enable-shared --enable-static
 
-  echo " "
-  ##############################NetCDF fortran library############################
+    make -j $CPU_HALF_EVEN
+    make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
+    #make check
 
-  cd $WRFHYDRO_FOLDER/Downloads
-  tar -xvzf v4.6.0.tar.gz
-  cd netcdf-fortran-4.6.0/
-  export LD_LIBRARY_PATH=$DIR/NETCDF/lib:$LD_LIBRARY_PATH
-  export CPPFLAGS="-I$DIR/NETCDF/include -I$DIR/grib2/include"
-  export LDFLAGS="-L$DIR/NETCDF/lib -L$DIR/grib2/lib"
-  export LIBS="-lnetcdf -lm -lcurl -lhdf5_hl -lhdf5 -lz -ldl -lgcc -lgfortran -lm"
-  ./configure --prefix=$DIR/NETCDF --disable-shared
-  make
-  make install
-  #make check
+    export PNETCDF=$DIR/grib2
 
 
+
+
+    ##############################Install NETCDF C Library############################
+    cd $WRFHYDRO_FOLDER/Downloads
+    tar -xzvf v4.9.2.tar.gz
+    cd netcdf-c-4.9.2/
+    export CPPFLAGS=-I$DIR/grib2/include
+    export LDFLAGS=-L$DIR/grib2/lib
+    export LIBS="-lhdf5_hl -lhdf5 -lz -lcurl -lgfortran -lgcc -lm -ldl -lpnetcdf"
+    CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-shared --enable-pnetcdf --enable-cdf5 --enable-parallel-tests
+    make -j $CPU_HALF_EVEN
+    make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
+    #make check
+
+    export PATH=$DIR/NETCDF/bin:$PATH
+    export NETCDF=$DIR/NETCDF
+    echo " "
+
+    ##############################NetCDF fortran library############################
+    cd $WRFHYDRO_FOLDER/Downloads
+    tar -xvzf v4.6.0.tar.gz
+    cd netcdf-fortran-4.6.0/
+    export LD_LIBRARY_PATH=$DIR/NETCDF/lib:$LD_LIBRARY_PATH
+    export CPPFLAGS="-I$DIR/NETCDF/include -I$DIR/grib2/include"
+    export LDFLAGS="-L$DIR/NETCDF/lib -L$DIR/grib2/lib"
+    export LIBS="-lnetcdf -lpnetcdf -lcurl -lhdf5_hl -lhdf5 -lz -lm -ldl -lgcc -lgfortran"
+    CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-shared --enable-parallel-tests --enable-hdf5
+    make -j $CPU_HALF_EVEN
+    make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
+    #make check
+
+
+    echo " "
   #################################### System Environment Tests ##############
   mkdir -p $WRFHYDRO_FOLDER/Tests/Environment
   mkdir -p $WRFHYDRO_FOLDER/Tests/Compatibility
@@ -4425,18 +4894,20 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   ########### WRf-Python compiled via Conda  ##################
   ########### This is the preferred method by NCAR      ##################
   ##### https://wrf-python.readthedocs.io/en/latest/installation.html  ##################
+  conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
+
+  ######################### Climate Data Operators ############
+  ######################### CDO compiled via Conda ###########
+  ####################### This is the preferred method #######
+  ################### https://bairdlangenbrunner.github.io/python-for-climate-scientists/conda/setting-up-conda-environments.html #######################
+
   source $Miniconda_Install_DIR/etc/profile.d/conda.sh
   conda init bash
   conda activate base
-  conda create -n wrf-python -y
-  conda activate wrf-python
-  conda install -c conda-forge netcdf4=1.5.8 -y --freeze-installed
-  conda install -c conda-forge imageio=2.27.0 -y --freeze-installed
-  conda install -c conda-forge basemap=1.3.6 -y --freeze-installed
-  conda install -c conda-forge metpy=1.4.1 -y --freeze-installed
-  conda install -c conda-forge wrf-python=1.3.4.1 -y --freeze-installed
-
-
+  conda create --name cdo_stable -y
+  source activate cdo_stable
+  conda install -c conda-forge cdo -y
+  conda update --all -y
   conda deactivate
   conda deactivate
   conda deactivate
@@ -4535,7 +5006,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
     ./configure  #Option 17 gfortran compiler with distributed memory option 1 for basic nesting
   fi
 
-  sed -i'' -e '145s/-c/-c -fPIC -fPIE -O3 -Wno-error=implicit-function-declaration/g' configure.wrf
+  sed -i'' -e '145s/-c/-c -fPIC -fPIE -O3  -Wno-error=implicit-function-declaration/g' configure.wrf
 
   ./compile em_real
 
@@ -4697,14 +5168,13 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 
 fi
 
-
 ########################### WRF CHEM ##########################
 ## WRFCHEM installation with parallel process.
 # Download and install required library and data files for WRFCHEM/KPP $ WRF 3DVAR for Chemistry.
-# Tested in Ubuntu 20.04.5 LTS & Ubuntu 22.04 & MacOS Ventura 64bit
+# Tested in Ubuntu 20.04.5 LTS & Ubuntu 22.04, Rocky Linux 9 & MacOS Ventura 64bit
 # Built in 64-bit system
 # Built with Intel or GNU compilers
-# Tested with current available libraries on 01/01/2023
+# Tested with current available libraries on 03/01/2023
 # If newer libraries exist edit script paths for changes
 #Estimated Run Time ~ 90 - 150 Minutes with 10mb/s downloadspeed.
 # Special thanks to:
@@ -4717,14 +5187,13 @@ fi
 # UCAR's Katelyn F., Jim B., Jordan P., Kevin M.,
 ##############################################################
 
-
 if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 
 
   #############################basic package managment############################
   echo $PASSWD | sudo -S apt -y update
   echo $PASSWD | sudo -S apt -y upgrade
-  echo $PASSWD | sudo -S apt -y install gcc gfortran g++ libtool automake autoconf make m4 default-jre default-jdk csh ksh git build-essential unzip mlocate byacc flex python3 python3-dev python2 python2-dev cmake libxml2 libxml2-dev curl mlocate libcurl4-openssl-dev pkg-config build-essential
+  echo $PASSWD | sudo -S apt -y install autoconf automake bison build-essential byacc cmake csh curl default-jdk default-jre emacs flex g++ gawk gcc gfortran git ksh libcurl4-openssl-dev libjpeg-dev libncurses5 libncurses6 libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev m4 make mlocate ncview okular openbox pipenv pkg-config python2 python2-dev python3 python3-dev python3-pip tcsh unzip xauth xorg time
 
 
 
@@ -4765,12 +5234,12 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   ##############################Downloading Libraries############################
   cd Downloads
   wget -c -4 https://github.com/madler/zlib/archive/refs/tags/v1.2.13.tar.gz
-  wget -c -4 https://github.com/HDFGroup/hdf5/archive/refs/tags/hdf5-1_14_0.tar.gz
+  wget -c -4 https://github.com/HDFGroup/hdf5/archive/refs/tags/hdf5-1_14_1-2.tar.gz
   wget -c -4 https://github.com/Unidata/netcdf-c/archive/refs/tags/v4.9.2.tar.gz
   wget -c -4 https://github.com/Unidata/netcdf-fortran/archive/refs/tags/v4.6.0.tar.gz
   wget -c -4 https://download.sourceforge.net/libpng/libpng-1.6.39.tar.gz
   wget -c -4 https://www.ece.uvic.ca/~frodo/jasper/software/jasper-1.900.1.zip
-  wget -c -4 https://github.com/pmodels/mpich/releases/download/v4.1.1/mpich-4.1.1.tar.gz
+  wget -c -4 https://github.com/pmodels/mpich/releases/download/v4.1.2/mpich-4.1.2.tar.gz
   wget -c -4  https://parallel-netcdf.github.io/Release/pnetcdf-1.12.3.tar.gz
   wget -c -4 https://sourceforge.net/projects/opengrads/files/grads2/2.2.1.oga.1/Linux%20%2864%20Bits%29/opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz
 
@@ -4781,7 +5250,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   export CXX=g++
   export FC=gfortran
   export F77=gfortran
-  export CFLAGS="-fPIC -fPIE -O3"
+  export CFLAGS="-fPIC -fPIE -O3 "
 
 
 
@@ -4827,19 +5296,19 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   tar -xvzf v1.2.13.tar.gz
   cd zlib-1.2.13/
   ./configure --prefix=$DIR/grib2
-  make -j $CPU_HALF_EVEN
-  make -j $CPU_HALF_EVEN install | tee make.install.log
+  make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+  make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
   #make check
 
   echo " "
   ##############################MPICH############################
   cd $WRFCHEM_FOLDER/Downloads
-  tar -xvzf mpich-4.1.1.tar.gz
-  cd mpich-4.1.1/
+  tar -xvzf mpich-4.1.2.tar.gz
+  cd mpich-4.1.2/
   F90= ./configure --prefix=$DIR/MPICH --with-device=ch3 FFLAGS="$fallow_argument -m64" FCFLAGS="$fallow_argument -m64"
 
-  make -j $CPU_HALF_EVEN
-  make -j $CPU_HALF_EVEN install | tee make.install.log
+  make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+  make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
   #make check
 
 
@@ -4859,9 +5328,9 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   export CPPFLAGS=-I$DIR/grib2/include
   tar -xvzf libpng-1.6.39.tar.gz
   cd libpng-1.6.39/
-  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX ./configure --prefix=$DIR/grib2
-  make -j $CPU_HALF_EVEN
-  make -j $CPU_HALF_EVEN install | tee make.install.log
+  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS ./configure --prefix=$DIR/grib2
+  make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+  make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
   #make check
   echo " "
   #############################JasPer############################
@@ -4869,9 +5338,9 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   unzip jasper-1.900.1.zip
   cd jasper-1.900.1/
   autoreconf -i
-  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX ./configure --prefix=$DIR/grib2
-  make -j $CPU_HALF_EVEN
-  make -j $CPU_HALF_EVEN install | tee make.install.log
+  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS ./configure --prefix=$DIR/grib2
+  make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+  make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
   #make check
 
   export JASPERLIB=$DIR/grib2/lib
@@ -4881,11 +5350,11 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   echo " "
   #############################hdf5 library for netcdf4 functionality############################
   cd $WRFCHEM_FOLDER/Downloads
-  tar -xvzf hdf5-1_14_0.tar.gz
-  cd hdf5-hdf5-1_14_0
-  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX ./configure --prefix=$DIR/grib2 --with-zlib=$DIR/grib2 --enable-hl --enable-fortran --enable-parallel
-  make -j $CPU_HALF_EVEN
-  make -j $CPU_HALF_EVEN install | tee make.install.log
+  tar -xvzf hdf5-1_14_1-2.tar.gz
+  cd hdf5-hdf5-1_14_1-2
+  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS ./configure --prefix=$DIR/grib2 --with-zlib=$DIR/grib2 --enable-hl --enable-fortran --enable-parallel
+  make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+  make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
   #make check
 
   export HDF5=$DIR/grib2
@@ -4900,7 +5369,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   #Hard path for MPI added
   ##################################################################################
   cd $WRFCHEM_FOLDER/Downloads
-  tar -xvzf pnetcdf-1.12.3.tar.gz
+  tar -xzvf pnetcdf-1.12.3.tar.gz
   cd pnetcdf-1.12.3
   export MPIFC=$DIR/MPICH/bin/mpifort
   export MPIF77=$DIR/MPICH/bin/mpifort
@@ -4909,8 +5378,8 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   export MPICXX=$DIR/MPICH/bin/mpicxx
   ./configure --prefix=$DIR/grib2  --enable-shared --enable-static
 
-  make -j $CPU_HALF_EVEN
-  make -j $CPU_HALF_EVEN install
+  make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+  make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
   #make check
 
   export PNETCDF=$DIR/grib2
@@ -4925,8 +5394,8 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   export LDFLAGS=-L$DIR/grib2/lib
   export LIBS="-lhdf5_hl -lhdf5 -lz -lcurl -lgfortran -lgcc -lm -ldl -lpnetcdf"
   CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-shared --enable-pnetcdf --enable-cdf5 --enable-parallel-tests
-  make -j $CPU_HALF_EVEN
-  make -j $CPU_HALF_EVEN install | tee make.install.log
+  make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+  make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
   #make check
 
   export PATH=$DIR/NETCDF/bin:$PATH
@@ -4941,8 +5410,8 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   export LDFLAGS="-L$DIR/NETCDF/lib -L$DIR/grib2/lib"
   export LIBS="-lnetcdf -lpnetcdf -lcurl -lhdf5_hl -lhdf5 -lz -lm -ldl -lgcc -lgfortran"
   CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-shared --enable-parallel-tests --enable-hdf5
-  make -j $CPU_HALF_EVEN
-  make -j $CPU_HALF_EVEN install | tee make.install.log
+  make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+  make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
   #make check
 
 
@@ -5443,24 +5912,28 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   ########### WRf-Python compiled via Conda  ##################
   ########### This is the preferred method by NCAR      ##################
   ##### https://wrf-python.readthedocs.io/en/latest/installation.html  ##################
+  conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
+
+  echo " "
+
+
+  ######################### Climate Data Operators ############
+  ######################### CDO compiled via Conda ###########
+  ####################### This is the preferred method #######
+  ################### https://bairdlangenbrunner.github.io/python-for-climate-scientists/conda/setting-up-conda-environments.html #######################
+
   source $Miniconda_Install_DIR/etc/profile.d/conda.sh
   conda init bash
   conda activate base
-  conda create -n wrf-python -y
-  conda activate wrf-python
-  conda install -c conda-forge netcdf4=1.5.8 -y --freeze-installed
-  conda install -c conda-forge imageio=2.27.0 -y --freeze-installed
-  conda install -c conda-forge basemap=1.3.6 -y --freeze-installed
-  conda install -c conda-forge metpy=1.4.1 -y --freeze-installed
-  conda install -c conda-forge wrf-python=1.3.4.1 -y --freeze-installed
-
+  conda create --name cdo_stable -y
+  source activate cdo_stable
+  conda install -c conda-forge cdo -y
+  conda update --all -y
   conda deactivate
   conda deactivate
   conda deactivate
 
 
-
-  echo " "
 
   ############################WRFDA 3DVAR###############################
   ## WRFDA v4.5 3DVAR
@@ -5499,12 +5972,12 @@ sed -i '919s/==/=/g' $WRFCHEM_FOLDER/WRFDA/configure
 
   if [ ${auto_config} -eq 1 ]
     then
-        echo 34 | ./configure wrfda  #Option 34 for gfortran/gcc and distribunted memory
+        echo 18 | ./configure wrfda  #Option 18 for gfortran/gcc and distribunted memory
       else
-        ./configure  wrfda  #Option 34 for gfortran/gcc and distribunted memory
+        ./configure  wrfda  #Option 18 for gfortran/gcc and distribunted memory
   fi
   echo " "
-  ./compile -j $CPU_HALF_EVEN all_wrfvar | tee compile1.log
+  ./compile -j $CPU_HALF_EVEN all_wrfvar 2>&1 | tee compile.log
   echo " "
   # IF statement to check that all files were created.
    cd $WRFCHEM_FOLDER/WRFDA/var/da
@@ -5573,10 +6046,7 @@ sed -i '919s/==/=/g' $WRFCHEM_FOLDER/WRFDA/configure
   ./clean -a
 
 
-  # SED statements to fix configure error
-  sed -i '186s/==/=/g' $WRFCHEM_FOLDER/WRFV4.5/configure
-  sed -i '318s/==/=/g' $WRFCHEM_FOLDER/WRFV4.5/configure
-  sed -i '919s/==/=/g' $WRFCHEM_FOLDER/WRFV4.5/configure
+
 
   if [ ${auto_config} -eq 1 ]
     then
@@ -5587,7 +6057,9 @@ sed -i '919s/==/=/g' $WRFCHEM_FOLDER/WRFDA/configure
       ./configure  #Option 34 gfortran compiler with distributed memory option 1 for basic nesting
   fi
 
-  ./compile -j $CPU_HALF_EVEN em_real
+  ./compile -j $CPU_HALF_EVEN em_real 2>&1 | tee compile.log
+  ./compile -j $CPU_HALF_EVEN emi_conv 2>&1 | tee compile.emis.log
+
 
   export WRF_DIR=$WRFCHEM_FOLDER/WRFV4.5
   # IF statement to check that all files were created.
@@ -5768,15 +6240,20 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   echo $PASSWD | sudo -S apt -y update
 
   # necessary binary packages (especially pkg-config and build-essential)
-  echo $PASSWD | sudo -S apt -y install git gcc gfortran g++ libtool automake autoconf make m4 default-jre default-jdk csh ksh python3 python3-dev python2 python2-dev mlocate curl cmake libxml2 libxml2-dev libcurl4-openssl-dev pkg-config build-essential
+  echo $PASSWD | sudo -S apt -y install autoconf automake bison build-essential byacc cmake csh curl default-jdk default-jre emacs flex g++ gawk gcc gfortran git ksh libcurl4-openssl-dev libjpeg-dev libncurses5 libncurses6 libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev m4 make mlocate ncview okular openbox pipenv pkg-config python2 python2-dev python3 python3-dev python3-pip tcsh unzip xauth xorg time
 
   # install the Intel compilers
-  echo $PASSWD | sudo -S apt -y install intel-basekit intel-hpckit intel-aikit
+  echo $PASSWD | sudo -S apt -y install intel-basekit
+  echo $PASSWD | sudo -S apt -y install intel-hpckit
+  echo $PASSWD | sudo -S apt -y install intel-oneapi-python
+
+
+
   echo $PASSWD | sudo -S apt -y update
 
 
   # make sure some critical packages have been installed
-  which cmake libxml2 libxml2-dev pkg-config make gcc g++
+  which cmake pkg-config make gcc g++
 
   # add the Intel compiler file paths to various environment variables
   source /opt/intel/oneapi/setvars.sh
@@ -5792,7 +6269,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   export MPIF90=mpiifort
   export MPICC=mpiicc
   export MPICXX=mpiicpc
-  export CFLAGS="-fPIC -fPIE -O3"
+  export CFLAGS="-fPIC -fPIE -O3 -diag-disable=10441 "
   export FFLAGS="-m64"
   export FCFLAGS="-m64"
   ############################# CPU Core Management ####################################
@@ -5841,13 +6318,14 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 
   cd $WRFCHEM_FOLDER/Downloads
   wget -c -4 https://github.com/madler/zlib/archive/refs/tags/v1.2.13.tar.gz
-  wget -c -4 https://github.com/HDFGroup/hdf5/archive/refs/tags/hdf5-1_14_0.tar.gz
+  wget -c -4 https://github.com/HDFGroup/hdf5/archive/refs/tags/hdf5-1_14_1-2.tar.gz
   wget -c -4 https://github.com/Unidata/netcdf-c/archive/refs/tags/v4.9.2.tar.gz
   wget -c -4 https://github.com/Unidata/netcdf-fortran/archive/refs/tags/v4.6.0.tar.gz
   wget -c -4 https://download.sourceforge.net/libpng/libpng-1.6.39.tar.gz
   wget -c -4 https://www.ece.uvic.ca/~frodo/jasper/software/jasper-1.900.1.zip
-  wget -c -4 https://sourceforge.net/projects/opengrads/files/grads2/2.2.1.oga.1/Linux%20%2864%20Bits%29/opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz
+  wget -c -4 https://github.com/pmodels/mpich/releases/download/v4.1.2/mpich-4.1.2.tar.gz
   wget -c -4  https://parallel-netcdf.github.io/Release/pnetcdf-1.12.3.tar.gz
+  wget -c -4 https://sourceforge.net/projects/opengrads/files/grads2/2.2.1.oga.1/Linux%20%2864%20Bits%29/opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz
 
 
   echo " "
@@ -5857,10 +6335,10 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   tar -xvzf v1.2.13.tar.gz
   cd zlib-1.2.13/
 
-  CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS="-fPIC -fPIE -diag-disable=10441 -O3" ./configure --prefix=$DIR/grib2
-  make -j $CPU_HALF_EVEN | tee zlib.make.log
+  CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS=$CFLAGS ./configure --prefix=$DIR/grib2
+  make -j $CPU_HALF_EVEN 2>&1 | tee zlib.make.log
   # make check | tee zlib.makecheck.log
-  make -j $CPU_HALF_EVEN install | tee zlib.makeinstall.log
+  make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log | tee zlib.makeinstall.log
 
   echo " "
   ############################# LibPNG ############################
@@ -5874,11 +6352,11 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   tar -xvzf libpng-1.6.39.tar.gz
   cd libpng-1.6.39/
 
-  CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS="-fPIC -fPIE -diag-disable=10441 -O3"   ./configure --prefix=$DIR/grib2
+  CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS=$CFLAGS   ./configure --prefix=$DIR/grib2
 
-  make -j $CPU_HALF_EVEN | tee libpng.make.log
+  make -j $CPU_HALF_EVEN 2>&1 | tee libpng.make.log
   #make -j $CPU_HALF_EVEN check | tee libpng.makecheck.log
-  make -j $CPU_HALF_EVEN install | tee libpng.makeinstall.log
+  make -j $CPU_HALF_EVEN install 2>&1 | tee libpng.makeinstall.log
 
   echo " "
   ############################# JasPer ############################
@@ -5887,10 +6365,10 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   unzip jasper-1.900.1.zip
   cd jasper-1.900.1/
 
-  CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS="-fPIC -fPIE -diag-disable=10441 -O3"  ./configure --prefix=$DIR/grib2
+  CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS=$CFLAGS  ./configure --prefix=$DIR/grib2
 
-  make -j $CPU_HALF_EVEN | tee jasper.make.log
-  make  -j $CPU_HALF_EVEN install | tee jasper.makeinstall.log
+  make -j $CPU_HALF_EVEN 2>&1 | tee jasper.make.log
+  make  -j $CPU_HALF_EVEN install 2>&1 | tee jasper.makeinstall.log
 
   # other libraries below need these variables to be set
   export JASPERLIB=$DIR/grib2/lib
@@ -5900,13 +6378,13 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   ############################# HDF5 library for NetCDF4 & parallel functionality ############################
 
   cd $WRFCHEM_FOLDER/Downloads
-  tar -xvzf hdf5-1_14_0.tar.gz
-  cd hdf5-hdf5-1_14_0
+  tar -xvzf hdf5-1_14_1-2.tar.gz
+  cd hdf5-hdf5-1_14_1-2
 
-  CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS="-fPIC -fPIE -diag-disable=10441 -O3"  ./configure --prefix=$DIR/grib2 --with-zlib=$DIR/grib2 --enable-hl --enable-fortran --enable-parallel
+  CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS=$CFLAGS  ./configure --prefix=$DIR/grib2 --with-zlib=$DIR/grib2 --enable-hl --enable-fortran --enable-parallel
 
-  make -j $CPU_HALF_EVEN | tee hdf5.make.log
-  make -j $CPU_HALF_EVEN install | tee hdf5.makeinstall.log
+  make -j $CPU_HALF_EVEN 2>&1 | tee hdf5.make.log
+  make -j $CPU_HALF_EVEN install 2>&1 | tee hdf5.makeinstall.log
 
   # other libraries below need these variables to be set
   export HDF5=$DIR/grib2
@@ -5921,12 +6399,12 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   #Hard path for MPI added
   ##################################################################################
   cd $WRFCHEM_FOLDER/Downloads
-  tar -xvzf pnetcdf-1.12.3.tar.gz
+  tar -xzvf pnetcdf-1.12.3.tar.gz
   cd pnetcdf-1.12.3
   ./configure --prefix=$DIR/grib2  --enable-shared --enable-static
 
-  make -j $CPU_HALF_EVEN
-  make -j $CPU_HALF_EVEN install
+  make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+  make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
   #make check
 
   export PNETCDF=$DIR/grib2
@@ -5944,10 +6422,10 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   export LDFLAGS=-L$DIR/grib2/lib
   export LIBS="-lhdf5_hl -lhdf5 -lz -lcurl -lgfortran -lgcc -lm -ldl -lpnetcdf"
 
-  CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS="-fPIC -fPIE -diag-disable=10441 -O3"   ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-shared --enable-pnetcdf --enable-cdf5 --enable-parallel-tests | tee netcdf.configure.log
+  CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS=$CFLAGS   ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-shared --enable-pnetcdf --enable-cdf5 --enable-parallel-tests | tee netcdf.configure.log
 
-  make -j $CPU_HALF_EVEN | tee netcdf.make.log
-  make -j $CPU_HALF_EVEN install | tee netcdf.makeinstall.log
+  make -j $CPU_HALF_EVEN 2>&1 | tee netcdf.make.log
+  make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log | tee netcdf.makeinstall.log
 
   # other libraries below need these variables to be set
   export PATH=$DIR/NETCDF/bin:$PATH
@@ -5967,8 +6445,8 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   export LIBS="-lnetcdf -lpnetcdf -lcurl -lhdf5_hl -lhdf5 -lz -lm -ldl -lgcc -lgfortran"
   CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-shared --enable-parallel-tests --enable-hdf5
 
-  make -j $CPU_HALF_EVEN | tee netcdf-f.make.log
-  make  -j $CPU_HALF_EVEN install | tee netcdf-f.makeinstall.log
+  make -j $CPU_HALF_EVEN 2>&1 | tee netcdf-f.make.log
+  make  -j $CPU_HALF_EVEN install 2>&1 | tee netcdf-f.makeinstall.log
 
 
   echo " "
@@ -6291,25 +6769,26 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   ########### WRf-Python compiled via Conda  ##################
   ########### This is the preferred method by NCAR      ##################
   ##### https://wrf-python.readthedocs.io/en/latest/installation.html  ##################
+  conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
+
+
+  ######################### Climate Data Operators ############
+  ######################### CDO compiled via Conda ###########
+  ####################### This is the preferred method #######
+  ################### https://bairdlangenbrunner.github.io/python-for-climate-scientists/conda/setting-up-conda-environments.html #######################
+
   source $Miniconda_Install_DIR/etc/profile.d/conda.sh
   conda init bash
   conda activate base
-  conda create -n wrf-python -y
-  conda activate wrf-python
-  conda install -c conda-forge netcdf4=1.5.8 -y --freeze-installed
-  conda install -c conda-forge imageio=2.27.0 -y --freeze-installed
-  conda install -c conda-forge basemap=1.3.6 -y --freeze-installed
-  conda install -c conda-forge metpy=1.4.1 -y --freeze-installed
-  conda install -c conda-forge wrf-python=1.3.4.1 -y --freeze-installed
-
+  conda create --name cdo_stable -y
+  source activate cdo_stable
+  conda install -c conda-forge cdo -y
+  conda update --all -y
   conda deactivate
   conda deactivate
   conda deactivate
 
   echo " "
-
-
-
   ############################WRFDA 3DVAR###############################
   ## WRFDA v4.5 3DVAR
   ## Downloaded from git tagged releases
@@ -6350,7 +6829,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   sed -i '169s|mpif90 -f90=$(SFC)|mpiifort|g' $WRFCHEM_FOLDER/WRFDA/configure.wrf
   sed -i '170s|mpicc -cc=$(SCC)|mpiicc|g' $WRFCHEM_FOLDER/WRFDA/configure.wrf
 
-  ./compile -j $CPU_HALF_EVEN all_wrfvar | tee compile1.log
+  ./compile -j $CPU_HALF_EVEN all_wrfvar | tee compile.log
   echo " "
   # IF statement to check that all files were created.
    cd $WRFCHEM_FOLDER/WRFDA/var/da
@@ -6425,7 +6904,8 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   sed -i '169s|mpif90 -f90=$(SFC)|mpiifort|g' $WRFCHEM_FOLDER/WRFV4.5/configure.wrf
   sed -i '170s|mpicc -cc=$(SCC)|mpiicc|g' $WRFCHEM_FOLDER/WRFV4.5/configure.wrf
 
-  ./compile -j $CPU_HALF_EVEN em_real | tee em_real_intel.log
+  ./compile -j $CPU_HALF_EVEN em_real 2>&1 | tee compile.log
+  ./compile -j $CPU_HALF_EVEN emi_conv 2>&1 | tee compile.emis.log
 
   export WRF_DIR=$WRFCHEM_FOLDER/WRFV4.5
 
@@ -6594,11 +7074,32 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 
 
   #############################basic package managment############################
-  brew install wget git
-  brew install gcc libtool automake autoconf make m4 java ksh  mpich grads ksh tcsh
-  brew install snap
-  brew install python@3.9
-  brew install gcc libtool automake autoconf make m4 java ksh git wget mpich grads ksh tcsh python@3.9 cmake libxml2 libxml2-dev xorgproto xorgrgb xauth curl flex byacc bison gnu-sed
+    brew install wget
+    brew install git
+    brew install gcc@13
+    brew install libtool
+    brew install automake
+    brew install autoconf
+    brew install make
+    brew install m4
+    brew install java
+    brew install ksh
+    brew install mpich
+    brew install grads
+    brew install ksh
+    brew install tcsh
+    brew install snap
+    brew install python@3.10
+    brew install cmake
+    brew install xorgproto
+    brew install xorgrgb
+    brew install xauth
+    brew install curl
+    brew install flex
+    brew install byacc
+    brew install bison
+    brew install gnu-sed
+
 
 
   ##############################Directory Listing############################
@@ -6616,121 +7117,235 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   mkdir -p Tests/Environment
   mkdir -p Tests/Compatibility
 
-  ##############################Downloading Libraries############################
+  #############################Core Management####################################
+  export CPU_CORE=$(sysctl -n hw.ncpu)                                             # number of available threads on system
+  export CPU_6CORE="6"
+  export CPU_HALF=$(($CPU_CORE / 2))
+  #1/2 of availble cores on system
+  export CPU_HALF_EVEN=$(( $CPU_HALF - ($CPU_HALF % 2) ))
+  #Forces CPU cores to even number to avoid partial core export. ie 7 cores would be 3.5 cores.
 
-  cd Downloads
-  wget -c -4 https://github.com/madler/zlib/archive/refs/tags/v1.2.13.tar.gz
-  wget -c -4 https://github.com/HDFGroup/hdf5/archive/refs/tags/hdf5-1_14_0.tar.gz
-  wget -c -4 https://github.com/Unidata/netcdf-c/archive/refs/tags/v4.9.2.tar.gz
-  wget -c -4 https://github.com/Unidata/netcdf-fortran/archive/refs/tags/v4.6.0.tar.gz
-  wget -c -4 https://download.sourceforge.net/libpng/libpng-1.6.39.tar.gz
-  wget -c -4 https://www.ece.uvic.ca/~frodo/jasper/software/jasper-1.900.1.zip
+  if [ $CPU_CORE -le $CPU_6CORE ]
+  #If statement for low core systems.  Forces computers to only use 1 core if there are 4 cores or less on the system.
+  then
+    export CPU_HALF_EVEN="2"
+  else
+    export CPU_HALF_EVEN=$(( $CPU_HALF - ($CPU_HALF % 2) ))
+  fi
+
+
+  echo "##########################################"
+  echo "Number of Threads being used $CPU_HALF_EVEN"
+  echo "##########################################"
+  echo " "
+
+
+    ##############################Downloading Libraries############################
+
+    cd $WRFCHEM_FOLDER/Downloads
+    wget -c -4 https://github.com/madler/zlib/archive/refs/tags/v1.2.13.tar.gz
+    wget -c -4 https://github.com/HDFGroup/hdf5/archive/refs/tags/hdf5-1_14_1-2.tar.gz
+    wget -c -4 https://github.com/Unidata/netcdf-c/archive/refs/tags/v4.9.2.tar.gz
+    wget -c -4 https://github.com/Unidata/netcdf-fortran/archive/refs/tags/v4.6.0.tar.gz
+    wget -c -4 https://download.sourceforge.net/libpng/libpng-1.6.39.tar.gz
+    wget -c -4 https://www.ece.uvic.ca/~frodo/jasper/software/jasper-1.900.1.zip
+    wget -c -4 https://github.com/pmodels/mpich/releases/download/v4.1.2/mpich-4.1.2.tar.gz
+    wget -c -4  https://parallel-netcdf.github.io/Release/pnetcdf-1.12.3.tar.gz
+    wget -c -4 https://sourceforge.net/projects/opengrads/files/grads2/2.2.1.oga.1/Linux%20%2864%20Bits%29/opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz
+
+
+
+    echo " "
+
+    #############################Compilers############################
+
+
+    #Symlink to avoid clang conflicts with compilers
+    #default gcc path /usr/bin/gcc
+    #default homebrew path /usr/local/bin
+
+    echo $PASSWD | sudo -S ln -sf /usr/local/bin/gcc-13 /usr/local/bin/gcc
+    echo $PASSWD | sudo -S ln -sf /usr/local/bin/g++-13 /usr/local/bin/g++
+    echo $PASSWD | sudo -S ln -sf /usr/local/bin/gfortran-13 /usr/local/bin/gfortran
+    echo $PASSWD | sudo -S ln -sf /usr/local/bin/python3.10 /usr/local/bin/python3
+
+    export CC=gcc
+    export CXX=g++
+    export FC=gfortran
+    export F77=gfortran
+    export CFLAGS="-fPIC -fPIE -Wno-implicit-function-declaration -Wall"
+
+    echo " "
+
+
+    #IF statement for GNU compiler issue
+  export GCC_VERSION=$(gcc -dumpfullversion | awk '{print$1}')
+  export GFORTRAN_VERSION=$(gfortran -dumpfullversion | awk '{print$1}')
+  export GPLUSPLUS_VERSION=$(g++ -dumpfullversion | awk '{print$1}')
+
+  export GCC_VERSION_MAJOR_VERSION=$(echo $GCC_VERSION | awk -F. '{print $1}')
+  export GFORTRAN_VERSION_MAJOR_VERSION=$(echo $GFORTRAN_VERSION | awk -F. '{print $1}')
+  export GPLUSPLUS_VERSION_MAJOR_VERSION=$(echo $GPLUSPLUS_VERSION | awk -F. '{print $1}')
+
+  export version_10="10"
+
+  if [ $GCC_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GFORTRAN_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GPLUSPLUS_VERSION_MAJOR_VERSION -ge $version_10 ]
+  then
+    export fallow_argument=-fallow-argument-mismatch
+    export boz_argument=-fallow-invalid-boz
+  else
+    export fallow_argument=
+    export boz_argument=
+  fi
+
+
+  export FFLAGS="$fallow_argument -m64"
+  export FCFLAGS="$fallow_argument -m64"
+
+
+  echo "##########################################"
+  echo "FFLAGS = $FFLAGS"
+  echo "FCFLAGS = $FCFLAGS"
+  echo "##########################################"
 
 
 
   echo " "
 
-  #############################Compilers############################
+    #############################zlib############################
+    #Uncalling compilers due to comfigure issue with zlib1.2.12
+    #With CC & CXX definied ./configure uses different compiler Flags
+
+    cd $WRFCHEM_FOLDER/Downloads
+    tar -xvzf v1.2.13.tar.gz
+    cd zlib-1.2.13/
+    ./configure --prefix=$DIR/grib2
+    make -j $CPU_HALF_EVEN
+    make -j $CPU_HALF_EVEN install 2>&1 | tee install.log
+    #make check
+
+    echo " "
 
 
-  #Symlink to avoid clang conflicts with compilers
-  #default gcc path /usr/bin/gcc
-  #default homebrew path /usr/local/bin
-
-  echo "Please enter password for linking GNU libraries"
-  echo $PASSWD | sudo -S ln -sf /usr/local/bin/gcc-1* /usr/local/bin/gcc
-  echo $PASSWD | sudo -S ln -sf /usr/local/bin/g++-1* /usr/local/bin/g++
-  echo $PASSWD | sudo -S ln -sf /usr/local/bin/gfortran-1* /usr/local/bin/gfortran
-
-  export CC=gcc
-  export CXX=g++
-  export FC=gfortran
-  export F77=gfortran
-  export CFLAGS="-fPIC -fPIE -O3 -Wno-implicit-function-declaration"
-
-  echo " "
-
-  #############################zlib############################
-  #Uncalling compilers due to comfigure issue with zlib1.2.12
-  #With CC & CXX definied ./configure uses different compiler Flags
-
+  ##############################MPICH############################
   cd $WRFCHEM_FOLDER/Downloads
-  tar -xvzf v1.2.13.tar.gz
-  cd zlib-1.2.13/
-  ./configure --prefix=$DIR/grib2
-  make
-  make install
+  tar -xvzf mpich-4.1.2.tar.gz
+  cd mpich-4.1.2/
+  F90= ./configure --prefix=$DIR/MPICH --with-device=ch3 FFLAGS="$fallow_argument -m64" FCFLAGS="$fallow_argument -m64"
+
+  make -j $CPU_HALF_EVEN 2>&1 | tee install.log
+  make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
   #make check
 
+
+  export PATH=$DIR/MPICH/bin:$PATH
+
+  export MPIFC=$DIR/MPICH/bin/mpifort
+  export MPIF77=$DIR/MPICH/bin/mpifort
+  export MPIF90=$DIR/MPICH/bin/mpifort
+  export MPICC=$DIR/MPICH/bin/mpicc
+  export MPICXX=$DIR/MPICH/bin/mpicxx
+
+
   echo " "
+
+
   #############################libpng############################
-  cd $WRFCHEM_FOLDER/Downloads
-  export LDFLAGS=-L$DIR/grib2/lib
-  export CPPFLAGS=-I$DIR/grib2/include
-  tar -xvzf libpng-1.6.39.tar.gz
-  cd libpng-1.6.39/
-  ./configure --prefix=$DIR/grib2
-  make
-  make install
-  #make check
+    cd $WRFCHEM_FOLDER/Downloads
+    export LDFLAGS=-L$DIR/grib2/lib
+    export CPPFLAGS=-I$DIR/grib2/include
+    tar -xvzf libpng-1.6.39.tar.gz
+    cd libpng-1.6.39/
+    CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX ./configure --prefix=$DIR/grib2
+    make -j $CPU_HALF_EVEN
+    make -j $CPU_HALF_EVEN install 2>&1 | tee install.log
+    #make check
+    #make check
 
-  echo " "
-  #############################JasPer############################
+    echo " "
+    #############################JasPer############################
 
-  cd $WRFCHEM_FOLDER/Downloads
-  unzip jasper-1.900.1.zip
-  cd jasper-1.900.1/
-  autoreconf -i
-  ./configure --prefix=$DIR/grib2
-  make
-  make install
-  export JASPERLIB=$DIR/grib2/lib
-  export JASPERINC=$DIR/grib2/include
+    cd $WRFCHEM_FOLDER/Downloads
+    unzip jasper-1.900.1.zip
+    cd jasper-1.900.1/
+    autoreconf -i
+    CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX ./configure --prefix=$DIR/grib2
+    make -j $CPU_HALF_EVEN
+    make -j $CPU_HALF_EVEN install 2>&1 | tee install.log
+    export JASPERLIB=$DIR/grib2/lib
+    export JASPERINC=$DIR/grib2/include
 
-  echo " "
-  #############################hdf5 library for netcdf4 functionality############################
+    echo " "
+    #############################hdf5 library for netcdf4 functionality############################
 
-  cd $WRFCHEM_FOLDER/Downloads
-  tar -xvzf hdf5-1_14_0.tar.gz
-  cd hdf5-hdf5-1_14_0
-  ./configure --prefix=$DIR/grib2 --with-zlib=$DIR/grib2 --enable-hl --enable-fortran
-  make
-  make install
-  #make check
+    cd $WRFCHEM_FOLDER/Downloads
+    tar -xvzf hdf5-1_14_1-2.tar.gz
+    cd hdf5-hdf5-1_14_1-2
+    CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX ./configure --prefix=$DIR/grib2 --with-zlib=$DIR/grib2 --enable-hl --enable-fortran --enable-parallel
+    make -j $CPU_HALF_EVEN
+    make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
+    #make check
 
-  export HDF5=$DIR/grib2
-  export LD_LIBRARY_PATH=$DIR/grib2/lib:$LD_LIBRARY_PATH
+    export HDF5=$DIR/grib2
+    export PHDF5=$DIR/grib2
+    export LD_LIBRARY_PATH=$DIR/grib2/lib:$LD_LIBRARY_PATH
 
-  echo " "
-  ##############################Install NETCDF C Library############################
-  cd $WRFCHEM_FOLDER/Downloads
-  tar -xzvf v4.9.2.tar.gz
-  cd netcdf-c-4.9.2/
-  export CPPFLAGS=-I$DIR/grib2/include
-  export LDFLAGS=-L$DIR/grib2/lib
-  export LIBS="-lhdf5_hl -lhdf5 -lz -lcurl -lgfortran -lgcc -lm -ldl -lpnetcdf"
-  ./configure --prefix=$DIR/NETCDF --with-zlib=$DIR/grib2 --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-shared
-  make
-  make install
-  #make check
+    echo " "
 
-  export PATH=$DIR/NETCDF/bin:$PATH
-  export NETCDF=$DIR/NETCDF
+    #############################Install Parallel-netCDF##############################
+    #Make file created with half of available cpu cores
+    #Hard path for MPI added
+    ##################################################################################
+    cd $WRFCHEM_FOLDER/Downloads
+    tar -xvzf pnetcdf-1.12.3.tar.gz
+    cd pnetcdf-1.12.3
+    export MPIFC=$DIR/MPICH/bin/mpifort
+    export MPIF77=$DIR/MPICH/bin/mpifort
+    export MPIF90=$DIR/MPICH/bin/mpifort
+    export MPICC=$DIR/MPICH/bin/mpicc
+    export MPICXX=$DIR/MPICH/bin/mpicxx
+    ./configure --prefix=$DIR/grib2  --enable-shared --enable-static
 
-  echo " "
-  ##############################NetCDF fortran library############################
+    make -j $CPU_HALF_EVEN
+    make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
+    #make check
 
-  cd $WRFCHEM_FOLDER/Downloads
-  tar -xvzf v4.6.0.tar.gz
-  cd netcdf-fortran-4.6.0/
-  export LD_LIBRARY_PATH=$DIR/NETCDF/lib:$LD_LIBRARY_PATH
-  export CPPFLAGS="-I$DIR/NETCDF/include -I$DIR/grib2/include"
-  export LDFLAGS="-L$DIR/NETCDF/lib -L$DIR/grib2/lib"
-  export LIBS="-lnetcdf -lm -lcurl -lhdf5_hl -lhdf5 -lz -ldl -lgcc -lgfortran -lm"
-  ./configure --prefix=$DIR/NETCDF --disable-shared
-  make
-  make install
-  #make check
+    export PNETCDF=$DIR/grib2
+
+
+
+
+    ##############################Install NETCDF C Library############################
+    cd $WRFCHEM_FOLDER/Downloads
+    tar -xzvf v4.9.2.tar.gz
+    cd netcdf-c-4.9.2/
+    export CPPFLAGS=-I$DIR/grib2/include
+    export LDFLAGS=-L$DIR/grib2/lib
+    export LIBS="-lhdf5_hl -lhdf5 -lz -lcurl -lgfortran -lgcc -lm -ldl -lpnetcdf"
+    CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-shared --enable-pnetcdf --enable-cdf5 --enable-parallel-tests
+    make -j $CPU_HALF_EVEN
+    make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
+    #make check
+
+    export PATH=$DIR/NETCDF/bin:$PATH
+    export NETCDF=$DIR/NETCDF
+    echo " "
+
+    ##############################NetCDF fortran library############################
+    cd $WRFCHEM_FOLDER/Downloads
+    tar -xvzf v4.6.0.tar.gz
+    cd netcdf-fortran-4.6.0/
+    export LD_LIBRARY_PATH=$DIR/NETCDF/lib:$LD_LIBRARY_PATH
+    export CPPFLAGS="-I$DIR/NETCDF/include -I$DIR/grib2/include"
+    export LDFLAGS="-L$DIR/NETCDF/lib -L$DIR/grib2/lib"
+    export LIBS="-lnetcdf -lpnetcdf -lcurl -lhdf5_hl -lhdf5 -lz -lm -ldl -lgcc -lgfortran"
+    CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-shared --enable-parallel-tests --enable-hdf5
+    make -j $CPU_HALF_EVEN
+    make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
+    #make check
+
+
+    echo " "
 
 
   #################################### System Environment Tests ##############
@@ -6926,23 +7541,23 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   ########### WRf-Python compiled via Conda  ##################
   ########### This is the preferred method by NCAR      ##################
   ##### https://wrf-python.readthedocs.io/en/latest/installation.html  ##################
+  conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
+
+  ######################### Climate Data Operators ############
+  ######################### CDO compiled via Conda ###########
+  ####################### This is the preferred method #######
+  ################### https://bairdlangenbrunner.github.io/python-for-climate-scientists/conda/setting-up-conda-environments.html #######################
+
   source $Miniconda_Install_DIR/etc/profile.d/conda.sh
   conda init bash
   conda activate base
-  conda create -n wrf-python -y
-  conda activate wrf-python
-  conda install -c conda-forge netcdf4=1.5.8 -y --freeze-installed
-  conda install -c conda-forge imageio=2.27.0 -y --freeze-installed
-  conda install -c conda-forge basemap=1.3.6 -y --freeze-installed
-  conda install -c conda-forge metpy=1.4.1 -y --freeze-installed
-  conda install -c conda-forge wrf-python=1.3.4.1 -y --freeze-installed
-
+  conda create --name cdo_stable -y
+  source activate cdo_stable
+  conda install -c conda-forge cdo -y
+  conda update --all -y
   conda deactivate
   conda deactivate
   conda deactivate
-
-  echo " "
-
 
   echo " "
   ############################ WRFCHEM 4.5 #################################
@@ -6992,10 +7607,11 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
     ./configure  #Option 17 gfortran compiler with distributed memory option 1 for basic nesting
   fi
 
-  sed -i'' -e 's/-w -O3 -c/-w -O3 -c -fPIC -fPIE -Wno-implicit-function-declaration/g' $WRFCHEM_FOLDER/WRFV4.5/configure.wrf
+  sed -i'' -e 's/-w  -c/-w  -c -fPIC -fPIE -O3 -Wno-implicit-function-declaration/g' $WRFCHEM_FOLDER/WRFV4.5/configure.wrf
 
 
-  ./compile em_real | tee em_real_compile.log
+  ./compile em_real 2>&1 | tee compile.log
+  ./compile emi_conv 2>&1 | tee compile.emis.log
 
   export WRF_DIR=$WRFCHEM_FOLDER/WRFV4.5
 
@@ -7031,7 +7647,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
       ./configure  #Option 19 gfortran compiler with distributed memory
   fi
 
-  ./compile | tee compile19.log
+  ./compile | tee compile.log
 
   # IF statement to check that all files were created.
   cd $WRFCHEM_FOLDER/WPS-4.5
@@ -7083,7 +7699,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
         ./configure  wrfda  #Option 17 for gfortran/gcc and distribunted memory
   fi
   echo " "
-  ./compile all_wrfvar | tee compile1.log
+  ./compile all_wrfvar | tee compile.log
   echo " "
   # IF statement to check that all files were created.
    cd $WRFCHEM_FOLDER/WRFDA/var/da
@@ -7217,10 +7833,10 @@ fi
 ########################### WRF  ##########################
 ## WRF installation with parallel process.
 # Download and install required library and data files for WRF, WRFPLUS, WRFDA 4DVAR, WPS.
-# Tested in Ubuntu 20.04.5 LTS & Ubuntu 22.04 & MacOS Ventura 64bit
+# Tested in Ubuntu 20.04.5 LTS & Ubuntu 22.04, Rocky Linux 9 & MacOS Ventura 64bit
 # Built in 64-bit system
 # Built with Intel or GNU compilers
-# Tested with current available libraries on 01/01/2023
+# Tested with current available libraries on 03/01/2023
 # If newer libraries exist edit script paths for changes
 #Estimated Run Time ~ 90 - 150 Minutes with 10mb/s downloadspeed.
 # Special thanks to:
@@ -7233,13 +7849,12 @@ fi
 # UCAR's Katelyn F., Jim B., Jordan P., Kevin M.,
 ##############################################################
 
-
 if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 
   #############################basic package managment############################
   echo $PASSWD | sudo -S apt -y update
   echo $PASSWD | sudo -S apt -y upgrade
-  echo $PASSWD | sudo -S apt -y install gcc gfortran g++ libtool automake autoconf make m4 default-jre default-jdk csh ksh git python3 python3-dev python2 python2-dev mlocate curl cmake libxml2 libxml2-dev libcurl4-openssl-dev build-essential pkg-config
+  echo $PASSWD | sudo -S apt -y install autoconf automake bison build-essential byacc cmake csh curl default-jdk default-jre emacs flex g++ gawk gcc gfortran git ksh libcurl4-openssl-dev libjpeg-dev libncurses5 libncurses6 libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev m4 make mlocate ncview okular openbox pipenv pkg-config python2 python2-dev python3 python3-dev python3-pip tcsh unzip xauth xorg time
 
   echo " "
   ##############################Directory Listing############################
@@ -7285,12 +7900,12 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   #Force use of ipv4 with -4
   cd Downloads
   wget -c -4 https://github.com/madler/zlib/archive/refs/tags/v1.2.13.tar.gz
-  wget -c -4 https://github.com/HDFGroup/hdf5/archive/refs/tags/hdf5-1_14_0.tar.gz
+  wget -c -4 https://github.com/HDFGroup/hdf5/archive/refs/tags/hdf5-1_14_1-2.tar.gz
   wget -c -4 https://github.com/Unidata/netcdf-c/archive/refs/tags/v4.9.2.tar.gz
   wget -c -4 https://github.com/Unidata/netcdf-fortran/archive/refs/tags/v4.6.0.tar.gz
   wget -c -4 https://download.sourceforge.net/libpng/libpng-1.6.39.tar.gz
   wget -c -4 https://www.ece.uvic.ca/~frodo/jasper/software/jasper-1.900.1.zip
-  wget -c -4 https://github.com/pmodels/mpich/releases/download/v4.1.1/mpich-4.1.1.tar.gz
+  wget -c -4 https://github.com/pmodels/mpich/releases/download/v4.1.2/mpich-4.1.2.tar.gz
   wget -c -4  https://parallel-netcdf.github.io/Release/pnetcdf-1.12.3.tar.gz
   wget -c -4 https://sourceforge.net/projects/opengrads/files/grads2/2.2.1.oga.1/Linux%20%2864%20Bits%29/opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz
 
@@ -7303,7 +7918,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   export CXX=g++
   export FC=gfortran
   export F77=gfortran
-  export CFLAGS="-fPIC -fPIE -O3"
+  export CFLAGS="-fPIC -fPIE -O3 "
 
 
 
@@ -7349,20 +7964,20 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   tar -xvzf v1.2.13.tar.gz
   cd zlib-1.2.13/
   ./configure --prefix=$DIR/grib2
-  make -j $CPU_HALF_EVEN
-  make -j $CPU_HALF_EVEN install | tee make.install.log
+  make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+  make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
   #make check
 
   echo " "
   ##############################MPICH############################
   #F90= due to compiler issues with mpich install
   cd $WRF_FOLDER/Downloads
-  tar -xvzf mpich-4.1.1.tar.gz
-  cd mpich-4.1.1/
+  tar -xvzf mpich-4.1.2.tar.gz
+  cd mpich-4.1.2/
   F90= ./configure --prefix=$DIR/MPICH --with-device=ch3 FFLAGS=$fallow_argument FCFLAGS=$fallow_argument
 
-  make -j $CPU_HALF_EVEN
-  make -j $CPU_HALF_EVEN install | tee make.install.log
+  make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+  make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
   # make check
 
 
@@ -7383,9 +7998,9 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   export CPPFLAGS=-I$DIR/grib2/include
   tar -xvzf libpng-1.6.39.tar.gz
   cd libpng-1.6.39/
-  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX ./configure --prefix=$DIR/grib2
-  make -j $CPU_HALF_EVEN
-  make -j $CPU_HALF_EVEN install | tee make.install.log
+  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS ./configure --prefix=$DIR/grib2
+  make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+  make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
   #make check
   echo " "
   #############################JasPer############################
@@ -7393,9 +8008,9 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   unzip jasper-1.900.1.zip
   cd jasper-1.900.1/
   ./configure --prefix=$DIR/grib2
-  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX ./configure --prefix=$DIR/grib2
-  make -j $CPU_HALF_EVEN
-  make -j $CPU_HALF_EVEN install | tee make.install.log
+  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS ./configure --prefix=$DIR/grib2
+  make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+  make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
   #make check
 
   export JASPERLIB=$DIR/grib2/lib
@@ -7405,11 +8020,11 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   echo " "
   #############################hdf5 library for netcdf4 functionality############################
   cd $WRF_FOLDER/Downloads
-  tar -xvzf hdf5-1_14_0.tar.gz
-  cd hdf5-hdf5-1_14_0
-  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX ./configure --prefix=$DIR/grib2 --with-zlib=$DIR/grib2 --enable-hl --enable-fortran --enable-parallel
-  make -j $CPU_HALF_EVEN
-  make -j $CPU_HALF_EVEN install | tee make.install.log
+  tar -xvzf hdf5-1_14_1-2.tar.gz
+  cd hdf5-hdf5-1_14_1-2
+  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS ./configure --prefix=$DIR/grib2 --with-zlib=$DIR/grib2 --enable-hl --enable-fortran --enable-parallel
+  make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+  make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
   #make check
 
   export HDF5=$DIR/grib2
@@ -7423,7 +8038,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   #Hard path for MPI added
   ##################################################################################
   cd $WRF_FOLDER/Downloads
-  tar -xvzf pnetcdf-1.12.3.tar.gz
+  tar -xzvf pnetcdf-1.12.3.tar.gz
   cd pnetcdf-1.12.3
   export MPIFC=$DIR/MPICH/bin/mpifort
   export MPIF77=$DIR/MPICH/bin/mpifort
@@ -7432,8 +8047,8 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   export MPICXX=$DIR/MPICH/bin/mpicxx
   ./configure --prefix=$DIR/grib2  --enable-shared --enable-static
 
-  make -j $CPU_HALF_EVEN
-  make -j $CPU_HALF_EVEN install
+  make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+  make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
   #make check
 
   export PNETCDF=$DIR/grib2
@@ -7447,8 +8062,8 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   export LDFLAGS=-L$DIR/grib2/lib
   export LIBS="-lhdf5_hl -lhdf5 -lz -lcurl -lgfortran -lgcc -lm -ldl -lpnetcdf"
   CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-shared --enable-pnetcdf --enable-cdf5 --enable-parallel-tests
-  make -j $CPU_HALF_EVEN
-  make -j $CPU_HALF_EVEN install | tee make.install.log
+  make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+  make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
   #make check
 
   export PATH=$DIR/NETCDF/bin:$PATH
@@ -7463,8 +8078,8 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   export LDFLAGS="-L$DIR/NETCDF/lib -L$DIR/grib2/lib"
   export LIBS="-lnetcdf -lpnetcdf -lcurl -lhdf5_hl -lhdf5 -lz -lm -ldl -lgcc -lgfortran"
   CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-shared --enable-parallel-tests --enable-hdf5
-  make -j $CPU_HALF_EVEN
-  make -j $CPU_HALF_EVEN install | tee make.install.log
+  make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+  make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
   #make check
 
   echo " "
@@ -7964,22 +8579,23 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   ########### WRf-Python compiled via Conda  ##################
   ########### This is the preferred method by NCAR      ##################
   ##### https://wrf-python.readthedocs.io/en/latest/installation.html  ##################
+  conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
+
+  ######################### Climate Data Operators ############
+  ######################### CDO compiled via Conda ###########
+  ####################### This is the preferred method #######
+  ################### https://bairdlangenbrunner.github.io/python-for-climate-scientists/conda/setting-up-conda-environments.html #######################
+
   source $Miniconda_Install_DIR/etc/profile.d/conda.sh
   conda init bash
   conda activate base
-  conda create -n wrf-python -y
-  conda activate wrf-python
-  conda install -c conda-forge netcdf4=1.5.8 -y --freeze-installed
-  conda install -c conda-forge imageio=2.27.0 -y --freeze-installed
-  conda install -c conda-forge basemap=1.3.6 -y --freeze-installed
-  conda install -c conda-forge metpy=1.4.1 -y --freeze-installed
-  conda install -c conda-forge wrf-python=1.3.4.1 -y --freeze-installed
-
+  conda create --name cdo_stable -y
+  source activate cdo_stable
+  conda install -c conda-forge cdo -y
+  conda update --all -y
   conda deactivate
   conda deactivate
   conda deactivate
-
-
 
   echo " "
   ############################ WRF 4.5  #################################
@@ -8007,10 +8623,6 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   export WRFIO_NCD_LARGE_FILE_SUPPORT=1
   ./clean -a
 
-# SED statements to fix configure error
-  sed -i '186s/==/=/g' $WRF_FOLDER/WRFV4.5/configure
-  sed -i '318s/==/=/g' $WRF_FOLDER/WRFV4.5/configure
-  sed -i '919s/==/=/g' $WRF_FOLDER/WRFV4.5/configure
 
 
   if [ ${auto_config} -eq 1 ]
@@ -8022,7 +8634,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
       ./configure  #Option 34 gfortran compiler with distributed memory option 1 for basic nesting
   fi
 
-  ./compile -j $CPU_HALF_EVEN em_real
+  ./compile -j $CPU_HALF_EVEN em_real 2>&1 | tee compile.log
 
   export WRF_DIR=$WRF_FOLDER/WRFV4.5
 
@@ -8107,7 +8719,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
         ./configure  wrfplus  #Option 18 for gfortran/gcc and distribunted memory
     fi
   echo " "
-  ./compile -j $CPU_HALF_EVEN wrfplus
+  ./compile -j $CPU_HALF_EVEN wrfplus 2>&1 | tee compile.log
   export WRFPLUS_DIR=$WRF_FOLDER/WRFPLUS
 
 
@@ -8159,7 +8771,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
         ./configure  4dvar  #Option 18 for gfortran/gcc and distribunted memory
   fi
   echo " "
-  ./compile all_wrfvar | tee compile1.log
+  ./compile all_wrfvar | tee compile.log
   echo " "
   # IF statement to check that all files were created.
    cd $WRF_FOLDER/WRFDA/var/da
@@ -8310,15 +8922,20 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   echo $PASSWD | sudo -S apt -y update
 
   # necessary binary packages (especially pkg-config and build-essential)
-  echo $PASSWD | sudo -S apt -y install git gcc gfortran g++ libtool automake autoconf make m4 default-jre default-jdk csh ksh python3 python3-dev python2 python2-dev mlocate curl cmake libxml2 libxml2-dev libcurl4-openssl-dev pkg-config build-essential
+  echo $PASSWD | sudo -S apt -y install autoconf automake bison build-essential byacc cmake csh curl default-jdk default-jre emacs flex g++ gawk gcc gfortran git ksh libcurl4-openssl-dev libjpeg-dev libncurses5 libncurses6 libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev m4 make mlocate ncview okular openbox pipenv pkg-config python2 python2-dev python3 python3-dev python3-pip tcsh unzip xauth xorg time
 
   # install the Intel compilers
-  echo $PASSWD | sudo -S apt -y install intel-basekit intel-hpckit intel-aikit
+  echo $PASSWD | sudo -S apt -y install intel-basekit
+  echo $PASSWD | sudo -S apt -y install intel-hpckit
+  echo $PASSWD | sudo -S apt -y install intel-oneapi-python
+
+
+
   echo $PASSWD | sudo -S apt -y update
 
 
   # make sure some critical packages have been installed
-  which cmake libxml2 libxml2-dev pkg-config make gcc g++
+  which cmake pkg-config make gcc g++
 
   # add the Intel compiler file paths to various environment variables
   source /opt/intel/oneapi/setvars.sh
@@ -8334,7 +8951,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   export MPIF90=mpiifort
   export MPICC=mpiicc
   export MPICXX=mpiicpc
-  export CFLAGS="-fPIC -fPIE -O3"
+  export CFLAGS="-fPIC -fPIE -O3 -diag-disable=10441 "
   export FFLAGS="-m64"
   export FCFLAGS="-m64"
   ############################# CPU Core Management ####################################
@@ -8384,13 +9001,14 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 
   cd $WRF_FOLDER/Downloads
   wget -c -4 https://github.com/madler/zlib/archive/refs/tags/v1.2.13.tar.gz
-  wget -c -4 https://github.com/HDFGroup/hdf5/archive/refs/tags/hdf5-1_14_0.tar.gz
+  wget -c -4 https://github.com/HDFGroup/hdf5/archive/refs/tags/hdf5-1_14_1-2.tar.gz
   wget -c -4 https://github.com/Unidata/netcdf-c/archive/refs/tags/v4.9.2.tar.gz
   wget -c -4 https://github.com/Unidata/netcdf-fortran/archive/refs/tags/v4.6.0.tar.gz
   wget -c -4 https://download.sourceforge.net/libpng/libpng-1.6.39.tar.gz
   wget -c -4 https://www.ece.uvic.ca/~frodo/jasper/software/jasper-1.900.1.zip
-  wget -c -4 https://sourceforge.net/projects/opengrads/files/grads2/2.2.1.oga.1/Linux%20%2864%20Bits%29/opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz
+  wget -c -4 https://github.com/pmodels/mpich/releases/download/v4.1.2/mpich-4.1.2.tar.gz
   wget -c -4  https://parallel-netcdf.github.io/Release/pnetcdf-1.12.3.tar.gz
+  wget -c -4 https://sourceforge.net/projects/opengrads/files/grads2/2.2.1.oga.1/Linux%20%2864%20Bits%29/opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz
 
 
   echo " "
@@ -8400,10 +9018,10 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   tar -xvzf v1.2.13.tar.gz
   cd zlib-1.2.13/
 
-  CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS="-fPIC -fPIE -diag-disable=10441 -O3"  ./configure --prefix=$DIR/grib2
-  make -j $CPU_HALF_EVEN | tee zlib.make.log
+  CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS=$CFLAGS  ./configure --prefix=$DIR/grib2
+  make -j $CPU_HALF_EVEN 2>&1 | tee zlib.make.log
   # make check | tee zlib.makecheck.log
-  make -j $CPU_HALF_EVEN install | tee zlib.makeinstall.log
+  make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log | tee zlib.makeinstall.log
 
   echo " "
   ############################# LibPNG ############################
@@ -8417,11 +9035,11 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   tar -xvzf libpng-1.6.39.tar.gz
   cd libpng-1.6.39/
 
-  CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS="-fPIC -fPIE -diag-disable=10441 -O3"  ./configure --prefix=$DIR/grib2
+  CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS=$CFLAGS  ./configure --prefix=$DIR/grib2
 
-  make -j $CPU_HALF_EVEN | tee libpng.make.log
+  make -j $CPU_HALF_EVEN 2>&1 | tee libpng.make.log
   #make -j $CPU_HALF_EVEN check | tee libpng.makecheck.log
-  make -j $CPU_HALF_EVEN install | tee libpng.makeinstall.log
+  make -j $CPU_HALF_EVEN install 2>&1 | tee libpng.makeinstall.log
 
   echo " "
   ############################# JasPer ############################
@@ -8430,10 +9048,10 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   unzip jasper-1.900.1.zip
   cd jasper-1.900.1/
 
-  CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS="-fPIC -fPIE -diag-disable=10441 -O3"  ./configure --prefix=$DIR/grib2
+  CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS=$CFLAGS  ./configure --prefix=$DIR/grib2
 
-  make -j $CPU_HALF_EVEN | tee jasper.make.log
-  make  -j $CPU_HALF_EVEN install | tee jasper.makeinstall.log
+  make -j $CPU_HALF_EVEN 2>&1 | tee jasper.make.log
+  make  -j $CPU_HALF_EVEN install 2>&1 | tee jasper.makeinstall.log
 
   # other libraries below need these variables to be set
   export JASPERLIB=$DIR/grib2/lib
@@ -8443,13 +9061,13 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   ############################# HDF5 library for NetCDF4 & parallel functionality ############################
 
   cd $WRF_FOLDER/Downloads
-  tar -xvzf hdf5-1_14_0.tar.gz
-  cd hdf5-hdf5-1_14_0
+  tar -xvzf hdf5-1_14_1-2.tar.gz
+  cd hdf5-hdf5-1_14_1-2
 
-  CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS="-fPIC -fPIE -diag-disable=10441 -O3" ./configure --prefix=$DIR/grib2 --with-zlib=$DIR/grib2 --enable-hl --enable-fortran --enable-parallel
+  CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS=$CFLAGS ./configure --prefix=$DIR/grib2 --with-zlib=$DIR/grib2 --enable-hl --enable-fortran --enable-parallel
 
-  make -j $CPU_HALF_EVEN | tee hdf5.make.log
-  make -j $CPU_HALF_EVEN install | tee hdf5.makeinstall.log
+  make -j $CPU_HALF_EVEN 2>&1 | tee hdf5.make.log
+  make -j $CPU_HALF_EVEN install 2>&1 | tee hdf5.makeinstall.log
 
   # other libraries below need these variables to be set
   export HDF5=$DIR/grib2
@@ -8465,12 +9083,12 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   #Hard path for MPI added
   ##################################################################################
   cd $WRF_FOLDER/Downloads
-  tar -xvzf pnetcdf-1.12.3.tar.gz
+  tar -xzvf pnetcdf-1.12.3.tar.gz
   cd pnetcdf-1.12.3
   ./configure --prefix=$DIR/grib2  --enable-shared --enable-static
 
-  make -j $CPU_HALF_EVEN
-  make -j $CPU_HALF_EVEN install
+  make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+  make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
   #make check
 
   export PNETCDF=$DIR/grib2
@@ -8487,10 +9105,10 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   export LDFLAGS=-L$DIR/grib2/lib
   export LIBS="-lhdf5_hl -lhdf5 -lz -lcurl -lgfortran -lgcc -lm -ldl -lpnetcdf"
 
-  CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS="-fPIC -fPIE -diag-disable=10441 -O3"  ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-shared --enable-pnetcdf --enable-cdf5 --enable-parallel-tests | tee netcdf.configure.log
+  CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS=$CFLAGS  ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-shared --enable-pnetcdf --enable-cdf5 --enable-parallel-tests | tee netcdf.configure.log
 
-  make -j $CPU_HALF_EVEN | tee netcdf.make.log
-  make -j $CPU_HALF_EVEN install | tee netcdf.makeinstall.log
+  make -j $CPU_HALF_EVEN 2>&1 | tee netcdf.make.log
+  make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log | tee netcdf.makeinstall.log
 
   # other libraries below need these variables to be set
   export PATH=$DIR/NETCDF/bin:$PATH
@@ -8508,10 +9126,10 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   export CPPFLAGS="-I$DIR/NETCDF/include -I$DIR/grib2/include"
   export LDFLAGS="-L$DIR/NETCDF/lib -L$DIR/grib2/lib"
   export LIBS="-lnetcdf -lpnetcdf -lcurl -lhdf5_hl -lhdf5 -lz -lm -ldl -lgcc -lgfortran"
-  CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS="-fPIC -fPIE -diag-disable=10441 -O3"  ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-parallel-tests --enable-hdf5
+  CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS=$CFLAGS  ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-parallel-tests --enable-hdf5
 
-  make -j $CPU_HALF_EVEN | tee netcdf-f.make.log
-  make  -j $CPU_HALF_EVEN install | tee netcdf-f.makeinstall.log
+  make -j $CPU_HALF_EVEN 2>&1 | tee netcdf-f.make.log
+  make  -j $CPU_HALF_EVEN install 2>&1 | tee netcdf-f.makeinstall.log
 
 
   echo " "
@@ -8837,17 +9455,21 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   ########### WRf-Python compiled via Conda  ##################
   ########### This is the preferred method by NCAR      ##################
   ##### https://wrf-python.readthedocs.io/en/latest/installation.html  ##################
+  conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
+
+
+  ######################### Climate Data Operators ############
+  ######################### CDO compiled via Conda ###########
+  ####################### This is the preferred method #######
+  ################### https://bairdlangenbrunner.github.io/python-for-climate-scientists/conda/setting-up-conda-environments.html #######################
+
   source $Miniconda_Install_DIR/etc/profile.d/conda.sh
   conda init bash
   conda activate base
-  conda create -n wrf-python -y
-  conda activate wrf-python
-  conda install -c conda-forge netcdf4=1.5.8 -y --freeze-installed
-  conda install -c conda-forge imageio=2.27.0 -y --freeze-installed
-  conda install -c conda-forge basemap=1.3.6 -y --freeze-installed
-  conda install -c conda-forge metpy=1.4.1 -y --freeze-installed
-  conda install -c conda-forge wrf-python=1.3.4.1 -y --freeze-installed
-
+  conda create --name cdo_stable -y
+  source activate cdo_stable
+  conda install -c conda-forge cdo -y
+  conda update --all -y
   conda deactivate
   conda deactivate
   conda deactivate
@@ -8886,7 +9508,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   sed -i '169s|mpif90 -f90=$(SFC)|mpiifort|g' $WRF_FOLDER/WRFV4.5/configure.wrf
   sed -i '170s|mpicc -cc=$(SCC)|mpiicc|g' $WRF_FOLDER/WRFV4.5/configure.wrf
 
-  ./compile -j $CPU_HALF_EVEN em_real
+  ./compile -j $CPU_HALF_EVEN em_real 2>&1 | tee compile.log
 
   export WRF_DIR=$WRF_FOLDER/WRFV4.5
 
@@ -9040,7 +9662,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   sed -i '170s|mpicc -cc=$(SCC)|mpiicc|g' $WRF_FOLDER/WRFDA/configure.wrf
 
 
-  ./compile all_wrfvar | tee wrfda.compile.log
+  ./compile all_wrfvar 2>&1 | tee wrfda.compile.log
   echo " "
   # IF statement to check that all files were created.
    cd $WRF_FOLDER/WRFDA/var/da
@@ -9166,15 +9788,35 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 
 fi
 
-
 if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 
   #############################basic package managment############################
-  brew install wget git
-  brew install gcc libtool automake autoconf make m4 java ksh  mpich grads ksh tcsh
-  brew install snap
-  brew install python@3.9
-  brew install gcc libtool automake autoconf make m4 java ksh git wget mpich grads ksh tcsh python@3.9 cmake libxml2 libxml2-dev xorgproto xorgrgb xauth curl
+    brew install wget
+    brew install git
+    brew install gcc@13
+    brew install libtool
+    brew install automake
+    brew install autoconf
+    brew install make
+    brew install m4
+    brew install java
+    brew install ksh
+    brew install mpich
+    brew install grads
+    brew install ksh
+    brew install tcsh
+    brew install snap
+    brew install python@3.10
+    brew install cmake
+    brew install xorgproto
+    brew install xorgrgb
+    brew install xauth
+    brew install curl
+    brew install flex
+    brew install byacc
+    brew install bison
+    brew install gnu-sed
+
 
 
   ##############################Directory Listing############################
@@ -9193,120 +9835,235 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   mkdir -p Tests/Environment
   mkdir -p Tests/Compatibility
 
-##############################Downloading Libraries############################
+  #############################Core Management####################################
+    export CPU_CORE=$(sysctl -n hw.ncpu)                                             # number of available threads on system
+    export CPU_6CORE="6"
+    export CPU_HALF=$(($CPU_CORE / 2))
+    #1/2 of availble cores on system
+    export CPU_HALF_EVEN=$(( $CPU_HALF - ($CPU_HALF % 2) ))
+    #Forces CPU cores to even number to avoid partial core export. ie 7 cores would be 3.5 cores.
 
-  cd Downloads
-  wget -c -4 https://github.com/madler/zlib/archive/refs/tags/v1.2.13.tar.gz
-  wget -c -4 https://github.com/HDFGroup/hdf5/archive/refs/tags/hdf5-1_14_0.tar.gz
-  wget -c -4 https://github.com/Unidata/netcdf-c/archive/refs/tags/v4.9.2.tar.gz
-  wget -c -4 https://github.com/Unidata/netcdf-fortran/archive/refs/tags/v4.6.0.tar.gz
-  wget -c -4 https://download.sourceforge.net/libpng/libpng-1.6.39.tar.gz
-  wget -c -4 https://www.ece.uvic.ca/~frodo/jasper/software/jasper-1.900.1.zip
+    if [ $CPU_CORE -le $CPU_6CORE ]
+    #If statement for low core systems.  Forces computers to only use 1 core if there are 4 cores or less on the system.
+    then
+      export CPU_HALF_EVEN="2"
+    else
+      export CPU_HALF_EVEN=$(( $CPU_HALF - ($CPU_HALF % 2) ))
+    fi
+
+
+    echo "##########################################"
+    echo "Number of Threads being used $CPU_HALF_EVEN"
+    echo "##########################################"
+    echo " "
+
+
+      ##############################Downloading Libraries############################
+
+      cd $WRF_FOLDER/Downloads
+      wget -c -4 https://github.com/madler/zlib/archive/refs/tags/v1.2.13.tar.gz
+      wget -c -4 https://github.com/HDFGroup/hdf5/archive/refs/tags/hdf5-1_14_1-2.tar.gz
+      wget -c -4 https://github.com/Unidata/netcdf-c/archive/refs/tags/v4.9.2.tar.gz
+      wget -c -4 https://github.com/Unidata/netcdf-fortran/archive/refs/tags/v4.6.0.tar.gz
+      wget -c -4 https://download.sourceforge.net/libpng/libpng-1.6.39.tar.gz
+      wget -c -4 https://www.ece.uvic.ca/~frodo/jasper/software/jasper-1.900.1.zip
+      wget -c -4 https://github.com/pmodels/mpich/releases/download/v4.1.2/mpich-4.1.2.tar.gz
+      wget -c -4  https://parallel-netcdf.github.io/Release/pnetcdf-1.12.3.tar.gz
+      wget -c -4 https://sourceforge.net/projects/opengrads/files/grads2/2.2.1.oga.1/Linux%20%2864%20Bits%29/opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz
 
 
 
-  echo " "
+      echo " "
 
-  #############################Compilers############################
+      #############################Compilers############################
 
 
-  #Symlink to avoid clang conflicts with compilers
-  #default gcc path /usr/bin/gcc
-  #default homebrew path /usr/local/bin
-  echo "Please enter password for linking GNU libraries"
-  echo $PASSWD | sudo -S ln -sf /usr/local/bin/gcc-1* /usr/local/bin/gcc
-  echo $PASSWD | sudo -S ln -sf /usr/local/bin/g++-1* /usr/local/bin/g++
-  echo $PASSWD | sudo -S ln -sf /usr/local/bin/gfortran-1* /usr/local/bin/gfortran
+      #Symlink to avoid clang conflicts with compilers
+      #default gcc path /usr/bin/gcc
+      #default homebrew path /usr/local/bin
 
-  export CC=gcc
-  export CXX=g++
-  export FC=gfortran
-  export F77=gfortran
-  export CFLAGS="-fPIC -fPIE -O3 -Wno-implicit-function-declaration"
+      echo $PASSWD | sudo -S ln -sf /usr/local/bin/gcc-13 /usr/local/bin/gcc
+      echo $PASSWD | sudo -S ln -sf /usr/local/bin/g++-13 /usr/local/bin/g++
+      echo $PASSWD | sudo -S ln -sf /usr/local/bin/gfortran-13 /usr/local/bin/gfortran
+      echo $PASSWD | sudo -S ln -sf /usr/local/bin/python3.10 /usr/local/bin/python3
 
-  echo " "
+      export CC=gcc
+      export CXX=g++
+      export FC=gfortran
+      export F77=gfortran
+      export CFLAGS="-fPIC -fPIE -Wno-implicit-function-declaration -Wall"
 
-  #############################zlib############################
-  #Uncalling compilers due to comfigure issue with zlib1.2.12
-  #With CC & CXX definied ./configure uses different compiler Flags
+      echo " "
 
-  cd $WRF_FOLDER/Downloads
-  tar -xvzf v1.2.13.tar.gz
-  cd zlib-1.2.13/
-  ./configure --prefix=$DIR/grib2
-  make
-  make install
-  #make check
 
-  echo " "
-  #############################libpng############################
-  cd $WRF_FOLDER/Downloads
-  export LDFLAGS=-L$DIR/grib2/lib
-  export CPPFLAGS=-I$DIR/grib2/include
-  tar -xvzf libpng-1.6.39.tar.gz
-  cd libpng-1.6.39/
-  ./configure --prefix=$DIR/grib2
-  make
-  make install
-  #make check
+      #IF statement for GNU compiler issue
+    export GCC_VERSION=$(gcc -dumpfullversion | awk '{print$1}')
+    export GFORTRAN_VERSION=$(gfortran -dumpfullversion | awk '{print$1}')
+    export GPLUSPLUS_VERSION=$(g++ -dumpfullversion | awk '{print$1}')
 
-  echo " "
-  #############################JasPer############################
+    export GCC_VERSION_MAJOR_VERSION=$(echo $GCC_VERSION | awk -F. '{print $1}')
+    export GFORTRAN_VERSION_MAJOR_VERSION=$(echo $GFORTRAN_VERSION | awk -F. '{print $1}')
+    export GPLUSPLUS_VERSION_MAJOR_VERSION=$(echo $GPLUSPLUS_VERSION | awk -F. '{print $1}')
 
-  cd $WRF_FOLDER/Downloads
-  unzip jasper-1.900.1.zip
-  cd jasper-1.900.1/
-  autoreconf -i
-  ./configure --prefix=$DIR/grib2
-  make
-  make install
-  export JASPERLIB=$DIR/grib2/lib
-  export JASPERINC=$DIR/grib2/include
+    export version_10="10"
 
-  echo " "
-  #############################hdf5 library for netcdf4 functionality############################
+    if [ $GCC_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GFORTRAN_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GPLUSPLUS_VERSION_MAJOR_VERSION -ge $version_10 ]
+    then
+      export fallow_argument=-fallow-argument-mismatch
+      export boz_argument=-fallow-invalid-boz
+    else
+      export fallow_argument=
+      export boz_argument=
+    fi
 
-  cd $WRF_FOLDER/Downloads
-  tar -xvzf hdf5-1_14_0.tar.gz
-  cd hdf5-hdf5-1_14_0
-  ./configure --prefix=$DIR/grib2 --with-zlib=$DIR/grib2 --enable-hl --enable-fortran
-  make
-  make install
-  #make check
 
-  export HDF5=$DIR/grib2
-  export LD_LIBRARY_PATH=$DIR/grib2/lib:$LD_LIBRARY_PATH
+    export FFLAGS="$fallow_argument -m64"
+    export FCFLAGS="$fallow_argument -m64"
 
-  echo " "
-  ##############################Install NETCDF C Library############################
-  cd $WRF_FOLDER/Downloads
-  tar -xzvf v4.9.2.tar.gz
-  cd netcdf-c-4.9.2/
-  export CPPFLAGS=-I$DIR/grib2/include
-  export LDFLAGS=-L$DIR/grib2/lib
-  export LIBS="-lhdf5_hl -lhdf5 -lz -lcurl -lgfortran -lgcc -lm -ldl -lpnetcdf"
-  ./configure --prefix=$DIR/NETCDF --with-zlib=$DIR/grib2 --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-shared
-  make
-  make install
-  #make check
 
-  export PATH=$DIR/NETCDF/bin:$PATH
-  export NETCDF=$DIR/NETCDF
+    echo "##########################################"
+    echo "FFLAGS = $FFLAGS"
+    echo "FCFLAGS = $FCFLAGS"
+    echo "##########################################"
 
-  echo " "
-  ##############################NetCDF fortran library############################
 
-  cd $WRF_FOLDER/Downloads
-  tar -xvzf v4.6.0.tar.gz
-  cd netcdf-fortran-4.6.0/
-  export LD_LIBRARY_PATH=$DIR/NETCDF/lib:$LD_LIBRARY_PATH
-  export CPPFLAGS="-I$DIR/NETCDF/include -I$DIR/grib2/include"
-  export LDFLAGS="-L$DIR/NETCDF/lib -L$DIR/grib2/lib"
-  export LIBS="-lnetcdf -lm -lcurl -lhdf5_hl -lhdf5 -lz -ldl -lgcc -lgfortran -lm"
-  ./configure --prefix=$DIR/NETCDF --disable-shared
-  make
-  make install
-  #make check
+
+    echo " "
+
+      #############################zlib############################
+      #Uncalling compilers due to comfigure issue with zlib1.2.12
+      #With CC & CXX definied ./configure uses different compiler Flags
+
+      cd $WRF_FOLDER/Downloads
+      tar -xvzf v1.2.13.tar.gz
+      cd zlib-1.2.13/
+      ./configure --prefix=$DIR/grib2
+      make -j $CPU_HALF_EVEN
+      make -j $CPU_HALF_EVEN install 2>&1 | tee install.log
+      #make check
+
+      echo " "
+
+
+    ##############################MPICH############################
+    cd $WRF_FOLDER/Downloads
+    tar -xvzf mpich-4.1.2.tar.gz
+    cd mpich-4.1.2/
+    F90= ./configure --prefix=$DIR/MPICH --with-device=ch3 FFLAGS="$fallow_argument -m64" FCFLAGS="$fallow_argument -m64"
+
+    make -j $CPU_HALF_EVEN 2>&1 | tee install.log
+    make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
+    #make check
+
+
+    export PATH=$DIR/MPICH/bin:$PATH
+
+    export MPIFC=$DIR/MPICH/bin/mpifort
+    export MPIF77=$DIR/MPICH/bin/mpifort
+    export MPIF90=$DIR/MPICH/bin/mpifort
+    export MPICC=$DIR/MPICH/bin/mpicc
+    export MPICXX=$DIR/MPICH/bin/mpicxx
+
+
+    echo " "
+
+
+    #############################libpng############################
+      cd $WRF_FOLDER/Downloads
+      export LDFLAGS=-L$DIR/grib2/lib
+      export CPPFLAGS=-I$DIR/grib2/include
+      tar -xvzf libpng-1.6.39.tar.gz
+      cd libpng-1.6.39/
+      CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX ./configure --prefix=$DIR/grib2
+      make -j $CPU_HALF_EVEN
+      make -j $CPU_HALF_EVEN install 2>&1 | tee install.log
+      #make check
+
+
+      echo " "
+      #############################JasPer############################
+
+      cd $WRF_FOLDER/Downloads
+      unzip jasper-1.900.1.zip
+      cd jasper-1.900.1/
+      autoreconf -i
+      CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX ./configure --prefix=$DIR/grib2
+      make -j $CPU_HALF_EVEN
+      make -j $CPU_HALF_EVEN install 2>&1 | tee install.log
+      export JASPERLIB=$DIR/grib2/lib
+      export JASPERINC=$DIR/grib2/include
+
+      echo " "
+      #############################hdf5 library for netcdf4 functionality############################
+
+      cd $WRF_FOLDER/Downloads
+      tar -xvzf hdf5-1_14_1-2.tar.gz
+      cd hdf5-hdf5-1_14_1-2
+      CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX ./configure --prefix=$DIR/grib2 --with-zlib=$DIR/grib2 --enable-hl --enable-fortran --enable-parallel
+      make -j $CPU_HALF_EVEN
+      make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
+      #make check
+
+      export HDF5=$DIR/grib2
+      export PHDF5=$DIR/grib2
+      export LD_LIBRARY_PATH=$DIR/grib2/lib:$LD_LIBRARY_PATH
+
+      echo " "
+
+      #############################Install Parallel-netCDF##############################
+      #Make file created with half of available cpu cores
+      #Hard path for MPI added
+      ##################################################################################
+      cd $WRF_FOLDER/Downloads
+      tar -xvzf pnetcdf-1.12.3.tar.gz
+      cd pnetcdf-1.12.3
+      export MPIFC=$DIR/MPICH/bin/mpifort
+      export MPIF77=$DIR/MPICH/bin/mpifort
+      export MPIF90=$DIR/MPICH/bin/mpifort
+      export MPICC=$DIR/MPICH/bin/mpicc
+      export MPICXX=$DIR/MPICH/bin/mpicxx
+      ./configure --prefix=$DIR/grib2  --enable-shared --enable-static
+
+      make -j $CPU_HALF_EVEN
+      make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
+      #make check
+
+      export PNETCDF=$DIR/grib2
+
+
+
+
+      ##############################Install NETCDF C Library############################
+      cd $WRF_FOLDER/Downloads
+      tar -xzvf v4.9.2.tar.gz
+      cd netcdf-c-4.9.2/
+      export CPPFLAGS=-I$DIR/grib2/include
+      export LDFLAGS=-L$DIR/grib2/lib
+      export LIBS="-lhdf5_hl -lhdf5 -lz -lcurl -lgfortran -lgcc -lm -ldl -lpnetcdf"
+      CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-shared --enable-pnetcdf --enable-cdf5 --enable-parallel-tests
+      make -j $CPU_HALF_EVEN
+      make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
+      #make check
+
+      export PATH=$DIR/NETCDF/bin:$PATH
+      export NETCDF=$DIR/NETCDF
+      echo " "
+
+      ##############################NetCDF fortran library############################
+      cd $WRF_FOLDER/Downloads
+      tar -xvzf v4.6.0.tar.gz
+      cd netcdf-fortran-4.6.0/
+      export LD_LIBRARY_PATH=$DIR/NETCDF/lib:$LD_LIBRARY_PATH
+      export CPPFLAGS="-I$DIR/NETCDF/include -I$DIR/grib2/include"
+      export LDFLAGS="-L$DIR/NETCDF/lib -L$DIR/grib2/lib"
+      export LIBS="-lnetcdf -lpnetcdf -lcurl -lhdf5_hl -lhdf5 -lz -lm -ldl -lgcc -lgfortran"
+      CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-shared --enable-parallel-tests --enable-hdf5
+      make -j $CPU_HALF_EVEN
+      make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
+      #make check
+
+
+      echo " "
 
 
   #################################### System Environment Tests ##############
@@ -9502,23 +10259,24 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   ########### WRf-Python compiled via Conda  ##################
   ########### This is the preferred method by NCAR      ##################
   ##### https://wrf-python.readthedocs.io/en/latest/installation.html  ##################
+  conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
+
+
+  ######################### Climate Data Operators ############
+  ######################### CDO compiled via Conda ###########
+  ####################### This is the preferred method #######
+  ################### https://bairdlangenbrunner.github.io/python-for-climate-scientists/conda/setting-up-conda-environments.html #######################
+
   source $Miniconda_Install_DIR/etc/profile.d/conda.sh
   conda init bash
   conda activate base
-  conda create -n wrf-python -y
-  conda activate wrf-python
-  conda install -c conda-forge netcdf4=1.5.8 -y --freeze-installed
-  conda install -c conda-forge imageio=2.27.0 -y --freeze-installed
-  conda install -c conda-forge basemap=1.3.6 -y --freeze-installed
-  conda install -c conda-forge metpy=1.4.1 -y --freeze-installed
-  conda install -c conda-forge wrf-python=1.3.4.1 -y --freeze-installed
-
+  conda create --name cdo_stable -y
+  source activate cdo_stable
+  conda install -c conda-forge cdo -y
+  conda update --all -y
   conda deactivate
   conda deactivate
   conda deactivate
-
-  echo " "
-
 
   echo " "
   ############################ WRF 4.5  #################################
@@ -9587,7 +10345,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
         ./configure  #Option 19 gfortran compiler with distributed memory
     fi
 
-    ./compile | tee compile19.log
+    ./compile | tee compile.log
 
   # IF statement to check that all files were created.
    cd $WRF_FOLDER/WPS-4.5
@@ -9638,7 +10396,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
         ./configure  wrfplus  #Option 10 for gfortran/gcc and distribunted memory
     fi
 
-  ./compile wrfplus
+  ./compile wrfplus | tee compile.log
   export WRFPLUS_DIR=$WRF_FOLDER/WRFPLUS
 
   # IF statement to check that all files were created.
@@ -9692,7 +10450,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
     fi
 
 
-  ./compile  all_wrfvar
+  ./compile  all_wrfvar | tee compile.log
 
   # IF statement to check that all files were created.
    cd $WRF_FOLDER/WRFDA/var/da
@@ -9823,13 +10581,12 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 fi
 
 
-
 ################################################################
 ## HWRF installation with parallel process.
 # Download and install required library and data files for HWRF.
 # Tested in Ubuntu 20.04.5 LTS & Ubuntu 22.04 LTS
 # Built in 64-bit system
-# Tested with current available libraries on 01/01/2023
+# Tested with current available libraries on 03/01/2023
 # Intel compilers utilized
 # Compatibile only with WRF 4.3.3 & WPS 4.3.1 with NMM core
 # If newer libraries exist edit script paths for changes
@@ -9843,7 +10600,6 @@ fi
 # DTC's Julie P., Tara J., George M., & John H.
 # UCAR's Katelyn F., Jim B., Jordan P., Kevin M.,
 ##############################################################
-
 
 if [ "$HWRF_PICK" = "1" ]; then
 
@@ -9865,14 +10621,19 @@ if [ "$HWRF_PICK" = "1" ]; then
   echo $PASSWD | sudo -S apt -y update
 
   # necessary binary packages (especially pkg-config and build-essential)
-  echo $PASSWD | sudo -S apt -y install gcc gfortran g++ libtool automake autoconf make m4 default-jre default-jdk csh ksh python3 python3-dev python2 python2-dev mlocate curl cmake libxml2 libxml2-dev libcurl4-openssl-dev pkg-config build-essential
+  echo $PASSWD | sudo -S apt -y install autoconf automake bison build-essential byacc cmake csh curl default-jdk default-jre emacs flex g++ gawk gcc gfortran git ksh libcurl4-openssl-dev libjpeg-dev libncurses5 libncurses6 libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev m4 make mlocate ncview okular openbox pipenv pkg-config python2 python2-dev python3 python3-dev python3-pip tcsh unzip xauth xorg time
 
   # install the Intel compilers
-  echo $PASSWD | sudo -S apt -y install intel-basekit intel-hpckit intel-aikit
+  echo $PASSWD | sudo -S apt -y install intel-basekit
+  echo $PASSWD | sudo -S apt -y install intel-hpckit
+  echo $PASSWD | sudo -S apt -y install intel-oneapi-python
+
+
+
   echo $PASSWD | sudo -S apt -y update
 
   # make sure some critical packages have been installed
-  which cmake libxml2 libxml2-dev pkg-config make gcc g++
+  which cmake pkg-config make gcc g++
 
   # add the Intel compiler file paths to various environment variables
   source /opt/intel/oneapi/setvars.sh
@@ -9928,12 +10689,14 @@ if [ "$HWRF_PICK" = "1" ]; then
 
   cd Downloads
   wget -c -4 https://github.com/madler/zlib/archive/refs/tags/v1.2.13.tar.gz
-  wget -c -4 https://github.com/HDFGroup/hdf5/archive/refs/tags/hdf5-1_14_0.tar.gz
+  wget -c -4 https://github.com/HDFGroup/hdf5/archive/refs/tags/hdf5-1_14_1-2.tar.gz
   wget -c -4 https://github.com/Unidata/netcdf-c/archive/refs/tags/v4.9.2.tar.gz
   wget -c -4 https://github.com/Unidata/netcdf-fortran/archive/refs/tags/v4.6.0.tar.gz
   wget -c -4 https://download.sourceforge.net/libpng/libpng-1.6.39.tar.gz
   wget -c -4 https://www.ece.uvic.ca/~frodo/jasper/software/jasper-1.900.1.zip
-  wget -c -4 https://parallel-netcdf.github.io/Release/pnetcdf-1.12.3.tar.gz
+  wget -c -4 https://github.com/pmodels/mpich/releases/download/v4.1.2/mpich-4.1.2.tar.gz
+  wget -c -4  https://parallel-netcdf.github.io/Release/pnetcdf-1.12.3.tar.gz
+  wget -c -4 https://sourceforge.net/projects/opengrads/files/grads2/2.2.1.oga.1/Linux%20%2864%20Bits%29/opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz
   wget -c -4 https://github.com/Reference-LAPACK/lapack/archive/refs/tags/v3.10.1.tar.gz
 
   wget -c -4 https://dtcenter.org/sites/default/files/HWRF_v4.0a_hwrf-utilities.tar.gz
@@ -9952,9 +10715,9 @@ if [ "$HWRF_PICK" = "1" ]; then
   cd zlib-1.2.13/
 
   CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS="-fPIC -diag-disable=10441" ./configure --prefix=$DIR/grib2
-  make -j $CPU_HALF_EVEN | tee zlib.make.log
+  make -j $CPU_HALF_EVEN 2>&1 | tee zlib.make.log
   # make check | tee zlib.makecheck.log
-  make -j $CPU_HALF_EVEN install | tee zlib.makeinstall.log
+  make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log 2>&1 | tee zlib.makeinstall.log
 
   ############################# LibPNG ############################
 
@@ -9969,9 +10732,9 @@ if [ "$HWRF_PICK" = "1" ]; then
 
   CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS="-fPIC -diag-disable=10441" ./configure --prefix=$DIR/grib2
 
-  make -j $CPU_HALF_EVEN | tee libpng.make.log
+  make -j $CPU_HALF_EVEN 2>&1 | tee libpng.make.log
   #make -j $CPU_HALF_EVEN check | tee libpng.makecheck.log
-  make -j $CPU_HALF_EVEN install | tee libpng.makeinstall.log
+  make -j $CPU_HALF_EVEN install 2>&1 | tee libpng.makeinstall.log
 
   ############################# JasPer ############################
 
@@ -9981,9 +10744,9 @@ if [ "$HWRF_PICK" = "1" ]; then
 
   CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS="-fPIC -diag-disable=10441" ./configure --prefix=$DIR/grib2
 
-  make -j $CPU_HALF_EVEN | tee jasper.make.log
+  make -j $CPU_HALF_EVEN 2>&1 | tee jasper.make.log
   #make -j $CPU_HALF_EVEN check | tee jasper.makecheck.log
-  make -j $CPU_HALF_EVEN install | tee jasper.makeinstall.log
+  make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log 2>&1 2>&1 | tee jasper.makeinstall.log
 
   # other libraries below need these variables to be set
   export JASPERLIB=$DIR/grib2/lib
@@ -9992,14 +10755,14 @@ if [ "$HWRF_PICK" = "1" ]; then
   ############################# HDF5 library for NetCDF4 & parallel functionality ############################
 
   cd $HWRF_FOLDER/Downloads
-  tar -xvzf hdf5-1_14_0.tar.gz
-  cd hdf5-hdf5-1_14_0
+  tar -xvzf hdf5-1_14_1-2.tar.gz
+  cd hdf5-hdf5-1_14_1-2
 
   CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS="-fPIC -diag-disable=10441"  ./configure --prefix=$DIR/grib2 --with-zlib=$DIR/grib2 --enable-hl --enable-fortran --enable-parallel
 
-  make -j $CPU_HALF_EVEN | tee hdf5.make.log
+  make -j $CPU_HALF_EVEN 2>&1 | tee hdf5.make.log
   #make VERBOSE=1 -j $CPU_HALF_EVEN check | tee hdf5.makecheck.log
-  make -j $CPU_HALF_EVEN install | tee hdf5.makeinstall.log
+  make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log 2>&1 | tee hdf5.makeinstall.log
 
   # other libraries below need these variables to be set
   export HDF5=$DIR/grib2
@@ -10018,7 +10781,7 @@ if [ "$HWRF_PICK" = "1" ]; then
   make -j $CPU_HALF_EVEN | tee pnetcdf.make.log
   #make check | tee pnetcdf.makecheck.log
   #make ptests | tee ptests.log
-  make -j $CPU_HALF_EVEN install | tee pnetcdf.makeinstall.log
+  make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log 2>&1 | tee pnetcdf.makeinstall.log
 
   # other libraries below need these variables to be set
   export PNETCDF=$DIR/grib2
@@ -10037,9 +10800,9 @@ if [ "$HWRF_PICK" = "1" ]; then
   export LIBS="-lhdf5_hl -lhdf5 -lz -lcurl -lpnetcdf -lm -ldl"
 
   CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS="-fPIC -diag-disable=10441"  ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-pnetcdf --enable-parallel-tests | tee netcdf.configure.log
-  make -j $CPU_HALF_EVEN | tee netcdf.make.log
+  make -j $CPU_HALF_EVEN 2>&1 | tee netcdf.make.log
   #make check | tee netcdf.makecheck.log
-  make -j $CPU_HALF_EVEN install | tee netcdf.makeinstall.log
+  make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log 2>&1 | tee netcdf.makeinstall.log
 
   # other libraries below need these variables to be set
   export PATH=$DIR/NETCDF/bin:$PATH
@@ -10059,9 +10822,9 @@ if [ "$HWRF_PICK" = "1" ]; then
 
   CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS="-fPIC -diag-disable=10441"  ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-parallel-tests --enable-hdf5
 
-  make -j $CPU_HALF_EVEN | tee netcdf-f.make.log
+  make -j $CPU_HALF_EVEN 2>&1 | tee netcdf-f.make.log
   #make check | tee netcdf-f.makecheck.log
-  make -j $CPU_HALF_EVEN install | tee netcdf-f.makeinstall.log
+  make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log 2>&1 2>&1 | tee netcdf-f.makeinstall.log
 
   ############################ WRF 4.3.3 #################################
   ## WRF v4.3.3
@@ -10157,7 +10920,7 @@ if [ "$HWRF_PICK" = "1" ]; then
   cd lapack-3.10.1
   cp make.inc.example make.inc
 
-  # changing some variables and flags for the cmake libxml2 libxml2-dev build process
+  # changing some variables and flags for the cmake build process
   sed -i '9s/ gcc/ icc /g' make.inc
   sed -i '20s/ gfortran/ ifort /g' make.inc
   sed -i '21s/ -O2 -frecursive/  -O2/g' make.inc
@@ -10167,9 +10930,9 @@ if [ "$HWRF_PICK" = "1" ]; then
 
   mkdir build && cd build
 
-  # this library uses cmake libxml2 libxml2-dev instead of make to build itself
-  cmake libxml2 libxml2-dev -Dcmake libxml2 libxml2-dev_INSTALL_LIBDIR=$HWRF_FOLDER/Libs/LAPACK ..
-  cmake libxml2 libxml2-dev --build . -j $CPU_HALF_EVEN --target install
+  # this library uses cmake instead of make to build itself
+  cmake -DCMAKE_INSTALL_LIBDIR=$HWRF_FOLDER/Libs/LAPACK ..
+  cmake --build . -j $CPU_HALF_EVEN --target install
 
   # other libraries below need these variables to be set
   export LAPACK_DIR=$HWRF_FOLDER/Libs/LAPACK
@@ -10474,7 +11237,7 @@ if [ "$HWRF_PICK" = "1" ]; then
   tar -xvf topobath_30s.tar.bz2 -C $HWRF_FOLDER/GEOG/WPS_GEOG
 
   wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/gsl_gwd.tar.bz2
-  tar -xvf gsl_gwd.tar.gz -C $HWRF_FOLDER/GEOG/WPS_GEOG
+  tar -xvf gsl_gwd.tar.bz2 -C $HWRF_FOLDER/GEOG/WPS_GEOG
 
 
   # Optional WPS Geographical Input Data
@@ -10500,10 +11263,7 @@ if [ "$HWRF_PICK" = "1" ]; then
 
   echo "Congratulations! You've successfully installed all required files to run the Hurricane Weather Research Forecast (HWRF) Model verison 4.0a utilizing the intel compilers."
   echo "Thank you for using this script."
-
-
 fi
-
 
 ##########################  Export PATH and LD_LIBRARY_PATH ################################
 cd $HOME
@@ -10541,15 +11301,7 @@ while read -r -p "Would to append your exports to your terminal profile (bashrc)
   esac
 done
 
-
-
-
-
-
-
 #####################################BASH Script Finished##############################
-
-
 
 end=`date`
 END=$(date +"%s")
