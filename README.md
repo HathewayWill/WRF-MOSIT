@@ -9,7 +9,7 @@ This is a BASH script that provides options to install the following Weather Res
 ---
 ### System Requirements
 - 64-bit system
-    - Darwin (MacOS)
+    - Darwin (MacOS) Intel Chipset
     - Linux Debian Distro (Ubuntu, Mint, etc)
     - Windows Subsystem for Linux (Debian Distro, Ubuntu, Mint, etc)
     - CentOS based systems not supported
