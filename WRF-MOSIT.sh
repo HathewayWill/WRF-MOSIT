@@ -61,7 +61,7 @@ if [ "$SYSTEMBIT" = "64" ] && [ "$SYSTEMOS" = "MacOS" ]; then
   echo "Please enter password when prompted"
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
 
- (echo; echo 'eval "$(/usr/local/bin/brew shellenv)"') >> /Users/workhorse/.profile
+ (echo; echo 'eval "$(/usr/local/bin/brew shellenv)"') >> ~/.profile
  eval "$(/usr/local/bin/brew shellenv)"
 
  chsh -s /bin/bash
