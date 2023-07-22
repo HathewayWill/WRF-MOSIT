@@ -11268,41 +11268,7 @@ if [ "$HWRF_PICK" = "1" ]; then
   echo "Thank you for using this script."
 fi
 
-##########################  Export PATH and LD_LIBRARY_PATH ################################
-cd $HOME
 
-while read -r -p "Would to append your exports to your terminal profile (bashrc)?
-  This will allow users to execute all the programs installed in this script.
-
-  Please note that if users choose YES the user will not be able to install another WRF version in parallel with the one the user installed on the same system.
-
-  For example:  Users could not have WRF AND WRFCHEM installed if YES is chosen.
-  if NO is chosen then users could have WRF OR WRFCHEM installed on the same sytem if NO is chosen.
-
-  Please answer (Y/N) )and press enter (case sensative).
-  " yn; do
-
-    case $yn in
-    [Yy]* )
-      echo "-------------------------------------------------- "
-      echo " "
-      echo "Exporting to bashrc"
-      echo "export PATH=$DIR/bin:$PATH" >> ~/.bashrc
-      echo "export LD_LIBRARY_PATH=$DIR/lib:$LD_LIBRARY_PATH" >> ~/.bashrc
-      break
-      ;;
-    [Nn]* )
-      echo "-------------------------------------------------- "
-      echo " "
-      echo "Exports will NOT be added to bashrc"
-      break
-      ;;
-      * )
-     echo " "
-     echo "Please answer YES or NO (case sensative).";;
-
-  esac
-done
 
 #####################################BASH Script Finished##############################
 
