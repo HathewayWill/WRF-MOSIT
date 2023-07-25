@@ -5,7 +5,7 @@ START=$(date +"%s")
 
 ############################### Citation Requirement  ####################
 
-echo " "; echo " The GitHub software WRF-MOSIT (Version 1.4.0) by W. Hatheway (2023)"; echo " "; echo "It is important to note that any usage or publication that incorporates or references this software must include a proper citation to acknowledge the work of the author."; echo " "; echo "This is not only a matter of respect and academic integrity, but also a requirement set by the author. Please ensure to adhere to this guideline when using this software."; echo " "; echo "Citation: Hatheway, W. (2023). Weather Research & Forecasting Self Install Script (Version 1.4.0) [Computer software]"; echo " "; read -p "Press enter to continue"
+echo " "; echo " The GitHub software WRF-MOSIT (Version 1.4.1.2) by W. Hatheway (2023)"; echo " "; echo "It is important to note that any usage or publication that incorporates or references this software must include a proper citation to acknowledge the work of the author."; echo " "; echo "This is not only a matter of respect and academic integrity, but also a requirement set by the author. Please ensure to adhere to this guideline when using this software."; echo " "; echo "Citation: Hatheway, W. (2023). Weather Research & Forecasting Self Install Script (Version 1.4.0) [Computer software]"; echo " "; read -p "Press enter to continue"
 
 ############################### System Architecture Type #################
 # 32 or 64 bit
