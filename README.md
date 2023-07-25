@@ -20,11 +20,11 @@ This is a BASH script that provides options to install the following Weather Res
 - Libraries are manually installed in sub-folders utilizing either Intel or GNU Compilers.
     - Libraries installed with GNU compilers
         - zlib (1.2.13)
-        - MPICH (4.0.3)
+        - MPICH (4.1.2)
         - libpng (1.6.39)
         - JasPer (1.900.1)
-        - HDF5 (1.14.0)
-        - PHDF5 (1.14.0)
+        - HDF5 (1.14.1.2)
+        - PHDF5 (1.14.1.2)
         - Parallel-NetCDF (1.12.3)
         - NetCDF-C (4.9.2)
         - NetCDF-Fortran (4.6.0)
@@ -33,8 +33,8 @@ This is a BASH script that provides options to install the following Weather Res
         - zlib (1.2.13)
         - libpng (1.6.39)
         - JasPer (1.900.1)
-        - HDF5 (1.14.0)
-        - PHDF5 (1.14.0)
+        - HDF5 (1.14.1.2)
+        - PHDF5 (1.14.1.2)
         - Parallel-NetCDF (1.12.3)
         - NetCDF-C (4.9.2)
         - NetCDF-Fortran (4.6.0)
@@ -46,10 +46,10 @@ This is a BASH script that provides options to install the following Weather Res
 ---
 ### Software Packages
 - WRF
-    - WRF v4.5
-    - WPS v4.5
-    - WRF PLUS v4.5
-    - WRFDA 4DVAR v4.5    
+    - WRF v4.5.1
+    - WPS v4.5.1
+    - WRF PLUS v4.5.1
+    - WRFDA 4DVAR v4.5.1    
 - WRF-CHEM
     - WRF Chem w/KPP 4.5
     - WPS 4.5
@@ -58,8 +58,8 @@ This is a BASH script that provides options to install the following Weather Res
     - WRF-Hydro v5.2
 - WRF-Hydro Coupled
     - WRF-Hydro v5.2
-    - WRF v4.5
-    - WPS v4.5
+    - WRF v4.5.1
+    - WPS v4.5.1
 - Hurricane WRF (HWRF)
     - HWRF Utilities v4.0a
     - POMTC v4.0a
@@ -72,8 +72,8 @@ This is a BASH script that provides options to install the following Weather Res
 ---
 ### Pre/Post Processing Packages Installed
 - WRF
-    - Development Testbed Center (DTC) Model Evaluation Tools (MET) v11.0.0
-    - Development Testbed Center (DTC) Enhanced Model Evaluation Tools (METplus) v5.0.0
+    - Development Testbed Center (DTC) Model Evaluation Tools (MET) v11.0.2
+    - Development Testbed Center (DTC) Enhanced Model Evaluation Tools (METplus) v5.0.20
     - Development Testbed Center (DTC) Unified Post Processor (UPP) v4.1
     - ARWPost v3
     - WRF-Python (Conda installed)
@@ -81,8 +81,8 @@ This is a BASH script that provides options to install the following Weather Res
     - GrADS
     - NCAR Command Langauge (Conda installed)
 - WRF-CHEM
-    - Development Testbed Center (DTC) Model Evaluation Tools (MET) v11.0.0
-    - Development Testbed Center (DTC) Enhanced Model Evaluation Tools (METplus) v5.0.0
+    - Development Testbed Center (DTC) Model Evaluation Tools (MET) v11.0.2
+    - Development Testbed Center (DTC) Enhanced Model Evaluation Tools (METplus) v5.0.2
     - Development Testbed Center (DTC) Unified Post Processor (UPP) v4.1
     - ARWPost v3
     - WRF-Python (Conda installed)
@@ -103,11 +103,11 @@ This is a BASH script that provides options to install the following Weather Res
         - FINN
 
 - WRF-Hydro Standalone
-    - Development Testbed Center (DTC) Model Evaluation Tools (MET) v11.0.0
-    - Development Testbed Center (DTC) Enhanced Model Evaluation Tools (METplus) v5.0.0
+    - Development Testbed Center (DTC) Model Evaluation Tools (MET) v11.0.2
+    - Development Testbed Center (DTC) Enhanced Model Evaluation Tools (METplus) v5.0.2
 - WRF-Hydo Coupled
-    - Development Testbed Center (DTC) Model Evaluation Tools (MET) v11.0.0
-    - Development Testbed Center (DTC) Enhanced Model Evaluation Tools (METplus) v5.0.0
+    - Development Testbed Center (DTC) Model Evaluation Tools (MET) v11.0.2
+    - Development Testbed Center (DTC) Enhanced Model Evaluation Tools (METplus) v5.0.2
     - Development Testbed Center (DTC) Unified Post Processor (UPP) v4.1
     - ARWPost v3
     - WRF-Python (Conda installed)
@@ -116,8 +116,8 @@ This is a BASH script that provides options to install the following Weather Res
     - NCAR Command Langauge (Conda installed)
     - WRF-GIS-Preprocessor (Conda installed)
 - HWRF
-    - Development Testbed Center (DTC) Model Evaluation Tools (MET) v11.0.0
-    - Development Testbed Center (DTC) Enhanced Model Evaluation Tools (METplus) v5.0.0
+    - Development Testbed Center (DTC) Model Evaluation Tools (MET) v11.0.2
+    - Development Testbed Center (DTC) Enhanced Model Evaluation Tools (METplus) v5.0.2
     - Development Testbed Center (DTC) Unified Post Processor (UPP) v4.1
 ---
 ### Installation
@@ -151,7 +151,7 @@ This is a BASH script that provides options to install the following Weather Res
 
   ##### *** Tested on Ubuntu 20.04.5 LTS,  Ubuntu 22.04.1 LTS, MacOS Ventura, Windows Sub-Linux Ubuntu***
 - Built 64-bit system.
-- Tested with current available libraries on 01/01/2023, execptions have been noted in the script documentation.
+- Tested with current available libraries on 07/24/2023, execptions have been noted in the script documentation.
 ---
 
 ### Sponsorships and donations accepted but not required
@@ -174,7 +174,7 @@ Click here!
 - UCAR's Katelyn F., Jim B., Jordan P., Kevin M.,
 ---
 #### Citation:
-#### Hatheway, W. (2023). Weather Research & Forecasting Self Install Script (Version 1.4.0) [Computer software]
+#### Hatheway, W. (2023). Weather Research & Forecasting Self Install Script (Version 1.4.1.2) [Computer software]
 ---
 #### References:
 - Skamarock, W. C., J. B. Klemp, J. Dudhia, D. O. Gill, Z. Liu, J. Berner, W. Wang, J. G. Powers, M. G. Duda, D. M. Barker, and X.-Y. Huang, 2019: A Description of the Advanced Research WRF Version 4. NCAR Tech. Note NCAR/TN-556+STR, 145 pp. doi:10.5065/1dfh-6p97

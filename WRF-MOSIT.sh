@@ -511,11 +511,11 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$DTC_MET" = "1" ]; then
   #Downloading MET and untarring files
   #Note weblinks change often update as needed.
   cd $WRF_FOLDER/MET-11.0.2/Downloads
-  wget -c -4 https://raw.githubusercontent.com/dtcenter/MET/main_v11.0/internal/scripts/installation/compile_MET_all.sh
+  wget -c https://raw.githubusercontent.com/dtcenter/MET/main_v11.0/internal/scripts/installation/compile_MET_all.sh
 
-  wget -c -4 https://dtcenter.ucar.edu/dfiles/code/METplus/MET/installation/tar_files.tgz
+  wget -c https://dtcenter.ucar.edu/dfiles/code/METplus/MET/installation/tar_files.tgz
 
-  wget -c -4 https://github.com/dtcenter/MET/archive/refs/tags/v11.0.2.tar.gz
+  wget -c https://github.com/dtcenter/MET/archive/refs/tags/v11.0.2.tar.gz
 
 
   cp compile_MET_all.sh $WRF_FOLDER/MET-11.0.2
@@ -582,7 +582,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$DTC_MET" = "1" ]; then
  #Downloading METplus and untarring files
 
   cd $WRF_FOLDER/METplus-5.0.2/Downloads
-  wget -c -4 https://github.com/dtcenter/METplus/archive/refs/tags/v5.0.2.tar.gz
+  wget -c https://github.com/dtcenter/METplus/archive/refs/tags/v5.0.2.tar.gz
   tar -xvzf v5.0.2.tar.gz -C $WRF_FOLDER
 
 
@@ -598,7 +598,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$DTC_MET" = "1" ]; then
  # Downloading Sample Data
 
   cd $WRF_FOLDER/METplus-5.0.2/Downloads
-  wget -c -4 https://dtcenter.ucar.edu/dfiles/code/METplus/METplus_Data/v5.0/sample_data-met_tool_wrapper-5.0.tgz
+  wget -c https://dtcenter.ucar.edu/dfiles/code/METplus/METplus_Data/v5.0/sample_data-met_tool_wrapper-5.0.tgz
   tar -xvzf sample_data-met_tool_wrapper-5.0.tgz -C $WRF_FOLDER/METplus-5.0.2/Sample_Data
 
 
@@ -669,11 +669,11 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$DTC_MET" = "1" ]; then
   #Note weblinks change often update as needed.
   cd $WRF_FOLDER/MET-11.0.2/Downloads
 
-  wget -c -4 https://raw.githubusercontent.com/dtcenter/MET/main_v11.0/internal/scripts/installation/compile_MET_all.sh
+  wget -c https://raw.githubusercontent.com/dtcenter/MET/main_v11.0/internal/scripts/installation/compile_MET_all.sh
 
-  wget -c -4 https://dtcenter.ucar.edu/dfiles/code/METplus/MET/installation/tar_files.tgz
+  wget -c https://dtcenter.ucar.edu/dfiles/code/METplus/MET/installation/tar_files.tgz
 
-  wget -c -4 https://github.com/dtcenter/MET/archive/refs/tags/v11.0.2.tar.gz
+  wget -c https://github.com/dtcenter/MET/archive/refs/tags/v11.0.2.tar.gz
 
 
 
@@ -748,7 +748,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$DTC_MET" = "1" ]; then
  #Downloading METplus and untarring files
 
   cd $WRF_FOLDER/METplus-5.0.2/Downloads
-  wget -c -4 https://github.com/dtcenter/METplus/archive/refs/tags/v5.0.2.tar.gz
+  wget -c https://github.com/dtcenter/METplus/archive/refs/tags/v5.0.2.tar.gz
   tar -xvzf v5.0.2.tar.gz -C $WRF_FOLDER
 
 
@@ -764,7 +764,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$DTC_MET" = "1" ]; then
  # Downloading Sample Data
 
   cd $WRF_FOLDER/METplus-5.0.2/Downloads
-  wget -c -4 https://dtcenter.ucar.edu/dfiles/code/METplus/METplus_Data/v5.0/sample_data-met_tool_wrapper-5.0.tgz
+  wget -c https://dtcenter.ucar.edu/dfiles/code/METplus/METplus_Data/v5.0/sample_data-met_tool_wrapper-5.0.tgz
   tar -xvzf sample_data-met_tool_wrapper-5.0.tgz -C $WRF_FOLDER/METplus-5.0.2/Sample_Data
 
 
@@ -857,11 +857,11 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$DTC_MET" = "1" ]; then
 
   cd $WRF_FOLDER/MET-11.0.2/Downloads
 
- wget -c -4 https://raw.githubusercontent.com/dtcenter/MET/main_v11.0/internal/scripts/installation/compile_MET_all.sh
+ wget -c https://raw.githubusercontent.com/dtcenter/MET/main_v11.0/internal/scripts/installation/compile_MET_all.sh
 
-  wget -c -4 https://dtcenter.ucar.edu/dfiles/code/METplus/MET/installation/tar_files.tgz
+  wget -c https://dtcenter.ucar.edu/dfiles/code/METplus/MET/installation/tar_files.tgz
 
-  wget -c -4 https://github.com/dtcenter/MET/archive/refs/tags/v11.0.2.tar.gz
+  wget -c https://github.com/dtcenter/MET/archive/refs/tags/v11.0.2.tar.gz
 
   cp compile_MET_all.sh $WRF_FOLDER/MET-11.0.2
   tar -xvzf tar_files.tgz -C $WRF_FOLDER/MET-11.0.2
@@ -917,7 +917,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$DTC_MET" = "1" ]; then
  #Downloading METplus and untarring files
 
   cd $WRF_FOLDER/METplus-5.0.2/Downloads
-  wget -c -4 https://github.com/dtcenter/METplus/archive/refs/tags/v5.0.2.tar.gz
+  wget -c https://github.com/dtcenter/METplus/archive/refs/tags/v5.0.2.tar.gz
   tar -xvzf v5.0.2.tar.gz -C $WRF_FOLDER
 
 
@@ -933,7 +933,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$DTC_MET" = "1" ]; then
  # Downloading Sample Data
 
   cd $WRF_FOLDER/METplus-5.0.2/Downloads
-  wget -c -4 https://dtcenter.ucar.edu/dfiles/code/METplus/METplus_Data/v5.0/sample_data-met_tool_wrapper-5.0.tgz
+  wget -c https://dtcenter.ucar.edu/dfiles/code/METplus/METplus_Data/v5.0/sample_data-met_tool_wrapper-5.0.tgz
   tar -xvzf sample_data-met_tool_wrapper-5.0.tgz -C $WRF_FOLDER/METplus-5.0.2/Sample_Data
 
 
@@ -1036,13 +1036,13 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
   echo " "
 ##############################Downloading Libraries############################
   cd Downloads
-  wget -c -4 https://github.com/madler/zlib/archive/refs/tags/v1.2.13.tar.gz
-  wget -c -4 https://github.com/HDFGroup/hdf5/archive/refs/tags/hdf5-1_14_1-2.tar.gz
-  wget -c -4 https://github.com/Unidata/netcdf-c/archive/refs/tags/v4.9.2.tar.gz
-  wget -c -4 https://github.com/Unidata/netcdf-fortran/archive/refs/tags/v4.6.0.tar.gz
-  wget -c -4 https://github.com/pmodels/mpich/releases/download/v4.1.2/mpich-4.1.2.tar.gz
-  wget -c -4 https://download.sourceforge.net/libpng/libpng-1.6.39.tar.gz
-  wget -c -4 https://www.ece.uvic.ca/~frodo/jasper/software/jasper-1.900.1.zip
+  wget -c https://github.com/madler/zlib/archive/refs/tags/v1.2.13.tar.gz
+  wget -c https://github.com/HDFGroup/hdf5/archive/refs/tags/hdf5-1_14_1-2.tar.gz
+  wget -c https://github.com/Unidata/netcdf-c/archive/refs/tags/v4.9.2.tar.gz
+  wget -c https://github.com/Unidata/netcdf-fortran/archive/refs/tags/v4.6.0.tar.gz
+  wget -c https://github.com/pmodels/mpich/releases/download/v4.1.2/mpich-4.1.2.tar.gz
+  wget -c https://download.sourceforge.net/libpng/libpng-1.6.39.tar.gz
+  wget -c https://www.ece.uvic.ca/~frodo/jasper/software/jasper-1.900.1.zip
 
 
 
@@ -1240,8 +1240,8 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 
 
   cd $WRFHYDRO_FOLDER/Downloads
-  wget -c -4 https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_NETCDF_MPI_tests.tar
-  wget -c -4 https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_tests.tar
+  wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_NETCDF_MPI_tests.tar
+  wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_tests.tar
 
 
   tar -xvf Fortran_C_tests.tar -C $WRFHYDRO_FOLDER/Tests/Environment
@@ -1378,7 +1378,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
   ################################################################################
 
   cd $WRFHYDRO_FOLDER/Downloads
-  wget -c -4  https://github.com/NCAR/wrf_hydro_nwm_public/archive/refs/tags/v5.2.0.tar.gz -O WRFHYDRO.5.2.tar.gz
+  wget -c  https://github.com/NCAR/wrf_hydro_nwm_public/archive/refs/tags/v5.2.0.tar.gz -O WRFHYDRO.5.2.tar.gz
   tar -xvzf WRFHYDRO.5.2.tar.gz -C $WRFHYDRO_FOLDER/
 
 
@@ -1414,7 +1414,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 
   #Download test case for WRF HYDRO and move to NWM
   cd $WRFHYDRO_FOLDER/Downloads
-  wget -c -4  https://github.com/NCAR/wrf_hydro_nwm_public/releases/download/v5.2.0/croton_NY_training_example_v5.2.tar.gz
+  wget -c  https://github.com/NCAR/wrf_hydro_nwm_public/releases/download/v5.2.0/croton_NY_training_example_v5.2.tar.gz
   tar -xzvf croton_NY_training_example_v5.2.tar.gz
 
   cp -r example_case/FORCING $WRFHYDRO_FOLDER/domain/NWM
@@ -1435,15 +1435,19 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
   ########################### Test script for output data  ###################################
 
   #Installing Miniconda3 to WRF directory and updating libraries
+    pip install --upgrade --force-reinstall zstandard
+  pip install --upgrade --force-reinstall zstd
+  pip3 install --upgrade --force-reinstall zstandard
+  pip3 install --upgrade --force-reinstall zstd
   export Miniconda_Install_DIR=$WRFHYDRO_FOLDER/miniconda3
 
   mkdir -p $Miniconda_Install_DIR
 
 
   if [ "$Ubuntu_32bit_GNU" = "1" ]; then
-  wget -c -4 https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86.sh -O $Miniconda_Install_DIR/miniconda.sh
+  wget -c https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86.sh -O $Miniconda_Install_DIR/miniconda.sh
   else
-  wget -c -4 https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O $Miniconda_Install_DIR/miniconda.sh
+  wget -c https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O $Miniconda_Install_DIR/miniconda.sh
   fi
 
   bash $Miniconda_Install_DIR/miniconda.sh -b -u -p $Miniconda_Install_DIR
@@ -1593,15 +1597,15 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
     ##############################Downloading Libraries############################
 
     cd $WRFHYDRO_FOLDER/Downloads
-    wget -c -4 https://github.com/madler/zlib/archive/refs/tags/v1.2.13.tar.gz
-    wget -c -4 https://github.com/HDFGroup/hdf5/archive/refs/tags/hdf5-1_14_1-2.tar.gz
-    wget -c -4 https://github.com/Unidata/netcdf-c/archive/refs/tags/v4.9.2.tar.gz
-    wget -c -4 https://github.com/Unidata/netcdf-fortran/archive/refs/tags/v4.6.0.tar.gz
-    wget -c -4 https://download.sourceforge.net/libpng/libpng-1.6.39.tar.gz
-    wget -c -4 https://www.ece.uvic.ca/~frodo/jasper/software/jasper-1.900.1.zip
-    wget -c -4 https://github.com/pmodels/mpich/releases/download/v4.1.2/mpich-4.1.2.tar.gz
-    wget -c -4  https://parallel-netcdf.github.io/Release/pnetcdf-1.12.3.tar.gz
-    wget -c -4 https://sourceforge.net/projects/opengrads/files/grads2/2.2.1.oga.1/Linux%20%2864%20Bits%29/opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz
+    wget -c https://github.com/madler/zlib/archive/refs/tags/v1.2.13.tar.gz
+    wget -c https://github.com/HDFGroup/hdf5/archive/refs/tags/hdf5-1_14_1-2.tar.gz
+    wget -c https://github.com/Unidata/netcdf-c/archive/refs/tags/v4.9.2.tar.gz
+    wget -c https://github.com/Unidata/netcdf-fortran/archive/refs/tags/v4.6.0.tar.gz
+    wget -c https://download.sourceforge.net/libpng/libpng-1.6.39.tar.gz
+    wget -c https://www.ece.uvic.ca/~frodo/jasper/software/jasper-1.900.1.zip
+    wget -c https://github.com/pmodels/mpich/releases/download/v4.1.2/mpich-4.1.2.tar.gz
+    wget -c  https://parallel-netcdf.github.io/Release/pnetcdf-1.12.3.tar.gz
+    wget -c https://sourceforge.net/projects/opengrads/files/grads2/2.2.1.oga.1/Linux%20%2864%20Bits%29/opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz
 
 
 
@@ -1804,8 +1808,8 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 
 
   cd $WRFHYDRO_FOLDER/Downloads
-  wget -c -4 https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_NETCDF_MPI_tests.tar
-  wget -c -4 https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_tests.tar
+  wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_NETCDF_MPI_tests.tar
+  wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_tests.tar
 
 
   tar -xvf Fortran_C_tests.tar -C $WRFHYDRO_FOLDER/Tests/Environment
@@ -1941,7 +1945,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
   ################################################################################
 
   cd $WRFHYDRO_FOLDER/Downloads
-  wget -c -4  https://github.com/NCAR/wrf_hydro_nwm_public/archive/refs/tags/v5.2.0.tar.gz -O WRFHYDRO.5.2.tar.gz
+  wget -c  https://github.com/NCAR/wrf_hydro_nwm_public/archive/refs/tags/v5.2.0.tar.gz -O WRFHYDRO.5.2.tar.gz
   tar -xvzf WRFHYDRO.5.2.tar.gz -C $WRFHYDRO_FOLDER/
 
 
@@ -1977,7 +1981,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 
   #Download test case for WRF HYDRO and move to NWM
   cd $WRFHYDRO_FOLDER/Downloads
-  wget -c -4  https://github.com/NCAR/wrf_hydro_nwm_public/releases/download/v5.2.0/croton_NY_training_example_v5.2.tar.gz
+  wget -c  https://github.com/NCAR/wrf_hydro_nwm_public/releases/download/v5.2.0/croton_NY_training_example_v5.2.tar.gz
   tar -xzvf croton_NY_training_example_v5.2.tar.gz
 
   cp -r example_case/FORCING $WRFHYDRO_FOLDER/domain/NWM
@@ -2000,11 +2004,15 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
   ########################### Test script for output data  ###################################
 
   #Installing Miniconda3 to WRF directory and updating libraries
+    pip install --upgrade --force-reinstall zstandard
+  pip install --upgrade --force-reinstall zstd
+  pip3 install --upgrade --force-reinstall zstandard
+  pip3 install --upgrade --force-reinstall zstd
   export Miniconda_Install_DIR=$WRFHYDRO_FOLDER/miniconda3
 
   mkdir -p $Miniconda_Install_DIR
 
-  wget -c -4 https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh -O $Miniconda_Install_DIR/miniconda.sh
+  wget -c https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh -O $Miniconda_Install_DIR/miniconda.sh
   bash $Miniconda_Install_DIR/miniconda.sh -b -u -p $Miniconda_Install_DIR
 
   rm -rf $Miniconda_Install_DIR/miniconda.sh
@@ -2136,15 +2144,15 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; the
   echo " "
   ##############################Downloading Libraries############################
   cd Downloads
-  wget -c -4 https://github.com/madler/zlib/archive/refs/tags/v1.2.13.tar.gz
-  wget -c -4 https://github.com/HDFGroup/hdf5/archive/refs/tags/hdf5-1_14_1-2.tar.gz
-  wget -c -4 https://github.com/Unidata/netcdf-c/archive/refs/tags/v4.9.2.tar.gz
-  wget -c -4 https://github.com/Unidata/netcdf-fortran/archive/refs/tags/v4.6.0.tar.gz
-  wget -c -4 https://download.sourceforge.net/libpng/libpng-1.6.39.tar.gz
-  wget -c -4 https://www.ece.uvic.ca/~frodo/jasper/software/jasper-1.900.1.zip
-  wget -c -4 https://github.com/pmodels/mpich/releases/download/v4.1.2/mpich-4.1.2.tar.gz
-  wget -c -4  https://parallel-netcdf.github.io/Release/pnetcdf-1.12.3.tar.gz
-  wget -c -4 https://sourceforge.net/projects/opengrads/files/grads2/2.2.1.oga.1/Linux%20%2864%20Bits%29/opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz
+  wget -c https://github.com/madler/zlib/archive/refs/tags/v1.2.13.tar.gz
+  wget -c https://github.com/HDFGroup/hdf5/archive/refs/tags/hdf5-1_14_1-2.tar.gz
+  wget -c https://github.com/Unidata/netcdf-c/archive/refs/tags/v4.9.2.tar.gz
+  wget -c https://github.com/Unidata/netcdf-fortran/archive/refs/tags/v4.6.0.tar.gz
+  wget -c https://download.sourceforge.net/libpng/libpng-1.6.39.tar.gz
+  wget -c https://www.ece.uvic.ca/~frodo/jasper/software/jasper-1.900.1.zip
+  wget -c https://github.com/pmodels/mpich/releases/download/v4.1.2/mpich-4.1.2.tar.gz
+  wget -c  https://parallel-netcdf.github.io/Release/pnetcdf-1.12.3.tar.gz
+  wget -c https://sourceforge.net/projects/opengrads/files/grads2/2.2.1.oga.1/Linux%20%2864%20Bits%29/opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz
 
 
 
@@ -2258,8 +2266,8 @@ export PNETCDF=$DIR/grib2
 
 
   cd $WRFHYDRO_FOLDER/Downloads
-  wget -c -4 https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_NETCDF_MPI_tests.tar
-  wget -c -4 https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_tests.tar
+  wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_NETCDF_MPI_tests.tar
+  wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_tests.tar
 
 
   tar -xvf Fortran_C_tests.tar -C $WRFHYDRO_FOLDER/Tests/Environment
@@ -2396,7 +2404,7 @@ export PNETCDF=$DIR/grib2
   ################################################################################
 
   cd $WRFHYDRO_FOLDER/Downloads
-  wget -c -4  https://github.com/NCAR/wrf_hydro_nwm_public/archive/refs/tags/v5.2.0.tar.gz -O WRFHYDRO.5.2.tar.gz
+  wget -c  https://github.com/NCAR/wrf_hydro_nwm_public/archive/refs/tags/v5.2.0.tar.gz -O WRFHYDRO.5.2.tar.gz
   tar -xvzf WRFHYDRO.5.2.tar.gz -C $WRFHYDRO_FOLDER/
 
 
@@ -2436,7 +2444,7 @@ export PNETCDF=$DIR/grib2
 
   #Download test case for WRF HYDRO and move to NWM
   cd $WRFHYDRO_FOLDER/Downloads
-  wget -c -4  https://github.com/NCAR/wrf_hydro_nwm_public/releases/download/v5.2.0/croton_NY_training_example_v5.2.tar.gz
+  wget -c  https://github.com/NCAR/wrf_hydro_nwm_public/releases/download/v5.2.0/croton_NY_training_example_v5.2.tar.gz
   tar -xzvf croton_NY_training_example_v5.2.tar.gz
 
   cp -r example_case/FORCING $WRFHYDRO_FOLDER/domain/NWM
@@ -2457,12 +2465,16 @@ export PNETCDF=$DIR/grib2
   ########################### Test script for output data  ###################################
 
   #Installing Miniconda3 to WRF directory and updating libraries
+    pip install --upgrade --force-reinstall zstandard
+  pip install --upgrade --force-reinstall zstd
+  pip3 install --upgrade --force-reinstall zstandard
+  pip3 install --upgrade --force-reinstall zstd
   export Miniconda_Install_DIR=$WRFHYDRO_FOLDER/miniconda3
 
   mkdir -p $Miniconda_Install_DIR
 
 
-  wget -c -4 https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O $Miniconda_Install_DIR/miniconda.sh
+  wget -c https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O $Miniconda_Install_DIR/miniconda.sh
 
   bash $Miniconda_Install_DIR/miniconda.sh -b -u -p $Miniconda_Install_DIR
 
@@ -2583,15 +2595,15 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   echo " "
   ##############################Downloading Libraries############################
   cd Downloads
-  wget -c -4 https://github.com/madler/zlib/archive/refs/tags/v1.2.13.tar.gz
-  wget -c -4 https://github.com/HDFGroup/hdf5/archive/refs/tags/hdf5-1_14_1-2.tar.gz
-  wget -c -4 https://github.com/Unidata/netcdf-c/archive/refs/tags/v4.9.2.tar.gz
-  wget -c -4 https://github.com/Unidata/netcdf-fortran/archive/refs/tags/v4.6.0.tar.gz
-  wget -c -4 https://download.sourceforge.net/libpng/libpng-1.6.39.tar.gz
-  wget -c -4 https://www.ece.uvic.ca/~frodo/jasper/software/jasper-1.900.1.zip
-  wget -c -4 https://github.com/pmodels/mpich/releases/download/v4.1.2/mpich-4.1.2.tar.gz
-  wget -c -4  https://parallel-netcdf.github.io/Release/pnetcdf-1.12.3.tar.gz
-  wget -c -4 https://sourceforge.net/projects/opengrads/files/grads2/2.2.1.oga.1/Linux%20%2864%20Bits%29/opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz
+  wget -c https://github.com/madler/zlib/archive/refs/tags/v1.2.13.tar.gz
+  wget -c https://github.com/HDFGroup/hdf5/archive/refs/tags/hdf5-1_14_1-2.tar.gz
+  wget -c https://github.com/Unidata/netcdf-c/archive/refs/tags/v4.9.2.tar.gz
+  wget -c https://github.com/Unidata/netcdf-fortran/archive/refs/tags/v4.6.0.tar.gz
+  wget -c https://download.sourceforge.net/libpng/libpng-1.6.39.tar.gz
+  wget -c https://www.ece.uvic.ca/~frodo/jasper/software/jasper-1.900.1.zip
+  wget -c https://github.com/pmodels/mpich/releases/download/v4.1.2/mpich-4.1.2.tar.gz
+  wget -c  https://parallel-netcdf.github.io/Release/pnetcdf-1.12.3.tar.gz
+  wget -c https://sourceforge.net/projects/opengrads/files/grads2/2.2.1.oga.1/Linux%20%2864%20Bits%29/opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz
 
 
 
@@ -2764,8 +2776,8 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   #################################### System Environment Tests ##############
 
   cd $WRFHYDRO_FOLDER/Downloads
-  wget -c -4 https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_NETCDF_MPI_tests.tar
-  wget -c -4 https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_tests.tar
+  wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_NETCDF_MPI_tests.tar
+  wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_tests.tar
 
 
   tar -xvf Fortran_C_tests.tar -C $WRFHYDRO_FOLDER/Tests/Environment
@@ -3007,7 +3019,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   ##Configure #3
   ###################################################################
   cd $WRFHYDRO_FOLDER/Downloads
-  wget -c -4 http://www2.mmm.ucar.edu/wrf/src/ARWpost_V3.tar.gz
+  wget -c http://www2.mmm.ucar.edu/wrf/src/ARWpost_V3.tar.gz
   tar -xvzf ARWpost_V3.tar.gz -C $WRFHYDRO_FOLDER/
   cd $WRFHYDRO_FOLDER/ARWpost
   ./clean -a
@@ -3053,9 +3065,9 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   cd $WRFHYDRO_FOLDER/
   mv $WRFHYDRO_FOLDER/opengrads-2.2.1.oga.1  $WRFHYDRO_FOLDER/GrADS
   cd GrADS/Contents
-  wget -c -4 https://github.com/regisgrundig/SIMOP/blob/master/g2ctl.pl
+  wget -c https://github.com/regisgrundig/SIMOP/blob/master/g2ctl.pl
   chmod +x g2ctl.pl
-  wget -c -4 https://sourceforge.net/projects/opengrads/files/wgrib2/0.1.9.4/wgrib2-v0.1.9.4-bin-x86_64-glibc2.5-linux-gnu.tar.gz
+  wget -c https://sourceforge.net/projects/opengrads/files/wgrib2/0.1.9.4/wgrib2-v0.1.9.4-bin-x86_64-glibc2.5-linux-gnu.tar.gz
   tar -xzvf wgrib2-v0.1.9.4-bin-x86_64-glibc2.5-linux-gnu.tar.gz
   cd wgrib2-v0.1.9.4/bin
   mv wgrib2 $WRFHYDRO_FOLDER/GrADS/Contents
@@ -3073,12 +3085,15 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   ########### https://www.ncl.ucar.edu/index.shtml      ##################
 
   #Installing Miniconda3 to WRF-Hydro directory and updating libraries
-
+  pip install --upgrade --force-reinstall zstandard
+  pip install --upgrade --force-reinstall zstd
+  pip3 install --upgrade --force-reinstall zstandard
+  pip3 install --upgrade --force-reinstall zstd
   export Miniconda_Install_DIR=$WRFHYDRO_FOLDER/miniconda3
 
   mkdir -p $Miniconda_Install_DIR
 
-  wget -c -4 https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O $Miniconda_Install_DIR/miniconda.sh
+  wget -c https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O $Miniconda_Install_DIR/miniconda.sh
   bash $Miniconda_Install_DIR/miniconda.sh -b -u -p $Miniconda_Install_DIR
 
   rm -rf $Miniconda_Install_DIR/miniconda.sh
@@ -3182,7 +3197,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   ############################## RIP4 #####################################
   mkdir $WRFHYDRO_FOLDER/RIP4
   cd $WRFHYDRO_FOLDER/Downloads
-  wget -c -4 https://www2.mmm.ucar.edu/wrf/src/RIP_47.tar.gz
+  wget -c https://www2.mmm.ucar.edu/wrf/src/RIP_47.tar.gz
   tar -xvzf RIP_47.tar.gz -C $WRFHYDRO_FOLDER/RIP4
   cd $WRFHYDRO_FOLDER/RIP4/RIP_47
   mv * ..
@@ -3289,7 +3304,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   export NETCDF_LIB=$DIR/NETCDF/lib
   mkdir
   cd $WRFHYDRO_FOLDER/Downloads
-  wget -c -4 https://github.com/NCAR/wrf_hydro_nwm_public/archive/refs/tags/v5.2.0.tar.gz -O WRFHYDRO.5.2.tar.gz
+  wget -c https://github.com/NCAR/wrf_hydro_nwm_public/archive/refs/tags/v5.2.0.tar.gz -O WRFHYDRO.5.2.tar.gz
   tar -xvzf WRFHYDRO.5.2.tar.gz -C $WRFHYDRO_FOLDER/Hydro-Basecode
 
 
@@ -3332,37 +3347,37 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   # Note that you need set nocolons = .true. in the section &time_control of namelist.input
   ########################################################################
   cd $WRFHYDRO_FOLDER/Downloads
-  wget -c -4 https://github.com/wrf-model/WRF/releases/download/v4.5/v4.5.tar.gz -O WRF-4.5.tar.gz
-  tar -xvzf WRF-4.5.tar.gz -C $WRFHYDRO_FOLDER/
+  wget -c https://github.com/wrf-model/WRF/releases/download/v4.5.1/v4.5.1.tar.gz -O WRF-4.5.1.tar.gz
+  tar -xvzf WRF-4.5.1.tar.gz -C $WRFHYDRO_FOLDER/
 
     # If statment for changing folder name
   if [ -d "$WRFHYDRO_FOLDER/WRF" ]; then
-  mv -f $WRFHYDRO_FOLDER/WRF $WRFHYDRO_FOLDER/WRFV4.5
+  mv -f $WRFHYDRO_FOLDER/WRF $WRFHYDRO_FOLDER/WRFV4.5.1
   fi
 
-  cd $WRFHYDRO_FOLDER/WRFV4.5
+  cd $WRFHYDRO_FOLDER/WRFV4.5.1
   export WRFIO_NCD_LARGE_FILE_SUPPORT=1
 
   #Replace old version of WRF-Hydro distributed with WRF with updated WRF-Hydro source code
-  rm -r $WRFHYDRO_FOLDER/WRFV4.5/hydro/
-  cp -r $WRFHYDRO_FOLDER/Hydro-Basecode/wrf_hydro_nwm_public-5.2.0/trunk/NDHMS $WRFHYDRO_FOLDER/WRFV4.5/hydro
+  rm -r $WRFHYDRO_FOLDER/WRFV4.5.1/hydro/
+  cp -r $WRFHYDRO_FOLDER/Hydro-Basecode/wrf_hydro_nwm_public-5.2.0/trunk/NDHMS $WRFHYDRO_FOLDER/WRFV4.5.1/hydro
 
-  cd $WRFHYDRO_FOLDER/WRFV4.5/hydro
+  cd $WRFHYDRO_FOLDER/WRFV4.5.1/hydro
   source setEnvar.sh
-  cd $WRFHYDRO_FOLDER/WRFV4.5
+  cd $WRFHYDRO_FOLDER/WRFV4.5.1
 
   ./clean
 
   # SED statements to fix configure error
-  sed -i '186s/==/=/g' $WRFHYDRO_FOLDER/WRFV4.5/configure
-  sed -i '318s/==/=/g' $WRFHYDRO_FOLDER/WRFV4.5/configure
-  sed -i '919s/==/=/g' $WRFHYDRO_FOLDER/WRFV4.5/configure
+  sed -i '186s/==/=/g' $WRFHYDRO_FOLDER/WRFV4.5.1/configure
+  sed -i '318s/==/=/g' $WRFHYDRO_FOLDER/WRFV4.5.1/configure
+  sed -i '919s/==/=/g' $WRFHYDRO_FOLDER/WRFV4.5.1/configure
 
 
   if [ ${auto_config} -eq 1 ]
     then
-        sed -i '433s/.*/  $response = "34 \\n";/g' $WRFHYDRO_FOLDER/WRFV4.5/arch/Config.pl # Answer for compiler choice
-        sed -i '898s/.*/  $response = "1 \\n";/g' $WRFHYDRO_FOLDER/WRFV4.5/arch/Config.pl  #Answer for basic nesting
+        sed -i '433s/.*/  $response = "34 \\n";/g' $WRFHYDRO_FOLDER/WRFV4.5.1/arch/Config.pl # Answer for compiler choice
+        sed -i '898s/.*/  $response = "1 \\n";/g' $WRFHYDRO_FOLDER/WRFV4.5.1/arch/Config.pl  #Answer for basic nesting
         ./configure
     else
       ./configure  #Option 34 gfortran compiler with distributed memory option 1 for basic nesting
@@ -3370,10 +3385,10 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 
   ./compile -j $CPU_HALF_EVEN em_real 2>&1 | tee compile.log
 
-  export WRF_DIR=$WRFHYDRO_FOLDER/WRFV4.5
+  export WRF_DIR=$WRFHYDRO_FOLDER/WRFV4.5.1
 
   # IF statement to check that all files were created.
-  cd $WRFHYDRO_FOLDER/WRFV4.5/main
+  cd $WRFHYDRO_FOLDER/WRFV4.5.1/main
   n=$(ls ./*.exe | wc -l)
   if (($n >= 3))
    then
@@ -3393,7 +3408,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   ########################################################################
 
   cd $WRFHYDRO_FOLDER/Downloads
-  wget -c -4 https://github.com/wrf-model/WPS/archive/refs/tags/v4.5.tar.gz -O WPS-4.5.tar.gz
+  wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v4.5.tar.gz -O WPS-4.5.tar.gz
   tar -xvzf WPS-4.5.tar.gz -C $WRFHYDRO_FOLDER/
   cd $WRFHYDRO_FOLDER/WPS-4.5
   ./clean -a
@@ -3428,7 +3443,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 ################## WPS Domain Setup Tools ########################
   ## DomainWizard
   cd $WRFHYDRO_FOLDER/Downloads
-  wget -c -4 http://esrl.noaa.gov/gsd/wrfportal/domainwizard/WRFDomainWizard.zip
+  wget -c http://esrl.noaa.gov/gsd/wrfportal/domainwizard/WRFDomainWizard.zip
   mkdir $WRFHYDRO_FOLDER/WRFDomainWizard
   unzip WRFDomainWizard.zip -d $WRFHYDRO_FOLDER/WRFDomainWizard
   chmod +x $WRFHYDRO_FOLDER/WRFDomainWizard/run_DomainWizard
@@ -3437,7 +3452,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   ######################## WPF Portal Setup Tools ########################
   ## WRFPortal
   cd $WRFHYDRO_FOLDER/Downloads
-  wget -c -4 https://esrl.noaa.gov/gsd/wrfportal/portal/wrf-portal.zip
+  wget -c https://esrl.noaa.gov/gsd/wrfportal/portal/wrf-portal.zip
   mkdir $WRFHYDRO_FOLDER/WRFPortal
   unzip wrf-portal.zip -d $WRFHYDRO_FOLDER/WRFPortal
   chmod +x $WRFHYDRO_FOLDER/WRFPortal/runWRFPortal
@@ -3458,10 +3473,10 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   echo " "
   echo "Mandatory WRF Preprocessing System (WPS) Geographical Input Data Mandatory Fields Downloads"
   echo " "
-  wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_high_res_mandatory.tar.gz
+  wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_high_res_mandatory.tar.gz
   tar -xvzf geog_high_res_mandatory.tar.gz -C $WRFHYDRO_FOLDER/GEOG/
 
-  wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_low_res_mandatory.tar.gz
+  wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_low_res_mandatory.tar.gz
   tar -xvzf geog_low_res_mandatory.tar.gz -C $WRFHYDRO_FOLDER/GEOG/
   mv $WRFHYDRO_FOLDER/GEOG/WPS_GEOG_LOW_RES/ $WRFHYDRO_FOLDER/GEOG/WPS_GEOG
 
@@ -3470,32 +3485,32 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
       echo " "
       echo " WPS Geographical Input Data Mandatory for Specific Applications"
       echo " "
-      wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_thompson28_chem.tar.gz
+      wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_thompson28_chem.tar.gz
       tar -xvzf geog_thompson28_chem.tar.gz -C $WRFHYDRO_FOLDER/GEOG/WPS_GEOG
 
-      wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_noahmp.tar.gz
+      wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_noahmp.tar.gz
       tar -xvzf geog_noahmp.tar.gz -C $WRFHYDRO_FOLDER/GEOG/WPS_GEOG
 
-      wget -c -4  https://www2.mmm.ucar.edu/wrf/src/wps_files/irrigation.tar.gz
+      wget -c  https://www2.mmm.ucar.edu/wrf/src/wps_files/irrigation.tar.gz
       tar -xvzf irrigation.tar.gz -C $WRFHYDRO_FOLDER/GEOG/WPS_GEOG
 
-      wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_px.tar.gz
+      wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_px.tar.gz
       tar -xvzf geog_px.tar.gz -C $WRFHYDRO_FOLDER/GEOG/WPS_GEOG
 
-      wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_urban.tar.gz
+      wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_urban.tar.gz
       tar -xvzf geog_urban.tar.gz -C $WRFHYDRO_FOLDER/GEOG/WPS_GEOG
 
-      wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_ssib.tar.gz
+      wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_ssib.tar.gz
       tar -xvzf geog_ssib.tar.gz -C $WRFHYDRO_FOLDER/GEOG/WPS_GEOG
 
-      wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/lake_depth.tar.bz2
+      wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/lake_depth.tar.bz2
       tar -xvf lake_depth.tar.bz2 -C $WRFHYDRO_FOLDER/GEOG/WPS_GEOG
 
-      wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/topobath_30s.tar.bz2
+      wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/topobath_30s.tar.bz2
       tar -xvf topobath_30s.tar.bz2 -C $WRFHYDRO_FOLDER/GEOG/WPS_GEOG
 
 
-      wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/gsl_gwd.tar.bz2
+      wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/gsl_gwd.tar.bz2
       tar -xvf gsl_gwd.tar.gz -C $WRFHYDRO_FOLDER/GEOG/WPS_GEOG
       fi
 
@@ -3507,22 +3522,22 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
       echo " "
 
 
-      wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_older_than_2000.tar.gz
+      wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_older_than_2000.tar.gz
       tar -xvzf geog_older_than_2000.tar.gz -C $WRFHYDRO_FOLDER/GEOG/WPS_GEOG
 
-      wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s_with_lakes.tar.gz
+      wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s_with_lakes.tar.gz
       tar -xvzf modis_landuse_20class_15s_with_lakes.tar.gz -C $WRFHYDRO_FOLDER/GEOG/WPS_GEOG
 
-      wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_alt_lsm.tar.gz
+      wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_alt_lsm.tar.gz
       tar -xvzf geog_alt_lsm.tar.gz -C $WRFHYDRO_FOLDER/GEOG/WPS_GEOG
 
-      wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/nlcd2006_ll_9s.tar.bz2
+      wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/nlcd2006_ll_9s.tar.bz2
       tar -xvf nlcd2006_ll_9s.tar.bz2 -C $WRFHYDRO_FOLDER/GEOG/WPS_GEOG
 
-      wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/updated_Iceland_LU.tar.gz
+      wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/updated_Iceland_LU.tar.gz
       tar -xvf updated_Iceland_LU.tar.gz -C $WRFHYDRO_FOLDER/GEOG/WPS_GEOG
 
-      wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s.tar.bz2
+      wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s.tar.bz2
       tar -xvf modis_landuse_20class_15s.tar.bz2 -C $WRFHYDRO_FOLDER/GEOG/WPS_GEOG
 
 
@@ -3629,15 +3644,15 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   ############################## Downloading Libraries ############################
 
   cd $WRFHYDRO_FOLDER/Downloads
-  wget -c -4 https://github.com/madler/zlib/archive/refs/tags/v1.2.13.tar.gz
-  wget -c -4 https://github.com/HDFGroup/hdf5/archive/refs/tags/hdf5-1_14_1-2.tar.gz
-  wget -c -4 https://github.com/Unidata/netcdf-c/archive/refs/tags/v4.9.2.tar.gz
-  wget -c -4 https://github.com/Unidata/netcdf-fortran/archive/refs/tags/v4.6.0.tar.gz
-  wget -c -4 https://download.sourceforge.net/libpng/libpng-1.6.39.tar.gz
-  wget -c -4 https://www.ece.uvic.ca/~frodo/jasper/software/jasper-1.900.1.zip
-  wget -c -4 https://github.com/pmodels/mpich/releases/download/v4.1.2/mpich-4.1.2.tar.gz
-  wget -c -4  https://parallel-netcdf.github.io/Release/pnetcdf-1.12.3.tar.gz
-  wget -c -4 https://sourceforge.net/projects/opengrads/files/grads2/2.2.1.oga.1/Linux%20%2864%20Bits%29/opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz
+  wget -c https://github.com/madler/zlib/archive/refs/tags/v1.2.13.tar.gz
+  wget -c https://github.com/HDFGroup/hdf5/archive/refs/tags/hdf5-1_14_1-2.tar.gz
+  wget -c https://github.com/Unidata/netcdf-c/archive/refs/tags/v4.9.2.tar.gz
+  wget -c https://github.com/Unidata/netcdf-fortran/archive/refs/tags/v4.6.0.tar.gz
+  wget -c https://download.sourceforge.net/libpng/libpng-1.6.39.tar.gz
+  wget -c https://www.ece.uvic.ca/~frodo/jasper/software/jasper-1.900.1.zip
+  wget -c https://github.com/pmodels/mpich/releases/download/v4.1.2/mpich-4.1.2.tar.gz
+  wget -c  https://parallel-netcdf.github.io/Release/pnetcdf-1.12.3.tar.gz
+  wget -c https://sourceforge.net/projects/opengrads/files/grads2/2.2.1.oga.1/Linux%20%2864%20Bits%29/opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz
 
 
   echo " "
@@ -3778,8 +3793,8 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   #################################### System Environment Tests ##############
 
   cd $WRFHYDRO_FOLDER/Downloads
-  wget -c -4 https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_NETCDF_MPI_tests.tar
-  wget -c -4 https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_tests.tar
+  wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_NETCDF_MPI_tests.tar
+  wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_tests.tar
 
   tar -xvf Fortran_C_tests.tar -C $WRFHYDRO_FOLDER/Tests/Environment
   tar -xvf Fortran_C_NETCDF_MPI_tests.tar -C $WRFHYDRO_FOLDER/Tests/Compatibility
@@ -3988,7 +4003,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   ##Configure #3
   ###################################################################
   cd $WRFHYDRO_FOLDER/Downloads
-  wget -c -4 http://www2.mmm.ucar.edu/wrf/src/ARWpost_V3.tar.gz
+  wget -c http://www2.mmm.ucar.edu/wrf/src/ARWpost_V3.tar.gz
   tar -xvzf ARWpost_V3.tar.gz -C $WRFHYDRO_FOLDER
   cd $WRFHYDRO_FOLDER/ARWpost
   ./clean -a
@@ -4018,9 +4033,9 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   cd $WRFHYDRO_FOLDER/
   mv $WRFHYDRO_FOLDER/opengrads-2.2.1.oga.1  $WRFHYDRO_FOLDER/GrADS
   cd GrADS/Contents
-  wget -c -4 https://github.com/regisgrundig/SIMOP/blob/master/g2ctl.pl
+  wget -c https://github.com/regisgrundig/SIMOP/blob/master/g2ctl.pl
   chmod +x g2ctl.pl
-  wget -c -4 https://sourceforge.net/projects/opengrads/files/wgrib2/0.1.9.4/wgrib2-v0.1.9.4-bin-x86_64-glibc2.5-linux-gnu.tar.gz
+  wget -c https://sourceforge.net/projects/opengrads/files/wgrib2/0.1.9.4/wgrib2-v0.1.9.4-bin-x86_64-glibc2.5-linux-gnu.tar.gz
   tar -xzvf wgrib2-v0.1.9.4-bin-x86_64-glibc2.5-linux-gnu.tar.gz
   cd wgrib2-v0.1.9.4/bin
   mv wgrib2 $WRFHYDRO_FOLDER/GrADS/Contents
@@ -4052,12 +4067,15 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   ########### https://www.ncl.ucar.edu/index.shtml      ##################
   echo " "
   #Installing Miniconda3 to WRF directory and updating libraries
-
+  pip install --upgrade --force-reinstall zstandard
+  pip install --upgrade --force-reinstall zstd
+  pip3 install --upgrade --force-reinstall zstandard
+  pip3 install --upgrade --force-reinstall zstd
   export Miniconda_Install_DIR=$WRFHYDRO_FOLDER/miniconda3
 
   mkdir -p $Miniconda_Install_DIR
 
-  wget -c -4 https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O $Miniconda_Install_DIR/miniconda.sh
+  wget -c https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O $Miniconda_Install_DIR/miniconda.sh
   bash $Miniconda_Install_DIR/miniconda.sh -b -u -p $Miniconda_Install_DIR
 
   rm -rf $Miniconda_Install_DIR/miniconda.sh
@@ -4146,7 +4164,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   export NETCDF_LIB=$DIR/NETCDF/lib
   mkdir $WRFHYDRO_FOLDER/Hydro-Basecode
   cd $WRFHYDRO_FOLDER/Downloads
-  wget -c -4 https://github.com/NCAR/wrf_hydro_nwm_public/archive/refs/tags/v5.2.0.tar.gz -O WRFHYDRO.5.2.tar.gz
+  wget -c https://github.com/NCAR/wrf_hydro_nwm_public/archive/refs/tags/v5.2.0.tar.gz -O WRFHYDRO.5.2.tar.gz
   tar -xvzf WRFHYDRO.5.2.tar.gz -C $WRFHYDRO_FOLDER/Hydro-Basecode
 
 
@@ -4212,61 +4230,61 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 
   cd $WRFHYDRO_FOLDER/Downloads
 
-  wget -c -4 https://github.com/wrf-model/WRF/releases/download/v4.5/v4.5.tar.gz -O WRF-4.5.tar.gz
-  tar -xvzf WRF-4.5.tar.gz -C $WRFHYDRO_FOLDER/
+  wget -c https://github.com/wrf-model/WRF/releases/download/v4.5.1/v4.5.1.tar.gz -O WRF-4.5.1.tar.gz
+  tar -xvzf WRF-4.5.1.tar.gz -C $WRFHYDRO_FOLDER/
 
   # If statment for changing folder name
   if [ -d "$WRFHYDRO_FOLDER/WRF" ]; then
-  mv -f $WRFHYDRO_FOLDER/WRF $WRFHYDRO_FOLDER/WRFV4.5
+  mv -f $WRFHYDRO_FOLDER/WRF $WRFHYDRO_FOLDER/WRFV4.5.1
   fi
 
-  cd $WRFHYDRO_FOLDER/WRFV4.5
+  cd $WRFHYDRO_FOLDER/WRFV4.5.1
 
   export WRFIO_NCD_LARGE_FILE_SUPPORT=1
 
 
   #Replace old version of WRF-Hydro distributed with WRF with updated WRF-Hydro source code
-  rm -r $WRFHYDRO_FOLDER/WRFV4.5/hydro/
-  cp -r $WRFHYDRO_FOLDER/Hydro-Basecode/wrf_hydro_nwm_public-5.2.0/trunk/NDHMS $WRFHYDRO_FOLDER/WRFV4.5/hydro
+  rm -r $WRFHYDRO_FOLDER/WRFV4.5.1/hydro/
+  cp -r $WRFHYDRO_FOLDER/Hydro-Basecode/wrf_hydro_nwm_public-5.2.0/trunk/NDHMS $WRFHYDRO_FOLDER/WRFV4.5.1/hydro
 
-  cd $WRFHYDRO_FOLDER/WRFV4.5/hydro
+  cd $WRFHYDRO_FOLDER/WRFV4.5.1/hydro
   source setEnvar.sh
-  cd $WRFHYDRO_FOLDER/WRFV4.5
+  cd $WRFHYDRO_FOLDER/WRFV4.5.1
 
 
   ./clean
 
   # SED statements to fix configure error
-  sed -i '186s/==/=/g' $WRFHYDRO_FOLDER/WRFV4.5/configure
-  sed -i '318s/==/=/g' $WRFHYDRO_FOLDER/WRFV4.5/configure
-  sed -i '919s/==/=/g' $WRFHYDRO_FOLDER/WRFV4.5/configure
+  sed -i '186s/==/=/g' $WRFHYDRO_FOLDER/WRFV4.5.1/configure
+  sed -i '318s/==/=/g' $WRFHYDRO_FOLDER/WRFV4.5.1/configure
+  sed -i '919s/==/=/g' $WRFHYDRO_FOLDER/WRFV4.5.1/configure
 
 
 
   if [ ${auto_config} -eq 1 ]
     then
-        sed -i '433s/.*/  $response = "15 \\n";/g' $WRFHYDRO_FOLDER/WRFV4.5/arch/Config.pl # Answer for compiler choice
-        sed -i '898s/.*/  $response = "1 \\n";/g' $WRFHYDRO_FOLDER/WRFV4.5/arch/Config.pl  #Answer for basic nesting
+        sed -i '433s/.*/  $response = "15 \\n";/g' $WRFHYDRO_FOLDER/WRFV4.5.1/arch/Config.pl # Answer for compiler choice
+        sed -i '898s/.*/  $response = "1 \\n";/g' $WRFHYDRO_FOLDER/WRFV4.5.1/arch/Config.pl  #Answer for basic nesting
         ./configure
     else
       ./configure  #Option 15 intel compiler with distributed memory option 1 for basic nesting
   fi
 
 
-  sed -i '63s/mpif90/mpiifort/g' $WRFHYDRO_FOLDER/WRFV4.5/hydro/macros
+  sed -i '63s/mpif90/mpiifort/g' $WRFHYDRO_FOLDER/WRFV4.5.1/hydro/macros
   #Need to remove mpich/GNU config calls to Intel config calls
-  sed -i '169s|mpif90 -f90=$(SFC)|mpiifort|g' $WRFHYDRO_FOLDER/WRFV4.5/configure.wrf
-  sed -i '170s|mpicc -cc=$(SCC)|mpiicc|g' $WRFHYDRO_FOLDER/WRFV4.5/configure.wrf
+  sed -i '169s|mpif90 -f90=$(SFC)|mpiifort|g' $WRFHYDRO_FOLDER/WRFV4.5.1/configure.wrf
+  sed -i '170s|mpicc -cc=$(SCC)|mpiicc|g' $WRFHYDRO_FOLDER/WRFV4.5.1/configure.wrf
 
 
 
   ./compile -j $CPU_HALF_EVEN em_real 2>&1 | tee compile.log | tee em_real_intel.log
 
-  export WRF_DIR=$WRFHYDRO_FOLDER/WRFV4.5
+  export WRF_DIR=$WRFHYDRO_FOLDER/WRFV4.5.1
 
 
   # IF statement to check that all files were created.
-  cd $WRFHYDRO_FOLDER/WRFV4.5/main
+  cd $WRFHYDRO_FOLDER/WRFV4.5.1/main
   n=$(ls ./*.exe | wc -l)
   if (($n >= 3))
    then
@@ -4285,7 +4303,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   ########################################################################
 
   cd $WRFHYDRO_FOLDER/Downloads
-  wget -c -4 https://github.com/wrf-model/WPS/archive/refs/tags/v4.5.tar.gz -O WPS-4.5.tar.gz
+  wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v4.5.tar.gz -O WPS-4.5.tar.gz
   tar -xvzf WPS-4.5.tar.gz -C $WRFHYDRO_FOLDER/
   cd $WRFHYDRO_FOLDER/WPS-4.5
   ./clean -a
@@ -4322,7 +4340,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   ######################## WPS Domain Setup Tools ########################
   ## DomainWizard
   cd $WRFHYDRO_FOLDER/Downloads
-  wget -c -4 http://esrl.noaa.gov/gsd/wrfportal/domainwizard/WRFDomainWizard.zip
+  wget -c http://esrl.noaa.gov/gsd/wrfportal/domainwizard/WRFDomainWizard.zip
   mkdir $WRFHYDRO_FOLDER/WRFDomainWizard
   unzip WRFDomainWizard.zip -d $WRFHYDRO_FOLDER/WRFDomainWizard
   chmod +x $WRFHYDRO_FOLDER/WRFDomainWizard/run_DomainWizard
@@ -4331,7 +4349,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   ######################## WPF Portal Setup Tools ########################
   ## WRFPortal
   cd $WRFHYDRO_FOLDER/Downloads
-  wget -c -4 https://esrl.noaa.gov/gsd/wrfportal/portal/wrf-portal.zip
+  wget -c https://esrl.noaa.gov/gsd/wrfportal/portal/wrf-portal.zip
   mkdir $WRFHYDRO_FOLDER/WRFPortal
   unzip wrf-portal.zip -d $WRFHYDRO_FOLDER/WRFPortal
   chmod +x $WRFHYDRO_FOLDER/WRFPortal/runWRFPortal
@@ -4352,10 +4370,10 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   echo " "
   echo "Mandatory WRF Preprocessing System (WPS) Geographical Input Data Mandatory Fields Downloads"
   echo " "
-  wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_high_res_mandatory.tar.gz
+  wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_high_res_mandatory.tar.gz
   tar -xvzf geog_high_res_mandatory.tar.gz -C $WRFHYDRO_FOLDER/GEOG/
 
-  wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_low_res_mandatory.tar.gz
+  wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_low_res_mandatory.tar.gz
   tar -xvzf geog_low_res_mandatory.tar.gz -C $WRFHYDRO_FOLDER/GEOG/
   mv $WRFHYDRO_FOLDER/GEOG/WPS_GEOG_LOW_RES/ $WRFHYDRO_FOLDER/GEOG/WPS_GEOG
 
@@ -4366,31 +4384,31 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
       echo " WPS Geographical Input Data Mandatory for Specific Applications"
       echo " "
 
-      wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_thompson28_chem.tar.gz
+      wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_thompson28_chem.tar.gz
       tar -xvzf geog_thompson28_chem.tar.gz -C $WRFHYDRO_FOLDER/GEOG/WPS_GEOG
 
-      wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_noahmp.tar.gz
+      wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_noahmp.tar.gz
       tar -xvzf geog_noahmp.tar.gz -C $WRFHYDRO_FOLDER/GEOG/WPS_GEOG
 
-      wget -c -4  https://www2.mmm.ucar.edu/wrf/src/wps_files/irrigation.tar.gz
+      wget -c  https://www2.mmm.ucar.edu/wrf/src/wps_files/irrigation.tar.gz
       tar -xvzf irrigation.tar.gz -C $WRFHYDRO_FOLDER/GEOG/WPS_GEOG
 
-      wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_px.tar.gz
+      wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_px.tar.gz
       tar -xvzf geog_px.tar.gz -C $WRFHYDRO_FOLDER/GEOG/WPS_GEOG
 
-      wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_urban.tar.gz
+      wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_urban.tar.gz
       tar -xvzf geog_urban.tar.gz -C $WRFHYDRO_FOLDER/GEOG/WPS_GEOG
 
-      wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_ssib.tar.gz
+      wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_ssib.tar.gz
       tar -xvzf geog_ssib.tar.gz -C $WRFHYDRO_FOLDER/GEOG/WPS_GEOG
 
-      wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/lake_depth.tar.bz2
+      wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/lake_depth.tar.bz2
       tar -xvf lake_depth.tar.bz2 -C $WRFHYDRO_FOLDER/GEOG/WPS_GEOG
 
-      wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/topobath_30s.tar.bz2
+      wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/topobath_30s.tar.bz2
       tar -xvf topobath_30s.tar.bz2 -C $WRFHYDRO_FOLDER/GEOG/WPS_GEOG
 
-      wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/gsl_gwd.tar.bz2
+      wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/gsl_gwd.tar.bz2
       tar -xvf gsl_gwd.tar.gz -C $WRFHYDRO_FOLDER/GEOG/WPS_GEOG
   fi
 
@@ -4402,22 +4420,22 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
       echo " "
 
 
-      wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_older_than_2000.tar.gz
+      wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_older_than_2000.tar.gz
       tar -xvzf geog_older_than_2000.tar.gz -C $WRFHYDRO_FOLDER/GEOG/WPS_GEOG
 
-      wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s_with_lakes.tar.gz
+      wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s_with_lakes.tar.gz
       tar -xvzf modis_landuse_20class_15s_with_lakes.tar.gz -C $WRFHYDRO_FOLDER/GEOG/WPS_GEOG
 
-      wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_alt_lsm.tar.gz
+      wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_alt_lsm.tar.gz
       tar -xvzf geog_alt_lsm.tar.gz -C $WRFHYDRO_FOLDER/GEOG/WPS_GEOG
 
-      wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/nlcd2006_ll_9s.tar.bz2
+      wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/nlcd2006_ll_9s.tar.bz2
       tar -xvf nlcd2006_ll_9s.tar.bz2 -C $WRFHYDRO_FOLDER/GEOG/WPS_GEOG
 
-      wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/updated_Iceland_LU.tar.gz
+      wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/updated_Iceland_LU.tar.gz
       tar -xvf updated_Iceland_LU.tar.gz -C $WRFHYDRO_FOLDER/GEOG/WPS_GEOG
 
-      wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s.tar.bz2
+      wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s.tar.bz2
       tar -xvf modis_landuse_20class_15s.tar.bz2 -C $WRFHYDRO_FOLDER/GEOG/WPS_GEOG
   fi
 
@@ -4500,15 +4518,15 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
     ##############################Downloading Libraries############################
 
     cd $WRFHYDRO_FOLDER/Downloads
-    wget -c -4 https://github.com/madler/zlib/archive/refs/tags/v1.2.13.tar.gz
-    wget -c -4 https://github.com/HDFGroup/hdf5/archive/refs/tags/hdf5-1_14_1-2.tar.gz
-    wget -c -4 https://github.com/Unidata/netcdf-c/archive/refs/tags/v4.9.2.tar.gz
-    wget -c -4 https://github.com/Unidata/netcdf-fortran/archive/refs/tags/v4.6.0.tar.gz
-    wget -c -4 https://download.sourceforge.net/libpng/libpng-1.6.39.tar.gz
-    wget -c -4 https://www.ece.uvic.ca/~frodo/jasper/software/jasper-1.900.1.zip
-    wget -c -4 https://github.com/pmodels/mpich/releases/download/v4.1.2/mpich-4.1.2.tar.gz
-    wget -c -4  https://parallel-netcdf.github.io/Release/pnetcdf-1.12.3.tar.gz
-    wget -c -4 https://sourceforge.net/projects/opengrads/files/grads2/2.2.1.oga.1/Linux%20%2864%20Bits%29/opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz
+    wget -c https://github.com/madler/zlib/archive/refs/tags/v1.2.13.tar.gz
+    wget -c https://github.com/HDFGroup/hdf5/archive/refs/tags/hdf5-1_14_1-2.tar.gz
+    wget -c https://github.com/Unidata/netcdf-c/archive/refs/tags/v4.9.2.tar.gz
+    wget -c https://github.com/Unidata/netcdf-fortran/archive/refs/tags/v4.6.0.tar.gz
+    wget -c https://download.sourceforge.net/libpng/libpng-1.6.39.tar.gz
+    wget -c https://www.ece.uvic.ca/~frodo/jasper/software/jasper-1.900.1.zip
+    wget -c https://github.com/pmodels/mpich/releases/download/v4.1.2/mpich-4.1.2.tar.gz
+    wget -c  https://parallel-netcdf.github.io/Release/pnetcdf-1.12.3.tar.gz
+    wget -c https://sourceforge.net/projects/opengrads/files/grads2/2.2.1.oga.1/Linux%20%2864%20Bits%29/opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz
 
 
 
@@ -4710,8 +4728,8 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 
 
   cd $WRFHYDRO_FOLDER/Downloads
-  wget -c -4 https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_NETCDF_MPI_tests.tar
-  wget -c -4 https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_tests.tar
+  wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_NETCDF_MPI_tests.tar
+  wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_tests.tar
 
 
   tar -xvf Fortran_C_tests.tar -C $WRFHYDRO_FOLDER/Tests/Environment
@@ -4844,11 +4862,15 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 
 
   #Installing Miniconda3 to WRF directory and updating libraries
+    pip install --upgrade --force-reinstall zstandard
+  pip install --upgrade --force-reinstall zstd
+  pip3 install --upgrade --force-reinstall zstandard
+  pip3 install --upgrade --force-reinstall zstd
   export Miniconda_Install_DIR=$WRFHYDRO_FOLDER/miniconda3
 
   mkdir -p $Miniconda_Install_DIR
 
-  wget -c -4 https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh -O $Miniconda_Install_DIR/miniconda.sh
+  wget -c https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh -O $Miniconda_Install_DIR/miniconda.sh
   bash $Miniconda_Install_DIR/miniconda.sh -b -u -p $Miniconda_Install_DIR
 
   rm -rf $Miniconda_Install_DIR/miniconda.sh
@@ -4944,7 +4966,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 
 
   cd $WRFHYDRO_FOLDER/Downloads
-  wget -c -4 https://github.com/NCAR/wrf_hydro_nwm_public/archive/refs/tags/v5.2.0.tar.gz -O WRFHYDRO.5.2.tar.gz
+  wget -c https://github.com/NCAR/wrf_hydro_nwm_public/archive/refs/tags/v5.2.0.tar.gz -O WRFHYDRO.5.2.tar.gz
   tar -xvzf WRFHYDRO.5.2.tar.gz -C $WRFHYDRO_FOLDER/Hydro-Basecode
 
 
@@ -4977,33 +4999,33 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   ########################################################################
 
   cd $WRFHYDRO_FOLDER/Downloads
-  wget -c -4 https://github.com/wrf-model/WRF/releases/download/v4.5/v4.5.tar.gz -O WRF-4.5.tar.gz
-  tar -xvzf WRF-4.5.tar.gz -C $WRFHYDRO_FOLDER/
+  wget -c https://github.com/wrf-model/WRF/releases/download/v4.5.1/v4.5.1.tar.gz -O WRF-4.5.1.tar.gz
+  tar -xvzf WRF-4.5.1.tar.gz -C $WRFHYDRO_FOLDER/
 
   # If statment for changing folder name
   if [ -d "$WRFHYDRO_FOLDER/WRF" ]; then
-  mv -f $WRFHYDRO_FOLDER/WRF $WRFHYDRO_FOLDER/WRFV4.5
+  mv -f $WRFHYDRO_FOLDER/WRF $WRFHYDRO_FOLDER/WRFV4.5.1
   fi
 
-  cd $WRFHYDRO_FOLDER/WRFV4.5
+  cd $WRFHYDRO_FOLDER/WRFV4.5.1
   export WRFIO_NCD_LARGE_FILE_SUPPORT=1
 
 
   #Replace old version of WRF-Hydro distributed with WRF with updated WRF-Hydro source code
-  rm -r $WRFHYDRO_FOLDER/WRFV4.5/hydro/
-  cp -r $WRFHYDRO_FOLDER/Hydro-Basecode/wrf_hydro_nwm_public-5.2.0/trunk/NDHMS $WRFHYDRO_FOLDER/WRFV4.5/hydro
+  rm -r $WRFHYDRO_FOLDER/WRFV4.5.1/hydro/
+  cp -r $WRFHYDRO_FOLDER/Hydro-Basecode/wrf_hydro_nwm_public-5.2.0/trunk/NDHMS $WRFHYDRO_FOLDER/WRFV4.5.1/hydro
 
-  cd $WRFHYDRO_FOLDER/WRFV4.5/hydro
+  cd $WRFHYDRO_FOLDER/WRFV4.5.1/hydro
   source setEnvar.sh
-  cd $WRFHYDRO_FOLDER/WRFV4.5
+  cd $WRFHYDRO_FOLDER/WRFV4.5.1
 
 
   ./clean
 
   if [ ${auto_config} -eq 1 ]
     then
-        sed -i'' -e '433s/.*/  $response = "17 \\n";/g' $WRFHYDRO_FOLDER/WRFV4.5/arch/Config.pl # Answer for compiler choice
-        sed -i'' -e  '898s/.*/  $response = "1 \\n";/g' $WRFHYDRO_FOLDER/WRFV4.5/arch/Config.pl  #Answer for basic nesting
+        sed -i'' -e '433s/.*/  $response = "17 \\n";/g' $WRFHYDRO_FOLDER/WRFV4.5.1/arch/Config.pl # Answer for compiler choice
+        sed -i'' -e  '898s/.*/  $response = "1 \\n";/g' $WRFHYDRO_FOLDER/WRFV4.5.1/arch/Config.pl  #Answer for basic nesting
       ./configure
     else
     ./configure  #Option 17 gfortran compiler with distributed memory option 1 for basic nesting
@@ -5013,10 +5035,10 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 
   ./compile em_real
 
-  export WRF_DIR=$WRFHYDRO_FOLDER/WRFV4.5
+  export WRF_DIR=$WRFHYDRO_FOLDER/WRFV4.5.1
 
   # IF statement to check that all files were created.
-  cd $WRFHYDRO_FOLDER/WRFV4.5/main
+  cd $WRFHYDRO_FOLDER/WRFV4.5.1/main
   n=$(ls ./*.exe | wc -l)
   if (($n >= 3))
    then
@@ -5035,7 +5057,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   ########################################################################
 
   cd $WRFHYDRO_FOLDER/Downloads
-  wget -c -4 https://github.com/wrf-model/WPS/archive/refs/tags/v4.5.tar.gz -O WPS-4.5.tar.gz
+  wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v4.5.tar.gz -O WPS-4.5.tar.gz
   tar -xvzf WPS-4.5.tar.gz -C $WRFHYDRO_FOLDER/
   cd $WRFHYDRO_FOLDER/WPS-4.5
   ./clean -a
@@ -5098,10 +5120,10 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   echo " "
   echo "Mandatory WRF Preprocessing System (WPS) Geographical Input Data Mandatory Fields Downloads"
   echo " "
-  wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_high_res_mandatory.tar.gz
+  wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_high_res_mandatory.tar.gz
   tar -xvzf geog_high_res_mandatory.tar.gz -C $WRFHYDRO_FOLDER/GEOG/
 
-  wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_low_res_mandatory.tar.gz
+  wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_low_res_mandatory.tar.gz
   tar -xvzf geog_low_res_mandatory.tar.gz -C $WRFHYDRO_FOLDER/GEOG/
   mv $WRFHYDRO_FOLDER/GEOG/WPS_GEOG_LOW_RES/ $WRFHYDRO_FOLDER/GEOG/WPS_GEOG
 
@@ -5111,32 +5133,32 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
       echo " WPS Geographical Input Data Mandatory for Specific Applications"
       echo " "
 
-      wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_thompson28_chem.tar.gz
+      wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_thompson28_chem.tar.gz
       tar -xvzf geog_thompson28_chem.tar.gz -C $WRFHYDRO_FOLDER/GEOG/WPS_GEOG
 
-      wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_noahmp.tar.gz
+      wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_noahmp.tar.gz
       tar -xvzf geog_noahmp.tar.gz -C $WRFHYDRO_FOLDER/GEOG/WPS_GEOG
 
-      wget -c -4  https://www2.mmm.ucar.edu/wrf/src/wps_files/irrigation.tar.gz
+      wget -c  https://www2.mmm.ucar.edu/wrf/src/wps_files/irrigation.tar.gz
       tar -xvzf irrigation.tar.gz -C $WRFHYDRO_FOLDER/GEOG/WPS_GEOG
 
-      wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_px.tar.gz
+      wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_px.tar.gz
       tar -xvzf geog_px.tar.gz -C $WRFHYDRO_FOLDER/GEOG/WPS_GEOG
 
-      wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_urban.tar.gz
+      wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_urban.tar.gz
       tar -xvzf geog_urban.tar.gz -C $WRFHYDRO_FOLDER/GEOG/WPS_GEOG
 
-      wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_ssib.tar.gz
+      wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_ssib.tar.gz
       tar -xvzf geog_ssib.tar.gz -C $WRFHYDRO_FOLDER/GEOG/WPS_GEOG
 
-      wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/lake_depth.tar.bz2
+      wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/lake_depth.tar.bz2
       tar -xvf lake_depth.tar.bz2 -C $WRFHYDRO_FOLDER/GEOG/WPS_GEOG
 
-      wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/topobath_30s.tar.bz2
+      wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/topobath_30s.tar.bz2
       tar -xvf topobath_30s.tar.bz2 -C $WRFHYDRO_FOLDER/GEOG/WPS_GEOG
 
 
-      wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/gsl_gwd.tar.bz2
+      wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/gsl_gwd.tar.bz2
       tar -xvf gsl_gwd.tar.gz -C $WRFHYDRO_FOLDER/GEOG/WPS_GEOG
   fi
 
@@ -5148,22 +5170,22 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
       echo " "
 
 
-      wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_older_than_2000.tar.gz
+      wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_older_than_2000.tar.gz
       tar -xvzf geog_older_than_2000.tar.gz -C $WRFHYDRO_FOLDER/GEOG/WPS_GEOG
 
-      wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s_with_lakes.tar.gz
+      wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s_with_lakes.tar.gz
       tar -xvzf modis_landuse_20class_15s_with_lakes.tar.gz -C $WRFHYDRO_FOLDER/GEOG/WPS_GEOG
 
-      wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_alt_lsm.tar.gz
+      wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_alt_lsm.tar.gz
       tar -xvzf geog_alt_lsm.tar.gz -C $WRFHYDRO_FOLDER/GEOG/WPS_GEOG
 
-      wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/nlcd2006_ll_9s.tar.bz2
+      wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/nlcd2006_ll_9s.tar.bz2
       tar -xvf nlcd2006_ll_9s.tar.bz2 -C $WRFHYDRO_FOLDER/GEOG/WPS_GEOG
 
-      wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/updated_Iceland_LU.tar.gz
+      wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/updated_Iceland_LU.tar.gz
       tar -xvf updated_Iceland_LU.tar.gz -C $WRFHYDRO_FOLDER/GEOG/WPS_GEOG
 
-      wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s.tar.bz2
+      wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s.tar.bz2
       tar -xvf modis_landuse_20class_15s.tar.bz2 -C $WRFHYDRO_FOLDER/GEOG/WPS_GEOG
   fi
 
@@ -5236,15 +5258,15 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   echo " "
   ##############################Downloading Libraries############################
   cd Downloads
-  wget -c -4 https://github.com/madler/zlib/archive/refs/tags/v1.2.13.tar.gz
-  wget -c -4 https://github.com/HDFGroup/hdf5/archive/refs/tags/hdf5-1_14_1-2.tar.gz
-  wget -c -4 https://github.com/Unidata/netcdf-c/archive/refs/tags/v4.9.2.tar.gz
-  wget -c -4 https://github.com/Unidata/netcdf-fortran/archive/refs/tags/v4.6.0.tar.gz
-  wget -c -4 https://download.sourceforge.net/libpng/libpng-1.6.39.tar.gz
-  wget -c -4 https://www.ece.uvic.ca/~frodo/jasper/software/jasper-1.900.1.zip
-  wget -c -4 https://github.com/pmodels/mpich/releases/download/v4.1.2/mpich-4.1.2.tar.gz
-  wget -c -4  https://parallel-netcdf.github.io/Release/pnetcdf-1.12.3.tar.gz
-  wget -c -4 https://sourceforge.net/projects/opengrads/files/grads2/2.2.1.oga.1/Linux%20%2864%20Bits%29/opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz
+  wget -c https://github.com/madler/zlib/archive/refs/tags/v1.2.13.tar.gz
+  wget -c https://github.com/HDFGroup/hdf5/archive/refs/tags/hdf5-1_14_1-2.tar.gz
+  wget -c https://github.com/Unidata/netcdf-c/archive/refs/tags/v4.9.2.tar.gz
+  wget -c https://github.com/Unidata/netcdf-fortran/archive/refs/tags/v4.6.0.tar.gz
+  wget -c https://download.sourceforge.net/libpng/libpng-1.6.39.tar.gz
+  wget -c https://www.ece.uvic.ca/~frodo/jasper/software/jasper-1.900.1.zip
+  wget -c https://github.com/pmodels/mpich/releases/download/v4.1.2/mpich-4.1.2.tar.gz
+  wget -c  https://parallel-netcdf.github.io/Release/pnetcdf-1.12.3.tar.gz
+  wget -c https://sourceforge.net/projects/opengrads/files/grads2/2.2.1.oga.1/Linux%20%2864%20Bits%29/opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz
 
 
   echo " "
@@ -5422,8 +5444,8 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   #################################### System Environment Tests ##############
 
   cd $WRFCHEM_FOLDER/Downloads
-  wget -c -4 https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_NETCDF_MPI_tests.tar
-  wget -c -4 https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_tests.tar
+  wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_NETCDF_MPI_tests.tar
+  wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_tests.tar
 
 
   tar -xvf Fortran_C_tests.tar -C $WRFCHEM_FOLDER/Tests/Environment
@@ -5663,7 +5685,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   ##Configure #3
   ###################################################################
   cd $WRFCHEM_FOLDER/Downloads
-  wget -c -4 http://www2.mmm.ucar.edu/wrf/src/ARWpost_V3.tar.gz
+  wget -c http://www2.mmm.ucar.edu/wrf/src/ARWpost_V3.tar.gz
   tar -xvzf ARWpost_V3.tar.gz -C $WRFCHEM_FOLDER/
   cd $WRFCHEM_FOLDER/ARWpost
   ./clean -a
@@ -5712,9 +5734,9 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
     cd $WRFCHEM_FOLDER/
     mv $WRFCHEM_FOLDER/opengrads-2.2.1.oga.1  $WRFCHEM_FOLDER/GrADS
     cd GrADS/Contents
-    wget -c -4 https://github.com/regisgrundig/SIMOP/blob/master/g2ctl.pl
+    wget -c https://github.com/regisgrundig/SIMOP/blob/master/g2ctl.pl
     chmod +x g2ctl.pl
-    wget -c -4 https://sourceforge.net/projects/opengrads/files/wgrib2/0.1.9.4/wgrib2-v0.1.9.4-bin-i686-glib2.5-linux-gnu.tar.gz
+    wget -c https://sourceforge.net/projects/opengrads/files/wgrib2/0.1.9.4/wgrib2-v0.1.9.4-bin-i686-glib2.5-linux-gnu.tar.gz
     tar -xzvf wgrib2-v0.1.9.4-bin-i686-glib2.5-linux-gnu.tar.gz
     cd wgrib2-v0.1.9.4/bin
     mv wgrib2 $WRFCHEM_FOLDER/GrADS/Contents
@@ -5746,11 +5768,15 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   ########### https://www.ncl.ucar.edu/index.shtml      ##################
   echo " "
   #Installing Miniconda3 to WRF directory and updating libraries
+    pip install --upgrade --force-reinstall zstandard
+  pip install --upgrade --force-reinstall zstd
+  pip3 install --upgrade --force-reinstall zstandard
+  pip3 install --upgrade --force-reinstall zstd
   export Miniconda_Install_DIR=$WRFCHEM_FOLDER/miniconda3
 
   mkdir -p $Miniconda_Install_DIR
 
-  wget -c -4 https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O $Miniconda_Install_DIR/miniconda.sh
+  wget -c https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O $Miniconda_Install_DIR/miniconda.sh
   bash $Miniconda_Install_DIR/miniconda.sh -b -u -p $Miniconda_Install_DIR
 
   rm -rf $Miniconda_Install_DIR/miniconda.sh
@@ -5854,7 +5880,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   ############################## RIP4 #####################################
   mkdir $WRFCHEM_FOLDER/RIP4
   cd $WRFCHEM_FOLDER/Downloads
-  wget -c -4 https://www2.mmm.ucar.edu/wrf/src/RIP_47.tar.gz
+  wget -c https://www2.mmm.ucar.edu/wrf/src/RIP_47.tar.gz
   tar -xvzf RIP_47.tar.gz -C $WRFCHEM_FOLDER/RIP4
   cd $WRFCHEM_FOLDER/RIP4/RIP_47
   mv * ..
@@ -5947,19 +5973,19 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   ########################################################################
   cd $WRFCHEM_FOLDER/Downloads
   cd $WRFCHEM_FOLDER/Downloads
-  wget -c -4 https://github.com/wrf-model/WRF/releases/download/v4.5/v4.5.tar.gz -O WRF-4.5.tar.gz
+  wget -c https://github.com/wrf-model/WRF/releases/download/v4.5.1/v4.5.1.tar.gz -O WRF-4.5.1.tar.gz
   mkdir $WRFCHEM_FOLDER/WRFDA
-  tar -xvzf WRF-4.5.tar.gz -C $WRFCHEM_FOLDER/WRFDA
+  tar -xvzf WRF-4.5.1.tar.gz -C $WRFCHEM_FOLDER/WRFDA
 
   # If statment for changing folder name
   if [ -d "$WRFCHEM_FOLDER/WRFDA/WRF" ]; then
-  mv -f $WRFCHEM_FOLDER/WRFDA/WRF $WRFCHEM_FOLDER/WRFDA/WRFV4.5
+  mv -f $WRFCHEM_FOLDER/WRFDA/WRF $WRFCHEM_FOLDER/WRFDA/WRFV4.5.1
   fi
-    cd $WRFCHEM_FOLDER/WRFDA/WRFV4.5
+    cd $WRFCHEM_FOLDER/WRFDA/WRFV4.5.1
 
   mv * $WRFCHEM_FOLDER/WRFDA
   cd $WRFCHEM_FOLDER/WRFDA
-  rm -rf WRFV4.5/
+  rm -rf WRFV4.5.1/
   cd $WRFCHEM_FOLDER/WRFDA
 
   ulimit -s unlimited
@@ -6024,8 +6050,8 @@ sed -i '919s/==/=/g' $WRFCHEM_FOLDER/WRFDA/configure
   export YACC='/usr/bin/yacc -d'
   export FLEX=/usr/bin/flex
   export FLEX_LIB_DIR=/usr/lib/x86_64-linux-gnu/
-  export KPP_HOME=$WRFCHEM_FOLDER/WRFV4.5/chem/KPP/kpp/kpp-2.1
-  export WRF_SRC_ROOT_DIR=$WRFCHEM_FOLDER/WRFV4.5
+  export KPP_HOME=$WRFCHEM_FOLDER/WRFV4.5.1/chem/KPP/kpp/kpp-2.1
+  export WRF_SRC_ROOT_DIR=$WRFCHEM_FOLDER/WRFV4.5.1
   export PATH=$KPP_HOME/bin:$PATH
   export SED=/usr/bin/sed
   export WRFIO_NCD_LARGE_FILE_SUPPORT=1
@@ -6033,14 +6059,14 @@ sed -i '919s/==/=/g' $WRFCHEM_FOLDER/WRFDA/configure
   #Downloading WRF code
 
   cd $WRFCHEM_FOLDER/Downloads
-  wget -c -4 https://github.com/wrf-model/WRF/releases/download/v4.5/v4.5.tar.gz -O WRF-4.5.tar.gz
-  tar -xvzf WRF-4.5.tar.gz -C $WRFCHEM_FOLDER/
+  wget -c https://github.com/wrf-model/WRF/releases/download/v4.5.1/v4.5.1.tar.gz -O WRF-4.5.1.tar.gz
+  tar -xvzf WRF-4.5.1.tar.gz -C $WRFCHEM_FOLDER/
 
   # If statment for changing folder name
   if [ -d "$WRFCHEM_FOLDER/WRF" ]; then
-  mv -f $WRFCHEM_FOLDER/WRF $WRFCHEM_FOLDER/WRFV4.5
+  mv -f $WRFCHEM_FOLDER/WRF $WRFCHEM_FOLDER/WRFV4.5.1
   fi
-  cd $WRFCHEM_FOLDER/WRFV4.5
+  cd $WRFCHEM_FOLDER/WRFV4.5.1
 
   cd chem/KPP
   sed -i -e 's/="-O"/="-O0"/' configure_kpp
@@ -6053,8 +6079,8 @@ sed -i '919s/==/=/g' $WRFCHEM_FOLDER/WRFDA/configure
 
   if [ ${auto_config} -eq 1 ]
     then
-        sed -i '433s/.*/  $response = "34 \\n";/g' $WRFCHEM_FOLDER/WRFV4.5/arch/Config.pl # Answer for compiler choice
-        sed -i '898s/.*/  $response = "1 \\n";/g' $WRFCHEM_FOLDER/WRFV4.5/arch/Config.pl  #Answer for basic nesting
+        sed -i '433s/.*/  $response = "34 \\n";/g' $WRFCHEM_FOLDER/WRFV4.5.1/arch/Config.pl # Answer for compiler choice
+        sed -i '898s/.*/  $response = "1 \\n";/g' $WRFCHEM_FOLDER/WRFV4.5.1/arch/Config.pl  #Answer for basic nesting
         ./configure
     else
       ./configure  #Option 34 gfortran compiler with distributed memory option 1 for basic nesting
@@ -6064,9 +6090,9 @@ sed -i '919s/==/=/g' $WRFCHEM_FOLDER/WRFDA/configure
   ./compile -j $CPU_HALF_EVEN emi_conv 2>&1 | tee compile.emis.log
 
 
-  export WRF_DIR=$WRFCHEM_FOLDER/WRFV4.5
+  export WRF_DIR=$WRFCHEM_FOLDER/WRFV4.5.1
   # IF statement to check that all files were created.
-  cd $WRFCHEM_FOLDER/WRFV4.5/main
+  cd $WRFCHEM_FOLDER/WRFV4.5.1/main
   n=$(ls ./*.exe | wc -l)
   if (($n >= 3))
    then
@@ -6085,7 +6111,7 @@ sed -i '919s/==/=/g' $WRFCHEM_FOLDER/WRFDA/configure
   ########################################################################
 
   cd $WRFCHEM_FOLDER/Downloads
-  wget -c -4 https://github.com/wrf-model/WPS/archive/refs/tags/v4.5.tar.gz -O WPS-4.5.tar.gz
+  wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v4.5.tar.gz -O WPS-4.5.tar.gz
   tar -xvzf WPS-4.5.tar.gz -C $WRFCHEM_FOLDER/
   cd $WRFCHEM_FOLDER/WPS-4.5
 
@@ -6122,7 +6148,7 @@ sed -i '919s/==/=/g' $WRFCHEM_FOLDER/WRFDA/configure
   ######################## WPS Domain Setup Tools ########################
   ## DomainWizard
   cd $WRFCHEM_FOLDER/Downloads
-  wget -c -4 http://esrl.noaa.gov/gsd/wrfportal/domainwizard/WRFDomainWizard.zip
+  wget -c http://esrl.noaa.gov/gsd/wrfportal/domainwizard/WRFDomainWizard.zip
   mkdir $WRFCHEM_FOLDER/WRFDomainWizard
   unzip WRFDomainWizard.zip -d $WRFCHEM_FOLDER/WRFDomainWizard
   chmod +x $WRFCHEM_FOLDER/WRFDomainWizard/run_DomainWizard
@@ -6131,7 +6157,7 @@ sed -i '919s/==/=/g' $WRFCHEM_FOLDER/WRFDA/configure
   ######################## WPF Portal Setup Tools ########################
   ## WRFPortal
   cd $WRFCHEM_FOLDER/Downloads
-  wget -c -4 https://esrl.noaa.gov/gsd/wrfportal/portal/wrf-portal.zip
+  wget -c https://esrl.noaa.gov/gsd/wrfportal/portal/wrf-portal.zip
   mkdir $WRFCHEM_FOLDER/WRFPortal
   unzip wrf-portal.zip -d $WRFCHEM_FOLDER/WRFPortal
   chmod +x $WRFCHEM_FOLDER/WRFPortal/runWRFPortal
@@ -6152,10 +6178,10 @@ sed -i '919s/==/=/g' $WRFCHEM_FOLDER/WRFDA/configure
   echo " "
   echo "Mandatory WRF Preprocessing System (WPS) Geographical Input Data Mandatory Fields Downloads"
   echo " "
-  wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_high_res_mandatory.tar.gz
+  wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_high_res_mandatory.tar.gz
   tar -xvzf geog_high_res_mandatory.tar.gz -C $WRFCHEM_FOLDER/GEOG/
 
-  wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_low_res_mandatory.tar.gz
+  wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_low_res_mandatory.tar.gz
   tar -xvzf geog_low_res_mandatory.tar.gz -C $WRFCHEM_FOLDER/GEOG/
   mv $WRFCHEM_FOLDER/GEOG/WPS_GEOG_LOW_RES/ $WRFCHEM_FOLDER/GEOG/WPS_GEOG
 
@@ -6164,31 +6190,31 @@ sed -i '919s/==/=/g' $WRFCHEM_FOLDER/WRFDA/configure
       echo " "
       echo " WPS Geographical Input Data Mandatory for Specific Applications"
       echo " "
-      wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_thompson28_chem.tar.gz
+      wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_thompson28_chem.tar.gz
       tar -xvzf geog_thompson28_chem.tar.gz -C $WRFCHEM_FOLDER/GEOG/WPS_GEOG
 
-      wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_noahmp.tar.gz
+      wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_noahmp.tar.gz
       tar -xvzf geog_noahmp.tar.gz -C $WRFCHEM_FOLDER/GEOG/WPS_GEOG
 
-      wget -c -4  https://www2.mmm.ucar.edu/wrf/src/wps_files/irrigation.tar.gz
+      wget -c  https://www2.mmm.ucar.edu/wrf/src/wps_files/irrigation.tar.gz
       tar -xvzf irrigation.tar.gz -C $WRFCHEM_FOLDER/GEOG/WPS_GEOG
 
-      wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_px.tar.gz
+      wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_px.tar.gz
       tar -xvzf geog_px.tar.gz -C $WRFCHEM_FOLDER/GEOG/WPS_GEOG
 
-      wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_urban.tar.gz
+      wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_urban.tar.gz
       tar -xvzf geog_urban.tar.gz -C $WRFCHEM_FOLDER/GEOG/WPS_GEOG
 
-      wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_ssib.tar.gz
+      wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_ssib.tar.gz
       tar -xvzf geog_ssib.tar.gz -C $WRFCHEM_FOLDER/GEOG/WPS_GEOG
 
-      wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/lake_depth.tar.bz2
+      wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/lake_depth.tar.bz2
       tar -xvf lake_depth.tar.bz2 -C $WRFCHEM_FOLDER/GEOG/WPS_GEOG
 
-      wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/topobath_30s.tar.bz2
+      wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/topobath_30s.tar.bz2
       tar -xvf topobath_30s.tar.bz2 -C $WRFCHEM_FOLDER/GEOG/WPS_GEOG
 
-      wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/gsl_gwd.tar.bz2
+      wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/gsl_gwd.tar.bz2
       tar -xvf gsl_gwd.tar.gz -C $WRFCHEM_FOLDER/GEOG/WPS_GEOG
   fi
 
@@ -6200,22 +6226,22 @@ sed -i '919s/==/=/g' $WRFCHEM_FOLDER/WRFDA/configure
       echo " "
 
 
-      wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_older_than_2000.tar.gz
+      wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_older_than_2000.tar.gz
       tar -xvzf geog_older_than_2000.tar.gz -C $WRFCHEM_FOLDER/GEOG/WPS_GEOG
 
-      wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s_with_lakes.tar.gz
+      wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s_with_lakes.tar.gz
       tar -xvzf modis_landuse_20class_15s_with_lakes.tar.gz -C $WRFCHEM_FOLDER/GEOG/WPS_GEOG
 
-      wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_alt_lsm.tar.gz
+      wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_alt_lsm.tar.gz
       tar -xvzf geog_alt_lsm.tar.gz -C $WRFCHEM_FOLDER/GEOG/WPS_GEOG
 
-      wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/nlcd2006_ll_9s.tar.bz2
+      wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/nlcd2006_ll_9s.tar.bz2
       tar -xvf nlcd2006_ll_9s.tar.bz2 -C $WRFCHEM_FOLDER/GEOG/WPS_GEOG
 
-      wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/updated_Iceland_LU.tar.gz
+      wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/updated_Iceland_LU.tar.gz
       tar -xvf updated_Iceland_LU.tar.gz -C $WRFCHEM_FOLDER/GEOG/WPS_GEOG
 
-      wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s.tar.bz2
+      wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s.tar.bz2
       tar -xvf modis_landuse_20class_15s.tar.bz2 -C $WRFCHEM_FOLDER/GEOG/WPS_GEOG
 
   fi
@@ -6320,15 +6346,15 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   ############################## Downloading Libraries ############################
 
   cd $WRFCHEM_FOLDER/Downloads
-  wget -c -4 https://github.com/madler/zlib/archive/refs/tags/v1.2.13.tar.gz
-  wget -c -4 https://github.com/HDFGroup/hdf5/archive/refs/tags/hdf5-1_14_1-2.tar.gz
-  wget -c -4 https://github.com/Unidata/netcdf-c/archive/refs/tags/v4.9.2.tar.gz
-  wget -c -4 https://github.com/Unidata/netcdf-fortran/archive/refs/tags/v4.6.0.tar.gz
-  wget -c -4 https://download.sourceforge.net/libpng/libpng-1.6.39.tar.gz
-  wget -c -4 https://www.ece.uvic.ca/~frodo/jasper/software/jasper-1.900.1.zip
-  wget -c -4 https://github.com/pmodels/mpich/releases/download/v4.1.2/mpich-4.1.2.tar.gz
-  wget -c -4  https://parallel-netcdf.github.io/Release/pnetcdf-1.12.3.tar.gz
-  wget -c -4 https://sourceforge.net/projects/opengrads/files/grads2/2.2.1.oga.1/Linux%20%2864%20Bits%29/opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz
+  wget -c https://github.com/madler/zlib/archive/refs/tags/v1.2.13.tar.gz
+  wget -c https://github.com/HDFGroup/hdf5/archive/refs/tags/hdf5-1_14_1-2.tar.gz
+  wget -c https://github.com/Unidata/netcdf-c/archive/refs/tags/v4.9.2.tar.gz
+  wget -c https://github.com/Unidata/netcdf-fortran/archive/refs/tags/v4.6.0.tar.gz
+  wget -c https://download.sourceforge.net/libpng/libpng-1.6.39.tar.gz
+  wget -c https://www.ece.uvic.ca/~frodo/jasper/software/jasper-1.900.1.zip
+  wget -c https://github.com/pmodels/mpich/releases/download/v4.1.2/mpich-4.1.2.tar.gz
+  wget -c  https://parallel-netcdf.github.io/Release/pnetcdf-1.12.3.tar.gz
+  wget -c https://sourceforge.net/projects/opengrads/files/grads2/2.2.1.oga.1/Linux%20%2864%20Bits%29/opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz
 
 
   echo " "
@@ -6456,8 +6482,8 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   #################################### System Environment Tests ##############
 
   cd $WRFCHEM_FOLDER/Downloads
-  wget -c -4 https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_NETCDF_MPI_tests.tar
-  wget -c -4 https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_tests.tar
+  wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_NETCDF_MPI_tests.tar
+  wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_tests.tar
 
   tar -xvf Fortran_C_tests.tar -C $WRFCHEM_FOLDER/Tests/Environment
   tar -xvf Fortran_C_NETCDF_MPI_tests.tar -C $WRFCHEM_FOLDER/Tests/Compatibility
@@ -6665,7 +6691,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   ##Configure #3
   ###################################################################
   cd $WRFCHEM_FOLDER/Downloads
-  wget -c -4 http://www2.mmm.ucar.edu/wrf/src/ARWpost_V3.tar.gz
+  wget -c http://www2.mmm.ucar.edu/wrf/src/ARWpost_V3.tar.gz
   tar -xvzf ARWpost_V3.tar.gz -C $WRF_FOLDER
   cd $WRFCHEM_FOLDER/ARWpost
   ./clean -a
@@ -6694,9 +6720,9 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
     cd $WRFCHEM_FOLDER/
     mv $WRFCHEM_FOLDER/opengrads-2.2.1.oga.1  $WRFCHEM_FOLDER/GrADS
     cd GrADS/Contents
-    wget -c -4 https://github.com/regisgrundig/SIMOP/blob/master/g2ctl.pl
+    wget -c https://github.com/regisgrundig/SIMOP/blob/master/g2ctl.pl
     chmod +x g2ctl.pl
-    wget -c -4 https://sourceforge.net/projects/opengrads/files/wgrib2/0.1.9.4/wgrib2-v0.1.9.4-bin-x86_64-glibc2.5-linux-gnu.tar.gz
+    wget -c https://sourceforge.net/projects/opengrads/files/wgrib2/0.1.9.4/wgrib2-v0.1.9.4-bin-x86_64-glibc2.5-linux-gnu.tar.gz
     tar -xzvf wgrib2-v0.1.9.4-bin-x86_64-glibc2.5-linux-gnu.tar.gz
     cd wgrib2-v0.1.9.4/bin
     mv wgrib2 $WRFCHEM_FOLDER/GrADS/Contents
@@ -6726,12 +6752,15 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   ########### https://www.ncl.ucar.edu/index.shtml      ##################
   echo " "
   #Installing Miniconda3 to WRF directory and updating libraries
-
+  pip install --upgrade --force-reinstall zstandard
+  pip install --upgrade --force-reinstall zstd
+  pip3 install --upgrade --force-reinstall zstandard
+  pip3 install --upgrade --force-reinstall zstd
   export Miniconda_Install_DIR=$WRFCHEM_FOLDER/miniconda3
 
   mkdir -p $Miniconda_Install_DIR
 
-  wget -c -4 https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O $Miniconda_Install_DIR/miniconda.sh
+  wget -c https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O $Miniconda_Install_DIR/miniconda.sh
   bash $Miniconda_Install_DIR/miniconda.sh -b -u -p $Miniconda_Install_DIR
 
   rm -rf $Miniconda_Install_DIR/miniconda.sh
@@ -6801,17 +6830,17 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   ########################################################################
   cd $WRFCHEM_FOLDER/Downloads
   cd $WRFCHEM_FOLDER/Downloads
-  wget -c -4 https://github.com/wrf-model/WRF/releases/download/v4.5/v4.5.tar.gz -O WRF-4.5.tar.gz
+  wget -c https://github.com/wrf-model/WRF/releases/download/v4.5.1/v4.5.1.tar.gz -O WRF-4.5.1.tar.gz
   mkdir $WRFCHEM_FOLDER/WRFDA
-  tar -xvzf WRF-4.5.tar.gz -C $WRFCHEM_FOLDER/WRFDA
+  tar -xvzf WRF-4.5.1.tar.gz -C $WRFCHEM_FOLDER/WRFDA
   # If statment for changing folder name
   if [ -d "$WRFCHEM_FOLDER/WRFDA/WRF" ]; then
-  mv -f $WRFCHEM_FOLDER/WRFDA/WRF $WRFCHEM_FOLDER/WRFDA/WRFV4.5
+  mv -f $WRFCHEM_FOLDER/WRFDA/WRF $WRFCHEM_FOLDER/WRFDA/WRFV4.5.1
   fi
-    cd $WRFCHEM_FOLDER/WRFDA/WRFV4.5
+    cd $WRFCHEM_FOLDER/WRFDA/WRFV4.5.1
   mv * $WRFCHEM_FOLDER/WRFDA
   cd $WRFCHEM_FOLDER/WRFDA
-  rm -rf WRFV4.5/
+  rm -rf WRFV4.5.1/
   cd $WRFCHEM_FOLDER/WRFDA
 
   ulimit -s unlimited
@@ -6869,8 +6898,8 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   export YACC='/usr/bin/yacc -d'
   export FLEX=/usr/bin/flex
   export FLEX_LIB_DIR=/usr/lib/x86_64-linux-gnu/
-  export KPP_HOME=$WRFCHEM_FOLDER/WRFV4.5/chem/KPP/kpp/kpp-2.1
-  export WRF_SRC_ROOT_DIR=$WRFCHEM_FOLDER/WRFV4.5
+  export KPP_HOME=$WRFCHEM_FOLDER/WRFV4.5.1/chem/KPP/kpp/kpp-2.1
+  export WRF_SRC_ROOT_DIR=$WRFCHEM_FOLDER/WRFV4.5.1
   export PATH=$KPP_HOME/bin:$PATH
   export SED=/usr/bin/sed
   export WRFIO_NCD_LARGE_FILE_SUPPORT=1
@@ -6878,13 +6907,13 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 
 
   cd $WRFCHEM_FOLDER/Downloads
-  wget -c -4 https://github.com/wrf-model/WRF/releases/download/v4.5/v4.5.tar.gz -O WRF-4.5.tar.gz
-  tar -xvzf WRF-4.5.tar.gz -C $WRFCHEM_FOLDER/
+  wget -c https://github.com/wrf-model/WRF/releases/download/v4.5.1/v4.5.1.tar.gz -O WRF-4.5.1.tar.gz
+  tar -xvzf WRF-4.5.1.tar.gz -C $WRFCHEM_FOLDER/
   # If statment for changing folder name
   if [ -d "$WRFCHEM_FOLDER/WRF" ]; then
-  mv -f $WRFCHEM_FOLDER/WRF $WRFCHEM_FOLDER/WRFV4.5
+  mv -f $WRFCHEM_FOLDER/WRF $WRFCHEM_FOLDER/WRFV4.5.1
   fi
-  cd $WRFCHEM_FOLDER/WRFV4.5
+  cd $WRFCHEM_FOLDER/WRFV4.5.1
 
   cd chem/KPP
   sed -i -e 's/="-O"/="-O0"/' configure_kpp
@@ -6896,25 +6925,25 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 
   if [ ${auto_config} -eq 1 ]
     then
-        sed -i '433s/.*/  $response = "15 \\n";/g' $WRFCHEM_FOLDER/WRFV4.5/arch/Config.pl # Answer for compiler choice
-        sed -i '898s/.*/  $response = "1 \\n";/g' $WRFCHEM_FOLDER/WRFV4.5/arch/Config.pl  #Answer for basic nesting
+        sed -i '433s/.*/  $response = "15 \\n";/g' $WRFCHEM_FOLDER/WRFV4.5.1/arch/Config.pl # Answer for compiler choice
+        sed -i '898s/.*/  $response = "1 \\n";/g' $WRFCHEM_FOLDER/WRFV4.5.1/arch/Config.pl  #Answer for basic nesting
         ./configure
     else
       ./configure  #Option 15 intel compiler with distributed memory option 1 for basic nesting
   fi
 
   #Need to remove mpich/GNU config calls to Intel config calls
-  sed -i '169s|mpif90 -f90=$(SFC)|mpiifort|g' $WRFCHEM_FOLDER/WRFV4.5/configure.wrf
-  sed -i '170s|mpicc -cc=$(SCC)|mpiicc|g' $WRFCHEM_FOLDER/WRFV4.5/configure.wrf
+  sed -i '169s|mpif90 -f90=$(SFC)|mpiifort|g' $WRFCHEM_FOLDER/WRFV4.5.1/configure.wrf
+  sed -i '170s|mpicc -cc=$(SCC)|mpiicc|g' $WRFCHEM_FOLDER/WRFV4.5.1/configure.wrf
 
   ./compile -j $CPU_HALF_EVEN em_real 2>&1 | tee compile.log
   ./compile -j $CPU_HALF_EVEN emi_conv 2>&1 | tee compile.emis.log
 
-  export WRF_DIR=$WRFCHEM_FOLDER/WRFV4.5
+  export WRF_DIR=$WRFCHEM_FOLDER/WRFV4.5.1
 
 
   # IF statement to check that all files were created.
-  cd $WRFCHEM_FOLDER/WRFV4.5/main
+  cd $WRFCHEM_FOLDER/WRFV4.5.1/main
   n=$(ls ./*.exe | wc -l)
   if (($n >= 3))
    then
@@ -6933,7 +6962,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   ########################################################################
 
   cd $WRFCHEM_FOLDER/Downloads
-  wget -c -4 https://github.com/wrf-model/WPS/archive/refs/tags/v4.5.tar.gz -O WPS-4.5.tar.gz
+  wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v4.5.tar.gz -O WPS-4.5.tar.gz
   tar -xvzf WPS-4.5.tar.gz -C $WRFCHEM_FOLDER/
   cd $WRFCHEM_FOLDER/WPS-4.5
   ./clean -a
@@ -6970,7 +6999,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   ######################## WPS Domain Setup Tools ########################
   ## DomainWizard
   cd $WRFCHEM_FOLDER/Downloads
-  wget -c -4 http://esrl.noaa.gov/gsd/wrfportal/domainwizard/WRFDomainWizard.zip
+  wget -c http://esrl.noaa.gov/gsd/wrfportal/domainwizard/WRFDomainWizard.zip
   mkdir $WRFCHEM_FOLDER/WRFDomainWizard
   unzip WRFDomainWizard.zip -d $WRFCHEM_FOLDER/WRFDomainWizard
   chmod +x $WRFCHEM_FOLDER/WRFDomainWizard/run_DomainWizard
@@ -6979,7 +7008,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   ######################## WPF Portal Setup Tools ########################
   ## WRFPortal
   cd $WRFCHEM_FOLDER/Downloads
-  wget -c -4 https://esrl.noaa.gov/gsd/wrfportal/portal/wrf-portal.zip
+  wget -c https://esrl.noaa.gov/gsd/wrfportal/portal/wrf-portal.zip
   mkdir $WRFCHEM_FOLDER/WRFPortal
   unzip wrf-portal.zip -d $WRFCHEM_FOLDER/WRFPortal
   chmod +x $WRFCHEM_FOLDER/WRFPortal/runWRFPortal
@@ -7000,10 +7029,10 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   echo " "
   echo "Mandatory WRF Preprocessing System (WPS) Geographical Input Data Mandatory Fields Downloads"
   echo " "
-  wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_high_res_mandatory.tar.gz
+  wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_high_res_mandatory.tar.gz
   tar -xvzf geog_high_res_mandatory.tar.gz -C $WRFCHEM_FOLDER/GEOG/
 
-  wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_low_res_mandatory.tar.gz
+  wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_low_res_mandatory.tar.gz
   tar -xvzf geog_low_res_mandatory.tar.gz -C $WRFCHEM_FOLDER/GEOG/
   mv $WRFCHEM_FOLDER/GEOG/WPS_GEOG_LOW_RES/ $WRFCHEM_FOLDER/GEOG/WPS_GEOG
 
@@ -7014,31 +7043,31 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
       echo " WPS Geographical Input Data Mandatory for Specific Applications"
       echo " "
 
-      wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_thompson28_chem.tar.gz
+      wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_thompson28_chem.tar.gz
       tar -xvzf geog_thompson28_chem.tar.gz -C $WRFCHEM_FOLDER/GEOG/WPS_GEOG
 
-      wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_noahmp.tar.gz
+      wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_noahmp.tar.gz
       tar -xvzf geog_noahmp.tar.gz -C $WRFCHEM_FOLDER/GEOG/WPS_GEOG
 
-      wget -c -4  https://www2.mmm.ucar.edu/wrf/src/wps_files/irrigation.tar.gz
+      wget -c  https://www2.mmm.ucar.edu/wrf/src/wps_files/irrigation.tar.gz
       tar -xvzf irrigation.tar.gz -C $WRFCHEM_FOLDER/GEOG/WPS_GEOG
 
-      wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_px.tar.gz
+      wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_px.tar.gz
       tar -xvzf geog_px.tar.gz -C $WRFCHEM_FOLDER/GEOG/WPS_GEOG
 
-      wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_urban.tar.gz
+      wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_urban.tar.gz
       tar -xvzf geog_urban.tar.gz -C $WRFCHEM_FOLDER/GEOG/WPS_GEOG
 
-      wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_ssib.tar.gz
+      wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_ssib.tar.gz
       tar -xvzf geog_ssib.tar.gz -C $WRFCHEM_FOLDER/GEOG/WPS_GEOG
 
-      wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/lake_depth.tar.bz2
+      wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/lake_depth.tar.bz2
       tar -xvf lake_depth.tar.bz2 -C $WRFCHEM_FOLDER/GEOG/WPS_GEOG
 
-      wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/topobath_30s.tar.bz2
+      wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/topobath_30s.tar.bz2
       tar -xvf topobath_30s.tar.bz2 -C $WRFCHEM_FOLDER/GEOG/WPS_GEOG
 
-      wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/gsl_gwd.tar.bz2
+      wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/gsl_gwd.tar.bz2
       tar -xvf gsl_gwd.tar.gz -C $WRFCHEM_FOLDER/GEOG/WPS_GEOG
   fi
 
@@ -7049,22 +7078,22 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
       echo "Optional WPS Geographical Input Data"
       echo " "
 
-      wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_older_than_2000.tar.gz
+      wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_older_than_2000.tar.gz
       tar -xvzf geog_older_than_2000.tar.gz -C $WRFCHEM_FOLDER/GEOG/WPS_GEOG
 
-      wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s_with_lakes.tar.gz
+      wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s_with_lakes.tar.gz
       tar -xvzf modis_landuse_20class_15s_with_lakes.tar.gz -C $WRFCHEM_FOLDER/GEOG/WPS_GEOG
 
-      wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_alt_lsm.tar.gz
+      wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_alt_lsm.tar.gz
       tar -xvzf geog_alt_lsm.tar.gz -C $WRFCHEM_FOLDER/GEOG/WPS_GEOG
 
-      wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/nlcd2006_ll_9s.tar.bz2
+      wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/nlcd2006_ll_9s.tar.bz2
       tar -xvf nlcd2006_ll_9s.tar.bz2 -C $WRFCHEM_FOLDER/GEOG/WPS_GEOG
 
-      wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/updated_Iceland_LU.tar.gz
+      wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/updated_Iceland_LU.tar.gz
       tar -xvf updated_Iceland_LU.tar.gz -C $WRFCHEM_FOLDER/GEOG/WPS_GEOG
 
-      wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s.tar.bz2
+      wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s.tar.bz2
       tar -xvf modis_landuse_20class_15s.tar.bz2 -C $WRFCHEM_FOLDER/GEOG/WPS_GEOG
   fi
 
@@ -7146,15 +7175,15 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
     ##############################Downloading Libraries############################
 
     cd $WRFCHEM_FOLDER/Downloads
-    wget -c -4 https://github.com/madler/zlib/archive/refs/tags/v1.2.13.tar.gz
-    wget -c -4 https://github.com/HDFGroup/hdf5/archive/refs/tags/hdf5-1_14_1-2.tar.gz
-    wget -c -4 https://github.com/Unidata/netcdf-c/archive/refs/tags/v4.9.2.tar.gz
-    wget -c -4 https://github.com/Unidata/netcdf-fortran/archive/refs/tags/v4.6.0.tar.gz
-    wget -c -4 https://download.sourceforge.net/libpng/libpng-1.6.39.tar.gz
-    wget -c -4 https://www.ece.uvic.ca/~frodo/jasper/software/jasper-1.900.1.zip
-    wget -c -4 https://github.com/pmodels/mpich/releases/download/v4.1.2/mpich-4.1.2.tar.gz
-    wget -c -4  https://parallel-netcdf.github.io/Release/pnetcdf-1.12.3.tar.gz
-    wget -c -4 https://sourceforge.net/projects/opengrads/files/grads2/2.2.1.oga.1/Linux%20%2864%20Bits%29/opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz
+    wget -c https://github.com/madler/zlib/archive/refs/tags/v1.2.13.tar.gz
+    wget -c https://github.com/HDFGroup/hdf5/archive/refs/tags/hdf5-1_14_1-2.tar.gz
+    wget -c https://github.com/Unidata/netcdf-c/archive/refs/tags/v4.9.2.tar.gz
+    wget -c https://github.com/Unidata/netcdf-fortran/archive/refs/tags/v4.6.0.tar.gz
+    wget -c https://download.sourceforge.net/libpng/libpng-1.6.39.tar.gz
+    wget -c https://www.ece.uvic.ca/~frodo/jasper/software/jasper-1.900.1.zip
+    wget -c https://github.com/pmodels/mpich/releases/download/v4.1.2/mpich-4.1.2.tar.gz
+    wget -c  https://parallel-netcdf.github.io/Release/pnetcdf-1.12.3.tar.gz
+    wget -c https://sourceforge.net/projects/opengrads/files/grads2/2.2.1.oga.1/Linux%20%2864%20Bits%29/opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz
 
 
 
@@ -7357,8 +7386,8 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 
 
   cd $WRFCHEM_FOLDER/Downloads
-  wget -c -4 https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_NETCDF_MPI_tests.tar
-  wget -c -4 https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_tests.tar
+  wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_NETCDF_MPI_tests.tar
+  wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_tests.tar
 
 
   tar -xvf Fortran_C_tests.tar -C $WRFCHEM_FOLDER/Tests/Environment
@@ -7491,11 +7520,15 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 
 
   #Installing Miniconda3 to WRF directory and updating libraries
+    pip install --upgrade --force-reinstall zstandard
+  pip install --upgrade --force-reinstall zstd
+  pip3 install --upgrade --force-reinstall zstandard
+  pip3 install --upgrade --force-reinstall zstd
   export Miniconda_Install_DIR=$WRFCHEM_FOLDER/miniconda3
 
   mkdir -p $Miniconda_Install_DIR
 
-  wget -c -4 https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh -O $Miniconda_Install_DIR/miniconda.sh
+  wget -c https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh -O $Miniconda_Install_DIR/miniconda.sh
   bash $Miniconda_Install_DIR/miniconda.sh -b -u -p $Miniconda_Install_DIR
 
   rm -rf $Miniconda_Install_DIR/miniconda.sh
@@ -7588,14 +7621,14 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 
   #Downloading WRF code
   cd $WRFCHEM_FOLDER/Downloads
-  wget -c -4 https://github.com/wrf-model/WRF/releases/download/v4.5/v4.5.tar.gz -O WRF-4.5.tar.gz
-  tar -xvzf WRF-4.5.tar.gz -C $WRFCHEM_FOLDER/
+  wget -c https://github.com/wrf-model/WRF/releases/download/v4.5.1/v4.5.1.tar.gz -O WRF-4.5.1.tar.gz
+  tar -xvzf WRF-4.5.1.tar.gz -C $WRFCHEM_FOLDER/
 
   # If statment for changing folder name
   if [ -d "$WRFCHEM_FOLDER/WRF" ]; then
-  mv -f $WRFCHEM_FOLDER/WRF $WRFCHEM_FOLDER/WRFV4.5
+  mv -f $WRFCHEM_FOLDER/WRF $WRFCHEM_FOLDER/WRFV4.5.1
   fi
-  cd $WRFCHEM_FOLDER/WRFV4.5
+  cd $WRFCHEM_FOLDER/WRFV4.5.1
 
 
   ./clean -a
@@ -7603,23 +7636,23 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 
   if [ ${auto_config} -eq 1 ]
     then
-      sed -i'' -e '433s/.*/  $response = "17 \\n";/g' $WRFCHEM_FOLDER/WRFV4.5/arch/Config.pl # Answer for compiler choice
-      sed -i'' -e '898s/.*/  $response = "1 \\n";/g' $WRFCHEM_FOLDER/WRFV4.5/arch/Config.pl  #Answer for basic nesting
+      sed -i'' -e '433s/.*/  $response = "17 \\n";/g' $WRFCHEM_FOLDER/WRFV4.5.1/arch/Config.pl # Answer for compiler choice
+      sed -i'' -e '898s/.*/  $response = "1 \\n";/g' $WRFCHEM_FOLDER/WRFV4.5.1/arch/Config.pl  #Answer for basic nesting
       ./configure
     else
     ./configure  #Option 17 gfortran compiler with distributed memory option 1 for basic nesting
   fi
 
-  sed -i'' -e 's/-w  -c/-w  -c -fPIC -fPIE -O3 -Wno-implicit-function-declaration/g' $WRFCHEM_FOLDER/WRFV4.5/configure.wrf
+  sed -i'' -e 's/-w  -c/-w  -c -fPIC -fPIE -O3 -Wno-implicit-function-declaration/g' $WRFCHEM_FOLDER/WRFV4.5.1/configure.wrf
 
 
   ./compile em_real 2>&1 | tee compile.log
   ./compile emi_conv 2>&1 | tee compile.emis.log
 
-  export WRF_DIR=$WRFCHEM_FOLDER/WRFV4.5
+  export WRF_DIR=$WRFCHEM_FOLDER/WRFV4.5.1
 
   # IF statement to check that all files were created.
-  cd $WRFCHEM_FOLDER/WRFV4.5/main
+  cd $WRFCHEM_FOLDER/WRFV4.5.1/main
   n=$(ls ./*.exe | wc -l)
   if (($n >= 3))
     then
@@ -7638,7 +7671,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   ########################################################################
 
   cd $WRFCHEM_FOLDER/Downloads
-  wget -c -4 https://github.com/wrf-model/WPS/archive/refs/tags/v4.5.tar.gz -O WPS-4.5.tar.gz
+  wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v4.5.tar.gz -O WPS-4.5.tar.gz
   tar -xvzf WPS-4.5.tar.gz -C $WRFCHEM_FOLDER/
   cd $WRFCHEM_FOLDER/WPS-4.5
   ./clean -a
@@ -7676,17 +7709,17 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   ########################################################################
   cd $WRFCHEM_FOLDER/Downloads
   cd $WRFCHEM_FOLDER/Downloads
-  wget -c -4 https://github.com/wrf-model/WRF/releases/download/v4.5/v4.5.tar.gz -O WRF-4.5.tar.gz
+  wget -c https://github.com/wrf-model/WRF/releases/download/v4.5.1/v4.5.1.tar.gz -O WRF-4.5.1.tar.gz
   mkdir $WRFCHEM_FOLDER/WRFDA
-  tar -xvzf WRF-4.5.tar.gz -C $WRFCHEM_FOLDER/WRFDA
+  tar -xvzf WRF-4.5.1.tar.gz -C $WRFCHEM_FOLDER/WRFDA
   # If statment for changing folder name
   if [ -d "$WRFCHEM_FOLDER/WRFDA/WRF" ]; then
-  mv -f $WRFCHEM_FOLDER/WRFDA/WRF $WRFCHEM_FOLDER/WRFDA/WRFV4.5
+  mv -f $WRFCHEM_FOLDER/WRFDA/WRF $WRFCHEM_FOLDER/WRFDA/WRFV4.5.1
   fi
-    cd $WRFCHEM_FOLDER/WRFDA/WRFV4.5
+    cd $WRFCHEM_FOLDER/WRFDA/WRFV4.5.1
   mv * $WRFCHEM_FOLDER/WRFDA
   cd $WRFCHEM_FOLDER/WRFDA
-  rm -rf WRFV4.5/
+  rm -rf WRFV4.5.1/
   cd $WRFCHEM_FOLDER/WRFDA
 
   ulimit -s unlimited
@@ -7757,10 +7790,10 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   echo " "
   echo "Mandatory WRF Preprocessing System (WPS) Geographical Input Data Mandatory Fields Downloads"
   echo " "
-  wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_high_res_mandatory.tar.gz
+  wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_high_res_mandatory.tar.gz
   tar -xvzf geog_high_res_mandatory.tar.gz -C $WRFCHEM_FOLDER/GEOG/
 
-  wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_low_res_mandatory.tar.gz
+  wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_low_res_mandatory.tar.gz
   tar -xvzf geog_low_res_mandatory.tar.gz -C $WRFCHEM_FOLDER/GEOG/
   mv $WRFCHEM_FOLDER/GEOG/WPS_GEOG_LOW_RES/ $WRFCHEM_FOLDER/GEOG/WPS_GEOG
 
@@ -7771,32 +7804,32 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
       echo " WPS Geographical Input Data Mandatory for Specific Applications"
       echo " "
 
-      wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_thompson28_chem.tar.gz
+      wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_thompson28_chem.tar.gz
       tar -xvzf geog_thompson28_chem.tar.gz -C $WRFCHEM_FOLDER/GEOG/WPS_GEOG
 
-      wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_noahmp.tar.gz
+      wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_noahmp.tar.gz
       tar -xvzf geog_noahmp.tar.gz -C $WRFCHEM_FOLDER/GEOG/WPS_GEOG
 
-      wget -c -4  https://www2.mmm.ucar.edu/wrf/src/wps_files/irrigation.tar.gz
+      wget -c  https://www2.mmm.ucar.edu/wrf/src/wps_files/irrigation.tar.gz
       tar -xvzf irrigation.tar.gz -C $WRFCHEM_FOLDER/GEOG/WPS_GEOG
 
-      wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_px.tar.gz
+      wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_px.tar.gz
       tar -xvzf geog_px.tar.gz -C $WRFCHEM_FOLDER/GEOG/WPS_GEOG
 
-      wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_urban.tar.gz
+      wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_urban.tar.gz
       tar -xvzf geog_urban.tar.gz -C $WRFCHEM_FOLDER/GEOG/WPS_GEOG
 
-      wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_ssib.tar.gz
+      wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_ssib.tar.gz
       tar -xvzf geog_ssib.tar.gz -C $WRFCHEM_FOLDER/GEOG/WPS_GEOG
 
-      wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/lake_depth.tar.bz2
+      wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/lake_depth.tar.bz2
       tar -xvf lake_depth.tar.bz2 -C $WRFCHEM_FOLDER/GEOG/WPS_GEOG
 
-      wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/topobath_30s.tar.bz2
+      wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/topobath_30s.tar.bz2
       tar -xvf topobath_30s.tar.bz2 -C $WRFCHEM_FOLDER/GEOG/WPS_GEOG
 
 
-      wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/gsl_gwd.tar.bz2
+      wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/gsl_gwd.tar.bz2
       tar -xvf gsl_gwd.tar.gz -C $WRFCHEM_FOLDER/GEOG/WPS_GEOG
 
   fi
@@ -7809,22 +7842,22 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
       echo " "
 
 
-      wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_older_than_2000.tar.gz
+      wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_older_than_2000.tar.gz
       tar -xvzf geog_older_than_2000.tar.gz -C $WRFCHEM_FOLDER/GEOG/WPS_GEOG
 
-      wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s_with_lakes.tar.gz
+      wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s_with_lakes.tar.gz
       tar -xvzf modis_landuse_20class_15s_with_lakes.tar.gz -C $WRFCHEM_FOLDER/GEOG/WPS_GEOG
 
-      wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_alt_lsm.tar.gz
+      wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_alt_lsm.tar.gz
       tar -xvzf geog_alt_lsm.tar.gz -C $WRFCHEM_FOLDER/GEOG/WPS_GEOG
 
-      wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/nlcd2006_ll_9s.tar.bz2
+      wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/nlcd2006_ll_9s.tar.bz2
       tar -xvf nlcd2006_ll_9s.tar.bz2 -C $WRFCHEM_FOLDER/GEOG/WPS_GEOG
 
-      wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/updated_Iceland_LU.tar.gz
+      wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/updated_Iceland_LU.tar.gz
       tar -xvf updated_Iceland_LU.tar.gz -C $WRFCHEM_FOLDER/GEOG/WPS_GEOG
 
-      wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s.tar.bz2
+      wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s.tar.bz2
       tar -xvf modis_landuse_20class_15s.tar.bz2 -C $WRFCHEM_FOLDER/GEOG/WPS_GEOG
 
   fi
@@ -7902,15 +7935,15 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   ##############################Downloading Libraries############################
   #Force use of ipv4 with -4
   cd Downloads
-  wget -c -4 https://github.com/madler/zlib/archive/refs/tags/v1.2.13.tar.gz
-  wget -c -4 https://github.com/HDFGroup/hdf5/archive/refs/tags/hdf5-1_14_1-2.tar.gz
-  wget -c -4 https://github.com/Unidata/netcdf-c/archive/refs/tags/v4.9.2.tar.gz
-  wget -c -4 https://github.com/Unidata/netcdf-fortran/archive/refs/tags/v4.6.0.tar.gz
-  wget -c -4 https://download.sourceforge.net/libpng/libpng-1.6.39.tar.gz
-  wget -c -4 https://www.ece.uvic.ca/~frodo/jasper/software/jasper-1.900.1.zip
-  wget -c -4 https://github.com/pmodels/mpich/releases/download/v4.1.2/mpich-4.1.2.tar.gz
-  wget -c -4  https://parallel-netcdf.github.io/Release/pnetcdf-1.12.3.tar.gz
-  wget -c -4 https://sourceforge.net/projects/opengrads/files/grads2/2.2.1.oga.1/Linux%20%2864%20Bits%29/opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz
+  wget -c https://github.com/madler/zlib/archive/refs/tags/v1.2.13.tar.gz
+  wget -c https://github.com/HDFGroup/hdf5/archive/refs/tags/hdf5-1_14_1-2.tar.gz
+  wget -c https://github.com/Unidata/netcdf-c/archive/refs/tags/v4.9.2.tar.gz
+  wget -c https://github.com/Unidata/netcdf-fortran/archive/refs/tags/v4.6.0.tar.gz
+  wget -c https://download.sourceforge.net/libpng/libpng-1.6.39.tar.gz
+  wget -c https://www.ece.uvic.ca/~frodo/jasper/software/jasper-1.900.1.zip
+  wget -c https://github.com/pmodels/mpich/releases/download/v4.1.2/mpich-4.1.2.tar.gz
+  wget -c  https://parallel-netcdf.github.io/Release/pnetcdf-1.12.3.tar.gz
+  wget -c https://sourceforge.net/projects/opengrads/files/grads2/2.2.1.oga.1/Linux%20%2864%20Bits%29/opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz
 
 
 
@@ -8089,8 +8122,8 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   #################################### System Environment Tests ##############
 
   cd $WRF_FOLDER/Downloads
-  wget -c -4 https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_NETCDF_MPI_tests.tar
-  wget -c -4 https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_tests.tar
+  wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_NETCDF_MPI_tests.tar
+  wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_tests.tar
 
   tar -xvf Fortran_C_tests.tar -C $WRF_FOLDER/Tests/Environment
   tar -xvf Fortran_C_NETCDF_MPI_tests.tar -C $WRF_FOLDER/Tests/Compatibility
@@ -8344,7 +8377,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   ##Configure #3
   ###################################################################
   cd $WRF_FOLDER/Downloads
-  wget -c -4 http://www2.mmm.ucar.edu/wrf/src/ARWpost_V3.tar.gz
+  wget -c http://www2.mmm.ucar.edu/wrf/src/ARWpost_V3.tar.gz
   tar -xvzf ARWpost_V3.tar.gz -C $WRF_FOLDER/
   cd $WRF_FOLDER/ARWpost
   ./clean -a
@@ -8392,9 +8425,9 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
     cd $WRF_FOLDER/
     mv $WRF_FOLDER/opengrads-2.2.1.oga.1  $WRF_FOLDER/GrADS
     cd GrADS/Contents
-    wget -c -4 https://github.com/regisgrundig/SIMOP/blob/master/g2ctl.pl
+    wget -c https://github.com/regisgrundig/SIMOP/blob/master/g2ctl.pl
     chmod +x g2ctl.pl
-    wget -c -4 https://sourceforge.net/projects/opengrads/files/wgrib2/0.1.9.4/wgrib2-v0.1.9.4-bin-i686-glib2.5-linux-gnu.tar.gz
+    wget -c https://sourceforge.net/projects/opengrads/files/wgrib2/0.1.9.4/wgrib2-v0.1.9.4-bin-i686-glib2.5-linux-gnu.tar.gz
     tar -xzvf wgrib2-v0.1.9.4-bin-i686-glib2.5-linux-gnu.tar.gz
     cd wgrib2-v0.1.9.4/bin
     mv wgrib2 $WRF_FOLDER/GrADS/Contents
@@ -8425,11 +8458,15 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   ########### https://www.ncl.ucar.edu/index.shtml      ##################
   #Installing Miniconda3 to WRF-Hydro directory and updating libraries
 
+  pip install --upgrade --force-reinstall zstandard
+  pip install --upgrade --force-reinstall zstd
+  pip3 install --upgrade --force-reinstall zstandard
+  pip3 install --upgrade --force-reinstall zstd
   export Miniconda_Install_DIR=$WRF_FOLDER/miniconda3
 
   mkdir -p $Miniconda_Install_DIR
 
-  wget -c -4 https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O $Miniconda_Install_DIR/miniconda.sh
+  wget -c https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O $Miniconda_Install_DIR/miniconda.sh
   bash $Miniconda_Install_DIR/miniconda.sh -b -u -p $Miniconda_Install_DIR
 
   rm -rf $Miniconda_Install_DIR/miniconda.sh
@@ -8536,7 +8573,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   ############################## RIP4 #####################################
   mkdir $WRF_FOLDER/RIP4
   cd $WRF_FOLDER/Downloads
-  wget -c -4 https://www2.mmm.ucar.edu/wrf/src/RIP_47.tar.gz
+  wget -c https://www2.mmm.ucar.edu/wrf/src/RIP_47.tar.gz
   tar -xvzf RIP_47.tar.gz -C $WRF_FOLDER/RIP4
   cd $WRF_FOLDER/RIP4/RIP_47
   mv * ..
@@ -8614,15 +8651,15 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   # Note that you need set nocolons = .true. in the section &time_control of namelist.input
   ########################################################################
   cd $WRF_FOLDER/Downloads
-  wget -c -4 https://github.com/wrf-model/WRF/releases/download/v4.5/v4.5.tar.gz -O WRF-4.5.tar.gz
-  tar -xvzf WRF-4.5.tar.gz -C $WRF_FOLDER/
+  wget -c https://github.com/wrf-model/WRF/releases/download/v4.5.1/v4.5.1.tar.gz -O WRF-4.5.1.tar.gz
+  tar -xvzf WRF-4.5.1.tar.gz -C $WRF_FOLDER/
 
   # If statment for changing folder name
   if [ -d "$WRF_FOLDER/WRF" ]; then
-  mv -f $WRF_FOLDER/WRF $WRF_FOLDER/WRFV4.5
+  mv -f $WRF_FOLDER/WRF $WRF_FOLDER/WRFV4.5.1
   fi
 
-  cd $WRF_FOLDER/WRFV4.5
+  cd $WRF_FOLDER/WRFV4.5.1
   export WRFIO_NCD_LARGE_FILE_SUPPORT=1
   ./clean -a
 
@@ -8630,8 +8667,8 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 
   if [ ${auto_config} -eq 1 ]
     then
-        sed -i '433s/.*/  $response = "34 \\n";/g' $WRF_FOLDER/WRFV4.5/arch/Config.pl # Answer for compiler choice
-        sed -i '898s/.*/  $response = "1 \\n";/g' $WRF_FOLDER/WRFV4.5/arch/Config.pl  #Answer for basic nesting
+        sed -i '433s/.*/  $response = "34 \\n";/g' $WRF_FOLDER/WRFV4.5.1/arch/Config.pl # Answer for compiler choice
+        sed -i '898s/.*/  $response = "1 \\n";/g' $WRF_FOLDER/WRFV4.5.1/arch/Config.pl  #Answer for basic nesting
         ./configure
     else
       ./configure  #Option 34 gfortran compiler with distributed memory option 1 for basic nesting
@@ -8639,11 +8676,11 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 
   ./compile -j $CPU_HALF_EVEN em_real 2>&1 | tee compile.log
 
-  export WRF_DIR=$WRF_FOLDER/WRFV4.5
+  export WRF_DIR=$WRF_FOLDER/WRFV4.5.1
 
 
   # IF statement to check that all files were created.
-  cd $WRF_FOLDER/WRFV4.5/main
+  cd $WRF_FOLDER/WRFV4.5.1/main
   n=$(ls ./*.exe | wc -l)
   if (($n >= 3))
    then
@@ -8662,7 +8699,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   ########################################################################
 
   cd $WRF_FOLDER/Downloads
-  wget -c -4 https://github.com/wrf-model/WPS/archive/refs/tags/v4.5.tar.gz -O WPS-4.5.tar.gz
+  wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v4.5.tar.gz -O WPS-4.5.tar.gz
   tar -xvzf WPS-4.5.tar.gz -C $WRF_FOLDER/
   cd $WRF_FOLDER/WPS-4.5
   ./clean -a
@@ -8699,17 +8736,17 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   #Option 18 for gfortran/gcc and distribunted memory
   ########################################################################
   cd $WRF_FOLDER/Downloads
-  tar -xvzf WRF-4.5.tar.gz -C $WRF_FOLDER/WRFPLUS
+  tar -xvzf WRF-4.5.1.tar.gz -C $WRF_FOLDER/WRFPLUS
 
   # If statment for changing folder name
   if [ -d "$WRF_FOLDER/WRFPLUS/WRF" ]; then
-  mv -f $WRF_FOLDER/WRFPLUS/WRF $WRF_FOLDER/WRFPLUS/WRFV4.5
+  mv -f $WRF_FOLDER/WRFPLUS/WRF $WRF_FOLDER/WRFPLUS/WRFV4.5.1
   fi
 
-  cd $WRF_FOLDER/WRFPLUS/WRFV4.5
+  cd $WRF_FOLDER/WRFPLUS/WRFV4.5.1
   mv * $WRF_FOLDER/WRFPLUS
   cd $WRF_FOLDER/WRFPLUS
-  rm -rf WRFV4.5/
+  rm -rf WRFV4.5.1/
   export NETCDF=$DIR/NETCDF
   export HDF5=$DIR/grib2
   export LD_LIBRARY_PATH=$DIR/grib2/lib:$LD_LIBRARY_PATH
@@ -8750,17 +8787,17 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   ########################################################################
   cd $WRF_FOLDER/Downloads
   mkdir $WRF_FOLDER/WRFDA
-  tar -xvzf WRF-4.5.tar.gz -C $WRF_FOLDER/WRFDA
+  tar -xvzf WRF-4.5.1.tar.gz -C $WRF_FOLDER/WRFDA
 
   # If statment for changing folder name
   if [ -d "$WRF_FOLDER/WRFDA/WRF" ]; then
-  mv -f $WRF_FOLDER/WRFDA/WRF $WRF_FOLDER/WRFDA/WRFV4.5
+  mv -f $WRF_FOLDER/WRFDA/WRF $WRF_FOLDER/WRFDA/WRFV4.5.1
   fi
 
-  cd $WRF_FOLDER/WRFDA/WRFV4.5
+  cd $WRF_FOLDER/WRFDA/WRFV4.5.1
   mv * $WRF_FOLDER/WRFDA
   cd $WRF_FOLDER/WRFDA
-  rm -rf WRFV4.5/
+  rm -rf WRFV4.5.1/
   export NETCDF=$DIR/NETCDF
   export HDF5=$DIR/grib2
   export LD_LIBRARY_PATH=$DIR/grib2/lib:$LD_LIBRARY_PATH
@@ -8796,7 +8833,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   ######################## WPS Domain Setup Tools ########################
   ## DomainWizard
   cd $WRF_FOLDER/Downloads
-  wget -c -4 http://esrl.noaa.gov/gsd/wrfportal/domainwizard/WRFDomainWizard.zip
+  wget -c http://esrl.noaa.gov/gsd/wrfportal/domainwizard/WRFDomainWizard.zip
   mkdir $WRF_FOLDER/WRFDomainWizard
   unzip WRFDomainWizard.zip -d $WRF_FOLDER/WRFDomainWizard
   chmod +x $WRF_FOLDER/WRFDomainWizard/run_DomainWizard
@@ -8805,7 +8842,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   ######################## WPF Portal Setup Tools ########################
   ## WRFPortal
   cd $WRF_FOLDER/Downloads
-  wget -c -4 https://esrl.noaa.gov/gsd/wrfportal/portal/wrf-portal.zip
+  wget -c https://esrl.noaa.gov/gsd/wrfportal/portal/wrf-portal.zip
   mkdir $WRF_FOLDER/WRFPortal
   unzip wrf-portal.zip -d $WRF_FOLDER/WRFPortal
   chmod +x $WRF_FOLDER/WRFPortal/runWRFPortal
@@ -8826,10 +8863,10 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   echo " "
   echo "Mandatory WRF Preprocessing System (WPS) Geographical Input Data Mandatory Fields Downloads"
   echo " "
-  wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_high_res_mandatory.tar.gz
+  wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_high_res_mandatory.tar.gz
   tar -xvzf geog_high_res_mandatory.tar.gz -C $WRF_FOLDER/GEOG/
 
-  wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_low_res_mandatory.tar.gz
+  wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_low_res_mandatory.tar.gz
   tar -xvzf geog_low_res_mandatory.tar.gz -C $WRF_FOLDER/GEOG/
   mv $WRF_FOLDER/GEOG/WPS_GEOG_LOW_RES/ $WRF_FOLDER/GEOG/WPS_GEOG
 
@@ -8840,31 +8877,31 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
       echo " WPS Geographical Input Data Mandatory for Specific Applications"
       echo " "
 
-      wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_thompson28_chem.tar.gz
+      wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_thompson28_chem.tar.gz
       tar -xvzf geog_thompson28_chem.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
 
-      wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_noahmp.tar.gz
+      wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_noahmp.tar.gz
       tar -xvzf geog_noahmp.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
 
-      wget -c -4  https://www2.mmm.ucar.edu/wrf/src/wps_files/irrigation.tar.gz
+      wget -c  https://www2.mmm.ucar.edu/wrf/src/wps_files/irrigation.tar.gz
       tar -xvzf irrigation.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
 
-      wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_px.tar.gz
+      wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_px.tar.gz
       tar -xvzf geog_px.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
 
-      wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_urban.tar.gz
+      wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_urban.tar.gz
       tar -xvzf geog_urban.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
 
-      wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_ssib.tar.gz
+      wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_ssib.tar.gz
       tar -xvzf geog_ssib.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
 
-      wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/lake_depth.tar.bz2
+      wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/lake_depth.tar.bz2
       tar -xvf lake_depth.tar.bz2 -C $WRF_FOLDER/GEOG/WPS_GEOG
 
-      wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/topobath_30s.tar.bz2
+      wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/topobath_30s.tar.bz2
       tar -xvf topobath_30s.tar.bz2 -C $WRF_FOLDER/GEOG/WPS_GEOG
 
-      wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/gsl_gwd.tar.bz2
+      wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/gsl_gwd.tar.bz2
       tar -xvf gsl_gwd.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
   fi
 
@@ -8876,22 +8913,22 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
       echo " "
 
 
-      wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_older_than_2000.tar.gz
+      wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_older_than_2000.tar.gz
       tar -xvzf geog_older_than_2000.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
 
-      wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s_with_lakes.tar.gz
+      wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s_with_lakes.tar.gz
       tar -xvzf modis_landuse_20class_15s_with_lakes.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
 
-      wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_alt_lsm.tar.gz
+      wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_alt_lsm.tar.gz
       tar -xvzf geog_alt_lsm.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
 
-      wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/nlcd2006_ll_9s.tar.bz2
+      wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/nlcd2006_ll_9s.tar.bz2
       tar -xvf nlcd2006_ll_9s.tar.bz2 -C $WRF_FOLDER/GEOG/WPS_GEOG
 
-      wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/updated_Iceland_LU.tar.gz
+      wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/updated_Iceland_LU.tar.gz
       tar -xvf updated_Iceland_LU.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
 
-      wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s.tar.bz2
+      wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s.tar.bz2
       tar -xvf modis_landuse_20class_15s.tar.bz2 -C $WRF_FOLDER/GEOG/WPS_GEOG
 
 
@@ -9003,15 +9040,15 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   ############################## Downloading Libraries ############################
 
   cd $WRF_FOLDER/Downloads
-  wget -c -4 https://github.com/madler/zlib/archive/refs/tags/v1.2.13.tar.gz
-  wget -c -4 https://github.com/HDFGroup/hdf5/archive/refs/tags/hdf5-1_14_1-2.tar.gz
-  wget -c -4 https://github.com/Unidata/netcdf-c/archive/refs/tags/v4.9.2.tar.gz
-  wget -c -4 https://github.com/Unidata/netcdf-fortran/archive/refs/tags/v4.6.0.tar.gz
-  wget -c -4 https://download.sourceforge.net/libpng/libpng-1.6.39.tar.gz
-  wget -c -4 https://www.ece.uvic.ca/~frodo/jasper/software/jasper-1.900.1.zip
-  wget -c -4 https://github.com/pmodels/mpich/releases/download/v4.1.2/mpich-4.1.2.tar.gz
-  wget -c -4  https://parallel-netcdf.github.io/Release/pnetcdf-1.12.3.tar.gz
-  wget -c -4 https://sourceforge.net/projects/opengrads/files/grads2/2.2.1.oga.1/Linux%20%2864%20Bits%29/opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz
+  wget -c https://github.com/madler/zlib/archive/refs/tags/v1.2.13.tar.gz
+  wget -c https://github.com/HDFGroup/hdf5/archive/refs/tags/hdf5-1_14_1-2.tar.gz
+  wget -c https://github.com/Unidata/netcdf-c/archive/refs/tags/v4.9.2.tar.gz
+  wget -c https://github.com/Unidata/netcdf-fortran/archive/refs/tags/v4.6.0.tar.gz
+  wget -c https://download.sourceforge.net/libpng/libpng-1.6.39.tar.gz
+  wget -c https://www.ece.uvic.ca/~frodo/jasper/software/jasper-1.900.1.zip
+  wget -c https://github.com/pmodels/mpich/releases/download/v4.1.2/mpich-4.1.2.tar.gz
+  wget -c  https://parallel-netcdf.github.io/Release/pnetcdf-1.12.3.tar.gz
+  wget -c https://sourceforge.net/projects/opengrads/files/grads2/2.2.1.oga.1/Linux%20%2864%20Bits%29/opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz
 
 
   echo " "
@@ -9139,8 +9176,8 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   #################################### System Environment Tests ##############
 
   cd $WRF_FOLDER/Downloads
-  wget -c -4 https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_NETCDF_MPI_tests.tar
-  wget -c -4 https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_tests.tar
+  wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_NETCDF_MPI_tests.tar
+  wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_tests.tar
 
   tar -xvf Fortran_C_tests.tar -C $WRF_FOLDER/Tests/Environment
   tar -xvf Fortran_C_NETCDF_MPI_tests.tar -C $WRF_FOLDER/Tests/Compatibility
@@ -9349,7 +9386,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   ##Configure #3
   ###################################################################
   cd $WRF_FOLDER/Downloads
-  wget -c -4 http://www2.mmm.ucar.edu/wrf/src/ARWpost_V3.tar.gz
+  wget -c http://www2.mmm.ucar.edu/wrf/src/ARWpost_V3.tar.gz
   tar -xvzf ARWpost_V3.tar.gz -C $WRF_FOLDER
   cd $WRF_FOLDER/ARWpost
   ./clean -a
@@ -9378,9 +9415,9 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
     cd $WRF_FOLDER/
     mv $WRF_FOLDER/opengrads-2.2.1.oga.1  $WRF_FOLDER/GrADS
     cd GrADS/Contents
-    wget -c -4 https://github.com/regisgrundig/SIMOP/blob/master/g2ctl.pl
+    wget -c https://github.com/regisgrundig/SIMOP/blob/master/g2ctl.pl
     chmod +x g2ctl.pl
-    wget -c -4 https://sourceforge.net/projects/opengrads/files/wgrib2/0.1.9.4/wgrib2-v0.1.9.4-bin-x86_64-glibc2.5-linux-gnu.tar.gz
+    wget -c https://sourceforge.net/projects/opengrads/files/wgrib2/0.1.9.4/wgrib2-v0.1.9.4-bin-x86_64-glibc2.5-linux-gnu.tar.gz
     tar -xzvf wgrib2-v0.1.9.4-bin-x86_64-glibc2.5-linux-gnu.tar.gz
     cd wgrib2-v0.1.9.4/bin
     mv wgrib2 $WRF_FOLDER/GrADS/Contents
@@ -9412,11 +9449,15 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   echo " "
   #Installing Miniconda3 to WRF directory and updating libraries
 
+  pip install --upgrade --force-reinstall zstandard
+  pip install --upgrade --force-reinstall zstd
+  pip3 install --upgrade --force-reinstall zstandard
+  pip3 install --upgrade --force-reinstall zstd
   export Miniconda_Install_DIR=$WRF_FOLDER/miniconda3
 
   mkdir -p $Miniconda_Install_DIR
 
-  wget -c -4 https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O $Miniconda_Install_DIR/miniconda.sh
+  wget -c https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O $Miniconda_Install_DIR/miniconda.sh
   bash $Miniconda_Install_DIR/miniconda.sh -b -u -p $Miniconda_Install_DIR
 
   rm -rf $Miniconda_Install_DIR/miniconda.sh
@@ -9485,39 +9526,39 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   # large file support enable with WRFiO_NCD_LARGE_FILE_SUPPORT=1
   ########################################################################
   cd $WRF_FOLDER/Downloads
-  wget -c -4 https://github.com/wrf-model/WRF/releases/download/v4.5/v4.5.tar.gz -O WRF-4.5.tar.gz
-  tar -xvzf WRF-4.5.tar.gz -C $WRF_FOLDER/
+  wget -c https://github.com/wrf-model/WRF/releases/download/v4.5.1/v4.5.1.tar.gz -O WRF-4.5.1.tar.gz
+  tar -xvzf WRF-4.5.1.tar.gz -C $WRF_FOLDER/
 
     # If statment for changing folder name
     if [ -d "$WRF_FOLDER/WRF" ]; then
-    mv -f $WRF_FOLDER/WRF $WRF_FOLDER/WRFV4.5
+    mv -f $WRF_FOLDER/WRF $WRF_FOLDER/WRFV4.5.1
     fi
 
 
-  cd $WRF_FOLDER/WRFV4.5
+  cd $WRF_FOLDER/WRFV4.5.1
   export WRFIO_NCD_LARGE_FILE_SUPPORT=1
   ./clean -a
 
   if [ ${auto_config} -eq 1 ]
     then
-        sed -i '433s/.*/  $response = "15 \\n";/g' $WRF_FOLDER/WRFV4.5/arch/Config.pl # Answer for compiler choice
-        sed -i '898s/.*/  $response = "1 \\n";/g' $WRF_FOLDER/WRFV4.5/arch/Config.pl  #Answer for basic nesting
+        sed -i '433s/.*/  $response = "15 \\n";/g' $WRF_FOLDER/WRFV4.5.1/arch/Config.pl # Answer for compiler choice
+        sed -i '898s/.*/  $response = "1 \\n";/g' $WRF_FOLDER/WRFV4.5.1/arch/Config.pl  #Answer for basic nesting
         ./configure
     else
       ./configure  #Option 15 intel compiler with distributed memory option 1 for basic nesting
   fi
 
   #Need to remove mpich/GNU config calls to Intel config calls
-  sed -i '169s|mpif90 -f90=$(SFC)|mpiifort|g' $WRF_FOLDER/WRFV4.5/configure.wrf
-  sed -i '170s|mpicc -cc=$(SCC)|mpiicc|g' $WRF_FOLDER/WRFV4.5/configure.wrf
+  sed -i '169s|mpif90 -f90=$(SFC)|mpiifort|g' $WRF_FOLDER/WRFV4.5.1/configure.wrf
+  sed -i '170s|mpicc -cc=$(SCC)|mpiicc|g' $WRF_FOLDER/WRFV4.5.1/configure.wrf
 
   ./compile -j $CPU_HALF_EVEN em_real 2>&1 | tee compile.log
 
-  export WRF_DIR=$WRF_FOLDER/WRFV4.5
+  export WRF_DIR=$WRF_FOLDER/WRFV4.5.1
 
 
   # IF statement to check that all files were created.
-  cd $WRF_FOLDER/WRFV4.5/main
+  cd $WRF_FOLDER/WRFV4.5.1/main
   n=$(ls ./*.exe | wc -l)
   if (($n >= 3))
    then
@@ -9536,7 +9577,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   ########################################################################
 
   cd $WRF_FOLDER/Downloads
-  wget -c -4 https://github.com/wrf-model/WPS/archive/refs/tags/v4.5.tar.gz -O WPS-4.5.tar.gz
+  wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v4.5.tar.gz -O WPS-4.5.tar.gz
   tar -xvzf WPS-4.5.tar.gz -C $WRF_FOLDER/
   cd $WRF_FOLDER/WPS-4.5
   ./clean -a
@@ -9579,18 +9620,18 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   ########################################################################
   cd $WRF_FOLDER/Downloads
   mkdir $WRF_FOLDER/WRFPLUS
-  tar -xvzf WRF-4.5.tar.gz -C $WRF_FOLDER/WRFPLUS
+  tar -xvzf WRF-4.5.1.tar.gz -C $WRF_FOLDER/WRFPLUS
 
     # If statment for changing folder name
     if [ -d "$WRF_FOLDER/WRFPLUS/WRF" ]; then
-    mv -f $WRF_FOLDER/WRFPLUS/WRF $WRF_FOLDER/WRFPLUS/WRFV4.5
+    mv -f $WRF_FOLDER/WRFPLUS/WRF $WRF_FOLDER/WRFPLUS/WRFV4.5.1
     fi
 
 
-  cd $WRF_FOLDER/WRFPLUS/WRFV4.5
+  cd $WRF_FOLDER/WRFPLUS/WRFV4.5.1
   mv * $WRF_FOLDER/WRFPLUS
   cd $WRF_FOLDER/WRFPLUS
-  rm -rf WRFV4.5/
+  rm -rf WRFV4.5.1/
   export NETCDF=$DIR/NETCDF
   export HDF5=$DIR/grib2
   export LD_LIBRARY_PATH=$DIR/grib2/lib:$LD_LIBRARY_PATH
@@ -9636,17 +9677,17 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   #Option 8 for intel and distribunted memory
   ########################################################################
   cd $WRF_FOLDER/Downloads
-  tar -xvzf WRF-4.5.tar.gz -C $WRF_FOLDER/WRFDA
+  tar -xvzf WRF-4.5.1.tar.gz -C $WRF_FOLDER/WRFDA
 
   # If statment for changing folder name
   if [ -d "$WRF_FOLDER/WRFDA/WRF" ]; then
-  mv -f $WRF_FOLDER/WRFDA/WRF $WRF_FOLDER/WRFDA/WRFV4.5
+  mv -f $WRF_FOLDER/WRFDA/WRF $WRF_FOLDER/WRFDA/WRFV4.5.1
   fi
 
-  cd $WRF_FOLDER/WRFDA/WRFV4.5
+  cd $WRF_FOLDER/WRFDA/WRFV4.5.1
   mv * $WRF_FOLDER/WRFDA
   cd $WRF_FOLDER/WRFDA
-  rm -rf WRFV4.5/
+  rm -rf WRFV4.5.1/
   export NETCDF=$DIR/NETCDF
   export HDF5=$DIR/grib2
   export LD_LIBRARY_PATH=$DIR/grib2/lib:$LD_LIBRARY_PATH
@@ -9686,7 +9727,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   ######################## WPS Domain Setup Tools ########################
   ## DomainWizard
   cd $WRF_FOLDER/Downloads
-  wget -c -4 http://esrl.noaa.gov/gsd/wrfportal/domainwizard/WRFDomainWizard.zip
+  wget -c http://esrl.noaa.gov/gsd/wrfportal/domainwizard/WRFDomainWizard.zip
   mkdir $WRF_FOLDER/WRFDomainWizard
   unzip WRFDomainWizard.zip -d $WRF_FOLDER/WRFDomainWizard
   chmod +x $WRF_FOLDER/WRFDomainWizard/run_DomainWizard
@@ -9695,7 +9736,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   ######################## WPF Portal Setup Tools ########################
   ## WRFPortal
   cd $WRF_FOLDER/Downloads
-  wget -c -4 https://esrl.noaa.gov/gsd/wrfportal/portal/wrf-portal.zip
+  wget -c https://esrl.noaa.gov/gsd/wrfportal/portal/wrf-portal.zip
   mkdir $WRF_FOLDER/WRFPortal
   unzip wrf-portal.zip -d $WRF_FOLDER/WRFPortal
   chmod +x $WRF_FOLDER/WRFPortal/runWRFPortal
@@ -9716,10 +9757,10 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   echo " "
   echo "Mandatory WRF Preprocessing System (WPS) Geographical Input Data Mandatory Fields Downloads"
   echo " "
-  wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_high_res_mandatory.tar.gz
+  wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_high_res_mandatory.tar.gz
   tar -xvzf geog_high_res_mandatory.tar.gz -C $WRF_FOLDER/GEOG/
 
-  wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_low_res_mandatory.tar.gz
+  wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_low_res_mandatory.tar.gz
   tar -xvzf geog_low_res_mandatory.tar.gz -C $WRF_FOLDER/GEOG/
   mv $WRF_FOLDER/GEOG/WPS_GEOG_LOW_RES/ $WRF_FOLDER/GEOG/WPS_GEOG
 
@@ -9730,31 +9771,31 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
       echo " WPS Geographical Input Data Mandatory for Specific Applications"
       echo " "
 
-      wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_thompson28_chem.tar.gz
+      wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_thompson28_chem.tar.gz
       tar -xvzf geog_thompson28_chem.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
 
-      wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_noahmp.tar.gz
+      wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_noahmp.tar.gz
       tar -xvzf geog_noahmp.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
 
-      wget -c -4  https://www2.mmm.ucar.edu/wrf/src/wps_files/irrigation.tar.gz
+      wget -c  https://www2.mmm.ucar.edu/wrf/src/wps_files/irrigation.tar.gz
       tar -xvzf irrigation.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
 
-      wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_px.tar.gz
+      wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_px.tar.gz
       tar -xvzf geog_px.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
 
-      wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_urban.tar.gz
+      wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_urban.tar.gz
       tar -xvzf geog_urban.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
 
-      wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_ssib.tar.gz
+      wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_ssib.tar.gz
       tar -xvzf geog_ssib.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
 
-      wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/lake_depth.tar.bz2
+      wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/lake_depth.tar.bz2
       tar -xvf lake_depth.tar.bz2 -C $WRF_FOLDER/GEOG/WPS_GEOG
 
-      wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/topobath_30s.tar.bz2
+      wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/topobath_30s.tar.bz2
       tar -xvf topobath_30s.tar.bz2 -C $WRF_FOLDER/GEOG/WPS_GEOG
 
-      wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/gsl_gwd.tar.bz2
+      wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/gsl_gwd.tar.bz2
       tar -xvf gsl_gwd.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
   fi
 
@@ -9766,22 +9807,22 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
       echo " "
 
 
-      wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_older_than_2000.tar.gz
+      wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_older_than_2000.tar.gz
       tar -xvzf geog_older_than_2000.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
 
-      wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s_with_lakes.tar.gz
+      wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s_with_lakes.tar.gz
       tar -xvzf modis_landuse_20class_15s_with_lakes.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
 
-      wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_alt_lsm.tar.gz
+      wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_alt_lsm.tar.gz
       tar -xvzf geog_alt_lsm.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
 
-      wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/nlcd2006_ll_9s.tar.bz2
+      wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/nlcd2006_ll_9s.tar.bz2
       tar -xvf nlcd2006_ll_9s.tar.bz2 -C $WRF_FOLDER/GEOG/WPS_GEOG
 
-      wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/updated_Iceland_LU.tar.gz
+      wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/updated_Iceland_LU.tar.gz
       tar -xvf updated_Iceland_LU.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
 
-      wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s.tar.bz2
+      wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s.tar.bz2
       tar -xvf modis_landuse_20class_15s.tar.bz2 -C $WRF_FOLDER/GEOG/WPS_GEOG
   fi
 
@@ -9864,15 +9905,15 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
       ##############################Downloading Libraries############################
 
       cd $WRF_FOLDER/Downloads
-      wget -c -4 https://github.com/madler/zlib/archive/refs/tags/v1.2.13.tar.gz
-      wget -c -4 https://github.com/HDFGroup/hdf5/archive/refs/tags/hdf5-1_14_1-2.tar.gz
-      wget -c -4 https://github.com/Unidata/netcdf-c/archive/refs/tags/v4.9.2.tar.gz
-      wget -c -4 https://github.com/Unidata/netcdf-fortran/archive/refs/tags/v4.6.0.tar.gz
-      wget -c -4 https://download.sourceforge.net/libpng/libpng-1.6.39.tar.gz
-      wget -c -4 https://www.ece.uvic.ca/~frodo/jasper/software/jasper-1.900.1.zip
-      wget -c -4 https://github.com/pmodels/mpich/releases/download/v4.1.2/mpich-4.1.2.tar.gz
-      wget -c -4  https://parallel-netcdf.github.io/Release/pnetcdf-1.12.3.tar.gz
-      wget -c -4 https://sourceforge.net/projects/opengrads/files/grads2/2.2.1.oga.1/Linux%20%2864%20Bits%29/opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz
+      wget -c https://github.com/madler/zlib/archive/refs/tags/v1.2.13.tar.gz
+      wget -c https://github.com/HDFGroup/hdf5/archive/refs/tags/hdf5-1_14_1-2.tar.gz
+      wget -c https://github.com/Unidata/netcdf-c/archive/refs/tags/v4.9.2.tar.gz
+      wget -c https://github.com/Unidata/netcdf-fortran/archive/refs/tags/v4.6.0.tar.gz
+      wget -c https://download.sourceforge.net/libpng/libpng-1.6.39.tar.gz
+      wget -c https://www.ece.uvic.ca/~frodo/jasper/software/jasper-1.900.1.zip
+      wget -c https://github.com/pmodels/mpich/releases/download/v4.1.2/mpich-4.1.2.tar.gz
+      wget -c  https://parallel-netcdf.github.io/Release/pnetcdf-1.12.3.tar.gz
+      wget -c https://sourceforge.net/projects/opengrads/files/grads2/2.2.1.oga.1/Linux%20%2864%20Bits%29/opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz
 
 
 
@@ -10075,8 +10116,8 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 
 
   cd $WRF_FOLDER/Downloads
-  wget -c -4 https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_NETCDF_MPI_tests.tar
-  wget -c -4 https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_tests.tar
+  wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_NETCDF_MPI_tests.tar
+  wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_tests.tar
 
 
   tar -xvf Fortran_C_tests.tar -C $WRF_FOLDER/Tests/Environment
@@ -10209,11 +10250,15 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 
 
   #Installing Miniconda3 to WRF directory and updating libraries
+  pip install --upgrade --force-reinstall zstandard
+  pip install --upgrade --force-reinstall zstd
+  pip3 install --upgrade --force-reinstall zstandard
+  pip3 install --upgrade --force-reinstall zstd
   export Miniconda_Install_DIR=$WRF_FOLDER/miniconda3
 
   mkdir -p $Miniconda_Install_DIR
 
-  wget -c -4 https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh -O $Miniconda_Install_DIR/miniconda.sh
+  wget -c https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh -O $Miniconda_Install_DIR/miniconda.sh
   bash $Miniconda_Install_DIR/miniconda.sh -b -u -p $Miniconda_Install_DIR
 
   rm -rf $Miniconda_Install_DIR/miniconda.sh
@@ -10291,22 +10336,22 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 
   export WRFIO_NCD_LARGE_FILE_SUPPORT=1
   cd $WRF_FOLDER/Downloads
-  wget -c -4 https://github.com/wrf-model/WRF/releases/download/v4.5/v4.5.tar.gz -O WRF-4.5.tar.gz
-  tar -xvzf WRF-4.5.tar.gz -C $WRF_FOLDER/
+  wget -c https://github.com/wrf-model/WRF/releases/download/v4.5.1/v4.5.1.tar.gz -O WRF-4.5.1.tar.gz
+  tar -xvzf WRF-4.5.1.tar.gz -C $WRF_FOLDER/
 
   # If statment for changing folder name
   if [ -d "$WRF_FOLDER/WRF" ]; then
-  mv -f $WRF_FOLDER/WRF $WRF_FOLDER/WRFV4.5
+  mv -f $WRF_FOLDER/WRF $WRF_FOLDER/WRFV4.5.1
   fi
 
-  cd $WRF_FOLDER/WRFV4.5
+  cd $WRF_FOLDER/WRFV4.5.1
 
   ./clean
 
   if [ ${auto_config} -eq 1 ]
     then
-        sed -i'' -e '433s/.*/  $response = "17 \\n";/g' $WRF_FOLDER/WRFV4.5/arch/Config.pl # Answer for compiler choice
-        sed -i'' -e '898s/.*/  $response = "1 \\n";/g' $WRF_FOLDER/WRFV4.5/arch/Config.pl  #Answer for basic nesting
+        sed -i'' -e '433s/.*/  $response = "17 \\n";/g' $WRF_FOLDER/WRFV4.5.1/arch/Config.pl # Answer for compiler choice
+        sed -i'' -e '898s/.*/  $response = "1 \\n";/g' $WRF_FOLDER/WRFV4.5.1/arch/Config.pl  #Answer for basic nesting
         ./configure
     else
       ./configure  #Option 17 gfortran compiler with distributed memory option 1 for basic nesting
@@ -10314,10 +10359,10 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 
   ./compile em_real
 
-  export WRF_DIR=$WRF_FOLDER/WRFV4.5
+  export WRF_DIR=$WRF_FOLDER/WRFV4.5.1
 
   # IF statement to check that all files were created.
-  cd $WRF_FOLDER/WRFV4.5/main
+  cd $WRF_FOLDER/WRFV4.5.1/main
   n=$(ls ./*.exe | wc -l)
   if (($n >= 3))
    then
@@ -10336,7 +10381,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   ########################################################################
 
   cd $WRF_FOLDER/Downloads
-  wget -c -4 https://github.com/wrf-model/WPS/archive/refs/tags/v4.5.tar.gz -O WPS-4.5.tar.gz
+  wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v4.5.tar.gz -O WPS-4.5.tar.gz
   tar -xvzf WPS-4.5.tar.gz -C $WRF_FOLDER/
   cd $WRF_FOLDER/WPS-4.5
   ./clean -a
@@ -10375,17 +10420,17 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   ########################################################################
 
   cd $WRF_FOLDER/Downloads
-  tar -xvzf WRF-4.5.tar.gz -C $WRF_FOLDER/WRFPLUS
+  tar -xvzf WRF-4.5.1.tar.gz -C $WRF_FOLDER/WRFPLUS
 
   # If statment for changing folder name
   if [ -d "$WRF_FOLDER/WRFPLUS/WRF" ]; then
-  mv -f $WRF_FOLDER/WRFPLUS/WRF $WRF_FOLDER/WRFPLUS/WRFV4.5
+  mv -f $WRF_FOLDER/WRFPLUS/WRF $WRF_FOLDER/WRFPLUS/WRFV4.5.1
   fi
 
-  cd $WRF_FOLDER/WRFPLUS/WRFV4.5
+  cd $WRF_FOLDER/WRFPLUS/WRFV4.5.1
   mv * $WRF_FOLDER/WRFPLUS
   cd $WRF_FOLDER/WRFPLUS
-  rm -rf WRFV4.5/
+  rm -rf WRFV4.5.1/
   export NETCDF=$DIR/NETCDF
   export HDF5=$DIR/grib2
   export LD_LIBRARY_PATH=$DIR/grib2/lib:$LD_LIBRARY_PATH
@@ -10427,17 +10472,17 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   ########################################################################
 
   cd $WRF_FOLDER/Downloads
-  tar -xvzf WRF-4.5.tar.gz -C $WRF_FOLDER/WRFDA
+  tar -xvzf WRF-4.5.1.tar.gz -C $WRF_FOLDER/WRFDA
 
   # If statment for changing folder name
   if [ -d "$WRF_FOLDER/WRFDA/WRF" ]; then
-  mv -f $WRF_FOLDER/WRFDA/WRF $WRF_FOLDER/WRFDA/WRFV4.5
+  mv -f $WRF_FOLDER/WRFDA/WRF $WRF_FOLDER/WRFDA/WRFV4.5.1
   fi
 
-  cd $WRF_FOLDER/WRFDA/WRFV4.5
+  cd $WRF_FOLDER/WRFDA/WRFV4.5.1
   mv * $WRF_FOLDER/WRFDA
   cd $WRF_FOLDER/WRFDA
-  rm -rf WRFV4.5/
+  rm -rf WRFV4.5.1/
   export NETCDF=$DIR/NETCDF
   export HDF5=$DIR/grib2
   export LD_LIBRARY_PATH=$DIR/grib2/lib:$LD_LIBRARY_PATH
@@ -10508,10 +10553,10 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   echo " "
   echo "Mandatory WRF Preprocessing System (WPS) Geographical Input Data Mandatory Fields Downloads"
   echo " "
-  wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_high_res_mandatory.tar.gz
+  wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_high_res_mandatory.tar.gz
   tar -xvzf geog_high_res_mandatory.tar.gz -C $WRF_FOLDER/GEOG/
 
-  wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_low_res_mandatory.tar.gz
+  wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_low_res_mandatory.tar.gz
   tar -xvzf geog_low_res_mandatory.tar.gz -C $WRF_FOLDER/GEOG/
   mv $WRF_FOLDER/GEOG/WPS_GEOG_LOW_RES/ $WRF_FOLDER/GEOG/WPS_GEOG
 
@@ -10522,32 +10567,32 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
       echo " WPS Geographical Input Data Mandatory for Specific Applications"
       echo " "
 
-      wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_thompson28_chem.tar.gz
+      wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_thompson28_chem.tar.gz
       tar -xvzf geog_thompson28_chem.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
 
-      wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_noahmp.tar.gz
+      wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_noahmp.tar.gz
       tar -xvzf geog_noahmp.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
 
-      wget -c -4  https://www2.mmm.ucar.edu/wrf/src/wps_files/irrigation.tar.gz
+      wget -c  https://www2.mmm.ucar.edu/wrf/src/wps_files/irrigation.tar.gz
       tar -xvzf irrigation.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
 
-      wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_px.tar.gz
+      wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_px.tar.gz
       tar -xvzf geog_px.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
 
-      wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_urban.tar.gz
+      wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_urban.tar.gz
       tar -xvzf geog_urban.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
 
-      wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_ssib.tar.gz
+      wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_ssib.tar.gz
       tar -xvzf geog_ssib.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
 
-      wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/lake_depth.tar.bz2
+      wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/lake_depth.tar.bz2
       tar -xvf lake_depth.tar.bz2 -C $WRF_FOLDER/GEOG/WPS_GEOG
 
-      wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/topobath_30s.tar.bz2
+      wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/topobath_30s.tar.bz2
       tar -xvf topobath_30s.tar.bz2 -C $WRF_FOLDER/GEOG/WPS_GEOG
 
 
-      wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/gsl_gwd.tar.bz2
+      wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/gsl_gwd.tar.bz2
       tar -xvf gsl_gwd.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
 
   fi
@@ -10560,22 +10605,22 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
       echo " "
 
 
-      wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_older_than_2000.tar.gz
+      wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_older_than_2000.tar.gz
       tar -xvzf geog_older_than_2000.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
 
-      wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s_with_lakes.tar.gz
+      wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s_with_lakes.tar.gz
       tar -xvzf modis_landuse_20class_15s_with_lakes.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
 
-      wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_alt_lsm.tar.gz
+      wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_alt_lsm.tar.gz
       tar -xvzf geog_alt_lsm.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
 
-      wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/nlcd2006_ll_9s.tar.bz2
+      wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/nlcd2006_ll_9s.tar.bz2
       tar -xvf nlcd2006_ll_9s.tar.bz2 -C $WRF_FOLDER/GEOG/WPS_GEOG
 
-      wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/updated_Iceland_LU.tar.gz
+      wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/updated_Iceland_LU.tar.gz
       tar -xvf updated_Iceland_LU.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
 
-      wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s.tar.bz2
+      wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s.tar.bz2
       tar -xvf modis_landuse_20class_15s.tar.bz2 -C $WRF_FOLDER/GEOG/WPS_GEOG
 
   fi
@@ -10691,25 +10736,25 @@ if [ "$HWRF_PICK" = "1" ]; then
   # these are all the libraries we're installing, including HWRF itself
 
   cd Downloads
-  wget -c -4 https://github.com/madler/zlib/archive/refs/tags/v1.2.13.tar.gz
-  wget -c -4 https://github.com/HDFGroup/hdf5/archive/refs/tags/hdf5-1_14_1-2.tar.gz
-  wget -c -4 https://github.com/Unidata/netcdf-c/archive/refs/tags/v4.9.2.tar.gz
-  wget -c -4 https://github.com/Unidata/netcdf-fortran/archive/refs/tags/v4.6.0.tar.gz
-  wget -c -4 https://download.sourceforge.net/libpng/libpng-1.6.39.tar.gz
-  wget -c -4 https://www.ece.uvic.ca/~frodo/jasper/software/jasper-1.900.1.zip
-  wget -c -4 https://github.com/pmodels/mpich/releases/download/v4.1.2/mpich-4.1.2.tar.gz
-  wget -c -4  https://parallel-netcdf.github.io/Release/pnetcdf-1.12.3.tar.gz
-  wget -c -4 https://sourceforge.net/projects/opengrads/files/grads2/2.2.1.oga.1/Linux%20%2864%20Bits%29/opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz
-  wget -c -4 https://github.com/Reference-LAPACK/lapack/archive/refs/tags/v3.10.1.tar.gz
+  wget -c https://github.com/madler/zlib/archive/refs/tags/v1.2.13.tar.gz
+  wget -c https://github.com/HDFGroup/hdf5/archive/refs/tags/hdf5-1_14_1-2.tar.gz
+  wget -c https://github.com/Unidata/netcdf-c/archive/refs/tags/v4.9.2.tar.gz
+  wget -c https://github.com/Unidata/netcdf-fortran/archive/refs/tags/v4.6.0.tar.gz
+  wget -c https://download.sourceforge.net/libpng/libpng-1.6.39.tar.gz
+  wget -c https://www.ece.uvic.ca/~frodo/jasper/software/jasper-1.900.1.zip
+  wget -c https://github.com/pmodels/mpich/releases/download/v4.1.2/mpich-4.1.2.tar.gz
+  wget -c  https://parallel-netcdf.github.io/Release/pnetcdf-1.12.3.tar.gz
+  wget -c https://sourceforge.net/projects/opengrads/files/grads2/2.2.1.oga.1/Linux%20%2864%20Bits%29/opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz
+  wget -c https://github.com/Reference-LAPACK/lapack/archive/refs/tags/v3.10.1.tar.gz
 
-  wget -c -4 https://dtcenter.org/sites/default/files/HWRF_v4.0a_hwrf-utilities.tar.gz
-  wget -c -4 https://dtcenter.org/sites/default/files/HWRF_v4.0a_pomtc.tar.gz
-  wget -c -4 https://dtcenter.org/sites/default/files/HWRF_v4.0a_ncep-coupler.tar.gz
-  wget -c -4 https://dtcenter.org/sites/default/files/HWRF_v4.0a_gfdl-vortextracker.tar.gz
-  wget -c -4 https://dtcenter.org/sites/default/files/HWRF_v4.0a_GSI.tar.gz
-  wget -c -4 https://dtcenter.org/sites/default/files/HWRF_v4.0a_UPP.tar.gz
-  wget -c -4 https://dtcenter.org/sites/default/files/HWRF_v4.0a_hwrfrun.tar.gz
-  wget -c -4 https://dtcenter.org/community-code/hurricane-wrf-hwrf/datasets#data-4
+  wget -c https://dtcenter.org/sites/default/files/HWRF_v4.0a_hwrf-utilities.tar.gz
+  wget -c https://dtcenter.org/sites/default/files/HWRF_v4.0a_pomtc.tar.gz
+  wget -c https://dtcenter.org/sites/default/files/HWRF_v4.0a_ncep-coupler.tar.gz
+  wget -c https://dtcenter.org/sites/default/files/HWRF_v4.0a_gfdl-vortextracker.tar.gz
+  wget -c https://dtcenter.org/sites/default/files/HWRF_v4.0a_GSI.tar.gz
+  wget -c https://dtcenter.org/sites/default/files/HWRF_v4.0a_UPP.tar.gz
+  wget -c https://dtcenter.org/sites/default/files/HWRF_v4.0a_hwrfrun.tar.gz
+  wget -c https://dtcenter.org/community-code/hurricane-wrf-hwrf/datasets#data-4
 
   ############################# ZLib ############################
 
@@ -10839,7 +10884,7 @@ if [ "$HWRF_PICK" = "1" ]; then
   ########################################################################
 
   cd $HWRF_FOLDER/Downloads
-  wget -c -4 https://github.com/wrf-model/WRF/archive/refs/tags/v4.3.3.tar.gz -O WRF-4.3.3.tar.gz
+  wget -c https://github.com/wrf-model/WRF/archive/refs/tags/v4.3.3.tar.gz -O WRF-4.3.3.tar.gz
   mkdir $HWRF_FOLDER/WRF
   tar -xvzf WRF-4.3.3.tar.gz -C $HWRF_FOLDER/WRF
   cd $HWRF_FOLDER/WRF/WRF-4.3.3
@@ -10887,7 +10932,7 @@ if [ "$HWRF_PICK" = "1" ]; then
   # Option 19 for gfortran and distributed memory
   ########################################################################
   cd $HWRF_FOLDER/Downloads
-  wget -c -4 https://github.com/wrf-model/WPS/archive/refs/tags/v4.3.1.tar.gz -O WPS-4.3.1.tar.gz
+  wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v4.3.1.tar.gz -O WPS-4.3.1.tar.gz
   tar -xvzf WPS-4.3.1.tar.gz -C $HWRF_FOLDER/WRF
   cd $HWRF_FOLDER/WRF/WPS-4.3.1
 
@@ -11186,11 +11231,11 @@ if [ "$HWRF_PICK" = "1" ]; then
   cd $HWRF_FOLDER/HWRF_RUN
 
   #HWRF v4.0a Users Guide
-  wget -c -4 https://dtcenter.org/sites/default/files/community-code/hwrf/docs/users_guide/HWRF-UG-2018.pdf
+  wget -c https://dtcenter.org/sites/default/files/community-code/hwrf/docs/users_guide/HWRF-UG-2018.pdf
   #HWRF Scientific Documentation - November 2018
-  wget -c -4 https://dtcenter.org/sites/default/files/community-code/hwrf/docs/scientific_documents/HWRFv4.0a_ScientificDoc.pdf
+  wget -c https://dtcenter.org/sites/default/files/community-code/hwrf/docs/scientific_documents/HWRFv4.0a_ScientificDoc.pdf
   #WRF-NMM V4 User's Guide
-  wget -c -4 https://dtcenter.org/sites/default/files/community-code/hwrf/docs/scientific_documents/WRF-NMM_2018.pdf
+  wget -c https://dtcenter.org/sites/default/files/community-code/hwrf/docs/scientific_documents/WRF-NMM_2018.pdf
 
   ######################## Static geographic gata incl/ optional files ####################
   # http://www2.mmm.ucar.edu/wrf/users/download/get_sources_wps_geog.html
@@ -11205,62 +11250,62 @@ if [ "$HWRF_PICK" = "1" ]; then
 
   # Mandatory WRF Preprocessing System (WPS) Geographical Input Data Mandatory Fields
 
-  wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_high_res_mandatory.tar.gz
+  wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_high_res_mandatory.tar.gz
   tar -xvzf geog_high_res_mandatory.tar.gz -C $HWRF_FOLDER/GEOG/
 
-  wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_low_res_mandatory.tar.gz
+  wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_low_res_mandatory.tar.gz
   tar -xvzf geog_low_res_mandatory.tar.gz -C $HWRF_FOLDER/GEOG/
   mv $HWRF_FOLDER/GEOG/WPS_GEOG_LOW_RES/ $HWRF_FOLDER/GEOG/WPS_GEOG
 
 
   # WPS Geographical Input Data - Mandatory for Specific Applications
 
-  wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_thompson28_chem.tar.gz
+  wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_thompson28_chem.tar.gz
   tar -xvzf geog_thompson28_chem.tar.gz -C $HWRF_FOLDER/GEOG/WPS_GEOG
 
-  wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_noahmp.tar.gz
+  wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_noahmp.tar.gz
   tar -xvzf geog_noahmp.tar.gz -C $HWRF_FOLDER/GEOG/WPS_GEOG
 
   wget -c  -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/irrigation.tar.gz
   tar -xvzf irrigation.tar.gz -C $HWRF_FOLDER/GEOG/WPS_GEOG
 
-  wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_px.tar.gz
+  wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_px.tar.gz
   tar -xvzf geog_px.tar.gz -C $HWRF_FOLDER/GEOG/WPS_GEOG
 
-  wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_urban.tar.gz
+  wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_urban.tar.gz
   tar -xvzf geog_urban.tar.gz -C $HWRF_FOLDER/GEOG/WPS_GEOG
 
-  wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_ssib.tar.gz
+  wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_ssib.tar.gz
   tar -xvzf geog_ssib.tar.gz -C $HWRF_FOLDER/GEOG/WPS_GEOG
 
-  wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/lake_depth.tar.bz2
+  wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/lake_depth.tar.bz2
   tar -xvf lake_depth.tar.bz2 -C $HWRF_FOLDER/GEOG/WPS_GEOG
 
-  wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/topobath_30s.tar.bz2
+  wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/topobath_30s.tar.bz2
   tar -xvf topobath_30s.tar.bz2 -C $HWRF_FOLDER/GEOG/WPS_GEOG
 
-  wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/gsl_gwd.tar.bz2
+  wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/gsl_gwd.tar.bz2
   tar -xvf gsl_gwd.tar.bz2 -C $HWRF_FOLDER/GEOG/WPS_GEOG
 
 
   # Optional WPS Geographical Input Data
 
-  wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_older_than_2000.tar.gz
+  wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_older_than_2000.tar.gz
   tar -xvzf geog_older_than_2000.tar.gz -C $HWRF_FOLDER/GEOG/WPS_GEOG
 
-  wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s_with_lakes.tar.gz
+  wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s_with_lakes.tar.gz
   tar -xvzf modis_landuse_20class_15s_with_lakes.tar.gz -C $HWRF_FOLDER/GEOG/WPS_GEOG
 
-  wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_alt_lsm.tar.gz
+  wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_alt_lsm.tar.gz
   tar -xvzf geog_alt_lsm.tar.gz -C $HWRF_FOLDER/GEOG/WPS_GEOG
 
-  wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/nlcd2006_ll_9s.tar.bz2
+  wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/nlcd2006_ll_9s.tar.bz2
   tar -xvf nlcd2006_ll_9s.tar.bz2 -C $HWRF_FOLDER/GEOG/WPS_GEOG
 
-  wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/updated_Iceland_LU.tar.gz
+  wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/updated_Iceland_LU.tar.gz
   tar -xvf updated_Iceland_LU.tar.gz -C $HWRF_FOLDER/GEOG/WPS_GEOG
 
-  wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s.tar.bz2
+  wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s.tar.bz2
   tar -xvf modis_landuse_20class_15s.tar.bz2 -C $HWRF_FOLDER/GEOG/WPS_GEOG
 
 
