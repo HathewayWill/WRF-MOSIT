@@ -174,7 +174,7 @@ Click here!
 - UCAR's Katelyn F., Jim B., Jordan P., Kevin M.,
 ---
 #### Citation:
-#### Hatheway, W. (2023). Weather Research & Forecasting Self Install Script (Version 1.4.1.2) [Computer software]
+#### Hatheway, W., Snoun, H., ur Rehman, H. et al. WRF-MOSIT: a modular and cross-platform tool for configuring and installing the WRF model. Earth Sci Inform (2023). https://doi.org/10.1007/s12145-023-01136-y
 ---
 #### References:
 - Skamarock, W. C., J. B. Klemp, J. Dudhia, D. O. Gill, Z. Liu, J. Berner, W. Wang, J. G. Powers, M. G. Duda, D. M. Barker, and X.-Y. Huang, 2019: A Description of the Advanced Research WRF Version 4. NCAR Tech. Note NCAR/TN-556+STR, 145 pp. doi:10.5065/1dfh-6p97
