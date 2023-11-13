@@ -254,7 +254,6 @@ dependencies:
   - tzdata=2023c=h71feb2d_0
   - ucx=1.14.1=h64cca9d_4
   - udunits2=2.2.28=hc3e0081_0
-  - urllib3=2.0.4=pyhd8ed1ab_0
   - wheel=0.41.2=pyhd8ed1ab_0
   - wrapt=1.15.0=py311h2582759_0
   - wrf-python=1.3.4.1=py311ha9cf758_3
@@ -294,10 +293,18 @@ dependencies:
   - zlib=1.2.13=hd590300_5
   - zstd=1.5.5=hfc55251_0
   - pip:
+      - attrs==23.1.0
+      - click-plugins==1.1.1
+      - cligj==0.7.2
+      - fiona==1.9.5
+      - geopandas==0.14.0
       - numpy==1.24.2
       - pandas==1.5.3
       - pip==23.0.1
       - platformdirs==3.2.0
       - requests==2.28.2
       - setuptools==67.7.2
+      - urllib3==1.26.17
+      - wget==3.2
       - xarray==2023.3.0
+prefix: /home/workhorse/WRF_Intel/miniconda3/envs/wrf-python
