@@ -517,15 +517,6 @@ echo -e "Which version of WRF would you like to install?
 -HURRICANE_WRF $HWRF_MESSAGE
 Please enter one of the above options and press enter (Case Sensitive):"
 
-	mkdir $WRF_FOLDER/MET-$MET_Version
-	mkdir $WRF_FOLDER/MET-$MET_Version/Downloads
-	mkdir $WRF_FOLDER/METplus-$METPLUS_Version
-	mkdir $WRF_FOLDER/METplus-$METPLUS_Version/Downloads
-
-	#Downloading MET and untarring files
-	#Note weblinks change often update as needed.
-	cd $WRF_FOLDER/MET-$MET_Version/Downloads
-	wget -c https://raw.githubusercontent.com/dtcenter/MET/main_v$MET_VERSION/internal/scripts/installation/compile_MET_all.sh
 while read -r yn; do
 	case $yn in
 		WRF_SFIRE)
