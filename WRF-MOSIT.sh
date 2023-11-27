@@ -26,7 +26,7 @@ export Pnetcdf_Version=1.12.3
 ############################### Citation Requirement  ####################
 
 echo " "
-echo " The GitHub software WRF-MOSIT (Version 2.0.0) by W. Hatheway (2023)"
+echo " The GitHub software WRF-MOSIT (Version 2.1.1) by W. Hatheway (2023)"
 echo " "
 echo "It is important to note that any usage or publication that incorporates or references this software must include a proper citation to acknowledge the work of the author."
 echo " "
