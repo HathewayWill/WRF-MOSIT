@@ -14,8 +14,8 @@ export METPLUS_DATA=5.1
 
 export HDF5_Version=1_14_2
 export Zlib_Version=1.2.13
-export Netcdf_C_Version=4.9.2
-export Netcdf_Fortran_Version=4.6.1
+export Netcdf_C_Version=4.9.0
+export Netcdf_Fortran_Version=4.6.0
 export Mpich_Version=4.1.2
 export Libpng_Version=1.6.39
 export Jasper_Version=1.900.1
