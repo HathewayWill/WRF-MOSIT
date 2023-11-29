@@ -18048,6 +18048,17 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	conda deactivate
 	conda deactivate
 
+	################################## QGIS #####################################
+	#QGIS (Quantum Geographic Information System) is a free and open-source platform that allows users to
+	#analyze, view, and edit geospatial data. It supports both vector and raster layers, as well as various #web services, and is extensible through community-developed plugins. Key features include map
+	#creation, spatial analysis, and data management.
+	#############################################################################
+
+	conda env create -f $HOME/WRF-MOSIT/qgis.3.28.8.yml
+
+	echo " "
+
+
 	############################WRFDA 3DVAR###############################
 	## WRFDA v4.5 3DVAR
 	## Downloaded from git tagged releases
@@ -21472,6 +21483,17 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 
 	echo " "
 
+	################################## QGIS #####################################
+	#QGIS (Quantum Geographic Information System) is a free and open-source platform that allows users to
+	#analyze, view, and edit geospatial data. It supports both vector and raster layers, as well as various #web services, and is extensible through community-developed plugins. Key features include map
+	#creation, spatial analysis, and data management.
+	#############################################################################
+
+	conda env create -f $HOME/WRF-MOSIT/qgis.3.28.8.yml
+
+	echo " "
+
+
 	############################WRFDA 3DVAR###############################
 	## WRFDA v4.5 3DVAR
 	## Downloaded from git tagged releases
@@ -22473,6 +22495,19 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	########### This is the preferred method by NCAR      ##################
 	##### https://wrf-python.readthedocs.io/en/latest/installation.html  ##################
 	conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
+
+
+	################################## QGIS #####################################
+	#QGIS (Quantum Geographic Information System) is a free and open-source platform that allows users to
+	#analyze, view, and edit geospatial data. It supports both vector and raster layers, as well as various #web services, and is extensible through community-developed plugins. Key features include map
+	#creation, spatial analysis, and data management.
+	#############################################################################
+
+	conda env create -f $HOME/WRF-MOSIT/qgis.3.28.8.yml
+
+	echo " "
+
+
 
 	############################WRFDA 3DVAR###############################
 	## WRFDA v4.5 3DVAR
@@ -27077,6 +27112,17 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	##### https://wrf-python.readthedocs.io/en/latest/installation.html  ##################
 	conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
+	################################## QGIS #####################################
+	#QGIS (Quantum Geographic Information System) is a free and open-source platform that allows users to
+	#analyze, view, and edit geospatial data. It supports both vector and raster layers, as well as various #web services, and is extensible through community-developed plugins. Key features include map
+	#creation, spatial analysis, and data management.
+	#############################################################################
+
+	conda env create -f $HOME/WRF-MOSIT/qgis.3.28.8.yml
+
+	echo " "
+
+
 	echo " "
 	############################ WRF 4.5  #################################
 	## WRF v4.5
@@ -28128,6 +28174,19 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRF_PICK" = "1" ]; then
 	conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 	echo " "
+
+	################################## QGIS #####################################
+	#QGIS (Quantum Geographic Information System) is a free and open-source platform that allows users to
+	#analyze, view, and edit geospatial data. It supports both vector and raster layers, as well as various #web services, and is extensible through community-developed plugins. Key features include map
+	#creation, spatial analysis, and data management.
+	#############################################################################
+
+	conda env create -f $HOME/WRF-MOSIT/qgis.3.28.8.yml
+
+	echo " "
+
+
+
 	############################ WRF 4.5  #################################
 	## WRF v4.5
 	## Downloaded from git tagged releases
