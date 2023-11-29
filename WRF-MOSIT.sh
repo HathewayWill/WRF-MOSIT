@@ -8942,57 +8942,25 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 	echo $PASSWD | sudo -S apt -y update
 	echo $PASSWD | sudo -S apt -y upgrade && sudo -S apt -y autoremove
 	echo $PASSWD | sudo -S apt -y install autoconf automake bison build-essential byacc cmake csh curl default-jdk default-jre emacs flex g++ gawk gcc gfortran git ksh libcurl4-openssl-dev libjpeg-dev libncurses5 libncurses6 libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev m4 make mlocate ncview okular openbox pipenv pkg-config python2 python2-dev python3 python3-dev python3-pip tcsh unzip xauth xorg time
-
 	echo " "
 	##############################Directory Listing############################
 	export HOME=$(
 		cd
 		pwd
 	)
-
 	mkdir $HOME/WRFHYDRO_STANDALONE
 	export WRFHYDRO_FOLDER=$HOME/WRFHYDRO_STANDALONE
+	export DIR=$WRFHYDRO_FOLDER/Libs
 	cd $WRFHYDRO_FOLDER/
 	mkdir Downloads
+	mkdir $WRFHYDRO_FOLDER/Hydro-Basecode
 	mkdir Libs
 	export DIR=$WRFHYDRO_FOLDER/Libs
 	mkdir Libs/grib2
 	mkdir Libs/NETCDF
 	mkdir Libs/MPICH
-	echo " "
-	##############################Downloading Libraries############################
-	cd Downloads
-	wget -c https://github.com/madler/zlib/archive/refs/tags/v$Zlib_Version.tar.gz
-	wget -c https://github.com/HDFGroup/hdf5/archive/refs/tags/hdf5-$HDF5_Version.tar.gz
-	wget -c https://github.com/Unidata/netcdf-c/archive/refs/tags/v$Netcdf_C_Version.tar.gz
-	wget -c https://github.com/Unidata/netcdf-fortran/archive/refs/tags/v$Netcdf_Fortran_Version.tar.gz
-	wget -c https://github.com/pmodels/mpich/releases/download/v$Mpich_Version/mpich-$Mpich_Version.tar.gz
-	wget -c https://download.sourceforge.net/libpng/libpng-$Libpng_Version.tar.gz
-	wget -c https://www.ece.uvic.ca/~frodo/jasper/software/jasper-$Jasper_Version.zip
-
-	echo " "
-	#############################Compilers############################
-	export CC=gcc
-	export CXX=g++
-	export FC=gfortran
-	export F77=gfortran
-	export CFLAGS="-fPIC -fPIE -O3"
-
-	export gcc_version="$(gcc -dumpversion)"
-	export gfortran_version="$(gfortran -dumpversion)"
-	export gplusplus_version="$(g++ -dumpversion)"
-	export version_10="10"
-
-	if [ $gcc_version -ge $version_10 ] || [ $gfortran_version -ge $version_10 ] || [ $gplusplus_version -ge $version_10 ]; then
-		export fallow_argument=-fallow-argument-mismatch
-		export boz_argument=-fallow-invalid-boz
-	else
-		export fallow_argument=
-		export boz_argument=
-	fi
-
-	export FFLAGS="$fallow_argument -m64"
-	export FCFLAGS="$fallow_argument -m64"
+	mkdir -p Tests/Environment
+	mkdir -p Tests/Compatibility
 
 	echo " "
 	#############################Core Management####################################
@@ -9013,23 +8981,55 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 	echo "##########################################"
 
 	echo " "
-
-	##############################MPICH############################
-	cd $WRFHYDRO_FOLDER/Downloads
-	tar -xvzf mpich-$Mpich_Version.tar.gz
-	cd mpich-$Mpich_Version/
-	autoreconf -i -f 2>&1 | tee autoreconf.log
-
-	F90= ./configure --prefix=$DIR/MPICH --with-device=ch3 FFLAGS="$fallow_argument -m64" FCFLAGS="$fallow_argument -m64"
-	automake -a -f 2>&1 | tee automake.log
-	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
-	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
-	#make check
-
-	export PATH=$DIR/MPICH/bin:$PATH
+	##############################Downloading Libraries############################
+	cd Downloads
+	wget -c https://github.com/madler/zlib/archive/refs/tags/v$Zlib_Version.tar.gz
+	wget -c https://github.com/HDFGroup/hdf5/archive/refs/tags/hdf5-$HDF5_Version.tar.gz
+	wget -c https://github.com/Unidata/netcdf-c/archive/refs/tags/v$Netcdf_C_Version.tar.gz
+	wget -c https://github.com/Unidata/netcdf-fortran/archive/refs/tags/v$Netcdf_Fortran_Version.tar.gz
+	wget -c https://download.sourceforge.net/libpng/libpng-$Libpng_Version.tar.gz
+	wget -c https://www.ece.uvic.ca/~frodo/jasper/software/jasper-$Jasper_Version.zip
+	wget -c https://github.com/pmodels/mpich/releases/download/v$Mpich_Version/mpich-$Mpich_Version.tar.gz
+	wget -c https://parallel-netcdf.github.io/Release/pnetcdf-$Pnetcdf_Version.tar.gz
+	wget -c https://sourceforge.net/projects/opengrads/files/grads2/2.2.1.oga.1/Linux%20%2864%20Bits%29/opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz
 
 	echo " "
+	#############################Compilers############################
+	export CC=gcc
+	export CXX=g++
+	export FC=gfortran
+	export F77=gfortran
+	export CFLAGS="-fPIC -fPIE -O3"
 
+	#IF statement for GNU compiler issue
+	export GCC_VERSION=$(/usr/bin/gcc -dumpfullversion | awk '{print$1}')
+	export GFORTRAN_VERSION=$(/usr/bin/gfortran -dumpfullversion | awk '{print$1}')
+	export GPLUSPLUS_VERSION=$(/usr/bin/g++ -dumpfullversion | awk '{print$1}')
+
+	export GCC_VERSION_MAJOR_VERSION=$(echo $GCC_VERSION | awk -F. '{print $1}')
+	export GFORTRAN_VERSION_MAJOR_VERSION=$(echo $GFORTRAN_VERSION | awk -F. '{print $1}')
+	export GPLUSPLUS_VERSION_MAJOR_VERSION=$(echo $GPLUSPLUS_VERSION | awk -F. '{print $1}')
+
+	export version_10="10"
+
+	if [ $GCC_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GFORTRAN_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GPLUSPLUS_VERSION_MAJOR_VERSION -ge $version_10 ]; then
+		export fallow_argument=-fallow-argument-mismatch
+		export boz_argument=-fallow-invalid-boz
+	else
+		export fallow_argument=
+		export boz_argument=
+	fi
+
+	export FFLAGS="$fallow_argument -m64"
+	export FCFLAGS="$fallow_argument -m64"
+
+	echo "##########################################"
+	echo "FFLAGS = $FFLAGS"
+	echo "FCFLAGS = $FCFLAGS"
+	echo "CFLAGS = $CFLAGS"
+	echo "##########################################"
+
+	echo " "
 	#############################zlib############################
 	#Uncalling compilers due to comfigure issue with zlib$Zlib_Version
 	#With CC & CXX definied ./configure uses different compiler Flags
@@ -9039,7 +9039,6 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 	cd zlib-$Zlib_Version/
 	autoreconf -i -f 2>&1 | tee autoreconf.log
 	./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
-
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
@@ -9053,18 +9052,16 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 	autoreconf -i -f 2>&1 | tee autoreconf.log
 
 	F90= ./configure --prefix=$DIR/MPICH --with-device=ch3 FFLAGS="$fallow_argument -m64" FCFLAGS="$fallow_argument -m64" 2>&1 | tee configure.log
-
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 
 	export PATH=$DIR/MPICH/bin:$PATH
-
-	export MPIFC=$DIR/MPICH/mpifort
-	export MPIF77=$DIR/MPICH/mpifort
-	export MPIF90=$DIR/MPICH/mpifort
-	export MPICC=$DIR/MPICH/mpicc
+	export MPIFC=$DIR/MPICH/bin/mpifort
+	export MPIF77=$DIR/MPICH/bin/mpifort
+	export MPIF90=$DIR/MPICH/bin/mpifort
+	export MPICC=$DIR/MPICH/bin/mpicc
 	export MPICXX=$DIR/MPICH/bin/mpicxx
 
 	echo " "
@@ -9077,7 +9074,6 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 	autoreconf -i -f 2>&1 | tee autoreconf.log
 
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
-
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
@@ -9090,7 +9086,6 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 	autoreconf -i -f 2>&1 | tee autoreconf.log
 
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
-
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
@@ -9107,7 +9102,6 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 	autoreconf -i -f 2>&1 | tee autoreconf.log
 
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS ./configure --prefix=$DIR/grib2 --with-zlib=$DIR/grib2 --enable-hl --enable-fortran --enable-parallel 2>&1 | tee configure.log
-
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
@@ -9124,14 +9118,14 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 	cd $WRFHYDRO_FOLDER/Downloads
 	tar -xvzf pnetcdf-$Pnetcdf_Version.tar.gz
 	cd pnetcdf-$Pnetcdf_Version
-	export MPIFC=$DIR/MPICH/mpifort
-	export MPIF77=$DIR/MPICH/mpifort
-	export MPIF90=$DIR/MPICH/mpifort
-	export MPICC=$DIR/MPICH/mpicc
+
+	export MPIFC=$DIR/MPICH/bin/mpifort
+	export MPIF77=$DIR/MPICH/bin/mpifort
+	export MPIF90=$DIR/MPICH/bin/mpifort
+	export MPICC=$DIR/MPICH/bin/mpicc
 	export MPICXX=$DIR/MPICH/bin/mpicxx
 	autoreconf -i -f 2>&1 | tee autoreconf.log
 	./configure --prefix=$DIR/grib2 --enable-shared --enable-static 2>&1 | tee configure.log
-
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
@@ -9151,7 +9145,6 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 	autoreconf -i -f 2>&1 | tee autoreconf.log
 
 	CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS=$CFLAGS ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-shared --enable-static --enable-pnetcdf --enable-cdf5 --enable-parallel-tests 2>&1 | tee configure.log
-
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
@@ -9171,13 +9164,13 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 	autoreconf -i -f 2>&1 | tee autoreconf.log
 
 	CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS=$CFLAGS ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-shared --enable-static --enable-parallel-tests --enable-hdf5 2>&1 | tee configure.log
-
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 
 	echo " "
+
 
 	#################################### System Environment Tests ##############
 	mkdir -p $WRFHYDRO_FOLDER/Tests/Environment
