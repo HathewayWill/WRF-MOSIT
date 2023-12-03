@@ -143,7 +143,7 @@ This is a BASH script that provides options to install the following Weather Res
 
 - Script will check for System Architecture Type and Storage Space requirements.
 
-- Once running the script users will be provided with options to select how the WRF_Master_Script will compile and install the various packages.
+- Once running the script users will be provided with options to select how the WRF-MOSIT will compile and install the various packages.
     - First option, Which compiler users want to use Intel or GNU compilers.
          - Please note that Hurricane WRF (HWRF) can only use Intel Compilers
     - Second option, Which graphic display package should be installed.  GrADS or OpenGrADS
