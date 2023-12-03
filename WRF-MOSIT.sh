@@ -4509,6 +4509,7 @@ echo " "
 ########### WRf-Python compiled via Conda  ##################
 ########### This is the preferred method by NCAR      ##################
 ##### https://wrf-python.readthedocs.io/en/latest/installation.html  ##################
+source $Anaconda_Install_DIR/etc/profile.d/conda.sh
 conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 ######################### Climate Data Operators ############
@@ -5232,7 +5233,8 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$MAC_CHIP" = "I
  ########### WRf-Python compiled via Conda  ##################
  ########### This is the preferred method by NCAR      ##################
  ##### https://wrf-python.readthedocs.io/en/latest/installation.html  ##################
- conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
+ source $Anaconda_Install_DIR/etc/profile.d/conda.sh
+conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
  ######################### Climate Data Operators ############
  ######################### CDO compiled via Conda ###########
@@ -5956,7 +5958,8 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$MAC_CHIP" = "A
 	########### WRf-Python compiled via Conda  ##################
 	########### This is the preferred method by NCAR      ##################
 	##### https://wrf-python.readthedocs.io/en/latest/installation.html  ##################
-	conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
+	source $Anaconda_Install_DIR/etc/profile.d/conda.sh
+conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 	######################### Climate Data Operators ############
 	######################### CDO compiled via Conda ###########
@@ -6741,7 +6744,8 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
 	########### WRf-Python compiled via Conda  ##################
 	########### This is the preferred method by NCAR      ##################
 	##### https://wrf-python.readthedocs.io/en/latest/installation.html  ##################
-	conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
+	source $Anaconda_Install_DIR/etc/profile.d/conda.sh
+conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 	######################### Climate Data Operators ############
 	######################### CDO compiled via Conda ###########
@@ -7683,7 +7687,8 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
 	    ########### WRf-Python compiled via Conda  ##################
 	    ########### This is the preferred method by NCAR      ##################
 	    ##### https://wrf-python.readthedocs.io/en/latest/installation.html  ##################
-	    conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
+	    source $Anaconda_Install_DIR/etc/profile.d/conda.sh
+conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 	    echo " "
 
@@ -8663,7 +8668,8 @@ automake -a -f 2>&1 | tee automake.log
     ########### WRf-Python compiled via Conda  ##################
     ########### This is the preferred method by NCAR      ##################
     ##### https://wrf-python.readthedocs.io/en/latest/installation.html  ##################
-    conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
+    source $Anaconda_Install_DIR/etc/profile.d/conda.sh
+conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
     echo " "
 
@@ -9396,7 +9402,8 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 	########### WRf-Python compiled via Conda  ##################
 	########### This is the preferred method by NCAR      ##################
 	##### https://wrf-python.readthedocs.io/en/latest/installation.html  ##################
-	conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
+	source $Anaconda_Install_DIR/etc/profile.d/conda.sh
+conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 	######################### Climate Data Operators ############
 	######################### CDO compiled via Conda ###########
@@ -9427,7 +9434,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 	echo " "
 
 	################ NEEDS TO BE IN Master folder #######################
-	cp $HOME/WRF-MASTER/SurfaceRunoff.py $WRFHYDRO_FOLDER/domain/NWM
+	cp $HOME/WRF-MOSIT/SurfaceRunoff.py $WRFHYDRO_FOLDER/domain/NWM
 
 	cd $WRFHYDRO_FOLDER/domain/NWM
 
@@ -9959,10 +9966,11 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ] && [ "$
 	########### WRf-Python compiled via Conda  ##################
 	########### This is the preferred method by NCAR      ##################
 	##### https://wrf-python.readthedocs.io/en/latest/installation.html  ##################
-	conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
+	source $Anaconda_Install_DIR/etc/profile.d/conda.sh
+conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	echo " "
 
-	cp $HOME/WRF-MASTER/SurfaceRunoff.py $WRFHYDRO_FOLDER/domain/NWM
+	cp $HOME/WRF-MOSIT/SurfaceRunoff.py $WRFHYDRO_FOLDER/domain/NWM
 
 	cd $WRFHYDRO_FOLDER/domain/NWM
 
@@ -10506,10 +10514,11 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ] && [ "$
 	########### WRf-Python compiled via Conda  ##################
 	########### This is the preferred method by NCAR      ##################
 	##### https://wrf-python.readthedocs.io/en/latest/installation.html  ##################
-	conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
+	source $Anaconda_Install_DIR/etc/profile.d/conda.sh
+conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	echo " "
 
-	cp $HOME/WRF-MASTER/SurfaceRunoff.py $WRFHYDRO_FOLDER/domain/NWM
+	cp $HOME/WRF-MOSIT/SurfaceRunoff.py $WRFHYDRO_FOLDER/domain/NWM
 
 	cd $WRFHYDRO_FOLDER/domain/NWM
 
@@ -10961,11 +10970,12 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; the
 	########### WRf-Python compiled via Conda  ##################
 	########### This is the preferred method by NCAR      ##################
 	##### https://wrf-python.readthedocs.io/en/latest/installation.html  ##################
-	conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
+	source $Anaconda_Install_DIR/etc/profile.d/conda.sh
+conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	echo " "
 
 	################ NEEDS TO BE IN Master folder #######################
-	cp $HOME/WRF-MASTER/SurfaceRunoff.py $WRFHYDRO_FOLDER/domain/NWM
+	cp $HOME/WRF-MOSIT/SurfaceRunoff.py $WRFHYDRO_FOLDER/domain/NWM
 
 	cd $WRFHYDRO_FOLDER/domain/NWM
 
@@ -11455,10 +11465,11 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 	########### WRf-Python compiled via Conda  ##################
 	########### This is the preferred method by NCAR      ##################
 	##### https://wrf-python.readthedocs.io/en/latest/installation.html  ##################
-	conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
+	source $Anaconda_Install_DIR/etc/profile.d/conda.sh
+conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	echo " "
 	################ NEEDS TO BE IN Master folder #######################
-	cp $HOME/WRF-MASTER/SurfaceRunoff.py $WRFHYDRO_FOLDER/domain/NWM
+	cp $HOME/WRF-MOSIT/SurfaceRunoff.py $WRFHYDRO_FOLDER/domain/NWM
 
 	cd $WRFHYDRO_FOLDER/domain/NWM
 
@@ -11955,10 +11966,11 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 	########### WRf-Python compiled via Conda  ##################
 	########### This is the preferred method by NCAR      ##################
 	##### https://wrf-python.readthedocs.io/en/latest/installation.html  ##################
-	conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
+	source $Anaconda_Install_DIR/etc/profile.d/conda.sh
+conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	echo " "
 	################ NEEDS TO BE IN Master folder #######################
-	cp $HOME/WRF-MASTER/SurfaceRunoff.py $WRFHYDRO_FOLDER/domain/NWM
+	cp $HOME/WRF-MOSIT/SurfaceRunoff.py $WRFHYDRO_FOLDER/domain/NWM
 
 	cd $WRFHYDRO_FOLDER/domain/NWM
 
@@ -12673,7 +12685,8 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 	########### WRf-Python compiled via Conda  ##################
 	########### This is the preferred method by NCAR      ##################
 	##### https://wrf-python.readthedocs.io/en/latest/installation.html  ##################
-	conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
+	source $Anaconda_Install_DIR/etc/profile.d/conda.sh
+conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 	######################### Climate Data Operators ############
 	######################### CDO compiled via Conda ###########
@@ -13529,7 +13542,8 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 	########### WRf-Python compiled via Conda  ##################
 	########### This is the preferred method by NCAR      ##################
 	##### https://wrf-python.readthedocs.io/en/latest/installation.html  ##################
-	conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
+	source $Anaconda_Install_DIR/etc/profile.d/conda.sh
+conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 	######################### Climate Data Operators ############
 	######################### CDO compiled via Conda ###########
@@ -14319,7 +14333,8 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ] && [ "$MAC
 	########### WRf-Python compiled via Conda  ##################
 	########### This is the preferred method by NCAR      ##################
 	##### https://wrf-python.readthedocs.io/en/latest/installation.html  ##################
-	conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
+	source $Anaconda_Install_DIR/etc/profile.d/conda.sh
+conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 	######################### Climate Data Operators ############
 	######################### CDO compiled via Conda ###########
@@ -15084,7 +15099,8 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ] && [ "$MAC
 	########### WRf-Python compiled via Conda  ##################
 	########### This is the preferred method by NCAR      ##################
 	##### https://wrf-python.readthedocs.io/en/latest/installation.html  ##################
-	conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
+	source $Anaconda_Install_DIR/etc/profile.d/conda.sh
+conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 	######################### Climate Data Operators ############
 	######################### CDO compiled via Conda ###########
@@ -16088,7 +16104,8 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 	########### WRf-Python compiled via Conda  ##################
 	########### This is the preferred method by NCAR      ##################
 	##### https://wrf-python.readthedocs.io/en/latest/installation.html  ##################
-	conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
+	source $Anaconda_Install_DIR/etc/profile.d/conda.sh
+conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 	echo " "
 
@@ -17027,7 +17044,8 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 	########### WRf-Python compiled via Conda  ##################
 	########### This is the preferred method by NCAR      ##################
 	##### https://wrf-python.readthedocs.io/en/latest/installation.html  ##################
-	conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
+	source $Anaconda_Install_DIR/etc/profile.d/conda.sh
+conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	echo " "
 
 	########################## WRF Hydro GIS PreProcessor ##############################
@@ -18021,7 +18039,8 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	########### WRf-Python compiled via Conda  ##################
 	########### This is the preferred method by NCAR      ##################
 	##### https://wrf-python.readthedocs.io/en/latest/installation.html  ##################
-	conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
+	source $Anaconda_Install_DIR/etc/profile.d/conda.sh
+conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 	echo " "
 
@@ -18088,7 +18107,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	sed -i '919s/==/=/g' $WRFCHEM_FOLDER/WRFDA/configure
 
 	if [ ${auto_config} -eq 1 ]; then
-		echo 18 | ./configure wrfda 2>&1 | tee configure.log #Option 18 for gfortran/gcc and distribunted memory
+		echo 34 | ./configure wrfda 2>&1 | tee configure.log #Option 34 for gfortran/gcc and distribunted memory
 	else
 		./configure wrfda 2>&1 | tee configure.log #Option 18 for gfortran/gcc and distribunted memory
 	fi
@@ -18886,7 +18905,8 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	########### WRf-Python compiled via Conda  ##################
 	########### This is the preferred method by NCAR      ##################
 	##### https://wrf-python.readthedocs.io/en/latest/installation.html  ##################
-	conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
+	source $Anaconda_Install_DIR/etc/profile.d/conda.sh
+conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 	######################### Climate Data Operators ############
 	######################### CDO compiled via Conda ###########
@@ -19666,7 +19686,8 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$MAC_CHIP" = 
 	########### WRf-Python compiled via Conda  ##################
 	########### This is the preferred method by NCAR      ##################
 	##### https://wrf-python.readthedocs.io/en/latest/installation.html  ##################
-	conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
+	source $Anaconda_Install_DIR/etc/profile.d/conda.sh
+conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 	######################### Climate Data Operators ############
 	######################### CDO compiled via Conda ###########
@@ -20447,7 +20468,8 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$MAC_CHIP" = 
 	########### WRf-Python compiled via Conda  ##################
 	########### This is the preferred method by NCAR      ##################
 	##### https://wrf-python.readthedocs.io/en/latest/installation.html  ##################
-	conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
+	source $Anaconda_Install_DIR/etc/profile.d/conda.sh
+conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 	######################### Climate Data Operators ############
 	######################### CDO compiled via Conda ###########
@@ -21472,7 +21494,8 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	########### WRf-Python compiled via Conda  ##################
 	########### This is the preferred method by NCAR      ##################
 	##### https://wrf-python.readthedocs.io/en/latest/installation.html  ##################
-	conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
+	source $Anaconda_Install_DIR/etc/profile.d/conda.sh
+conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 	echo " "
 
@@ -21521,7 +21544,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	sed -i '919s/==/=/g' $WRFCHEM_FOLDER/WRFDA/configure
 
 	if [ ${auto_config} -eq 1 ]; then
-		echo 18 | ./configure wrfda 2>&1 | tee configure.log #Option 18 for gfortran/gcc and distribunted memory
+		echo 34 | ./configure wrfda 2>&1 | tee configure.log #Option 34 for gfortran/gcc and distribunted memory
 	else
 		./configure wrfda 2>&1 | tee configure.log #Option 18 for gfortran/gcc and distribunted memory
 	fi
@@ -22487,7 +22510,8 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	########### WRf-Python compiled via Conda  ##################
 	########### This is the preferred method by NCAR      ##################
 	##### https://wrf-python.readthedocs.io/en/latest/installation.html  ##################
-	conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
+	source $Anaconda_Install_DIR/etc/profile.d/conda.sh
+conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 
 	################################## QGIS #####################################
@@ -22536,7 +22560,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	sed -i '919s/==/=/g' $WRFCHEM_FOLDER/WRFDA/configure
 
 	if [ ${auto_config} -eq 1 ]; then
-		echo 18 | ./configure wrfda 2>&1 | tee configure.log #Option 18 for gfortran/gcc and distribunted memory
+		echo 34 | ./configure wrfda 2>&1 | tee configure.log #Option 34 for gfortran/gcc and distribunted memory
 	else
 		./configure wrfda 2>&1 | tee configure.log #Option 18 for gfortran/gcc and distribunted memory
 	fi
@@ -23517,7 +23541,8 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	########### WRf-Python compiled via Conda  ##################
 	########### This is the preferred method by NCAR      ##################
 	##### https://wrf-python.readthedocs.io/en/latest/installation.html  ##################
-	conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
+	source $Anaconda_Install_DIR/etc/profile.d/conda.sh
+conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 	######################### Climate Data Operators ############
 	######################### CDO compiled via Conda ###########
@@ -24407,7 +24432,8 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	########### WRf-Python compiled via Conda  ##################
 	########### This is the preferred method by NCAR      ##################
 	##### https://wrf-python.readthedocs.io/en/latest/installation.html  ##################
-	conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
+	source $Anaconda_Install_DIR/etc/profile.d/conda.sh
+conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 	######################### Climate Data Operators ############
 	######################### CDO compiled via Conda ###########
@@ -25224,7 +25250,8 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "Int
 	########### WRf-Python compiled via Conda  ##################
 	########### This is the preferred method by NCAR      ##################
 	##### https://wrf-python.readthedocs.io/en/latest/installation.html  ##################
-	conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
+	source $Anaconda_Install_DIR/etc/profile.d/conda.sh
+conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 	######################### Climate Data Operators ############
 	######################### CDO compiled via Conda ###########
@@ -26038,7 +26065,8 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "ARM
 	########### WRf-Python compiled via Conda  ##################
 	########### This is the preferred method by NCAR      ##################
 	##### https://wrf-python.readthedocs.io/en/latest/installation.html  ##################
-	conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
+	source $Anaconda_Install_DIR/etc/profile.d/conda.sh
+conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 	######################### Climate Data Operators ############
 	######################### CDO compiled via Conda ###########
@@ -27103,7 +27131,8 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	########### WRf-Python compiled via Conda  ##################
 	########### This is the preferred method by NCAR      ##################
 	##### https://wrf-python.readthedocs.io/en/latest/installation.html  ##################
-	conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
+	source $Anaconda_Install_DIR/etc/profile.d/conda.sh
+conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 	################################## QGIS #####################################
 	#QGIS (Quantum Geographic Information System) is a free and open-source platform that allows users to
@@ -28164,7 +28193,8 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRF_PICK" = "1" ]; then
 	########### WRf-Python compiled via Conda  ##################
 	########### This is the preferred method by NCAR      ##################
 	##### https://wrf-python.readthedocs.io/en/latest/installation.html  ##################
-	conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
+	source $Anaconda_Install_DIR/etc/profile.d/conda.sh
+conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 	echo " "
 
