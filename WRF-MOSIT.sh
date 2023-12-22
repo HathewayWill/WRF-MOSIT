@@ -21,6 +21,8 @@ export Libpng_Version=1.6.39
 export Jasper_Version=1.900.1
 export Pnetcdf_Version=1.12.3
 
+export WRF_VERSION=4.5.2
+export WPS_VERSION=4.5
 
 
 ############################### Citation Requirement  ####################
@@ -1790,7 +1792,7 @@ fi
 ############################################# WRF CMAQ #################################
 ## WRF_SFIRE installation with parallel process.
 # Download and install required library and data files for WRF_CMAQ.
-# Tested in Ubuntu 20.04.5 LTS & Ubuntu 22.04, Rocky Linux 9
+# Tested in Ubuntu 20.0$WPS_VERSION LTS & Ubuntu 22.04, Rocky Linux 9
 # Built in 64-bit system
 # Built with Intel or GNU compilers
 # Tested with current available libraries on 10/10/2023
@@ -2252,61 +2254,61 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
 	  cp bldit_project.csh bldit_project.csh.old     # Create backup of build project script
 
 	  # Set path to where CMAQ will be built
-	  sed -i '19s|/home/username/path|${WRF_FOLDER}/Downloads/CMAQ/Build_WRFv4.5-CMAQv5.4|g' $WRF_FOLDER/Downloads/CMAQ/bldit_project.csh
+	  sed -i '19s|/home/username/path|${WRF_FOLDER}/Downloads/CMAQ/Build_WRFv$WPS_VERSION-CMAQv5.4|g' $WRF_FOLDER/Downloads/CMAQ/bldit_project.csh
 	  # Build CMAQ Project
 	  ./bldit_project.csh
 
-	  cd $WRF_FOLDER/Downloads/CMAQ/Build_WRFv4.5-CMAQv5.4
+	  cd $WRF_FOLDER/Downloads/CMAQ/Build_WRFv$WPS_VERSION-CMAQv5.4
 
 	  cp config_cmaq.csh config_cmaq.csh.old        # Create backup of configure script
 
-	  # Sed statements to configure the Build_WRFv4.5-CMAQv5.4
-	  sed -i '146s|netcdf_root_gcc|${WRF_FOLDER}/Libs/NETCDF|g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv4.5-CMAQv5.4/config_cmaq.csh
-	  sed -i '147s|ioapi_root_gcc|${WRF_FOLDER}/Downloads/ioapi|g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv4.5-CMAQv5.4/config_cmaq.csh
-	  sed -i '148s|WRF_ARCH|WRF_ARCH 34|g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv4.5-CMAQv5.4/config_cmaq.csh
+	  # Sed statements to configure the Build_WRFv$WPS_VERSION-CMAQv5.4
+	  sed -i '146s|netcdf_root_gcc|${WRF_FOLDER}/Libs/NETCDF|g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv$WPS_VERSION-CMAQv5.4/config_cmaq.csh
+	  sed -i '147s|ioapi_root_gcc|${WRF_FOLDER}/Downloads/ioapi|g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv$WPS_VERSION-CMAQv5.4/config_cmaq.csh
+	  sed -i '148s|WRF_ARCH|WRF_ARCH 34|g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv$WPS_VERSION-CMAQv5.4/config_cmaq.csh
 
 	  # sed statements for paths in configure file
-	  sed -i '151s|ioapi_inc_gcc|${WRF_FOLDER}/Downloads/ioapi/ioapi/fixed_src|g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv4.5-CMAQv5.4/config_cmaq.csh
-	  sed -i '152s|ioapi_lib_gcc|${WRF_FOLDER}/Downloads/ioapi/$BIN|g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv4.5-CMAQv5.4/config_cmaq.csh
-	  sed -i '153s|netcdf_lib_gcc |${WRF_FOLDER}/Libs/NETCDF/lib|g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv4.5-CMAQv5.4/config_cmaq.csh
-	  sed -i '154s|netcdf_inc_gcc|${WRF_FOLDER}/Libs/NETCDF/include|g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv4.5-CMAQv5.4/config_cmaq.csh
-	  sed -i '155s|netcdff_lib_gcc|${WRF_FOLDER}/Libs/NETCDF/lib|g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv4.5-CMAQv5.4/config_cmaq.csh
-	  sed -i '156s|netcdff_inc_gcc|${WRF_FOLDER}/Libs/NETCDF/include|g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv4.5-CMAQv5.4/config_cmaq.csh
-	  sed -i '157s|mpi_incl_gcc|${WRF_FOLDER}/Libs/MPICH|g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv4.5-CMAQv5.4/config_cmaq.csh
-	  sed -i '158s|mpi_lib_gcc|${WRF_FOLDER}/Libs/MPICH|g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv4.5-CMAQv5.4/config_cmaq.csh
+	  sed -i '151s|ioapi_inc_gcc|${WRF_FOLDER}/Downloads/ioapi/ioapi/fixed_src|g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv$WPS_VERSION-CMAQv5.4/config_cmaq.csh
+	  sed -i '152s|ioapi_lib_gcc|${WRF_FOLDER}/Downloads/ioapi/$BIN|g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv$WPS_VERSION-CMAQv5.4/config_cmaq.csh
+	  sed -i '153s|netcdf_lib_gcc |${WRF_FOLDER}/Libs/NETCDF/lib|g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv$WPS_VERSION-CMAQv5.4/config_cmaq.csh
+	  sed -i '154s|netcdf_inc_gcc|${WRF_FOLDER}/Libs/NETCDF/include|g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv$WPS_VERSION-CMAQv5.4/config_cmaq.csh
+	  sed -i '155s|netcdff_lib_gcc|${WRF_FOLDER}/Libs/NETCDF/lib|g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv$WPS_VERSION-CMAQv5.4/config_cmaq.csh
+	  sed -i '156s|netcdff_inc_gcc|${WRF_FOLDER}/Libs/NETCDF/include|g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv$WPS_VERSION-CMAQv5.4/config_cmaq.csh
+	  sed -i '157s|mpi_incl_gcc|${WRF_FOLDER}/Libs/MPICH|g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv$WPS_VERSION-CMAQv5.4/config_cmaq.csh
+	  sed -i '158s|mpi_lib_gcc|${WRF_FOLDER}/Libs/MPICH|g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv$WPS_VERSION-CMAQv5.4/config_cmaq.csh
 
 
 	  # compile the Chemistry Transport Model (CCTM) preprocess
 
-	  cd $WRF_FOLDER/Downloads/CMAQ/Build_WRFv4.5-CMAQv5.4/CCTM/scripts
+	  cd $WRF_FOLDER/Downloads/CMAQ/Build_WRFv$WPS_VERSION-CMAQv5.4/CCTM/scripts
 
 	  cp bldit_cctm.csh bldit_cctm.csh.old  # make a back up copy of .csh script
 
 	  # Sed statements for configuration
-	  sed -i '74s|-j|-j $CPU_HALF_EVEN|g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv4.5-CMAQv5.4/CCTM/scripts/bldit_cctm.csh # set multicore to half of available cpus
-	  sed -i '84s|#set|set|g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv4.5-CMAQv5.4/CCTM/scripts/bldit_cctm.csh # build two way
-	  sed -i '103s|v4.4|v4.5|g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv4.5-CMAQv5.4/CCTM/scripts/bldit_cctm.csh # change wrf version from 4.4 to 4.5
+	  sed -i '74s|-j|-j $CPU_HALF_EVEN|g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv$WPS_VERSION-CMAQv5.4/CCTM/scripts/bldit_cctm.csh # set multicore to half of available cpus
+	  sed -i '84s|#set|set|g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv$WPS_VERSION-CMAQv5.4/CCTM/scripts/bldit_cctm.csh # build two way
+	  sed -i '103s|v4.4|v$WPS_VERSION|g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv$WPS_VERSION-CMAQv5.4/CCTM/scripts/bldit_cctm.csh # change wrf version from 4.4 to $WPS_VERSION
 
 
-	  sed -i '446s| if ( $? != 0 ) then| |g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv4.5-CMAQv5.4/CCTM/scripts/bldit_cctm.csh
-	  sed -i '447s|    set shaID   = "not_a_repo"| |g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv4.5-CMAQv5.4/CCTM/scripts/bldit_cctm.csh
-	  sed -i '448s| endif| |g' $WRF_FOLDER/Downloads/CMAQ//Build_WRFv4.5-CMAQv5.4/CCTM/scripts/bldit_cctm.csh
-	  sed -i '791s|  if ($? == 0) then| |g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv4.5-CMAQv5.4/CCTM/scripts/bldit_cctm.csh
-	  sed -i '793s|  endif| |g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv4.5-CMAQv5.4/CCTM/scripts/bldit_cctm.csh
-	  sed -i '822s|compile em_real|compile -j $CPU_HALF_EVEN em_real|g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv4.5-CMAQv5.4/CCTM/scripts/bldit_cctm.csh
+	  sed -i '446s| if ( $? != 0 ) then| |g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv$WPS_VERSION-CMAQv5.4/CCTM/scripts/bldit_cctm.csh
+	  sed -i '447s|    set shaID   = "not_a_repo"| |g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv$WPS_VERSION-CMAQv5.4/CCTM/scripts/bldit_cctm.csh
+	  sed -i '448s| endif| |g' $WRF_FOLDER/Downloads/CMAQ//Build_WRFv$WPS_VERSION-CMAQv5.4/CCTM/scripts/bldit_cctm.csh
+	  sed -i '791s|  if ($? == 0) then| |g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv$WPS_VERSION-CMAQv5.4/CCTM/scripts/bldit_cctm.csh
+	  sed -i '793s|  endif| |g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv$WPS_VERSION-CMAQv5.4/CCTM/scripts/bldit_cctm.csh
+	  sed -i '822s|compile em_real|compile -j $CPU_HALF_EVEN em_real|g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv$WPS_VERSION-CMAQv5.4/CCTM/scripts/bldit_cctm.csh
 
 	  # Build WRF-CMAQ
 	  ./bldit_cctm.csh gcc 2>&1 | tee bldit.cctm.twoway.gcc.log
 
 	  # Move built folder to top level directory
-	  mv $WRF_FOLDER/Downloads/CMAQ/Build_WRFv4.5-CMAQv5.4/CCTM/scripts/BLD_WRFv4.5_CCTM_v54_gcc $WRF_FOLDER/WRFv4.5_CMAQv5.4
+	  mv $WRF_FOLDER/Downloads/CMAQ/Build_WRFv$WPS_VERSION-CMAQv5.4/CCTM/scripts/BLD_WRFv$WPS_VERSION_CCTM_v54_gcc $WRF_FOLDER/WRFv$WPS_VERSION_CMAQv5.4
 
-	  export WRF_DIR=$WRF_FOLDER/WRFv4.5_CMAQv5.4
+	  export WRF_DIR=$WRF_FOLDER/WRFv$WPS_VERSION_CMAQv5.4
 
 
 
 	    # IF statement to check that all files were created.
-	  cd $WRF_FOLDER/WRFv4.5_CMAQv5.4/main
+	  cd $WRF_FOLDER/WRFv$WPS_VERSION_CMAQv5.4/main
 	  n=$(ls ./*.exe | wc -l)
 	  if (($n >= 3))
 	   then
@@ -2319,16 +2321,16 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
 	  fi
 	  echo " "
 
-	  ############################WPSV4.5#####################################
-	  ## WPS v4.5
+	  ############################WPSV$WPS_VERSION#####################################
+	  ## WPS v$WPS_VERSION
 	  ## Downloaded from git tagged releases
 	  #Option 3 for gfortran and distributed memory
 	  ########################################################################
 
 	  cd $WRF_FOLDER/Downloads
-	  wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v4.5.tar.gz -O WPS-4.5.tar.gz
-	  tar -xvzf WPS-4.5.tar.gz -C $WRF_FOLDER/
-	  cd $WRF_FOLDER/WPS-4.5
+	  wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v$WPS_VERSION.tar.gz -O WPS-$WPS_VERSION.tar.gz
+	  tar -xvzf WPS-$WPS_VERSION.tar.gz -C $WRF_FOLDER/
+	  cd $WRF_FOLDER/WPS-$WPS_VERSION
 	  ./clean -a
 
 	  if [ ${auto_config} -eq 1 ]
@@ -2342,7 +2344,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
 
 	  echo " "
 	  # IF statement to check that all files were created.
-	   cd $WRF_FOLDER/WPS-4.5
+	   cd $WRF_FOLDER/WPS-$WPS_VERSION
 	   n=$(ls ./*.exe | wc -l)
 	   if (($n == 3))
 	    then
@@ -2915,61 +2917,61 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
   cp bldit_project.csh bldit_project.csh.old     # Create backup of build project script
 
   # Set path to where CMAQ will be built
-  sed -i '19s|/home/username/path|${WRF_FOLDER}/Downloads/CMAQ/Build_WRFv4.5-CMAQv5.4|g' $WRF_FOLDER/Downloads/CMAQ/bldit_project.csh
+  sed -i '19s|/home/username/path|${WRF_FOLDER}/Downloads/CMAQ/Build_WRFv$WPS_VERSION-CMAQv5.4|g' $WRF_FOLDER/Downloads/CMAQ/bldit_project.csh
   # Build CMAQ Project
   ./bldit_project.csh
 
-  cd $WRF_FOLDER/Downloads/CMAQ/Build_WRFv4.5-CMAQv5.4
+  cd $WRF_FOLDER/Downloads/CMAQ/Build_WRFv$WPS_VERSION-CMAQv5.4
 
   cp config_cmaq.csh config_cmaq.csh.old        # Create backup of configure script
 
-  # Sed statements to configure the Build_WRFv4.5-CMAQv5.4
-  sed -i '146s|netcdf_root_gcc|${WRF_FOLDER}/Libs/NETCDF|g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv4.5-CMAQv5.4/config_cmaq.csh
-  sed -i '147s|ioapi_root_gcc|${WRF_FOLDER}/Downloads/ioapi|g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv4.5-CMAQv5.4/config_cmaq.csh
-  sed -i '148s|WRF_ARCH|WRF_ARCH 34|g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv4.5-CMAQv5.4/config_cmaq.csh
+  # Sed statements to configure the Build_WRFv$WPS_VERSION-CMAQv5.4
+  sed -i '146s|netcdf_root_gcc|${WRF_FOLDER}/Libs/NETCDF|g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv$WPS_VERSION-CMAQv5.4/config_cmaq.csh
+  sed -i '147s|ioapi_root_gcc|${WRF_FOLDER}/Downloads/ioapi|g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv$WPS_VERSION-CMAQv5.4/config_cmaq.csh
+  sed -i '148s|WRF_ARCH|WRF_ARCH 34|g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv$WPS_VERSION-CMAQv5.4/config_cmaq.csh
 
   # sed statements for paths in configure file
-  sed -i '151s|ioapi_inc_gcc|${WRF_FOLDER}/Downloads/ioapi/ioapi/fixed_src|g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv4.5-CMAQv5.4/config_cmaq.csh
-  sed -i '152s|ioapi_lib_gcc|${WRF_FOLDER}/Downloads/ioapi/$BIN|g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv4.5-CMAQv5.4/config_cmaq.csh
-  sed -i '153s|netcdf_lib_gcc |${WRF_FOLDER}/Libs/NETCDF/lib|g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv4.5-CMAQv5.4/config_cmaq.csh
-  sed -i '154s|netcdf_inc_gcc|${WRF_FOLDER}/Libs/NETCDF/include|g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv4.5-CMAQv5.4/config_cmaq.csh
-  sed -i '155s|netcdff_lib_gcc|${WRF_FOLDER}/Libs/NETCDF/lib|g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv4.5-CMAQv5.4/config_cmaq.csh
-  sed -i '156s|netcdff_inc_gcc|${WRF_FOLDER}/Libs/NETCDF/include|g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv4.5-CMAQv5.4/config_cmaq.csh
-  sed -i '157s|mpi_incl_gcc|${WRF_FOLDER}/Libs/MPICH|g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv4.5-CMAQv5.4/config_cmaq.csh
-  sed -i '158s|mpi_lib_gcc|${WRF_FOLDER}/Libs/MPICH|g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv4.5-CMAQv5.4/config_cmaq.csh
+  sed -i '151s|ioapi_inc_gcc|${WRF_FOLDER}/Downloads/ioapi/ioapi/fixed_src|g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv$WPS_VERSION-CMAQv5.4/config_cmaq.csh
+  sed -i '152s|ioapi_lib_gcc|${WRF_FOLDER}/Downloads/ioapi/$BIN|g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv$WPS_VERSION-CMAQv5.4/config_cmaq.csh
+  sed -i '153s|netcdf_lib_gcc |${WRF_FOLDER}/Libs/NETCDF/lib|g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv$WPS_VERSION-CMAQv5.4/config_cmaq.csh
+  sed -i '154s|netcdf_inc_gcc|${WRF_FOLDER}/Libs/NETCDF/include|g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv$WPS_VERSION-CMAQv5.4/config_cmaq.csh
+  sed -i '155s|netcdff_lib_gcc|${WRF_FOLDER}/Libs/NETCDF/lib|g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv$WPS_VERSION-CMAQv5.4/config_cmaq.csh
+  sed -i '156s|netcdff_inc_gcc|${WRF_FOLDER}/Libs/NETCDF/include|g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv$WPS_VERSION-CMAQv5.4/config_cmaq.csh
+  sed -i '157s|mpi_incl_gcc|${WRF_FOLDER}/Libs/MPICH|g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv$WPS_VERSION-CMAQv5.4/config_cmaq.csh
+  sed -i '158s|mpi_lib_gcc|${WRF_FOLDER}/Libs/MPICH|g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv$WPS_VERSION-CMAQv5.4/config_cmaq.csh
 
 
   # compile the Chemistry Transport Model (CCTM) preprocess
 
-  cd $WRF_FOLDER/Downloads/CMAQ/Build_WRFv4.5-CMAQv5.4/CCTM/scripts
+  cd $WRF_FOLDER/Downloads/CMAQ/Build_WRFv$WPS_VERSION-CMAQv5.4/CCTM/scripts
 
   cp bldit_cctm.csh bldit_cctm.csh.old  # make a back up copy of .csh script
 
   # Sed statements for configuration
-  sed -i '74s|-j|-j $CPU_HALF_EVEN|g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv4.5-CMAQv5.4/CCTM/scripts/bldit_cctm.csh # set multicore to half of available cpus
-  sed -i '84s|#set|set|g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv4.5-CMAQv5.4/CCTM/scripts/bldit_cctm.csh # build two way
-  sed -i '103s|v4.4|v4.5|g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv4.5-CMAQv5.4/CCTM/scripts/bldit_cctm.csh # change wrf version from 4.4 to 4.5
+  sed -i '74s|-j|-j $CPU_HALF_EVEN|g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv$WPS_VERSION-CMAQv5.4/CCTM/scripts/bldit_cctm.csh # set multicore to half of available cpus
+  sed -i '84s|#set|set|g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv$WPS_VERSION-CMAQv5.4/CCTM/scripts/bldit_cctm.csh # build two way
+  sed -i '103s|v4.4|v$WPS_VERSION|g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv$WPS_VERSION-CMAQv5.4/CCTM/scripts/bldit_cctm.csh # change wrf version from 4.4 to $WPS_VERSION
 
 
-  sed -i '446s| if ( $? != 0 ) then| |g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv4.5-CMAQv5.4/CCTM/scripts/bldit_cctm.csh
-  sed -i '447s|    set shaID   = "not_a_repo"| |g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv4.5-CMAQv5.4/CCTM/scripts/bldit_cctm.csh
-  sed -i '448s| endif| |g' $WRF_FOLDER/Downloads/CMAQ//Build_WRFv4.5-CMAQv5.4/CCTM/scripts/bldit_cctm.csh
-  sed -i '791s|  if ($? == 0) then| |g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv4.5-CMAQv5.4/CCTM/scripts/bldit_cctm.csh
-  sed -i '793s|  endif| |g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv4.5-CMAQv5.4/CCTM/scripts/bldit_cctm.csh
-  sed -i '822s|compile em_real|compile -j $CPU_HALF_EVEN em_real|g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv4.5-CMAQv5.4/CCTM/scripts/bldit_cctm.csh
+  sed -i '446s| if ( $? != 0 ) then| |g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv$WPS_VERSION-CMAQv5.4/CCTM/scripts/bldit_cctm.csh
+  sed -i '447s|    set shaID   = "not_a_repo"| |g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv$WPS_VERSION-CMAQv5.4/CCTM/scripts/bldit_cctm.csh
+  sed -i '448s| endif| |g' $WRF_FOLDER/Downloads/CMAQ//Build_WRFv$WPS_VERSION-CMAQv5.4/CCTM/scripts/bldit_cctm.csh
+  sed -i '791s|  if ($? == 0) then| |g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv$WPS_VERSION-CMAQv5.4/CCTM/scripts/bldit_cctm.csh
+  sed -i '793s|  endif| |g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv$WPS_VERSION-CMAQv5.4/CCTM/scripts/bldit_cctm.csh
+  sed -i '822s|compile em_real|compile -j $CPU_HALF_EVEN em_real|g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv$WPS_VERSION-CMAQv5.4/CCTM/scripts/bldit_cctm.csh
 
   # Build WRF-CMAQ
   ./bldit_cctm.csh gcc 2>&1 | tee bldit.cctm.twoway.gcc.log
 
   # Move built folder to top level directory
-  mv $WRF_FOLDER/Downloads/CMAQ/Build_WRFv4.5-CMAQv5.4/CCTM/scripts/BLD_WRFv4.5_CCTM_v54_gcc $WRF_FOLDER/WRFv4.5_CMAQv5.4
+  mv $WRF_FOLDER/Downloads/CMAQ/Build_WRFv$WPS_VERSION-CMAQv5.4/CCTM/scripts/BLD_WRFv$WPS_VERSION_CCTM_v54_gcc $WRF_FOLDER/WRFv$WPS_VERSION_CMAQv5.4
 
-  export WRF_DIR=$WRF_FOLDER/WRFv4.5_CMAQv5.4
+  export WRF_DIR=$WRF_FOLDER/WRFv$WPS_VERSION_CMAQv5.4
 
 
 
     # IF statement to check that all files were created.
-  cd $WRF_FOLDER/WRFv4.5_CMAQv5.4/main
+  cd $WRF_FOLDER/WRFv$WPS_VERSION_CMAQv5.4/main
   n=$(ls ./*.exe | wc -l)
   if (($n >= 3))
    then
@@ -2983,16 +2985,16 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
   echo " "
 
 
-  ############################WPSV4.5#####################################
-  ## WPS v4.5
+  ############################WPSV$WPS_VERSION#####################################
+  ## WPS v$WPS_VERSION
   ## Downloaded from git tagged releases
   #Option 3 for gfortran and distributed memory
   ########################################################################
 
   cd $WRF_FOLDER/Downloads
-  wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v4.5.tar.gz -O WPS-4.5.tar.gz
-  tar -xvzf WPS-4.5.tar.gz -C $WRF_FOLDER/
-  cd $WRF_FOLDER/WPS-4.5
+  wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v$WPS_VERSION.tar.gz -O WPS-$WPS_VERSION.tar.gz
+  tar -xvzf WPS-$WPS_VERSION.tar.gz -C $WRF_FOLDER/
+  cd $WRF_FOLDER/WPS-$WPS_VERSION
   ./clean -a
 
   if [ ${auto_config} -eq 1 ]
@@ -3006,7 +3008,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
 
   echo " "
   # IF statement to check that all files were created.
-   cd $WRF_FOLDER/WPS-4.5
+   cd $WRF_FOLDER/WPS-$WPS_VERSION
    n=$(ls ./*.exe | wc -l)
    if (($n == 3))
     then
@@ -3590,61 +3592,61 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$CMAQ_PICK" = "1" ]; then
   cp bldit_project.csh bldit_project.csh.old     # Create backup of build project script
 
   # Set path to where CMAQ will be built
-  sed -i '19s|/home/username/path|${WRF_FOLDER}/Downloads/CMAQ/Build_WRFv4.5-CMAQv5.4|g' $WRF_FOLDER/Downloads/CMAQ/bldit_project.csh
+  sed -i '19s|/home/username/path|${WRF_FOLDER}/Downloads/CMAQ/Build_WRFv$WPS_VERSION-CMAQv5.4|g' $WRF_FOLDER/Downloads/CMAQ/bldit_project.csh
   # Build CMAQ Project
   ./bldit_project.csh
 
-  cd $WRF_FOLDER/Downloads/CMAQ/Build_WRFv4.5-CMAQv5.4
+  cd $WRF_FOLDER/Downloads/CMAQ/Build_WRFv$WPS_VERSION-CMAQv5.4
 
   cp config_cmaq.csh config_cmaq.csh.old        # Create backup of configure script
 
-  # Sed statements to configure the Build_WRFv4.5-CMAQv5.4
-  sed -i '146s|netcdf_root_gcc|${WRF_FOLDER}/Libs/NETCDF|g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv4.5-CMAQv5.4/config_cmaq.csh
-  sed -i '147s|ioapi_root_gcc|${WRF_FOLDER}/Downloads/ioapi|g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv4.5-CMAQv5.4/config_cmaq.csh
-  sed -i '148s|WRF_ARCH|WRF_ARCH 34|g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv4.5-CMAQv5.4/config_cmaq.csh
+  # Sed statements to configure the Build_WRFv$WPS_VERSION-CMAQv5.4
+  sed -i '146s|netcdf_root_gcc|${WRF_FOLDER}/Libs/NETCDF|g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv$WPS_VERSION-CMAQv5.4/config_cmaq.csh
+  sed -i '147s|ioapi_root_gcc|${WRF_FOLDER}/Downloads/ioapi|g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv$WPS_VERSION-CMAQv5.4/config_cmaq.csh
+  sed -i '148s|WRF_ARCH|WRF_ARCH 34|g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv$WPS_VERSION-CMAQv5.4/config_cmaq.csh
 
   # sed statements for paths in configure file
-  sed -i '151s|ioapi_inc_gcc|${WRF_FOLDER}/Downloads/ioapi/ioapi/fixed_src|g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv4.5-CMAQv5.4/config_cmaq.csh
-  sed -i '152s|ioapi_lib_gcc|${WRF_FOLDER}/Downloads/ioapi/$BIN|g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv4.5-CMAQv5.4/config_cmaq.csh
-  sed -i '153s|netcdf_lib_gcc |${WRF_FOLDER}/Libs/NETCDF/lib|g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv4.5-CMAQv5.4/config_cmaq.csh
-  sed -i '154s|netcdf_inc_gcc|${WRF_FOLDER}/Libs/NETCDF/include|g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv4.5-CMAQv5.4/config_cmaq.csh
-  sed -i '155s|netcdff_lib_gcc|${WRF_FOLDER}/Libs/NETCDF/lib|g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv4.5-CMAQv5.4/config_cmaq.csh
-  sed -i '156s|netcdff_inc_gcc|${WRF_FOLDER}/Libs/NETCDF/include|g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv4.5-CMAQv5.4/config_cmaq.csh
-  sed -i '157s|mpi_incl_gcc|${WRF_FOLDER}/Libs/MPICH|g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv4.5-CMAQv5.4/config_cmaq.csh
-  sed -i '158s|mpi_lib_gcc|${WRF_FOLDER}/Libs/MPICH|g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv4.5-CMAQv5.4/config_cmaq.csh
+  sed -i '151s|ioapi_inc_gcc|${WRF_FOLDER}/Downloads/ioapi/ioapi/fixed_src|g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv$WPS_VERSION-CMAQv5.4/config_cmaq.csh
+  sed -i '152s|ioapi_lib_gcc|${WRF_FOLDER}/Downloads/ioapi/$BIN|g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv$WPS_VERSION-CMAQv5.4/config_cmaq.csh
+  sed -i '153s|netcdf_lib_gcc |${WRF_FOLDER}/Libs/NETCDF/lib|g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv$WPS_VERSION-CMAQv5.4/config_cmaq.csh
+  sed -i '154s|netcdf_inc_gcc|${WRF_FOLDER}/Libs/NETCDF/include|g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv$WPS_VERSION-CMAQv5.4/config_cmaq.csh
+  sed -i '155s|netcdff_lib_gcc|${WRF_FOLDER}/Libs/NETCDF/lib|g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv$WPS_VERSION-CMAQv5.4/config_cmaq.csh
+  sed -i '156s|netcdff_inc_gcc|${WRF_FOLDER}/Libs/NETCDF/include|g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv$WPS_VERSION-CMAQv5.4/config_cmaq.csh
+  sed -i '157s|mpi_incl_gcc|${WRF_FOLDER}/Libs/MPICH|g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv$WPS_VERSION-CMAQv5.4/config_cmaq.csh
+  sed -i '158s|mpi_lib_gcc|${WRF_FOLDER}/Libs/MPICH|g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv$WPS_VERSION-CMAQv5.4/config_cmaq.csh
 
 
   # compile the Chemistry Transport Model (CCTM) preprocess
 
-  cd $WRF_FOLDER/Downloads/CMAQ/Build_WRFv4.5-CMAQv5.4/CCTM/scripts
+  cd $WRF_FOLDER/Downloads/CMAQ/Build_WRFv$WPS_VERSION-CMAQv5.4/CCTM/scripts
 
   cp bldit_cctm.csh bldit_cctm.csh.old  # make a back up copy of .csh script
 
   # Sed statements for configuration
-  sed -i '74s|-j|-j $CPU_HALF_EVEN|g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv4.5-CMAQv5.4/CCTM/scripts/bldit_cctm.csh # set multicore to half of available cpus
-  sed -i '84s|#set|set|g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv4.5-CMAQv5.4/CCTM/scripts/bldit_cctm.csh # build two way
-  sed -i '103s|v4.4|v4.5|g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv4.5-CMAQv5.4/CCTM/scripts/bldit_cctm.csh # change wrf version from 4.4 to 4.5
+  sed -i '74s|-j|-j $CPU_HALF_EVEN|g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv$WPS_VERSION-CMAQv5.4/CCTM/scripts/bldit_cctm.csh # set multicore to half of available cpus
+  sed -i '84s|#set|set|g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv$WPS_VERSION-CMAQv5.4/CCTM/scripts/bldit_cctm.csh # build two way
+  sed -i '103s|v4.4|v$WPS_VERSION|g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv$WPS_VERSION-CMAQv5.4/CCTM/scripts/bldit_cctm.csh # change wrf version from 4.4 to $WPS_VERSION
 
 
-  sed -i '446s| if ( $? != 0 ) then| |g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv4.5-CMAQv5.4/CCTM/scripts/bldit_cctm.csh
-  sed -i '447s|    set shaID   = "not_a_repo"| |g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv4.5-CMAQv5.4/CCTM/scripts/bldit_cctm.csh
-  sed -i '448s| endif| |g' $WRF_FOLDER/Downloads/CMAQ//Build_WRFv4.5-CMAQv5.4/CCTM/scripts/bldit_cctm.csh
-  sed -i '791s|  if ($? == 0) then| |g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv4.5-CMAQv5.4/CCTM/scripts/bldit_cctm.csh
-  sed -i '793s|  endif| |g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv4.5-CMAQv5.4/CCTM/scripts/bldit_cctm.csh
-  sed -i '822s|compile em_real|compile -j $CPU_HALF_EVEN em_real|g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv4.5-CMAQv5.4/CCTM/scripts/bldit_cctm.csh
+  sed -i '446s| if ( $? != 0 ) then| |g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv$WPS_VERSION-CMAQv5.4/CCTM/scripts/bldit_cctm.csh
+  sed -i '447s|    set shaID   = "not_a_repo"| |g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv$WPS_VERSION-CMAQv5.4/CCTM/scripts/bldit_cctm.csh
+  sed -i '448s| endif| |g' $WRF_FOLDER/Downloads/CMAQ//Build_WRFv$WPS_VERSION-CMAQv5.4/CCTM/scripts/bldit_cctm.csh
+  sed -i '791s|  if ($? == 0) then| |g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv$WPS_VERSION-CMAQv5.4/CCTM/scripts/bldit_cctm.csh
+  sed -i '793s|  endif| |g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv$WPS_VERSION-CMAQv5.4/CCTM/scripts/bldit_cctm.csh
+  sed -i '822s|compile em_real|compile -j $CPU_HALF_EVEN em_real|g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv$WPS_VERSION-CMAQv5.4/CCTM/scripts/bldit_cctm.csh
 
   # Build WRF-CMAQ
   ./bldit_cctm.csh gcc 2>&1 | tee bldit.cctm.twoway.gcc.log
 
   # Move built folder to top level directory
-  mv $WRF_FOLDER/Downloads/CMAQ/Build_WRFv4.5-CMAQv5.4/CCTM/scripts/BLD_WRFv4.5_CCTM_v54_gcc $WRF_FOLDER/WRFv4.5_CMAQv5.4
+  mv $WRF_FOLDER/Downloads/CMAQ/Build_WRFv$WPS_VERSION-CMAQv5.4/CCTM/scripts/BLD_WRFv$WPS_VERSION_CCTM_v54_gcc $WRF_FOLDER/WRFv$WPS_VERSION_CMAQv5.4
 
-  export WRF_DIR=$WRF_FOLDER/WRFv4.5_CMAQv5.4
+  export WRF_DIR=$WRF_FOLDER/WRFv$WPS_VERSION_CMAQv5.4
 
 
 
     # IF statement to check that all files were created.
-  cd $WRF_FOLDER/WRFv4.5_CMAQv5.4/main
+  cd $WRF_FOLDER/WRFv$WPS_VERSION_CMAQv5.4/main
   n=$(ls ./*.exe | wc -l)
   if (($n >= 3))
    then
@@ -3657,16 +3659,16 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$CMAQ_PICK" = "1" ]; then
   fi
   echo " "
 
-  ############################WPSV4.5#####################################
-  ## WPS v4.5
+  ############################WPSV$WPS_VERSION#####################################
+  ## WPS v$WPS_VERSION
   ## Downloaded from git tagged releases
   #Option 3 for gfortran and distributed memory
   ########################################################################
 
   cd $WRF_FOLDER/Downloads
-  wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v4.5.tar.gz -O WPS-4.5.tar.gz
-  tar -xvzf WPS-4.5.tar.gz -C $WRF_FOLDER/
-  cd $WRF_FOLDER/WPS-4.5
+  wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v$WPS_VERSION.tar.gz -O WPS-$WPS_VERSION.tar.gz
+  tar -xvzf WPS-$WPS_VERSION.tar.gz -C $WRF_FOLDER/
+  cd $WRF_FOLDER/WPS-$WPS_VERSION
   ./clean -a
 
   if [ ${auto_config} -eq 1 ]
@@ -3680,7 +3682,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$CMAQ_PICK" = "1" ]; then
 
   echo " "
   # IF statement to check that all files were created.
-   cd $WRF_FOLDER/WPS-4.5
+   cd $WRF_FOLDER/WPS-$WPS_VERSION
    n=$(ls ./*.exe | wc -l)
    if (($n == 3))
     then
@@ -3801,7 +3803,7 @@ fi
 ############################################# WRF SFIRE #################################
 ## WRF_SFIRE installation with parallel process.
 # Download and install required library and data files for WRF_SFIRE.
-# Tested in Ubuntu 20.04.5 LTS & Ubuntu 22.04, Rocky Linux 9 & MacOS Ventura 64bit
+# Tested in Ubuntu 20.0$WPS_VERSION LTS & Ubuntu 22.04, Rocky Linux 9 & MacOS Ventura 64bit
 # Built in 64-bit system
 # Built with Intel or GNU compilers
 # Tested with current available libraries on 10/10/2023
@@ -8926,7 +8928,7 @@ fi
 ############################################# WRF Hydro Standalone #################################
 ## WRFHYDRO Standalone installation with parallel process.
 # Download and install required library and data files for WRFHYDRO.
-# Tested in Ubuntu 20.04.5 LTS & Ubuntu 22.04, Rocky Linux 9 & MacOS Ventura 64bit
+# Tested in Ubuntu 20.0$WPS_VERSION LTS & Ubuntu 22.04, Rocky Linux 9 & MacOS Ventura 64bit
 # Built in 64-bit system
 # Built with Intel or GNU compilers
 # Tested with current available libraries on 10/10/2023
@@ -9690,10 +9692,10 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ] && [ "$
 	cd $WRFHYDRO_FOLDER/Downloads
 	tar -xvzf pnetcdf-$Pnetcdf_Version.tar.gz
 	cd pnetcdf-$Pnetcdf_Version
-	export MPIFC=$DIR/MPICH/mpifort
-	export MPIF77=$DIR/MPICH/mpifort
-	export MPIF90=$DIR/MPICH/mpifort
-	export MPICC=$DIR/MPICH/mpicc
+	export MPIFC=$DIR/MPICH/bin/mpifort
+	export MPIF77=$DIR/MPICH/bin/mpifort
+	export MPIF90=$DIR/MPICH/bin/mpifort
+	export MPICC=$DIR/MPICH/bin/mpicc
 	export MPICXX=$DIR/MPICH/bin/mpicxx
 	autoreconf -i -f 2>&1 | tee autoreconf.log
 	./configure --prefix=$DIR/grib2 --enable-shared --enable-static 2>&1 | tee configure.log
@@ -10238,10 +10240,10 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ] && [ "$
 	cd $WRFHYDRO_FOLDER/Downloads
 	tar -xvzf pnetcdf-$Pnetcdf_Version.tar.gz
 	cd pnetcdf-$Pnetcdf_Version
-	export MPIFC=$DIR/MPICH/mpifort
-	export MPIF77=$DIR/MPICH/mpifort
-	export MPIF90=$DIR/MPICH/mpifort
-	export MPICC=$DIR/MPICH/mpicc
+	export MPIFC=$DIR/MPICH/bin/mpifort
+	export MPIF77=$DIR/MPICH/bin/mpifort
+	export MPIF90=$DIR/MPICH/bin/mpifort
+	export MPICC=$DIR/MPICH/bin/mpicc
 	export MPICXX=$DIR/MPICH/bin/mpicxx
 	autoreconf -i -f 2>&1 | tee autoreconf.log
 	./configure --prefix=$DIR/grib2 --enable-shared --enable-static 2>&1 | tee configure.log
@@ -11127,10 +11129,10 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 	# make check
 
 	export PATH=$DIR/MPICH/bin:$PATH
-	export MPIFC=$DIR/MPICH/mpifort
-	export MPIF77=$DIR/MPICH/mpifort
-	export MPIF90=$DIR/MPICH/mpifort
-	export MPICC=$DIR/MPICH/mpicc
+	export MPIFC=$DIR/MPICH/bin/mpifort
+	export MPIF77=$DIR/MPICH/bin/mpifort
+	export MPIF90=$DIR/MPICH/bin/mpifort
+	export MPICC=$DIR/MPICH/bin/mpicc
 	export MPICXX=$DIR/MPICH/bin/mpicxx
 
 	echo " "
@@ -11193,10 +11195,10 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 	tar -xvzf pnetcdf-$Pnetcdf_Version.tar.gz
 	cd pnetcdf-$Pnetcdf_Version
 
-	export MPIFC=$DIR/MPICH/mpifort
-	export MPIF77=$DIR/MPICH/mpifort
-	export MPIF90=$DIR/MPICH/mpifort
-	export MPICC=$DIR/MPICH/mpicc
+	export MPIFC=$DIR/MPICH/bin/mpifort
+	export MPIF77=$DIR/MPICH/bin/mpifort
+	export MPIF90=$DIR/MPICH/bin/mpifort
+	export MPICC=$DIR/MPICH/bin/mpicc
 	export MPICXX=$DIR/MPICH/bin/mpicxx
 	autoreconf -i -f 2>&1 | tee autoreconf.log
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS ./configure --prefix=$DIR/grib2 --enable-shared --enable-static 2>&1 | tee configure.log
@@ -11628,10 +11630,10 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 	# make check
 
 	export PATH=$DIR/MPICH/bin:$PATH
-	export MPIFC=$DIR/MPICH/mpifort
-	export MPIF77=$DIR/MPICH/mpifort
-	export MPIF90=$DIR/MPICH/mpifort
-	export MPICC=$DIR/MPICH/mpicc
+	export MPIFC=$DIR/MPICH/bin/mpifort
+	export MPIF77=$DIR/MPICH/bin/mpifort
+	export MPIF90=$DIR/MPICH/bin/mpifort
+	export MPICC=$DIR/MPICH/bin/mpicc
 	export MPICXX=$DIR/MPICH/bin/mpicxx
 
 	echo " "
@@ -11694,10 +11696,10 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 	tar -xvzf pnetcdf-$Pnetcdf_Version.tar.gz
 	cd pnetcdf-$Pnetcdf_Version
 
-	export MPIFC=$DIR/MPICH/mpifort
-	export MPIF77=$DIR/MPICH/mpifort
-	export MPIF90=$DIR/MPICH/mpifort
-	export MPICC=$DIR/MPICH/mpicc
+	export MPIFC=$DIR/MPICH/bin/mpifort
+	export MPIF77=$DIR/MPICH/bin/mpifort
+	export MPIF90=$DIR/MPICH/bin/mpifort
+	export MPICC=$DIR/MPICH/bin/mpicc
 	export MPICXX=$DIR/MPICH/bin/mpicxx
 	autoreconf -i -f 2>&1 | tee autoreconf.log
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS ./configure --prefix=$DIR/grib2 --enable-shared --enable-static 2>&1 | tee configure.log
@@ -11990,7 +11992,7 @@ fi
 ################################### WRF Hydro Coupled ##############
 ## WRFHYDRO Coupled installation with parallel process.
 # Download and install required library and data files for WRFHYDRO Coupled.
-# Tested in Ubuntu 20.04.5 LTS & Ubuntu 22.04, Rocky Linux 9 & MacOS Ventura 64bit
+# Tested in Ubuntu 20.0$WPS_VERSION LTS & Ubuntu 22.04, Rocky Linux 9 & MacOS Ventura 64bit
 # Built in 64-bit system
 # Built with Intel or GNU compilers
 # Tested with current available libraries on 10/10/2023
@@ -12768,8 +12770,8 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 	read -r -t 5 -p "I am going to wait for 5 seconds only ..."
 	echo " "
-	############################ WRF 4.5  #################################
-	## WRF v4.5
+	############################ WRF $WPS_VERSION  #################################
+	## WRF v$WPS_VERSION
 	## Downloaded from git tagged releases
 	# option 34, option 1 for gfortran and distributed memory w/basic nesting
 	# large file support enable with WRFiO_NCD_LARGE_FILE_SUPPORT=1
@@ -12781,35 +12783,35 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	# Note that you need set nocolons = .true. in the section &time_control of namelist.input
 	########################################################################
 	cd $WRFHYDRO_FOLDER/Downloads
-	wget -c https://github.com/wrf-model/WRF/releases/download/v4.5.1/v4.5.1.tar.gz -O WRF-4.5.1.tar.gz
-	tar -xvzf WRF-4.5.1.tar.gz -C $WRFHYDRO_FOLDER/
+	wget -c https://github.com/wrf-model/WRF/releases/download/v$WRF_VERSION/v$WRF_VERSION.tar.gz -O WRF-$WRF_VERSION.tar.gz
+	tar -xvzf WRF-$WRF_VERSION.tar.gz -C $WRFHYDRO_FOLDER/
 
 	# If statment for changing folder name
 	if [ -d "$WRFHYDRO_FOLDER/WRF" ]; then
-		mv -f $WRFHYDRO_FOLDER/WRF $WRFHYDRO_FOLDER/WRFV4.5.1
+		mv -f $WRFHYDRO_FOLDER/WRF $WRFHYDRO_FOLDER/WRFV$WRF_VERSION
 	fi
 
-	cd $WRFHYDRO_FOLDER/WRFV4.5.1
+	cd $WRFHYDRO_FOLDER/WRFV$WRF_VERSION
 	export WRFIO_NCD_LARGE_FILE_SUPPORT=1
 
 	#Replace old version of WRF-Hydro distributed with WRF with updated WRF-Hydro source code
-	rm -r $WRFHYDRO_FOLDER/WRFV4.5.1/hydro/
-	cp -r $WRFHYDRO_FOLDER/Hydro-Basecode/wrf_hydro_nwm_public-5.2.0/trunk/NDHMS $WRFHYDRO_FOLDER/WRFV4.5.1/hydro
+	rm -r $WRFHYDRO_FOLDER/WRFV$WRF_VERSION/hydro/
+	cp -r $WRFHYDRO_FOLDER/Hydro-Basecode/wrf_hydro_nwm_public-5.2.0/trunk/NDHMS $WRFHYDRO_FOLDER/WRFV$WRF_VERSION/hydro
 
-	cd $WRFHYDRO_FOLDER/WRFV4.5.1/hydro
+	cd $WRFHYDRO_FOLDER/WRFV$WRF_VERSION/hydro
 	source setEnvar.sh
-	cd $WRFHYDRO_FOLDER/WRFV4.5.1
+	cd $WRFHYDRO_FOLDER/WRFV$WRF_VERSION
 
 	./clean
 
 	# SED statements to fix configure error
-	sed -i '186s/==/=/g' $WRFHYDRO_FOLDER/WRFV4.5.1/configure
-	sed -i '318s/==/=/g' $WRFHYDRO_FOLDER/WRFV4.5.1/configure
-	sed -i '919s/==/=/g' $WRFHYDRO_FOLDER/WRFV4.5.1/configure
+	sed -i '186s/==/=/g' $WRFHYDRO_FOLDER/WRFV$WRF_VERSION/configure
+	sed -i '318s/==/=/g' $WRFHYDRO_FOLDER/WRFV$WRF_VERSION/configure
+	sed -i '919s/==/=/g' $WRFHYDRO_FOLDER/WRFV$WRF_VERSION/configure
 
 	if [ ${auto_config} -eq 1 ]; then
-		sed -i '433s/.*/  $response = "34 \\n";/g' $WRFHYDRO_FOLDER/WRFV4.5.1/arch/Config.pl # Answer for compiler choice
-		sed -i '898s/.*/  $response = "1 \\n";/g' $WRFHYDRO_FOLDER/WRFV4.5.1/arch/Config.pl  #Answer for basic nesting
+		sed -i '443s/.*/  $response = "34 \\n";/g' $WRFHYDRO_FOLDER/WRFV$WRF_VERSION/arch/Config.pl # Answer for compiler choice
+		sed -i '909s/.*/  $response = "1 \\n";/g' $WRFHYDRO_FOLDER/WRFV$WRF_VERSION/arch/Config.pl  #Answer for basic nesting
 		./configure 2>&1 | tee configure.log
 	else
 		./configure 2>&1 | tee configure.log #Option 34 gfortran compiler with distributed memory option 1 for basic nesting
@@ -12817,10 +12819,10 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 	./compile -j $CPU_HALF_EVEN em_real 2>&1 | tee compile.wrf1.log
 
-	export WRF_DIR=$WRFHYDRO_FOLDER/WRFV4.5.1
+	export WRF_DIR=$WRFHYDRO_FOLDER/WRFV$WRF_VERSION
 
 	# IF statement to check that all files were created.
-	cd $WRFHYDRO_FOLDER/WRFV4.5.1/main
+	cd $WRFHYDRO_FOLDER/WRFV$WRF_VERSION/main
 	n=$(ls ./*.exe | wc -l)
 	if (($n >= 3)); then
 		echo "All expected files created."
@@ -12828,9 +12830,9 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	else
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
-		cd $WRFHYDRO_FOLDER/WRFV4.5.1
+		cd $WRFHYDRO_FOLDER/WRFV$WRF_VERSION
 		./compile -j $CPU_HALF_EVEN em_real 2>&1 | tee compile.wrf2.log
-		cd $WRFHYDRO_FOLDER/WRFV4.5.1/main
+		cd $WRFHYDRO_FOLDER/WRFV$WRF_VERSION/main
 		n=$(ls ./*.exe | wc -l)
 		if (($n >= 3)); then
 			echo "All expected files created."
@@ -12844,16 +12846,16 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	echo " "
 
 	echo " "
-	############################WPSV4.5#####################################
-	## WPS v4.5
+	############################WPSV$WPS_VERSION#####################################
+	## WPS v$WPS_VERSION
 	## Downloaded from git tagged releases
 	#Option 3 for gfortran and distributed memory
 	########################################################################
 
 	cd $WRFHYDRO_FOLDER/Downloads
-	wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v4.5.tar.gz -O WPS-4.5.tar.gz
-	tar -xvzf WPS-4.5.tar.gz -C $WRFHYDRO_FOLDER/
-	cd $WRFHYDRO_FOLDER/WPS-4.5
+	wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v$WPS_VERSION.tar.gz -O WPS-$WPS_VERSION.tar.gz
+	tar -xvzf WPS-$WPS_VERSION.tar.gz -C $WRFHYDRO_FOLDER/
+	cd $WRFHYDRO_FOLDER/WPS-$WPS_VERSION
 	./clean -a
 
 	if [ ${auto_config} -eq 1 ]; then
@@ -12865,7 +12867,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 	echo " "
 	# IF statement to check that all files were created.
-	cd $WRFHYDRO_FOLDER/WPS-4.5
+	cd $WRFHYDRO_FOLDER/WPS-$WPS_VERSION
 	n=$(ls ./*.exe | wc -l)
 	if (($n == 3)); then
 		echo "All expected files created."
@@ -12874,7 +12876,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
 		./compile 2>&1 | tee compile.wps2.log
-		cd $WRFHYDRO_FOLDER/WPS-4.5
+		cd $WRFHYDRO_FOLDER/WPS-$WPS_VERSION
 		n=$(ls ./*.exe | wc -l)
 		if (($n == 3)); then
 			echo "All expected files created."
@@ -13642,8 +13644,8 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	read -r -t 5 -p "I am going to wait for 5 seconds only ..."
 	echo " "
 
-	############################ WRF 4.5  #################################
-	## WRF v4.5
+	############################ WRF $WPS_VERSION  #################################
+	## WRF v$WPS_VERSION
 	## Downloaded from git tagged releases
 	# option 15, option 1 for intel and distributed memory w/basic nesting
 	# large file support enable with WRFiO_NCD_LARGE_FILE_SUPPORT=1
@@ -13657,52 +13659,52 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 	cd $WRFHYDRO_FOLDER/Downloads
 
-	wget -c https://github.com/wrf-model/WRF/releases/download/v4.5.1/v4.5.1.tar.gz -O WRF-4.5.1.tar.gz
-	tar -xvzf WRF-4.5.1.tar.gz -C $WRFHYDRO_FOLDER/
+	wget -c https://github.com/wrf-model/WRF/releases/download/v$WRF_VERSION/v$WRF_VERSION.tar.gz -O WRF-$WRF_VERSION.tar.gz
+	tar -xvzf WRF-$WRF_VERSION.tar.gz -C $WRFHYDRO_FOLDER/
 
 	# If statment for changing folder name
 	if [ -d "$WRFHYDRO_FOLDER/WRF" ]; then
-		mv -f $WRFHYDRO_FOLDER/WRF $WRFHYDRO_FOLDER/WRFV4.5.1
+		mv -f $WRFHYDRO_FOLDER/WRF $WRFHYDRO_FOLDER/WRFV$WRF_VERSION
 	fi
 
-	cd $WRFHYDRO_FOLDER/WRFV4.5.1
+	cd $WRFHYDRO_FOLDER/WRFV$WRF_VERSION
 
 	export WRFIO_NCD_LARGE_FILE_SUPPORT=1
 
 	#Replace old version of WRF-Hydro distributed with WRF with updated WRF-Hydro source code
-	rm -r $WRFHYDRO_FOLDER/WRFV4.5.1/hydro/
-	cp -r $WRFHYDRO_FOLDER/Hydro-Basecode/wrf_hydro_nwm_public-5.2.0/trunk/NDHMS $WRFHYDRO_FOLDER/WRFV4.5.1/hydro
+	rm -r $WRFHYDRO_FOLDER/WRFV$WRF_VERSION/hydro/
+	cp -r $WRFHYDRO_FOLDER/Hydro-Basecode/wrf_hydro_nwm_public-5.2.0/trunk/NDHMS $WRFHYDRO_FOLDER/WRFV$WRF_VERSION/hydro
 
-	cd $WRFHYDRO_FOLDER/WRFV4.5.1/hydro
+	cd $WRFHYDRO_FOLDER/WRFV$WRF_VERSION/hydro
 	source setEnvar.sh
-	cd $WRFHYDRO_FOLDER/WRFV4.5.1
+	cd $WRFHYDRO_FOLDER/WRFV$WRF_VERSION
 
 	./clean
 
 	# SED statements to fix configure error
-	sed -i '186s/==/=/g' $WRFHYDRO_FOLDER/WRFV4.5.1/configure
-	sed -i '318s/==/=/g' $WRFHYDRO_FOLDER/WRFV4.5.1/configure
-	sed -i '919s/==/=/g' $WRFHYDRO_FOLDER/WRFV4.5.1/configure
+	sed -i '186s/==/=/g' $WRFHYDRO_FOLDER/WRFV$WRF_VERSION/configure
+	sed -i '318s/==/=/g' $WRFHYDRO_FOLDER/WRFV$WRF_VERSION/configure
+	sed -i '919s/==/=/g' $WRFHYDRO_FOLDER/WRFV$WRF_VERSION/configure
 
 	if [ ${auto_config} -eq 1 ]; then
-		sed -i '433s/.*/  $response = "15 \\n";/g' $WRFHYDRO_FOLDER/WRFV4.5.1/arch/Config.pl # Answer for compiler choice
-		sed -i '898s/.*/  $response = "1 \\n";/g' $WRFHYDRO_FOLDER/WRFV4.5.1/arch/Config.pl  #Answer for basic nesting
+		sed -i '443s/.*/  $response = "15 \\n";/g' $WRFHYDRO_FOLDER/WRFV$WRF_VERSION/arch/Config.pl # Answer for compiler choice
+		sed -i '909s/.*/  $response = "1 \\n";/g' $WRFHYDRO_FOLDER/WRFV$WRF_VERSION/arch/Config.pl  #Answer for basic nesting
 		./configure 2>&1 | tee configure.log
 	else
 		./configure 2>&1 | tee configure.log #Option 15 intel compiler with distributed memory option 1 for basic nesting
 	fi
 
-	sed -i '63s/mpif90/mpiifort/g' $WRFHYDRO_FOLDER/WRFV4.5.1/hydro/macros
+	sed -i '63s/mpif90/mpiifort/g' $WRFHYDRO_FOLDER/WRFV$WRF_VERSION/hydro/macros
 	#Need to remove mpich/GNU config calls to Intel config calls
-	sed -i '169s|mpif90 -f90=$(SFC)|mpiifort|g' $WRFHYDRO_FOLDER/WRFV4.5.1/configure.wrf
-	sed -i '170s|mpicc -cc=$(SCC)|mpiicc|g' $WRFHYDRO_FOLDER/WRFV4.5.1/configure.wrf
-	sed -i '177s|-w -O3|-diag-disable=10441 -w -O3|g' $WRFHYDRO_FOLDER/WRFV4.5.1/configure.wrf
+	sed -i '169s|mpif90 -f90=$(SFC)|mpiifort|g' $WRFHYDRO_FOLDER/WRFV$WRF_VERSION/configure.wrf
+	sed -i '170s|mpicc -cc=$(SCC)|mpiicc|g' $WRFHYDRO_FOLDER/WRFV$WRF_VERSION/configure.wrf
+	sed -i '177s|-w -O3|-diag-disable=10441 -w -O3|g' $WRFHYDRO_FOLDER/WRFV$WRF_VERSION/configure.wrf
 	./compile -j $CPU_HALF_EVEN em_real 2>&1 | tee compile.wrf1.log
 
-	export WRF_DIR=$WRFHYDRO_FOLDER/WRFV4.5.1
+	export WRF_DIR=$WRFHYDRO_FOLDER/WRFV$WRF_VERSION
 
 	# IF statement to check that all files were created.
-	cd $WRFHYDRO_FOLDER/WRFV4.5.1/main
+	cd $WRFHYDRO_FOLDER/WRFV$WRF_VERSION/main
 	n=$(ls ./*.exe | wc -l)
 	if (($n >= 3)); then
 		echo "All expected files created."
@@ -13710,9 +13712,9 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	else
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
-		cd $WRFHYDRO_FOLDER/WRFV4.5.1
+		cd $WRFHYDRO_FOLDER/WRFV$WRF_VERSION
 		./compile -j $CPU_HALF_EVEN em_real 2>&1 | tee compile.wrf2.log
-		cd $WRFHYDRO_FOLDER/WRFV4.5.1/main
+		cd $WRFHYDRO_FOLDER/WRFV$WRF_VERSION/main
 		n=$(ls ./*.exe | wc -l)
 		if (($n >= 3)); then
 			echo "All expected files created."
@@ -13727,16 +13729,16 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 	echo " "
 
-	############################WPSV4.5#####################################
-	## WPS v4.5
+	############################WPSV$WPS_VERSION#####################################
+	## WPS v$WPS_VERSION
 	## Downloaded from git tagged releases
 	#Option 3 for gfortran and distributed memory
 	########################################################################
 
 	cd $WRFHYDRO_FOLDER/Downloads
-	wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v4.5.tar.gz -O WPS-4.5.tar.gz
-	tar -xvzf WPS-4.5.tar.gz -C $WRFHYDRO_FOLDER/
-	cd $WRFHYDRO_FOLDER/WPS-4.5
+	wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v$WPS_VERSION.tar.gz -O WPS-$WPS_VERSION.tar.gz
+	tar -xvzf WPS-$WPS_VERSION.tar.gz -C $WRFHYDRO_FOLDER/
+	cd $WRFHYDRO_FOLDER/WPS-$WPS_VERSION
 	./clean -a
 
 	if [ ${auto_config} -eq 1 ]; then
@@ -13745,14 +13747,14 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 		./configure 2>&1 | tee configure.log #Option 19 intel compiler with distributed memory
 	fi
 
-	sed -i '67s|mpif90|mpiifort|g' $WRFHYDRO_FOLDER/WPS-4.5/configure.wps
-	sed -i '68s|mpicc|mpiicc|g' $WRFHYDRO_FOLDER/WPS-4.5/configure.wps
+	sed -i '67s|mpif90|mpiifort|g' $WRFHYDRO_FOLDER/WPS-$WPS_VERSION/configure.wps
+	sed -i '68s|mpicc|mpiicc|g' $WRFHYDRO_FOLDER/WPS-$WPS_VERSION/configure.wps
 
 	./compile 2>&1 | tee compile.wps.log
 
 	echo " "
 	# IF statement to check that all files were created.
-	cd $WRFHYDRO_FOLDER/WPS-4.5
+	cd $WRFHYDRO_FOLDER/WPS-$WPS_VERSION
 	n=$(ls ./*.exe | wc -l)
 	if (($n == 3)); then
 		echo "All expected files created."
@@ -13761,7 +13763,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
 		./compile 2>&1 | tee compile.wps2.log
-		cd $WRFHYDRO_FOLDER/WPS-4.5
+		cd $WRFHYDRO_FOLDER/WPS-$WPS_VERSION
 		n=$(ls ./*.exe | wc -l)
 		if (($n == 3)); then
 			echo "All expected files created."
@@ -14106,10 +14108,10 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ] && [ "$MAC
 	cd $WRFHYDRO_FOLDER/Downloads
 	tar -xvzf pnetcdf-$Pnetcdf_Version.tar.gz
 	cd pnetcdf-$Pnetcdf_Version
-	export MPIFC=$DIR/MPICH/mpifort
-	export MPIF77=$DIR/MPICH/mpifort
-	export MPIF90=$DIR/MPICH/mpifort
-	export MPICC=$DIR/MPICH/mpicc
+	export MPIFC=$DIR/MPICH/bin/mpifort
+	export MPIF77=$DIR/MPICH/bin/mpifort
+	export MPIF90=$DIR/MPICH/bin/mpifort
+	export MPICC=$DIR/MPICH/bin/mpicc
 	export MPICXX=$DIR/MPICH/bin/mpicxx
 	autoreconf -i -f 2>&1 | tee autoreconf.log
 	./configure --prefix=$DIR/grib2 --enable-shared --enable-static 2>&1 | tee configure.log
@@ -14414,38 +14416,38 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	ls -lah RUN/*.exe #Test to see if .exe files have compiled
 
 	echo " "
-	############################ WRF 4.5  #################################
-	## WRF v4.5
+	############################ WRF $WPS_VERSION  #################################
+	## WRF v$WPS_VERSION
 	## Downloaded from git tagged releases
 	# option 21, option 1 for gfortran and distributed memory w/basic nesting
 	# large file support enable with WRFiO_NCD_LARGE_FILE_SUPPORT=1
 	########################################################################
 
 	cd $WRFHYDRO_FOLDER/Downloads
-	wget -c https://github.com/wrf-model/WRF/releases/download/v4.5.1/v4.5.1.tar.gz -O WRF-4.5.1.tar.gz
-	tar -xvzf WRF-4.5.1.tar.gz -C $WRFHYDRO_FOLDER/
+	wget -c https://github.com/wrf-model/WRF/releases/download/v$WRF_VERSION/v$WRF_VERSION.tar.gz -O WRF-$WRF_VERSION.tar.gz
+	tar -xvzf WRF-$WRF_VERSION.tar.gz -C $WRFHYDRO_FOLDER/
 
 	# If statment for changing folder name
 	if [ -d "$WRFHYDRO_FOLDER/WRF" ]; then
-		mv -f $WRFHYDRO_FOLDER/WRF $WRFHYDRO_FOLDER/WRFV4.5.1
+		mv -f $WRFHYDRO_FOLDER/WRF $WRFHYDRO_FOLDER/WRFV$WRF_VERSION
 	fi
 
-	cd $WRFHYDRO_FOLDER/WRFV4.5.1
+	cd $WRFHYDRO_FOLDER/WRFV$WRF_VERSION
 	export WRFIO_NCD_LARGE_FILE_SUPPORT=1
 
 	#Replace old version of WRF-Hydro distributed with WRF with updated WRF-Hydro source code
-	rm -r $WRFHYDRO_FOLDER/WRFV4.5.1/hydro/
-	cp -r $WRFHYDRO_FOLDER/Hydro-Basecode/wrf_hydro_nwm_public-5.2.0/trunk/NDHMS $WRFHYDRO_FOLDER/WRFV4.5.1/hydro
+	rm -r $WRFHYDRO_FOLDER/WRFV$WRF_VERSION/hydro/
+	cp -r $WRFHYDRO_FOLDER/Hydro-Basecode/wrf_hydro_nwm_public-5.2.0/trunk/NDHMS $WRFHYDRO_FOLDER/WRFV$WRF_VERSION/hydro
 
-	cd $WRFHYDRO_FOLDER/WRFV4.5.1/hydro
+	cd $WRFHYDRO_FOLDER/WRFV$WRF_VERSION/hydro
 	source setEnvar.sh
-	cd $WRFHYDRO_FOLDER/WRFV4.5.1
+	cd $WRFHYDRO_FOLDER/WRFV$WRF_VERSION
 
 	./clean
 
 	if [ ${auto_config} -eq 1 ]; then
-		sed -i'' -e '433s/.*/  $response = "17 \\n";/g' $WRFHYDRO_FOLDER/WRFV4.5.1/arch/Config.pl # Answer for compiler choice
-		sed -i'' -e '898s/.*/  $response = "1 \\n";/g' $WRFHYDRO_FOLDER/WRFV4.5.1/arch/Config.pl  #Answer for basic nesting
+		sed -i'' -e '443s/.*/  $response = "17 \\n";/g' $WRFHYDRO_FOLDER/WRFV$WRF_VERSION/arch/Config.pl # Answer for compiler choice
+		sed -i'' -e '909s/.*/  $response = "1 \\n";/g' $WRFHYDRO_FOLDER/WRFV$WRF_VERSION/arch/Config.pl  #Answer for basic nesting
 		./configure 2>&1 | tee configure.log
 	else
 		./configure 2>&1 | tee configure.log #Option 17 gfortran compiler with distributed memory option 1 for basic nesting
@@ -14455,10 +14457,10 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 	./compile em_real 2>&1 | tee compile.wrf.log
 
-	export WRF_DIR=$WRFHYDRO_FOLDER/WRFV4.5.1
+	export WRF_DIR=$WRFHYDRO_FOLDER/WRFV$WRF_VERSION
 
 	# IF statement to check that all files were created.
-	cd $WRFHYDRO_FOLDER/WRFV4.5.1/main
+	cd $WRFHYDRO_FOLDER/WRFV$WRF_VERSION/main
 	n=$(ls ./*.exe | wc -l)
 	if (($n >= 3)); then
 		echo "All expected files created."
@@ -14466,9 +14468,9 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	else
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
-		cd $WRFHYDRO_FOLDER/WRFV4.5.1
+		cd $WRFHYDRO_FOLDER/WRFV$WRF_VERSION
 		./compile -j $CPU_HALF_EVEN em_real 2>&1 | tee compile.wrf2.log
-		cd $WRFHYDRO_FOLDER/WRFV4.5.1/main
+		cd $WRFHYDRO_FOLDER/WRFV$WRF_VERSION/main
 		n=$(ls ./*.exe | wc -l)
 		if (($n >= 3)); then
 			echo "All expected files created."
@@ -14483,16 +14485,16 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 	echo " "
 
-	############################WPSV4.5#####################################
-	## WPS v4.5
+	############################WPSV$WPS_VERSION#####################################
+	## WPS v$WPS_VERSION
 	## Downloaded from git tagged releases
 	#Option 3 for gfortran and distributed memory
 	########################################################################
 
 	cd $WRFHYDRO_FOLDER/Downloads
-	wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v4.5.tar.gz -O WPS-4.5.tar.gz
-	tar -xvzf WPS-4.5.tar.gz -C $WRFHYDRO_FOLDER/
-	cd $WRFHYDRO_FOLDER/WPS-4.5
+	wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v$WPS_VERSION.tar.gz -O WPS-$WPS_VERSION.tar.gz
+	tar -xvzf WPS-$WPS_VERSION.tar.gz -C $WRFHYDRO_FOLDER/
+	cd $WRFHYDRO_FOLDER/WPS-$WPS_VERSION
 	./clean -a
 
 	if [ ${auto_config} -eq 1 ]; then
@@ -14503,7 +14505,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	./compile 2>&1 | tee compile.wps.log
 
 	# IF statement to check that all files were created.
-	cd $WRFHYDRO_FOLDER/WPS-4.5
+	cd $WRFHYDRO_FOLDER/WPS-$WPS_VERSION
 	n=$(ls ./*.exe | wc -l)
 	if (($n == 3)); then
 		echo "All expected files created."
@@ -14512,7 +14514,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
 		./compile 2>&1 | tee compile.wps2.log
-		cd $WRFHYDRO_FOLDER/WPS-4.5
+		cd $WRFHYDRO_FOLDER/WPS-$WPS_VERSION
 		n=$(ls ./*.exe | wc -l)
 		if (($n == 3)); then
 			echo "All expected files created."
@@ -14872,10 +14874,10 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ] && [ "$MAC
 	cd $WRFHYDRO_FOLDER/Downloads
 	tar -xvzf pnetcdf-$Pnetcdf_Version.tar.gz
 	cd pnetcdf-$Pnetcdf_Version
-	export MPIFC=$DIR/MPICH/mpifort
-	export MPIF77=$DIR/MPICH/mpifort
-	export MPIF90=$DIR/MPICH/mpifort
-	export MPICC=$DIR/MPICH/mpicc
+	export MPIFC=$DIR/MPICH/bin/mpifort
+	export MPIF77=$DIR/MPICH/bin/mpifort
+	export MPIF90=$DIR/MPICH/bin/mpifort
+	export MPICC=$DIR/MPICH/bin/mpicc
 	export MPICXX=$DIR/MPICH/bin/mpicxx
 	autoreconf -i -f 2>&1 | tee autoreconf.log
 	./configure --prefix=$DIR/grib2 --enable-shared --enable-static 2>&1 | tee configure.log
@@ -15180,38 +15182,38 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	ls -lah RUN/*.exe #Test to see if .exe files have compiled
 
 	echo " "
-	############################ WRF 4.5  #################################
-	## WRF v4.5
+	############################ WRF $WPS_VERSION  #################################
+	## WRF v$WPS_VERSION
 	## Downloaded from git tagged releases
 	# option 21, option 1 for gfortran and distributed memory w/basic nesting
 	# large file support enable with WRFiO_NCD_LARGE_FILE_SUPPORT=1
 	########################################################################
 
 	cd $WRFHYDRO_FOLDER/Downloads
-	wget -c https://github.com/wrf-model/WRF/releases/download/v4.5.1/v4.5.1.tar.gz -O WRF-4.5.1.tar.gz
-	tar -xvzf WRF-4.5.1.tar.gz -C $WRFHYDRO_FOLDER/
+	wget -c https://github.com/wrf-model/WRF/releases/download/v$WRF_VERSION/v$WRF_VERSION.tar.gz -O WRF-$WRF_VERSION.tar.gz
+	tar -xvzf WRF-$WRF_VERSION.tar.gz -C $WRFHYDRO_FOLDER/
 
 	# If statment for changing folder name
 	if [ -d "$WRFHYDRO_FOLDER/WRF" ]; then
-		mv -f $WRFHYDRO_FOLDER/WRF $WRFHYDRO_FOLDER/WRFV4.5.1
+		mv -f $WRFHYDRO_FOLDER/WRF $WRFHYDRO_FOLDER/WRFV$WRF_VERSION
 	fi
 
-	cd $WRFHYDRO_FOLDER/WRFV4.5.1
+	cd $WRFHYDRO_FOLDER/WRFV$WRF_VERSION
 	export WRFIO_NCD_LARGE_FILE_SUPPORT=1
 
 	#Replace old version of WRF-Hydro distributed with WRF with updated WRF-Hydro source code
-	rm -r $WRFHYDRO_FOLDER/WRFV4.5.1/hydro/
-	cp -r $WRFHYDRO_FOLDER/Hydro-Basecode/wrf_hydro_nwm_public-5.2.0/trunk/NDHMS $WRFHYDRO_FOLDER/WRFV4.5.1/hydro
+	rm -r $WRFHYDRO_FOLDER/WRFV$WRF_VERSION/hydro/
+	cp -r $WRFHYDRO_FOLDER/Hydro-Basecode/wrf_hydro_nwm_public-5.2.0/trunk/NDHMS $WRFHYDRO_FOLDER/WRFV$WRF_VERSION/hydro
 
-	cd $WRFHYDRO_FOLDER/WRFV4.5.1/hydro
+	cd $WRFHYDRO_FOLDER/WRFV$WRF_VERSION/hydro
 	source setEnvar.sh
-	cd $WRFHYDRO_FOLDER/WRFV4.5.1
+	cd $WRFHYDRO_FOLDER/WRFV$WRF_VERSION
 
 	./clean
 
 	if [ ${auto_config} -eq 1 ]; then
-		sed -i'' -e '433s/.*/  $response = "17 \\n";/g' $WRFHYDRO_FOLDER/WRFV4.5.1/arch/Config.pl # Answer for compiler choice
-		sed -i'' -e '898s/.*/  $response = "1 \\n";/g' $WRFHYDRO_FOLDER/WRFV4.5.1/arch/Config.pl  #Answer for basic nesting
+		sed -i'' -e '443s/.*/  $response = "17 \\n";/g' $WRFHYDRO_FOLDER/WRFV$WRF_VERSION/arch/Config.pl # Answer for compiler choice
+		sed -i'' -e '909s/.*/  $response = "1 \\n";/g' $WRFHYDRO_FOLDER/WRFV$WRF_VERSION/arch/Config.pl  #Answer for basic nesting
 		./configure 2>&1 | tee configure.log
 	else
 		./configure 2>&1 | tee configure.log #Option 17 gfortran compiler with distributed memory option 1 for basic nesting
@@ -15221,10 +15223,10 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 	./compile em_real 2>&1 | tee compile.wrf.log
 
-	export WRF_DIR=$WRFHYDRO_FOLDER/WRFV4.5.1
+	export WRF_DIR=$WRFHYDRO_FOLDER/WRFV$WRF_VERSION
 
 	# IF statement to check that all files were created.
-	cd $WRFHYDRO_FOLDER/WRFV4.5.1/main
+	cd $WRFHYDRO_FOLDER/WRFV$WRF_VERSION/main
 	n=$(ls ./*.exe | wc -l)
 	if (($n >= 3)); then
 		echo "All expected files created."
@@ -15232,9 +15234,9 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	else
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
-		cd $WRFHYDRO_FOLDER/WRFV4.5.1
+		cd $WRFHYDRO_FOLDER/WRFV$WRF_VERSION
 		./compile -j $CPU_HALF_EVEN em_real 2>&1 | tee compile.wrf2.log
-		cd $WRFHYDRO_FOLDER/WRFV4.5.1/main
+		cd $WRFHYDRO_FOLDER/WRFV$WRF_VERSION/main
 		n=$(ls ./*.exe | wc -l)
 		if (($n >= 3)); then
 			echo "All expected files created."
@@ -15246,16 +15248,16 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	fi
 
 	echo " "
-	############################WPSV4.5#####################################
-	## WPS v4.5
+	############################WPSV$WPS_VERSION#####################################
+	## WPS v$WPS_VERSION
 	## Downloaded from git tagged releases
 	#Option 3 for gfortran and distributed memory
 	########################################################################
 
 	cd $WRFHYDRO_FOLDER/Downloads
-	wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v4.5.tar.gz -O WPS-4.5.tar.gz
-	tar -xvzf WPS-4.5.tar.gz -C $WRFHYDRO_FOLDER/
-	cd $WRFHYDRO_FOLDER/WPS-4.5
+	wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v$WPS_VERSION.tar.gz -O WPS-$WPS_VERSION.tar.gz
+	tar -xvzf WPS-$WPS_VERSION.tar.gz -C $WRFHYDRO_FOLDER/
+	cd $WRFHYDRO_FOLDER/WPS-$WPS_VERSION
 	./clean -a
 
 	if [ ${auto_config} -eq 1 ]; then
@@ -15266,7 +15268,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	./compile 2>&1 | tee compile.wps.log
 
 	# IF statement to check that all files were created.
-	cd $WRFHYDRO_FOLDER/WPS-4.5
+	cd $WRFHYDRO_FOLDER/WPS-$WPS_VERSION
 	n=$(ls ./*.exe | wc -l)
 	if (($n == 3)); then
 		echo "All expected files created."
@@ -15275,7 +15277,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
 		./compile 2>&1 | tee compile.wps2.log
-		cd $WRFHYDRO_FOLDER/WPS-4.5
+		cd $WRFHYDRO_FOLDER/WPS-$WPS_VERSION
 		n=$(ls ./*.exe | wc -l)
 		if (($n == 3)); then
 			echo "All expected files created."
@@ -15523,10 +15525,10 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 	# make check
 
 	export PATH=$DIR/MPICH/bin:$PATH
-	export MPIFC=$DIR/MPICH/mpifort
-	export MPIF77=$DIR/MPICH/mpifort
-	export MPIF90=$DIR/MPICH/mpifort
-	export MPICC=$DIR/MPICH/mpicc
+	export MPIFC=$DIR/MPICH/bin/mpifort
+	export MPIF77=$DIR/MPICH/bin/mpifort
+	export MPIF90=$DIR/MPICH/bin/mpifort
+	export MPICC=$DIR/MPICH/bin/mpicc
 	export MPICXX=$DIR/MPICH/bin/mpicxx
 
 	echo " "
@@ -15588,10 +15590,10 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 	cd $WRFHYDRO_FOLDER/Downloads
 	tar -xvzf pnetcdf-$Pnetcdf_Version.tar.gz
 	cd pnetcdf-$Pnetcdf_Version
-	export MPIFC=$DIR/MPICH/mpifort
-	export MPIF77=$DIR/MPICH/mpifort
-	export MPIF90=$DIR/MPICH/mpifort
-	export MPICC=$DIR/MPICH/mpicc
+	export MPIFC=$DIR/MPICH/bin/mpifort
+	export MPIF77=$DIR/MPICH/bin/mpifort
+	export MPIF90=$DIR/MPICH/bin/mpifort
+	export MPICC=$DIR/MPICH/bin/mpicc
 	export MPICXX=$DIR/MPICH/bin/mpicxx
 	autoreconf -i -f 2>&1 | tee autoreconf.log
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS ./configure --prefix=$DIR/grib2 --enable-shared --enable-static 2>&1 | tee configure.log
@@ -16162,8 +16164,8 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 	read -r -t 5 -p "I am going to wait for 5 seconds only ..."
 	echo " "
-	############################ WRF 4.5  #################################
-	## WRF v4.5
+	############################ WRF $WPS_VERSION  #################################
+	## WRF v$WPS_VERSION
 	## Downloaded from git tagged releases
 	# option 34, option 1 for gfortran and distributed memory w/basic nesting
 	# large file support enable with WRFiO_NCD_LARGE_FILE_SUPPORT=1
@@ -16175,35 +16177,35 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	# Note that you need set nocolons = .true. in the section &time_control of namelist.input
 	########################################################################
 	cd $WRFHYDRO_FOLDER/Downloads
-	wget -c https://github.com/wrf-model/WRF/releases/download/v4.5.1/v4.5.1.tar.gz -O WRF-4.5.1.tar.gz
-	tar -xvzf WRF-4.5.1.tar.gz -C $WRFHYDRO_FOLDER/
+	wget -c https://github.com/wrf-model/WRF/releases/download/v$WRF_VERSION/v$WRF_VERSION.tar.gz -O WRF-$WRF_VERSION.tar.gz
+	tar -xvzf WRF-$WRF_VERSION.tar.gz -C $WRFHYDRO_FOLDER/
 
 	# If statment for changing folder name
 	if [ -d "$WRFHYDRO_FOLDER/WRF" ]; then
-		mv -f $WRFHYDRO_FOLDER/WRF $WRFHYDRO_FOLDER/WRFV4.5.1
+		mv -f $WRFHYDRO_FOLDER/WRF $WRFHYDRO_FOLDER/WRFV$WRF_VERSION
 	fi
 
-	cd $WRFHYDRO_FOLDER/WRFV4.5.1
+	cd $WRFHYDRO_FOLDER/WRFV$WRF_VERSION
 	export WRFIO_NCD_LARGE_FILE_SUPPORT=1
 
 	#Replace old version of WRF-Hydro distributed with WRF with updated WRF-Hydro source code
-	rm -r $WRFHYDRO_FOLDER/WRFV4.5.1/hydro/
-	cp -r $WRFHYDRO_FOLDER/Hydro-Basecode/wrf_hydro_nwm_public-5.2.0/trunk/NDHMS $WRFHYDRO_FOLDER/WRFV4.5.1/hydro
+	rm -r $WRFHYDRO_FOLDER/WRFV$WRF_VERSION/hydro/
+	cp -r $WRFHYDRO_FOLDER/Hydro-Basecode/wrf_hydro_nwm_public-5.2.0/trunk/NDHMS $WRFHYDRO_FOLDER/WRFV$WRF_VERSION/hydro
 
-	cd $WRFHYDRO_FOLDER/WRFV4.5.1/hydro
+	cd $WRFHYDRO_FOLDER/WRFV$WRF_VERSION/hydro
 	source setEnvar.sh
-	cd $WRFHYDRO_FOLDER/WRFV4.5.1
+	cd $WRFHYDRO_FOLDER/WRFV$WRF_VERSION
 
 	./clean
 
 	# SED statements to fix configure error
-	sed -i '186s/==/=/g' $WRFHYDRO_FOLDER/WRFV4.5.1/configure
-	sed -i '318s/==/=/g' $WRFHYDRO_FOLDER/WRFV4.5.1/configure
-	sed -i '919s/==/=/g' $WRFHYDRO_FOLDER/WRFV4.5.1/configure
+	sed -i '186s/==/=/g' $WRFHYDRO_FOLDER/WRFV$WRF_VERSION/configure
+	sed -i '318s/==/=/g' $WRFHYDRO_FOLDER/WRFV$WRF_VERSION/configure
+	sed -i '919s/==/=/g' $WRFHYDRO_FOLDER/WRFV$WRF_VERSION/configure
 
 	if [ ${auto_config} -eq 1 ]; then
-		sed -i '433s/.*/  $response = "34 \\n";/g' $WRFHYDRO_FOLDER/WRFV4.5.1/arch/Config.pl # Answer for compiler choice
-		sed -i '898s/.*/  $response = "1 \\n";/g' $WRFHYDRO_FOLDER/WRFV4.5.1/arch/Config.pl  #Answer for basic nesting
+		sed -i '443s/.*/  $response = "34 \\n";/g' $WRFHYDRO_FOLDER/WRFV$WRF_VERSION/arch/Config.pl # Answer for compiler choice
+		sed -i '909s/.*/  $response = "1 \\n";/g' $WRFHYDRO_FOLDER/WRFV$WRF_VERSION/arch/Config.pl  #Answer for basic nesting
 		./configure 2>&1 | tee configure.log
 	else
 		./configure 2>&1 | tee configure.log #Option 34 gfortran compiler with distributed memory option 1 for basic nesting
@@ -16211,10 +16213,10 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 	./compile -j $CPU_HALF_EVEN em_real 2>&1 | tee compile.wrf1.log
 
-	export WRF_DIR=$WRFHYDRO_FOLDER/WRFV4.5.1
+	export WRF_DIR=$WRFHYDRO_FOLDER/WRFV$WRF_VERSION
 
 	# IF statement to check that all files were created.
-	cd $WRFHYDRO_FOLDER/WRFV4.5.1/main
+	cd $WRFHYDRO_FOLDER/WRFV$WRF_VERSION/main
 	n=$(ls ./*.exe | wc -l)
 	if (($n >= 3)); then
 		echo "All expected files created."
@@ -16222,9 +16224,9 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	else
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
-		cd $WRFHYDRO_FOLDER/WRFV4.5.1
+		cd $WRFHYDRO_FOLDER/WRFV$WRF_VERSION
 		./compile -j $CPU_HALF_EVEN em_real 2>&1 | tee compile.wrf2.log
-		cd $WRFHYDRO_FOLDER/WRFV4.5.1/main
+		cd $WRFHYDRO_FOLDER/WRFV$WRF_VERSION/main
 		n=$(ls ./*.exe | wc -l)
 		if (($n >= 3)); then
 			echo "All expected files created."
@@ -16236,16 +16238,16 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	fi
 
 	echo " "
-	############################WPSV4.5#####################################
-	## WPS v4.5
+	############################WPSV$WPS_VERSION#####################################
+	## WPS v$WPS_VERSION
 	## Downloaded from git tagged releases
 	#Option 3 for gfortran and distributed memory
 	########################################################################
 
 	cd $WRFHYDRO_FOLDER/Downloads
-	wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v4.5.tar.gz -O WPS-4.5.tar.gz
-	tar -xvzf WPS-4.5.tar.gz -C $WRFHYDRO_FOLDER/
-	cd $WRFHYDRO_FOLDER/WPS-4.5
+	wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v$WPS_VERSION.tar.gz -O WPS-$WPS_VERSION.tar.gz
+	tar -xvzf WPS-$WPS_VERSION.tar.gz -C $WRFHYDRO_FOLDER/
+	cd $WRFHYDRO_FOLDER/WPS-$WPS_VERSION
 	./clean -a
 
 	if [ ${auto_config} -eq 1 ]; then
@@ -16257,7 +16259,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 	echo " "
 	# IF statement to check that all files were created.
-	cd $WRFHYDRO_FOLDER/WPS-4.5
+	cd $WRFHYDRO_FOLDER/WPS-$WPS_VERSION
 	n=$(ls ./*.exe | wc -l)
 	if (($n == 3)); then
 		echo "All expected files created."
@@ -16266,7 +16268,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
 		./compile 2>&1 | tee compile.wps2.log
-		cd $WRFHYDRO_FOLDER/WPS-4.5
+		cd $WRFHYDRO_FOLDER/WPS-$WPS_VERSION
 		n=$(ls ./*.exe | wc -l)
 		if (($n == 3)); then
 			echo "All expected files created."
@@ -16522,10 +16524,10 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 	# make check
 
 	export PATH=$DIR/MPICH/bin:$PATH
-	export MPIFC=$DIR/MPICH/mpifort
-	export MPIF77=$DIR/MPICH/mpifort
-	export MPIF90=$DIR/MPICH/mpifort
-	export MPICC=$DIR/MPICH/mpicc
+	export MPIFC=$DIR/MPICH/bin/mpifort
+	export MPIF77=$DIR/MPICH/bin/mpifort
+	export MPIF90=$DIR/MPICH/bin/mpifort
+	export MPICC=$DIR/MPICH/bin/mpicc
 	export MPICXX=$DIR/MPICH/bin/mpicxx
 
 	echo " "
@@ -16586,10 +16588,10 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 	cd $WRFHYDRO_FOLDER/Downloads
 	tar -xvzf pnetcdf-$Pnetcdf_Version.tar.gz
 	cd pnetcdf-$Pnetcdf_Version
-	export MPIFC=$DIR/MPICH/mpifort
-	export MPIF77=$DIR/MPICH/mpifort
-	export MPIF90=$DIR/MPICH/mpifort
-	export MPICC=$DIR/MPICH/mpicc
+	export MPIFC=$DIR/MPICH/bin/mpifort
+	export MPIF77=$DIR/MPICH/bin/mpifort
+	export MPIF90=$DIR/MPICH/bin/mpifort
+	export MPICC=$DIR/MPICH/bin/mpicc
 	export MPICXX=$DIR/MPICH/bin/mpicxx
 	autoreconf -i -f 2>&1 | tee autoreconf.log
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS ./configure --prefix=$DIR/grib2 --enable-shared --enable-static 2>&1 | tee configure.log
@@ -17073,10 +17075,10 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	export FC=gfortran
 	export F77=gfortran
 	export CFLAGS="-fPIC -fPIE -O3"
-	export MPIFC=$DIR/MPICH/mpifort
-	export MPIF77=$DIR/MPICH/mpifort
-	export MPIF90=$DIR/MPICH/mpifort
-	export MPICC=$DIR/MPICH/mpicc
+	export MPIFC=$DIR/MPICH/bin/mpifort
+	export MPIF77=$DIR/MPICH/bin/mpifort
+	export MPIF90=$DIR/MPICH/bin/mpifort
+	export MPICC=$DIR/MPICH/bin/mpicc
 	export MPICXX=$DIR/MPICH/bin/mpicxx
 
 	############################# WRF HYDRO V5.2.0 #################################
@@ -17113,8 +17115,8 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 	read -r -t 5 -p "I am going to wait for 5 seconds only ..."
 	echo " "
-	############################ WRF 4.5  #################################
-	## WRF v4.5
+	############################ WRF $WPS_VERSION  #################################
+	## WRF v$WPS_VERSION
 	## Downloaded from git tagged releases
 	# option 34, option 1 for gfortran and distributed memory w/basic nesting
 	# large file support enable with WRFiO_NCD_LARGE_FILE_SUPPORT=1
@@ -17126,35 +17128,35 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	# Note that you need set nocolons = .true. in the section &time_control of namelist.input
 	########################################################################
 	cd $WRFHYDRO_FOLDER/Downloads
-	wget -c https://github.com/wrf-model/WRF/releases/download/v4.5.1/v4.5.1.tar.gz -O WRF-4.5.1.tar.gz
-	tar -xvzf WRF-4.5.1.tar.gz -C $WRFHYDRO_FOLDER/
+	wget -c https://github.com/wrf-model/WRF/releases/download/v$WRF_VERSION/v$WRF_VERSION.tar.gz -O WRF-$WRF_VERSION.tar.gz
+	tar -xvzf WRF-$WRF_VERSION.tar.gz -C $WRFHYDRO_FOLDER/
 
 	# If statment for changing folder name
 	if [ -d "$WRFHYDRO_FOLDER/WRF" ]; then
-		mv -f $WRFHYDRO_FOLDER/WRF $WRFHYDRO_FOLDER/WRFV4.5.1
+		mv -f $WRFHYDRO_FOLDER/WRF $WRFHYDRO_FOLDER/WRFV$WRF_VERSION
 	fi
 
-	cd $WRFHYDRO_FOLDER/WRFV4.5.1
+	cd $WRFHYDRO_FOLDER/WRFV$WRF_VERSION
 	export WRFIO_NCD_LARGE_FILE_SUPPORT=1
 
 	#Replace old version of WRF-Hydro distributed with WRF with updated WRF-Hydro source code
-	rm -r $WRFHYDRO_FOLDER/WRFV4.5.1/hydro/
-	cp -r $WRFHYDRO_FOLDER/Hydro-Basecode/wrf_hydro_nwm_public-5.2.0/trunk/NDHMS $WRFHYDRO_FOLDER/WRFV4.5.1/hydro
+	rm -r $WRFHYDRO_FOLDER/WRFV$WRF_VERSION/hydro/
+	cp -r $WRFHYDRO_FOLDER/Hydro-Basecode/wrf_hydro_nwm_public-5.2.0/trunk/NDHMS $WRFHYDRO_FOLDER/WRFV$WRF_VERSION/hydro
 
-	cd $WRFHYDRO_FOLDER/WRFV4.5.1/hydro
+	cd $WRFHYDRO_FOLDER/WRFV$WRF_VERSION/hydro
 	source setEnvar.sh
-	cd $WRFHYDRO_FOLDER/WRFV4.5.1
+	cd $WRFHYDRO_FOLDER/WRFV$WRF_VERSION
 
 	./clean
 
 	# SED statements to fix configure error
-	sed -i '186s/==/=/g' $WRFHYDRO_FOLDER/WRFV4.5.1/configure
-	sed -i '318s/==/=/g' $WRFHYDRO_FOLDER/WRFV4.5.1/configure
-	sed -i '919s/==/=/g' $WRFHYDRO_FOLDER/WRFV4.5.1/configure
+	sed -i '186s/==/=/g' $WRFHYDRO_FOLDER/WRFV$WRF_VERSION/configure
+	sed -i '318s/==/=/g' $WRFHYDRO_FOLDER/WRFV$WRF_VERSION/configure
+	sed -i '919s/==/=/g' $WRFHYDRO_FOLDER/WRFV$WRF_VERSION/configure
 
 	if [ ${auto_config} -eq 1 ]; then
-		sed -i '433s/.*/  $response = "34 \\n";/g' $WRFHYDRO_FOLDER/WRFV4.5.1/arch/Config.pl # Answer for compiler choice
-		sed -i '898s/.*/  $response = "1 \\n";/g' $WRFHYDRO_FOLDER/WRFV4.5.1/arch/Config.pl  #Answer for basic nesting
+		sed -i '443s/.*/  $response = "34 \\n";/g' $WRFHYDRO_FOLDER/WRFV$WRF_VERSION/arch/Config.pl # Answer for compiler choice
+		sed -i '909s/.*/  $response = "1 \\n";/g' $WRFHYDRO_FOLDER/WRFV$WRF_VERSION/arch/Config.pl  #Answer for basic nesting
 		./configure 2>&1 | tee configure.log
 	else
 		./configure 2>&1 | tee configure.log #Option 34 gfortran compiler with distributed memory option 1 for basic nesting
@@ -17163,7 +17165,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	./compile -j $CPU_HALF_EVEN em_real 2>&1 | tee compile.wrf1.log
 
 	# IF statement to check that all files were created.
-	cd $WRFHYDRO_FOLDER/WRFV4.5.1/main
+	cd $WRFHYDRO_FOLDER/WRFV$WRF_VERSION/main
 	n=$(ls ./*.exe | wc -l)
 	if (($n >= 3)); then
 		echo "All expected files created."
@@ -17171,9 +17173,9 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	else
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
-		cd $WRFHYDRO_FOLDER/WRFV4.5.1
+		cd $WRFHYDRO_FOLDER/WRFV$WRF_VERSION
 		./compile -j $CPU_HALF_EVEN em_real 2>&1 | tee compile.wrf2.log
-		cd $WRFHYDRO_FOLDER/WRFV4.5.1/main
+		cd $WRFHYDRO_FOLDER/WRFV$WRF_VERSION/main
 		n=$(ls ./*.exe | wc -l)
 		if (($n >= 3)); then
 			echo "All expected files created."
@@ -17185,16 +17187,16 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	fi
 
 	echo " "
-	############################WPSV4.5#####################################
-	## WPS v4.5
+	############################WPSV$WPS_VERSION#####################################
+	## WPS v$WPS_VERSION
 	## Downloaded from git tagged releases
 	#Option 3 for gfortran and distributed memory
 	########################################################################
 
 	cd $WRFHYDRO_FOLDER/Downloads
-	wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v4.5.tar.gz -O WPS-4.5.tar.gz
-	tar -xvzf WPS-4.5.tar.gz -C $WRFHYDRO_FOLDER/
-	cd $WRFHYDRO_FOLDER/WPS-4.5
+	wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v$WPS_VERSION.tar.gz -O WPS-$WPS_VERSION.tar.gz
+	tar -xvzf WPS-$WPS_VERSION.tar.gz -C $WRFHYDRO_FOLDER/
+	cd $WRFHYDRO_FOLDER/WPS-$WPS_VERSION
 	./clean -a
 
 	if [ ${auto_config} -eq 1 ]; then
@@ -17206,7 +17208,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 	echo " "
 	# IF statement to check that all files were created.
-	cd $WRFHYDRO_FOLDER/WPS-4.5
+	cd $WRFHYDRO_FOLDER/WPS-$WPS_VERSION
 	n=$(ls ./*.exe | wc -l)
 	if (($n == 3)); then
 		echo "All expected files created."
@@ -17215,7 +17217,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
 		./compile 2>&1 | tee compile.wps2.log
-		cd $WRFHYDRO_FOLDER/WPS-4.5
+		cd $WRFHYDRO_FOLDER/WPS-$WPS_VERSION
 		n=$(ls ./*.exe | wc -l)
 		if (($n == 3)); then
 			echo "All expected files created."
@@ -17330,7 +17332,7 @@ fi
 ########################### WRF CHEM ##########################
 ## WRFCHEM installation with parallel process.
 # Download and install required library and data files for WRFCHEM/KPP $ WRF 3DVAR for Chemistry.
-# Tested in Ubuntu 20.04.5 LTS & Ubuntu 22.04, Rocky Linux 9 & MacOS Ventura 64bit
+# Tested in Ubuntu 20.0$WPS_VERSION LTS & Ubuntu 22.04, Rocky Linux 9 & MacOS Ventura 64bit
 # Built in 64-bit system
 # Built with Intel or GNU compilers
 # Tested with current available libraries on 10/10/2023
@@ -18072,7 +18074,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 
 	############################WRFDA 3DVAR###############################
-	## WRFDA v4.5 3DVAR
+	## WRFDA v$WPS_VERSION 3DVAR
 	## Downloaded from git tagged releases
 	## Does not include RTTOV Libarary for radiation data.  If wanted will need to install library then reconfigure
 	##Note: if you intend to run both 3DVAR and 4DVAR experiments, it is not necessary to compile the code twice.
@@ -18080,19 +18082,19 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	########################################################################
 	cd $WRFCHEM_FOLDER/Downloads
 	cd $WRFCHEM_FOLDER/Downloads
-	wget -c https://github.com/wrf-model/WRF/releases/download/v4.5.1/v4.5.1.tar.gz -O WRF-4.5.1.tar.gz
+	wget -c https://github.com/wrf-model/WRF/releases/download/v$WRF_VERSION/v$WRF_VERSION.tar.gz -O WRF-$WRF_VERSION.tar.gz
 	mkdir $WRFCHEM_FOLDER/WRFDA
-	tar -xvzf WRF-4.5.1.tar.gz -C $WRFCHEM_FOLDER/WRFDA
+	tar -xvzf WRF-$WRF_VERSION.tar.gz -C $WRFCHEM_FOLDER/WRFDA
 
 	# If statment for changing folder name
 	if [ -d "$WRFCHEM_FOLDER/WRFDA/WRF" ]; then
-		mv -f $WRFCHEM_FOLDER/WRFDA/WRF $WRFCHEM_FOLDER/WRFDA/WRFV4.5.1
+		mv -f $WRFCHEM_FOLDER/WRFDA/WRF $WRFCHEM_FOLDER/WRFDA/WRFV$WRF_VERSION
 	fi
-	cd $WRFCHEM_FOLDER/WRFDA/WRFV4.5.1
+	cd $WRFCHEM_FOLDER/WRFDA/WRFV$WRF_VERSION
 
 	mv * $WRFCHEM_FOLDER/WRFDA
 	cd $WRFCHEM_FOLDER/WRFDA
-	rm -rf WRFV4.5.1/
+	rm -rf WRFV$WRF_VERSION/
 	cd $WRFCHEM_FOLDER/WRFDA
 
 	ulimit -s unlimited
@@ -18143,8 +18145,8 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 	echo " "
 
-	############################ WRFCHEM 4.5 #################################
-	## WRF CHEM v4.5
+	############################ WRFCHEM $WPS_VERSION #################################
+	## WRF CHEM v$WPS_VERSION
 	## Downloaded from git tagged releases
 	# option 34, option 1 for gfortran and distributed memory w/basic nesting
 	# If the script comes back asking to locate a file (libfl.a)
@@ -18169,8 +18171,8 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	export YACC='/usr/bin/yacc -d'
 	export FLEX=/usr/bin/flex
 	export FLEX_LIB_DIR=/usr/lib/x86_64-linux-gnu/
-	export KPP_HOME=$WRFCHEM_FOLDER/WRFV4.5.1/chem/KPP/kpp/kpp-2.1
-	export WRF_SRC_ROOT_DIR=$WRFCHEM_FOLDER/WRFV4.5.1
+	export KPP_HOME=$WRFCHEM_FOLDER/WRFV$WRF_VERSION/chem/KPP/kpp/kpp-2.1
+	export WRF_SRC_ROOT_DIR=$WRFCHEM_FOLDER/WRFV$WRF_VERSION
 	export PATH=$KPP_HOME/bin:$PATH
 	export SED=/usr/bin/sed
 	export WRFIO_NCD_LARGE_FILE_SUPPORT=1
@@ -18178,14 +18180,14 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	#Downloading WRF code
 
 	cd $WRFCHEM_FOLDER/Downloads
-	wget -c https://github.com/wrf-model/WRF/releases/download/v4.5.1/v4.5.1.tar.gz -O WRF-4.5.1.tar.gz
-	tar -xvzf WRF-4.5.1.tar.gz -C $WRFCHEM_FOLDER/
+	wget -c https://github.com/wrf-model/WRF/releases/download/v$WRF_VERSION/v$WRF_VERSION.tar.gz -O WRF-$WRF_VERSION.tar.gz
+	tar -xvzf WRF-$WRF_VERSION.tar.gz -C $WRFCHEM_FOLDER/
 
 	# If statment for changing folder name
 	if [ -d "$WRFCHEM_FOLDER/WRF" ]; then
-		mv -f $WRFCHEM_FOLDER/WRF $WRFCHEM_FOLDER/WRFV4.5.1
+		mv -f $WRFCHEM_FOLDER/WRF $WRFCHEM_FOLDER/WRFV$WRF_VERSION
 	fi
-	cd $WRFCHEM_FOLDER/WRFV4.5.1
+	cd $WRFCHEM_FOLDER/WRFV$WRF_VERSION
 
 	cd chem/KPP
 	sed -i -e 's/="-O"/="-O0"/' configure_kpp
@@ -18194,8 +18196,8 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	./clean -a
 
 	if [ ${auto_config} -eq 1 ]; then
-		sed -i '433s/.*/  $response = "34 \\n";/g' $WRFCHEM_FOLDER/WRFV4.5.1/arch/Config.pl # Answer for compiler choice
-		sed -i '898s/.*/  $response = "1 \\n";/g' $WRFCHEM_FOLDER/WRFV4.5.1/arch/Config.pl  #Answer for basic nesting
+		sed -i '443s/.*/  $response = "34 \\n";/g' $WRFCHEM_FOLDER/WRFV$WRF_VERSION/arch/Config.pl # Answer for compiler choice
+		sed -i '909s/.*/  $response = "1 \\n";/g' $WRFCHEM_FOLDER/WRFV$WRF_VERSION/arch/Config.pl  #Answer for basic nesting
 		./configure 2>&1 | tee configure.log
 	else
 		./configure 2>&1 | tee configure.log #Option 34 gfortran compiler with distributed memory option 1 for basic nesting
@@ -18204,10 +18206,10 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	./compile -j $CPU_HALF_EVEN em_real 2>&1 | tee compile.wrf1.log
 	./compile -j $CPU_HALF_EVEN emi_conv 2>&1 | tee compile.emis.log
 
-	export WRF_DIR=$WRFCHEM_FOLDER/WRFV4.5.1
+	export WRF_DIR=$WRFCHEM_FOLDER/WRFV$WRF_VERSION
 
 	# IF statement to check that all files were created.
-	cd $WRFCHEM_FOLDER/WRFV4.5.1/main
+	cd $WRFCHEM_FOLDER/WRFV$WRF_VERSION/main
 	n=$(ls ./*.exe | wc -l)
 	if (($n >= 3)); then
 		echo "All expected files created."
@@ -18215,9 +18217,9 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	else
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
-		cd $WRFCHEM_FOLDER/WRFV4.5.1
+		cd $WRFCHEM_FOLDER/WRFV$WRF_VERSION
 		./compile -j $CPU_HALF_EVEN em_real 2>&1 | tee compile.wrf2.log
-		cd $WRFCHEM_FOLDER/WRFV4.5.1/main
+		cd $WRFCHEM_FOLDER/WRFV$WRF_VERSION/main
 		n=$(ls ./*.exe | wc -l)
 		if (($n >= 3)); then
 			echo "All expected files created."
@@ -18229,16 +18231,16 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	fi
 
 	echo " "
-	############################WPSV4.5#####################################
-	## WPS v4.5
+	############################WPSV$WPS_VERSION#####################################
+	## WPS v$WPS_VERSION
 	## Downloaded from git tagged releases
 	#Option 3 for gfortran and distributed memory
 	########################################################################
 
 	cd $WRFCHEM_FOLDER/Downloads
-	wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v4.5.tar.gz -O WPS-4.5.tar.gz
-	tar -xvzf WPS-4.5.tar.gz -C $WRFCHEM_FOLDER/
-	cd $WRFCHEM_FOLDER/WPS-4.5
+	wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v$WPS_VERSION.tar.gz -O WPS-$WPS_VERSION.tar.gz
+	tar -xvzf WPS-$WPS_VERSION.tar.gz -C $WRFCHEM_FOLDER/
+	cd $WRFCHEM_FOLDER/WPS-$WPS_VERSION
 
 	./clean -a
 
@@ -18252,7 +18254,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	echo " "
 
 	# IF statement to check that all files were created.
-	cd $WRFCHEM_FOLDER/WPS-4.5
+	cd $WRFCHEM_FOLDER/WPS-$WPS_VERSION
 	n=$(ls ./*.exe | wc -l)
 	if (($n == 3)); then
 		echo "All expected files created."
@@ -18261,7 +18263,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
 		./compile 2>&1 | tee compile.wps2.log
-		cd $WRFCHEM_FOLDER/WPS-4.5
+		cd $WRFCHEM_FOLDER/WPS-$WPS_VERSION
 		n=$(ls ./*.exe | wc -l)
 		if (($n == 3)); then
 			echo "All expected files created."
@@ -18937,7 +18939,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	echo " "
 
 	############################WRFDA 3DVAR###############################
-	## WRFDA v4.5 3DVAR
+	## WRFDA v$WPS_VERSION 3DVAR
 	## Downloaded from git tagged releases
 	## Does not include RTTOV Libarary for radiation data.  If wanted will need to install library then reconfigure
 	##Note: if you intend to run both 3DVAR and 4DVAR experiments, it is not necessary to compile the code twice.
@@ -18945,17 +18947,17 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	########################################################################
 	cd $WRFCHEM_FOLDER/Downloads
 	cd $WRFCHEM_FOLDER/Downloads
-	wget -c https://github.com/wrf-model/WRF/releases/download/v4.5.1/v4.5.1.tar.gz -O WRF-4.5.1.tar.gz
+	wget -c https://github.com/wrf-model/WRF/releases/download/v$WRF_VERSION/v$WRF_VERSION.tar.gz -O WRF-$WRF_VERSION.tar.gz
 	mkdir $WRFCHEM_FOLDER/WRFDA
-	tar -xvzf WRF-4.5.1.tar.gz -C $WRFCHEM_FOLDER/WRFDA
+	tar -xvzf WRF-$WRF_VERSION.tar.gz -C $WRFCHEM_FOLDER/WRFDA
 	# If statment for changing folder name
 	if [ -d "$WRFCHEM_FOLDER/WRFDA/WRF" ]; then
-		mv -f $WRFCHEM_FOLDER/WRFDA/WRF $WRFCHEM_FOLDER/WRFDA/WRFV4.5.1
+		mv -f $WRFCHEM_FOLDER/WRFDA/WRF $WRFCHEM_FOLDER/WRFDA/WRFV$WRF_VERSION
 	fi
-	cd $WRFCHEM_FOLDER/WRFDA/WRFV4.5.1
+	cd $WRFCHEM_FOLDER/WRFDA/WRFV$WRF_VERSION
 	mv * $WRFCHEM_FOLDER/WRFDA
 	cd $WRFCHEM_FOLDER/WRFDA
-	rm -rf WRFV4.5.1/
+	rm -rf WRFV$WRF_VERSION/
 	cd $WRFCHEM_FOLDER/WRFDA
 
 	ulimit -s unlimited
@@ -19005,8 +19007,8 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	fi
 	echo " "
 
-	############################ WRF 4.5  #################################
-	## WRF v4.5
+	############################ WRF $WPS_VERSION  #################################
+	## WRF v$WPS_VERSION
 	## Downloaded from git tagged releases
 	# option 15, option 1 for intel and distributed memory w/basic nesting
 	# large file support enable with WRFiO_NCD_LARGE_FILE_SUPPORT=1
@@ -19022,20 +19024,20 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	export YACC='/usr/bin/yacc -d'
 	export FLEX=/usr/bin/flex
 	export FLEX_LIB_DIR=/usr/lib/x86_64-linux-gnu/
-	export KPP_HOME=$WRFCHEM_FOLDER/WRFV4.5.1/chem/KPP/kpp/kpp-2.1
-	export WRF_SRC_ROOT_DIR=$WRFCHEM_FOLDER/WRFV4.5.1
+	export KPP_HOME=$WRFCHEM_FOLDER/WRFV$WRF_VERSION/chem/KPP/kpp/kpp-2.1
+	export WRF_SRC_ROOT_DIR=$WRFCHEM_FOLDER/WRFV$WRF_VERSION
 	export PATH=$KPP_HOME/bin:$PATH
 	export SED=/usr/bin/sed
 	export WRFIO_NCD_LARGE_FILE_SUPPORT=1
 
 	cd $WRFCHEM_FOLDER/Downloads
-	wget -c https://github.com/wrf-model/WRF/releases/download/v4.5.1/v4.5.1.tar.gz -O WRF-4.5.1.tar.gz
-	tar -xvzf WRF-4.5.1.tar.gz -C $WRFCHEM_FOLDER/
+	wget -c https://github.com/wrf-model/WRF/releases/download/v$WRF_VERSION/v$WRF_VERSION.tar.gz -O WRF-$WRF_VERSION.tar.gz
+	tar -xvzf WRF-$WRF_VERSION.tar.gz -C $WRFCHEM_FOLDER/
 	# If statment for changing folder name
 	if [ -d "$WRFCHEM_FOLDER/WRF" ]; then
-		mv -f $WRFCHEM_FOLDER/WRF $WRFCHEM_FOLDER/WRFV4.5.1
+		mv -f $WRFCHEM_FOLDER/WRF $WRFCHEM_FOLDER/WRFV$WRF_VERSION
 	fi
-	cd $WRFCHEM_FOLDER/WRFV4.5.1
+	cd $WRFCHEM_FOLDER/WRFV$WRF_VERSION
 
 	cd chem/KPP
 	sed -i -e 's/="-O"/="-O0"/' configure_kpp
@@ -19045,25 +19047,25 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	./clean -a
 
 	if [ ${auto_config} -eq 1 ]; then
-		sed -i '433s/.*/  $response = "15 \\n";/g' $WRFCHEM_FOLDER/WRFV4.5.1/arch/Config.pl # Answer for compiler choice
-		sed -i '898s/.*/  $response = "1 \\n";/g' $WRFCHEM_FOLDER/WRFV4.5.1/arch/Config.pl  #Answer for basic nesting
+		sed -i '443s/.*/  $response = "15 \\n";/g' $WRFCHEM_FOLDER/WRFV$WRF_VERSION/arch/Config.pl # Answer for compiler choice
+		sed -i '909s/.*/  $response = "1 \\n";/g' $WRFCHEM_FOLDER/WRFV$WRF_VERSION/arch/Config.pl  #Answer for basic nesting
 		./configure 2>&1 | tee configure.log
 	else
 		./configure 2>&1 | tee configure.log #Option 15 intel compiler with distributed memory option 1 for basic nesting
 	fi
 
 	#Need to remove mpich/GNU config calls to Intel config calls
-	sed -i '169s|mpif90 -f90=$(SFC)|mpiifort|g' $WRFCHEM_FOLDER/WRFV4.5.1/configure.wrf
-	sed -i '170s|mpicc -cc=$(SCC)|mpiicc|g' $WRFCHEM_FOLDER/WRFV4.5.1/configure.wrf
-	sed -i '177s|-w -O3|-diag-disable=10441 -w -O3|g' $WRFCHEM_FOLDER/WRFV4.5.1/configure.wrf
+	sed -i '169s|mpif90 -f90=$(SFC)|mpiifort|g' $WRFCHEM_FOLDER/WRFV$WRF_VERSION/configure.wrf
+	sed -i '170s|mpicc -cc=$(SCC)|mpiicc|g' $WRFCHEM_FOLDER/WRFV$WRF_VERSION/configure.wrf
+	sed -i '177s|-w -O3|-diag-disable=10441 -w -O3|g' $WRFCHEM_FOLDER/WRFV$WRF_VERSION/configure.wrf
 	./compile -j $CPU_HALF_EVEN em_real 2>&1 | tee compile.wrf1_extra_flag.log
 	./compile -j $CPU_HALF_EVEN emi_conv 2>&1 | tee compile.emis.log
 
-	export WRF_DIR=$WRFCHEM_FOLDER/WRFV4.5.1
+	export WRF_DIR=$WRFCHEM_FOLDER/WRFV$WRF_VERSION
 
 	# IF statement to check that all files were created.
 	# IF statement to check that all files were created.
-	cd $WRFCHEM_FOLDER/WRFV4.5.1/main
+	cd $WRFCHEM_FOLDER/WRFV$WRF_VERSION/main
 	n=$(ls ./*.exe | wc -l)
 	if (($n >= 3)); then
 		echo "All expected files created."
@@ -19071,9 +19073,9 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	else
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
-		cd $WRFCHEM_FOLDER/WRFV4.5.1
+		cd $WRFCHEM_FOLDER/WRFV$WRF_VERSION
 		./compile -j $CPU_HALF_EVEN em_real 2>&1 | tee compile.wrf2.log
-		cd $WRFCHEM_FOLDER/WRFV4.5.1/main
+		cd $WRFCHEM_FOLDER/WRFV$WRF_VERSION/main
 		n=$(ls ./*.exe | wc -l)
 		if (($n >= 3)); then
 			echo "All expected files created."
@@ -19085,16 +19087,16 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	fi
 
 	echo " "
-	############################WPSV4.5#####################################
-	## WPS v4.5
+	############################WPSV$WPS_VERSION#####################################
+	## WPS v$WPS_VERSION
 	## Downloaded from git tagged releases
 	#Option 3 for gfortran and distributed memory
 	########################################################################
 
 	cd $WRFCHEM_FOLDER/Downloads
-	wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v4.5.tar.gz -O WPS-4.5.tar.gz
-	tar -xvzf WPS-4.5.tar.gz -C $WRFCHEM_FOLDER/
-	cd $WRFCHEM_FOLDER/WPS-4.5
+	wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v$WPS_VERSION.tar.gz -O WPS-$WPS_VERSION.tar.gz
+	tar -xvzf WPS-$WPS_VERSION.tar.gz -C $WRFCHEM_FOLDER/
+	cd $WRFCHEM_FOLDER/WPS-$WPS_VERSION
 	./clean -a
 
 	if [ ${auto_config} -eq 1 ]; then
@@ -19103,14 +19105,14 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 		./configure 2>&1 | tee configure.log #Option 19 intel compiler with distributed memory
 	fi
 
-	sed -i '67s|mpif90|mpiifort|g' $WRFCHEM_FOLDER/WPS-4.5/configure.wps
-	sed -i '68s|mpicc|mpiicc|g' $WRFCHEM_FOLDER/WPS-4.5/configure.wps
+	sed -i '67s|mpif90|mpiifort|g' $WRFCHEM_FOLDER/WPS-$WPS_VERSION/configure.wps
+	sed -i '68s|mpicc|mpiicc|g' $WRFCHEM_FOLDER/WPS-$WPS_VERSION/configure.wps
 
 	./compile 2>&1 | tee compile.wps.log
 
 	echo " "
 	# IF statement to check that all files were created.
-	cd $WRFCHEM_FOLDER/WPS-4.5
+	cd $WRFCHEM_FOLDER/WPS-$WPS_VERSION
 	n=$(ls ./*.exe | wc -l)
 	if (($n == 3)); then
 		echo "All expected files created."
@@ -19119,7 +19121,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
 		./compile 2>&1 | tee compile.wps2.log
-		cd $WRFCHEM_FOLDER/WPS-4.5
+		cd $WRFCHEM_FOLDER/WPS-$WPS_VERSION
 		n=$(ls ./*.exe | wc -l)
 		if (($n == 3)); then
 			echo "All expected files created."
@@ -19458,10 +19460,10 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$MAC_CHIP" = 
 	cd $WRFCHEM_FOLDER/Downloads
 	tar -xvzf pnetcdf-$Pnetcdf_Version.tar.gz
 	cd pnetcdf-$Pnetcdf_Version
-	export MPIFC=$DIR/MPICH/mpifort
-	export MPIF77=$DIR/MPICH/mpifort
-	export MPIF90=$DIR/MPICH/mpifort
-	export MPICC=$DIR/MPICH/mpicc
+	export MPIFC=$DIR/MPICH/bin/mpifort
+	export MPIF77=$DIR/MPICH/bin/mpifort
+	export MPIF90=$DIR/MPICH/bin/mpifort
+	export MPICC=$DIR/MPICH/bin/mpicc
 	export MPICXX=$DIR/MPICH/bin/mpicxx
 	autoreconf -i -f 2>&1 | tee autoreconf.log
 	./configure --prefix=$DIR/grib2 --enable-shared --enable-static 2>&1 | tee configure.log
@@ -19717,8 +19719,8 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 	echo " "
 
-	############################ WRFCHEM 4.5 #################################
-	## WRF CHEM v4.5
+	############################ WRFCHEM $WPS_VERSION #################################
+	## WRF CHEM v$WPS_VERSION
 	## Downloaded from git tagged releases
 	# option 17, option 1 for gfortran and distributed memory w/basic nesting
 	# If the script comes back asking to locate a file (libfl.a)
@@ -19740,34 +19742,34 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 	#Downloading WRF code
 	cd $WRFCHEM_FOLDER/Downloads
-	wget -c https://github.com/wrf-model/WRF/releases/download/v4.5.1/v4.5.1.tar.gz -O WRF-4.5.1.tar.gz
-	tar -xvzf WRF-4.5.1.tar.gz -C $WRFCHEM_FOLDER/
+	wget -c https://github.com/wrf-model/WRF/releases/download/v$WRF_VERSION/v$WRF_VERSION.tar.gz -O WRF-$WRF_VERSION.tar.gz
+	tar -xvzf WRF-$WRF_VERSION.tar.gz -C $WRFCHEM_FOLDER/
 
 	# If statment for changing folder name
 	if [ -d "$WRFCHEM_FOLDER/WRF" ]; then
-		mv -f $WRFCHEM_FOLDER/WRF $WRFCHEM_FOLDER/WRFV4.5.1
+		mv -f $WRFCHEM_FOLDER/WRF $WRFCHEM_FOLDER/WRFV$WRF_VERSION
 	fi
-	cd $WRFCHEM_FOLDER/WRFV4.5.1
+	cd $WRFCHEM_FOLDER/WRFV$WRF_VERSION
 
 	./clean -a
 
 	if [ ${auto_config} -eq 1 ]; then
-		sed -i'' -e '433s/.*/  $response = "17 \\n";/g' $WRFCHEM_FOLDER/WRFV4.5.1/arch/Config.pl # Answer for compiler choice
-		sed -i'' -e '898s/.*/  $response = "1 \\n";/g' $WRFCHEM_FOLDER/WRFV4.5.1/arch/Config.pl  #Answer for basic nesting
+		sed -i'' -e '443s/.*/  $response = "17 \\n";/g' $WRFCHEM_FOLDER/WRFV$WRF_VERSION/arch/Config.pl # Answer for compiler choice
+		sed -i'' -e '909s/.*/  $response = "1 \\n";/g' $WRFCHEM_FOLDER/WRFV$WRF_VERSION/arch/Config.pl  #Answer for basic nesting
 		./configure 2>&1 | tee configure.log
 	else
 		./configure 2>&1 | tee configure.log #Option 17 gfortran compiler with distributed memory option 1 for basic nesting
 	fi
 
-	sed -i'' -e 's/-w  -c/-w  -c -fPIC -fPIE -O3 -Wno-implicit-function-declaration/g' $WRFCHEM_FOLDER/WRFV4.5.1/configure.wrf
+	sed -i'' -e 's/-w  -c/-w  -c -fPIC -fPIE -O3 -Wno-implicit-function-declaration/g' $WRFCHEM_FOLDER/WRFV$WRF_VERSION/configure.wrf
 
 	./compile em_real 2>&1 | tee compile.wrf.log
 	./compile emi_conv 2>&1 | tee compile.emis.log
 
-	export WRF_DIR=$WRFCHEM_FOLDER/WRFV4.5.1
+	export WRF_DIR=$WRFCHEM_FOLDER/WRFV$WRF_VERSION
 
 	# IF statement to check that all files were created.
-	cd $WRFCHEM_FOLDER/WRFV4.5.1/main
+	cd $WRFCHEM_FOLDER/WRFV$WRF_VERSION/main
 	n=$(ls ./*.exe | wc -l)
 	if (($n >= 3)); then
 		echo "All expected files created."
@@ -19775,9 +19777,9 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	else
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
-		cd $WRFCHEM_FOLDER/WRFV4.5.1
+		cd $WRFCHEM_FOLDER/WRFV$WRF_VERSION
 		./compile -j $CPU_HALF_EVEN em_real 2>&1 | tee compile.wrf2.log
-		cd $WRFCHEM_FOLDER/WRFV4.5.1/main
+		cd $WRFCHEM_FOLDER/WRFV$WRF_VERSION/main
 		n=$(ls ./*.exe | wc -l)
 		if (($n >= 3)); then
 			echo "All expected files created."
@@ -19789,16 +19791,16 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	fi
 
 	echo " "
-	############################WPSV4.5#####################################
-	## WPS v4.5
+	############################WPSV$WPS_VERSION#####################################
+	## WPS v$WPS_VERSION
 	## Downloaded from git tagged releases
 	#Option 3 for gfortran and distributed memory
 	########################################################################
 
 	cd $WRFCHEM_FOLDER/Downloads
-	wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v4.5.tar.gz -O WPS-4.5.tar.gz
-	tar -xvzf WPS-4.5.tar.gz -C $WRFCHEM_FOLDER/
-	cd $WRFCHEM_FOLDER/WPS-4.5
+	wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v$WPS_VERSION.tar.gz -O WPS-$WPS_VERSION.tar.gz
+	tar -xvzf WPS-$WPS_VERSION.tar.gz -C $WRFCHEM_FOLDER/
+	cd $WRFCHEM_FOLDER/WPS-$WPS_VERSION
 	./clean -a
 
 	if [ ${auto_config} -eq 1 ]; then
@@ -19810,7 +19812,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	./compile 2>&1 | tee compile.wps.log
 
 	# IF statement to check that all files were created.
-	cd $WRFCHEM_FOLDER/WPS-4.5
+	cd $WRFCHEM_FOLDER/WPS-$WPS_VERSION
 	n=$(ls ./*.exe | wc -l)
 	if (($n == 3)); then
 		echo "All expected files created."
@@ -19819,7 +19821,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
 		./compile 2>&1 | tee compile.wps2.log
-		cd $WRFCHEM_FOLDER/WPS-4.5
+		cd $WRFCHEM_FOLDER/WPS-$WPS_VERSION
 		n=$(ls ./*.exe | wc -l)
 		if (($n == 3)); then
 			echo "All expected files created."
@@ -19833,7 +19835,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	echo " "
 
 	############################WRFDA 3DVAR###############################
-	## WRFDA v4.5 3DVAR
+	## WRFDA v$WPS_VERSION 3DVAR
 	## Downloaded from git tagged releases
 	## Does not include RTTOV Libarary for radiation data.  If wanted will need to install library then reconfigure
 	##Note: if you intend to run both 3DVAR and 4DVAR experiments, it is not necessary to compile the code twice.
@@ -19841,17 +19843,17 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	########################################################################
 	cd $WRFCHEM_FOLDER/Downloads
 	cd $WRFCHEM_FOLDER/Downloads
-	wget -c https://github.com/wrf-model/WRF/releases/download/v4.5.1/v4.5.1.tar.gz -O WRF-4.5.1.tar.gz
+	wget -c https://github.com/wrf-model/WRF/releases/download/v$WRF_VERSION/v$WRF_VERSION.tar.gz -O WRF-$WRF_VERSION.tar.gz
 	mkdir $WRFCHEM_FOLDER/WRFDA
-	tar -xvzf WRF-4.5.1.tar.gz -C $WRFCHEM_FOLDER/WRFDA
+	tar -xvzf WRF-$WRF_VERSION.tar.gz -C $WRFCHEM_FOLDER/WRFDA
 	# If statment for changing folder name
 	if [ -d "$WRFCHEM_FOLDER/WRFDA/WRF" ]; then
-		mv -f $WRFCHEM_FOLDER/WRFDA/WRF $WRFCHEM_FOLDER/WRFDA/WRFV4.5.1
+		mv -f $WRFCHEM_FOLDER/WRFDA/WRF $WRFCHEM_FOLDER/WRFDA/WRFV$WRF_VERSION
 	fi
-	cd $WRFCHEM_FOLDER/WRFDA/WRFV4.5.1
+	cd $WRFCHEM_FOLDER/WRFDA/WRFV$WRF_VERSION
 	mv * $WRFCHEM_FOLDER/WRFDA
 	cd $WRFCHEM_FOLDER/WRFDA
-	rm -rf WRFV4.5.1/
+	rm -rf WRFV$WRF_VERSION/
 	cd $WRFCHEM_FOLDER/WRFDA
 
 	ulimit -s unlimited
@@ -20240,10 +20242,10 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$MAC_CHIP" = 
 	cd $WRFCHEM_FOLDER/Downloads
 	tar -xvzf pnetcdf-$Pnetcdf_Version.tar.gz
 	cd pnetcdf-$Pnetcdf_Version
-	export MPIFC=$DIR/MPICH/mpifort
-	export MPIF77=$DIR/MPICH/mpifort
-	export MPIF90=$DIR/MPICH/mpifort
-	export MPICC=$DIR/MPICH/mpicc
+	export MPIFC=$DIR/MPICH/bin/mpifort
+	export MPIF77=$DIR/MPICH/bin/mpifort
+	export MPIF90=$DIR/MPICH/bin/mpifort
+	export MPICC=$DIR/MPICH/bin/mpicc
 	export MPICXX=$DIR/MPICH/bin/mpicxx
 	autoreconf -i -f 2>&1 | tee autoreconf.log
 	./configure --prefix=$DIR/grib2 --enable-shared --enable-static 2>&1 | tee configure.log
@@ -20499,8 +20501,8 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 	echo " "
 
-	############################ WRFCHEM 4.5 #################################
-	## WRF CHEM v4.5
+	############################ WRFCHEM $WPS_VERSION #################################
+	## WRF CHEM v$WPS_VERSION
 	## Downloaded from git tagged releases
 	# option 17, option 1 for gfortran and distributed memory w/basic nesting
 	# If the script comes back asking to locate a file (libfl.a)
@@ -20522,34 +20524,34 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 	#Downloading WRF code
 	cd $WRFCHEM_FOLDER/Downloads
-	wget -c https://github.com/wrf-model/WRF/releases/download/v4.5.1/v4.5.1.tar.gz -O WRF-4.5.1.tar.gz
-	tar -xvzf WRF-4.5.1.tar.gz -C $WRFCHEM_FOLDER/
+	wget -c https://github.com/wrf-model/WRF/releases/download/v$WRF_VERSION/v$WRF_VERSION.tar.gz -O WRF-$WRF_VERSION.tar.gz
+	tar -xvzf WRF-$WRF_VERSION.tar.gz -C $WRFCHEM_FOLDER/
 
 	# If statment for changing folder name
 	if [ -d "$WRFCHEM_FOLDER/WRF" ]; then
-		mv -f $WRFCHEM_FOLDER/WRF $WRFCHEM_FOLDER/WRFV4.5.1
+		mv -f $WRFCHEM_FOLDER/WRF $WRFCHEM_FOLDER/WRFV$WRF_VERSION
 	fi
-	cd $WRFCHEM_FOLDER/WRFV4.5.1
+	cd $WRFCHEM_FOLDER/WRFV$WRF_VERSION
 
 	./clean -a
 
 	if [ ${auto_config} -eq 1 ]; then
-		sed -i'' -e '433s/.*/  $response = "17 \\n";/g' $WRFCHEM_FOLDER/WRFV4.5.1/arch/Config.pl # Answer for compiler choice
-		sed -i'' -e '898s/.*/  $response = "1 \\n";/g' $WRFCHEM_FOLDER/WRFV4.5.1/arch/Config.pl  #Answer for basic nesting
+		sed -i'' -e '443s/.*/  $response = "17 \\n";/g' $WRFCHEM_FOLDER/WRFV$WRF_VERSION/arch/Config.pl # Answer for compiler choice
+		sed -i'' -e '909s/.*/  $response = "1 \\n";/g' $WRFCHEM_FOLDER/WRFV$WRF_VERSION/arch/Config.pl  #Answer for basic nesting
 		./configure 2>&1 | tee configure.log
 	else
 		./configure 2>&1 | tee configure.log #Option 17 gfortran compiler with distributed memory option 1 for basic nesting
 	fi
 
-	sed -i'' -e 's/-w  -c/-w  -c -fPIC -fPIE -O3 -Wno-implicit-function-declaration/g' $WRFCHEM_FOLDER/WRFV4.5.1/configure.wrf
+	sed -i'' -e 's/-w  -c/-w  -c -fPIC -fPIE -O3 -Wno-implicit-function-declaration/g' $WRFCHEM_FOLDER/WRFV$WRF_VERSION/configure.wrf
 
 	./compile em_real 2>&1 | tee compile.wrf.log
 	./compile emi_conv 2>&1 | tee compile.emis.log
 
-	export WRF_DIR=$WRFCHEM_FOLDER/WRFV4.5.1
+	export WRF_DIR=$WRFCHEM_FOLDER/WRFV$WRF_VERSION
 
 	# IF statement to check that all files were created.
-	cd $WRFCHEM_FOLDER/WRFV4.5.1/main
+	cd $WRFCHEM_FOLDER/WRFV$WRF_VERSION/main
 	n=$(ls ./*.exe | wc -l)
 	if (($n >= 3)); then
 		echo "All expected files created."
@@ -20557,9 +20559,9 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	else
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
-		cd $WRFCHEM_FOLDER/WRFV4.5.1
+		cd $WRFCHEM_FOLDER/WRFV$WRF_VERSION
 		./compile -j $CPU_HALF_EVEN em_real 2>&1 | tee compile.wrf2.log
-		cd $WRFCHEM_FOLDER/WRFV4.5.1/main
+		cd $WRFCHEM_FOLDER/WRFV$WRF_VERSION/main
 		n=$(ls ./*.exe | wc -l)
 		if (($n >= 3)); then
 			echo "All expected files created."
@@ -20571,16 +20573,16 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	fi
 
 	echo " "
-	############################WPSV4.5#####################################
-	## WPS v4.5
+	############################WPSV$WPS_VERSION#####################################
+	## WPS v$WPS_VERSION
 	## Downloaded from git tagged releases
 	#Option 3 for gfortran and distributed memory
 	########################################################################
 
 	cd $WRFCHEM_FOLDER/Downloads
-	wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v4.5.tar.gz -O WPS-4.5.tar.gz
-	tar -xvzf WPS-4.5.tar.gz -C $WRFCHEM_FOLDER/
-	cd $WRFCHEM_FOLDER/WPS-4.5
+	wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v$WPS_VERSION.tar.gz -O WPS-$WPS_VERSION.tar.gz
+	tar -xvzf WPS-$WPS_VERSION.tar.gz -C $WRFCHEM_FOLDER/
+	cd $WRFCHEM_FOLDER/WPS-$WPS_VERSION
 	./clean -a
 
 	if [ ${auto_config} -eq 1 ]; then
@@ -20592,7 +20594,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	./compile 2>&1 | tee compile.wps.log
 
 	# IF statement to check that all files were created.
-	cd $WRFCHEM_FOLDER/WPS-4.5
+	cd $WRFCHEM_FOLDER/WPS-$WPS_VERSION
 	n=$(ls ./*.exe | wc -l)
 	if (($n == 3)); then
 		echo "All expected files created."
@@ -20601,7 +20603,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
 		./compile 2>&1 | tee compile.wps2.log
-		cd $WRFCHEM_FOLDER/WPS-4.5
+		cd $WRFCHEM_FOLDER/WPS-$WPS_VERSION
 		n=$(ls ./*.exe | wc -l)
 		if (($n == 3)); then
 			echo "All expected files created."
@@ -20615,7 +20617,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	echo " "
 
 	############################WRFDA 3DVAR###############################
-	## WRFDA v4.5 3DVAR
+	## WRFDA v$WPS_VERSION 3DVAR
 	## Downloaded from git tagged releases
 	## Does not include RTTOV Libarary for radiation data.  If wanted will need to install library then reconfigure
 	##Note: if you intend to run both 3DVAR and 4DVAR experiments, it is not necessary to compile the code twice.
@@ -20623,17 +20625,17 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	########################################################################
 	cd $WRFCHEM_FOLDER/Downloads
 	cd $WRFCHEM_FOLDER/Downloads
-	wget -c https://github.com/wrf-model/WRF/releases/download/v4.5.1/v4.5.1.tar.gz -O WRF-4.5.1.tar.gz
+	wget -c https://github.com/wrf-model/WRF/releases/download/v$WRF_VERSION/v$WRF_VERSION.tar.gz -O WRF-$WRF_VERSION.tar.gz
 	mkdir $WRFCHEM_FOLDER/WRFDA
-	tar -xvzf WRF-4.5.1.tar.gz -C $WRFCHEM_FOLDER/WRFDA
+	tar -xvzf WRF-$WRF_VERSION.tar.gz -C $WRFCHEM_FOLDER/WRFDA
 	# If statment for changing folder name
 	if [ -d "$WRFCHEM_FOLDER/WRFDA/WRF" ]; then
-		mv -f $WRFCHEM_FOLDER/WRFDA/WRF $WRFCHEM_FOLDER/WRFDA/WRFV4.5.1
+		mv -f $WRFCHEM_FOLDER/WRFDA/WRF $WRFCHEM_FOLDER/WRFDA/WRFV$WRF_VERSION
 	fi
-	cd $WRFCHEM_FOLDER/WRFDA/WRFV4.5.1
+	cd $WRFCHEM_FOLDER/WRFDA/WRFV$WRF_VERSION
 	mv * $WRFCHEM_FOLDER/WRFDA
 	cd $WRFCHEM_FOLDER/WRFDA
-	rm -rf WRFV4.5.1/
+	rm -rf WRFV$WRF_VERSION/
 	cd $WRFCHEM_FOLDER/WRFDA
 
 	ulimit -s unlimited
@@ -20914,10 +20916,10 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	# make check
 
 	export PATH=$DIR/MPICH/bin:$PATH
-	export MPIFC=$DIR/MPICH/mpifort
-	export MPIF77=$DIR/MPICH/mpifort
-	export MPIF90=$DIR/MPICH/mpifort
-	export MPICC=$DIR/MPICH/mpicc
+	export MPIFC=$DIR/MPICH/bin/mpifort
+	export MPIF77=$DIR/MPICH/bin/mpifort
+	export MPIF90=$DIR/MPICH/bin/mpifort
+	export MPICC=$DIR/MPICH/bin/mpicc
 	export MPICXX=$DIR/MPICH/bin/mpicxx
 
 	echo " "
@@ -20979,10 +20981,10 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	cd $WRFCHEM_FOLDER/Downloads
 	tar -xvzf pnetcdf-$Pnetcdf_Version.tar.gz
 	cd pnetcdf-$Pnetcdf_Version
-	export MPIFC=$DIR/MPICH/mpifort
-	export MPIF77=$DIR/MPICH/mpifort
-	export MPIF90=$DIR/MPICH/mpifort
-	export MPICC=$DIR/MPICH/mpicc
+	export MPIFC=$DIR/MPICH/bin/mpifort
+	export MPIF77=$DIR/MPICH/bin/mpifort
+	export MPIF90=$DIR/MPICH/bin/mpifort
+	export MPICC=$DIR/MPICH/bin/mpicc
 	export MPICXX=$DIR/MPICH/bin/mpicxx
 	autoreconf -i -f 2>&1 | tee autoreconf.log
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS ./configure --prefix=$DIR/grib2 --enable-shared --enable-static 2>&1 | tee configure.log
@@ -21511,7 +21513,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 
 	############################WRFDA 3DVAR###############################
-	## WRFDA v4.5 3DVAR
+	## WRFDA v$WPS_VERSION 3DVAR
 	## Downloaded from git tagged releases
 	## Does not include RTTOV Libarary for radiation data.  If wanted will need to install library then reconfigure
 	##Note: if you intend to run both 3DVAR and 4DVAR experiments, it is not necessary to compile the code twice.
@@ -21519,17 +21521,17 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	########################################################################
 	cd $WRFCHEM_FOLDER/Downloads
 	cd $WRFCHEM_FOLDER/Downloads
-	wget -c https://github.com/wrf-model/WRF/releases/download/v4.5.1/v4.5.1.tar.gz -O WRF-4.5.1.tar.gz
+	wget -c https://github.com/wrf-model/WRF/releases/download/v$WRF_VERSION/v$WRF_VERSION.tar.gz -O WRF-$WRF_VERSION.tar.gz
 	mkdir $WRFCHEM_FOLDER/WRFDA
-	tar -xvzf WRF-4.5.1.tar.gz -C $WRFCHEM_FOLDER/WRFDA
+	tar -xvzf WRF-$WRF_VERSION.tar.gz -C $WRFCHEM_FOLDER/WRFDA
 	# If statment for changing folder name
 	if [ -d "$WRFCHEM_FOLDER/WRFDA/WRF" ]; then
-		mv -f $WRFCHEM_FOLDER/WRFDA/WRF $WRFCHEM_FOLDER/WRFDA/WRFV4.5.1
+		mv -f $WRFCHEM_FOLDER/WRFDA/WRF $WRFCHEM_FOLDER/WRFDA/WRFV$WRF_VERSION
 	fi
-	cd $WRFCHEM_FOLDER/WRFDA/WRFV4.5.1
+	cd $WRFCHEM_FOLDER/WRFDA/WRFV$WRF_VERSION
 	mv * $WRFCHEM_FOLDER/WRFDA
 	cd $WRFCHEM_FOLDER/WRFDA
-	rm -rf WRFV4.5.1/
+	rm -rf WRFV$WRF_VERSION/
 	cd $WRFCHEM_FOLDER/WRFDA
 
 	ulimit -s unlimited
@@ -21579,8 +21581,8 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	fi
 	echo " "
 
-	############################ WRFCHEM 4.5 #################################
-	## WRF CHEM v4.5
+	############################ WRFCHEM $WPS_VERSION #################################
+	## WRF CHEM v$WPS_VERSION
 	## Downloaded from git tagged releases
 	# option 34, option 1 for gfortran and distributed memory w/basic nesting
 	# If the script comes back asking to locate a file (libfl.a)
@@ -21605,8 +21607,8 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	export YACC='/usr/bin/yacc -d'
 	export FLEX=/usr/bin/flex
 	export FLEX_LIB_DIR=/usr/lib64
-	export KPP_HOME=$WRFCHEM_FOLDER/WRFV4.5.1/chem/KPP/kpp/kpp-2.1
-	export WRF_SRC_ROOT_DIR=$WRFCHEM_FOLDER/WRFV4.5.1
+	export KPP_HOME=$WRFCHEM_FOLDER/WRFV$WRF_VERSION/chem/KPP/kpp/kpp-2.1
+	export WRF_SRC_ROOT_DIR=$WRFCHEM_FOLDER/WRFV$WRF_VERSION
 	export PATH=$KPP_HOME/bin:$PATH
 	export SED=/usr/bin/sed
 	export WRFIO_NCD_LARGE_FILE_SUPPORT=1
@@ -21614,13 +21616,13 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	#Downloading WRF code
 
 	cd $WRFCHEM_FOLDER/Downloads
-	wget -c https://github.com/wrf-model/WRF/releases/download/v4.5.1/v4.5.1.tar.gz -O WRF-4.5.1.tar.gz
-	tar -xvzf WRF-4.5.1.tar.gz -C $WRFCHEM_FOLDER/
+	wget -c https://github.com/wrf-model/WRF/releases/download/v$WRF_VERSION/v$WRF_VERSION.tar.gz -O WRF-$WRF_VERSION.tar.gz
+	tar -xvzf WRF-$WRF_VERSION.tar.gz -C $WRFCHEM_FOLDER/
 	# If statment for changing folder name
 	if [ -d "$WRFCHEM_FOLDER/WRF" ]; then
-		mv -f $WRFCHEM_FOLDER/WRF $WRFCHEM_FOLDER/WRFV4.5.1
+		mv -f $WRFCHEM_FOLDER/WRF $WRFCHEM_FOLDER/WRFV$WRF_VERSION
 	fi
-	cd $WRFCHEM_FOLDER/WRFV4.5.1
+	cd $WRFCHEM_FOLDER/WRFV$WRF_VERSION
 
 	cd chem/KPP
 	sed -i -e 's/="-O"/="-O0"/' configure_kpp
@@ -21629,8 +21631,8 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	./clean -a
 
 	if [ ${auto_config} -eq 1 ]; then
-		sed -i '433s/.*/  $response = "34 \\n";/g' $WRFCHEM_FOLDER/WRFV4.5.1/arch/Config.pl # Answer for compiler choice
-		sed -i '898s/.*/  $response = "1 \\n";/g' $WRFCHEM_FOLDER/WRFV4.5.1/arch/Config.pl  #Answer for basic nesting
+		sed -i '443s/.*/  $response = "34 \\n";/g' $WRFCHEM_FOLDER/WRFV$WRF_VERSION/arch/Config.pl # Answer for compiler choice
+		sed -i '909s/.*/  $response = "1 \\n";/g' $WRFCHEM_FOLDER/WRFV$WRF_VERSION/arch/Config.pl  #Answer for basic nesting
 		./configure 2>&1 | tee configure.log
 	else
 		./configure 2>&1 | tee configure.log #Option 34 gfortran compiler with distributed memory option 1 for basic nesting
@@ -21639,10 +21641,10 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	./compile -j $CPU_HALF_EVEN em_real 2>&1 | tee compile.wrf1.log
 	./compile -j $CPU_HALF_EVEN emi_conv 2>&1 | tee compile.emis.log
 
-	export WRF_DIR=$WRFCHEM_FOLDER/WRFV4.5.1
+	export WRF_DIR=$WRFCHEM_FOLDER/WRFV$WRF_VERSION
 
 	# IF statement to check that all files were created.
-	cd $WRFCHEM_FOLDER/WRFV4.5.1/main
+	cd $WRFCHEM_FOLDER/WRFV$WRF_VERSION/main
 	n=$(ls ./*.exe | wc -l)
 	if (($n >= 3)); then
 		echo "All expected files created."
@@ -21650,9 +21652,9 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	else
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
-		cd $WRFCHEM_FOLDER/WRFV4.5.1
+		cd $WRFCHEM_FOLDER/WRFV$WRF_VERSION
 		./compile -j $CPU_HALF_EVEN em_real 2>&1 | tee compile.wrf2.log
-		cd $WRFCHEM_FOLDER/WRFV4.5.1/main
+		cd $WRFCHEM_FOLDER/WRFV$WRF_VERSION/main
 		n=$(ls ./*.exe | wc -l)
 		if (($n >= 3)); then
 			echo "All expected files created."
@@ -21664,16 +21666,16 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	fi
 
 	echo " "
-	############################WPSV4.5#####################################
-	## WPS v4.5
+	############################WPSV$WPS_VERSION#####################################
+	## WPS v$WPS_VERSION
 	## Downloaded from git tagged releases
 	#Option 3 for gfortran and distributed memory
 	########################################################################
 
 	cd $WRFCHEM_FOLDER/Downloads
-	wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v4.5.tar.gz -O WPS-4.5.tar.gz
-	tar -xvzf WPS-4.5.tar.gz -C $WRFCHEM_FOLDER/
-	cd $WRFCHEM_FOLDER/WPS-4.5
+	wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v$WPS_VERSION.tar.gz -O WPS-$WPS_VERSION.tar.gz
+	tar -xvzf WPS-$WPS_VERSION.tar.gz -C $WRFCHEM_FOLDER/
+	cd $WRFCHEM_FOLDER/WPS-$WPS_VERSION
 
 	./clean -a
 
@@ -21687,7 +21689,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	echo " "
 
 	# IF statement to check that all files were created.
-	cd $WRFCHEM_FOLDER/WPS-4.5
+	cd $WRFCHEM_FOLDER/WPS-$WPS_VERSION
 	n=$(ls ./*.exe | wc -l)
 	if (($n == 3)); then
 		echo "All expected files created."
@@ -21696,7 +21698,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
 		./compile 2>&1 | tee compile.wps2.log
-		cd $WRFCHEM_FOLDER/WPS-4.5
+		cd $WRFCHEM_FOLDER/WPS-$WPS_VERSION
 		n=$(ls ./*.exe | wc -l)
 		if (($n == 3)); then
 			echo "All expected files created."
@@ -21952,10 +21954,10 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	# make check
 
 	export PATH=$DIR/MPICH/bin:$PATH
-	export MPIFC=$DIR/MPICH/mpifort
-	export MPIF77=$DIR/MPICH/mpifort
-	export MPIF90=$DIR/MPICH/mpifort
-	export MPICC=$DIR/MPICH/mpicc
+	export MPIFC=$DIR/MPICH/bin/mpifort
+	export MPIF77=$DIR/MPICH/bin/mpifort
+	export MPIF90=$DIR/MPICH/bin/mpifort
+	export MPICC=$DIR/MPICH/bin/mpicc
 	export MPICXX=$DIR/MPICH/bin/mpicxx
 
 	echo " "
@@ -22017,10 +22019,10 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	cd $WRFCHEM_FOLDER/Downloads
 	tar -xvzf pnetcdf-$Pnetcdf_Version.tar.gz
 	cd pnetcdf-$Pnetcdf_Version
-	export MPIFC=$DIR/MPICH/mpifort
-	export MPIF77=$DIR/MPICH/mpifort
-	export MPIF90=$DIR/MPICH/mpifort
-	export MPICC=$DIR/MPICH/mpicc
+	export MPIFC=$DIR/MPICH/bin/mpifort
+	export MPIF77=$DIR/MPICH/bin/mpifort
+	export MPIF90=$DIR/MPICH/bin/mpifort
+	export MPICC=$DIR/MPICH/bin/mpicc
 	export MPICXX=$DIR/MPICH/bin/mpicxx
 	autoreconf -i -f 2>&1 | tee autoreconf.log
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS ./configure --prefix=$DIR/grib2 --enable-shared --enable-static 2>&1 | tee configure.log
@@ -22527,7 +22529,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 
 	############################WRFDA 3DVAR###############################
-	## WRFDA v4.5 3DVAR
+	## WRFDA v$WPS_VERSION 3DVAR
 	## Downloaded from git tagged releases
 	## Does not include RTTOV Libarary for radiation data.  If wanted will need to install library then reconfigure
 	##Note: if you intend to run both 3DVAR and 4DVAR experiments, it is not necessary to compile the code twice.
@@ -22535,17 +22537,17 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	########################################################################
 	cd $WRFCHEM_FOLDER/Downloads
 	cd $WRFCHEM_FOLDER/Downloads
-	wget -c https://github.com/wrf-model/WRF/releases/download/v4.5.1/v4.5.1.tar.gz -O WRF-4.5.1.tar.gz
+	wget -c https://github.com/wrf-model/WRF/releases/download/v$WRF_VERSION/v$WRF_VERSION.tar.gz -O WRF-$WRF_VERSION.tar.gz
 	mkdir $WRFCHEM_FOLDER/WRFDA
-	tar -xvzf WRF-4.5.1.tar.gz -C $WRFCHEM_FOLDER/WRFDA
+	tar -xvzf WRF-$WRF_VERSION.tar.gz -C $WRFCHEM_FOLDER/WRFDA
 	# If statment for changing folder name
 	if [ -d "$WRFCHEM_FOLDER/WRFDA/WRF" ]; then
-		mv -f $WRFCHEM_FOLDER/WRFDA/WRF $WRFCHEM_FOLDER/WRFDA/WRFV4.5.1
+		mv -f $WRFCHEM_FOLDER/WRFDA/WRF $WRFCHEM_FOLDER/WRFDA/WRFV$WRF_VERSION
 	fi
-	cd $WRFCHEM_FOLDER/WRFDA/WRFV4.5.1
+	cd $WRFCHEM_FOLDER/WRFDA/WRFV$WRF_VERSION
 	mv * $WRFCHEM_FOLDER/WRFDA
 	cd $WRFCHEM_FOLDER/WRFDA
-	rm -rf WRFV4.5.1/
+	rm -rf WRFV$WRF_VERSION/
 	cd $WRFCHEM_FOLDER/WRFDA
 
 	ulimit -s unlimited
@@ -22595,8 +22597,8 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	fi
 	echo " "
 
-	############################ WRFCHEM 4.5 #################################
-	## WRF CHEM v4.5
+	############################ WRFCHEM $WPS_VERSION #################################
+	## WRF CHEM v$WPS_VERSION
 	## Downloaded from git tagged releases
 	# option 34, option 1 for gfortran and distributed memory w/basic nesting
 	# If the script comes back asking to locate a file (libfl.a)
@@ -22621,8 +22623,8 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	export YACC='/usr/bin/yacc -d'
 	export FLEX=/usr/bin/flex
 	export FLEX_LIB_DIR=/usr/lib64
-	export KPP_HOME=$WRFCHEM_FOLDER/WRFV4.5.1/chem/KPP/kpp/kpp-2.1
-	export WRF_SRC_ROOT_DIR=$WRFCHEM_FOLDER/WRFV4.5.1
+	export KPP_HOME=$WRFCHEM_FOLDER/WRFV$WRF_VERSION/chem/KPP/kpp/kpp-2.1
+	export WRF_SRC_ROOT_DIR=$WRFCHEM_FOLDER/WRFV$WRF_VERSION
 	export PATH=$KPP_HOME/bin:$PATH
 	export SED=/usr/bin/sed
 	export WRFIO_NCD_LARGE_FILE_SUPPORT=1
@@ -22630,13 +22632,13 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	#Downloading WRF code
 
 	cd $WRFCHEM_FOLDER/Downloads
-	wget -c https://github.com/wrf-model/WRF/releases/download/v4.5.1/v4.5.1.tar.gz -O WRF-4.5.1.tar.gz
-	tar -xvzf WRF-4.5.1.tar.gz -C $WRFCHEM_FOLDER/
+	wget -c https://github.com/wrf-model/WRF/releases/download/v$WRF_VERSION/v$WRF_VERSION.tar.gz -O WRF-$WRF_VERSION.tar.gz
+	tar -xvzf WRF-$WRF_VERSION.tar.gz -C $WRFCHEM_FOLDER/
 	# If statment for changing folder name
 	if [ -d "$WRFCHEM_FOLDER/WRF" ]; then
-		mv -f $WRFCHEM_FOLDER/WRF $WRFCHEM_FOLDER/WRFV4.5.1
+		mv -f $WRFCHEM_FOLDER/WRF $WRFCHEM_FOLDER/WRFV$WRF_VERSION
 	fi
-	cd $WRFCHEM_FOLDER/WRFV4.5.1
+	cd $WRFCHEM_FOLDER/WRFV$WRF_VERSION
 
 	cd chem/KPP
 	sed -i -e 's/="-O"/="-O0"/' configure_kpp
@@ -22645,8 +22647,8 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	./clean -a
 
 	if [ ${auto_config} -eq 1 ]; then
-		sed -i '433s/.*/  $response = "34 \\n";/g' $WRFCHEM_FOLDER/WRFV4.5.1/arch/Config.pl # Answer for compiler choice
-		sed -i '898s/.*/  $response = "1 \\n";/g' $WRFCHEM_FOLDER/WRFV4.5.1/arch/Config.pl  #Answer for basic nesting
+		sed -i '443s/.*/  $response = "34 \\n";/g' $WRFCHEM_FOLDER/WRFV$WRF_VERSION/arch/Config.pl # Answer for compiler choice
+		sed -i '909s/.*/  $response = "1 \\n";/g' $WRFCHEM_FOLDER/WRFV$WRF_VERSION/arch/Config.pl  #Answer for basic nesting
 		./configure 2>&1 | tee configure.log
 	else
 		./configure 2>&1 | tee configure.log #Option 34 gfortran compiler with distributed memory option 1 for basic nesting
@@ -22655,10 +22657,10 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	./compile -j $CPU_HALF_EVEN em_real 2>&1 | tee compile.wrf1.log
 	./compile -j $CPU_HALF_EVEN emi_conv 2>&1 | tee compile.emis.log
 
-	export WRF_DIR=$WRFCHEM_FOLDER/WRFV4.5.1
+	export WRF_DIR=$WRFCHEM_FOLDER/WRFV$WRF_VERSION
 
 	# IF statement to check that all files were created.
-	cd $WRFCHEM_FOLDER/WRFV4.5.1/main
+	cd $WRFCHEM_FOLDER/WRFV$WRF_VERSION/main
 	n=$(ls ./*.exe | wc -l)
 	if (($n >= 3)); then
 		echo "All expected files created."
@@ -22666,9 +22668,9 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	else
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
-		cd $WRFCHEM_FOLDER/WRFV4.5.1
+		cd $WRFCHEM_FOLDER/WRFV$WRF_VERSION
 		./compile -j $CPU_HALF_EVEN em_real 2>&1 | tee compile.wrf2.log
-		cd $WRFCHEM_FOLDER/WRFV4.5.1/main
+		cd $WRFCHEM_FOLDER/WRFV$WRF_VERSION/main
 		n=$(ls ./*.exe | wc -l)
 		if (($n >= 3)); then
 			echo "All expected files created."
@@ -22680,16 +22682,16 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	fi
 
 	echo " "
-	############################WPSV4.5#####################################
-	## WPS v4.5
+	############################WPSV$WPS_VERSION#####################################
+	## WPS v$WPS_VERSION
 	## Downloaded from git tagged releases
 	#Option 3 for gfortran and distributed memory
 	########################################################################
 
 	cd $WRFCHEM_FOLDER/Downloads
-	wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v4.5.tar.gz -O WPS-4.5.tar.gz
-	tar -xvzf WPS-4.5.tar.gz -C $WRFCHEM_FOLDER/
-	cd $WRFCHEM_FOLDER/WPS-4.5
+	wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v$WPS_VERSION.tar.gz -O WPS-$WPS_VERSION.tar.gz
+	tar -xvzf WPS-$WPS_VERSION.tar.gz -C $WRFCHEM_FOLDER/
+	cd $WRFCHEM_FOLDER/WPS-$WPS_VERSION
 
 	./clean -a
 
@@ -22703,7 +22705,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	echo " "
 
 	# IF statement to check that all files were created.
-	cd $WRFCHEM_FOLDER/WPS-4.5
+	cd $WRFCHEM_FOLDER/WPS-$WPS_VERSION
 	n=$(ls ./*.exe | wc -l)
 	if (($n == 3)); then
 		echo "All expected files created."
@@ -22712,7 +22714,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
 		./compile 2>&1 | tee compile.wps2.log
-		cd $WRFCHEM_FOLDER/WPS-4.5
+		cd $WRFCHEM_FOLDER/WPS-$WPS_VERSION
 		n=$(ls ./*.exe | wc -l)
 		if (($n == 3)); then
 			echo "All expected files created."
@@ -22827,7 +22829,7 @@ fi
 ########################### WRF  ##########################
 ## WRF installation with parallel process.
 # Download and install required library and data files for WRF, WRFPLUS, WRFDA 4DVAR, WPS.
-# Tested in Ubuntu 20.04.5 LTS & Ubuntu 22.04, Rocky Linux 9 & MacOS Ventura 64bit
+# Tested in Ubuntu 20.0$WPS_VERSION LTS & Ubuntu 22.04, Rocky Linux 9 & MacOS Ventura 64bit
 # Built in 64-bit system
 # Built with Intel or GNU compilers
 # Tested with current available libraries on 10/10/2023
@@ -23572,8 +23574,8 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 	echo " "
 
-	############################ WRF 4.5  #################################
-	## WRF v4.5
+	############################ WRF $WPS_VERSION  #################################
+	## WRF v$WPS_VERSION
 	## Downloaded from git tagged releases
 	# option 34, option 1 for gfortran and distributed memory w/basic nesting
 	# large file support enable with WRFiO_NCD_LARGE_FILE_SUPPORT=1
@@ -23585,21 +23587,21 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	# Note that you need set nocolons = .true. in the section &time_control of namelist.input
 	########################################################################
 	cd $WRF_FOLDER/Downloads
-	wget -c https://github.com/wrf-model/WRF/releases/download/v4.5.1/v4.5.1.tar.gz -O WRF-4.5.1.tar.gz
-	tar -xvzf WRF-4.5.1.tar.gz -C $WRF_FOLDER/
+	wget -c https://github.com/wrf-model/WRF/releases/download/v$WRF_VERSION/v$WRF_VERSION.tar.gz -O WRF-$WRF_VERSION.tar.gz
+	tar -xvzf WRF-$WRF_VERSION.tar.gz -C $WRF_FOLDER/
 
 	# If statment for changing folder name
 	if [ -d "$WRF_FOLDER/WRF" ]; then
-		mv -f $WRF_FOLDER/WRF $WRF_FOLDER/WRFV4.5.1
+		mv -f $WRF_FOLDER/WRF $WRF_FOLDER/WRFV$WRF_VERSION
 	fi
 
-	cd $WRF_FOLDER/WRFV4.5.1
+	cd $WRF_FOLDER/WRFV$WRF_VERSION
 	export WRFIO_NCD_LARGE_FILE_SUPPORT=1
 	./clean -a
 
 	if [ ${auto_config} -eq 1 ]; then
-		sed -i '433s/.*/  $response = "34 \\n";/g' $WRF_FOLDER/WRFV4.5.1/arch/Config.pl # Answer for compiler choice
-		sed -i '898s/.*/  $response = "1 \\n";/g' $WRF_FOLDER/WRFV4.5.1/arch/Config.pl  #Answer for basic nesting
+		sed -i '443s/.*/  $response = "34 \\n";/g' $WRF_FOLDER/WRFV$WRF_VERSION/arch/Config.pl # Answer for compiler choice
+		sed -i '909s/.*/  $response = "1 \\n";/g' $WRF_FOLDER/WRFV$WRF_VERSION/arch/Config.pl  #Answer for basic nesting
 		./configure 2>&1 | tee configure.log
 	else
 		./configure 2>&1 | tee configure.log #Option 34 gfortran compiler with distributed memory option 1 for basic nesting
@@ -23607,10 +23609,10 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 	./compile -j $CPU_HALF_EVEN em_real 2>&1 | tee compile.wrf1.log
 
-	export WRF_DIR=$WRF_FOLDER/WRFV4.5.1
+	export WRF_DIR=$WRF_FOLDER/WRFV$WRF_VERSION
 
 	# IF statement to check that all files were created.
-	cd $WRF_FOLDER/WRFV4.5.1/main
+	cd $WRF_FOLDER/WRFV$WRF_VERSION/main
 	n=$(ls ./*.exe | wc -l)
 	if (($n >= 3)); then
 		echo "All expected files created."
@@ -23618,9 +23620,9 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	else
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
-		cd $WRF_FOLDER/WRFV4.5.1
+		cd $WRF_FOLDER/WRFV$WRF_VERSION
 		./compile -j $CPU_HALF_EVEN em_real 2>&1 | tee compile.wrf2.log
-		cd $WRF_FOLDER/WRFV4.5.1/main
+		cd $WRF_FOLDER/WRFV$WRF_VERSION/main
 		n=$(ls ./*.exe | wc -l)
 		if (($n >= 3)); then
 			echo "All expected files created."
@@ -23632,16 +23634,16 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	fi
 
 	echo " "
-	############################WPSV4.5#####################################
-	## WPS v4.5
+	############################WPSV$WPS_VERSION#####################################
+	## WPS v$WPS_VERSION
 	## Downloaded from git tagged releases
 	#Option 3 for gfortran and distributed memory
 	########################################################################
 
 	cd $WRF_FOLDER/Downloads
-	wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v4.5.tar.gz -O WPS-4.5.tar.gz
-	tar -xvzf WPS-4.5.tar.gz -C $WRF_FOLDER/
-	cd $WRF_FOLDER/WPS-4.5
+	wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v$WPS_VERSION.tar.gz -O WPS-$WPS_VERSION.tar.gz
+	tar -xvzf WPS-$WPS_VERSION.tar.gz -C $WRF_FOLDER/
+	cd $WRF_FOLDER/WPS-$WPS_VERSION
 	./clean -a
 
 	if [ ${auto_config} -eq 1 ]; then
@@ -23653,7 +23655,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 	echo " "
 	# IF statement to check that all files were created.
-	cd $WRF_FOLDER/WPS-4.5
+	cd $WRF_FOLDER/WPS-$WPS_VERSION
 	n=$(ls ./*.exe | wc -l)
 	if (($n == 3)); then
 		echo "All expected files created."
@@ -23662,7 +23664,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
 		./compile 2>&1 | tee compile.wps2.log
-		cd $WRF_FOLDER/WPS-4.5
+		cd $WRF_FOLDER/WPS-$WPS_VERSION
 		n=$(ls ./*.exe | wc -l)
 		if (($n == 3)); then
 			echo "All expected files created."
@@ -23675,7 +23677,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 	echo " "
 	############################WRFPLUS 4DVAR###############################
-	## WRFPLUS v4.5 4DVAR
+	## WRFPLUS v$WPS_VERSION 4DVAR
 	## Downloaded from git tagged releases
 	## WRFPLUS is built within the WRF git folder
 	## Does not include RTTOV Libarary for radiation data.  If wanted will need to install library then reconfigure
@@ -23683,17 +23685,17 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	#Option 18 for gfortran/gcc and distribunted memory
 	########################################################################
 	cd $WRF_FOLDER/Downloads
-	tar -xvzf WRF-4.5.1.tar.gz -C $WRF_FOLDER/WRFPLUS
+	tar -xvzf WRF-$WRF_VERSION.tar.gz -C $WRF_FOLDER/WRFPLUS
 
 	# If statment for changing folder name
 	if [ -d "$WRF_FOLDER/WRFPLUS/WRF" ]; then
-		mv -f $WRF_FOLDER/WRFPLUS/WRF $WRF_FOLDER/WRFPLUS/WRFV4.5.1
+		mv -f $WRF_FOLDER/WRFPLUS/WRF $WRF_FOLDER/WRFPLUS/WRFV$WRF_VERSION
 	fi
 
-	cd $WRF_FOLDER/WRFPLUS/WRFV4.5.1
+	cd $WRF_FOLDER/WRFPLUS/WRFV$WRF_VERSION
 	mv * $WRF_FOLDER/WRFPLUS
 	cd $WRF_FOLDER/WRFPLUS
-	rm -rf WRFV4.5.1/
+	rm -rf WRFV$WRF_VERSION/
 	export NETCDF=$DIR/NETCDF
 	export HDF5=$DIR/grib2
 	export LD_LIBRARY_PATH=$DIR/grib2/lib:$LD_LIBRARY_PATH
@@ -23719,7 +23721,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	else
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
-		cd $WRF_FOLDER/WRFPLUS/WRFV4.5.1
+		cd $WRF_FOLDER/WRFPLUS/WRFV$WRF_VERSION
 		./compile -j $CPU_HALF_EVEN wrfplus 2>&1 | tee compile.wrfplus.log
 		cd $WRF_FOLDER/WRFPLUS/main
 		n=$(ls ./wrfplus.exe | wc -l)
@@ -23736,7 +23738,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	echo " "
 
 	############################WRFDA 4DVAR###############################
-	## WRFDA v4.5 4DVAR
+	## WRFDA v$WPS_VERSION 4DVAR
 	## Downloaded from git tagged releases
 	## WRFDA is built within the WRFPLUS folder
 	## Does not include RTTOV Libarary for radiation data.  If wanted will need to install library then reconfigure
@@ -23745,17 +23747,17 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	########################################################################
 	cd $WRF_FOLDER/Downloads
 	mkdir $WRF_FOLDER/WRFDA
-	tar -xvzf WRF-4.5.1.tar.gz -C $WRF_FOLDER/WRFDA
+	tar -xvzf WRF-$WRF_VERSION.tar.gz -C $WRF_FOLDER/WRFDA
 
 	# If statment for changing folder name
 	if [ -d "$WRF_FOLDER/WRFDA/WRF" ]; then
-		mv -f $WRF_FOLDER/WRFDA/WRF $WRF_FOLDER/WRFDA/WRFV4.5.1
+		mv -f $WRF_FOLDER/WRFDA/WRF $WRF_FOLDER/WRFDA/WRFV$WRF_VERSION
 	fi
 
-	cd $WRF_FOLDER/WRFDA/WRFV4.5.1
+	cd $WRF_FOLDER/WRFDA/WRFV$WRF_VERSION
 	mv * $WRF_FOLDER/WRFDA
 	cd $WRF_FOLDER/WRFDA
-	rm -rf WRFV4.5.1/
+	rm -rf WRFV$WRF_VERSION/
 	export NETCDF=$DIR/NETCDF
 	export HDF5=$DIR/grib2
 	export LD_LIBRARY_PATH=$DIR/grib2/lib:$LD_LIBRARY_PATH
@@ -23932,19 +23934,19 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	source /opt/intel/oneapi/setvars.sh
 
 	# some of the libraries we install below need one or more of these variables
-	export CC=icc
-	export CXX=icpc
-	export FC=ifort
-	export F77=ifort
-	export F90=ifort
-	export MPIFC=mpiifort
-	export MPIF77=mpiifort
-	export MPIF90=mpiifort
-	export MPICC=mpiicc
-	export MPICXX=mpiicpc
-	export CFLAGS="-fPIC -fPIE -O3 -diag-disable=10441 "
-	export FFLAGS="-m64"
-	export FCFLAGS="-m64"
+	export CC=icx
+  export CXX=icpx
+  export FC=ifx
+  export F77=ifx
+  export F90=ifx
+  export MPIFC='mpiifort -fc=ifx'
+  export MPIF77='mpiifort -fc=ifx'
+  export MPIF90='mpiifort -fc=ifx'
+  export MPICC='mpiicc -cc=icx'
+  export MPICXX='mpiicpc -cxx=icpx'
+  export CFLAGS="-fPIC -fPIE -O3 -Wno-implicit-function-declaration -Wno-absolute-value -Wno-incompatible-function-pointer-types -Wno-unknown-warning-option -Wno-unused-command-line-argument "
+  export FFLAGS="-m64"
+  export FCFLAGS="-m64"
 	############################# CPU Core Management ####################################
 
 	export CPU_CORE=$(nproc) # number of available threads on system
@@ -24463,44 +24465,44 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 	echo " "
 
-	############################ WRF 4.5  #################################
-	## WRF v4.5
+	############################ WRF $WPS_VERSION  #################################
+	## WRF v$WPS_VERSION
 	## Downloaded from git tagged releases
 	# option 15, option 1 for intel and distributed memory w/basic nesting
 	# large file support enable with WRFiO_NCD_LARGE_FILE_SUPPORT=1
 	########################################################################
 	cd $WRF_FOLDER/Downloads
-	wget -c https://github.com/wrf-model/WRF/releases/download/v4.5.1/v4.5.1.tar.gz -O WRF-4.5.1.tar.gz
-	tar -xvzf WRF-4.5.1.tar.gz -C $WRF_FOLDER/
+	wget -c https://github.com/wrf-model/WRF/releases/download/v$WRF_VERSION/v$WRF_VERSION.tar.gz -O WRF-$WRF_VERSION.tar.gz
+	tar -xvzf WRF-$WRF_VERSION.tar.gz -C $WRF_FOLDER/
 
 	# If statment for changing folder name
 	if [ -d "$WRF_FOLDER/WRF" ]; then
-		mv -f $WRF_FOLDER/WRF $WRF_FOLDER/WRFV4.5.1
+		mv -f $WRF_FOLDER/WRF $WRF_FOLDER/WRFV$WRF_VERSION
 	fi
 
-	cd $WRF_FOLDER/WRFV4.5.1
+	cd $WRF_FOLDER/WRFV$WRF_VERSION
 	export WRFIO_NCD_LARGE_FILE_SUPPORT=1
 	./clean -a
 
 	if [ ${auto_config} -eq 1 ]; then
-		sed -i '433s/.*/  $response = "15 \\n";/g' $WRF_FOLDER/WRFV4.5.1/arch/Config.pl # Answer for compiler choice
-		sed -i '898s/.*/  $response = "1 \\n";/g' $WRF_FOLDER/WRFV4.5.1/arch/Config.pl  #Answer for basic nesting
+		sed -i '443s/.*/  $response = "15 \\n";/g' $WRF_FOLDER/WRFV$WRF_VERSION/arch/Config.pl # Answer for compiler choice
+		sed -i '909s/.*/  $response = "1 \\n";/g' $WRF_FOLDER/WRFV$WRF_VERSION/arch/Config.pl  #Answer for basic nesting
 		./configure 2>&1 | tee configure.log
 	else
 		./configure 2>&1 | tee configure.log #Option 15 intel compiler with distributed memory option 1 for basic nesting
 	fi
 
 	#Need to remove mpich/GNU config calls to Intel config calls
-	sed -i '169s|mpif90 -f90=$(SFC)|mpiifort|g' $WRF_FOLDER/WRFV4.5.1/configure.wrf
-	sed -i '170s|mpicc -cc=$(SCC)|mpiicc|g' $WRF_FOLDER/WRFV4.5.1/configure.wrf
-	sed -i '177s|-w -O3|-diag-disable=10441 -w -O3|g' $WRF_FOLDER/WRFV4.5.1/configure.wrf
+	sed -i '169s|mpif90 -f90=$(SFC)|mpiifort|g' $WRF_FOLDER/WRFV$WRF_VERSION/configure.wrf
+	sed -i '170s|mpicc -cc=$(SCC)|mpiicc|g' $WRF_FOLDER/WRFV$WRF_VERSION/configure.wrf
+	sed -i '177s|-w -O3|-diag-disable=10441 -w -O3|g' $WRF_FOLDER/WRFV$WRF_VERSION/configure.wrf
 
 	./compile -j $CPU_HALF_EVEN em_real 2>&1 | tee compile.wrf1.log
 
-	export WRF_DIR=$WRF_FOLDER/WRFV4.5.1
+	export WRF_DIR=$WRF_FOLDER/WRFV$WRF_VERSION
 
 	# IF statement to check that all files were created.
-	cd $WRF_FOLDER/WRFV4.5.1/main
+	cd $WRF_FOLDER/WRFV$WRF_VERSION/main
 	n=$(ls ./*.exe | wc -l)
 	if (($n >= 3)); then
 		echo "All expected files created."
@@ -24508,9 +24510,9 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	else
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
-		cd $WRF_FOLDER/WRFV4.5.1
+		cd $WRF_FOLDER/WRFV$WRF_VERSION
 		./compile -j $CPU_HALF_EVEN em_real 2>&1 | tee compile.wrf2.log
-		cd $WRF_FOLDER/WRFV4.5.1/main
+		cd $WRF_FOLDER/WRFV$WRF_VERSION/main
 		n=$(ls ./*.exe | wc -l)
 		if (($n >= 3)); then
 			echo "All expected files created."
@@ -24522,16 +24524,16 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	fi
 
 	echo " "
-	############################WPSV4.5#####################################
-	## WPS v4.5
+	############################WPSV$WPS_VERSION#####################################
+	## WPS v$WPS_VERSION
 	## Downloaded from git tagged releases
 	#Option 3 for gfortran and distributed memory
 	########################################################################
 
 	cd $WRF_FOLDER/Downloads
-	wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v4.5.tar.gz -O WPS-4.5.tar.gz
-	tar -xvzf WPS-4.5.tar.gz -C $WRF_FOLDER/
-	cd $WRF_FOLDER/WPS-4.5
+	wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v$WPS_VERSION.tar.gz -O WPS-$WPS_VERSION.tar.gz
+	tar -xvzf WPS-$WPS_VERSION.tar.gz -C $WRF_FOLDER/
+	cd $WRF_FOLDER/WPS-$WPS_VERSION
 	./clean -a
 
 	if [ ${auto_config} -eq 1 ]; then
@@ -24540,14 +24542,14 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 		./configure 2>&1 | tee configure.log #Option 19 intel compiler with distributed memory
 	fi
 
-	sed -i '67s|mpif90|mpiifort|g' $WRF_FOLDER/WPS-4.5/configure.wps
-	sed -i '68s|mpicc|mpiicc|g' $WRF_FOLDER/WPS-4.5/configure.wps
+	sed -i '67s|mpif90|mpiifort|g' $WRF_FOLDER/WPS-$WPS_VERSION/configure.wps
+	sed -i '68s|mpicc|mpiicc|g' $WRF_FOLDER/WPS-$WPS_VERSION/configure.wps
 
 	./compile 2>&1 | tee compile.wps.log
 
 	echo " "
 	# IF statement to check that all files were created.
-	cd $WRF_FOLDER/WPS-4.5
+	cd $WRF_FOLDER/WPS-$WPS_VERSION
 	n=$(ls ./*.exe | wc -l)
 	if (($n == 3)); then
 		echo "All expected files created."
@@ -24556,7 +24558,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
 		./compile 2>&1 | tee compile.wps2.log
-		cd $WRF_FOLDER/WPS-4.5
+		cd $WRF_FOLDER/WPS-$WPS_VERSION
 		n=$(ls ./*.exe | wc -l)
 		if (($n == 3)); then
 			echo "All expected files created."
@@ -24569,7 +24571,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 	echo " "
 	############################WRFPLUS 4DVAR###############################
-	## WRFPLUS v4.5 4DVAR
+	## WRFPLUS v$WPS_VERSION 4DVAR
 	## Downloaded from git tagged releases
 	## WRFPLUS is built within the WRF git folder
 	## Does not include RTTOV Libarary for radiation data.  If wanted will need to install library then reconfigure
@@ -24578,17 +24580,17 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	########################################################################
 	cd $WRF_FOLDER/Downloads
 	mkdir $WRF_FOLDER/WRFPLUS
-	tar -xvzf WRF-4.5.1.tar.gz -C $WRF_FOLDER/WRFPLUS
+	tar -xvzf WRF-$WRF_VERSION.tar.gz -C $WRF_FOLDER/WRFPLUS
 
 	# If statment for changing folder name
 	if [ -d "$WRF_FOLDER/WRFPLUS/WRF" ]; then
-		mv -f $WRF_FOLDER/WRFPLUS/WRF $WRF_FOLDER/WRFPLUS/WRFV4.5.1
+		mv -f $WRF_FOLDER/WRFPLUS/WRF $WRF_FOLDER/WRFPLUS/WRFV$WRF_VERSION
 	fi
 
-	cd $WRF_FOLDER/WRFPLUS/WRFV4.5.1
+	cd $WRF_FOLDER/WRFPLUS/WRFV$WRF_VERSION
 	mv * $WRF_FOLDER/WRFPLUS
 	cd $WRF_FOLDER/WRFPLUS
-	rm -rf WRFV4.5.1/
+	rm -rf WRFV$WRF_VERSION/
 	export NETCDF=$DIR/NETCDF
 	export HDF5=$DIR/grib2
 	export LD_LIBRARY_PATH=$DIR/grib2/lib:$LD_LIBRARY_PATH
@@ -24620,7 +24622,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	else
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
-		cd $WRF_FOLDER/WRFPLUS/WRFV4.5.1
+		cd $WRF_FOLDER/WRFPLUS/WRFV$WRF_VERSION
 		./compile -j $CPU_HALF_EVEN wrfplus 2>&1 | tee compile.wrfplus.log
 		cd $WRF_FOLDER/WRFPLUS/main
 		n=$(ls ./wrfplus.exe | wc -l)
@@ -24637,7 +24639,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	echo " "
 
 	############################WRFDA 4DVAR###############################
-	## WRFDA v4.5 4DVAR
+	## WRFDA v$WPS_VERSION 4DVAR
 	## Downloaded from git tagged releases
 	## WRFDA is built within the WRFPLUS folder
 	## Does not include RTTOV Libarary for radiation data.  If wanted will need to install library then reconfigure
@@ -24645,17 +24647,17 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	#Option 8 for intel and distribunted memory
 	########################################################################
 	cd $WRF_FOLDER/Downloads
-	tar -xvzf WRF-4.5.1.tar.gz -C $WRF_FOLDER/WRFDA
+	tar -xvzf WRF-$WRF_VERSION.tar.gz -C $WRF_FOLDER/WRFDA
 
 	# If statment for changing folder name
 	if [ -d "$WRF_FOLDER/WRFDA/WRF" ]; then
-		mv -f $WRF_FOLDER/WRFDA/WRF $WRF_FOLDER/WRFDA/WRFV4.5.1
+		mv -f $WRF_FOLDER/WRFDA/WRF $WRF_FOLDER/WRFDA/WRFV$WRF_VERSION
 	fi
 
-	cd $WRF_FOLDER/WRFDA/WRFV4.5.1
+	cd $WRF_FOLDER/WRFDA/WRFV$WRF_VERSION
 	mv * $WRF_FOLDER/WRFDA
 	cd $WRF_FOLDER/WRFDA
-	rm -rf WRFV4.5.1/
+	rm -rf WRFV$WRF_VERSION/
 	export NETCDF=$DIR/NETCDF
 	export HDF5=$DIR/grib2
 	export LD_LIBRARY_PATH=$DIR/grib2/lib:$LD_LIBRARY_PATH
@@ -24961,10 +24963,10 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "Int
 
 	export PATH=$DIR/MPICH/bin:$PATH
 
-	export MPIFC=$DIR/MPICH/mpifort
-	export MPIF77=$DIR/MPICH/mpifort
-	export MPIF90=$DIR/MPICH/mpifort
-	export MPICC=$DIR/MPICH/mpicc
+	export MPIFC=$DIR/MPICH/bin/mpifort
+	export MPIF77=$DIR/MPICH/bin/mpifort
+	export MPIF90=$DIR/MPICH/bin/mpifort
+	export MPICC=$DIR/MPICH/bin/mpicc
 	export MPICXX=$DIR/MPICH/bin/mpicxx
 
 	echo " "
@@ -25025,10 +25027,10 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "Int
 	cd $WRF_FOLDER/Downloads
 	tar -xvzf pnetcdf-$Pnetcdf_Version.tar.gz
 	cd pnetcdf-$Pnetcdf_Version
-	export MPIFC=$DIR/MPICH/mpifort
-	export MPIF77=$DIR/MPICH/mpifort
-	export MPIF90=$DIR/MPICH/mpifort
-	export MPICC=$DIR/MPICH/mpicc
+	export MPIFC=$DIR/MPICH/bin/mpifort
+	export MPIF77=$DIR/MPICH/bin/mpifort
+	export MPIF90=$DIR/MPICH/bin/mpifort
+	export MPICC=$DIR/MPICH/bin/mpicc
 	export MPICXX=$DIR/MPICH/bin/mpicxx
 	autoreconf -i -f 2>&1 | tee autoreconf.log
 	./configure --prefix=$DIR/grib2 --enable-shared --enable-static 2>&1 | tee configure.log
@@ -25281,8 +25283,8 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 	echo " "
 
-	############################ WRF 4.5  #################################
-	## WRF v4.5
+	############################ WRF $WPS_VERSION  #################################
+	## WRF v$WPS_VERSION
 	## Downloaded from git tagged releases
 	# option 17, option 1 for gfortran and distributed memory w/basic nesting
 	# large file support enable with WRFiO_NCD_LARGE_FILE_SUPPORT=1
@@ -25290,21 +25292,21 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 	export WRFIO_NCD_LARGE_FILE_SUPPORT=1
 	cd $WRF_FOLDER/Downloads
-	wget -c https://github.com/wrf-model/WRF/releases/download/v4.5.1/v4.5.1.tar.gz -O WRF-4.5.1.tar.gz
-	tar -xvzf WRF-4.5.1.tar.gz -C $WRF_FOLDER/
+	wget -c https://github.com/wrf-model/WRF/releases/download/v$WRF_VERSION/v$WRF_VERSION.tar.gz -O WRF-$WRF_VERSION.tar.gz
+	tar -xvzf WRF-$WRF_VERSION.tar.gz -C $WRF_FOLDER/
 
 	# If statment for changing folder name
 	if [ -d "$WRF_FOLDER/WRF" ]; then
-		mv -f $WRF_FOLDER/WRF $WRF_FOLDER/WRFV4.5.1
+		mv -f $WRF_FOLDER/WRF $WRF_FOLDER/WRFV$WRF_VERSION
 	fi
 
-	cd $WRF_FOLDER/WRFV4.5.1
+	cd $WRF_FOLDER/WRFV$WRF_VERSION
 
 	./clean
 
 	if [ ${auto_config} -eq 1 ]; then
-		sed -i'' -e '433s/.*/  $response = "17 \\n";/g' $WRF_FOLDER/WRFV4.5.1/arch/Config.pl # Answer for compiler choice
-		sed -i'' -e '898s/.*/  $response = "1 \\n";/g' $WRF_FOLDER/WRFV4.5.1/arch/Config.pl  #Answer for basic nesting
+		sed -i'' -e '443s/.*/  $response = "17 \\n";/g' $WRF_FOLDER/WRFV$WRF_VERSION/arch/Config.pl # Answer for compiler choice
+		sed -i'' -e '909s/.*/  $response = "1 \\n";/g' $WRF_FOLDER/WRFV$WRF_VERSION/arch/Config.pl  #Answer for basic nesting
 		./configure 2>&1 | tee configure.log
 	else
 		./configure 2>&1 | tee configure.log #Option 17 gfortran compiler with distributed memory option 1 for basic nesting
@@ -25312,10 +25314,10 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 	./compile em_real 2>&1 | tee compile.wrf.log
 
-	export WRF_DIR=$WRF_FOLDER/WRFV4.5.1
+	export WRF_DIR=$WRF_FOLDER/WRFV$WRF_VERSION
 
 	# IF statement to check that all files were created.
-	cd $WRF_FOLDER/WRFV4.5.1/main
+	cd $WRF_FOLDER/WRFV$WRF_VERSION/main
 	n=$(ls ./*.exe | wc -l)
 	if (($n >= 3)); then
 		echo "All expected files created."
@@ -25323,9 +25325,9 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	else
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
-		cd $WRF_FOLDER/WRFV4.5.1
+		cd $WRF_FOLDER/WRFV$WRF_VERSION
 		./compile -j $CPU_HALF_EVEN em_real 2>&1 | tee compile.wrf2.log
-		cd $WRF_FOLDER/WRFV4.5.1/main
+		cd $WRF_FOLDER/WRFV$WRF_VERSION/main
 		n=$(ls ./*.exe | wc -l)
 		if (($n >= 3)); then
 			echo "All expected files created."
@@ -25336,16 +25338,16 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 		fi
 	fi
 	echo " "
-	############################WPSV4.5#####################################
-	## WPS v4.5
+	############################WPSV$WPS_VERSION#####################################
+	## WPS v$WPS_VERSION
 	## Downloaded from git tagged releases
 	#Option 3 for gfortran and distributed memory
 	########################################################################
 
 	cd $WRF_FOLDER/Downloads
-	wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v4.5.tar.gz -O WPS-4.5.tar.gz
-	tar -xvzf WPS-4.5.tar.gz -C $WRF_FOLDER/
-	cd $WRF_FOLDER/WPS-4.5
+	wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v$WPS_VERSION.tar.gz -O WPS-$WPS_VERSION.tar.gz
+	tar -xvzf WPS-$WPS_VERSION.tar.gz -C $WRF_FOLDER/
+	cd $WRF_FOLDER/WPS-$WPS_VERSION
 	./clean -a
 
 	if [ ${auto_config} -eq 1 ]; then
@@ -25357,7 +25359,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	./compile 2>&1 | tee compile.wrf.log
 
 	# IF statement to check that all files were created.
-	cd $WRF_FOLDER/WPS-4.5
+	cd $WRF_FOLDER/WPS-$WPS_VERSION
 	n=$(ls ./*.exe | wc -l)
 	if (($n == 3)); then
 		echo "All expected files created."
@@ -25366,7 +25368,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
 		./compile 2>&1 | tee compile.wps2.log
-		cd $WRF_FOLDER/WPS-4.5
+		cd $WRF_FOLDER/WPS-$WPS_VERSION
 		n=$(ls ./*.exe | wc -l)
 		if (($n == 3)); then
 			echo "All expected files created."
@@ -25379,7 +25381,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	echo " "
 
 	############################WRFPLUS 4DVAR###############################
-	## WRFPLUS v4.5 4DVAR
+	## WRFPLUS v$WPS_VERSION 4DVAR
 	## Downloaded from git tagged releases
 	## WRFPLUS is built within the WRF git folder
 	## Does not include RTTOV Libarary for radiation data.  If wanted will need to install library then reconfigure
@@ -25388,17 +25390,17 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	########################################################################
 
 	cd $WRF_FOLDER/Downloads
-	tar -xvzf WRF-4.5.1.tar.gz -C $WRF_FOLDER/WRFPLUS
+	tar -xvzf WRF-$WRF_VERSION.tar.gz -C $WRF_FOLDER/WRFPLUS
 
 	# If statment for changing folder name
 	if [ -d "$WRF_FOLDER/WRFPLUS/WRF" ]; then
-		mv -f $WRF_FOLDER/WRFPLUS/WRF $WRF_FOLDER/WRFPLUS/WRFV4.5.1
+		mv -f $WRF_FOLDER/WRFPLUS/WRF $WRF_FOLDER/WRFPLUS/WRFV$WRF_VERSION
 	fi
 
-	cd $WRF_FOLDER/WRFPLUS/WRFV4.5.1
+	cd $WRF_FOLDER/WRFPLUS/WRFV$WRF_VERSION
 	mv * $WRF_FOLDER/WRFPLUS
 	cd $WRF_FOLDER/WRFPLUS
-	rm -rf WRFV4.5.1/
+	rm -rf WRFV$WRF_VERSION/
 	export NETCDF=$DIR/NETCDF
 	export HDF5=$DIR/grib2
 	export LD_LIBRARY_PATH=$DIR/grib2/lib:$LD_LIBRARY_PATH
@@ -25421,7 +25423,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	else
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
-		cd $WRF_FOLDER/WRFPLUS/WRFV4.5.1
+		cd $WRF_FOLDER/WRFPLUS/WRFV$WRF_VERSION
 		./compile -j $CPU_HALF_EVEN wrfplus 2>&1 | tee compile.wrfplus2.log
 		cd $WRF_FOLDER/WRFPLUS/main
 		n=$(ls ./wrfplus.exe | wc -l)
@@ -25437,7 +25439,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 	echo " "
 	############################WRFDA 4DVAR###############################
-	## WRFDA v4.5 4DVAR
+	## WRFDA v$WPS_VERSION 4DVAR
 	## Downloaded from git tagged releases
 	## WRFDA is built within the WRFPLUS folder
 	## Does not include RTTOV Libarary for radiation data.  If wanted will need to install library then reconfigure
@@ -25446,17 +25448,17 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	########################################################################
 
 	cd $WRF_FOLDER/Downloads
-	tar -xvzf WRF-4.5.1.tar.gz -C $WRF_FOLDER/WRFDA
+	tar -xvzf WRF-$WRF_VERSION.tar.gz -C $WRF_FOLDER/WRFDA
 
 	# If statment for changing folder name
 	if [ -d "$WRF_FOLDER/WRFDA/WRF" ]; then
-		mv -f $WRF_FOLDER/WRFDA/WRF $WRF_FOLDER/WRFDA/WRFV4.5.1
+		mv -f $WRF_FOLDER/WRFDA/WRF $WRF_FOLDER/WRFDA/WRFV$WRF_VERSION
 	fi
 
-	cd $WRF_FOLDER/WRFDA/WRFV4.5.1
+	cd $WRF_FOLDER/WRFDA/WRFV$WRF_VERSION
 	mv * $WRF_FOLDER/WRFDA
 	cd $WRF_FOLDER/WRFDA
-	rm -rf WRFV4.5.1/
+	rm -rf WRFV$WRF_VERSION/
 	export NETCDF=$DIR/NETCDF
 	export HDF5=$DIR/grib2
 	export LD_LIBRARY_PATH=$DIR/grib2/lib:$LD_LIBRARY_PATH
@@ -25775,10 +25777,10 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "ARM
 
 	export PATH=$DIR/MPICH/bin:$PATH
 
-	export MPIFC=$DIR/MPICH/mpifort
-	export MPIF77=$DIR/MPICH/mpifort
-	export MPIF90=$DIR/MPICH/mpifort
-	export MPICC=$DIR/MPICH/mpicc
+	export MPIFC=$DIR/MPICH/bin/mpifort
+	export MPIF77=$DIR/MPICH/bin/mpifort
+	export MPIF90=$DIR/MPICH/bin/mpifort
+	export MPICC=$DIR/MPICH/bin/mpicc
 	export MPICXX=$DIR/MPICH/bin/mpicxx
 
 	echo " "
@@ -25840,10 +25842,10 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "ARM
 	tar -xvzf pnetcdf-$Pnetcdf_Version.tar.gz
 	cd pnetcdf-$Pnetcdf_Version
 
-	export MPIFC=$DIR/MPICH/mpifort
-	export MPIF77=$DIR/MPICH/mpifort
-	export MPIF90=$DIR/MPICH/mpifort
-	export MPICC=$DIR/MPICH/mpicc
+	export MPIFC=$DIR/MPICH/bin/mpifort
+	export MPIF77=$DIR/MPICH/bin/mpifort
+	export MPIF90=$DIR/MPICH/bin/mpifort
+	export MPICC=$DIR/MPICH/bin/mpicc
 	export MPICXX=$DIR/MPICH/bin/mpicxx
 	autoreconf -i -f 2>&1 | tee autoreconf.log
 	./configure --prefix=$DIR/grib2 --enable-shared --enable-static 2>&1 | tee configure.log
@@ -26096,8 +26098,8 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 	echo " "
 
-	############################ WRF 4.5  #################################
-	## WRF v4.5
+	############################ WRF $WPS_VERSION  #################################
+	## WRF v$WPS_VERSION
 	## Downloaded from git tagged releases
 	# option 17, option 1 for gfortran and distributed memory w/basic nesting
 	# large file support enable with WRFiO_NCD_LARGE_FILE_SUPPORT=1
@@ -26105,21 +26107,21 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 	export WRFIO_NCD_LARGE_FILE_SUPPORT=1
 	cd $WRF_FOLDER/Downloads
-	wget -c https://github.com/wrf-model/WRF/releases/download/v4.5.1/v4.5.1.tar.gz -O WRF-4.5.1.tar.gz
-	tar -xvzf WRF-4.5.1.tar.gz -C $WRF_FOLDER/
+	wget -c https://github.com/wrf-model/WRF/releases/download/v$WRF_VERSION/v$WRF_VERSION.tar.gz -O WRF-$WRF_VERSION.tar.gz
+	tar -xvzf WRF-$WRF_VERSION.tar.gz -C $WRF_FOLDER/
 
 	# If statment for changing folder name
 	if [ -d "$WRF_FOLDER/WRF" ]; then
-		mv -f $WRF_FOLDER/WRF $WRF_FOLDER/WRFV4.5.1
+		mv -f $WRF_FOLDER/WRF $WRF_FOLDER/WRFV$WRF_VERSION
 	fi
 
-	cd $WRF_FOLDER/WRFV4.5.1
+	cd $WRF_FOLDER/WRFV$WRF_VERSION
 
 	./clean
 
 	if [ ${auto_config} -eq 1 ]; then
-		sed -i'' -e '433s/.*/  $response = "17 \\n";/g' $WRF_FOLDER/WRFV4.5.1/arch/Config.pl # Answer for compiler choice
-		sed -i'' -e '898s/.*/  $response = "1 \\n";/g' $WRF_FOLDER/WRFV4.5.1/arch/Config.pl  #Answer for basic nesting
+		sed -i'' -e '443s/.*/  $response = "17 \\n";/g' $WRF_FOLDER/WRFV$WRF_VERSION/arch/Config.pl # Answer for compiler choice
+		sed -i'' -e '909s/.*/  $response = "1 \\n";/g' $WRF_FOLDER/WRFV$WRF_VERSION/arch/Config.pl  #Answer for basic nesting
 		./configure 2>&1 | tee configure.log
 	else
 		./configure 2>&1 | tee configure.log #Option 17 gfortran compiler with distributed memory option 1 for basic nesting
@@ -26127,10 +26129,10 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 	./compile em_real 2>&1 | tee compile.wrf.log
 
-	export WRF_DIR=$WRF_FOLDER/WRFV4.5.1
+	export WRF_DIR=$WRF_FOLDER/WRFV$WRF_VERSION
 
 	# IF statement to check that all files were created.
-	cd $WRF_FOLDER/WRFV4.5.1/main
+	cd $WRF_FOLDER/WRFV$WRF_VERSION/main
 	n=$(ls ./*.exe | wc -l)
 	if (($n >= 3)); then
 		echo "All expected files created."
@@ -26138,9 +26140,9 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	else
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
-		cd $WRF_FOLDER/WRFV4.5.1
+		cd $WRF_FOLDER/WRFV$WRF_VERSION
 		./compile -j $CPU_HALF_EVEN em_real 2>&1 | tee compile.wrf2.log
-		cd $WRF_FOLDER/WRFV4.5.1/main
+		cd $WRF_FOLDER/WRFV$WRF_VERSION/main
 		n=$(ls ./*.exe | wc -l)
 		if (($n >= 3)); then
 			echo "All expected files created."
@@ -26151,16 +26153,16 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 		fi
 	fi
 	echo " "
-	############################WPSV4.5#####################################
-	## WPS v4.5
+	############################WPSV$WPS_VERSION#####################################
+	## WPS v$WPS_VERSION
 	## Downloaded from git tagged releases
 	#Option 3 for gfortran and distributed memory
 	########################################################################
 
 	cd $WRF_FOLDER/Downloads
-	wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v4.5.tar.gz -O WPS-4.5.tar.gz
-	tar -xvzf WPS-4.5.tar.gz -C $WRF_FOLDER/
-	cd $WRF_FOLDER/WPS-4.5
+	wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v$WPS_VERSION.tar.gz -O WPS-$WPS_VERSION.tar.gz
+	tar -xvzf WPS-$WPS_VERSION.tar.gz -C $WRF_FOLDER/
+	cd $WRF_FOLDER/WPS-$WPS_VERSION
 	./clean -a
 
 	if [ ${auto_config} -eq 1 ]; then
@@ -26172,7 +26174,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	./compile | tee 2>&1 compile.wrf.log
 
 	# IF statement to check that all files were created.
-	cd $WRF_FOLDER/WPS-4.5
+	cd $WRF_FOLDER/WPS-$WPS_VERSION
 	n=$(ls ./*.exe | wc -l)
 	if (($n == 3)); then
 		echo "All expected files created."
@@ -26181,7 +26183,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
 		./compile 2>&1 | tee compile.wps2.log
-		cd $WRF_FOLDER/WPS-4.5
+		cd $WRF_FOLDER/WPS-$WPS_VERSION
 		n=$(ls ./*.exe | wc -l)
 		if (($n == 3)); then
 			echo "All expected files created."
@@ -26194,7 +26196,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	echo " "
 
 	############################WRFPLUS 4DVAR###############################
-	## WRFPLUS v4.5 4DVAR
+	## WRFPLUS v$WPS_VERSION 4DVAR
 	## Downloaded from git tagged releases
 	## WRFPLUS is built within the WRF git folder
 	## Does not include RTTOV Libarary for radiation data.  If wanted will need to install library then reconfigure
@@ -26203,17 +26205,17 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	########################################################################
 
 	cd $WRF_FOLDER/Downloads
-	tar -xvzf WRF-4.5.1.tar.gz -C $WRF_FOLDER/WRFPLUS
+	tar -xvzf WRF-$WRF_VERSION.tar.gz -C $WRF_FOLDER/WRFPLUS
 
 	# If statment for changing folder name
 	if [ -d "$WRF_FOLDER/WRFPLUS/WRF" ]; then
-		mv -f $WRF_FOLDER/WRFPLUS/WRF $WRF_FOLDER/WRFPLUS/WRFV4.5.1
+		mv -f $WRF_FOLDER/WRFPLUS/WRF $WRF_FOLDER/WRFPLUS/WRFV$WRF_VERSION
 	fi
 
-	cd $WRF_FOLDER/WRFPLUS/WRFV4.5.1
+	cd $WRF_FOLDER/WRFPLUS/WRFV$WRF_VERSION
 	mv * $WRF_FOLDER/WRFPLUS
 	cd $WRF_FOLDER/WRFPLUS
-	rm -rf WRFV4.5.1/
+	rm -rf WRFV$WRF_VERSION/
 	export NETCDF=$DIR/NETCDF
 	export HDF5=$DIR/grib2
 	export LD_LIBRARY_PATH=$DIR/grib2/lib:$LD_LIBRARY_PATH
@@ -26236,7 +26238,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	else
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
-		cd $WRF_FOLDER/WRFPLUS/WRFV4.5.1
+		cd $WRF_FOLDER/WRFPLUS/WRFV$WRF_VERSION
 		./compile -j $CPU_HALF_EVEN wrfplus 2>&1 | tee compile.wrfplus2.log
 		cd $WRF_FOLDER/WRFPLUS/main
 		n=$(ls ./wrfplus.exe | wc -l)
@@ -26252,7 +26254,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 	echo " "
 	############################WRFDA 4DVAR###############################
-	## WRFDA v4.5 4DVAR
+	## WRFDA v$WPS_VERSION 4DVAR
 	## Downloaded from git tagged releases
 	## WRFDA is built within the WRFPLUS folder
 	## Does not include RTTOV Libarary for radiation data.  If wanted will need to install library then reconfigure
@@ -26261,17 +26263,17 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	########################################################################
 
 	cd $WRF_FOLDER/Downloads
-	tar -xvzf WRF-4.5.1.tar.gz -C $WRF_FOLDER/WRFDA
+	tar -xvzf WRF-$WRF_VERSION.tar.gz -C $WRF_FOLDER/WRFDA
 
 	# If statment for changing folder name
 	if [ -d "$WRF_FOLDER/WRFDA/WRF" ]; then
-		mv -f $WRF_FOLDER/WRFDA/WRF $WRF_FOLDER/WRFDA/WRFV4.5.1
+		mv -f $WRF_FOLDER/WRFDA/WRF $WRF_FOLDER/WRFDA/WRFV$WRF_VERSION
 	fi
 
-	cd $WRF_FOLDER/WRFDA/WRFV4.5.1
+	cd $WRF_FOLDER/WRFDA/WRFV$WRF_VERSION
 	mv * $WRF_FOLDER/WRFDA
 	cd $WRF_FOLDER/WRFDA
-	rm -rf WRFV4.5.1/
+	rm -rf WRFV$WRF_VERSION/
 	export NETCDF=$DIR/NETCDF
 	export HDF5=$DIR/grib2
 	export LD_LIBRARY_PATH=$DIR/grib2/lib:$LD_LIBRARY_PATH
@@ -26549,10 +26551,10 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	# make check
 
 	export PATH=$DIR/MPICH/bin:$PATH
-	export MPIFC=$DIR/MPICH/mpifort
-	export MPIF77=$DIR/MPICH/mpifort
-	export MPIF90=$DIR/MPICH/mpifort
-	export MPICC=$DIR/MPICH/mpicc
+	export MPIFC=$DIR/MPICH/bin/mpifort
+	export MPIF77=$DIR/MPICH/bin/mpifort
+	export MPIF90=$DIR/MPICH/bin/mpifort
+	export MPICC=$DIR/MPICH/bin/mpicc
 	export MPICXX=$DIR/MPICH/bin/mpicxx
 
 	echo " "
@@ -26615,10 +26617,10 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	tar -xvzf pnetcdf-$Pnetcdf_Version.tar.gz
 	cd pnetcdf-$Pnetcdf_Version
 
-	export MPIFC=$DIR/MPICH/mpifort
-	export MPIF77=$DIR/MPICH/mpifort
-	export MPIF90=$DIR/MPICH/mpifort
-	export MPICC=$DIR/MPICH/mpicc
+	export MPIFC=$DIR/MPICH/bin/mpifort
+	export MPIF77=$DIR/MPICH/bin/mpifort
+	export MPIF90=$DIR/MPICH/bin/mpifort
+	export MPICC=$DIR/MPICH/bin/mpicc
 	export MPICXX=$DIR/MPICH/bin/mpicxx
 	autoreconf -i -f 2>&1 | tee autoreconf.log
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS ./configure --prefix=$DIR/grib2 --enable-shared --enable-static 2>&1 | tee configure.log
@@ -27146,8 +27148,8 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 
 	echo " "
-	############################ WRF 4.5  #################################
-	## WRF v4.5
+	############################ WRF $WPS_VERSION  #################################
+	## WRF v$WPS_VERSION
 	## Downloaded from git tagged releases
 	# option 34, option 1 for gfortran and distributed memory w/basic nesting
 	# large file support enable with WRFiO_NCD_LARGE_FILE_SUPPORT=1
@@ -27159,21 +27161,21 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	# Note that you need set nocolons = .true. in the section &time_control of namelist.input
 	########################################################################
 	cd $WRF_FOLDER/Downloads
-	wget -c https://github.com/wrf-model/WRF/releases/download/v4.5.1/v4.5.1.tar.gz -O WRF-4.5.1.tar.gz
-	tar -xvzf WRF-4.5.1.tar.gz -C $WRF_FOLDER/
+	wget -c https://github.com/wrf-model/WRF/releases/download/v$WRF_VERSION/v$WRF_VERSION.tar.gz -O WRF-$WRF_VERSION.tar.gz
+	tar -xvzf WRF-$WRF_VERSION.tar.gz -C $WRF_FOLDER/
 
 	# If statment for changing folder name
 	if [ -d "$WRF_FOLDER/WRF" ]; then
-		mv -f $WRF_FOLDER/WRF $WRF_FOLDER/WRFV4.5.1
+		mv -f $WRF_FOLDER/WRF $WRF_FOLDER/WRFV$WRF_VERSION
 	fi
 
-	cd $WRF_FOLDER/WRFV4.5.1
+	cd $WRF_FOLDER/WRFV$WRF_VERSION
 	export WRFIO_NCD_LARGE_FILE_SUPPORT=1
 	./clean -a
 
 	if [ ${auto_config} -eq 1 ]; then
-		sed -i '433s/.*/  $response = "34 \\n";/g' $WRF_FOLDER/WRFV4.5.1/arch/Config.pl # Answer for compiler choice
-		sed -i '898s/.*/  $response = "1 \\n";/g' $WRF_FOLDER/WRFV4.5.1/arch/Config.pl  #Answer for basic nesting
+		sed -i '443s/.*/  $response = "34 \\n";/g' $WRF_FOLDER/WRFV$WRF_VERSION/arch/Config.pl # Answer for compiler choice
+		sed -i '909s/.*/  $response = "1 \\n";/g' $WRF_FOLDER/WRFV$WRF_VERSION/arch/Config.pl  #Answer for basic nesting
 		./configure 2>&1 | tee configure.log
 	else
 		./configure 2>&1 | tee configure.log #Option 34 gfortran compiler with distributed memory option 1 for basic nesting
@@ -27181,10 +27183,10 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 	./compile -j $CPU_HALF_EVEN em_real 2>&1 | tee compile.wrf1.log
 
-	export WRF_DIR=$WRF_FOLDER/WRFV4.5.1
+	export WRF_DIR=$WRF_FOLDER/WRFV$WRF_VERSION
 
 	# IF statement to check that all files were created.
-	cd $WRF_FOLDER/WRFV4.5.1/main
+	cd $WRF_FOLDER/WRFV$WRF_VERSION/main
 	n=$(ls ./*.exe | wc -l)
 	if (($n >= 3)); then
 		echo "All expected files created."
@@ -27192,9 +27194,9 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	else
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
-		cd $WRF_FOLDER/WRFV4.5.1
+		cd $WRF_FOLDER/WRFV$WRF_VERSION
 		./compile -j $CPU_HALF_EVEN em_real 2>&1 | tee compile.wrf2.log
-		cd $WRF_FOLDER/WRFV4.5.1/main
+		cd $WRF_FOLDER/WRFV$WRF_VERSION/main
 		n=$(ls ./*.exe | wc -l)
 		if (($n >= 3)); then
 			echo "All expected files created."
@@ -27206,16 +27208,16 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	fi
 
 	echo " "
-	############################WPSV4.5#####################################
-	## WPS v4.5
+	############################WPSV$WPS_VERSION#####################################
+	## WPS v$WPS_VERSION
 	## Downloaded from git tagged releases
 	#Option 3 for gfortran and distributed memory
 	########################################################################
 
 	cd $WRF_FOLDER/Downloads
-	wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v4.5.tar.gz -O WPS-4.5.tar.gz
-	tar -xvzf WPS-4.5.tar.gz -C $WRF_FOLDER/
-	cd $WRF_FOLDER/WPS-4.5
+	wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v$WPS_VERSION.tar.gz -O WPS-$WPS_VERSION.tar.gz
+	tar -xvzf WPS-$WPS_VERSION.tar.gz -C $WRF_FOLDER/
+	cd $WRF_FOLDER/WPS-$WPS_VERSION
 	./clean -a
 
 	if [ ${auto_config} -eq 1 ]; then
@@ -27227,7 +27229,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 	echo " "
 	# IF statement to check that all files were created.
-	cd $WRF_FOLDER/WPS-4.5
+	cd $WRF_FOLDER/WPS-$WPS_VERSION
 	n=$(ls ./*.exe | wc -l)
 	if (($n == 3)); then
 		echo "All expected files created."
@@ -27236,7 +27238,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
 		./compile 2>&1 | tee compile.wps2.log
-		cd $WRF_FOLDER/WPS-4.5
+		cd $WRF_FOLDER/WPS-$WPS_VERSION
 		n=$(ls ./*.exe | wc -l)
 		if (($n == 3)); then
 			echo "All expected files created."
@@ -27249,7 +27251,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 	echo " "
 	############################WRFPLUS 4DVAR###############################
-	## WRFPLUS v4.5 4DVAR
+	## WRFPLUS v$WPS_VERSION 4DVAR
 	## Downloaded from git tagged releases
 	## WRFPLUS is built within the WRF git folder
 	## Does not include RTTOV Libarary for radiation data.  If wanted will need to install library then reconfigure
@@ -27257,17 +27259,17 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	#Option 18 for gfortran/gcc and distribunted memory
 	########################################################################
 	cd $WRF_FOLDER/Downloads
-	tar -xvzf WRF-4.5.1.tar.gz -C $WRF_FOLDER/WRFPLUS
+	tar -xvzf WRF-$WRF_VERSION.tar.gz -C $WRF_FOLDER/WRFPLUS
 
 	# If statment for changing folder name
 	if [ -d "$WRF_FOLDER/WRFPLUS/WRF" ]; then
-		mv -f $WRF_FOLDER/WRFPLUS/WRF $WRF_FOLDER/WRFPLUS/WRFV4.5.1
+		mv -f $WRF_FOLDER/WRFPLUS/WRF $WRF_FOLDER/WRFPLUS/WRFV$WRF_VERSION
 	fi
 
-	cd $WRF_FOLDER/WRFPLUS/WRFV4.5.1
+	cd $WRF_FOLDER/WRFPLUS/WRFV$WRF_VERSION
 	mv * $WRF_FOLDER/WRFPLUS
 	cd $WRF_FOLDER/WRFPLUS
-	rm -rf WRFV4.5.1/
+	rm -rf WRFV$WRF_VERSION/
 	export NETCDF=$DIR/NETCDF
 	export HDF5=$DIR/grib2
 	export LD_LIBRARY_PATH=$DIR/grib2/lib:$LD_LIBRARY_PATH
@@ -27292,7 +27294,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	else
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
-		cd $WRF_FOLDER/WRFPLUS/WRFV4.5.1
+		cd $WRF_FOLDER/WRFPLUS/WRFV$WRF_VERSION
 		./compile -j $CPU_HALF_EVEN wrfplus 2>&1 | tee compile.wrfplus2.log
 		cd $WRF_FOLDER/WRFPLUS/main
 		n=$(ls ./wrfplus.exe | wc -l)
@@ -27308,7 +27310,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 	echo " "
 	############################WRFDA 4DVAR###############################
-	## WRFDA v4.5 4DVAR
+	## WRFDA v$WPS_VERSION 4DVAR
 	## Downloaded from git tagged releases
 	## WRFDA is built within the WRFPLUS folder
 	## Does not include RTTOV Libarary for radiation data.  If wanted will need to install library then reconfigure
@@ -27317,17 +27319,17 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	########################################################################
 	cd $WRF_FOLDER/Downloads
 	mkdir $WRF_FOLDER/WRFDA
-	tar -xvzf WRF-4.5.1.tar.gz -C $WRF_FOLDER/WRFDA
+	tar -xvzf WRF-$WRF_VERSION.tar.gz -C $WRF_FOLDER/WRFDA
 
 	# If statment for changing folder name
 	if [ -d "$WRF_FOLDER/WRFDA/WRF" ]; then
-		mv -f $WRF_FOLDER/WRFDA/WRF $WRF_FOLDER/WRFDA/WRFV4.5.1
+		mv -f $WRF_FOLDER/WRFDA/WRF $WRF_FOLDER/WRFDA/WRFV$WRF_VERSION
 	fi
 
-	cd $WRF_FOLDER/WRFDA/WRFV4.5.1
+	cd $WRF_FOLDER/WRFDA/WRFV$WRF_VERSION
 	mv * $WRF_FOLDER/WRFDA
 	cd $WRF_FOLDER/WRFDA
-	rm -rf WRFV4.5.1/
+	rm -rf WRFV$WRF_VERSION/
 	export NETCDF=$DIR/NETCDF
 	export HDF5=$DIR/grib2
 	export LD_LIBRARY_PATH=$DIR/grib2/lib:$LD_LIBRARY_PATH
@@ -27613,10 +27615,10 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRF_PICK" = "1" ]; then
 	# make check
 
 	export PATH=$DIR/MPICH/bin:$PATH
-	export MPIFC=$DIR/MPICH/mpifort
-	export MPIF77=$DIR/MPICH/mpifort
-	export MPIF90=$DIR/MPICH/mpifort
-	export MPICC=$DIR/MPICH/mpicc
+	export MPIFC=$DIR/MPICH/bin/mpifort
+	export MPIF77=$DIR/MPICH/bin/mpifort
+	export MPIF90=$DIR/MPICH/bin/mpifort
+	export MPICC=$DIR/MPICH/bin/mpicc
 	export MPICXX=$DIR/MPICH/bin/mpicxx
 
 	echo " "
@@ -27678,10 +27680,10 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRF_PICK" = "1" ]; then
 	cd $WRF_FOLDER/Downloads
 	tar -xvzf pnetcdf-$Pnetcdf_Version.tar.gz
 	cd pnetcdf-$Pnetcdf_Version
-	export MPIFC=$DIR/MPICH/mpifort
-	export MPIF77=$DIR/MPICH/mpifort
-	export MPIF90=$DIR/MPICH/mpifort
-	export MPICC=$DIR/MPICH/mpicc
+	export MPIFC=$DIR/MPICH/bin/mpifort
+	export MPIF77=$DIR/MPICH/bin/mpifort
+	export MPIF90=$DIR/MPICH/bin/mpifort
+	export MPICC=$DIR/MPICH/bin/mpicc
 	export MPICXX=$DIR/MPICH/bin/mpicxx
 	autoreconf -i -f 2>&1 | tee autoreconf.log
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS ./configure --prefix=$DIR/grib2 --enable-shared --enable-static 2>&1 | tee configure.log
@@ -28210,8 +28212,8 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 
 
-	############################ WRF 4.5  #################################
-	## WRF v4.5
+	############################ WRF $WPS_VERSION  #################################
+	## WRF v$WPS_VERSION
 	## Downloaded from git tagged releases
 	# option 34, option 1 for gfortran and distributed memory w/basic nesting
 	# large file support enable with WRFiO_NCD_LARGE_FILE_SUPPORT=1
@@ -28223,21 +28225,21 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	# Note that you need set nocolons = .true. in the section &time_control of namelist.input
 	########################################################################
 	cd $WRF_FOLDER/Downloads
-	wget -c https://github.com/wrf-model/WRF/releases/download/v4.5.1/v4.5.1.tar.gz -O WRF-4.5.1.tar.gz
-	tar -xvzf WRF-4.5.1.tar.gz -C $WRF_FOLDER/
+	wget -c https://github.com/wrf-model/WRF/releases/download/v$WRF_VERSION/v$WRF_VERSION.tar.gz -O WRF-$WRF_VERSION.tar.gz
+	tar -xvzf WRF-$WRF_VERSION.tar.gz -C $WRF_FOLDER/
 
 	# If statment for changing folder name
 	if [ -d "$WRF_FOLDER/WRF" ]; then
-		mv -f $WRF_FOLDER/WRF $WRF_FOLDER/WRFV4.5.1
+		mv -f $WRF_FOLDER/WRF $WRF_FOLDER/WRFV$WRF_VERSION
 	fi
 
-	cd $WRF_FOLDER/WRFV4.5.1
+	cd $WRF_FOLDER/WRFV$WRF_VERSION
 	export WRFIO_NCD_LARGE_FILE_SUPPORT=1
 	./clean -a
 
 	if [ ${auto_config} -eq 1 ]; then
-		sed -i '433s/.*/  $response = "34 \\n";/g' $WRF_FOLDER/WRFV4.5.1/arch/Config.pl # Answer for compiler choice
-		sed -i '898s/.*/  $response = "1 \\n";/g' $WRF_FOLDER/WRFV4.5.1/arch/Config.pl  #Answer for basic nesting
+		sed -i '443s/.*/  $response = "34 \\n";/g' $WRF_FOLDER/WRFV$WRF_VERSION/arch/Config.pl # Answer for compiler choice
+		sed -i '909s/.*/  $response = "1 \\n";/g' $WRF_FOLDER/WRFV$WRF_VERSION/arch/Config.pl  #Answer for basic nesting
 		./configure 2>&1 | tee configure.log
 	else
 		./configure 2>&1 | tee configure.log #Option 34 gfortran compiler with distributed memory option 1 for basic nesting
@@ -28245,10 +28247,10 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 	./compile -j $CPU_HALF_EVEN em_real 2>&1 | tee compile.wrf1.log
 
-	export WRF_DIR=$WRF_FOLDER/WRFV4.5.1
+	export WRF_DIR=$WRF_FOLDER/WRFV$WRF_VERSION
 
 	# IF statement to check that all files were created.
-	cd $WRF_FOLDER/WRFV4.5.1/main
+	cd $WRF_FOLDER/WRFV$WRF_VERSION/main
 	n=$(ls ./*.exe | wc -l)
 	if (($n >= 3)); then
 		echo "All expected files created."
@@ -28256,9 +28258,9 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	else
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
-		cd $WRF_FOLDER/WRFV4.5.1
+		cd $WRF_FOLDER/WRFV$WRF_VERSION
 		./compile -j $CPU_HALF_EVEN em_real 2>&1 | tee compile.wrf2.log
-		cd $WRF_FOLDER/WRFV4.5.1/main
+		cd $WRF_FOLDER/WRFV$WRF_VERSION/main
 		n=$(ls ./*.exe | wc -l)
 		if (($n >= 3)); then
 			echo "All expected files created."
@@ -28270,16 +28272,16 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	fi
 
 	echo " "
-	############################WPSV4.5#####################################
-	## WPS v4.5
+	############################WPSV$WPS_VERSION#####################################
+	## WPS v$WPS_VERSION
 	## Downloaded from git tagged releases
 	#Option 3 for gfortran and distributed memory
 	########################################################################
 
 	cd $WRF_FOLDER/Downloads
-	wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v4.5.tar.gz -O WPS-4.5.tar.gz
-	tar -xvzf WPS-4.5.tar.gz -C $WRF_FOLDER/
-	cd $WRF_FOLDER/WPS-4.5
+	wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v$WPS_VERSION.tar.gz -O WPS-$WPS_VERSION.tar.gz
+	tar -xvzf WPS-$WPS_VERSION.tar.gz -C $WRF_FOLDER/
+	cd $WRF_FOLDER/WPS-$WPS_VERSION
 	./clean -a
 
 	if [ ${auto_config} -eq 1 ]; then
@@ -28291,7 +28293,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 	echo " "
 	# IF statement to check that all files were created.
-	cd $WRF_FOLDER/WPS-4.5
+	cd $WRF_FOLDER/WPS-$WPS_VERSION
 	n=$(ls ./*.exe | wc -l)
 	if (($n == 3)); then
 		echo "All expected files created."
@@ -28300,7 +28302,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
 		./compile 2>&1 | tee compile.wps2.log
-		cd $WRF_FOLDER/WPS-4.5
+		cd $WRF_FOLDER/WPS-$WPS_VERSION
 		n=$(ls ./*.exe | wc -l)
 		if (($n == 3)); then
 			echo "All expected files created."
@@ -28313,7 +28315,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 	echo " "
 	############################WRFPLUS 4DVAR###############################
-	## WRFPLUS v4.5 4DVAR
+	## WRFPLUS v$WPS_VERSION 4DVAR
 	## Downloaded from git tagged releases
 	## WRFPLUS is built within the WRF git folder
 	## Does not include RTTOV Libarary for radiation data.  If wanted will need to install library then reconfigure
@@ -28321,17 +28323,17 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	#Option 18 for gfortran/gcc and distribunted memory
 	########################################################################
 	cd $WRF_FOLDER/Downloads
-	tar -xvzf WRF-4.5.1.tar.gz -C $WRF_FOLDER/WRFPLUS
+	tar -xvzf WRF-$WRF_VERSION.tar.gz -C $WRF_FOLDER/WRFPLUS
 
 	# If statment for changing folder name
 	if [ -d "$WRF_FOLDER/WRFPLUS/WRF" ]; then
-		mv -f $WRF_FOLDER/WRFPLUS/WRF $WRF_FOLDER/WRFPLUS/WRFV4.5.1
+		mv -f $WRF_FOLDER/WRFPLUS/WRF $WRF_FOLDER/WRFPLUS/WRFV$WRF_VERSION
 	fi
 
-	cd $WRF_FOLDER/WRFPLUS/WRFV4.5.1
+	cd $WRF_FOLDER/WRFPLUS/WRFV$WRF_VERSION
 	mv * $WRF_FOLDER/WRFPLUS
 	cd $WRF_FOLDER/WRFPLUS
-	rm -rf WRFV4.5.1/
+	rm -rf WRFV$WRF_VERSION/
 	export NETCDF=$DIR/NETCDF
 	export HDF5=$DIR/grib2
 	export LD_LIBRARY_PATH=$DIR/grib2/lib:$LD_LIBRARY_PATH
@@ -28356,7 +28358,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	else
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
-		cd $WRF_FOLDER/WRFPLUS/WRFV4.5.1
+		cd $WRF_FOLDER/WRFPLUS/WRFV$WRF_VERSION
 		./compile -j $CPU_HALF_EVEN wrfplus 2>&1 | tee compile.wrfplus2.log
 		cd $WRF_FOLDER/WRFPLUS/main
 		n=$(ls ./wrfplus.exe | wc -l)
@@ -28372,7 +28374,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 	echo " "
 	############################WRFDA 4DVAR###############################
-	## WRFDA v4.5 4DVAR
+	## WRFDA v$WPS_VERSION 4DVAR
 	## Downloaded from git tagged releases
 	## WRFDA is built within the WRFPLUS folder
 	## Does not include RTTOV Libarary for radiation data.  If wanted will need to install library then reconfigure
@@ -28381,17 +28383,17 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	########################################################################
 	cd $WRF_FOLDER/Downloads
 	mkdir $WRF_FOLDER/WRFDA
-	tar -xvzf WRF-4.5.1.tar.gz -C $WRF_FOLDER/WRFDA
+	tar -xvzf WRF-$WRF_VERSION.tar.gz -C $WRF_FOLDER/WRFDA
 
 	# If statment for changing folder name
 	if [ -d "$WRF_FOLDER/WRFDA/WRF" ]; then
-		mv -f $WRF_FOLDER/WRFDA/WRF $WRF_FOLDER/WRFDA/WRFV4.5.1
+		mv -f $WRF_FOLDER/WRFDA/WRF $WRF_FOLDER/WRFDA/WRFV$WRF_VERSION
 	fi
 
-	cd $WRF_FOLDER/WRFDA/WRFV4.5.1
+	cd $WRF_FOLDER/WRFDA/WRFV$WRF_VERSION
 	mv * $WRF_FOLDER/WRFDA
 	cd $WRF_FOLDER/WRFDA
-	rm -rf WRFV4.5.1/
+	rm -rf WRFV$WRF_VERSION/
 	export NETCDF=$DIR/NETCDF
 	export HDF5=$DIR/grib2
 	export LD_LIBRARY_PATH=$DIR/grib2/lib:$LD_LIBRARY_PATH
@@ -28536,7 +28538,7 @@ fi
 ################################################################
 ## HWRF installation with parallel process.
 # Download and install required library and data files for HWRF.
-# Tested in Ubuntu 20.04.5 LTS & Ubuntu 22.04 LTS
+# Tested in Ubuntu 20.0$WPS_VERSION LTS & Ubuntu 22.04 LTS
 # Built in 64-bit system
 # Tested with current available libraries on 10/10/2023
 # Intel compilers utilized
