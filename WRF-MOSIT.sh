@@ -21,7 +21,7 @@ export Libpng_Version=1.6.39
 export Jasper_Version=1.900.1
 export Pnetcdf_Version=1.12.3
 
-export WRF_VERSION=4.5.2
+export WRF_VERSION=4.5.1
 export WPS_VERSION=4.5
 
 
