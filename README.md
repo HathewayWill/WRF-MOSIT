@@ -8,6 +8,8 @@ This is a BASH script that provides options to install the following Weather Res
 - Hurricane Weather Research & Forecasting Model (HWRF)
 - Weather Research & Forecasting Model CMAQ (WRF-CMAQ)
 - Weather Research & Forecasting Model Wildland Fire (WRF-SFIRE)
+
+- Basic Nesting is set up
 ---
 ### System Requirements
 - 64-bit system
