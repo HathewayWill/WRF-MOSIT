@@ -639,7 +639,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$DTC_MET" = "1" ]; then
 	# this update should get the Intel package info from the Intel repository
 	echo $PASSWD | sudo -S apt -y update
 	echo $PASSWD | sudo -S apt -y upgrade && sudo -S apt -y autoremove
-	echo $PASSWD | sudo -S apt -y install autoconf automake bison build-essential byacc cmake csh curl default-jdk default-jre emacs flex g++ gawk gcc gfortran git ksh libcurl4-openssl-dev libjpeg-dev libncurses5 libncurses6 libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev m4 make mlocate ncview okular openbox pipenv pkg-config  python3 python3-dev python3-pip tcsh unzip xauth xorg time
+	echo $PASSWD | sudo -S apt -y install autoconf automake bison build-essential byacc cmake csh curl default-jdk default-jre emacs flex g++ gawk gcc gfortran git ksh libcurl4-openssl-dev libjpeg-dev  libncurses6 libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev m4 make  ncview okular openbox pipenv pkg-config  python3 python3-dev python3-pip tcsh unzip xauth xorg time
 
 	# install the Intel compilers
 	echo $PASSWD | sudo -S apt -y install intel-basekit
@@ -822,7 +822,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$DTC_MET" = "1" ]; then
 	#############################basic package managment############################
 	echo $PASSWD | sudo -S apt -y update
 	echo $PASSWD | sudo -S apt -y upgrade && sudo -S apt -y autoremove
-	echo $PASSWD | sudo -S apt -y install autoconf automake bison build-essential byacc cmake csh curl default-jdk default-jre emacs flex g++ gawk gcc gfortran git ksh libcurl4-openssl-dev libjpeg-dev libncurses5 libncurses6 libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev m4 make mlocate ncview okular openbox pipenv pkg-config  python3 python3-dev python3-pip tcsh unzip xauth xorg time
+	echo $PASSWD | sudo -S apt -y install autoconf automake bison build-essential byacc cmake csh curl default-jdk default-jre emacs flex g++ gawk gcc gfortran git ksh libcurl4-openssl-dev libjpeg-dev  libncurses6 libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev m4 make  ncview okular openbox pipenv pkg-config  python3 python3-dev python3-pip tcsh unzip xauth xorg time
 
 	#Downloading latest dateutil due to python3.8 running old version.
 	pip3 install python-dateutil==2.8
@@ -1002,7 +1002,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$DTC_MET" = "1" ]; then
 	echo $PASSWD | sudo -S dnf install epel-release -y
 	echo $PASSWD | sudo -S dnf -y update
 	echo $PASSWD | sudo -S dnf -y upgrade
-	echo $PASSWD | sudo -S dnf -y install autoconf automake bzip2 bzip2-devel byacc cairo-devel cmake cpp curl curl-devel flex flex-devel fontconfig-devel fontconfig-devel.x86_64 gcc gcc-c++ gcc-gfortran git java-11-openjdk java-11-openjdk-devel ksh libX11-devel libX11-devel.x86_64 libXaw libXaw-devel libXext-devel libXext-devel.x86_64 libXmu-devel libXrender-devel libXrender-devel.x86_64 libstdc++ libstdc++-devel libstdc++-static libxml2 libxml2-devel m4 mlocate mlocate.x86_64 nfs-utils okular perl pkgconfig pixman-devel python3 python3-devel tcsh time unzip wget
+	echo $PASSWD | sudo -S dnf -y install autoconf automake bzip2 bzip2-devel byacc cairo-devel cmake cpp curl curl-devel flex flex-devel fontconfig-devel fontconfig-devel.x86_64 gcc gcc-c++ gcc-gfortran git java-11-openjdk java-11-openjdk-devel ksh libX11-devel libX11-devel.x86_64 libXaw libXaw-devel libXext-devel libXext-devel.x86_64 libXmu-devel libXrender-devel libXrender-devel.x86_64 libstdc++ libstdc++-devel libstdc++-static libxml2 libxml2-devel m4  .x86_64 nfs-utils okular perl pkgconfig pixman-devel python3 python3-devel tcsh time unzip wget
 	pip3 install python-dateutil
 	echo $PASSWD | sudo -S dnf -y groupinstall "Development Tools"
 	echo $PASSWD | sudo -S dnf -y update
@@ -1170,7 +1170,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$DTC_MET" = "1" ]; then
 	echo $PASSWD | sudo -S dnf install epel-release -y
 	echo $PASSWD | sudo -S dnf -y update
 	echo $PASSWD | sudo -S dnf -y upgrade
-	echo $PASSWD | sudo -S dnf -y install autoconf automake bzip2 bzip2-devel byacc cairo-devel cmake cpp curl curl-devel flex flex-devel fontconfig-devel fontconfig-devel.x86_64 gcc gcc-c++ gcc-gfortran git java-11-openjdk java-11-openjdk-devel ksh libX11-devel libX11-devel.x86_64 libXaw libXaw-devel libXext-devel libXext-devel.x86_64 libXmu-devel libXrender-devel libXrender-devel.x86_64 libstdc++ libstdc++-devel libstdc++-static libxml2 libxml2-devel m4 mlocate mlocate.x86_64 nfs-utils okular perl pkgconfig pixman-devel python3 python3-devel tcsh time unzip wget
+	echo $PASSWD | sudo -S dnf -y install autoconf automake bzip2 bzip2-devel byacc cairo-devel cmake cpp curl curl-devel flex flex-devel fontconfig-devel fontconfig-devel.x86_64 gcc gcc-c++ gcc-gfortran git java-11-openjdk java-11-openjdk-devel ksh libX11-devel libX11-devel.x86_64 libXaw libXaw-devel libXext-devel libXext-devel.x86_64 libXmu-devel libXrender-devel libXrender-devel.x86_64 libstdc++ libstdc++-devel libstdc++-static libxml2 libxml2-devel m4  .x86_64 nfs-utils okular perl pkgconfig pixman-devel python3 python3-devel tcsh time unzip wget
 	echo $PASSWD | sudo -S pip3 install python-dateutil
 	echo $PASSWD | sudo -S dnf -y groupinstall "Development Tools"
 	echo $PASSWD | sudo -S dnf -y update
@@ -1813,7 +1813,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
 	#############################basic package managment############################
 	  echo $PASSWD | sudo -S apt -y update
 	  echo $PASSWD | sudo -S apt -y upgrade && sudo -S apt -y autoremove
-	  echo $PASSWD | sudo -S apt -y install autoconf automake bison build-essential byacc cmake csh curl default-jdk default-jre emacs flex g++ gawk gcc gfortran git ksh libcurl4-openssl-dev libjpeg-dev libncurses5 libncurses6 libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev m4 make mlocate ncview okular openbox pipenv pkg-config  python3 python3-dev python3-pip tcsh unzip xauth xorg time
+	  echo $PASSWD | sudo -S apt -y install autoconf automake bison build-essential byacc cmake csh curl default-jdk default-jre emacs flex g++ gawk gcc gfortran git ksh libcurl4-openssl-dev libjpeg-dev  libncurses6 libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev m4 make  ncview okular openbox pipenv pkg-config  python3 python3-dev python3-pip tcsh unzip xauth xorg time
 
 	  echo " "
 	  ##############################Directory Listing############################
@@ -2471,7 +2471,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
     echo $PASSWD | sudo -S dnf install dnf -y
     echo $PASSWD | sudo -S dnf -y update
     echo $PASSWD | sudo -S dnf -y upgrade
-    echo $PASSWD | sudo -S dnf -y install autoconf automake bzip2 bzip2-devel byacc cairo-devel cmake cpp curl curl-devel flex fontconfig fontconfig-devel gcc gcc-c++ gcc-gfortran git java-11-openjdk java-11-openjdk-devel ksh libjpeg libjpeg-devel libX11 libX11-devel libXaw libXaw-devel libXext-devel libXmu libXmu-devel libXrender libXrender-devel libXt libXt-devel libxml2 libxml2-devel libXmu  libXmu-devel libgeotiff libgeotiff-devel libtiff libtiff-devel m4 mlocate nfs-utils perl pkgconfig pixman  pixman-devel python3 python3-devel tcsh time unzip wget
+    echo $PASSWD | sudo -S dnf -y install autoconf automake bzip2 bzip2-devel byacc cairo-devel cmake cpp curl curl-devel flex fontconfig fontconfig-devel gcc gcc-c++ gcc-gfortran git java-11-openjdk java-11-openjdk-devel ksh libjpeg libjpeg-devel libX11 libX11-devel libXaw libXaw-devel libXext-devel libXmu libXmu-devel libXrender libXrender-devel libXt libXt-devel libxml2 libxml2-devel libXmu  libXmu-devel libgeotiff libgeotiff-devel libtiff libtiff-devel m4  nfs-utils perl pkgconfig pixman  pixman-devel python3 python3-devel tcsh time unzip wget
     echo $PASSWD | sudo -S  dnf -y groupinstall "Development Tools"
     echo $PASSWD | sudo -S dnf -y update
     echo $PASSWD | sudo -S dnf -y upgrade
@@ -3146,7 +3146,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$CMAQ_PICK" = "1" ]; then
     echo $PASSWD | sudo -S dnf install dnf -y
     echo $PASSWD | sudo -S dnf -y update
     echo $PASSWD | sudo -S dnf -y upgrade
-    echo $PASSWD | sudo -S dnf -y install autoconf automake bzip2 bzip2-devel byacc cairo-devel cmake cpp curl curl-devel flex fontconfig fontconfig-devel gcc gcc-c++ gcc-gfortran git java-11-openjdk java-11-openjdk-devel ksh libjpeg libjpeg-devel libX11 libX11-devel libXaw libXaw-devel libXext-devel libXmu libXmu-devel libXrender libXrender-devel libXt libXt-devel libxml2 libxml2-devel libXmu  libXmu-devel libgeotiff libgeotiff-devel libtiff libtiff-devel m4 mlocate nfs-utils perl pkgconfig pixman  pixman-devel python3 python3-devel tcsh time unzip wget
+    echo $PASSWD | sudo -S dnf -y install autoconf automake bzip2 bzip2-devel byacc cairo-devel cmake cpp curl curl-devel flex fontconfig fontconfig-devel gcc gcc-c++ gcc-gfortran git java-11-openjdk java-11-openjdk-devel ksh libjpeg libjpeg-devel libX11 libX11-devel libXaw libXaw-devel libXext-devel libXmu libXmu-devel libXrender libXrender-devel libXt libXt-devel libxml2 libxml2-devel libXmu  libXmu-devel libgeotiff libgeotiff-devel libtiff libtiff-devel m4  nfs-utils perl pkgconfig pixman  pixman-devel python3 python3-devel tcsh time unzip wget
     echo $PASSWD | sudo -S  dnf -y groupinstall "Development Tools"
     echo $PASSWD | sudo -S dnf -y update
     echo $PASSWD | sudo -S dnf -y upgrade
@@ -3824,7 +3824,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
 	#############################basic package managment############################
 echo $PASSWD | sudo -S apt -y update
 echo $PASSWD | sudo -S apt -y upgrade && sudo -S apt -y autoremove
-echo $PASSWD | sudo -S apt -y install autoconf automake bison build-essential byacc cmake csh curl default-jdk default-jre emacs flex g++ gawk gcc gfortran git ksh libcurl4-openssl-dev libjpeg-dev libncurses5 libncurses6 libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev m4 make mlocate ncview okular openbox pipenv pkg-config  python3 python3-dev python3-pip tcsh unzip xauth xorg time libgeotiff-dev
+echo $PASSWD | sudo -S apt -y install autoconf automake bison build-essential byacc cmake csh curl default-jdk default-jre emacs flex g++ gawk gcc gfortran git ksh libcurl4-openssl-dev libjpeg-dev  libncurses6 libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev m4 make  ncview okular openbox pipenv pkg-config  python3 python3-dev python3-pip tcsh unzip xauth xorg time libgeotiff-dev
 
 echo " "
 ##############################Directory Listing############################
@@ -6215,7 +6215,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
 	echo $PASSWD | sudo -S apt -y update
 
 	# necessary binary packages (especially pkg-config and build-essential)
-	echo $PASSWD | sudo -S apt -y install autoconf automake bison build-essential byacc cmake csh curl default-jdk default-jre emacs flex g++ gawk gcc gfortran git ksh libcurl4-openssl-dev libjpeg-dev libncurses5 libncurses6 libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev m4 make mlocate ncview okular openbox pipenv pkg-config  python3 python3-dev python3-pip tcsh unzip xauth xorg time libgeotiff-dev
+	echo $PASSWD | sudo -S apt -y install autoconf automake bison build-essential byacc cmake csh curl default-jdk default-jre emacs flex g++ gawk gcc gfortran git ksh libcurl4-openssl-dev libjpeg-dev  libncurses6 libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev m4 make  ncview okular openbox pipenv pkg-config  python3 python3-dev python3-pip tcsh unzip xauth xorg time libgeotiff-dev
 
 	# install the Intel compilers
 	echo $PASSWD | sudo -S apt -y install intel-basekit
@@ -6985,7 +6985,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
 	    echo $PASSWD | sudo -S dnf install dnf -y
 	    echo $PASSWD | sudo -S dnf -y update
 	    echo $PASSWD | sudo -S dnf -y upgrade
-	    echo $PASSWD | sudo -S dnf -y install autoconf automake bzip2 bzip2-devel byacc cairo-devel cmake cpp curl curl-devel flex fontconfig fontconfig-devel gcc gcc-c++ gcc-gfortran git java-11-openjdk java-11-openjdk-devel ksh libjpeg libjpeg-devel libX11 libX11-devel libXaw libXaw-devel libXext-devel libXmu libXmu-devel libXrender libXrender-devel libXt libXt-devel libxml2 libxml2-devel libXmu  libXmu-devel libgeotiff libgeotiff-devel libtiff libtiff-devel m4 mlocate nfs-utils perl pkgconfig pixman  pixman-devel python3 python3-devel tcsh time unzip wget
+	    echo $PASSWD | sudo -S dnf -y install autoconf automake bzip2 bzip2-devel byacc cairo-devel cmake cpp curl curl-devel flex fontconfig fontconfig-devel gcc gcc-c++ gcc-gfortran git java-11-openjdk java-11-openjdk-devel ksh libjpeg libjpeg-devel libX11 libX11-devel libXaw libXaw-devel libXext-devel libXmu libXmu-devel libXrender libXrender-devel libXt libXt-devel libxml2 libxml2-devel libXmu  libXmu-devel libgeotiff libgeotiff-devel libtiff libtiff-devel m4  nfs-utils perl pkgconfig pixman  pixman-devel python3 python3-devel tcsh time unzip wget
 	    echo $PASSWD | sudo -S  dnf -y groupinstall "Development Tools"
 	    echo $PASSWD | sudo -S dnf -y update
 	    echo $PASSWD | sudo -S dnf -y upgrade
@@ -7966,7 +7966,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$SFIRE_PICK" = "1" ]; then
     echo $PASSWD | sudo -S dnf install dnf -y
     echo $PASSWD | sudo -S dnf -y update
     echo $PASSWD | sudo -S dnf -y upgrade
-    echo $PASSWD | sudo -S dnf -y install autoconf automake bzip2 bzip2-devel byacc cairo-devel cmake cpp curl curl-devel flex fontconfig fontconfig-devel gcc gcc-c++ gcc-gfortran git java-11-openjdk java-11-openjdk-devel ksh libjpeg libjpeg-deve libX11 libX11-devel libXaw libXaw-devel libXext-devel libXmu libXmu-devel libXrender libXrender-devel libXt libXt-devel libxml2 libxml2-devel libXmu  libXmu-devel libgeotiff libgeotiff-devel libtiff libtiff-devel m4 mlocate nfs-utils perl pkgconfig pixman  pixman-devel python3 python3-devel tcsh time unzip wget
+    echo $PASSWD | sudo -S dnf -y install autoconf automake bzip2 bzip2-devel byacc cairo-devel cmake cpp curl curl-devel flex fontconfig fontconfig-devel gcc gcc-c++ gcc-gfortran git java-11-openjdk java-11-openjdk-devel ksh libjpeg libjpeg-deve libX11 libX11-devel libXaw libXaw-devel libXext-devel libXmu libXmu-devel libXrender libXrender-devel libXt libXt-devel libxml2 libxml2-devel libXmu  libXmu-devel libgeotiff libgeotiff-devel libtiff libtiff-devel m4  nfs-utils perl pkgconfig pixman  pixman-devel python3 python3-devel tcsh time unzip wget
     echo $PASSWD | sudo -S  dnf -y groupinstall "Development Tools"
     echo $PASSWD | sudo -S dnf -y update
     echo $PASSWD | sudo -S dnf -y upgrade
@@ -8949,7 +8949,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 	#############################basic package managment############################
 	echo $PASSWD | sudo -S apt -y update
 	echo $PASSWD | sudo -S apt -y upgrade && sudo -S apt -y autoremove
-	echo $PASSWD | sudo -S apt -y install autoconf automake bison build-essential byacc cmake csh curl default-jdk default-jre emacs flex g++ gawk gcc gfortran git ksh libcurl4-openssl-dev libjpeg-dev libncurses5 libncurses6 libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev m4 make mlocate ncview okular openbox pipenv pkg-config  python3 python3-dev python3-pip tcsh unzip xauth xorg time
+	echo $PASSWD | sudo -S apt -y install autoconf automake bison build-essential byacc cmake csh curl default-jdk default-jre emacs flex g++ gawk gcc gfortran git ksh libcurl4-openssl-dev libjpeg-dev  libncurses6 libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev m4 make  ncview okular openbox pipenv pkg-config  python3 python3-dev python3-pip tcsh unzip xauth xorg time
 	echo " "
 	##############################Directory Listing############################
 	export HOME=$(
@@ -10554,7 +10554,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; the
 	echo $PASSWD | sudo -S apt -y update
 
 	# necessary binary packages (especially pkg-config and build-essential)
-	echo $PASSWD | sudo -S apt -y install autoconf automake bison build-essential byacc cmake csh curl default-jdk default-jre emacs flex g++ gawk gcc gfortran git ksh libcurl4-openssl-dev libjpeg-dev libncurses5 libncurses6 libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev m4 make mlocate ncview okular openbox pipenv pkg-config  python3 python3-dev python3-pip tcsh unzip xauth xorg time
+	echo $PASSWD | sudo -S apt -y install autoconf automake bison build-essential byacc cmake csh curl default-jdk default-jre emacs flex g++ gawk gcc gfortran git ksh libcurl4-openssl-dev libjpeg-dev  libncurses6 libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev m4 make  ncview okular openbox pipenv pkg-config  python3 python3-dev python3-pip tcsh unzip xauth xorg time
 
 	# install the Intel compilers
 	echo $PASSWD | sudo -S apt -y install intel-basekit
@@ -11003,7 +11003,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 	echo $PASSWD | sudo -S dnf install dnf -y
 	echo $PASSWD | sudo -S dnf -y update
 	echo $PASSWD | sudo -S dnf -y upgrade
-	echo $PASSWD | sudo -S dnf -y install autoconf automake bzip2 bzip2-devel byacc cairo-devel cmake cpp curl curl-devel flex flex-devel fontconfig-devel fontconfig-devel.x86_64 gcc gcc-c++ gcc-gfortran git java-11-openjdk java-11-openjdk-devel ksh libX11-devel libX11-devel.x86_64 libXaw libXaw-devel libXext-devel libXext-devel.x86_64 libXmu-devel libXrender-devel libXrender-devel.x86_64 libstdc++ libstdc++-devel libstdc++-static libxml2 libxml2-devel m4 mlocate mlocate.x86_64 nfs-utils okular perl pkgconfig pixman-devel python3 python3-devel tcsh time unzip wget
+	echo $PASSWD | sudo -S dnf -y install autoconf automake bzip2 bzip2-devel byacc cairo-devel cmake cpp curl curl-devel flex flex-devel fontconfig-devel fontconfig-devel.x86_64 gcc gcc-c++ gcc-gfortran git java-11-openjdk java-11-openjdk-devel ksh libX11-devel libX11-devel.x86_64 libXaw libXaw-devel libXext-devel libXext-devel.x86_64 libXmu-devel libXrender-devel libXrender-devel.x86_64 libstdc++ libstdc++-devel libstdc++-static libxml2 libxml2-devel m4  .x86_64 nfs-utils okular perl pkgconfig pixman-devel python3 python3-devel tcsh time unzip wget
 	echo $PASSWD | sudo -S dnf -y groupinstall "Development Tools"
 	echo $PASSWD | sudo -S dnf -y update
 	echo $PASSWD | sudo -S dnf -y upgrade
@@ -11504,7 +11504,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 	echo $PASSWD | sudo -S dnf install dnf -y
 	echo $PASSWD | sudo -S dnf -y update
 	echo $PASSWD | sudo -S dnf -y upgrade
-	echo $PASSWD | sudo -S dnf -y install autoconf automake bzip2 bzip2-devel byacc cairo-devel cmake cpp curl curl-devel flex flex-devel fontconfig-devel fontconfig-devel.x86_64 gcc gcc-c++ gcc-gfortran git java-11-openjdk java-11-openjdk-devel ksh libX11-devel libX11-devel.x86_64 libXaw libXaw-devel libXext-devel libXext-devel.x86_64 libXmu-devel libXrender-devel libXrender-devel.x86_64 libstdc++ libstdc++-devel libstdc++-static libxml2 libxml2-devel m4 mlocate mlocate.x86_64 nfs-utils okular perl pkgconfig pixman-devel python3 python3-devel tcsh time unzip wget
+	echo $PASSWD | sudo -S dnf -y install autoconf automake bzip2 bzip2-devel byacc cairo-devel cmake cpp curl curl-devel flex flex-devel fontconfig-devel fontconfig-devel.x86_64 gcc gcc-c++ gcc-gfortran git java-11-openjdk java-11-openjdk-devel ksh libX11-devel libX11-devel.x86_64 libXaw libXaw-devel libXext-devel libXext-devel.x86_64 libXmu-devel libXrender-devel libXrender-devel.x86_64 libstdc++ libstdc++-devel libstdc++-static libxml2 libxml2-devel m4  .x86_64 nfs-utils okular perl pkgconfig pixman-devel python3 python3-devel tcsh time unzip wget
 	echo $PASSWD | sudo -S dnf -y groupinstall "Development Tools"
 	echo $PASSWD | sudo -S dnf -y update
 	echo $PASSWD | sudo -S dnf -y upgrade
@@ -12013,7 +12013,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 	#############################basic package managment############################
 	echo $PASSWD | sudo -S apt -y update
 	echo $PASSWD | sudo -S apt -y upgrade && sudo -S apt -y autoremove
-	echo $PASSWD | sudo -S apt -y install autoconf automake bison build-essential byacc cmake csh curl default-jdk default-jre emacs flex g++ gawk gcc gfortran git ksh libcurl4-openssl-dev libjpeg-dev libncurses5 libncurses6 libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev m4 make mlocate ncview okular openbox pipenv pkg-config  python3 python3-dev python3-pip tcsh unzip xauth xorg time
+	echo $PASSWD | sudo -S apt -y install autoconf automake bison build-essential byacc cmake csh curl default-jdk default-jre emacs flex g++ gawk gcc gfortran git ksh libcurl4-openssl-dev libjpeg-dev  libncurses6 libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev m4 make  ncview okular openbox pipenv pkg-config  python3 python3-dev python3-pip tcsh unzip xauth xorg time
 	echo " "
 	##############################Directory Listing############################
 	export HOME=$(
@@ -13005,7 +13005,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 	echo $PASSWD | sudo -S apt -y update
 
 	# necessary binary packages (especially pkg-config and build-essential)
-	echo $PASSWD | sudo -S apt -y install autoconf automake bison build-essential byacc cmake csh curl default-jdk default-jre emacs flex g++ gawk gcc gfortran git ksh libcurl4-openssl-dev libjpeg-dev libncurses5 libncurses6 libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev m4 make mlocate ncview okular openbox pipenv pkg-config  python3 python3-dev python3-pip tcsh unzip xauth xorg time
+	echo $PASSWD | sudo -S apt -y install autoconf automake bison build-essential byacc cmake csh curl default-jdk default-jre emacs flex g++ gawk gcc gfortran git ksh libcurl4-openssl-dev libjpeg-dev  libncurses6 libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev m4 make  ncview okular openbox pipenv pkg-config  python3 python3-dev python3-pip tcsh unzip xauth xorg time
 
 	# install the Intel compilers
 	echo $PASSWD | sudo -S apt -y install intel-basekit
@@ -15397,7 +15397,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 	echo $PASSWD | sudo -S dnf install dnf -y
 	echo $PASSWD | sudo -S dnf -y update
 	echo $PASSWD | sudo -S dnf -y upgrade
-	echo $PASSWD | sudo -S dnf -y install autoconf automake bzip2 bzip2-devel byacc cairo-devel cmake cpp curl curl-devel flex flex-devel fontconfig-devel fontconfig-devel.x86_64 gcc gcc-c++ gcc-gfortran git java-11-openjdk java-11-openjdk-devel ksh libX11-devel libX11-devel.x86_64 libXaw libXaw-devel libXext-devel libXext-devel.x86_64 libXmu-devel libXrender-devel libXrender-devel.x86_64 libstdc++ libstdc++-devel libstdc++-static libxml2 libxml2-devel m4 mlocate mlocate.x86_64 nfs-utils okular perl pkgconfig pixman-devel python3 python3-devel tcsh time unzip wget
+	echo $PASSWD | sudo -S dnf -y install autoconf automake bzip2 bzip2-devel byacc cairo-devel cmake cpp curl curl-devel flex flex-devel fontconfig-devel fontconfig-devel.x86_64 gcc gcc-c++ gcc-gfortran git java-11-openjdk java-11-openjdk-devel ksh libX11-devel libX11-devel.x86_64 libXaw libXaw-devel libXext-devel libXext-devel.x86_64 libXmu-devel libXrender-devel libXrender-devel.x86_64 libstdc++ libstdc++-devel libstdc++-static libxml2 libxml2-devel m4  .x86_64 nfs-utils okular perl pkgconfig pixman-devel python3 python3-devel tcsh time unzip wget
 	echo $PASSWD | sudo -S dnf -y groupinstall "Development Tools"
 	echo $PASSWD | sudo -S dnf -y update
 	echo $PASSWD | sudo -S dnf -y upgrade
@@ -16398,7 +16398,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 	echo $PASSWD | sudo -S dnf install dnf -y
 	echo $PASSWD | sudo -S dnf -y update
 	echo $PASSWD | sudo -S dnf -y upgrade
-	echo $PASSWD | sudo -S dnf -y install autoconf automake bzip2 bzip2-devel byacc cairo-devel cmake cpp curl curl-devel flex flex-devel fontconfig-devel fontconfig-devel.x86_64 gcc gcc-c++ gcc-gfortran git java-11-openjdk java-11-openjdk-devel ksh libX11-devel libX11-devel.x86_64 libXaw libXaw-devel libXext-devel libXext-devel.x86_64 libXmu-devel libXrender-devel libXrender-devel.x86_64 libstdc++ libstdc++-devel libstdc++-static libxml2 libxml2-devel m4 mlocate mlocate.x86_64 nfs-utils okular perl pkgconfig pixman-devel python3 python3-devel tcsh time unzip wget
+	echo $PASSWD | sudo -S dnf -y install autoconf automake bzip2 bzip2-devel byacc cairo-devel cmake cpp curl curl-devel flex flex-devel fontconfig-devel fontconfig-devel.x86_64 gcc gcc-c++ gcc-gfortran git java-11-openjdk java-11-openjdk-devel ksh libX11-devel libX11-devel.x86_64 libXaw libXaw-devel libXext-devel libXext-devel.x86_64 libXmu-devel libXrender-devel libXrender-devel.x86_64 libstdc++ libstdc++-devel libstdc++-static libxml2 libxml2-devel m4  .x86_64 nfs-utils okular perl pkgconfig pixman-devel python3 python3-devel tcsh time unzip wget
 	echo $PASSWD | sudo -S dnf -y groupinstall "Development Tools"
 	echo $PASSWD | sudo -S dnf -y update
 	echo $PASSWD | sudo -S dnf -y upgrade
@@ -17353,7 +17353,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	#############################basic package managment############################
 	echo $PASSWD | sudo -S apt -y update
 	echo $PASSWD | sudo -S apt -y upgrade && sudo -S apt -y autoremove
-	echo $PASSWD | sudo -S apt -y install autoconf automake bison build-essential byacc cmake csh curl default-jdk default-jre emacs flex g++ gawk gcc gfortran git ksh libcurl4-openssl-dev libjpeg-dev libncurses5 libncurses6 libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev m4 make mlocate ncview okular openbox pipenv pkg-config  python3 python3-dev python3-pip tcsh unzip xauth xorg time
+	echo $PASSWD | sudo -S apt -y install autoconf automake bison build-essential byacc cmake csh curl default-jdk default-jre emacs flex g++ gawk gcc gfortran git ksh libcurl4-openssl-dev libjpeg-dev  libncurses6 libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev m4 make  ncview okular openbox pipenv pkg-config  python3 python3-dev python3-pip tcsh unzip xauth xorg time
 
 	echo " "
 	##############################Directory Listing############################
@@ -18393,7 +18393,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	echo $PASSWD | sudo -S apt -y update
 
 	# necessary binary packages (especially pkg-config and build-essential)
-	echo $PASSWD | sudo -S apt -y install autoconf automake bison build-essential byacc cmake csh curl default-jdk default-jre emacs flex g++ gawk gcc gfortran git ksh libcurl4-openssl-dev libjpeg-dev libncurses5 libncurses6 libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev m4 make mlocate ncview okular openbox pipenv pkg-config  python3 python3-dev python3-pip tcsh unzip xauth xorg time
+	echo $PASSWD | sudo -S apt -y install autoconf automake bison build-essential byacc cmake csh curl default-jdk default-jre emacs flex g++ gawk gcc gfortran git ksh libcurl4-openssl-dev libjpeg-dev  libncurses6 libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev m4 make  ncview okular openbox pipenv pkg-config  python3 python3-dev python3-pip tcsh unzip xauth xorg time
 
 	# install the Intel compilers
 	echo $PASSWD | sudo -S apt -y install intel-basekit
@@ -20790,7 +20790,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	echo $PASSWD | sudo -S dnf install dnf -y
 	echo $PASSWD | sudo -S dnf -y update
 	echo $PASSWD | sudo -S dnf -y upgrade
-	echo $PASSWD | sudo -S dnf -y install autoconf automake bzip2 bzip2-devel byacc cairo-devel cmake cpp curl curl-devel flex flex-devel fontconfig-devel fontconfig-devel.x86_64 gcc gcc-c++ gcc-gfortran git java-11-openjdk java-11-openjdk-devel ksh libX11-devel libX11-devel.x86_64 libXaw libXaw-devel libXext-devel libXext-devel.x86_64 libXmu-devel libXrender-devel libXrender-devel.x86_64 libstdc++ libstdc++-devel libstdc++-static libxml2 libxml2-devel m4 mlocate mlocate.x86_64 nfs-utils okular perl pkgconfig pixman-devel python3 python3-devel tcsh time unzip wget
+	echo $PASSWD | sudo -S dnf -y install autoconf automake bzip2 bzip2-devel byacc cairo-devel cmake cpp curl curl-devel flex flex-devel fontconfig-devel fontconfig-devel.x86_64 gcc gcc-c++ gcc-gfortran git java-11-openjdk java-11-openjdk-devel ksh libX11-devel libX11-devel.x86_64 libXaw libXaw-devel libXext-devel libXext-devel.x86_64 libXmu-devel libXrender-devel libXrender-devel.x86_64 libstdc++ libstdc++-devel libstdc++-static libxml2 libxml2-devel m4  .x86_64 nfs-utils okular perl pkgconfig pixman-devel python3 python3-devel tcsh time unzip wget
 	echo $PASSWD | sudo -S dnf -y groupinstall "Development Tools"
 	echo $PASSWD | sudo -S dnf -y update
 	echo $PASSWD | sudo -S dnf -y upgrade
@@ -21827,7 +21827,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	echo $PASSWD | sudo -S dnf install dnf -y
 	echo $PASSWD | sudo -S dnf -y update
 	echo $PASSWD | sudo -S dnf -y upgrade
-	echo $PASSWD | sudo -S dnf -y install autoconf automake bzip2 bzip2-devel byacc cairo-devel cmake cpp curl curl-devel flex flex-devel fontconfig-devel fontconfig-devel.x86_64 gcc gcc-c++ gcc-gfortran git java-11-openjdk java-11-openjdk-devel ksh libX11-devel libX11-devel.x86_64 libXaw libXaw-devel libXext-devel libXext-devel.x86_64 libXmu-devel libXrender-devel libXrender-devel.x86_64 libstdc++ libstdc++-devel libstdc++-static libxml2 libxml2-devel m4 mlocate mlocate.x86_64 nfs-utils okular perl pkgconfig pixman-devel python3 python3-devel tcsh time unzip wget
+	echo $PASSWD | sudo -S dnf -y install autoconf automake bzip2 bzip2-devel byacc cairo-devel cmake cpp curl curl-devel flex flex-devel fontconfig-devel fontconfig-devel.x86_64 gcc gcc-c++ gcc-gfortran git java-11-openjdk java-11-openjdk-devel ksh libX11-devel libX11-devel.x86_64 libXaw libXaw-devel libXext-devel libXext-devel.x86_64 libXmu-devel libXrender-devel libXrender-devel.x86_64 libstdc++ libstdc++-devel libstdc++-static libxml2 libxml2-devel m4  .x86_64 nfs-utils okular perl pkgconfig pixman-devel python3 python3-devel tcsh time unzip wget
 	echo $PASSWD | sudo -S dnf -y groupinstall "Development Tools"
 	echo $PASSWD | sudo -S dnf -y update
 	echo $PASSWD | sudo -S dnf -y upgrade
@@ -22850,7 +22850,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	#############################basic package managment############################
 	echo $PASSWD | sudo -S apt -y update
 	echo $PASSWD | sudo -S apt -y upgrade && sudo -S apt -y autoremove
-	echo $PASSWD | sudo -S apt -y install autoconf automake bison build-essential byacc cmake csh curl default-jdk default-jre emacs flex g++ gawk gcc gfortran git ksh libcurl4-openssl-dev libjpeg-dev libncurses5 libncurses6 libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev m4 make mlocate ncview okular openbox pipenv pkg-config  python3 python3-dev python3-pip tcsh unzip xauth xorg time
+	echo $PASSWD | sudo -S apt -y install autoconf automake bison build-essential byacc cmake csh curl default-jdk default-jre emacs flex g++ gawk gcc gfortran git ksh libcurl4-openssl-dev libjpeg-dev  libncurses6 libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev m4 make  ncview okular openbox pipenv pkg-config  python3 python3-dev python3-pip tcsh unzip xauth xorg time
 
 	echo " "
 	##############################Directory Listing############################
@@ -23918,7 +23918,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	echo $PASSWD | sudo -S apt -y update
 
 	# necessary binary packages (especially pkg-config and build-essential)
-	echo $PASSWD | sudo -S apt -y install autoconf automake bison build-essential byacc cmake csh curl default-jdk default-jre emacs flex g++ gawk gcc gfortran git ksh libcurl4-openssl-dev libjpeg-dev libncurses5 libncurses6 libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev m4 make mlocate ncview okular openbox pipenv pkg-config  python3 python3-dev python3-pip tcsh unzip xauth xorg time
+	echo $PASSWD | sudo -S apt -y install autoconf automake bison build-essential byacc cmake csh curl default-jdk default-jre emacs flex g++ gawk gcc gfortran git ksh libcurl4-openssl-dev libjpeg-dev  libncurses6 libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev m4 make  ncview okular openbox pipenv pkg-config  python3 python3-dev python3-pip tcsh unzip xauth xorg time
 
 	# install the Intel compilers
 	echo $PASSWD | sudo -S apt -y install intel-basekit
@@ -26425,7 +26425,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	echo $PASSWD | sudo -S dnf install dnf -y
 	echo $PASSWD | sudo -S dnf -y update
 	echo $PASSWD | sudo -S dnf -y upgrade
-	echo $PASSWD | sudo -S dnf -y install autoconf automake bzip2 bzip2-devel byacc cairo-devel cmake cpp curl curl-devel flex flex-devel fontconfig-devel fontconfig-devel.x86_64 gcc gcc-c++ gcc-gfortran git java-11-openjdk java-11-openjdk-devel ksh libX11-devel libX11-devel.x86_64 libXaw libXaw-devel libXext-devel libXext-devel.x86_64 libXmu-devel libXrender-devel libXrender-devel.x86_64 libstdc++ libstdc++-devel libstdc++-static libxml2 libxml2-devel m4 mlocate mlocate.x86_64 nfs-utils okular perl pkgconfig pixman-devel python3 python3-devel tcsh time unzip wget
+	echo $PASSWD | sudo -S dnf -y install autoconf automake bzip2 bzip2-devel byacc cairo-devel cmake cpp curl curl-devel flex flex-devel fontconfig-devel fontconfig-devel.x86_64 gcc gcc-c++ gcc-gfortran git java-11-openjdk java-11-openjdk-devel ksh libX11-devel libX11-devel.x86_64 libXaw libXaw-devel libXext-devel libXext-devel.x86_64 libXmu-devel libXrender-devel libXrender-devel.x86_64 libstdc++ libstdc++-devel libstdc++-static libxml2 libxml2-devel m4  .x86_64 nfs-utils okular perl pkgconfig pixman-devel python3 python3-devel tcsh time unzip wget
 	echo $PASSWD | sudo -S dnf -y groupinstall "Development Tools"
 	echo $PASSWD | sudo -S dnf -y update
 	echo $PASSWD | sudo -S dnf -y upgrade
@@ -27489,7 +27489,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRF_PICK" = "1" ]; then
 	echo $PASSWD | sudo -S dnf install dnf -y
 	echo $PASSWD | sudo -S dnf -y update
 	echo $PASSWD | sudo -S dnf -y upgrade
-	echo $PASSWD | sudo -S dnf -y install autoconf automake bzip2 bzip2-devel byacc cairo-devel cmake cpp curl curl-devel flex flex-devel fontconfig-devel fontconfig-devel.x86_64 gcc gcc-c++ gcc-gfortran git java-11-openjdk java-11-openjdk-devel ksh libX11-devel libX11-devel.x86_64 libXaw libXaw-devel libXext-devel libXext-devel.x86_64 libXmu-devel libXrender-devel libXrender-devel.x86_64 libstdc++ libstdc++-devel libstdc++-static libxml2 libxml2-devel m4 mlocate mlocate.x86_64 nfs-utils okular perl pkgconfig pixman-devel python3 python3-devel tcsh time unzip wget
+	echo $PASSWD | sudo -S dnf -y install autoconf automake bzip2 bzip2-devel byacc cairo-devel cmake cpp curl curl-devel flex flex-devel fontconfig-devel fontconfig-devel.x86_64 gcc gcc-c++ gcc-gfortran git java-11-openjdk java-11-openjdk-devel ksh libX11-devel libX11-devel.x86_64 libXaw libXaw-devel libXext-devel libXext-devel.x86_64 libXmu-devel libXrender-devel libXrender-devel.x86_64 libstdc++ libstdc++-devel libstdc++-static libxml2 libxml2-devel m4  .x86_64 nfs-utils okular perl pkgconfig pixman-devel python3 python3-devel tcsh time unzip wget
 	echo $PASSWD | sudo -S dnf -y groupinstall "Development Tools"
 	echo $PASSWD | sudo -S dnf -y update
 	echo $PASSWD | sudo -S dnf -y upgrade
@@ -28574,7 +28574,7 @@ if [ "$HWRF_PICK" = "1" ]; then
 	echo $PASSWD | sudo -S apt -y update
 
 	# necessary binary packages (especially pkg-config and build-essential)
-	echo $PASSWD | sudo -S apt -y install autoconf automake bison build-essential byacc cmake csh curl default-jdk default-jre emacs flex g++ gawk gcc gfortran git ksh libcurl4-openssl-dev libjpeg-dev libncurses5 libncurses6 libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev m4 make mlocate ncview okular openbox pipenv pkg-config  python3 python3-dev python3-pip tcsh unzip xauth xorg time
+	echo $PASSWD | sudo -S apt -y install autoconf automake bison build-essential byacc cmake csh curl default-jdk default-jre emacs flex g++ gawk gcc gfortran git ksh libcurl4-openssl-dev libjpeg-dev  libncurses6 libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev m4 make  ncview okular openbox pipenv pkg-config  python3 python3-dev python3-pip tcsh unzip xauth xorg time
 
 	# install the Intel compilers
 	echo $PASSWD | sudo -S apt -y install intel-basekit
