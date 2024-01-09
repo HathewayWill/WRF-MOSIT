@@ -24099,19 +24099,20 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	source /opt/intel/oneapi/setvars.sh
 
 	# some of the libraries we install below need one or more of these variables
-	export CC=icx
-  export CXX=icpx
-  export FC=ifx
-  export F77=ifx
-  export F90=ifx
-  export MPIFC='mpiifort -fc=ifx'
-  export MPIF77='mpiifort -fc=ifx'
-  export MPIF90='mpiifort -fc=ifx'
-  export MPICC='mpiicc -cc=icx'
-  export MPICXX='mpiicpc -cxx=icpx'
-  export CFLAGS="-fPIC -fPIE -O3 -Wno-implicit-function-declaration -Wno-absolute-value -Wno-incompatible-function-pointer-types -Wno-unknown-warning-option -Wno-unused-command-line-argument "
-  export FFLAGS="-m64"
-  export FCFLAGS="-m64"
+	# some of the libraries we install below need one or more of these variables
+	export CC=icc
+	export CXX=icpc
+	export FC=ifort
+	export F77=ifort
+	export F90=ifort
+	export MPIFC=mpiifort
+	export MPIF77=mpiifort
+	export MPIF90=mpiifort
+	export MPICC=mpiicc
+	export MPICXX=mpiicpc
+	export CFLAGS="-fPIC -fPIE -O3 -diag-disable=10441 "
+	export FFLAGS="-m64"
+	export FCFLAGS="-m64"
 	############################# CPU Core Management ####################################
 
 	export CPU_CORE=$(nproc) # number of available threads on system
