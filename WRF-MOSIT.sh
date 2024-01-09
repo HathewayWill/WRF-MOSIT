@@ -12,16 +12,16 @@ export MET_Version=11.1.0
 export MET_VERSION=11.1
 export METPLUS_DATA=5.1
 
-export HDF5_Version=1_14_2
+export HDF5_Version=1_14_3
 export Zlib_Version=1.2.13
 export Netcdf_C_Version=4.9.0
-export Netcdf_Fortran_Version=4.6.0
+export Netcdf_Fortran_Version=4.6.1
 export Mpich_Version=4.1.2
 export Libpng_Version=1.6.39
 export Jasper_Version=1.900.1
 export Pnetcdf_Version=1.12.3
 
-export WRF_VERSION=4.5.1
+export WRF_VERSION=4.5.2
 export WPS_VERSION=4.5
 
 
@@ -367,36 +367,38 @@ if [ "$SYSTEMOS" = "MacOS" ]; then
 fi
 
 ############################# Chose GrADS or OpenGrADS #########################
-while read -r -p "Which graphic display software should be install?
--OpenGrADS
--GrADS (Not available for MacOS)
+
+if [ "$SYSTEMOS" != "MacOS" ]; then
+  while read -r -p "Which graphic display software should be installed?
+- OpenGrADS
+- GrADS
 
 Please answer with either OpenGrADS or GrADS and press enter.
-    " yn; do
-
-	case $yn in
-	OpenGrADS)
-
-		echo " "
-		echo "OpenGrADS selected for installation"
-		echo "-------------------------------------------------- "
-		export GRADS_PICK=1 #variable set for grads or opengrads choice
-		break
-		;;
-	GrADS)
-		echo " "
-		echo "GrADS selected for installation"
-		echo "-------------------------------------------------- "
-		export GRADS_PICK=2 #variable set for grads or opengrads choice
-		break
-		;;
-	*)
-		echo " "
-		echo "Please answer OpenGrADS or GrADS (case sensative)."
-		;;
-
-	esac
-done
+  " yn; do
+    case $yn in
+    OpenGrADS)
+      echo " "
+      echo "OpenGrADS selected for installation"
+      echo "-------------------------------------------------- "
+      export GRADS_PICK=1 # variable set for grads or opengrads choice
+      break
+      ;;
+    GrADS)
+      echo " "
+      echo "GrADS selected for installation"
+      echo "-------------------------------------------------- "
+      export GRADS_PICK=2 # variable set for grads or opengrads choice
+      break
+      ;;
+    *)
+      echo " "
+      echo "Please answer OpenGrADS or GrADS (case-sensitive)."
+      ;;
+    esac
+  done
+else
+  echo "MacOS is not supported for GrADS or OpenGrADS at this installation."
+fi
 
 echo " "
 ################################# Auto Configuration Test ##################
@@ -430,8 +432,6 @@ while true; do
 	echo " NCAR's DTC MET Tools Install"
 	read -r -p "
   Would you like the script to install the NCAR's DTC Model Evaluation Tools?
-
-  Not availble for MacOS.  Please Select No
 
 
   (Y/N)    " yn
@@ -621,6 +621,8 @@ echo " "
 
 ###################################################################################################
 
+
+
 if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$DTC_MET" = "1" ]; then
 
 	echo $PASSWD | sudo -S sudo apt install git
@@ -639,7 +641,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$DTC_MET" = "1" ]; then
 	# this update should get the Intel package info from the Intel repository
 	echo $PASSWD | sudo -S apt -y update
 	echo $PASSWD | sudo -S apt -y upgrade && sudo -S apt -y autoremove
-	echo $PASSWD | sudo -S apt -y install autoconf automake bison build-essential byacc cmake csh curl default-jdk default-jre emacs flex g++ gawk gcc gfortran git ksh libcurl4-openssl-dev libjpeg-dev  libncurses6 libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev m4 make  ncview okular openbox pipenv pkg-config  python3 python3-dev python3-pip tcsh unzip xauth xorg time
+	echo $PASSWD | sudo -S apt -y install autoconf automake bison build-essential byacc cmake csh curl default-jdk default-jre emacs flex g++ gawk gcc gfortran git ksh libcurl4-openssl-dev libjpeg-dev libncurses5 libncurses6 libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev m4 make mlocate ncview okular openbox pipenv pkg-config  python3 python3-dev python3-pip tcsh unzip xauth xorg time
 
 	# install the Intel compilers
 	echo $PASSWD | sudo -S apt -y install intel-basekit
@@ -700,26 +702,26 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$DTC_MET" = "1" ]; then
 		export WRF_FOLDER=$HOME/WRF_SFIRE_Intel
 	fi
 
-	mkdir $WRF_FOLDER/MET-$MET_Version
-	mkdir $WRF_FOLDER/MET-$MET_Version/Downloads
-	mkdir $WRF_FOLDER/METplus-$METPLUS_Version
-	mkdir $WRF_FOLDER/METplus-$METPLUS_Version/Downloads
+	mkdir ${WRF_FOLDER}/MET-$MET_Version
+	mkdir ${WRF_FOLDER}/MET-$MET_Version/Downloads
+	mkdir ${WRF_FOLDER}/METplus-$METPLUS_Version
+	mkdir ${WRF_FOLDER}/METplus-$METPLUS_Version/Downloads
 
 	#Downloading MET and untarring files
 	#Note weblinks change often update as needed.
-	cd $WRF_FOLDER/MET-$MET_Version/Downloads
+	cd ${WRF_FOLDER}/MET-$MET_Version/Downloads
 	wget -c https://raw.githubusercontent.com/dtcenter/MET/main_v$MET_VERSION/internal/scripts/installation/compile_MET_all.sh
 
 	wget -c https://dtcenter.ucar.edu/dfiles/code/METplus/MET/installation/tar_files.tgz
 
 	wget -c https://github.com/dtcenter/MET/archive/refs/tags/v$MET_Version.tar.gz
 
-	cp compile_MET_all.sh $WRF_FOLDER/MET-$MET_Version
-	tar -xvzf tar_files.tgz -C $WRF_FOLDER/MET-$MET_Version
-	cp v$MET_Version.tar.gz $WRF_FOLDER/MET-$MET_Version/tar_files
-	cd $WRF_FOLDER/MET-$MET_Version
+	cp compile_MET_all.sh ${WRF_FOLDER}/MET-$MET_Version
+	tar -xvzf tar_files.tgz -C ${WRF_FOLDER}/MET-$MET_Version
+	cp v$MET_Version.tar.gz ${WRF_FOLDER}/MET-$MET_Version/tar_files
+	cd ${WRF_FOLDER}/MET-$MET_Version
 
-	cd $WRF_FOLDER/MET-$MET_Version
+	cd ${WRF_FOLDER}/MET-$MET_Version
 
 	export PYTHON_VERSION=$(/opt/intel/oneapi/intelpython/latest/bin/python3 -V 2>&1 | awk '{print $2}')
 	export PYTHON_VERSION_MAJOR_VERSION=$(echo $PYTHON_VERSION | awk -F. '{print $1}')
@@ -732,7 +734,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$DTC_MET" = "1" ]; then
 	export F77=ifort
 	export F90=ifort
 	export gcc_version=$(icc -dumpversion -diag-disable=10441)
-	export TEST_BASE=$WRF_FOLDER/MET-$MET_Version
+	export TEST_BASE=${WRF_FOLDER}/MET-$MET_Version
 	export COMPILER=intel_$gcc_version
 	export MET_SUBDIR=${TEST_BASE}
 	export MET_TARBALL=v$MET_Version.tar.gz
@@ -765,7 +767,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$DTC_MET" = "1" ]; then
 
 	time ./compile_MET_all.sh 2>&1 | tee compile_MET_all.log
 
-	export PATH=$WRF_FOLDER/MET-$MET_Version/bin:$PATH #Add MET executables to path
+	export PATH=${WRF_FOLDER}/MET-$MET_Version/bin:$PATH #Add MET executables to path
 
 	#Basic Package Management for Model Evaluation Tools (METplus)
 
@@ -774,37 +776,37 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$DTC_MET" = "1" ]; then
 
 	#Directory Listings for Model Evaluation Tools (METplus
 
-	mkdir $WRF_FOLDER/METplus-$METPLUS_Version
-	mkdir $WRF_FOLDER/METplus-$METPLUS_Version/Sample_Data
-	mkdir $WRF_FOLDER/METplus-$METPLUS_Version/Output
-	mkdir $WRF_FOLDER/METplus-$METPLUS_Version/Downloads
+	mkdir ${WRF_FOLDER}/METplus-$METPLUS_Version
+	mkdir ${WRF_FOLDER}/METplus-$METPLUS_Version/Sample_Data
+	mkdir ${WRF_FOLDER}/METplus-$METPLUS_Version/Output
+	mkdir ${WRF_FOLDER}/METplus-$METPLUS_Version/Downloads
 
 	#Downloading METplus and untarring files
 
-	cd $WRF_FOLDER/METplus-$METPLUS_Version/Downloads
+	cd ${WRF_FOLDER}/METplus-$METPLUS_Version/Downloads
 	wget -c https://github.com/dtcenter/METplus/archive/refs/tags/v$METPLUS_Version.tar.gz
-	tar -xvzf v$METPLUS_Version.tar.gz -C $WRF_FOLDER
+	tar -xvzf v$METPLUS_Version.tar.gz -C ${WRF_FOLDER}
 
 	# Insatlllation of Model Evaluation Tools Plus
-	cd $WRF_FOLDER/METplus-$METPLUS_Version/parm/metplus_config
+	cd ${WRF_FOLDER}/METplus-$METPLUS_Version/parm/metplus_config
 
-	sed -i "s|MET_INSTALL_DIR = /path/to|MET_INSTALL_DIR = $WRF_FOLDER/MET-$MET_Version|" defaults.conf
-	sed -i "s|INPUT_BASE = /path/to|INPUT_BASE = $WRF_FOLDER/METplus-$METPLUS_Version/Sample_Data|" defaults.conf
-	sed -i "s|OUTPUT_BASE = /path/to|OUTPUT_BASE = $WRF_FOLDER/METplus-$METPLUS_Version/Output|" defaults.conf
+	sed -i "s|MET_INSTALL_DIR = /path/to|MET_INSTALL_DIR = ${WRF_FOLDER}/MET-$MET_Version|" defaults.conf
+	sed -i "s|INPUT_BASE = /path/to|INPUT_BASE = ${WRF_FOLDER}/METplus-$METPLUS_Version/Sample_Data|" defaults.conf
+	sed -i "s|OUTPUT_BASE = /path/to|OUTPUT_BASE = ${WRF_FOLDER}/METplus-$METPLUS_Version/Output|" defaults.conf
 
 	# Downloading Sample Data
 
-	cd $WRF_FOLDER/METplus-$METPLUS_Version/Downloads
+	cd ${WRF_FOLDER}/METplus-$METPLUS_Version/Downloads
 	wget -c https://dtcenter.ucar.edu/dfiles/code/METplus/METplus_Data/v$METPLUS_DATA/sample_data-met_tool_wrapper-$METPLUS_DATA.tgz
-	tar -xvzf sample_data-met_tool_wrapper-$METPLUS_DATA.tgz -C $WRF_FOLDER/METplus-$METPLUS_Version/Sample_Data
+	tar -xvzf sample_data-met_tool_wrapper-$METPLUS_DATA.tgz -C ${WRF_FOLDER}/METplus-$METPLUS_Version/Sample_Data
 
 	# Testing if installation of MET & METPlus was sucessfull
 	# If you see in terminal "METplus has successfully finished running."
 	# Then MET & METPLUS is sucessfully installed
 
 	echo 'Testing MET & METPLUS Installation.'
-	$WRF_FOLDER/METplus-$METPLUS_Version/ush/run_metplus.py -c $WRF_FOLDER/METplus-$METPLUS_Version/parm/use_cases/met_tool_wrapper/GridStat/GridStat.conf
-	export PATH=$WRF_FOLDER/METplus-$METPLUS_Version/ush:$PATH
+	${WRF_FOLDER}/METplus-$METPLUS_Version/ush/run_metplus.py -c ${WRF_FOLDER}/METplus-$METPLUS_Version/parm/use_cases/met_tool_wrapper/GridStat/GridStat.conf
+	export PATH=${WRF_FOLDER}/METplus-$METPLUS_Version/ush:$PATH
 	echo " "
 	read -r -t 5 -p "MET and METPLUS sucessfully installed with intel compilers"
 fi
@@ -822,7 +824,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$DTC_MET" = "1" ]; then
 	#############################basic package managment############################
 	echo $PASSWD | sudo -S apt -y update
 	echo $PASSWD | sudo -S apt -y upgrade && sudo -S apt -y autoremove
-	echo $PASSWD | sudo -S apt -y install autoconf automake bison build-essential byacc cmake csh curl default-jdk default-jre emacs flex g++ gawk gcc gfortran git ksh libcurl4-openssl-dev libjpeg-dev  libncurses6 libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev m4 make  ncview okular openbox pipenv pkg-config  python3 python3-dev python3-pip tcsh unzip xauth xorg time
+	echo $PASSWD | sudo -S apt -y install autoconf automake bison build-essential byacc cmake csh curl default-jdk default-jre emacs flex g++ gawk gcc gfortran git ksh libcurl4-openssl-dev libjpeg-dev libncurses5 libncurses6 libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev m4 make mlocate ncview okular openbox pipenv pkg-config  python3 python3-dev python3-pip tcsh unzip xauth xorg time
 
 	#Downloading latest dateutil due to python3.8 running old version.
 	pip3 install python-dateutil==2.8
@@ -864,14 +866,14 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$DTC_MET" = "1" ]; then
 		export WRF_FOLDER=$HOME/WRF_SFIRE
 	fi
 
-	mkdir $WRF_FOLDER/MET-$MET_Version
-	mkdir $WRF_FOLDER/MET-$MET_Version/Downloads
-	mkdir $WRF_FOLDER/METplus-$METPLUS_Version
-	mkdir $WRF_FOLDER/METplus-$METPLUS_Version/Downloads
+	mkdir ${WRF_FOLDER}/MET-$MET_Version
+	mkdir ${WRF_FOLDER}/MET-$MET_Version/Downloads
+	mkdir ${WRF_FOLDER}/METplus-$METPLUS_Version
+	mkdir ${WRF_FOLDER}/METplus-$METPLUS_Version/Downloads
 
 	#Downloading MET and untarring files
 	#Note weblinks change often update as needed.
-	cd $WRF_FOLDER/MET-$MET_Version/Downloads
+	cd ${WRF_FOLDER}/MET-$MET_Version/Downloads
 
 	wget -c https://raw.githubusercontent.com/dtcenter/MET/main_v$MET_VERSION/internal/scripts/installation/compile_MET_all.sh
 
@@ -879,10 +881,10 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$DTC_MET" = "1" ]; then
 
 	wget -c https://github.com/dtcenter/MET/archive/refs/tags/v$MET_Version.tar.gz
 
-	cp compile_MET_all.sh $WRF_FOLDER/MET-$MET_Version
-	tar -xvzf tar_files.tgz -C $WRF_FOLDER/MET-$MET_Version
-	cp v$MET_Version.tar.gz $WRF_FOLDER/MET-$MET_Version/tar_files
-	cd $WRF_FOLDER/MET-$MET_Version
+	cp compile_MET_all.sh ${WRF_FOLDER}/MET-$MET_Version
+	tar -xvzf tar_files.tgz -C ${WRF_FOLDER}/MET-$MET_Version
+	cp v$MET_Version.tar.gz ${WRF_FOLDER}/MET-$MET_Version/tar_files
+	cd ${WRF_FOLDER}/MET-$MET_Version
 
 	# Installation of Model Evaluation Tools
 	export CC=gcc
@@ -891,7 +893,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$DTC_MET" = "1" ]; then
 	export F77=gfortran
 	export CFLAGS="-fPIC -fPIE -O3"
 
-	cd $WRF_FOLDER/MET-$MET_Version
+	cd ${WRF_FOLDER}/MET-$MET_Version
 	export GCC_VERSION=$(gcc -dumpfullversion | awk '{print$1}')
 	export GFORTRAN_VERSION=$(gfortran -dumpfullversion | awk '{print$1}')
 	export GPLUSPLUS_VERSION=$(g++ -dumpfullversion | awk '{print$1}')
@@ -911,7 +913,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$DTC_MET" = "1" ]; then
 	export F77=/usr/bin/gfortran
 	export F90=/usr/bin/gfortran
 	export gcc_version=$(gcc -dumpfullversion)
-	export TEST_BASE=$WRF_FOLDER/MET-$MET_Version
+	export TEST_BASE=${WRF_FOLDER}/MET-$MET_Version
 	export COMPILER=gnu_$gcc_version
 	export MET_SUBDIR=${TEST_BASE}
 	export MET_TARBALL=v$MET_Version.tar.gz
@@ -921,22 +923,6 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$DTC_MET" = "1" ]; then
 	export MET_PYTHON_LD="$(python3-config --ldflags --embed) -L${MET_PYTHON}/lib -lpython${PYTHON_VERSION_COMBINED}"
 	export SET_D64BIT=FALSE
 
-	export CPU_CORE=$(nproc) # number of available threads on system
-	export CPU_6CORE="6"
-	export CPU_HALF=$(($CPU_CORE / 2))                    #half of availble cores on system
-	export CPU_HALF_EVEN=$(($CPU_HALF - ($CPU_HALF % 2))) #Forces CPU cores to even number to avoid partial core export. ie 7 cores would be 3.5 cores.
-
-	if [ $CPU_CORE -le $CPU_6CORE ]; then #If statement for low core systems.  Forces computers to only use 1 core if there are 4 cores or less on the system.
-		export CPU_HALF_EVEN="2"
-	else
-		export CPU_HALF_EVEN=$(($CPU_HALF - ($CPU_HALF % 2)))
-	fi
-
-	echo "##########################################"
-	echo "Number of Threads being used $CPU_HALF_EVEN"
-	echo "##########################################"
-
-	echo " "
 
 	export MAKE_ARGS="-j 4"
 
@@ -944,7 +930,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$DTC_MET" = "1" ]; then
 
 	time ./compile_MET_all.sh 2>&1 | tee compile_MET_all.log
 
-	export PATH=$WRF_FOLDER/MET-$MET_Version/bin:$PATH
+	export PATH=${WRF_FOLDER}/MET-$MET_Version/bin:$PATH
 
 	#basic Package Management for Model Evaluation Tools (METplus)
 
@@ -953,38 +939,38 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$DTC_MET" = "1" ]; then
 
 	#Directory Listings for Model Evaluation Tools (METplus
 
-	mkdir $WRF_FOLDER/METplus-$METPLUS_Version
-	mkdir $WRF_FOLDER/METplus-$METPLUS_Version/Sample_Data
-	mkdir $WRF_FOLDER/METplus-$METPLUS_Version/Output
-	mkdir $WRF_FOLDER/METplus-$METPLUS_Version/Downloads
+	mkdir ${WRF_FOLDER}/METplus-$METPLUS_Version
+	mkdir ${WRF_FOLDER}/METplus-$METPLUS_Version/Sample_Data
+	mkdir ${WRF_FOLDER}/METplus-$METPLUS_Version/Output
+	mkdir ${WRF_FOLDER}/METplus-$METPLUS_Version/Downloads
 
 	#Downloading METplus and untarring files
 
-	cd $WRF_FOLDER/METplus-$METPLUS_Version/Downloads
+	cd ${WRF_FOLDER}/METplus-$METPLUS_Version/Downloads
 	wget -c https://github.com/dtcenter/METplus/archive/refs/tags/v$METPLUS_Version.tar.gz
-	tar -xvzf v$METPLUS_Version.tar.gz -C $WRF_FOLDER
+	tar -xvzf v$METPLUS_Version.tar.gz -C ${WRF_FOLDER}
 
 	# Insatlllation of Model Evaluation Tools Plus
-	cd $WRF_FOLDER/METplus-$METPLUS_Version/parm/metplus_config
+	cd ${WRF_FOLDER}/METplus-$METPLUS_Version/parm/metplus_config
 
-	sed -i "s|MET_INSTALL_DIR = /path/to|MET_INSTALL_DIR = $WRF_FOLDER/MET-$MET_Version|" defaults.conf
-	sed -i "s|INPUT_BASE = /path/to|INPUT_BASE = $WRF_FOLDER/METplus-$METPLUS_Version/Sample_Data|" defaults.conf
-	sed -i "s|OUTPUT_BASE = /path/to|OUTPUT_BASE = $WRF_FOLDER/METplus-$METPLUS_Version/Output|" defaults.conf
+	sed -i "s|MET_INSTALL_DIR = /path/to|MET_INSTALL_DIR = ${WRF_FOLDER}/MET-$MET_Version|" defaults.conf
+	sed -i "s|INPUT_BASE = /path/to|INPUT_BASE = ${WRF_FOLDER}/METplus-$METPLUS_Version/Sample_Data|" defaults.conf
+	sed -i "s|OUTPUT_BASE = /path/to|OUTPUT_BASE = ${WRF_FOLDER}/METplus-$METPLUS_Version/Output|" defaults.conf
 
 	# Downloading Sample Data
 
-	cd $WRF_FOLDER/METplus-$METPLUS_Version/Downloads
+	cd ${WRF_FOLDER}/METplus-$METPLUS_Version/Downloads
 	wget -c https://dtcenter.ucar.edu/dfiles/code/METplus/METplus_Data/v$METPLUS_DATA/sample_data-met_tool_wrapper-$METPLUS_DATA.tgz
-	tar -xvzf sample_data-met_tool_wrapper-$METPLUS_DATA.tgz -C $WRF_FOLDER/METplus-$METPLUS_Version/Sample_Data
+	tar -xvzf sample_data-met_tool_wrapper-$METPLUS_DATA.tgz -C ${WRF_FOLDER}/METplus-$METPLUS_Version/Sample_Data
 
 	# Testing if installation of MET & METPlus was sucessfull
 	# If you see in terminal "METplus has successfully finished running."
 	# Then MET & METPLUS is sucessfully installed
 
 	echo 'Testing MET & METPLUS Installation.'
-	$WRF_FOLDER/METplus-$METPLUS_Version/ush/run_metplus.py -c $WRF_FOLDER/METplus-$METPLUS_Version/parm/use_cases/met_tool_wrapper/GridStat/GridStat.conf
+	${WRF_FOLDER}/METplus-$METPLUS_Version/ush/run_metplus.py -c ${WRF_FOLDER}/METplus-$METPLUS_Version/parm/use_cases/met_tool_wrapper/GridStat/GridStat.conf
 
-	export PATH=$WRF_FOLDER/METplus-$METPLUS_Version/ush:$PATH
+	export PATH=${WRF_FOLDER}/METplus-$METPLUS_Version/ush:$PATH
 	read -r -t 5 -p "MET and METPLUS sucessfully installed with GNU compilers."
 fi
 
@@ -1002,7 +988,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$DTC_MET" = "1" ]; then
 	echo $PASSWD | sudo -S dnf install epel-release -y
 	echo $PASSWD | sudo -S dnf -y update
 	echo $PASSWD | sudo -S dnf -y upgrade
-	echo $PASSWD | sudo -S dnf -y install autoconf automake bzip2 bzip2-devel byacc cairo-devel cmake cpp curl curl-devel flex flex-devel fontconfig-devel fontconfig-devel.x86_64 gcc gcc-c++ gcc-gfortran git java-11-openjdk java-11-openjdk-devel ksh libX11-devel libX11-devel.x86_64 libXaw libXaw-devel libXext-devel libXext-devel.x86_64 libXmu-devel libXrender-devel libXrender-devel.x86_64 libstdc++ libstdc++-devel libstdc++-static libxml2 libxml2-devel m4  .x86_64 nfs-utils okular perl pkgconfig pixman-devel python3 python3-devel tcsh time unzip wget
+	echo $PASSWD | sudo -S dnf -y install autoconf automake bzip2 bzip2-devel byacc cairo-devel cmake cpp curl curl-devel flex  fontconfig-devel fontconfig-devel.x86_64 gcc gcc-c++ gcc-gfortran git java-11-openjdk java-11-openjdk-devel ksh libX11-devel libX11-devel.x86_64 libXaw libXaw-devel libXext-devel libXext-devel.x86_64 libXmu-devel libXrender-devel libXrender-devel.x86_64 libstdc++ libstdc++-devel  libxml2 libxml2-devel m4 mlocate mlocate.x86_64 nfs-utils perl pkgconfig  pixman-devel python3 python3-devel tcsh time unzip wget
 	pip3 install python-dateutil
 	echo $PASSWD | sudo -S dnf -y groupinstall "Development Tools"
 	echo $PASSWD | sudo -S dnf -y update
@@ -1040,14 +1026,14 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$DTC_MET" = "1" ]; then
 		export WRF_FOLDER=$HOME/WRF_SFIRE
 	fi
 
-	mkdir $WRF_FOLDER/MET-$MET_Version
-	mkdir $WRF_FOLDER/MET-$MET_Version/Downloads
-	mkdir $WRF_FOLDER/METplus-$METPLUS_Version
-	mkdir $WRF_FOLDER/METplus-$METPLUS_Version/Downloads
+	mkdir ${WRF_FOLDER}/MET-$MET_Version
+	mkdir ${WRF_FOLDER}/MET-$MET_Version/Downloads
+	mkdir ${WRF_FOLDER}/METplus-$METPLUS_Version
+	mkdir ${WRF_FOLDER}/METplus-$METPLUS_Version/Downloads
 
 	#Downloading MET and untarring files
 	#Note weblinks change often update as needed.
-	cd $WRF_FOLDER/MET-$MET_Version/Downloads
+	cd ${WRF_FOLDER}/MET-$MET_Version/Downloads
 
 	wget -c https://raw.githubusercontent.com/dtcenter/MET/main_v$MET_VERSION/internal/scripts/installation/compile_MET_all.sh
 
@@ -1055,14 +1041,14 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$DTC_MET" = "1" ]; then
 
 	wget -c https://github.com/dtcenter/MET/archive/refs/tags/v$MET_Version.tar.gz
 
-	cp compile_MET_all.sh $WRF_FOLDER/MET-$MET_Version
-	tar -xvzf tar_files.tgz -C $WRF_FOLDER/MET-$MET_Version
-	cp v$MET_Version.tar.gz $WRF_FOLDER/MET-$MET_Version/tar_files
-	cd $WRF_FOLDER/MET-$MET_Version
+	cp compile_MET_all.sh ${WRF_FOLDER}/MET-$MET_Version
+	tar -xvzf tar_files.tgz -C ${WRF_FOLDER}/MET-$MET_Version
+	cp v$MET_Version.tar.gz ${WRF_FOLDER}/MET-$MET_Version/tar_files
+	cd ${WRF_FOLDER}/MET-$MET_Version
 
 	# Installation of Model Evaluation Tools
 
-	cd $WRF_FOLDER/MET-$MET_Version
+	cd ${WRF_FOLDER}/MET-$MET_Version
 
 	export PYTHON_VERSION=$(/usr/bin/python3 -V 2>&1 | awk '{print $2}')
 	export PYTHON_VERSION_MAJOR_VERSION=$(echo $PYTHON_VERSION | awk -F. '{print $1}')
@@ -1076,7 +1062,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$DTC_MET" = "1" ]; then
 	export F77=gfortran
 	export F90=gfortran
 	export gcc_version=$(gcc -dumpfullversion)
-	export TEST_BASE=$WRF_FOLDER/MET-$MET_Version
+	export TEST_BASE=${WRF_FOLDER}/MET-$MET_Version
 	export COMPILER=gnu_$gcc_version
 	export MET_SUBDIR=${TEST_BASE}
 	export MET_TARBALL=v$MET_Version.tar.gz
@@ -1086,22 +1072,6 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$DTC_MET" = "1" ]; then
 	export MET_PYTHON_LD="$(python3-config --ldflags --embed) -L${MET_PYTHON}/lib -lpython${PYTHON_VERSION_COMBINED}"
 	export SET_D64BIT=FALSE
 
-	export CPU_CORE=$(nproc) # number of available threads on system
-	export CPU_6CORE="6"
-	export CPU_HALF=$(($CPU_CORE / 2))                    #half of availble cores on system
-	export CPU_HALF_EVEN=$(($CPU_HALF - ($CPU_HALF % 2))) #Forces CPU cores to even number to avoid partial core export. ie 7 cores would be 3.5 cores.
-
-	if [ $CPU_CORE -le $CPU_6CORE ]; then #If statement for low core systems.  Forces computers to only use 1 core if there are 4 cores or less on the system.
-		export CPU_HALF_EVEN="2"
-	else
-		export CPU_HALF_EVEN=$(($CPU_HALF - ($CPU_HALF % 2)))
-	fi
-
-	echo "##########################################"
-	echo "Number of Threads being used $CPU_HALF_EVEN"
-	echo "##########################################"
-
-	echo " "
 
 	export MAKE_ARGS="-j 4"
 
@@ -1109,7 +1079,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$DTC_MET" = "1" ]; then
 
 	time ./compile_MET_all.sh 2>&1 | tee compile_MET_all.log
 
-	export PATH=$WRF_FOLDER/MET-$MET_Version/bin:$PATH
+	export PATH=${WRF_FOLDER}/MET-$MET_Version/bin:$PATH
 
 	#basic Package Management for Model Evaluation Tools (METplus)
 
@@ -1118,38 +1088,38 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$DTC_MET" = "1" ]; then
 
 	#Directory Listings for Model Evaluation Tools (METplus
 
-	mkdir $WRF_FOLDER/METplus-$METPLUS_Version
-	mkdir $WRF_FOLDER/METplus-$METPLUS_Version/Sample_Data
-	mkdir $WRF_FOLDER/METplus-$METPLUS_Version/Output
-	mkdir $WRF_FOLDER/METplus-$METPLUS_Version/Downloads
+	mkdir ${WRF_FOLDER}/METplus-$METPLUS_Version
+	mkdir ${WRF_FOLDER}/METplus-$METPLUS_Version/Sample_Data
+	mkdir ${WRF_FOLDER}/METplus-$METPLUS_Version/Output
+	mkdir ${WRF_FOLDER}/METplus-$METPLUS_Version/Downloads
 
 	#Downloading METplus and untarring files
 
-	cd $WRF_FOLDER/METplus-$METPLUS_Version/Downloads
+	cd ${WRF_FOLDER}/METplus-$METPLUS_Version/Downloads
 	wget -c https://github.com/dtcenter/METplus/archive/refs/tags/v$METPLUS_Version.tar.gz
-	tar -xvzf v$METPLUS_Version.tar.gz -C $WRF_FOLDER
+	tar -xvzf v$METPLUS_Version.tar.gz -C ${WRF_FOLDER}
 
 	# Insatlllation of Model Evaluation Tools Plus
-	cd $WRF_FOLDER/METplus-$METPLUS_Version/parm/metplus_config
+	cd ${WRF_FOLDER}/METplus-$METPLUS_Version/parm/metplus_config
 
-	sed -i "s|MET_INSTALL_DIR = /path/to|MET_INSTALL_DIR = $WRF_FOLDER/MET-$MET_Version|" defaults.conf
-	sed -i "s|INPUT_BASE = /path/to|INPUT_BASE = $WRF_FOLDER/METplus-$METPLUS_Version/Sample_Data|" defaults.conf
-	sed -i "s|OUTPUT_BASE = /path/to|OUTPUT_BASE = $WRF_FOLDER/METplus-$METPLUS_Version/Output|" defaults.conf
+	sed -i "s|MET_INSTALL_DIR = /path/to|MET_INSTALL_DIR = ${WRF_FOLDER}/MET-$MET_Version|" defaults.conf
+	sed -i "s|INPUT_BASE = /path/to|INPUT_BASE = ${WRF_FOLDER}/METplus-$METPLUS_Version/Sample_Data|" defaults.conf
+	sed -i "s|OUTPUT_BASE = /path/to|OUTPUT_BASE = ${WRF_FOLDER}/METplus-$METPLUS_Version/Output|" defaults.conf
 
 	# Downloading Sample Data
 
-	cd $WRF_FOLDER/METplus-$METPLUS_Version/Downloads
+	cd ${WRF_FOLDER}/METplus-$METPLUS_Version/Downloads
 	wget -c https://dtcenter.ucar.edu/dfiles/code/METplus/METplus_Data/v$METPLUS_DATA/sample_data-met_tool_wrapper-$METPLUS_DATA.tgz
-	tar -xvzf sample_data-met_tool_wrapper-$METPLUS_DATA.tgz -C $WRF_FOLDER/METplus-$METPLUS_Version/Sample_Data
+	tar -xvzf sample_data-met_tool_wrapper-$METPLUS_DATA.tgz -C ${WRF_FOLDER}/METplus-$METPLUS_Version/Sample_Data
 
 	# Testing if installation of MET & METPlus was sucessfull
 	# If you see in terminal "METplus has successfully finished running."
 	# Then MET & METPLUS is sucessfully installed
 
 	echo 'Testing MET & METPLUS Installation.'
-	$WRF_FOLDER/METplus-$METPLUS_Version/ush/run_metplus.py -c $WRF_FOLDER/METplus-$METPLUS_Version/parm/use_cases/met_tool_wrapper/GridStat/GridStat.conf
+	${WRF_FOLDER}/METplus-$METPLUS_Version/ush/run_metplus.py -c ${WRF_FOLDER}/METplus-$METPLUS_Version/parm/use_cases/met_tool_wrapper/GridStat/GridStat.conf
 
-	export PATH=$WRF_FOLDER/METplus-$METPLUS_Version/ush:$PATH
+	export PATH=${WRF_FOLDER}/METplus-$METPLUS_Version/ush:$PATH
 	read -r -t 5 -p "MET and METPLUS sucessfully installed with GNU compilers."
 fi
 
@@ -1170,7 +1140,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$DTC_MET" = "1" ]; then
 	echo $PASSWD | sudo -S dnf install epel-release -y
 	echo $PASSWD | sudo -S dnf -y update
 	echo $PASSWD | sudo -S dnf -y upgrade
-	echo $PASSWD | sudo -S dnf -y install autoconf automake bzip2 bzip2-devel byacc cairo-devel cmake cpp curl curl-devel flex flex-devel fontconfig-devel fontconfig-devel.x86_64 gcc gcc-c++ gcc-gfortran git java-11-openjdk java-11-openjdk-devel ksh libX11-devel libX11-devel.x86_64 libXaw libXaw-devel libXext-devel libXext-devel.x86_64 libXmu-devel libXrender-devel libXrender-devel.x86_64 libstdc++ libstdc++-devel libstdc++-static libxml2 libxml2-devel m4  .x86_64 nfs-utils okular perl pkgconfig pixman-devel python3 python3-devel tcsh time unzip wget
+	echo $PASSWD | sudo -S dnf -y install autoconf automake bzip2 bzip2-devel byacc cairo-devel cmake cpp curl curl-devel flex  fontconfig-devel fontconfig-devel.x86_64 gcc gcc-c++ gcc-gfortran git java-11-openjdk java-11-openjdk-devel ksh libX11-devel libX11-devel.x86_64 libXaw libXaw-devel libXext-devel libXext-devel.x86_64 libXmu-devel libXrender-devel libXrender-devel.x86_64 libstdc++ libstdc++-devel  libxml2 libxml2-devel m4 mlocate mlocate.x86_64 nfs-utils perl pkgconfig  pixman-devel python3 python3-devel tcsh time unzip wget
 	echo $PASSWD | sudo -S pip3 install python-dateutil
 	echo $PASSWD | sudo -S dnf -y groupinstall "Development Tools"
 	echo $PASSWD | sudo -S dnf -y update
@@ -1221,14 +1191,14 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$DTC_MET" = "1" ]; then
 		export WRF_FOLDER=$HOME/WRF_SFIRE
 	fi
 
-	mkdir $WRF_FOLDER/MET-$MET_Version
-	mkdir $WRF_FOLDER/MET-$MET_Version/Downloads
-	mkdir $WRF_FOLDER/METplus-$METPLUS_Version
-	mkdir $WRF_FOLDER/METplus-$METPLUS_Version/Downloads
+	mkdir ${WRF_FOLDER}/MET-$MET_Version
+	mkdir ${WRF_FOLDER}/MET-$MET_Version/Downloads
+	mkdir ${WRF_FOLDER}/METplus-$METPLUS_Version
+	mkdir ${WRF_FOLDER}/METplus-$METPLUS_Version/Downloads
 
 	#Downloading MET and untarring files
 	#Note weblinks change often update as needed.
-	cd $WRF_FOLDER/MET-$MET_Version/Downloads
+	cd ${WRF_FOLDER}/MET-$MET_Version/Downloads
 
 	wget -c https://raw.githubusercontent.com/dtcenter/MET/main_v$MET_VERSION/internal/scripts/installation/compile_MET_all.sh
 
@@ -1236,14 +1206,14 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$DTC_MET" = "1" ]; then
 
 	wget -c https://github.com/dtcenter/MET/archive/refs/tags/v$MET_Version.tar.gz
 
-	cp compile_MET_all.sh $WRF_FOLDER/MET-$MET_Version
-	tar -xvzf tar_files.tgz -C $WRF_FOLDER/MET-$MET_Version
-	cp v$MET_Version.tar.gz $WRF_FOLDER/MET-$MET_Version/tar_files
-	cd $WRF_FOLDER/MET-$MET_Version
+	cp compile_MET_all.sh ${WRF_FOLDER}/MET-$MET_Version
+	tar -xvzf tar_files.tgz -C ${WRF_FOLDER}/MET-$MET_Version
+	cp v$MET_Version.tar.gz ${WRF_FOLDER}/MET-$MET_Version/tar_files
+	cd ${WRF_FOLDER}/MET-$MET_Version
 
 	# Installation of Model Evaluation Tools
 
-	cd $WRF_FOLDER/MET-$MET_Version
+	cd ${WRF_FOLDER}/MET-$MET_Version
 
 	export PYTHON_VERSION=$(/opt/rh/rh-python38/root/usr/bin/python3 -V 2>&1 | awk '{print $2}')
 	export PYTHON_VERSION_MAJOR_VERSION=$(echo $PYTHON_VERSION | awk -F. '{print $1}')
@@ -1257,7 +1227,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$DTC_MET" = "1" ]; then
 	export F77=gfortran
 	export F90=gfortran
 	export gcc_version=$(gcc -dumpfullversion)
-	export TEST_BASE=$WRF_FOLDER/MET-$MET_Version
+	export TEST_BASE=${WRF_FOLDER}/MET-$MET_Version
 	export COMPILER=gnu_$gcc_version
 	export MET_SUBDIR=${TEST_BASE}
 	export MET_TARBALL=v$MET_Version.tar.gz
@@ -1267,22 +1237,6 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$DTC_MET" = "1" ]; then
 	export MET_PYTHON_LD="$(python3-config --ldflags --embed) -L${MET_PYTHON}/lib -lpython${PYTHON_VERSION_COMBINED}"
 	export SET_D64BIT=FALSE
 
-	export CPU_CORE=$(nproc) # number of available threads on system
-	export CPU_6CORE="6"
-	export CPU_HALF=$(($CPU_CORE / 2))                    #half of availble cores on system
-	export CPU_HALF_EVEN=$(($CPU_HALF - ($CPU_HALF % 2))) #Forces CPU cores to even number to avoid partial core export. ie 7 cores would be 3.5 cores.
-
-	if [ $CPU_CORE -le $CPU_6CORE ]; then #If statement for low core systems.  Forces computers to only use 1 core if there are 4 cores or less on the system.
-		export CPU_HALF_EVEN="2"
-	else
-		export CPU_HALF_EVEN=$(($CPU_HALF - ($CPU_HALF % 2)))
-	fi
-
-	echo "##########################################"
-	echo "Number of Threads being used $CPU_HALF_EVEN"
-	echo "##########################################"
-
-	echo " "
 
 	export MAKE_ARGS="-j 4"
 
@@ -1290,7 +1244,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$DTC_MET" = "1" ]; then
 
 	time ./compile_MET_all.sh 2>&1 | tee compile_MET_all.log
 
-	export PATH=$WRF_FOLDER/MET-$MET_Version/bin:$PATH
+	export PATH=${WRF_FOLDER}/MET-$MET_Version/bin:$PATH
 
 	#basic Package Management for Model Evaluation Tools (METplus)
 
@@ -1299,71 +1253,94 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$DTC_MET" = "1" ]; then
 
 	#Directory Listings for Model Evaluation Tools (METplus
 
-	mkdir $WRF_FOLDER/METplus-$METPLUS_Version
-	mkdir $WRF_FOLDER/METplus-$METPLUS_Version/Sample_Data
-	mkdir $WRF_FOLDER/METplus-$METPLUS_Version/Output
-	mkdir $WRF_FOLDER/METplus-$METPLUS_Version/Downloads
+	mkdir ${WRF_FOLDER}/METplus-$METPLUS_Version
+	mkdir ${WRF_FOLDER}/METplus-$METPLUS_Version/Sample_Data
+	mkdir ${WRF_FOLDER}/METplus-$METPLUS_Version/Output
+	mkdir ${WRF_FOLDER}/METplus-$METPLUS_Version/Downloads
 
 	#Downloading METplus and untarring files
 
-	cd $WRF_FOLDER/METplus-$METPLUS_Version/Downloads
+	cd ${WRF_FOLDER}/METplus-$METPLUS_Version/Downloads
 	wget -c https://github.com/dtcenter/METplus/archive/refs/tags/v$METPLUS_Version.tar.gz
-	tar -xvzf v$METPLUS_Version.tar.gz -C $WRF_FOLDER
+	tar -xvzf v$METPLUS_Version.tar.gz -C ${WRF_FOLDER}
 
 	# Insatlllation of Model Evaluation Tools Plus
-	cd $WRF_FOLDER/METplus-$METPLUS_Version/parm/metplus_config
+	cd ${WRF_FOLDER}/METplus-$METPLUS_Version/parm/metplus_config
 
-	sed -i "s|MET_INSTALL_DIR = /path/to|MET_INSTALL_DIR = $WRF_FOLDER/MET-$MET_Version|" defaults.conf
-	sed -i "s|INPUT_BASE = /path/to|INPUT_BASE = $WRF_FOLDER/METplus-$METPLUS_Version/Sample_Data|" defaults.conf
-	sed -i "s|OUTPUT_BASE = /path/to|OUTPUT_BASE = $WRF_FOLDER/METplus-$METPLUS_Version/Output|" defaults.conf
+	sed -i "s|MET_INSTALL_DIR = /path/to|MET_INSTALL_DIR = ${WRF_FOLDER}/MET-$MET_Version|" defaults.conf
+	sed -i "s|INPUT_BASE = /path/to|INPUT_BASE = ${WRF_FOLDER}/METplus-$METPLUS_Version/Sample_Data|" defaults.conf
+	sed -i "s|OUTPUT_BASE = /path/to|OUTPUT_BASE = ${WRF_FOLDER}/METplus-$METPLUS_Version/Output|" defaults.conf
 
 	# Downloading Sample Data
 
-	cd $WRF_FOLDER/METplus-$METPLUS_Version/Downloads
+	cd ${WRF_FOLDER}/METplus-$METPLUS_Version/Downloads
 	wget -c https://dtcenter.ucar.edu/dfiles/code/METplus/METplus_Data/v$METPLUS_DATA/sample_data-met_tool_wrapper-$METPLUS_DATA.tgz
-	tar -xvzf sample_data-met_tool_wrapper-$METPLUS_DATA.tgz -C $WRF_FOLDER/METplus-$METPLUS_Version/Sample_Data
+	tar -xvzf sample_data-met_tool_wrapper-$METPLUS_DATA.tgz -C ${WRF_FOLDER}/METplus-$METPLUS_Version/Sample_Data
 
 	# Testing if installation of MET & METPlus was sucessfull
 	# If you see in terminal "METplus has successfully finished running."
 	# Then MET & METPLUS is sucessfully installed
 
 	echo 'Testing MET & METPLUS Installation.'
-	$WRF_FOLDER/METplus-$METPLUS_Version/ush/run_metplus.py -c $WRF_FOLDER/METplus-$METPLUS_Version/parm/use_cases/met_tool_wrapper/GridStat/GridStat.conf
+	${WRF_FOLDER}/METplus-$METPLUS_Version/ush/run_metplus.py -c ${WRF_FOLDER}/METplus-$METPLUS_Version/parm/use_cases/met_tool_wrapper/GridStat/GridStat.conf
 
-	export PATH=$WRF_FOLDER/METplus-$METPLUS_Version/ush:$PATH
+	export PATH=${WRF_FOLDER}/METplus-$METPLUS_Version/ush:$PATH
 	read -r -t 5 -p "MET and METPLUS sucessfully installed with GNU compilers."
 fi
 
 if [ "$macos_64bit_GNU" = "1" ] && [ "$DTC_MET" = "1" ] && [ "$MAC_CHIP" = "Intel" ]; then
 	echo "MET INSTALLING"
-	brew install wget
-	brew install git
-	brew install gcc@12
-	brew install libtool
-	brew install automake
-	brew install autoconf
-	brew install make
-	brew install m4
-	brew install java
-	brew install ksh
-
-	brew install grads
-	brew install ksh
-	brew install tcsh
-	brew install snapcraft
-	brew install python@3.10
-	brew install cmake
-	brew install xorgproto
-	brew install xorgrgb
-	brew install xauth
-	brew install curl
-	brew install flex
-	brew install byacc
-	brew install bison
-	brew install gnu-sed
-
-	pip3.10 install python-dateutil
-
+brew install automake
+sleep 1
+brew install autoconf
+sleep 1
+brew install bison
+sleep 1
+brew install cmake
+sleep 1
+brew install curl
+sleep 1
+brew install flex
+sleep 1
+brew install gdal
+sleep 1
+brew install gedit
+sleep 1
+brew install gcc@12
+sleep 1
+brew install gnu-sed
+sleep 1
+brew install imagemagick
+sleep 1
+brew install java
+sleep 1
+brew install ksh
+sleep 1
+brew install ksh
+sleep 1
+brew install libtool
+sleep 1
+brew install make
+sleep 1
+brew install m4
+sleep 1
+brew install python@3.10
+sleep 1
+brew install snapcraft
+sleep 1
+brew install tcsh
+sleep 1
+brew install wget
+sleep 1
+brew install xauth
+sleep 1
+brew install xorgproto
+sleep 1
+brew install xorgrgb
+sleep 1
+brew install xquartz
+sleep 1
+pip3.10 install python-dateutil
 	#Directory Listings
 	if [ "$WRFCHEM_PICK" = "1" ]; then
 		mkdir $HOME/WRFCHEM
@@ -1400,10 +1377,10 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$DTC_MET" = "1" ] && [ "$MAC_CHIP" = "Inte
 		export WRF_FOLDER=$HOME/WRF_SFIRE
 	fi
 
-	mkdir $WRF_FOLDER/MET-$MET_Version
-	mkdir $WRF_FOLDER/MET-$MET_Version/Downloads
-	mkdir $WRF_FOLDER/METplus-$METPLUS_Version
-	mkdir $WRF_FOLDER/METplus-$METPLUS_Version/Downloads
+	mkdir ${WRF_FOLDER}/MET-$MET_Version
+	mkdir ${WRF_FOLDER}/MET-$MET_Version/Downloads
+	mkdir ${WRF_FOLDER}/METplus-$METPLUS_Version
+	mkdir ${WRF_FOLDER}/METplus-$METPLUS_Version/Downloads
 
 	#Symlink to avoid clang conflicts with compilers
 	#default gcc path /usr/bin/gcc
@@ -1416,7 +1393,14 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$DTC_MET" = "1" ] && [ "$MAC_CHIP" = "Inte
 	echo $PASSWD | sudo -S ln -sf /usr/local/bin/gfortran-12 /usr/local/bin/gfortran
 	echo $PASSWD | sudo -S ln -sf /usr/local/bin/python3.10 /usr/local/bin/python3
 
-	cd $WRF_FOLDER/MET-$MET_Version/Downloads
+
+	gcc --version
+	g++ --version
+	gfortran --version
+	python3 --version
+
+
+	cd ${WRF_FOLDER}/MET-$MET_Version/Downloads
 
 	wget -c https://raw.githubusercontent.com/dtcenter/MET/main_v$MET_VERSION/internal/scripts/installation/compile_MET_all.sh
 
@@ -1424,12 +1408,12 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$DTC_MET" = "1" ] && [ "$MAC_CHIP" = "Inte
 
 	wget -c https://github.com/dtcenter/MET/archive/refs/tags/v$MET_Version.tar.gz
 
-	cp compile_MET_all.sh $WRF_FOLDER/MET-$MET_Version
-	tar -xvzf tar_files.tgz -C $WRF_FOLDER/MET-$MET_Version
-	cp v$MET_Version.tar.gz $WRF_FOLDER/MET-$MET_Version/tar_files
-	cd $WRF_FOLDER/MET-$MET_Version
+	cp compile_MET_all.sh ${WRF_FOLDER}/MET-$MET_Version
+	tar -xvzf tar_files.tgz -C ${WRF_FOLDER}/MET-$MET_Version
+	cp v$MET_Version.tar.gz ${WRF_FOLDER}/MET-$MET_Version/tar_files
+	cd ${WRF_FOLDER}/MET-$MET_Version
 
-	cd $WRF_FOLDER/MET-$MET_Version
+	cd ${WRF_FOLDER}/MET-$MET_Version
 
 	export PYTHON_VERSION=$(python3 -V 2>1 | awk '{print $2}')
 	export PYTHON_VERSION_MAJOR_VERSION=$(echo $PYTHON_VERSION | awk -F. '{print $1}')
@@ -1443,7 +1427,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$DTC_MET" = "1" ] && [ "$MAC_CHIP" = "Inte
 	export F77=/usr/local/bin/gfortran
 	export F90=/usr/local/bin/gfortran
 	export gcc_version=$(gcc -dumpfullversion)
-	export TEST_BASE=$WRF_FOLDER/MET-$MET_Version
+	export TEST_BASE=${WRF_FOLDER}/MET-$MET_Version
 	export COMPILER=gnu_$gcc_version
 	export MET_SUBDIR=${TEST_BASE}
 	export MET_TARBALL=v$MET_Version.tar.gz
@@ -1454,97 +1438,103 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$DTC_MET" = "1" ] && [ "$MAC_CHIP" = "Inte
 
 	export SET_D64BIT=FALSE
 
-	export CPU_CORE=$(sysctl -n hw.ncpu) # number of available threads on system
-	export CPU_6CORE="6"
-	export CPU_HALF=$(($CPU_CORE / 2))                    #half of availble cores on system
-	export CPU_HALF_EVEN=$(($CPU_HALF - ($CPU_HALF % 2))) #Forces CPU cores to even number to avoid partial core export. ie 7 cores would be 3.5 cores.
-
-	if [ $CPU_CORE -le $CPU_6CORE ]; then #If statement for low core systems.  Forces computers to only use 1 core if there are 4 cores or less on the system.
-		export CPU_HALF_EVEN="2"
-	else
-		export CPU_HALF_EVEN=$(($CPU_HALF - ($CPU_HALF % 2)))
-	fi
-
-	echo "##########################################"
-	echo "Number of Threads being used $CPU_HALF_EVEN"
-	echo "##########################################"
-
-	echo " "
-
 	export MAKE_ARGS="-j 4"
 
 	chmod 775 compile_MET_all.sh
 
-	sed -i'' -e "831s/export/#export/g" compile_MET_all.sh
+
 	time ./compile_MET_all.sh 2>&1 | tee compile_MET_all.log
 
-	export PATH=$WRF_FOLDER/MET-$MET_Version/bin:$PATH
+	export PATH=${WRF_FOLDER}/MET-$MET_Version/bin:$PATH
 
-	mkdir $WRF_FOLDER/METplus-$METPLUS_Version
-	mkdir $WRF_FOLDER/METplus-$METPLUS_Version/Sample_Data
-	mkdir $WRF_FOLDER/METplus-$METPLUS_Version/Output
-	mkdir $WRF_FOLDER/METplus-$METPLUS_Version/Downloads
+	mkdir ${WRF_FOLDER}/METplus-$METPLUS_Version
+	mkdir ${WRF_FOLDER}/METplus-$METPLUS_Version/Sample_Data
+	mkdir ${WRF_FOLDER}/METplus-$METPLUS_Version/Output
+	mkdir ${WRF_FOLDER}/METplus-$METPLUS_Version/Downloads
 
 	#Downloading METplus and untarring files
 
-	cd $WRF_FOLDER/METplus-$METPLUS_Version/Downloads
+	cd ${WRF_FOLDER}/METplus-$METPLUS_Version/Downloads
 	wget -c https://github.com/dtcenter/METplus/archive/refs/tags/v$METPLUS_Version.tar.gz
-	tar -xvzf v$METPLUS_Version.tar.gz -C $WRF_FOLDER
+	tar -xvzf v$METPLUS_Version.tar.gz -C ${WRF_FOLDER}
 
 	# Insatlllation of Model Evaluation Tools Plus
-	cd $WRF_FOLDER/METplus-$METPLUS_Version/parm/metplus_config
+	cd ${WRF_FOLDER}/METplus-$METPLUS_Version/parm/metplus_config
 
-	sed -i'' -e "s|MET_INSTALL_DIR = /path/to|MET_INSTALL_DIR = $WRF_FOLDER/MET-$MET_Version|" defaults.conf
-	sed -i'' -e "s|INPUT_BASE = /path/to|INPUT_BASE = $WRF_FOLDER/METplus-$METPLUS_Version/Sample_Data|" defaults.conf
-	sed -i'' -e "s|OUTPUT_BASE = /path/to|OUTPUT_BASE = $WRF_FOLDER/METplus-$METPLUS_Version/Output|" defaults.conf
+	sed -i'' -e "s|MET_INSTALL_DIR = /path/to|MET_INSTALL_DIR = ${WRF_FOLDER}/MET-$MET_Version|" defaults.conf
+	sed -i'' -e "s|INPUT_BASE = /path/to|INPUT_BASE = ${WRF_FOLDER}/METplus-$METPLUS_Version/Sample_Data|" defaults.conf
+	sed -i'' -e "s|OUTPUT_BASE = /path/to|OUTPUT_BASE = ${WRF_FOLDER}/METplus-$METPLUS_Version/Output|" defaults.conf
 
 	# Downloading Sample Data
 
-	cd $WRF_FOLDER/METplus-$METPLUS_Version/Downloads
+	cd ${WRF_FOLDER}/METplus-$METPLUS_Version/Downloads
 	wget -c https://dtcenter.ucar.edu/dfiles/code/METplus/METplus_Data/v$METPLUS_DATA/sample_data-met_tool_wrapper-$METPLUS_DATA.tgz
-	tar -xvzf sample_data-met_tool_wrapper-$METPLUS_DATA.tgz -C $WRF_FOLDER/METplus-$METPLUS_Version/Sample_Data
+	tar -xvzf sample_data-met_tool_wrapper-$METPLUS_DATA.tgz -C ${WRF_FOLDER}/METplus-$METPLUS_Version/Sample_Data
 
 	# Testing if installation of MET & METPlus was sucessfull
 	# If you see in terminal "METplus has successfully finished running."
 	# Then MET & METPLUS is sucessfully installed
 
 	echo 'Testing MET & METPLUS Installation.'
-	$WRF_FOLDER/METplus-$METPLUS_Version/ush/run_metplus.py -c $WRF_FOLDER/METplus-$METPLUS_Version/parm/use_cases/met_tool_wrapper/GridStat/GridStat.conf
+	${WRF_FOLDER}/METplus-$METPLUS_Version/ush/run_metplus.py -c ${WRF_FOLDER}/METplus-$METPLUS_Version/parm/use_cases/met_tool_wrapper/GridStat/GridStat.conf
 
-	export PATH=$WRF_FOLDER/METplus-$METPLUS_Version/ush:$PATH
+	export PATH=${WRF_FOLDER}/METplus-$METPLUS_Version/ush:$PATH
 	read -r -t 5 -p "MET and METPLUS sucessfully installed with GNU compilers."
 fi
 
 if [ "$macos_64bit_GNU" = "1" ] && [ "$DTC_MET" = "1" ] && [ "$MAC_CHIP" = "ARM" ]; then
 	echo "MET INSTALLING"
-	brew install wget
-	brew install git
-	brew install gcc@12
-	brew install libtool
-	brew install automake
-	brew install autoconf
-	brew install make
-	brew install m4
-	brew install java
-	brew install ksh
-
-	brew install grads
-	brew install ksh
-	brew install tcsh
-	brew install snapcraft
-	brew install python@3.10
-	brew install cmake
-	brew install xorgproto
-	brew install xorgrgb
-	brew install xauth
-	brew install curl
-	brew install flex
-	brew install byacc
-	brew install bison
-	brew install gnu-sed
-
-	pip3.10 install python-dateutil
-
+brew install automake
+sleep 1
+brew install autoconf
+sleep 1
+brew install bison
+sleep 1
+brew install cmake
+sleep 1
+brew install curl
+sleep 1
+brew install flex
+sleep 1
+brew install gdal
+sleep 1
+brew install gedit
+sleep 1
+brew install gcc@12
+sleep 1
+brew install gnu-sed
+sleep 1
+brew install imagemagick
+sleep 1
+brew install java
+sleep 1
+brew install ksh
+sleep 1
+brew install ksh
+sleep 1
+brew install libtool
+sleep 1
+brew install make
+sleep 1
+brew install m4
+sleep 1
+brew install python@3.10
+sleep 1
+brew install snapcraft
+sleep 1
+brew install tcsh
+sleep 1
+brew install wget
+sleep 1
+brew install xauth
+sleep 1
+brew install xorgproto
+sleep 1
+brew install xorgrgb
+sleep 1
+brew install xquartz
+sleep 1
+pip3.10 install python-dateutil
 	#Directory Listings
 	if [ "$WRFCHEM_PICK" = "1" ]; then
 		mkdir $HOME/WRFCHEM
@@ -1581,10 +1571,10 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$DTC_MET" = "1" ] && [ "$MAC_CHIP" = "ARM"
 		export WRF_FOLDER=$HOME/WRF_SFIRE
 	fi
 
-	mkdir $WRF_FOLDER/MET-$MET_Version
-	mkdir $WRF_FOLDER/MET-$MET_Version/Downloads
-	mkdir $WRF_FOLDER/METplus-$METPLUS_Version
-	mkdir $WRF_FOLDER/METplus-$METPLUS_Version/Downloads
+	mkdir ${WRF_FOLDER}/MET-$MET_Version
+	mkdir ${WRF_FOLDER}/MET-$MET_Version/Downloads
+	mkdir ${WRF_FOLDER}/METplus-$METPLUS_Version
+	mkdir ${WRF_FOLDER}/METplus-$METPLUS_Version/Downloads
 
 	#Symlink to avoid clang conflicts with compilers
 	#default gcc path /usr/bin/gcc
@@ -1612,8 +1602,9 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$DTC_MET" = "1" ] && [ "$MAC_CHIP" = "ARM"
 	gcc --version
 	g++ --version
 	gfortran --version
+	python3 --version
 
-	cd $WRF_FOLDER/MET-$MET_Version/Downloads
+	cd ${WRF_FOLDER}/MET-$MET_Version/Downloads
 
 	wget -c https://raw.githubusercontent.com/dtcenter/MET/main_v$MET_VERSION/internal/scripts/installation/compile_MET_all.sh
 
@@ -1621,12 +1612,12 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$DTC_MET" = "1" ] && [ "$MAC_CHIP" = "ARM"
 
 	wget -c https://github.com/dtcenter/MET/archive/refs/tags/v$MET_Version.tar.gz
 
-	cp compile_MET_all.sh $WRF_FOLDER/MET-$MET_Version
-	tar -xvzf tar_files.tgz -C $WRF_FOLDER/MET-$MET_Version
-	cp v$MET_Version.tar.gz $WRF_FOLDER/MET-$MET_Version/tar_files
-	cd $WRF_FOLDER/MET-$MET_Version
+	cp compile_MET_all.sh ${WRF_FOLDER}/MET-$MET_Version
+	tar -xvzf tar_files.tgz -C ${WRF_FOLDER}/MET-$MET_Version
+	cp v$MET_Version.tar.gz ${WRF_FOLDER}/MET-$MET_Version/tar_files
+	cd ${WRF_FOLDER}/MET-$MET_Version
 
-	cd $WRF_FOLDER/MET-$MET_Version
+	cd ${WRF_FOLDER}/MET-$MET_Version
 
 	export PYTHON_VERSION=$(python3 -V 2>1 | awk '{print $2}')
 	export PYTHON_VERSION_MAJOR_VERSION=$(echo $PYTHON_VERSION | awk -F. '{print $1}')
@@ -1640,7 +1631,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$DTC_MET" = "1" ] && [ "$MAC_CHIP" = "ARM"
 	export F77=/usr/local/bin/gfortran
 	export F90=/usr/local/bin/gfortran
 	export gcc_version=$(gcc -dumpfullversion)
-	export TEST_BASE=$WRF_FOLDER/MET-$MET_Version
+	export TEST_BASE=${WRF_FOLDER}/MET-$MET_Version
 	export COMPILER=gnu_$gcc_version
 	export MET_SUBDIR=${TEST_BASE}
 	export MET_TARBALL=v$MET_Version.tar.gz
@@ -1651,64 +1642,47 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$DTC_MET" = "1" ] && [ "$MAC_CHIP" = "ARM"
 
 	export SET_D64BIT=FALSE
 
-	export CPU_CORE=$(sysctl -n hw.ncpu) # number of available threads on system
-	export CPU_6CORE="6"
-	export CPU_HALF=$(($CPU_CORE / 2))                    #half of availble cores on system
-	export CPU_HALF_EVEN=$(($CPU_HALF - ($CPU_HALF % 2))) #Forces CPU cores to even number to avoid partial core export. ie 7 cores would be 3.5 cores.
-
-	if [ $CPU_CORE -le $CPU_6CORE ]; then #If statement for low core systems.  Forces computers to only use 1 core if there are 4 cores or less on the system.
-		export CPU_HALF_EVEN="2"
-	else
-		export CPU_HALF_EVEN=$(($CPU_HALF - ($CPU_HALF % 2)))
-	fi
-
-	echo "##########################################"
-	echo "Number of Threads being used $CPU_HALF_EVEN"
-	echo "##########################################"
-
-	echo " "
-
 	export MAKE_ARGS="-j 4"
 
 	chmod 775 compile_MET_all.sh
 
-	sed -i'' -e "831s/export/#export/g" compile_MET_all.sh
+
 	time ./compile_MET_all.sh 2>&1 | tee compile_MET_all.log
 
-	export PATH=$WRF_FOLDER/MET-$MET_Version/bin:$PATH
+	export PATH=${WRF_FOLDER}/MET-$MET_Version/bin:$PATH
 
-	mkdir $WRF_FOLDER/METplus-$METPLUS_Version
-	mkdir $WRF_FOLDER/METplus-$METPLUS_Version/Sample_Data
-	mkdir $WRF_FOLDER/METplus-$METPLUS_Version/Output
-	mkdir $WRF_FOLDER/METplus-$METPLUS_Version/Downloads
+	mkdir ${WRF_FOLDER}/METplus-$METPLUS_Version
+	mkdir ${WRF_FOLDER}/METplus-$METPLUS_Version/Sample_Data
+	mkdir ${WRF_FOLDER}/METplus-$METPLUS_Version/Output
+	mkdir ${WRF_FOLDER}/METplus-$METPLUS_Version/Downloads
 
 	#Downloading METplus and untarring files
 
-	cd $WRF_FOLDER/METplus-$METPLUS_Version/Downloads
+	cd ${WRF_FOLDER}/METplus-$METPLUS_Version/Downloads
 	wget -c https://github.com/dtcenter/METplus/archive/refs/tags/v$METPLUS_Version.tar.gz
-	tar -xvzf v$METPLUS_Version.tar.gz -C $WRF_FOLDER
+	tar -xvzf v$METPLUS_Version.tar.gz -C ${WRF_FOLDER}
 
 	# Insatlllation of Model Evaluation Tools Plus
-	cd $WRF_FOLDER/METplus-$METPLUS_Version/parm/metplus_config
+	cd ${WRF_FOLDER}/METplus-$METPLUS_Version/parm/metplus_config
 
-	sed -i'' -e "s|MET_INSTALL_DIR = /path/to|MET_INSTALL_DIR = $WRF_FOLDER/MET-$MET_Version|" defaults.conf
-	sed -i'' -e "s|INPUT_BASE = /path/to|INPUT_BASE = $WRF_FOLDER/METplus-$METPLUS_Version/Sample_Data|" defaults.conf
-	sed -i'' -e "s|OUTPUT_BASE = /path/to|OUTPUT_BASE = $WRF_FOLDER/METplus-$METPLUS_Version/Output|" defaults.conf
+	sed -i'' -e "s|MET_INSTALL_DIR = /path/to|MET_INSTALL_DIR = ${WRF_FOLDER}/MET-$MET_Version|" defaults.conf
+	sed -i'' -e "s|INPUT_BASE = /path/to|INPUT_BASE = ${WRF_FOLDER}/METplus-$METPLUS_Version/Sample_Data|" defaults.conf
+	sed -i'' -e "s|OUTPUT_BASE = /path/to|OUTPUT_BASE = ${WRF_FOLDER}/METplus-$METPLUS_Version/Output|" defaults.conf
 
 	# Downloading Sample Data
 
-	cd $WRF_FOLDER/METplus-$METPLUS_Version/Downloads
+	cd ${WRF_FOLDER}/METplus-$METPLUS_Version/Downloads
 	wget -c https://dtcenter.ucar.edu/dfiles/code/METplus/METplus_Data/v$METPLUS_DATA/sample_data-met_tool_wrapper-$METPLUS_DATA.tgz
-	tar -xvzf sample_data-met_tool_wrapper-$METPLUS_DATA.tgz -C $WRF_FOLDER/METplus-$METPLUS_Version/Sample_Data
+	tar -xvzf sample_data-met_tool_wrapper-$METPLUS_DATA.tgz -C ${WRF_FOLDER}/METplus-$METPLUS_Version/Sample_Data
 
 	# Testing if installation of MET & METPlus was sucessfull
 	# If you see in terminal "METplus has successfully finished running."
 	# Then MET & METPLUS is sucessfully installed
 
 	echo 'Testing MET & METPLUS Installation.'
-	$WRF_FOLDER/METplus-$METPLUS_Version/ush/run_metplus.py -c $WRF_FOLDER/METplus-$METPLUS_Version/parm/use_cases/met_tool_wrapper/GridStat/GridStat.conf
+	${WRF_FOLDER}/METplus-$METPLUS_Version/ush/run_metplus.py -c ${WRF_FOLDER}/METplus-$METPLUS_Version/parm/use_cases/met_tool_wrapper/GridStat/GridStat.conf
 
-	export PATH=$WRF_FOLDER/METplus-$METPLUS_Version/ush:$PATH
+	export PATH=${WRF_FOLDER}/METplus-$METPLUS_Version/ush:$PATH
 	read -r -t 5 -p "MET and METPLUS sucessfully installed with GNU compilers."
 fi
 
@@ -1792,7 +1766,7 @@ fi
 ############################################# WRF CMAQ #################################
 ## WRF_SFIRE installation with parallel process.
 # Download and install required library and data files for WRF_CMAQ.
-# Tested in Ubuntu 20.0$WPS_VERSION LTS & Ubuntu 22.04, Rocky Linux 9
+# Tested in Ubuntu 20.0${WPS_VERSION} LTS & Ubuntu 22.04, Rocky Linux 9
 # Built in 64-bit system
 # Built with Intel or GNU compilers
 # Tested with current available libraries on 10/10/2023
@@ -1813,7 +1787,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
 	#############################basic package managment############################
 	  echo $PASSWD | sudo -S apt -y update
 	  echo $PASSWD | sudo -S apt -y upgrade && sudo -S apt -y autoremove
-	  echo $PASSWD | sudo -S apt -y install autoconf automake bison build-essential byacc cmake csh curl default-jdk default-jre emacs flex g++ gawk gcc gfortran git ksh libcurl4-openssl-dev libjpeg-dev  libncurses6 libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev m4 make  ncview okular openbox pipenv pkg-config  python3 python3-dev python3-pip tcsh unzip xauth xorg time
+	  echo $PASSWD | sudo -S apt -y install autoconf automake bison build-essential byacc cmake csh curl default-jdk default-jre emacs flex g++ gawk gcc gfortran git ksh libcurl4-openssl-dev libjpeg-dev libncurses5 libncurses6 libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev m4 make mlocate ncview okular openbox pipenv pkg-config  python3 python3-dev python3-pip tcsh unzip xauth xorg time
 
 	  echo " "
 	  ##############################Directory Listing############################
@@ -1821,10 +1795,10 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
 
 	  mkdir $HOME/WRF_CMAQ
 	  export WRF_FOLDER=$HOME/WRF_CMAQ
-	  cd $WRF_FOLDER/
+	  cd ${WRF_FOLDER}/
 	  mkdir Downloads
 	  mkdir Libs
-	  export DIR=$WRF_FOLDER/Libs
+	  export DIR=${WRF_FOLDER}/Libs
 	  mkdir Libs/grib2
 	  mkdir Libs/NETCDF
 	  mkdir Libs/MPICH
@@ -1917,7 +1891,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
 	  #Uncalling compilers due to comfigure issue with zlib$Zlib_Version
 	  #With CC & CXX definied ./configure uses different compiler Flags
 
-	  cd $WRF_FOLDER/Downloads
+	  cd ${WRF_FOLDER}/Downloads
 	  tar -xvzf v$Zlib_Version.tar.gz
 	  cd zlib-$Zlib_Version/
 	autoreconf -i -f 2>&1 | tee autoreconf.log
@@ -1930,7 +1904,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
 	  echo " "
 	  ##############################MPICH############################
 	  #F90= due to compiler issues with mpich install
-	  cd $WRF_FOLDER/Downloads
+	  cd ${WRF_FOLDER}/Downloads
 	  tar -xvzf mpich-$Mpich_Version.tar.gz
 	  cd mpich-$Mpich_Version/
 	autoreconf -i -f 2>&1 | tee autoreconf.log
@@ -1953,7 +1927,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
 
 	  echo " "
 	  #############################libpng############################
-	  cd $WRF_FOLDER/Downloads
+	  cd ${WRF_FOLDER}/Downloads
 	  export LDFLAGS=-L$DIR/grib2/lib
 	  export CPPFLAGS=-I$DIR/grib2/include
 	  tar -xvzf libpng-$Libpng_Version.tar.gz
@@ -1966,7 +1940,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
 	  #make check
 	  echo " "
 	  #############################JasPer############################
-	  cd $WRF_FOLDER/Downloads
+	  cd ${WRF_FOLDER}/Downloads
 	  unzip jasper-$Jasper_Version.zip
 	  cd jasper-$Jasper_Version/
 	autoreconf -i -f 2>&1 | tee autoreconf.log
@@ -1983,7 +1957,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
 
 	  echo " "
 	  #############################hdf5 library for netcdf4 functionality############################
-	  cd $WRF_FOLDER/Downloads
+	  cd ${WRF_FOLDER}/Downloads
 	  tar -xvzf hdf5-$HDF5_Version.tar.gz
 	  cd hdf5-hdf5-$HDF5_Version
 	autoreconf -i -f 2>&1 | tee autoreconf.log
@@ -2003,7 +1977,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
 	  #Make file created with half of available cpu cores
 	  #Hard path for MPI added
 	  ##################################################################################
-	  cd $WRF_FOLDER/Downloads
+	  cd ${WRF_FOLDER}/Downloads
 	  tar -xzvf pnetcdf-$Pnetcdf_Version.tar.gz
 	  cd pnetcdf-$Pnetcdf_Version
 	  export MPIFC=$DIR/MPICH/bin/mpifort
@@ -2022,7 +1996,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
 
 
 	  ##############################Install NETCDF C Library############################
-	  cd $WRF_FOLDER/Downloads
+	  cd ${WRF_FOLDER}/Downloads
 	  tar -xzvf v$Netcdf_C_Version.tar.gz
 	  cd netcdf-c-$Netcdf_C_Version/
 	  export CPPFLAGS=-I$DIR/grib2/include
@@ -2039,7 +2013,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
 	  export NETCDF=$DIR/NETCDF
 	  echo " "
 	  ##############################NetCDF fortran library############################
-	  cd $WRF_FOLDER/Downloads
+	  cd ${WRF_FOLDER}/Downloads
 	  tar -xvzf v$Netcdf_Fortran_Version.tar.gz
 	  cd netcdf-fortran-$Netcdf_Fortran_Version/
 	  export LD_LIBRARY_PATH=$DIR/NETCDF/lib:$LD_LIBRARY_PATH
@@ -2059,10 +2033,10 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
 
 	  ###############################  I/O API  ###################################
 
-	  cd $WRF_FOLDER/Downloads
+	  cd ${WRF_FOLDER}/Downloads
 	  mkdir ioapi
 	  cd ioapi
-	  tar -xzvf $WRF_FOLDER/Downloads/ioapi-3.2.tar.gz
+	  tar -xzvf ${WRF_FOLDER}/Downloads/ioapi-3.2.tar.gz
 
 	  #set gnu version
 	  export BIN=Linux2_x86_64gfort10
@@ -2070,22 +2044,22 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
 	  mkdir $BIN
 
 	  #Link netcdf and grib lib folders to ioapi
-	  ln -sf $WRF_FOLDER/Libs/NETCDF/lib/* $WRF_FOLDER/Downloads/ioapi/$BIN
-	  ln -sf $WRF_FOLDER/Libs/grib2/lib/* $WRF_FOLDER/Downloads/ioapi/$BIN
+	  ln -sf ${WRF_FOLDER}/Libs/NETCDF/lib/* ${WRF_FOLDER}/Downloads/ioapi/$BIN
+	  ln -sf ${WRF_FOLDER}/Libs/grib2/lib/* ${WRF_FOLDER}/Downloads/ioapi/$BIN
 
 	  #copy makefiles from ioapi directory to source makefile
-	  #cp $WRF_FOLDER/Downloads/ioapi/ioapi/Makefile.nocpl $WRF_FOLDER/Downloads/ioapi/ioapi/Makefile
-	  #cp $WRF_FOLDER/Downloads/ioapi/m3tools/Makefile.nocpl $WRF_FOLDER/Downloads/ioapi/m3tools/Makefile
-	  cp $WRF_FOLDER/Downloads/ioapi/Makefile.template $WRF_FOLDER/Downloads/ioapi/Makefile
+	  #cp ${WRF_FOLDER}/Downloads/ioapi/ioapi/Makefile.nocpl ${WRF_FOLDER}/Downloads/ioapi/ioapi/Makefile
+	  #cp ${WRF_FOLDER}/Downloads/ioapi/m3tools/Makefile.nocpl ${WRF_FOLDER}/Downloads/ioapi/m3tools/Makefile
+	  cp ${WRF_FOLDER}/Downloads/ioapi/Makefile.template ${WRF_FOLDER}/Downloads/ioapi/Makefile
 
 	  # Add proper sed statements needed for gfortran
-	   sed -i '193s|-lnetcdff -lnetcdf| -lnetcdff -lnetcdf -lhdf5hl_fortran -lhdf5_fortran -lhdf5_hl -lhdf5 -ljpeg -lm -lz -lcurl|g' $WRF_FOLDER/Downloads/ioapi/Makefile
-	   sed -i '210s|${IODIR}/Makefile ${TOOLDIR}/Makefile| |g' $WRF_FOLDER/Downloads/ioapi/Makefile
+	   sed -i '193s|-lnetcdff -lnetcdf| -lnetcdff -lnetcdf -lhdf5hl_fortran -lhdf5_fortran -lhdf5_hl -lhdf5 -ljpeg -lm -lz -lcurl|g' ${WRF_FOLDER}/Downloads/ioapi/Makefile
+	   sed -i '210s|${IODIR}/Makefile ${TOOLDIR}/Makefile| |g' ${WRF_FOLDER}/Downloads/ioapi/Makefile
 
 
 	   #Remove openmnp flags from Makefile
-	   sed -i '30s/ -fopenmp//g' $WRF_FOLDER/Downloads/ioapi/ioapi/Makeinclude.$BIN
-	   sed -i '31s/ -fopenmp//g' $WRF_FOLDER/Downloads/ioapi/ioapi/Makeinclude.$BIN
+	   sed -i '30s/ -fopenmp//g' ${WRF_FOLDER}/Downloads/ioapi/ioapi/Makeinclude.$BIN
+	   sed -i '31s/ -fopenmp//g' ${WRF_FOLDER}/Downloads/ioapi/ioapi/Makeinclude.$BIN
 
 
 	   # Build IOAPI
@@ -2094,7 +2068,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
 
 	   #If statement to check that libioapi.a & m3xtract exist
 
-	   cd $WRF_FOLDER/Downloads/ioapi/$BIN
+	   cd ${WRF_FOLDER}/Downloads/ioapi/$BIN
 	   n=$(ls -lrt libioapi.a | wc -l)
 	   m=$(ls -rlt m3xtract | wc -l)
 	     if (( ( $n == 1 ) && ( $m == 1) ))
@@ -2110,22 +2084,22 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
 
 	    echo " "
 
-	    mv $WRF_FOLDER/Downloads/ioapi/$BIN $WRF_FOLDER/Downloads/ioapi/Linux2_x86_64gfort
+	    mv ${WRF_FOLDER}/Downloads/ioapi/$BIN ${WRF_FOLDER}/Downloads/ioapi/Linux2_x86_64gfort
 	    export BIN=Linux2_x86_64gfort
 	  #################################### System Environment Tests ##############
 
-	  cd $WRF_FOLDER/Downloads
+	  cd ${WRF_FOLDER}/Downloads
 	  wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_NETCDF_MPI_tests.tar
 	  wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_tests.tar
 
-	  tar -xvf Fortran_C_tests.tar -C $WRF_FOLDER/Tests/Environment
-	  tar -xvf Fortran_C_NETCDF_MPI_tests.tar -C $WRF_FOLDER/Tests/Compatibility
+	  tar -xvf Fortran_C_tests.tar -C ${WRF_FOLDER}/Tests/Environment
+	  tar -xvf Fortran_C_NETCDF_MPI_tests.tar -C ${WRF_FOLDER}/Tests/Compatibility
 
 	  export one="1"
 	  echo " "
 	  ############## Testing Environment #####
 
-	  cd $WRF_FOLDER/Tests/Environment
+	  cd ${WRF_FOLDER}/Tests/Environment
 
 	  cp ${NETCDF}/include/netcdf.inc .
 
@@ -2133,7 +2107,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
 	  echo " "
 	  echo "Environment Testing "
 	  echo "Test 1"
-	  gfortran TEST_1_fortran_only_fixed.f
+	  $FC TEST_1_fortran_only_fixed.f
 	  ./a.out | tee env_test1.txt
 	  export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test1.txt | awk  '{print$1}')
 	   if [ $TEST_PASS -ge 1 ]
@@ -2147,7 +2121,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
 
 	  echo " "
 	  echo "Test 2"
-	  gfortran TEST_2_fortran_only_free.f90
+	  $FC TEST_2_fortran_only_free.f90
 	  ./a.out | tee env_test2.txt
 	  export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test2.txt | awk  '{print$1}')
 	   if [ $TEST_PASS -ge 1 ]
@@ -2162,7 +2136,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
 
 	  echo " "
 	  echo "Test 3"
-	  gcc TEST_3_c_only.c
+	  $CC TEST_3_c_only.c
 	  ./a.out | tee env_test3.txt
 	  export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test3.txt | awk  '{print$1}')
 	   if [ $TEST_PASS -ge 1 ]
@@ -2177,9 +2151,9 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
 
 	  echo " "
 	  echo "Test 4"
-	  gcc -c -m64 TEST_4_fortran+c_c.c
-	  gfortran -c -m64 TEST_4_fortran+c_f.f90
-	  gfortran -m64 TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
+	  $CC -c -m64 TEST_4_fortran+c_c.c
+	  $FC -c -m64 TEST_4_fortran+c_f.f90
+	  $FC -m64 TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
 	  ./a.out | tee env_test4.txt
 	  export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test4.txt | awk  '{print$1}')
 	   if [ $TEST_PASS -ge 1 ]
@@ -2195,7 +2169,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
 	  echo " "
 	  ############## Testing Environment #####
 
-	  cd $WRF_FOLDER/Tests/Compatibility
+	  cd ${WRF_FOLDER}/Tests/Compatibility
 
 	  cp ${NETCDF}/include/netcdf.inc .
 
@@ -2203,9 +2177,9 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
 	  echo " "
 	  echo "Library Compatibility Tests "
 	  echo "Test 1"
-	  gfortran -c 01_fortran+c+netcdf_f.f
-	  gcc -c 01_fortran+c+netcdf_c.c
-	  gfortran 01_fortran+c+netcdf_f.o 01_fortran+c+netcdf_c.o \
+	  $FC -c 01_fortran+c+netcdf_f.f
+	  $CC -c 01_fortran+c+netcdf_c.c
+	  $FC 01_fortran+c+netcdf_f.o 01_fortran+c+netcdf_c.o \
 	       -L${NETCDF}/lib -lnetcdff -lnetcdf
 
 	       ./a.out | tee comp_test1.txt
@@ -2223,9 +2197,9 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
 	  echo " "
 
 	  echo "Test 2"
-	  $DIR/MPICH/bin/mpifort -c 02_fortran+c+netcdf+mpi_f.f
-	  $DIR/MPICH/bin/mpicc -c 02_fortran+c+netcdf+mpi_c.c
-	  $DIR/MPICH/bin/mpifort 02_fortran+c+netcdf+mpi_f.o \
+	  $MPIFC -c 02_fortran+c+netcdf+mpi_f.f
+	  $MPICC -c 02_fortran+c+netcdf+mpi_c.c
+	  $MPIFC 02_fortran+c+netcdf+mpi_f.o \
 	  02_fortran+c+netcdf+mpi_c.o \
 	       -L${NETCDF}/lib -lnetcdff -lnetcdf
 
@@ -2247,68 +2221,68 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
 
 
 	  ############################ CMAQ Source Code #################################
-	  cd $WRF_FOLDER/Downloads
+	  cd ${WRF_FOLDER}/Downloads
 	  git clone -b main https://github.com/USEPA/CMAQ.git  #clone CMAQ github to WRF_CMAQ Main Folder
 
 	  cd CMAQ
 	  cp bldit_project.csh bldit_project.csh.old     # Create backup of build project script
 
 	  # Set path to where CMAQ will be built
-	  sed -i '19s|/home/username/path|${WRF_FOLDER}/Downloads/CMAQ/Build_WRFv$WPS_VERSION-CMAQv5.4|g' $WRF_FOLDER/Downloads/CMAQ/bldit_project.csh
+	  sed -i '19s|/home/username/path|${WRF_FOLDER}/Downloads/CMAQ/Build_WRFv${WRF_VERSION}-CMAQv5.4|g' ${WRF_FOLDER}/Downloads/CMAQ/bldit_project.csh
 	  # Build CMAQ Project
 	  ./bldit_project.csh
 
-	  cd $WRF_FOLDER/Downloads/CMAQ/Build_WRFv$WPS_VERSION-CMAQv5.4
+	  cd ${WRF_FOLDER}/Downloads/CMAQ/Build_WRFv${WRF_VERSION}-CMAQv5.4
 
 	  cp config_cmaq.csh config_cmaq.csh.old        # Create backup of configure script
 
-	  # Sed statements to configure the Build_WRFv$WPS_VERSION-CMAQv5.4
-	  sed -i '146s|netcdf_root_gcc|${WRF_FOLDER}/Libs/NETCDF|g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv$WPS_VERSION-CMAQv5.4/config_cmaq.csh
-	  sed -i '147s|ioapi_root_gcc|${WRF_FOLDER}/Downloads/ioapi|g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv$WPS_VERSION-CMAQv5.4/config_cmaq.csh
-	  sed -i '148s|WRF_ARCH|WRF_ARCH 34|g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv$WPS_VERSION-CMAQv5.4/config_cmaq.csh
+	  # Sed statements to configure the Build_WRFv${WRF_VERSION}-CMAQv5.4
+	  sed -i '146s|netcdf_root_gcc|${WRF_FOLDER}/Libs/NETCDF|g' ${WRF_FOLDER}/Downloads/CMAQ/Build_WRFv${WRF_VERSION}-CMAQv5.4/config_cmaq.csh
+	  sed -i '147s|ioapi_root_gcc|${WRF_FOLDER}/Downloads/ioapi|g' ${WRF_FOLDER}/Downloads/CMAQ/Build_WRFv${WRF_VERSION}-CMAQv5.4/config_cmaq.csh
+	  sed -i '148s|WRF_ARCH|WRF_ARCH 34|g' ${WRF_FOLDER}/Downloads/CMAQ/Build_WRFv${WRF_VERSION}-CMAQv5.4/config_cmaq.csh
 
 	  # sed statements for paths in configure file
-	  sed -i '151s|ioapi_inc_gcc|${WRF_FOLDER}/Downloads/ioapi/ioapi/fixed_src|g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv$WPS_VERSION-CMAQv5.4/config_cmaq.csh
-	  sed -i '152s|ioapi_lib_gcc|${WRF_FOLDER}/Downloads/ioapi/$BIN|g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv$WPS_VERSION-CMAQv5.4/config_cmaq.csh
-	  sed -i '153s|netcdf_lib_gcc |${WRF_FOLDER}/Libs/NETCDF/lib|g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv$WPS_VERSION-CMAQv5.4/config_cmaq.csh
-	  sed -i '154s|netcdf_inc_gcc|${WRF_FOLDER}/Libs/NETCDF/include|g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv$WPS_VERSION-CMAQv5.4/config_cmaq.csh
-	  sed -i '155s|netcdff_lib_gcc|${WRF_FOLDER}/Libs/NETCDF/lib|g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv$WPS_VERSION-CMAQv5.4/config_cmaq.csh
-	  sed -i '156s|netcdff_inc_gcc|${WRF_FOLDER}/Libs/NETCDF/include|g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv$WPS_VERSION-CMAQv5.4/config_cmaq.csh
-	  sed -i '157s|mpi_incl_gcc|${WRF_FOLDER}/Libs/MPICH|g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv$WPS_VERSION-CMAQv5.4/config_cmaq.csh
-	  sed -i '158s|mpi_lib_gcc|${WRF_FOLDER}/Libs/MPICH|g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv$WPS_VERSION-CMAQv5.4/config_cmaq.csh
+	  sed -i '151s|ioapi_inc_gcc|${WRF_FOLDER}/Downloads/ioapi/ioapi/fixed_src|g' ${WRF_FOLDER}/Downloads/CMAQ/Build_WRFv${WRF_VERSION}-CMAQv5.4/config_cmaq.csh
+	  sed -i '152s|ioapi_lib_gcc|${WRF_FOLDER}/Downloads/ioapi/$BIN|g' ${WRF_FOLDER}/Downloads/CMAQ/Build_WRFv${WRF_VERSION}-CMAQv5.4/config_cmaq.csh
+	  sed -i '153s|netcdf_lib_gcc |${WRF_FOLDER}/Libs/NETCDF/lib|g' ${WRF_FOLDER}/Downloads/CMAQ/Build_WRFv${WRF_VERSION}-CMAQv5.4/config_cmaq.csh
+	  sed -i '154s|netcdf_inc_gcc|${WRF_FOLDER}/Libs/NETCDF/include|g' ${WRF_FOLDER}/Downloads/CMAQ/Build_WRFv${WRF_VERSION}-CMAQv5.4/config_cmaq.csh
+	  sed -i '155s|netcdff_lib_gcc|${WRF_FOLDER}/Libs/NETCDF/lib|g' ${WRF_FOLDER}/Downloads/CMAQ/Build_WRFv${WRF_VERSION}-CMAQv5.4/config_cmaq.csh
+	  sed -i '156s|netcdff_inc_gcc|${WRF_FOLDER}/Libs/NETCDF/include|g' ${WRF_FOLDER}/Downloads/CMAQ/Build_WRFv${WRF_VERSION}-CMAQv5.4/config_cmaq.csh
+	  sed -i '157s|mpi_incl_gcc|${WRF_FOLDER}/Libs/MPICH|g' ${WRF_FOLDER}/Downloads/CMAQ/Build_WRFv${WRF_VERSION}-CMAQv5.4/config_cmaq.csh
+	  sed -i '158s|mpi_lib_gcc|${WRF_FOLDER}/Libs/MPICH|g' ${WRF_FOLDER}/Downloads/CMAQ/Build_WRFv${WRF_VERSION}-CMAQv5.4/config_cmaq.csh
 
 
 	  # compile the Chemistry Transport Model (CCTM) preprocess
 
-	  cd $WRF_FOLDER/Downloads/CMAQ/Build_WRFv$WPS_VERSION-CMAQv5.4/CCTM/scripts
+	  cd ${WRF_FOLDER}/Downloads/CMAQ/Build_WRFv${WRF_VERSION}-CMAQv5.4/CCTM/scripts
 
 	  cp bldit_cctm.csh bldit_cctm.csh.old  # make a back up copy of .csh script
 
 	  # Sed statements for configuration
-	  sed -i '74s|-j|-j $CPU_HALF_EVEN|g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv$WPS_VERSION-CMAQv5.4/CCTM/scripts/bldit_cctm.csh # set multicore to half of available cpus
-	  sed -i '84s|#set|set|g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv$WPS_VERSION-CMAQv5.4/CCTM/scripts/bldit_cctm.csh # build two way
-	  sed -i '103s|v4.4|v$WPS_VERSION|g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv$WPS_VERSION-CMAQv5.4/CCTM/scripts/bldit_cctm.csh # change wrf version from 4.4 to $WPS_VERSION
+	  sed -i '74s|-j|-j $CPU_HALF_EVEN|g' ${WRF_FOLDER}/Downloads/CMAQ/Build_WRFv${WRF_VERSION}-CMAQv5.4/CCTM/scripts/bldit_cctm.csh # set multicore to half of available cpus
+	  sed -i '84s|#set|set|g' ${WRF_FOLDER}/Downloads/CMAQ/Build_WRFv${WRF_VERSION}-CMAQv5.4/CCTM/scripts/bldit_cctm.csh # build two way
+	  sed -i '103s|v4.4|v${WRF_VERSION}|g' ${WRF_FOLDER}/Downloads/CMAQ/Build_WRFv${WRF_VERSION}-CMAQv5.4/CCTM/scripts/bldit_cctm.csh # change wrf version from 4.4 to ${WPS_VERSION}
 
 
-	  sed -i '446s| if ( $? != 0 ) then| |g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv$WPS_VERSION-CMAQv5.4/CCTM/scripts/bldit_cctm.csh
-	  sed -i '447s|    set shaID   = "not_a_repo"| |g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv$WPS_VERSION-CMAQv5.4/CCTM/scripts/bldit_cctm.csh
-	  sed -i '448s| endif| |g' $WRF_FOLDER/Downloads/CMAQ//Build_WRFv$WPS_VERSION-CMAQv5.4/CCTM/scripts/bldit_cctm.csh
-	  sed -i '791s|  if ($? == 0) then| |g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv$WPS_VERSION-CMAQv5.4/CCTM/scripts/bldit_cctm.csh
-	  sed -i '793s|  endif| |g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv$WPS_VERSION-CMAQv5.4/CCTM/scripts/bldit_cctm.csh
-	  sed -i '822s|compile em_real|compile -j $CPU_HALF_EVEN em_real|g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv$WPS_VERSION-CMAQv5.4/CCTM/scripts/bldit_cctm.csh
+	  sed -i '446s| if ( $? != 0 ) then| |g' ${WRF_FOLDER}/Downloads/CMAQ/Build_WRFv${WRF_VERSION}-CMAQv5.4/CCTM/scripts/bldit_cctm.csh
+	  sed -i '447s|    set shaID   = "not_a_repo"| |g' ${WRF_FOLDER}/Downloads/CMAQ/Build_WRFv${WRF_VERSION}-CMAQv5.4/CCTM/scripts/bldit_cctm.csh
+	  sed -i '448s| endif| |g' ${WRF_FOLDER}/Downloads/CMAQ//Build_WRFv${WRF_VERSION}-CMAQv5.4/CCTM/scripts/bldit_cctm.csh
+	  sed -i '791s|  if ($? == 0) then| |g' ${WRF_FOLDER}/Downloads/CMAQ/Build_WRFv${WRF_VERSION}-CMAQv5.4/CCTM/scripts/bldit_cctm.csh
+	  sed -i '793s|  endif| |g' ${WRF_FOLDER}/Downloads/CMAQ/Build_WRFv${WRF_VERSION}-CMAQv5.4/CCTM/scripts/bldit_cctm.csh
+	  sed -i '822s|compile em_real|compile -j $CPU_HALF_EVEN em_real|g' ${WRF_FOLDER}/Downloads/CMAQ/Build_WRFv${WRF_VERSION}-CMAQv5.4/CCTM/scripts/bldit_cctm.csh
 
 	  # Build WRF-CMAQ
 	  ./bldit_cctm.csh gcc 2>&1 | tee bldit.cctm.twoway.gcc.log
 
 	  # Move built folder to top level directory
-	  mv $WRF_FOLDER/Downloads/CMAQ/Build_WRFv$WPS_VERSION-CMAQv5.4/CCTM/scripts/BLD_WRFv$WPS_VERSION_CCTM_v54_gcc $WRF_FOLDER/WRFv$WPS_VERSION_CMAQv5.4
+	  mv ${WRF_FOLDER}/Downloads/CMAQ/Build_WRFv${WRF_VERSION}-CMAQv5.4/CCTM/scripts/BLD_WRFv${WRF_VERSION}_CCTM_v54_gcc ${WRF_FOLDER}/WRFv${WRF_VERSION}_CMAQv5.4
 
-	  export WRF_DIR=$WRF_FOLDER/WRFv$WPS_VERSION_CMAQv5.4
+	  export WRF_DIR=${WRF_FOLDER}/WRFv${WRF_VERSION}_CMAQv5.4
 
 
 
 	    # IF statement to check that all files were created.
-	  cd $WRF_FOLDER/WRFv$WPS_VERSION_CMAQv5.4/main
+	  cd ${WRF_FOLDER}/WRFv${WRF_VERSION}_CMAQv5.4/main
 	  n=$(ls ./*.exe | wc -l)
 	  if (($n >= 3))
 	   then
@@ -2321,16 +2295,16 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
 	  fi
 	  echo " "
 
-	  ############################WPSV$WPS_VERSION#####################################
-	  ## WPS v$WPS_VERSION
+	  ############################WPSV${WPS_VERSION}#####################################
+	  ## WPS v${WPS_VERSION}
 	  ## Downloaded from git tagged releases
 	  #Option 3 for gfortran and distributed memory
 	  ########################################################################
 
-	  cd $WRF_FOLDER/Downloads
-	  wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v$WPS_VERSION.tar.gz -O WPS-$WPS_VERSION.tar.gz
-	  tar -xvzf WPS-$WPS_VERSION.tar.gz -C $WRF_FOLDER/
-	  cd $WRF_FOLDER/WPS-$WPS_VERSION
+	  cd ${WRF_FOLDER}/Downloads
+	  wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v${WPS_VERSION}.tar.gz -O WPS-${WPS_VERSION}.tar.gz
+	  tar -xvzf WPS-${WPS_VERSION}.tar.gz -C ${WRF_FOLDER}/
+	  cd ${WRF_FOLDER}/WPS-${WPS_VERSION}
 	  ./clean -a
 
 	  if [ ${auto_config} -eq 1 ]
@@ -2344,7 +2318,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
 
 	  echo " "
 	  # IF statement to check that all files were created.
-	   cd $WRF_FOLDER/WPS-$WPS_VERSION
+	   cd ${WRF_FOLDER}/WPS-${WPS_VERSION}
 	   n=$(ls ./*.exe | wc -l)
 	   if (($n == 3))
 	    then
@@ -2359,20 +2333,20 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
 
 	  ######################## WPS Domain Setup Tools ########################
 	  ## DomainWizard
-	  cd $WRF_FOLDER/Downloads
+	  cd ${WRF_FOLDER}/Downloads
 	  wget -c http://esrl.noaa.gov/gsd/wrfportal/domainwizard/WRFDomainWizard.zip
-	  mkdir $WRF_FOLDER/WRFDomainWizard
-	  unzip WRFDomainWizard.zip -d $WRF_FOLDER/WRFDomainWizard
-	  chmod +x $WRF_FOLDER/WRFDomainWizard/run_DomainWizard
+	  mkdir ${WRF_FOLDER}/WRFDomainWizard
+	  unzip WRFDomainWizard.zip -d ${WRF_FOLDER}/WRFDomainWizard
+	  chmod +x ${WRF_FOLDER}/WRFDomainWizard/run_DomainWizard
 
 	  echo " "
 	  ######################## WPF Portal Setup Tools ########################
 	  ## WRFPortal
-	  cd $WRF_FOLDER/Downloads
+	  cd ${WRF_FOLDER}/Downloads
 	  wget -c https://esrl.noaa.gov/gsd/wrfportal/portal/wrf-portal.zip
-	  mkdir $WRF_FOLDER/WRFPortal
-	  unzip wrf-portal.zip -d $WRF_FOLDER/WRFPortal
-	  chmod +x $WRF_FOLDER/WRFPortal/runWRFPortal
+	  mkdir ${WRF_FOLDER}/WRFPortal
+	  unzip wrf-portal.zip -d ${WRF_FOLDER}/WRFPortal
+	  chmod +x ${WRF_FOLDER}/WRFPortal/runWRFPortal
 
 
 	  echo " "
@@ -2383,19 +2357,19 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
 	  # All files downloaded and untarred is 200GB
 	  # https://www2.mmm.ucar.edu/wrf/users/download/get_sources_wps_geog.html
 	  #################################################################################
-	  cd $WRF_FOLDER/Downloads
-	  mkdir $WRF_FOLDER/GEOG
-	  mkdir $WRF_FOLDER/GEOG/WPS_GEOG
+	  cd ${WRF_FOLDER}/Downloads
+	  mkdir ${WRF_FOLDER}/GEOG
+	  mkdir ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 	  echo " "
 	  echo "Mandatory WRF Preprocessing System (WPS) Geographical Input Data Mandatory Fields Downloads"
 	  echo " "
 	  wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_high_res_mandatory.tar.gz
-	  tar -xvzf geog_high_res_mandatory.tar.gz -C $WRF_FOLDER/GEOG/
+	  tar -xvzf geog_high_res_mandatory.tar.gz -C ${WRF_FOLDER}/GEOG/
 
 	  wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_low_res_mandatory.tar.gz
-	  tar -xvzf geog_low_res_mandatory.tar.gz -C $WRF_FOLDER/GEOG/
-	  mv $WRF_FOLDER/GEOG/WPS_GEOG_LOW_RES/ $WRF_FOLDER/GEOG/WPS_GEOG
+	  tar -xvzf geog_low_res_mandatory.tar.gz -C ${WRF_FOLDER}/GEOG/
+	  mv ${WRF_FOLDER}/GEOG/WPS_GEOG_LOW_RES/ ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 
 	  if [ ${WPS_Specific_Applications} -eq 1 ]
@@ -2405,31 +2379,31 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
 	      echo " "
 
 	      wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_thompson28_chem.tar.gz
-	      tar -xvzf geog_thompson28_chem.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+	      tar -xvzf geog_thompson28_chem.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 	      wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_noahmp.tar.gz
-	      tar -xvzf geog_noahmp.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+	      tar -xvzf geog_noahmp.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 	      wget -c  https://www2.mmm.ucar.edu/wrf/src/wps_files/irrigation.tar.gz
-	      tar -xvzf irrigation.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+	      tar -xvzf irrigation.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 	      wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_px.tar.gz
-	      tar -xvzf geog_px.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+	      tar -xvzf geog_px.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 	      wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_urban.tar.gz
-	      tar -xvzf geog_urban.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+	      tar -xvzf geog_urban.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 	      wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_ssib.tar.gz
-	      tar -xvzf geog_ssib.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+	      tar -xvzf geog_ssib.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 	      wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/lake_depth.tar.bz2
-	      tar -xvf lake_depth.tar.bz2 -C $WRF_FOLDER/GEOG/WPS_GEOG
+	      tar -xvf lake_depth.tar.bz2 -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 	      wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/topobath_30s.tar.bz2
-	      tar -xvf topobath_30s.tar.bz2 -C $WRF_FOLDER/GEOG/WPS_GEOG
+	      tar -xvf topobath_30s.tar.bz2 -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 	      wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/gsl_gwd.tar.bz2
-	      tar -xvf gsl_gwd.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+	      tar -xvf gsl_gwd.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 	  fi
 
 
@@ -2441,22 +2415,22 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
 
 
 	      wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_older_than_2000.tar.gz
-	      tar -xvzf geog_older_than_2000.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+	      tar -xvzf geog_older_than_2000.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 	      wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s_with_lakes.tar.gz
-	      tar -xvzf modis_landuse_20class_15s_with_lakes.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+	      tar -xvzf modis_landuse_20class_15s_with_lakes.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 	      wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_alt_lsm.tar.gz
-	      tar -xvzf geog_alt_lsm.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+	      tar -xvzf geog_alt_lsm.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 	      wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/nlcd2006_ll_9s.tar.bz2
-	      tar -xvf nlcd2006_ll_9s.tar.bz2 -C $WRF_FOLDER/GEOG/WPS_GEOG
+	      tar -xvf nlcd2006_ll_9s.tar.bz2 -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 	      wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/updated_Iceland_LU.tar.gz
-	      tar -xvf updated_Iceland_LU.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+	      tar -xvf updated_Iceland_LU.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 	      wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s.tar.bz2
-	      tar -xvf modis_landuse_20class_15s.tar.bz2 -C $WRF_FOLDER/GEOG/WPS_GEOG
+	      tar -xvf modis_landuse_20class_15s.tar.bz2 -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 
 	  fi
@@ -2471,7 +2445,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
     echo $PASSWD | sudo -S dnf install dnf -y
     echo $PASSWD | sudo -S dnf -y update
     echo $PASSWD | sudo -S dnf -y upgrade
-    echo $PASSWD | sudo -S dnf -y install autoconf automake bzip2 bzip2-devel byacc cairo-devel cmake cpp curl curl-devel flex fontconfig fontconfig-devel gcc gcc-c++ gcc-gfortran git java-11-openjdk java-11-openjdk-devel ksh libjpeg libjpeg-devel libX11 libX11-devel libXaw libXaw-devel libXext-devel libXmu libXmu-devel libXrender libXrender-devel libXt libXt-devel libxml2 libxml2-devel libXmu  libXmu-devel libgeotiff libgeotiff-devel libtiff libtiff-devel m4  nfs-utils perl pkgconfig pixman  pixman-devel python3 python3-devel tcsh time unzip wget
+    echo $PASSWD | sudo -S dnf -y install autoconf automake bzip2 bzip2-devel byacc cairo-devel cmake cpp curl curl-devel flex fontconfig fontconfig-devel gcc gcc-c++ gcc-gfortran git java-11-openjdk java-11-openjdk-devel ksh libjpeg libjpeg-devel libX11 libX11-devel libXaw libXaw-devel libXext-devel libXmu libXmu-devel libXrender libXrender-devel libXt libXt-devel libxml2 libxml2-devel libXmu  libXmu-devel libgeotiff libgeotiff-devel libtiff libtiff-devel m4 mlocate nfs-utils perl pkgconfig pixman  pixman-devel python3 python3-devel tcsh time unzip wget
     echo $PASSWD | sudo -S  dnf -y groupinstall "Development Tools"
     echo $PASSWD | sudo -S dnf -y update
     echo $PASSWD | sudo -S dnf -y upgrade
@@ -2482,10 +2456,10 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
 
   mkdir $HOME/WRF_CMAQ
   export WRF_FOLDER=$HOME/WRF_CMAQ
-  cd $WRF_FOLDER/
+  cd ${WRF_FOLDER}/
   mkdir Downloads
   mkdir Libs
-  export DIR=$WRF_FOLDER/Libs
+  export DIR=${WRF_FOLDER}/Libs
   mkdir Libs/grib2
   mkdir Libs/NETCDF
   mkdir Libs/MPICH
@@ -2571,7 +2545,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
 	#Uncalling compilers due to comfigure issue with zlib$Zlib_Version
 	#With CC & CXX definied ./configure uses different compiler Flags
 
-	cd $WRF_FOLDER/Downloads
+	cd ${WRF_FOLDER}/Downloads
 	tar -xvzf v$Zlib_Version.tar.gz
 	cd zlib-$Zlib_Version/
 	autoreconf -i -f 2>&1 | tee autoreconf.log
@@ -2585,7 +2559,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
 	echo " "
 	##############################MPICH############################
 	#F90= due to compiler issues with mpich install
-	cd $WRF_FOLDER/Downloads
+	cd ${WRF_FOLDER}/Downloads
 	tar -xvzf mpich-$Mpich_Version.tar.gz
 	cd mpich-$Mpich_Version/
 	autoreconf -i -f 2>&1 | tee autoreconf.log
@@ -2606,7 +2580,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
 
 	echo " "
 	#############################libpng############################
-	cd $WRF_FOLDER/Downloads
+	cd ${WRF_FOLDER}/Downloads
 	export LDFLAGS=-L$DIR/grib2/lib
 	export CPPFLAGS=-I$DIR/grib2/include
 	tar -xvzf libpng-$Libpng_Version.tar.gz
@@ -2621,7 +2595,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
 	#make -j $CPU_HALF_EVEN check
 	echo " "
 	#############################JasPer############################
-	cd $WRF_FOLDER/Downloads
+	cd ${WRF_FOLDER}/Downloads
 	unzip jasper-$Jasper_Version.zip
 	cd jasper-$Jasper_Version/
 	autoreconf -i -f 2>&1 | tee autoreconf.log
@@ -2639,7 +2613,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
 
 	echo " "
 	#############################hdf5 library for netcdf4 functionality############################
-	cd $WRF_FOLDER/Downloads
+	cd ${WRF_FOLDER}/Downloads
 	tar -xvzf hdf5-$HDF5_Version.tar.gz
 	cd hdf5-hdf5-$HDF5_Version
 	autoreconf -i -f 2>&1 | tee autoreconf.log
@@ -2660,7 +2634,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
 	#Make file created with half of available cpu cores
 	#Hard path for MPI added
 	##################################################################################
-	cd $WRF_FOLDER/Downloads
+	cd ${WRF_FOLDER}/Downloads
 	tar -xvzf pnetcdf-$Pnetcdf_Version.tar.gz
 	cd pnetcdf-$Pnetcdf_Version
 	export MPIFC=mpifort
@@ -2681,7 +2655,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
         echo " "
 
 	##############################Install NETCDF C Library############################
-	cd $WRF_FOLDER/Downloads
+	cd ${WRF_FOLDER}/Downloads
 	tar -xzvf v$Netcdf_C_Version.tar.gz
 	cd netcdf-c-$Netcdf_C_Version/
 	export CPPFLAGS=-I$DIR/grib2/include
@@ -2701,7 +2675,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
 	export NETCDF=$DIR/NETCDF
 	echo " "
 	##############################NetCDF fortran library############################
-	cd $WRF_FOLDER/Downloads
+	cd ${WRF_FOLDER}/Downloads
 	tar -xvzf v$Netcdf_Fortran_Version.tar.gz
 	cd netcdf-fortran-$Netcdf_Fortran_Version/
 	export LD_LIBRARY_PATH=$DIR/NETCDF/lib:$LD_LIBRARY_PATH
@@ -2722,10 +2696,10 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
 
   ###############################  I/O API  ###################################
 
-  cd $WRF_FOLDER/Downloads
+  cd ${WRF_FOLDER}/Downloads
   mkdir ioapi
   cd ioapi
-  tar -xzvf $WRF_FOLDER/Downloads/ioapi-3.2.tar.gz
+  tar -xzvf ${WRF_FOLDER}/Downloads/ioapi-3.2.tar.gz
 
   #set gnu version
   export BIN=Linux2_x86_64gfort10
@@ -2733,22 +2707,22 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
   mkdir $BIN
 
   #Link netcdf and grib lib folders to ioapi
-  ln -sf $WRF_FOLDER/Libs/NETCDF/lib/* $WRF_FOLDER/Downloads/ioapi/$BIN
-  ln -sf $WRF_FOLDER/Libs/grib2/lib/* $WRF_FOLDER/Downloads/ioapi/$BIN
+  ln -sf ${WRF_FOLDER}/Libs/NETCDF/lib/* ${WRF_FOLDER}/Downloads/ioapi/$BIN
+  ln -sf ${WRF_FOLDER}/Libs/grib2/lib/* ${WRF_FOLDER}/Downloads/ioapi/$BIN
 
   #copy makefiles from ioapi directory to source makefile
-  #cp $WRF_FOLDER/Downloads/ioapi/ioapi/Makefile.nocpl $WRF_FOLDER/Downloads/ioapi/ioapi/Makefile
-  #cp $WRF_FOLDER/Downloads/ioapi/m3tools/Makefile.nocpl $WRF_FOLDER/Downloads/ioapi/m3tools/Makefile
-  cp $WRF_FOLDER/Downloads/ioapi/Makefile.template $WRF_FOLDER/Downloads/ioapi/Makefile
+  #cp ${WRF_FOLDER}/Downloads/ioapi/ioapi/Makefile.nocpl ${WRF_FOLDER}/Downloads/ioapi/ioapi/Makefile
+  #cp ${WRF_FOLDER}/Downloads/ioapi/m3tools/Makefile.nocpl ${WRF_FOLDER}/Downloads/ioapi/m3tools/Makefile
+  cp ${WRF_FOLDER}/Downloads/ioapi/Makefile.template ${WRF_FOLDER}/Downloads/ioapi/Makefile
 
   # Add proper sed statements needed for gfortran
-   sed -i '193s|-lnetcdff -lnetcdf| -lnetcdff -lnetcdf -lhdf5hl_fortran -lhdf5_fortran -lhdf5_hl -lhdf5 -ljpeg -lm -lz -lcurl|g' $WRF_FOLDER/Downloads/ioapi/Makefile
-   sed -i '210s|${IODIR}/Makefile ${TOOLDIR}/Makefile| |g' $WRF_FOLDER/Downloads/ioapi/Makefile
+   sed -i '193s|-lnetcdff -lnetcdf| -lnetcdff -lnetcdf -lhdf5hl_fortran -lhdf5_fortran -lhdf5_hl -lhdf5 -ljpeg -lm -lz -lcurl|g' ${WRF_FOLDER}/Downloads/ioapi/Makefile
+   sed -i '210s|${IODIR}/Makefile ${TOOLDIR}/Makefile| |g' ${WRF_FOLDER}/Downloads/ioapi/Makefile
 
 
    #Remove openmnp flags from Makefile
-   sed -i '30s/ -fopenmp//g' $WRF_FOLDER/Downloads/ioapi/ioapi/Makeinclude.$BIN
-   sed -i '31s/ -fopenmp//g' $WRF_FOLDER/Downloads/ioapi/ioapi/Makeinclude.$BIN
+   sed -i '30s/ -fopenmp//g' ${WRF_FOLDER}/Downloads/ioapi/ioapi/Makeinclude.$BIN
+   sed -i '31s/ -fopenmp//g' ${WRF_FOLDER}/Downloads/ioapi/ioapi/Makeinclude.$BIN
 
 
    # Build IOAPI
@@ -2757,7 +2731,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
 
    #If statement to check that libioapi.a & m3xtract exist
 
-   cd $WRF_FOLDER/Downloads/ioapi/$BIN
+   cd ${WRF_FOLDER}/Downloads/ioapi/$BIN
    n=$(ls -lrt libioapi.a | wc -l)
    m=$(ls -rlt m3xtract | wc -l)
      if (( ( $n == 1 ) && ( $m == 1) ))
@@ -2773,22 +2747,22 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
 
     echo " "
 
-    mv $WRF_FOLDER/Downloads/ioapi/$BIN $WRF_FOLDER/Downloads/ioapi/Linux2_x86_64gfort
+    mv ${WRF_FOLDER}/Downloads/ioapi/$BIN ${WRF_FOLDER}/Downloads/ioapi/Linux2_x86_64gfort
     export BIN=Linux2_x86_64gfort
   #################################### System Environment Tests ##############
 
-  cd $WRF_FOLDER/Downloads
+  cd ${WRF_FOLDER}/Downloads
   wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_NETCDF_MPI_tests.tar
   wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_tests.tar
 
-  tar -xvf Fortran_C_tests.tar -C $WRF_FOLDER/Tests/Environment
-  tar -xvf Fortran_C_NETCDF_MPI_tests.tar -C $WRF_FOLDER/Tests/Compatibility
+  tar -xvf Fortran_C_tests.tar -C ${WRF_FOLDER}/Tests/Environment
+  tar -xvf Fortran_C_NETCDF_MPI_tests.tar -C ${WRF_FOLDER}/Tests/Compatibility
 
   export one="1"
   echo " "
   ############## Testing Environment #####
 
-  cd $WRF_FOLDER/Tests/Environment
+  cd ${WRF_FOLDER}/Tests/Environment
 
   cp ${NETCDF}/include/netcdf.inc .
 
@@ -2796,7 +2770,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
   echo " "
   echo "Environment Testing "
   echo "Test 1"
-  gfortran TEST_1_fortran_only_fixed.f
+  $FC TEST_1_fortran_only_fixed.f
   ./a.out | tee env_test1.txt
   export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test1.txt | awk  '{print$1}')
    if [ $TEST_PASS -ge 1 ]
@@ -2810,7 +2784,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
 
   echo " "
   echo "Test 2"
-  gfortran TEST_2_fortran_only_free.f90
+  $FC TEST_2_fortran_only_free.f90
   ./a.out | tee env_test2.txt
   export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test2.txt | awk  '{print$1}')
    if [ $TEST_PASS -ge 1 ]
@@ -2825,7 +2799,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
 
   echo " "
   echo "Test 3"
-  gcc TEST_3_c_only.c
+  $CC TEST_3_c_only.c
   ./a.out | tee env_test3.txt
   export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test3.txt | awk  '{print$1}')
    if [ $TEST_PASS -ge 1 ]
@@ -2840,9 +2814,9 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
 
   echo " "
   echo "Test 4"
-  gcc -c -m64 TEST_4_fortran+c_c.c
-  gfortran -c -m64 TEST_4_fortran+c_f.f90
-  gfortran -m64 TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
+  $CC -c -m64 TEST_4_fortran+c_c.c
+  $FC -c -m64 TEST_4_fortran+c_f.f90
+  $FC -m64 TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
   ./a.out | tee env_test4.txt
   export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test4.txt | awk  '{print$1}')
    if [ $TEST_PASS -ge 1 ]
@@ -2858,7 +2832,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
   echo " "
   ############## Testing Environment #####
 
-  cd $WRF_FOLDER/Tests/Compatibility
+  cd ${WRF_FOLDER}/Tests/Compatibility
 
   cp ${NETCDF}/include/netcdf.inc .
 
@@ -2866,9 +2840,9 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
   echo " "
   echo "Library Compatibility Tests "
   echo "Test 1"
-  gfortran -c 01_fortran+c+netcdf_f.f
-  gcc -c 01_fortran+c+netcdf_c.c
-  gfortran 01_fortran+c+netcdf_f.o 01_fortran+c+netcdf_c.o \
+  $FC -c 01_fortran+c+netcdf_f.f
+  $CC -c 01_fortran+c+netcdf_c.c
+  $FC 01_fortran+c+netcdf_f.o 01_fortran+c+netcdf_c.o \
        -L${NETCDF}/lib -lnetcdff -lnetcdf
 
        ./a.out | tee comp_test1.txt
@@ -2886,9 +2860,9 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
   echo " "
 
   echo "Test 2"
-  $DIR/MPICH/bin/mpifort -c 02_fortran+c+netcdf+mpi_f.f
-  $DIR/MPICH/bin/mpicc -c 02_fortran+c+netcdf+mpi_c.c
-  $DIR/MPICH/bin/mpifort 02_fortran+c+netcdf+mpi_f.o \
+  $MPIFC -c 02_fortran+c+netcdf+mpi_f.f
+  $MPICC -c 02_fortran+c+netcdf+mpi_c.c
+  $MPIFC 02_fortran+c+netcdf+mpi_f.o \
   02_fortran+c+netcdf+mpi_c.o \
        -L${NETCDF}/lib -lnetcdff -lnetcdf
 
@@ -2910,68 +2884,68 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
 
 
   ############################ CMAQ Source Code #################################
-  cd $WRF_FOLDER/Downloads
+  cd ${WRF_FOLDER}/Downloads
   git clone -b main https://github.com/USEPA/CMAQ.git  #clone CMAQ github to WRF_CMAQ Main Folder
 
   cd CMAQ
   cp bldit_project.csh bldit_project.csh.old     # Create backup of build project script
 
   # Set path to where CMAQ will be built
-  sed -i '19s|/home/username/path|${WRF_FOLDER}/Downloads/CMAQ/Build_WRFv$WPS_VERSION-CMAQv5.4|g' $WRF_FOLDER/Downloads/CMAQ/bldit_project.csh
+  sed -i '19s|/home/username/path|${WRF_FOLDER}/Downloads/CMAQ/Build_WRFv${WRF_VERSION}-CMAQv5.4|g' ${WRF_FOLDER}/Downloads/CMAQ/bldit_project.csh
   # Build CMAQ Project
   ./bldit_project.csh
 
-  cd $WRF_FOLDER/Downloads/CMAQ/Build_WRFv$WPS_VERSION-CMAQv5.4
+  cd ${WRF_FOLDER}/Downloads/CMAQ/Build_WRFv${WRF_VERSION}-CMAQv5.4
 
   cp config_cmaq.csh config_cmaq.csh.old        # Create backup of configure script
 
-  # Sed statements to configure the Build_WRFv$WPS_VERSION-CMAQv5.4
-  sed -i '146s|netcdf_root_gcc|${WRF_FOLDER}/Libs/NETCDF|g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv$WPS_VERSION-CMAQv5.4/config_cmaq.csh
-  sed -i '147s|ioapi_root_gcc|${WRF_FOLDER}/Downloads/ioapi|g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv$WPS_VERSION-CMAQv5.4/config_cmaq.csh
-  sed -i '148s|WRF_ARCH|WRF_ARCH 34|g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv$WPS_VERSION-CMAQv5.4/config_cmaq.csh
+  # Sed statements to configure the Build_WRFv${WRF_VERSION}-CMAQv5.4
+  sed -i '146s|netcdf_root_gcc|${WRF_FOLDER}/Libs/NETCDF|g' ${WRF_FOLDER}/Downloads/CMAQ/Build_WRFv${WRF_VERSION}-CMAQv5.4/config_cmaq.csh
+  sed -i '147s|ioapi_root_gcc|${WRF_FOLDER}/Downloads/ioapi|g' ${WRF_FOLDER}/Downloads/CMAQ/Build_WRFv${WRF_VERSION}-CMAQv5.4/config_cmaq.csh
+  sed -i '148s|WRF_ARCH|WRF_ARCH 34|g' ${WRF_FOLDER}/Downloads/CMAQ/Build_WRFv${WRF_VERSION}-CMAQv5.4/config_cmaq.csh
 
   # sed statements for paths in configure file
-  sed -i '151s|ioapi_inc_gcc|${WRF_FOLDER}/Downloads/ioapi/ioapi/fixed_src|g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv$WPS_VERSION-CMAQv5.4/config_cmaq.csh
-  sed -i '152s|ioapi_lib_gcc|${WRF_FOLDER}/Downloads/ioapi/$BIN|g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv$WPS_VERSION-CMAQv5.4/config_cmaq.csh
-  sed -i '153s|netcdf_lib_gcc |${WRF_FOLDER}/Libs/NETCDF/lib|g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv$WPS_VERSION-CMAQv5.4/config_cmaq.csh
-  sed -i '154s|netcdf_inc_gcc|${WRF_FOLDER}/Libs/NETCDF/include|g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv$WPS_VERSION-CMAQv5.4/config_cmaq.csh
-  sed -i '155s|netcdff_lib_gcc|${WRF_FOLDER}/Libs/NETCDF/lib|g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv$WPS_VERSION-CMAQv5.4/config_cmaq.csh
-  sed -i '156s|netcdff_inc_gcc|${WRF_FOLDER}/Libs/NETCDF/include|g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv$WPS_VERSION-CMAQv5.4/config_cmaq.csh
-  sed -i '157s|mpi_incl_gcc|${WRF_FOLDER}/Libs/MPICH|g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv$WPS_VERSION-CMAQv5.4/config_cmaq.csh
-  sed -i '158s|mpi_lib_gcc|${WRF_FOLDER}/Libs/MPICH|g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv$WPS_VERSION-CMAQv5.4/config_cmaq.csh
+  sed -i '151s|ioapi_inc_gcc|${WRF_FOLDER}/Downloads/ioapi/ioapi/fixed_src|g' ${WRF_FOLDER}/Downloads/CMAQ/Build_WRFv${WRF_VERSION}-CMAQv5.4/config_cmaq.csh
+  sed -i '152s|ioapi_lib_gcc|${WRF_FOLDER}/Downloads/ioapi/$BIN|g' ${WRF_FOLDER}/Downloads/CMAQ/Build_WRFv${WRF_VERSION}-CMAQv5.4/config_cmaq.csh
+  sed -i '153s|netcdf_lib_gcc |${WRF_FOLDER}/Libs/NETCDF/lib|g' ${WRF_FOLDER}/Downloads/CMAQ/Build_WRFv${WRF_VERSION}-CMAQv5.4/config_cmaq.csh
+  sed -i '154s|netcdf_inc_gcc|${WRF_FOLDER}/Libs/NETCDF/include|g' ${WRF_FOLDER}/Downloads/CMAQ/Build_WRFv${WRF_VERSION}-CMAQv5.4/config_cmaq.csh
+  sed -i '155s|netcdff_lib_gcc|${WRF_FOLDER}/Libs/NETCDF/lib|g' ${WRF_FOLDER}/Downloads/CMAQ/Build_WRFv${WRF_VERSION}-CMAQv5.4/config_cmaq.csh
+  sed -i '156s|netcdff_inc_gcc|${WRF_FOLDER}/Libs/NETCDF/include|g' ${WRF_FOLDER}/Downloads/CMAQ/Build_WRFv${WRF_VERSION}-CMAQv5.4/config_cmaq.csh
+  sed -i '157s|mpi_incl_gcc|${WRF_FOLDER}/Libs/MPICH|g' ${WRF_FOLDER}/Downloads/CMAQ/Build_WRFv${WRF_VERSION}-CMAQv5.4/config_cmaq.csh
+  sed -i '158s|mpi_lib_gcc|${WRF_FOLDER}/Libs/MPICH|g' ${WRF_FOLDER}/Downloads/CMAQ/Build_WRFv${WRF_VERSION}-CMAQv5.4/config_cmaq.csh
 
 
   # compile the Chemistry Transport Model (CCTM) preprocess
 
-  cd $WRF_FOLDER/Downloads/CMAQ/Build_WRFv$WPS_VERSION-CMAQv5.4/CCTM/scripts
+  cd ${WRF_FOLDER}/Downloads/CMAQ/Build_WRFv${WRF_VERSION}-CMAQv5.4/CCTM/scripts
 
   cp bldit_cctm.csh bldit_cctm.csh.old  # make a back up copy of .csh script
 
   # Sed statements for configuration
-  sed -i '74s|-j|-j $CPU_HALF_EVEN|g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv$WPS_VERSION-CMAQv5.4/CCTM/scripts/bldit_cctm.csh # set multicore to half of available cpus
-  sed -i '84s|#set|set|g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv$WPS_VERSION-CMAQv5.4/CCTM/scripts/bldit_cctm.csh # build two way
-  sed -i '103s|v4.4|v$WPS_VERSION|g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv$WPS_VERSION-CMAQv5.4/CCTM/scripts/bldit_cctm.csh # change wrf version from 4.4 to $WPS_VERSION
+  sed -i '74s|-j|-j $CPU_HALF_EVEN|g' ${WRF_FOLDER}/Downloads/CMAQ/Build_WRFv${WRF_VERSION}-CMAQv5.4/CCTM/scripts/bldit_cctm.csh # set multicore to half of available cpus
+  sed -i '84s|#set|set|g' ${WRF_FOLDER}/Downloads/CMAQ/Build_WRFv${WRF_VERSION}-CMAQv5.4/CCTM/scripts/bldit_cctm.csh # build two way
+  sed -i '103s|v4.4|v${WRF_VERSION}|g' ${WRF_FOLDER}/Downloads/CMAQ/Build_WRFv${WRF_VERSION}-CMAQv5.4/CCTM/scripts/bldit_cctm.csh # change wrf version from 4.4 to ${WPS_VERSION}
 
 
-  sed -i '446s| if ( $? != 0 ) then| |g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv$WPS_VERSION-CMAQv5.4/CCTM/scripts/bldit_cctm.csh
-  sed -i '447s|    set shaID   = "not_a_repo"| |g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv$WPS_VERSION-CMAQv5.4/CCTM/scripts/bldit_cctm.csh
-  sed -i '448s| endif| |g' $WRF_FOLDER/Downloads/CMAQ//Build_WRFv$WPS_VERSION-CMAQv5.4/CCTM/scripts/bldit_cctm.csh
-  sed -i '791s|  if ($? == 0) then| |g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv$WPS_VERSION-CMAQv5.4/CCTM/scripts/bldit_cctm.csh
-  sed -i '793s|  endif| |g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv$WPS_VERSION-CMAQv5.4/CCTM/scripts/bldit_cctm.csh
-  sed -i '822s|compile em_real|compile -j $CPU_HALF_EVEN em_real|g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv$WPS_VERSION-CMAQv5.4/CCTM/scripts/bldit_cctm.csh
+  sed -i '446s| if ( $? != 0 ) then| |g' ${WRF_FOLDER}/Downloads/CMAQ/Build_WRFv${WRF_VERSION}-CMAQv5.4/CCTM/scripts/bldit_cctm.csh
+  sed -i '447s|    set shaID   = "not_a_repo"| |g' ${WRF_FOLDER}/Downloads/CMAQ/Build_WRFv${WRF_VERSION}-CMAQv5.4/CCTM/scripts/bldit_cctm.csh
+  sed -i '448s| endif| |g' ${WRF_FOLDER}/Downloads/CMAQ//Build_WRFv${WRF_VERSION}-CMAQv5.4/CCTM/scripts/bldit_cctm.csh
+  sed -i '791s|  if ($? == 0) then| |g' ${WRF_FOLDER}/Downloads/CMAQ/Build_WRFv${WRF_VERSION}-CMAQv5.4/CCTM/scripts/bldit_cctm.csh
+  sed -i '793s|  endif| |g' ${WRF_FOLDER}/Downloads/CMAQ/Build_WRFv${WRF_VERSION}-CMAQv5.4/CCTM/scripts/bldit_cctm.csh
+  sed -i '822s|compile em_real|compile -j $CPU_HALF_EVEN em_real|g' ${WRF_FOLDER}/Downloads/CMAQ/Build_WRFv${WRF_VERSION}-CMAQv5.4/CCTM/scripts/bldit_cctm.csh
 
   # Build WRF-CMAQ
   ./bldit_cctm.csh gcc 2>&1 | tee bldit.cctm.twoway.gcc.log
 
   # Move built folder to top level directory
-  mv $WRF_FOLDER/Downloads/CMAQ/Build_WRFv$WPS_VERSION-CMAQv5.4/CCTM/scripts/BLD_WRFv$WPS_VERSION_CCTM_v54_gcc $WRF_FOLDER/WRFv$WPS_VERSION_CMAQv5.4
+  mv ${WRF_FOLDER}/Downloads/CMAQ/Build_WRFv${WRF_VERSION}-CMAQv5.4/CCTM/scripts/BLD_WRFv${WRF_VERSION}_CCTM_v54_gcc ${WRF_FOLDER}/WRFv${WRF_VERSION}_CMAQv5.4
 
-  export WRF_DIR=$WRF_FOLDER/WRFv$WPS_VERSION_CMAQv5.4
+  export WRF_DIR=${WRF_FOLDER}/WRFv${WRF_VERSION}_CMAQv5.4
 
 
 
     # IF statement to check that all files were created.
-  cd $WRF_FOLDER/WRFv$WPS_VERSION_CMAQv5.4/main
+  cd ${WRF_FOLDER}/WRFv${WRF_VERSION}_CMAQv5.4/main
   n=$(ls ./*.exe | wc -l)
   if (($n >= 3))
    then
@@ -2985,16 +2959,16 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
   echo " "
 
 
-  ############################WPSV$WPS_VERSION#####################################
-  ## WPS v$WPS_VERSION
+  ############################WPSV${WPS_VERSION}#####################################
+  ## WPS v${WPS_VERSION}
   ## Downloaded from git tagged releases
   #Option 3 for gfortran and distributed memory
   ########################################################################
 
-  cd $WRF_FOLDER/Downloads
-  wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v$WPS_VERSION.tar.gz -O WPS-$WPS_VERSION.tar.gz
-  tar -xvzf WPS-$WPS_VERSION.tar.gz -C $WRF_FOLDER/
-  cd $WRF_FOLDER/WPS-$WPS_VERSION
+  cd ${WRF_FOLDER}/Downloads
+  wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v${WPS_VERSION}.tar.gz -O WPS-${WPS_VERSION}.tar.gz
+  tar -xvzf WPS-${WPS_VERSION}.tar.gz -C ${WRF_FOLDER}/
+  cd ${WRF_FOLDER}/WPS-${WPS_VERSION}
   ./clean -a
 
   if [ ${auto_config} -eq 1 ]
@@ -3008,7 +2982,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
 
   echo " "
   # IF statement to check that all files were created.
-   cd $WRF_FOLDER/WPS-$WPS_VERSION
+   cd ${WRF_FOLDER}/WPS-${WPS_VERSION}
    n=$(ls ./*.exe | wc -l)
    if (($n == 3))
     then
@@ -3023,20 +2997,20 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
 
   ######################## WPS Domain Setup Tools ########################
   ## DomainWizard
-  cd $WRF_FOLDER/Downloads
+  cd ${WRF_FOLDER}/Downloads
   wget -c http://esrl.noaa.gov/gsd/wrfportal/domainwizard/WRFDomainWizard.zip
-  mkdir $WRF_FOLDER/WRFDomainWizard
-  unzip WRFDomainWizard.zip -d $WRF_FOLDER/WRFDomainWizard
-  chmod +x $WRF_FOLDER/WRFDomainWizard/run_DomainWizard
+  mkdir ${WRF_FOLDER}/WRFDomainWizard
+  unzip WRFDomainWizard.zip -d ${WRF_FOLDER}/WRFDomainWizard
+  chmod +x ${WRF_FOLDER}/WRFDomainWizard/run_DomainWizard
 
   echo " "
   ######################## WPF Portal Setup Tools ########################
   ## WRFPortal
-  cd $WRF_FOLDER/Downloads
+  cd ${WRF_FOLDER}/Downloads
   wget -c https://esrl.noaa.gov/gsd/wrfportal/portal/wrf-portal.zip
-  mkdir $WRF_FOLDER/WRFPortal
-  unzip wrf-portal.zip -d $WRF_FOLDER/WRFPortal
-  chmod +x $WRF_FOLDER/WRFPortal/runWRFPortal
+  mkdir ${WRF_FOLDER}/WRFPortal
+  unzip wrf-portal.zip -d ${WRF_FOLDER}/WRFPortal
+  chmod +x ${WRF_FOLDER}/WRFPortal/runWRFPortal
 
 
   echo " "
@@ -3047,19 +3021,19 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
   # All files downloaded and untarred is 200GB
   # https://www2.mmm.ucar.edu/wrf/users/download/get_sources_wps_geog.html
   #################################################################################
-  cd $WRF_FOLDER/Downloads
-  mkdir $WRF_FOLDER/GEOG
-  mkdir $WRF_FOLDER/GEOG/WPS_GEOG
+  cd ${WRF_FOLDER}/Downloads
+  mkdir ${WRF_FOLDER}/GEOG
+  mkdir ${WRF_FOLDER}/GEOG/WPS_GEOG
 
   echo " "
   echo "Mandatory WRF Preprocessing System (WPS) Geographical Input Data Mandatory Fields Downloads"
   echo " "
   wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_high_res_mandatory.tar.gz
-  tar -xvzf geog_high_res_mandatory.tar.gz -C $WRF_FOLDER/GEOG/
+  tar -xvzf geog_high_res_mandatory.tar.gz -C ${WRF_FOLDER}/GEOG/
 
   wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_low_res_mandatory.tar.gz
-  tar -xvzf geog_low_res_mandatory.tar.gz -C $WRF_FOLDER/GEOG/
-  mv $WRF_FOLDER/GEOG/WPS_GEOG_LOW_RES/ $WRF_FOLDER/GEOG/WPS_GEOG
+  tar -xvzf geog_low_res_mandatory.tar.gz -C ${WRF_FOLDER}/GEOG/
+  mv ${WRF_FOLDER}/GEOG/WPS_GEOG_LOW_RES/ ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 
   if [ ${WPS_Specific_Applications} -eq 1 ]
@@ -3069,31 +3043,31 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
       echo " "
 
       wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_thompson28_chem.tar.gz
-      tar -xvzf geog_thompson28_chem.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+      tar -xvzf geog_thompson28_chem.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
       wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_noahmp.tar.gz
-      tar -xvzf geog_noahmp.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+      tar -xvzf geog_noahmp.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
       wget -c  https://www2.mmm.ucar.edu/wrf/src/wps_files/irrigation.tar.gz
-      tar -xvzf irrigation.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+      tar -xvzf irrigation.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
       wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_px.tar.gz
-      tar -xvzf geog_px.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+      tar -xvzf geog_px.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
       wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_urban.tar.gz
-      tar -xvzf geog_urban.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+      tar -xvzf geog_urban.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
       wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_ssib.tar.gz
-      tar -xvzf geog_ssib.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+      tar -xvzf geog_ssib.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
       wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/lake_depth.tar.bz2
-      tar -xvf lake_depth.tar.bz2 -C $WRF_FOLDER/GEOG/WPS_GEOG
+      tar -xvf lake_depth.tar.bz2 -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
       wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/topobath_30s.tar.bz2
-      tar -xvf topobath_30s.tar.bz2 -C $WRF_FOLDER/GEOG/WPS_GEOG
+      tar -xvf topobath_30s.tar.bz2 -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
       wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/gsl_gwd.tar.bz2
-      tar -xvf gsl_gwd.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+      tar -xvf gsl_gwd.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
   fi
 
 
@@ -3105,22 +3079,22 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
 
 
       wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_older_than_2000.tar.gz
-      tar -xvzf geog_older_than_2000.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+      tar -xvzf geog_older_than_2000.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
       wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s_with_lakes.tar.gz
-      tar -xvzf modis_landuse_20class_15s_with_lakes.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+      tar -xvzf modis_landuse_20class_15s_with_lakes.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
       wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_alt_lsm.tar.gz
-      tar -xvzf geog_alt_lsm.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+      tar -xvzf geog_alt_lsm.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
       wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/nlcd2006_ll_9s.tar.bz2
-      tar -xvf nlcd2006_ll_9s.tar.bz2 -C $WRF_FOLDER/GEOG/WPS_GEOG
+      tar -xvf nlcd2006_ll_9s.tar.bz2 -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
       wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/updated_Iceland_LU.tar.gz
-      tar -xvf updated_Iceland_LU.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+      tar -xvf updated_Iceland_LU.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
       wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s.tar.bz2
-      tar -xvf modis_landuse_20class_15s.tar.bz2 -C $WRF_FOLDER/GEOG/WPS_GEOG
+      tar -xvf modis_landuse_20class_15s.tar.bz2 -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 
   fi
@@ -3146,7 +3120,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$CMAQ_PICK" = "1" ]; then
     echo $PASSWD | sudo -S dnf install dnf -y
     echo $PASSWD | sudo -S dnf -y update
     echo $PASSWD | sudo -S dnf -y upgrade
-    echo $PASSWD | sudo -S dnf -y install autoconf automake bzip2 bzip2-devel byacc cairo-devel cmake cpp curl curl-devel flex fontconfig fontconfig-devel gcc gcc-c++ gcc-gfortran git java-11-openjdk java-11-openjdk-devel ksh libjpeg libjpeg-devel libX11 libX11-devel libXaw libXaw-devel libXext-devel libXmu libXmu-devel libXrender libXrender-devel libXt libXt-devel libxml2 libxml2-devel libXmu  libXmu-devel libgeotiff libgeotiff-devel libtiff libtiff-devel m4  nfs-utils perl pkgconfig pixman  pixman-devel python3 python3-devel tcsh time unzip wget
+    echo $PASSWD | sudo -S dnf -y install autoconf automake bzip2 bzip2-devel byacc cairo-devel cmake cpp curl curl-devel flex fontconfig fontconfig-devel gcc gcc-c++ gcc-gfortran git java-11-openjdk java-11-openjdk-devel ksh libjpeg libjpeg-devel libX11 libX11-devel libXaw libXaw-devel libXext-devel libXmu libXmu-devel libXrender libXrender-devel libXt libXt-devel libxml2 libxml2-devel libXmu  libXmu-devel libgeotiff libgeotiff-devel libtiff libtiff-devel m4 mlocate nfs-utils perl pkgconfig pixman  pixman-devel python3 python3-devel tcsh time unzip wget
     echo $PASSWD | sudo -S  dnf -y groupinstall "Development Tools"
     echo $PASSWD | sudo -S dnf -y update
     echo $PASSWD | sudo -S dnf -y upgrade
@@ -3157,10 +3131,10 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$CMAQ_PICK" = "1" ]; then
 
   mkdir $HOME/WRF_CMAQ
   export WRF_FOLDER=$HOME/WRF_CMAQ
-  cd $WRF_FOLDER/
+  cd ${WRF_FOLDER}/
   mkdir Downloads
   mkdir Libs
-  export DIR=$WRF_FOLDER/Libs
+  export DIR=${WRF_FOLDER}/Libs
   mkdir Libs/grib2
   mkdir Libs/NETCDF
   mkdir Libs/MPICH
@@ -3246,7 +3220,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$CMAQ_PICK" = "1" ]; then
 	#Uncalling compilers due to comfigure issue with zlib$Zlib_Version
 	#With CC & CXX definied ./configure uses different compiler Flags
 
-	cd $WRF_FOLDER/Downloads
+	cd ${WRF_FOLDER}/Downloads
 	tar -xvzf v$Zlib_Version.tar.gz
 	cd zlib-$Zlib_Version/
 	autoreconf -i -f 2>&1 | tee autoreconf.log
@@ -3260,7 +3234,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$CMAQ_PICK" = "1" ]; then
 	echo " "
 	##############################MPICH############################
 	#F90= due to compiler issues with mpich install
-	cd $WRF_FOLDER/Downloads
+	cd ${WRF_FOLDER}/Downloads
 	tar -xvzf mpich-$Mpich_Version.tar.gz
 	cd mpich-$Mpich_Version/
 	autoreconf -i -f 2>&1 | tee autoreconf.log
@@ -3281,7 +3255,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$CMAQ_PICK" = "1" ]; then
 
 	echo " "
 	#############################libpng############################
-	cd $WRF_FOLDER/Downloads
+	cd ${WRF_FOLDER}/Downloads
 	export LDFLAGS=-L$DIR/grib2/lib
 	export CPPFLAGS=-I$DIR/grib2/include
 	tar -xvzf libpng-$Libpng_Version.tar.gz
@@ -3296,7 +3270,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$CMAQ_PICK" = "1" ]; then
 	make -j $CPU_HALF_EVEN check
 	echo " "
 	#############################JasPer############################
-	cd $WRF_FOLDER/Downloads
+	cd ${WRF_FOLDER}/Downloads
 	unzip jasper-$Jasper_Version.zip
 	cd jasper-$Jasper_Version/
 	autoreconf -i -f 2>&1 | tee autoreconf.log
@@ -3314,7 +3288,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$CMAQ_PICK" = "1" ]; then
 
 	echo " "
 	#############################hdf5 library for netcdf4 functionality############################
-	cd $WRF_FOLDER/Downloads
+	cd ${WRF_FOLDER}/Downloads
 	tar -xvzf hdf5-$HDF5_Version.tar.gz
 	cd hdf5-hdf5-$HDF5_Version
 	autoreconf -i -f 2>&1 | tee autoreconf.log
@@ -3335,7 +3309,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$CMAQ_PICK" = "1" ]; then
 	#Make file created with half of available cpu cores
 	#Hard path for MPI added
 	##################################################################################
-	cd $WRF_FOLDER/Downloads
+	cd ${WRF_FOLDER}/Downloads
 	tar -xvzf pnetcdf-$Pnetcdf_Version.tar.gz
 	cd pnetcdf-$Pnetcdf_Version
 	export MPIFC=mpifort
@@ -3356,7 +3330,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$CMAQ_PICK" = "1" ]; then
         echo " "
 
 	##############################Install NETCDF C Library############################
-	cd $WRF_FOLDER/Downloads
+	cd ${WRF_FOLDER}/Downloads
 	tar -xzvf v$Netcdf_C_Version.tar.gz
 	cd netcdf-c-$Netcdf_C_Version/
 	export CPPFLAGS=-I$DIR/grib2/include
@@ -3376,7 +3350,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$CMAQ_PICK" = "1" ]; then
 	export NETCDF=$DIR/NETCDF
 	echo " "
 	##############################NetCDF fortran library############################
-	cd $WRF_FOLDER/Downloads
+	cd ${WRF_FOLDER}/Downloads
 	tar -xvzf v$Netcdf_Fortran_Version.tar.gz
 	cd netcdf-fortran-$Netcdf_Fortran_Version/
 	export LD_LIBRARY_PATH=$DIR/NETCDF/lib:$LD_LIBRARY_PATH
@@ -3397,10 +3371,10 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$CMAQ_PICK" = "1" ]; then
 
   ###############################  I/O API  ###################################
 
-  cd $WRF_FOLDER/Downloads
+  cd ${WRF_FOLDER}/Downloads
   mkdir ioapi
   cd ioapi
-  tar -xzvf $WRF_FOLDER/Downloads/ioapi-3.2.tar.gz
+  tar -xzvf ${WRF_FOLDER}/Downloads/ioapi-3.2.tar.gz
 
   #set gnu version
   export BIN=Linux2_x86_64gfort10
@@ -3408,22 +3382,22 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$CMAQ_PICK" = "1" ]; then
   mkdir $BIN
 
   #Link netcdf and grib lib folders to ioapi
-  ln -sf $WRF_FOLDER/Libs/NETCDF/lib/* $WRF_FOLDER/Downloads/ioapi/$BIN
-  ln -sf $WRF_FOLDER/Libs/grib2/lib/* $WRF_FOLDER/Downloads/ioapi/$BIN
+  ln -sf ${WRF_FOLDER}/Libs/NETCDF/lib/* ${WRF_FOLDER}/Downloads/ioapi/$BIN
+  ln -sf ${WRF_FOLDER}/Libs/grib2/lib/* ${WRF_FOLDER}/Downloads/ioapi/$BIN
 
   #copy makefiles from ioapi directory to source makefile
-  #cp $WRF_FOLDER/Downloads/ioapi/ioapi/Makefile.nocpl $WRF_FOLDER/Downloads/ioapi/ioapi/Makefile
-  #cp $WRF_FOLDER/Downloads/ioapi/m3tools/Makefile.nocpl $WRF_FOLDER/Downloads/ioapi/m3tools/Makefile
-  cp $WRF_FOLDER/Downloads/ioapi/Makefile.template $WRF_FOLDER/Downloads/ioapi/Makefile
+  #cp ${WRF_FOLDER}/Downloads/ioapi/ioapi/Makefile.nocpl ${WRF_FOLDER}/Downloads/ioapi/ioapi/Makefile
+  #cp ${WRF_FOLDER}/Downloads/ioapi/m3tools/Makefile.nocpl ${WRF_FOLDER}/Downloads/ioapi/m3tools/Makefile
+  cp ${WRF_FOLDER}/Downloads/ioapi/Makefile.template ${WRF_FOLDER}/Downloads/ioapi/Makefile
 
   # Add proper sed statements needed for gfortran
-   sed -i '193s|-lnetcdff -lnetcdf| -lnetcdff -lnetcdf -lhdf5hl_fortran -lhdf5_fortran -lhdf5_hl -lhdf5 -ljpeg -lm -lz -lcurl|g' $WRF_FOLDER/Downloads/ioapi/Makefile
-   sed -i '210s|${IODIR}/Makefile ${TOOLDIR}/Makefile| |g' $WRF_FOLDER/Downloads/ioapi/Makefile
+   sed -i '193s|-lnetcdff -lnetcdf| -lnetcdff -lnetcdf -lhdf5hl_fortran -lhdf5_fortran -lhdf5_hl -lhdf5 -ljpeg -lm -lz -lcurl|g' ${WRF_FOLDER}/Downloads/ioapi/Makefile
+   sed -i '210s|${IODIR}/Makefile ${TOOLDIR}/Makefile| |g' ${WRF_FOLDER}/Downloads/ioapi/Makefile
 
 
    #Remove openmnp flags from Makefile
-   sed -i '30s/ -fopenmp//g' $WRF_FOLDER/Downloads/ioapi/ioapi/Makeinclude.$BIN
-   sed -i '31s/ -fopenmp//g' $WRF_FOLDER/Downloads/ioapi/ioapi/Makeinclude.$BIN
+   sed -i '30s/ -fopenmp//g' ${WRF_FOLDER}/Downloads/ioapi/ioapi/Makeinclude.$BIN
+   sed -i '31s/ -fopenmp//g' ${WRF_FOLDER}/Downloads/ioapi/ioapi/Makeinclude.$BIN
 
 
    # Build IOAPI
@@ -3432,7 +3406,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$CMAQ_PICK" = "1" ]; then
 
    #If statement to check that libioapi.a & m3xtract exist
 
-   cd $WRF_FOLDER/Downloads/ioapi/$BIN
+   cd ${WRF_FOLDER}/Downloads/ioapi/$BIN
    n=$(ls -lrt libioapi.a | wc -l)
    m=$(ls -rlt m3xtract | wc -l)
      if (( ( $n == 1 ) && ( $m == 1) ))
@@ -3448,22 +3422,22 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$CMAQ_PICK" = "1" ]; then
 
     echo " "
 
-    mv $WRF_FOLDER/Downloads/ioapi/$BIN $WRF_FOLDER/Downloads/ioapi/Linux2_x86_64gfort
+    mv ${WRF_FOLDER}/Downloads/ioapi/$BIN ${WRF_FOLDER}/Downloads/ioapi/Linux2_x86_64gfort
     export BIN=Linux2_x86_64gfort
   #################################### System Environment Tests ##############
 
-  cd $WRF_FOLDER/Downloads
+  cd ${WRF_FOLDER}/Downloads
   wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_NETCDF_MPI_tests.tar
   wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_tests.tar
 
-  tar -xvf Fortran_C_tests.tar -C $WRF_FOLDER/Tests/Environment
-  tar -xvf Fortran_C_NETCDF_MPI_tests.tar -C $WRF_FOLDER/Tests/Compatibility
+  tar -xvf Fortran_C_tests.tar -C ${WRF_FOLDER}/Tests/Environment
+  tar -xvf Fortran_C_NETCDF_MPI_tests.tar -C ${WRF_FOLDER}/Tests/Compatibility
 
   export one="1"
   echo " "
   ############## Testing Environment #####
 
-  cd $WRF_FOLDER/Tests/Environment
+  cd ${WRF_FOLDER}/Tests/Environment
 
   cp ${NETCDF}/include/netcdf.inc .
 
@@ -3471,7 +3445,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$CMAQ_PICK" = "1" ]; then
   echo " "
   echo "Environment Testing "
   echo "Test 1"
-  gfortran TEST_1_fortran_only_fixed.f
+  $FC TEST_1_fortran_only_fixed.f
   ./a.out | tee env_test1.txt
   export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test1.txt | awk  '{print$1}')
    if [ $TEST_PASS -ge 1 ]
@@ -3485,7 +3459,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$CMAQ_PICK" = "1" ]; then
 
   echo " "
   echo "Test 2"
-  gfortran TEST_2_fortran_only_free.f90
+  $FC TEST_2_fortran_only_free.f90
   ./a.out | tee env_test2.txt
   export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test2.txt | awk  '{print$1}')
    if [ $TEST_PASS -ge 1 ]
@@ -3500,7 +3474,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$CMAQ_PICK" = "1" ]; then
 
   echo " "
   echo "Test 3"
-  gcc TEST_3_c_only.c
+  $CC TEST_3_c_only.c
   ./a.out | tee env_test3.txt
   export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test3.txt | awk  '{print$1}')
    if [ $TEST_PASS -ge 1 ]
@@ -3515,9 +3489,9 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$CMAQ_PICK" = "1" ]; then
 
   echo " "
   echo "Test 4"
-  gcc -c -m64 TEST_4_fortran+c_c.c
-  gfortran -c -m64 TEST_4_fortran+c_f.f90
-  gfortran -m64 TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
+  $CC -c -m64 TEST_4_fortran+c_c.c
+  $FC -c -m64 TEST_4_fortran+c_f.f90
+  $FC -m64 TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
   ./a.out | tee env_test4.txt
   export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test4.txt | awk  '{print$1}')
    if [ $TEST_PASS -ge 1 ]
@@ -3533,7 +3507,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$CMAQ_PICK" = "1" ]; then
   echo " "
   ############## Testing Environment #####
 
-  cd $WRF_FOLDER/Tests/Compatibility
+  cd ${WRF_FOLDER}/Tests/Compatibility
 
   cp ${NETCDF}/include/netcdf.inc .
 
@@ -3541,9 +3515,9 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$CMAQ_PICK" = "1" ]; then
   echo " "
   echo "Library Compatibility Tests "
   echo "Test 1"
-  gfortran -c 01_fortran+c+netcdf_f.f
-  gcc -c 01_fortran+c+netcdf_c.c
-  gfortran 01_fortran+c+netcdf_f.o 01_fortran+c+netcdf_c.o \
+  $FC -c 01_fortran+c+netcdf_f.f
+  $CC -c 01_fortran+c+netcdf_c.c
+  $FC 01_fortran+c+netcdf_f.o 01_fortran+c+netcdf_c.o \
        -L${NETCDF}/lib -lnetcdff -lnetcdf
 
        ./a.out | tee comp_test1.txt
@@ -3561,9 +3535,9 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$CMAQ_PICK" = "1" ]; then
   echo " "
 
   echo "Test 2"
-  $DIR/MPICH/bin/mpifort -c 02_fortran+c+netcdf+mpi_f.f
-  $DIR/MPICH/bin/mpicc -c 02_fortran+c+netcdf+mpi_c.c
-  $DIR/MPICH/bin/mpifort 02_fortran+c+netcdf+mpi_f.o \
+  $MPIFC -c 02_fortran+c+netcdf+mpi_f.f
+  $MPICC -c 02_fortran+c+netcdf+mpi_c.c
+  $MPIFC 02_fortran+c+netcdf+mpi_f.o \
   02_fortran+c+netcdf+mpi_c.o \
        -L${NETCDF}/lib -lnetcdff -lnetcdf
 
@@ -3585,68 +3559,68 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$CMAQ_PICK" = "1" ]; then
 
 
   ############################ CMAQ Source Code #################################
-  cd $WRF_FOLDER/Downloads
+  cd ${WRF_FOLDER}/Downloads
   git clone -b main https://github.com/USEPA/CMAQ.git  #clone CMAQ github to WRF_CMAQ Main Folder
 
   cd CMAQ
   cp bldit_project.csh bldit_project.csh.old     # Create backup of build project script
 
   # Set path to where CMAQ will be built
-  sed -i '19s|/home/username/path|${WRF_FOLDER}/Downloads/CMAQ/Build_WRFv$WPS_VERSION-CMAQv5.4|g' $WRF_FOLDER/Downloads/CMAQ/bldit_project.csh
+  sed -i '19s|/home/username/path|${WRF_FOLDER}/Downloads/CMAQ/Build_WRFv${WRF_VERSION}-CMAQv5.4|g' ${WRF_FOLDER}/Downloads/CMAQ/bldit_project.csh
   # Build CMAQ Project
   ./bldit_project.csh
 
-  cd $WRF_FOLDER/Downloads/CMAQ/Build_WRFv$WPS_VERSION-CMAQv5.4
+  cd ${WRF_FOLDER}/Downloads/CMAQ/Build_WRFv${WRF_VERSION}-CMAQv5.4
 
   cp config_cmaq.csh config_cmaq.csh.old        # Create backup of configure script
 
-  # Sed statements to configure the Build_WRFv$WPS_VERSION-CMAQv5.4
-  sed -i '146s|netcdf_root_gcc|${WRF_FOLDER}/Libs/NETCDF|g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv$WPS_VERSION-CMAQv5.4/config_cmaq.csh
-  sed -i '147s|ioapi_root_gcc|${WRF_FOLDER}/Downloads/ioapi|g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv$WPS_VERSION-CMAQv5.4/config_cmaq.csh
-  sed -i '148s|WRF_ARCH|WRF_ARCH 34|g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv$WPS_VERSION-CMAQv5.4/config_cmaq.csh
+  # Sed statements to configure the Build_WRFv${WRF_VERSION}-CMAQv5.4
+  sed -i '146s|netcdf_root_gcc|${WRF_FOLDER}/Libs/NETCDF|g' ${WRF_FOLDER}/Downloads/CMAQ/Build_WRFv${WRF_VERSION}-CMAQv5.4/config_cmaq.csh
+  sed -i '147s|ioapi_root_gcc|${WRF_FOLDER}/Downloads/ioapi|g' ${WRF_FOLDER}/Downloads/CMAQ/Build_WRFv${WRF_VERSION}-CMAQv5.4/config_cmaq.csh
+  sed -i '148s|WRF_ARCH|WRF_ARCH 34|g' ${WRF_FOLDER}/Downloads/CMAQ/Build_WRFv${WRF_VERSION}-CMAQv5.4/config_cmaq.csh
 
   # sed statements for paths in configure file
-  sed -i '151s|ioapi_inc_gcc|${WRF_FOLDER}/Downloads/ioapi/ioapi/fixed_src|g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv$WPS_VERSION-CMAQv5.4/config_cmaq.csh
-  sed -i '152s|ioapi_lib_gcc|${WRF_FOLDER}/Downloads/ioapi/$BIN|g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv$WPS_VERSION-CMAQv5.4/config_cmaq.csh
-  sed -i '153s|netcdf_lib_gcc |${WRF_FOLDER}/Libs/NETCDF/lib|g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv$WPS_VERSION-CMAQv5.4/config_cmaq.csh
-  sed -i '154s|netcdf_inc_gcc|${WRF_FOLDER}/Libs/NETCDF/include|g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv$WPS_VERSION-CMAQv5.4/config_cmaq.csh
-  sed -i '155s|netcdff_lib_gcc|${WRF_FOLDER}/Libs/NETCDF/lib|g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv$WPS_VERSION-CMAQv5.4/config_cmaq.csh
-  sed -i '156s|netcdff_inc_gcc|${WRF_FOLDER}/Libs/NETCDF/include|g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv$WPS_VERSION-CMAQv5.4/config_cmaq.csh
-  sed -i '157s|mpi_incl_gcc|${WRF_FOLDER}/Libs/MPICH|g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv$WPS_VERSION-CMAQv5.4/config_cmaq.csh
-  sed -i '158s|mpi_lib_gcc|${WRF_FOLDER}/Libs/MPICH|g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv$WPS_VERSION-CMAQv5.4/config_cmaq.csh
+  sed -i '151s|ioapi_inc_gcc|${WRF_FOLDER}/Downloads/ioapi/ioapi/fixed_src|g' ${WRF_FOLDER}/Downloads/CMAQ/Build_WRFv${WRF_VERSION}-CMAQv5.4/config_cmaq.csh
+  sed -i '152s|ioapi_lib_gcc|${WRF_FOLDER}/Downloads/ioapi/$BIN|g' ${WRF_FOLDER}/Downloads/CMAQ/Build_WRFv${WRF_VERSION}-CMAQv5.4/config_cmaq.csh
+  sed -i '153s|netcdf_lib_gcc |${WRF_FOLDER}/Libs/NETCDF/lib|g' ${WRF_FOLDER}/Downloads/CMAQ/Build_WRFv${WRF_VERSION}-CMAQv5.4/config_cmaq.csh
+  sed -i '154s|netcdf_inc_gcc|${WRF_FOLDER}/Libs/NETCDF/include|g' ${WRF_FOLDER}/Downloads/CMAQ/Build_WRFv${WRF_VERSION}-CMAQv5.4/config_cmaq.csh
+  sed -i '155s|netcdff_lib_gcc|${WRF_FOLDER}/Libs/NETCDF/lib|g' ${WRF_FOLDER}/Downloads/CMAQ/Build_WRFv${WRF_VERSION}-CMAQv5.4/config_cmaq.csh
+  sed -i '156s|netcdff_inc_gcc|${WRF_FOLDER}/Libs/NETCDF/include|g' ${WRF_FOLDER}/Downloads/CMAQ/Build_WRFv${WRF_VERSION}-CMAQv5.4/config_cmaq.csh
+  sed -i '157s|mpi_incl_gcc|${WRF_FOLDER}/Libs/MPICH|g' ${WRF_FOLDER}/Downloads/CMAQ/Build_WRFv${WRF_VERSION}-CMAQv5.4/config_cmaq.csh
+  sed -i '158s|mpi_lib_gcc|${WRF_FOLDER}/Libs/MPICH|g' ${WRF_FOLDER}/Downloads/CMAQ/Build_WRFv${WRF_VERSION}-CMAQv5.4/config_cmaq.csh
 
 
   # compile the Chemistry Transport Model (CCTM) preprocess
 
-  cd $WRF_FOLDER/Downloads/CMAQ/Build_WRFv$WPS_VERSION-CMAQv5.4/CCTM/scripts
+  cd ${WRF_FOLDER}/Downloads/CMAQ/Build_WRFv${WRF_VERSION}-CMAQv5.4/CCTM/scripts
 
   cp bldit_cctm.csh bldit_cctm.csh.old  # make a back up copy of .csh script
 
   # Sed statements for configuration
-  sed -i '74s|-j|-j $CPU_HALF_EVEN|g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv$WPS_VERSION-CMAQv5.4/CCTM/scripts/bldit_cctm.csh # set multicore to half of available cpus
-  sed -i '84s|#set|set|g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv$WPS_VERSION-CMAQv5.4/CCTM/scripts/bldit_cctm.csh # build two way
-  sed -i '103s|v4.4|v$WPS_VERSION|g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv$WPS_VERSION-CMAQv5.4/CCTM/scripts/bldit_cctm.csh # change wrf version from 4.4 to $WPS_VERSION
+  sed -i '74s|-j|-j $CPU_HALF_EVEN|g' ${WRF_FOLDER}/Downloads/CMAQ/Build_WRFv${WRF_VERSION}-CMAQv5.4/CCTM/scripts/bldit_cctm.csh # set multicore to half of available cpus
+  sed -i '84s|#set|set|g' ${WRF_FOLDER}/Downloads/CMAQ/Build_WRFv${WRF_VERSION}-CMAQv5.4/CCTM/scripts/bldit_cctm.csh # build two way
+  sed -i '103s|v4.4|v${WRF_VERSION}|g' ${WRF_FOLDER}/Downloads/CMAQ/Build_WRFv${WRF_VERSION}-CMAQv5.4/CCTM/scripts/bldit_cctm.csh # change wrf version from 4.4 to ${WPS_VERSION}
 
 
-  sed -i '446s| if ( $? != 0 ) then| |g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv$WPS_VERSION-CMAQv5.4/CCTM/scripts/bldit_cctm.csh
-  sed -i '447s|    set shaID   = "not_a_repo"| |g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv$WPS_VERSION-CMAQv5.4/CCTM/scripts/bldit_cctm.csh
-  sed -i '448s| endif| |g' $WRF_FOLDER/Downloads/CMAQ//Build_WRFv$WPS_VERSION-CMAQv5.4/CCTM/scripts/bldit_cctm.csh
-  sed -i '791s|  if ($? == 0) then| |g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv$WPS_VERSION-CMAQv5.4/CCTM/scripts/bldit_cctm.csh
-  sed -i '793s|  endif| |g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv$WPS_VERSION-CMAQv5.4/CCTM/scripts/bldit_cctm.csh
-  sed -i '822s|compile em_real|compile -j $CPU_HALF_EVEN em_real|g' $WRF_FOLDER/Downloads/CMAQ/Build_WRFv$WPS_VERSION-CMAQv5.4/CCTM/scripts/bldit_cctm.csh
+  sed -i '446s| if ( $? != 0 ) then| |g' ${WRF_FOLDER}/Downloads/CMAQ/Build_WRFv${WRF_VERSION}-CMAQv5.4/CCTM/scripts/bldit_cctm.csh
+  sed -i '447s|    set shaID   = "not_a_repo"| |g' ${WRF_FOLDER}/Downloads/CMAQ/Build_WRFv${WRF_VERSION}-CMAQv5.4/CCTM/scripts/bldit_cctm.csh
+  sed -i '448s| endif| |g' ${WRF_FOLDER}/Downloads/CMAQ//Build_WRFv${WRF_VERSION}-CMAQv5.4/CCTM/scripts/bldit_cctm.csh
+  sed -i '791s|  if ($? == 0) then| |g' ${WRF_FOLDER}/Downloads/CMAQ/Build_WRFv${WRF_VERSION}-CMAQv5.4/CCTM/scripts/bldit_cctm.csh
+  sed -i '793s|  endif| |g' ${WRF_FOLDER}/Downloads/CMAQ/Build_WRFv${WRF_VERSION}-CMAQv5.4/CCTM/scripts/bldit_cctm.csh
+  sed -i '822s|compile em_real|compile -j $CPU_HALF_EVEN em_real|g' ${WRF_FOLDER}/Downloads/CMAQ/Build_WRFv${WRF_VERSION}-CMAQv5.4/CCTM/scripts/bldit_cctm.csh
 
   # Build WRF-CMAQ
   ./bldit_cctm.csh gcc 2>&1 | tee bldit.cctm.twoway.gcc.log
 
   # Move built folder to top level directory
-  mv $WRF_FOLDER/Downloads/CMAQ/Build_WRFv$WPS_VERSION-CMAQv5.4/CCTM/scripts/BLD_WRFv$WPS_VERSION_CCTM_v54_gcc $WRF_FOLDER/WRFv$WPS_VERSION_CMAQv5.4
+  mv ${WRF_FOLDER}/Downloads/CMAQ/Build_WRFv${WRF_VERSION}-CMAQv5.4/CCTM/scripts/BLD_WRFv${WRF_VERSION}_CCTM_v54_gcc ${WRF_FOLDER}/WRFv${WRF_VERSION}_CMAQv5.4
 
-  export WRF_DIR=$WRF_FOLDER/WRFv$WPS_VERSION_CMAQv5.4
+  export WRF_DIR=${WRF_FOLDER}/WRFv${WRF_VERSION}_CMAQv5.4
 
 
 
     # IF statement to check that all files were created.
-  cd $WRF_FOLDER/WRFv$WPS_VERSION_CMAQv5.4/main
+  cd ${WRF_FOLDER}/WRFv${WRF_VERSION}_CMAQv5.4/main
   n=$(ls ./*.exe | wc -l)
   if (($n >= 3))
    then
@@ -3659,16 +3633,16 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$CMAQ_PICK" = "1" ]; then
   fi
   echo " "
 
-  ############################WPSV$WPS_VERSION#####################################
-  ## WPS v$WPS_VERSION
+  ############################WPSV${WPS_VERSION}#####################################
+  ## WPS v${WPS_VERSION}
   ## Downloaded from git tagged releases
   #Option 3 for gfortran and distributed memory
   ########################################################################
 
-  cd $WRF_FOLDER/Downloads
-  wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v$WPS_VERSION.tar.gz -O WPS-$WPS_VERSION.tar.gz
-  tar -xvzf WPS-$WPS_VERSION.tar.gz -C $WRF_FOLDER/
-  cd $WRF_FOLDER/WPS-$WPS_VERSION
+  cd ${WRF_FOLDER}/Downloads
+  wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v${WPS_VERSION}.tar.gz -O WPS-${WPS_VERSION}.tar.gz
+  tar -xvzf WPS-${WPS_VERSION}.tar.gz -C ${WRF_FOLDER}/
+  cd ${WRF_FOLDER}/WPS-${WPS_VERSION}
   ./clean -a
 
   if [ ${auto_config} -eq 1 ]
@@ -3682,7 +3656,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$CMAQ_PICK" = "1" ]; then
 
   echo " "
   # IF statement to check that all files were created.
-   cd $WRF_FOLDER/WPS-$WPS_VERSION
+   cd ${WRF_FOLDER}/WPS-${WPS_VERSION}
    n=$(ls ./*.exe | wc -l)
    if (($n == 3))
     then
@@ -3697,20 +3671,20 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$CMAQ_PICK" = "1" ]; then
 
   ######################## WPS Domain Setup Tools ########################
   ## DomainWizard
-  cd $WRF_FOLDER/Downloads
+  cd ${WRF_FOLDER}/Downloads
   wget -c http://esrl.noaa.gov/gsd/wrfportal/domainwizard/WRFDomainWizard.zip
-  mkdir $WRF_FOLDER/WRFDomainWizard
-  unzip WRFDomainWizard.zip -d $WRF_FOLDER/WRFDomainWizard
-  chmod +x $WRF_FOLDER/WRFDomainWizard/run_DomainWizard
+  mkdir ${WRF_FOLDER}/WRFDomainWizard
+  unzip WRFDomainWizard.zip -d ${WRF_FOLDER}/WRFDomainWizard
+  chmod +x ${WRF_FOLDER}/WRFDomainWizard/run_DomainWizard
 
   echo " "
   ######################## WPF Portal Setup Tools ########################
   ## WRFPortal
-  cd $WRF_FOLDER/Downloads
+  cd ${WRF_FOLDER}/Downloads
   wget -c https://esrl.noaa.gov/gsd/wrfportal/portal/wrf-portal.zip
-  mkdir $WRF_FOLDER/WRFPortal
-  unzip wrf-portal.zip -d $WRF_FOLDER/WRFPortal
-  chmod +x $WRF_FOLDER/WRFPortal/runWRFPortal
+  mkdir ${WRF_FOLDER}/WRFPortal
+  unzip wrf-portal.zip -d ${WRF_FOLDER}/WRFPortal
+  chmod +x ${WRF_FOLDER}/WRFPortal/runWRFPortal
 
 
   echo " "
@@ -3721,19 +3695,19 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$CMAQ_PICK" = "1" ]; then
   # All files downloaded and untarred is 200GB
   # https://www2.mmm.ucar.edu/wrf/users/download/get_sources_wps_geog.html
   #################################################################################
-  cd $WRF_FOLDER/Downloads
-  mkdir $WRF_FOLDER/GEOG
-  mkdir $WRF_FOLDER/GEOG/WPS_GEOG
+  cd ${WRF_FOLDER}/Downloads
+  mkdir ${WRF_FOLDER}/GEOG
+  mkdir ${WRF_FOLDER}/GEOG/WPS_GEOG
 
   echo " "
   echo "Mandatory WRF Preprocessing System (WPS) Geographical Input Data Mandatory Fields Downloads"
   echo " "
   wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_high_res_mandatory.tar.gz
-  tar -xvzf geog_high_res_mandatory.tar.gz -C $WRF_FOLDER/GEOG/
+  tar -xvzf geog_high_res_mandatory.tar.gz -C ${WRF_FOLDER}/GEOG/
 
   wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_low_res_mandatory.tar.gz
-  tar -xvzf geog_low_res_mandatory.tar.gz -C $WRF_FOLDER/GEOG/
-  mv $WRF_FOLDER/GEOG/WPS_GEOG_LOW_RES/ $WRF_FOLDER/GEOG/WPS_GEOG
+  tar -xvzf geog_low_res_mandatory.tar.gz -C ${WRF_FOLDER}/GEOG/
+  mv ${WRF_FOLDER}/GEOG/WPS_GEOG_LOW_RES/ ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 
   if [ ${WPS_Specific_Applications} -eq 1 ]
@@ -3743,31 +3717,31 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$CMAQ_PICK" = "1" ]; then
       echo " "
 
       wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_thompson28_chem.tar.gz
-      tar -xvzf geog_thompson28_chem.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+      tar -xvzf geog_thompson28_chem.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
       wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_noahmp.tar.gz
-      tar -xvzf geog_noahmp.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+      tar -xvzf geog_noahmp.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
       wget -c  https://www2.mmm.ucar.edu/wrf/src/wps_files/irrigation.tar.gz
-      tar -xvzf irrigation.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+      tar -xvzf irrigation.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
       wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_px.tar.gz
-      tar -xvzf geog_px.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+      tar -xvzf geog_px.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
       wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_urban.tar.gz
-      tar -xvzf geog_urban.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+      tar -xvzf geog_urban.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
       wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_ssib.tar.gz
-      tar -xvzf geog_ssib.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+      tar -xvzf geog_ssib.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
       wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/lake_depth.tar.bz2
-      tar -xvf lake_depth.tar.bz2 -C $WRF_FOLDER/GEOG/WPS_GEOG
+      tar -xvf lake_depth.tar.bz2 -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
       wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/topobath_30s.tar.bz2
-      tar -xvf topobath_30s.tar.bz2 -C $WRF_FOLDER/GEOG/WPS_GEOG
+      tar -xvf topobath_30s.tar.bz2 -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
       wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/gsl_gwd.tar.bz2
-      tar -xvf gsl_gwd.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+      tar -xvf gsl_gwd.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
   fi
 
 
@@ -3779,22 +3753,22 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$CMAQ_PICK" = "1" ]; then
 
 
       wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_older_than_2000.tar.gz
-      tar -xvzf geog_older_than_2000.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+      tar -xvzf geog_older_than_2000.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
       wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s_with_lakes.tar.gz
-      tar -xvzf modis_landuse_20class_15s_with_lakes.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+      tar -xvzf modis_landuse_20class_15s_with_lakes.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
       wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_alt_lsm.tar.gz
-      tar -xvzf geog_alt_lsm.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+      tar -xvzf geog_alt_lsm.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
       wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/nlcd2006_ll_9s.tar.bz2
-      tar -xvf nlcd2006_ll_9s.tar.bz2 -C $WRF_FOLDER/GEOG/WPS_GEOG
+      tar -xvf nlcd2006_ll_9s.tar.bz2 -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
       wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/updated_Iceland_LU.tar.gz
-      tar -xvf updated_Iceland_LU.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+      tar -xvf updated_Iceland_LU.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
       wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s.tar.bz2
-      tar -xvf modis_landuse_20class_15s.tar.bz2 -C $WRF_FOLDER/GEOG/WPS_GEOG
+      tar -xvf modis_landuse_20class_15s.tar.bz2 -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 
   fi
@@ -3803,7 +3777,7 @@ fi
 ############################################# WRF SFIRE #################################
 ## WRF_SFIRE installation with parallel process.
 # Download and install required library and data files for WRF_SFIRE.
-# Tested in Ubuntu 20.0$WPS_VERSION LTS & Ubuntu 22.04, Rocky Linux 9 & MacOS Ventura 64bit
+# Tested in Ubuntu 20.0${WPS_VERSION} LTS & Ubuntu 22.04, Rocky Linux 9 & MacOS Ventura 64bit
 # Built in 64-bit system
 # Built with Intel or GNU compilers
 # Tested with current available libraries on 10/10/2023
@@ -3824,7 +3798,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
 	#############################basic package managment############################
 echo $PASSWD | sudo -S apt -y update
 echo $PASSWD | sudo -S apt -y upgrade && sudo -S apt -y autoremove
-echo $PASSWD | sudo -S apt -y install autoconf automake bison build-essential byacc cmake csh curl default-jdk default-jre emacs flex g++ gawk gcc gfortran git ksh libcurl4-openssl-dev libjpeg-dev  libncurses6 libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev m4 make  ncview okular openbox pipenv pkg-config  python3 python3-dev python3-pip tcsh unzip xauth xorg time libgeotiff-dev
+echo $PASSWD | sudo -S apt -y install autoconf automake bison build-essential byacc cmake csh curl default-jdk default-jre emacs flex g++ gawk gcc gfortran git ksh libcurl4-openssl-dev libjpeg-dev libncurses5 libncurses6 libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev m4 make mlocate ncview okular openbox pipenv pkg-config  python3 python3-dev python3-pip tcsh unzip xauth xorg time libgeotiff-dev
 
 echo " "
 ##############################Directory Listing############################
@@ -3832,10 +3806,10 @@ export HOME=`cd;pwd`
 
 mkdir $HOME/WRF_SFIRE
 export WRF_FOLDER=$HOME/WRF_SFIRE
-cd $WRF_FOLDER/
+cd ${WRF_FOLDER}/
 mkdir Downloads
 mkdir Libs
-export DIR=$WRF_FOLDER/Libs
+export DIR=${WRF_FOLDER}/Libs
 mkdir Libs/grib2
 mkdir Libs/NETCDF
 mkdir Libs/MPICH
@@ -3927,7 +3901,7 @@ echo " "
 #Uncalling compilers due to comfigure issue with zlib$Zlib_Version
 #With CC & CXX definied ./configure uses different compiler Flags
 
-cd $WRF_FOLDER/Downloads
+cd ${WRF_FOLDER}/Downloads
 tar -xvzf v$Zlib_Version.tar.gz
 cd zlib-$Zlib_Version/
 autoreconf -i -f 2>&1 | tee autoreconf.log
@@ -3940,7 +3914,7 @@ make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 echo " "
 ##############################MPICH############################
 #F90= due to compiler issues with mpich install
-cd $WRF_FOLDER/Downloads
+cd ${WRF_FOLDER}/Downloads
 tar -xvzf mpich-$Mpich_Version.tar.gz
 cd mpich-$Mpich_Version/
 autoreconf -i -f 2>&1 | tee autoreconf.log
@@ -3963,7 +3937,7 @@ export MPICXX=$DIR/MPICH/bin/mpicxx
 
 echo " "
 #############################libpng############################
-cd $WRF_FOLDER/Downloads
+cd ${WRF_FOLDER}/Downloads
 export LDFLAGS=-L$DIR/grib2/lib
 export CPPFLAGS=-I$DIR/grib2/include
 tar -xvzf libpng-$Libpng_Version.tar.gz
@@ -3976,7 +3950,7 @@ make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 #make check
 echo " "
 #############################JasPer############################
-cd $WRF_FOLDER/Downloads
+cd ${WRF_FOLDER}/Downloads
 unzip jasper-$Jasper_Version.zip
 cd jasper-$Jasper_Version/
 autoreconf -i -f 2>&1 | tee autoreconf.log
@@ -3993,7 +3967,7 @@ export JASPERINC=$DIR/grib2/include
 
 echo " "
 #############################hdf5 library for netcdf4 functionality############################
-cd $WRF_FOLDER/Downloads
+cd ${WRF_FOLDER}/Downloads
 tar -xvzf hdf5-$HDF5_Version.tar.gz
 cd hdf5-hdf5-$HDF5_Version
 autoreconf -i -f 2>&1 | tee autoreconf.log
@@ -4013,7 +3987,7 @@ echo " "
 #Make file created with half of available cpu cores
 #Hard path for MPI added
 ##################################################################################
-cd $WRF_FOLDER/Downloads
+cd ${WRF_FOLDER}/Downloads
 tar -xzvf pnetcdf-$Pnetcdf_Version.tar.gz
 cd pnetcdf-$Pnetcdf_Version
 export MPIFC=$DIR/MPICH/bin/mpifort
@@ -4032,7 +4006,7 @@ export PNETCDF=$DIR/grib2
 
 
 ##############################Install NETCDF C Library############################
-cd $WRF_FOLDER/Downloads
+cd ${WRF_FOLDER}/Downloads
 tar -xzvf v$Netcdf_C_Version.tar.gz
 cd netcdf-c-$Netcdf_C_Version/
 export CPPFLAGS=-I$DIR/grib2/include
@@ -4049,7 +4023,7 @@ export PATH=$DIR/NETCDF/bin:$PATH
 export NETCDF=$DIR/NETCDF
 echo " "
 ##############################NetCDF fortran library############################
-cd $WRF_FOLDER/Downloads
+cd ${WRF_FOLDER}/Downloads
 tar -xvzf v$Netcdf_Fortran_Version.tar.gz
 cd netcdf-fortran-$Netcdf_Fortran_Version/
 export LD_LIBRARY_PATH=$DIR/NETCDF/lib:$LD_LIBRARY_PATH
@@ -4067,7 +4041,7 @@ echo " "
 
 ############################# Convert Geo Tiff #################################
 
-cd $WRF_FOLDER/Downloads
+cd ${WRF_FOLDER}/Downloads
 tar -xzvf convert_geotiff-0.1.0.tar.gz
 cd convert_geotiff-0.1.0
 autoreconf -i -f 2>&1 | tee autoreconf.log
@@ -4080,18 +4054,18 @@ make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 
 #################################### System Environment Tests ##############
 
-cd $WRF_FOLDER/Downloads
+cd ${WRF_FOLDER}/Downloads
 wget -c -4 https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_NETCDF_MPI_tests.tar
 wget -c -4 https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_tests.tar
 
-tar -xvf Fortran_C_tests.tar -C $WRF_FOLDER/Tests/Environment
-tar -xvf Fortran_C_NETCDF_MPI_tests.tar -C $WRF_FOLDER/Tests/Compatibility
+tar -xvf Fortran_C_tests.tar -C ${WRF_FOLDER}/Tests/Environment
+tar -xvf Fortran_C_NETCDF_MPI_tests.tar -C ${WRF_FOLDER}/Tests/Compatibility
 
 export one="1"
 echo " "
 ############## Testing Environment #####
 
-cd $WRF_FOLDER/Tests/Environment
+cd ${WRF_FOLDER}/Tests/Environment
 
 cp ${NETCDF}/include/netcdf.inc .
 
@@ -4099,7 +4073,7 @@ echo " "
 echo " "
 echo "Environment Testing "
 echo "Test 1"
-gfortran TEST_1_fortran_only_fixed.f
+$FC TEST_1_fortran_only_fixed.f
 ./a.out | tee env_test1.txt
 export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test1.txt | awk  '{print$1}')
  if [ $TEST_PASS -ge 1 ]
@@ -4113,7 +4087,7 @@ read -r -t 3 -p "I am going to wait for 3 seconds only ..."
 
 echo " "
 echo "Test 2"
-gfortran TEST_2_fortran_only_free.f90
+$FC TEST_2_fortran_only_free.f90
 ./a.out | tee env_test2.txt
 export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test2.txt | awk  '{print$1}')
  if [ $TEST_PASS -ge 1 ]
@@ -4128,7 +4102,7 @@ read -r -t 3 -p "I am going to wait for 3 seconds only ..."
 
 echo " "
 echo "Test 3"
-gcc TEST_3_c_only.c
+$CC TEST_3_c_only.c
 ./a.out | tee env_test3.txt
 export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test3.txt | awk  '{print$1}')
  if [ $TEST_PASS -ge 1 ]
@@ -4143,9 +4117,9 @@ read -r -t 3 -p "I am going to wait for 3 seconds only ..."
 
 echo " "
 echo "Test 4"
-gcc -c -m64 TEST_4_fortran+c_c.c
-gfortran -c -m64 TEST_4_fortran+c_f.f90
-gfortran -m64 TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
+$CC -c -m64 TEST_4_fortran+c_c.c
+$FC -c -m64 TEST_4_fortran+c_f.f90
+$FC -m64 TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
 ./a.out | tee env_test4.txt
 export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test4.txt | awk  '{print$1}')
  if [ $TEST_PASS -ge 1 ]
@@ -4161,7 +4135,7 @@ read -r -t 3 -p "I am going to wait for 3 seconds only ..."
 echo " "
 ############## Testing Environment #####
 
-cd $WRF_FOLDER/Tests/Compatibility
+cd ${WRF_FOLDER}/Tests/Compatibility
 
 cp ${NETCDF}/include/netcdf.inc .
 
@@ -4169,9 +4143,9 @@ echo " "
 echo " "
 echo "Library Compatibility Tests "
 echo "Test 1"
-gfortran -c 01_fortran+c+netcdf_f.f
-gcc -c 01_fortran+c+netcdf_c.c
-gfortran 01_fortran+c+netcdf_f.o 01_fortran+c+netcdf_c.o \
+$FC -c 01_fortran+c+netcdf_f.f
+$CC -c 01_fortran+c+netcdf_c.c
+$FC 01_fortran+c+netcdf_f.o 01_fortran+c+netcdf_c.o \
 		 -L${NETCDF}/lib -lnetcdff -lnetcdf
 
 		 ./a.out | tee comp_test1.txt
@@ -4189,9 +4163,9 @@ gfortran 01_fortran+c+netcdf_f.o 01_fortran+c+netcdf_c.o \
 echo " "
 
 echo "Test 2"
-$DIR/MPICH/bin/mpifort -c 02_fortran+c+netcdf+mpi_f.f
-$DIR/MPICH/bin/mpicc -c 02_fortran+c+netcdf+mpi_c.c
-$DIR/MPICH/bin/mpifort 02_fortran+c+netcdf+mpi_f.o \
+$MPIFC -c 02_fortran+c+netcdf+mpi_f.f
+$MPICC -c 02_fortran+c+netcdf+mpi_c.c
+$MPIFC 02_fortran+c+netcdf+mpi_f.o \
 02_fortran+c+netcdf+mpi_c.o \
 		 -L${NETCDF}/lib -lnetcdff -lnetcdf
 
@@ -4224,7 +4198,7 @@ echo " "
 
 
 
-cd $WRF_FOLDER/Downloads
+cd ${WRF_FOLDER}/Downloads
 git clone https://github.com/NCAR/NCEPlibs.git
 cd NCEPlibs
 mkdir $DIR/nceplibs
@@ -4249,7 +4223,7 @@ if [ $GCC_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GFORTRAN_VERSION_MAJOR_V
 then
 	y="24 28 32 36 40 45 49 53 56 60 64 68 69 73 74 79"
 	for X in $y; do
-		sed -i "${X}s/= /= $fallow_argument $boz_argument /g" $WRF_FOLDER/Downloads/NCEPlibs/macros.make.linux.gnu
+		sed -i "${X}s/= /= $fallow_argument $boz_argument /g" ${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu
 	done
 else
 	echo ""
@@ -4272,7 +4246,7 @@ echo " "
 #since the WRF was written
 #Option 8 gfortran compiler with distributed memory
 #############################################################################
-cd $WRF_FOLDER/
+cd ${WRF_FOLDER}/
 git clone -b dtc_post_v4.1.0 --recurse-submodules https://github.com/NOAA-EMC/EMC_post UPPV4.1
 cd UPPV4.1
 mkdir postprd
@@ -4302,7 +4276,7 @@ if [ $GCC_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GFORTRAN_VERSION_MAJOR_V
 	then
 		z="58 63"
 		for X in $z; do
-			sed -i "${X}s/(FOPT)/(FOPT) $fallow_argument $boz_argument  /g" $WRF_FOLDER/UPPV4.1/configure.upp
+			sed -i "${X}s/(FOPT)/(FOPT) $fallow_argument $boz_argument  /g" ${WRF_FOLDER}/UPPV4.1/configure.upp
 		done
 	else
 		echo ""
@@ -4310,12 +4284,12 @@ if [ $GCC_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GFORTRAN_VERSION_MAJOR_V
 fi
 
 ./compile
-cd $WRF_FOLDER/UPPV4.1/scripts
+cd ${WRF_FOLDER}/UPPV4.1/scripts
 echo $PASSWD | sudo -S cpan install XML::LibXML
 chmod +x run_unipost
 
 # IF statement to check that all files were created.
- cd $WRF_FOLDER/UPPV4.1/exec
+ cd ${WRF_FOLDER}/UPPV4.1/exec
  n=$(ls ./*.exe | wc -l)
  if (( $n == 1 ))
 	then
@@ -4335,12 +4309,12 @@ echo " "
 ## ARWpost
 ##Configure #3
 ###################################################################
-cd $WRF_FOLDER/Downloads
+cd ${WRF_FOLDER}/Downloads
 wget -c -4 http://www2.mmm.ucar.edu/wrf/src/ARWpost_V3.tar.gz
-tar -xvzf ARWpost_V3.tar.gz -C $WRF_FOLDER/
-cd $WRF_FOLDER/ARWpost
+tar -xvzf ARWpost_V3.tar.gz -C ${WRF_FOLDER}/
+cd ${WRF_FOLDER}/ARWpost
 ./clean -a
-sed -i -e 's/-lnetcdf/-lnetcdff -lnetcdf/g' $WRF_FOLDER/ARWpost/src/Makefile
+sed -i -e 's/-lnetcdf/-lnetcdff -lnetcdf/g' ${WRF_FOLDER}/ARWpost/src/Makefile
 export NETCDF=$DIR/NETCDF
 
 
@@ -4368,34 +4342,34 @@ then
 fi
 
 
-sed -i -e 's/-C -P -traditional/-P -traditional/g' $WRF_FOLDER/ARWpost/configure.arwp
+sed -i -e 's/-C -P -traditional/-P -traditional/g' ${WRF_FOLDER}/ARWpost/configure.arwp
 ./compile
 
 
-export PATH=$WRF_FOLDER/ARWpost/ARWpost.exe:$PATH
+export PATH=${WRF_FOLDER}/ARWpost/ARWpost.exe:$PATH
 
 echo " "
 ################################ OpenGrADS ##################################
 #Verison 2.2.1 32bit of Linux
 #############################################################################
 if [[ $GRADS_PICK -eq 1 ]]; then
-	cd $WRF_FOLDER/Downloads
-	tar -xzvf opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz -C $WRF_FOLDER/
-	cd $WRF_FOLDER/
-	mv $WRF_FOLDER/opengrads-2.2.1.oga.1  $WRF_FOLDER/GrADS
+	cd ${WRF_FOLDER}/Downloads
+	tar -xzvf opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz -C ${WRF_FOLDER}/
+	cd ${WRF_FOLDER}/
+	mv ${WRF_FOLDER}/opengrads-2.2.1.oga.1  ${WRF_FOLDER}/GrADS
 	cd GrADS/Contents
 	wget -c -4 https://github.com/regisgrundig/SIMOP/blob/master/g2ctl.pl
 	chmod +x g2ctl.pl
 	wget -c -4 https://sourceforge.net/projects/opengrads/files/wgrib2/0.1.9.4/wgrib2-v0.1.9.4-bin-i686-glib2.5-linux-gnu.tar.gz
 	tar -xzvf wgrib2-v0.1.9.4-bin-i686-glib2.5-linux-gnu.tar.gz
 	cd wgrib2-v0.1.9.4/bin
-	mv wgrib2 $WRF_FOLDER/GrADS/Contents
-	cd $WRF_FOLDER/GrADS/Contents
+	mv wgrib2 ${WRF_FOLDER}/GrADS/Contents
+	cd ${WRF_FOLDER}/GrADS/Contents
 	rm wgrib2-v0.1.9.4-bin-i686-glib2.5-linux-gnu.tar.gz
 	rm -r wgrib2-v0.1.9.4
 
 
-	export PATH=$WRF_FOLDER/GrADS/Contents:$PATH
+	export PATH=${WRF_FOLDER}/GrADS/Contents:$PATH
 
 
 echo " "
@@ -4417,7 +4391,7 @@ fi
 ########### https://www.ncl.ucar.edu/index.shtml      ##################
 #Installing Miniconda3 to WRF-Hydro directory and updating libraries
 
-export Miniconda_Install_DIR=$WRF_FOLDER/miniconda3
+export Miniconda_Install_DIR=${WRF_FOLDER}/miniconda3
 
 mkdir -p $Miniconda_Install_DIR
 
@@ -4426,7 +4400,7 @@ bash $Miniconda_Install_DIR/miniconda.sh -b -u -p $Miniconda_Install_DIR
 
 rm -rf $Miniconda_Install_DIR/miniconda.sh
 
-export PATH=$WRF_FOLDER/miniconda3/bin:$PATH
+export PATH=${WRF_FOLDER}/miniconda3/bin:$PATH
 
 source $Miniconda_Install_DIR/etc/profile.d/conda.sh
 
@@ -4463,33 +4437,33 @@ conda deactivate
 echo " "
 
 ############################## RIP4 #####################################
-mkdir $WRF_FOLDER/RIP4
-cd $WRF_FOLDER/Downloads
+mkdir ${WRF_FOLDER}/RIP4
+cd ${WRF_FOLDER}/Downloads
 wget -c -4 https://www2.mmm.ucar.edu/wrf/src/RIP_47.tar.gz
-tar -xvzf RIP_47.tar.gz -C $WRF_FOLDER/RIP4
-cd $WRF_FOLDER/RIP4/RIP_47
+tar -xvzf RIP_47.tar.gz -C ${WRF_FOLDER}/RIP4
+cd ${WRF_FOLDER}/RIP4/RIP_47
 mv * ..
-cd $WRF_FOLDER/RIP4
+cd ${WRF_FOLDER}/RIP4
 rm -rd RIP_47
 source $Miniconda_Install_DIR/etc/profile.d/conda.sh
 conda activate ncl_stable
 conda install -c conda-forge ncl c-compiler fortran-compiler cxx-compiler -y
 
 
-export RIP_ROOT=$WRF_FOLDER/RIP4
+export RIP_ROOT=${WRF_FOLDER}/RIP4
 export NETCDF=$DIR/NETCDF
-export NCARG_ROOT=$WRF_FOLDER/miniconda3/envs/ncl_stable
+export NCARG_ROOT=${WRF_FOLDER}/miniconda3/envs/ncl_stable
 
 
-sed -i '349s|-L${NETCDF}/lib -lnetcdf $NETCDFF|-L${NETCDF}/lib $NETCDFF -lnetcdff -lnetcdf -lnetcdf -lnetcdff_C -lhdf5 |g' $WRF_FOLDER/RIP4/configure
+sed -i '349s|-L${NETCDF}/lib -lnetcdf $NETCDFF|-L${NETCDF}/lib $NETCDFF -lnetcdff -lnetcdf -lnetcdf -lnetcdff_C -lhdf5 |g' ${WRF_FOLDER}/RIP4/configure
 
-sed -i '27s|NETCDFLIB	= -L${NETCDF}/lib -lnetcdf CONFIGURE_NETCDFF_LIB|NETCDFLIB	= -L</usr/lib/x86_64-linux-gnu/libm.a> -lm -L${NETCDF}/lib CONFIGURE_NETCDFF_LIB -lnetcdf -lhdf5 -lhdf5_hl -lgfortran -lgcc -lz |g' $WRF_FOLDER/RIP4/arch/preamble
+sed -i '27s|NETCDFLIB	= -L${NETCDF}/lib -lnetcdf CONFIGURE_NETCDFF_LIB|NETCDFLIB	= -L</usr/lib/x86_64-linux-gnu/libm.a> -lm -L${NETCDF}/lib CONFIGURE_NETCDFF_LIB -lnetcdf -lhdf5 -lhdf5_hl -lgfortran -lgcc -lz |g' ${WRF_FOLDER}/RIP4/arch/preamble
 
-sed -i '31s|-L${NCARG_ROOT}/lib -lncarg -lncarg_gks -lncarg_c -lX11 -lXext -lpng -lz CONFIGURE_NCARG_LIB| -L${NCARG_ROOT}/lib -lncarg -lncarg_gks -lncarg_c -lX11 -lXext -lpng -lz -lcairo -lfontconfig -lpixman-1 -lfreetype -lexpat -lpthread -lbz2 -lXrender -lgfortran -lgcc -L</usr/lib/x86_64-linux-gnu/> -lm -lhdf5 -lhdf5_hl |g' $WRF_FOLDER/RIP4/arch/preamble
+sed -i '31s|-L${NCARG_ROOT}/lib -lncarg -lncarg_gks -lncarg_c -lX11 -lXext -lpng -lz CONFIGURE_NCARG_LIB| -L${NCARG_ROOT}/lib -lncarg -lncarg_gks -lncarg_c -lX11 -lXext -lpng -lz -lcairo -lfontconfig -lpixman-1 -lfreetype -lexpat -lpthread -lbz2 -lXrender -lgfortran -lgcc -L</usr/lib/x86_64-linux-gnu/> -lm -lhdf5 -lhdf5_hl |g' ${WRF_FOLDER}/RIP4/arch/preamble
 
-sed -i '33s| -O|-fallow-argument-mismatch -O |g' $WRF_FOLDER/RIP4/arch/configure.defaults
+sed -i '33s| -O|-fallow-argument-mismatch -O |g' ${WRF_FOLDER}/RIP4/arch/configure.defaults
 
-sed -i '35s|=|= -L$WRF_FOLDER/LIBS/grib2/lib -lhdf5 -lhdf5_hl |g' $WRF_FOLDER/RIP4/arch/configure.defaults
+sed -i '35s|=|= -L${WRF_FOLDER}/LIBS/grib2/lib -lhdf5 -lhdf5_hl |g' ${WRF_FOLDER}/RIP4/arch/configure.defaults
 
 
 if [ ${auto_config} -eq 1 ]
@@ -4511,7 +4485,7 @@ echo " "
 ########### WRf-Python compiled via Conda  ##################
 ########### This is the preferred method by NCAR      ##################
 ##### https://wrf-python.readthedocs.io/en/latest/installation.html  ##################
-source $Anaconda_Install_DIR/etc/profile.d/conda.sh
+source $Miniconda_Install_DIR/etc/profile.d/conda.sh
 conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 ######################### Climate Data Operators ############
@@ -4552,16 +4526,16 @@ echo " "
 # option 34, option 1 for gfortran and distributed memory w/basic nesting
 # large file support enable with WRFiO_NCD_LARGE_FILE_SUPPORT=1
 ########################################################################
-cd $WRF_FOLDER
+cd ${WRF_FOLDER}
 git clone https://github.com/openwfm/WRF-SFIRE.git
 
-cd $WRF_FOLDER/WRF-SFIRE/
+cd ${WRF_FOLDER}/WRF-SFIRE/
 ./clean -a                      # Clean old configuration files
 
  if [ ${auto_config} -eq 1 ]
 	then
-			sed -i '428s/.*/  $response = "34 \\n";/g' $WRF_FOLDER/WRF-SFIRE/arch/Config.pl # Answer for compiler choice
-			sed -i '869s/.*/  $response = "1 \\n";/g' $WRF_FOLDER/WRF-SFIRE/arch/Config.pl  #Answer for basic nesting
+			sed -i '428s/.*/  $response = "34 \\n";/g' ${WRF_FOLDER}/WRF-SFIRE/arch/Config.pl # Answer for compiler choice
+			sed -i '869s/.*/  $response = "1 \\n";/g' ${WRF_FOLDER}/WRF-SFIRE/arch/Config.pl  #Answer for basic nesting
 			./configure 2>&1 | tee configure.log
 	else
 		./configure 2>&1 | tee configure.log  #Option 34 gfortran compiler with distributed memory option 1 for basic nesting
@@ -4571,7 +4545,7 @@ fi
 
 
  # IF statement to check that all files were created.
-	cd $WRF_FOLDER/WRF-SFIRE/main
+	cd ${WRF_FOLDER}/WRF-SFIRE/main
 	n=$(ls ./*.exe | wc -l)
 	if (($n >= 3)); then
 		echo "All expected files created."
@@ -4579,9 +4553,9 @@ fi
 	else
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
-		cd $WRF_FOLDER/WRF-SFIRE/
+		cd ${WRF_FOLDER}/WRF-SFIRE/
 		./compile -j $CPU_HALF_EVEN em_real 2>&1 | tee compile.wrf2.log
-		cd $WRF_FOLDER/WRF-SFIRE/main
+		cd ${WRF_FOLDER}/WRF-SFIRE/main
 		n=$(ls ./*.exe | wc -l)
 		if (($n >= 3)); then
 			echo "All expected files created."
@@ -4594,10 +4568,10 @@ fi
 
 	echo " "
 
-cd $WRF_FOLDER/WRF-SFIRE
+cd ${WRF_FOLDER}/WRF-SFIRE
 ./compile -j $CPU_HALF_EVEN em_fire 2>&1 | tee compile.wrfsfire.log
 
-export WRF_DIR=$WRF_FOLDER/WRF-SFIRE
+export WRF_DIR=${WRF_FOLDER}/WRF-SFIRE
 
 
 
@@ -4607,13 +4581,13 @@ export WRF_DIR=$WRF_FOLDER/WRF-SFIRE
 # Cloned from openwfm
 #Option 3 for gfortran and distributed memory
 ########################################################################
-cd $WRF_FOLDER
+cd ${WRF_FOLDER}
 git clone https://github.com/openwfm/WPS.git
 
-cd $WRF_FOLDER/WPS
+cd ${WRF_FOLDER}/WPS
 ./clean -a
 
-cd $WRF_FOLDER/WPS
+cd ${WRF_FOLDER}/WPS
 if [ ${auto_config} -eq 1 ]
 	then
 		FFLAGS=$FFLAGS  echo 3 | ./configure 2>&1 | tee configure.log #Option 3 for gfortran and distributed memory
@@ -4625,15 +4599,15 @@ fi
 
 if [ $GCC_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GFORTRAN_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GPLUSPLUS_VERSION_MAJOR_VERSION -ge $version_10 ]
 	then
-sed -i '70s/-frecord-marker=4/-frecord-marker=4 -m64 -fallow-argument-mismatch/g' $WRF_FOLDER/WPS/configure.wps
-sed -i '71s/-frecord-marker=4/-frecord-marker=4 -m64 -fallow-argument-mismatch/g' $WRF_FOLDER/WPS/configure.wps
+sed -i '70s/-frecord-marker=4/-frecord-marker=4 -m64 -fallow-argument-mismatch/g' ${WRF_FOLDER}/WPS/configure.wps
+sed -i '71s/-frecord-marker=4/-frecord-marker=4 -m64 -fallow-argument-mismatch/g' ${WRF_FOLDER}/WPS/configure.wps
 fi
 
 ./compile 2>&1 | tee compile.wps.log
 
 
 # IF statement to check that all files were created.
-cd $WRF_FOLDER/WPS
+cd ${WRF_FOLDER}/WPS
 n=$(ls ./*.exe | wc -l)
 if (($n == 3)); then
 	echo "All expected files created."
@@ -4643,7 +4617,7 @@ else
 	echo "Running compiler again"
 
 	./compile 2>&1 | tee compile.wps2.log
-	cd $WRF_FOLDER/WPS
+	cd ${WRF_FOLDER}/WPS
 	n=$(ls ./*.exe | wc -l)
 	if (($n == 3)); then
 		echo "All expected files created."
@@ -4661,20 +4635,20 @@ echo " "
 
 ######################## WPS Domain Setup Tools ########################
 ## DomainWizard
-cd $WRF_FOLDER/Downloads
+cd ${WRF_FOLDER}/Downloads
 wget -c -4 http://esrl.noaa.gov/gsd/wrfportal/domainwizard/WRFDomainWizard.zip
-mkdir $WRF_FOLDER/WRFDomainWizard
-unzip WRFDomainWizard.zip -d $WRF_FOLDER/WRFDomainWizard
-chmod +x $WRF_FOLDER/WRFDomainWizard/run_DomainWizard
+mkdir ${WRF_FOLDER}/WRFDomainWizard
+unzip WRFDomainWizard.zip -d ${WRF_FOLDER}/WRFDomainWizard
+chmod +x ${WRF_FOLDER}/WRFDomainWizard/run_DomainWizard
 
 echo " "
 ######################## WPF Portal Setup Tools ########################
 ## WRFPortal
-cd $WRF_FOLDER/Downloads
+cd ${WRF_FOLDER}/Downloads
 wget -c -4 https://esrl.noaa.gov/gsd/wrfportal/portal/wrf-portal.zip
-mkdir $WRF_FOLDER/WRFPortal
-unzip wrf-portal.zip -d $WRF_FOLDER/WRFPortal
-chmod +x $WRF_FOLDER/WRFPortal/runWRFPortal
+mkdir ${WRF_FOLDER}/WRFPortal
+unzip wrf-portal.zip -d ${WRF_FOLDER}/WRFPortal
+chmod +x ${WRF_FOLDER}/WRFPortal/runWRFPortal
 
 
 echo " "
@@ -4685,19 +4659,19 @@ echo " "
 # All files downloaded and untarred is 200GB
 # https://www2.mmm.ucar.edu/wrf/users/download/get_sources_wps_geog.html
 #################################################################################
-cd $WRF_FOLDER/Downloads
-mkdir $WRF_FOLDER/GEOG
-mkdir $WRF_FOLDER/GEOG/WPS_GEOG
+cd ${WRF_FOLDER}/Downloads
+mkdir ${WRF_FOLDER}/GEOG
+mkdir ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 echo " "
 echo "Mandatory WRF Preprocessing System (WPS) Geographical Input Data Mandatory Fields Downloads"
 echo " "
 wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_high_res_mandatory.tar.gz
-tar -xvzf geog_high_res_mandatory.tar.gz -C $WRF_FOLDER/GEOG/
+tar -xvzf geog_high_res_mandatory.tar.gz -C ${WRF_FOLDER}/GEOG/
 
 wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_low_res_mandatory.tar.gz
-tar -xvzf geog_low_res_mandatory.tar.gz -C $WRF_FOLDER/GEOG/
-mv $WRF_FOLDER/GEOG/WPS_GEOG_LOW_RES/ $WRF_FOLDER/GEOG/WPS_GEOG
+tar -xvzf geog_low_res_mandatory.tar.gz -C ${WRF_FOLDER}/GEOG/
+mv ${WRF_FOLDER}/GEOG/WPS_GEOG_LOW_RES/ ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 
 if [ ${WPS_Specific_Applications} -eq 1 ]
@@ -4707,31 +4681,31 @@ if [ ${WPS_Specific_Applications} -eq 1 ]
 		echo " "
 
 		wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_thompson28_chem.tar.gz
-		tar -xvzf geog_thompson28_chem.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+		tar -xvzf geog_thompson28_chem.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 		wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_noahmp.tar.gz
-		tar -xvzf geog_noahmp.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+		tar -xvzf geog_noahmp.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 		wget -c -4  https://www2.mmm.ucar.edu/wrf/src/wps_files/irrigation.tar.gz
-		tar -xvzf irrigation.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+		tar -xvzf irrigation.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 		wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_px.tar.gz
-		tar -xvzf geog_px.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+		tar -xvzf geog_px.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 		wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_urban.tar.gz
-		tar -xvzf geog_urban.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+		tar -xvzf geog_urban.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 		wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_ssib.tar.gz
-		tar -xvzf geog_ssib.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+		tar -xvzf geog_ssib.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 		wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/lake_depth.tar.bz2
-		tar -xvf lake_depth.tar.bz2 -C $WRF_FOLDER/GEOG/WPS_GEOG
+		tar -xvf lake_depth.tar.bz2 -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 		wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/topobath_30s.tar.bz2
-		tar -xvf topobath_30s.tar.bz2 -C $WRF_FOLDER/GEOG/WPS_GEOG
+		tar -xvf topobath_30s.tar.bz2 -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 		wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/gsl_gwd.tar.bz2
-		tar -xvf gsl_gwd.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+		tar -xvf gsl_gwd.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 fi
 
 
@@ -4743,22 +4717,22 @@ if [ ${Optional_GEOG} -eq 1 ]
 
 
 		wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_older_than_2000.tar.gz
-		tar -xvzf geog_older_than_2000.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+		tar -xvzf geog_older_than_2000.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 		wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s_with_lakes.tar.gz
-		tar -xvzf modis_landuse_20class_15s_with_lakes.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+		tar -xvzf modis_landuse_20class_15s_with_lakes.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 		wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_alt_lsm.tar.gz
-		tar -xvzf geog_alt_lsm.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+		tar -xvzf geog_alt_lsm.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 		wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/nlcd2006_ll_9s.tar.bz2
-		tar -xvf nlcd2006_ll_9s.tar.bz2 -C $WRF_FOLDER/GEOG/WPS_GEOG
+		tar -xvf nlcd2006_ll_9s.tar.bz2 -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 		wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/updated_Iceland_LU.tar.gz
-		tar -xvf updated_Iceland_LU.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+		tar -xvf updated_Iceland_LU.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 		wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s.tar.bz2
-		tar -xvf modis_landuse_20class_15s.tar.bz2 -C $WRF_FOLDER/GEOG/WPS_GEOG
+		tar -xvf modis_landuse_20class_15s.tar.bz2 -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 
   fi
@@ -4767,32 +4741,55 @@ fi
 if [ "$macos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$MAC_CHIP" = "Intel" ]; then
 
 	#############################basic package managment############################
- brew install wget
- brew install git
- brew install gcc@12
- brew install libtool
- brew install automake
- brew install autoconf
- brew install make
- brew install m4
- brew install java
- brew install jpeg
- brew install ksh
- brew install grads
- brew install ksh
- brew install tcsh
- brew install python@3.10
- brew install cmake
- brew install xorgproto
- brew install xorgrgb
- brew install xauth
- brew install curl
- brew install flex
- brew install byacc
- brew install bison
- brew install gnu-sed
- brew install libgeotiff
- brew install libtiff
+
+brew install autoconf
+sleep 1
+brew install automake
+sleep 1
+brew install bison
+sleep 1
+brew install byacc
+sleep 1
+brew install cmake
+sleep 1
+brew install curl
+sleep 1
+brew install flex
+sleep 1
+brew install gcc@12
+sleep 1
+brew install gnu-sed
+sleep 1
+brew install git
+sleep 1
+brew install java
+sleep 1
+brew install jpeg
+sleep 1
+brew install ksh
+sleep 1
+brew install libgeotiff
+sleep 1
+brew install libtool
+sleep 1
+brew install libtiff
+sleep 1
+brew install m4
+sleep 1
+brew install make
+sleep 1
+brew install python@3.10
+sleep 1
+brew install tcsh
+sleep 1
+brew install wget
+sleep 1
+brew install xauth
+sleep 1
+brew install xorgproto
+sleep 1
+brew install xorgrgb
+
 
  export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
  export PATH=/usr/local/bin:$PATH
@@ -4805,10 +4802,10 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$MAC_CHIP" = "I
  )
  mkdir $HOME/WRF_SFIRE
  export WRF_FOLDER=$HOME/WRF_SFIRE
- cd $WRF_FOLDER/
+ cd ${WRF_FOLDER}/
  mkdir Downloads
  mkdir Libs
- export DIR=$WRF_FOLDER/Libs
+ export DIR=${WRF_FOLDER}/Libs
  mkdir -p Libs/grib2
  mkdir -p Libs/NETCDF
  mkdir -p Tests/Environment
@@ -4835,7 +4832,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$MAC_CHIP" = "I
 
  ##############################Downloading Libraries############################
 
- cd $WRF_FOLDER/Downloads
+ cd ${WRF_FOLDER}/Downloads
  wget -c -4 https://github.com/madler/zlib/archive/refs/tags/v$Zlib_Version.tar.gz
  wget -c -4 https://github.com/HDFGroup/hdf5/archive/refs/tags/hdf5-$HDF5_Version.tar.gz
  wget -c -4 https://github.com/Unidata/netcdf-c/archive/refs/tags/v$Netcdf_C_Version.tar.gz
@@ -4844,7 +4841,6 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$MAC_CHIP" = "I
  wget -c -4 https://www.ece.uvic.ca/~frodo/jasper/software/jasper-$Jasper_Version.zip
  wget -c -4 https://github.com/pmodels/mpich/releases/download/v$Mpich_Version/mpich-$Mpich_Version.tar.gz
  wget -c -4 https://parallel-netcdf.github.io/Release/pnetcdf-$Pnetcdf_Version.tar.gz
- wget -c -4 https://sourceforge.net/projects/opengrads/files/grads2/2.2.1.oga.1/Linux%20%2864%20Bits%29/opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz
  wget -c -4 https://github.com/openwfm/convert_geotiff/releases/download/v0.1/convert_geotiff-0.1.0.tar.gz
 
  echo " "
@@ -4901,7 +4897,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$MAC_CHIP" = "I
  #Uncalling compilers due to comfigure issue with zlib1.2.12
  #With CC & CXX definied ./configure uses different compiler Flags
 
- cd $WRF_FOLDER/Downloads
+ cd ${WRF_FOLDER}/Downloads
  tar -xvzf v$Zlib_Version.tar.gz
  cd zlib-$Zlib_Version/
  autoreconf -i -f 2>&1 | tee autoreconf.log
@@ -4914,7 +4910,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$MAC_CHIP" = "I
  echo " "
 
  ##############################MPICH############################
- cd $WRF_FOLDER/Downloads
+ cd ${WRF_FOLDER}/Downloads
  tar -xvzf mpich-$Mpich_Version.tar.gz
  cd mpich-$Mpich_Version/
  autoreconf -i -f 2>&1 | tee autoreconf.log
@@ -4935,7 +4931,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$MAC_CHIP" = "I
 
  read -r -t 3 -p
  #############################libpng############################
- cd $WRF_FOLDER/Downloads
+ cd ${WRF_FOLDER}/Downloads
  export LDFLAGS=-L$DIR/grib2/lib
  export CPPFLAGS=-I$DIR/grib2/include
  tar -xvzf libpng-$Libpng_Version.tar.gz
@@ -4950,7 +4946,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$MAC_CHIP" = "I
  echo " "
  #############################JasPer############################
 
- cd $WRF_FOLDER/Downloads
+ cd ${WRF_FOLDER}/Downloads
  unzip jasper-$Jasper_Version.zip
  cd jasper-$Jasper_Version/
  autoreconf -i -f 2>&1 | tee autoreconf.log
@@ -4965,7 +4961,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$MAC_CHIP" = "I
  read -r -t 3 -p
  #############################hdf5 library for netcdf4 functionality############################
 
- cd $WRF_FOLDER/Downloads
+ cd ${WRF_FOLDER}/Downloads
  tar -xvzf hdf5-$HDF5_Version.tar.gz
  cd hdf5-hdf5-$HDF5_Version
  autoreconf -i -f 2>&1 | tee autoreconf.log
@@ -4985,7 +4981,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$MAC_CHIP" = "I
  #Make file created with half of available cpu cores
  #Hard path for MPI added
  ##################################################################################
- cd $WRF_FOLDER/Downloads
+ cd ${WRF_FOLDER}/Downloads
  tar -xvzf pnetcdf-$Pnetcdf_Version.tar.gz
  cd pnetcdf-$Pnetcdf_Version
  export MPIFC=$DIR/MPICH/bin/mpifort
@@ -5006,7 +5002,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$MAC_CHIP" = "I
 
  read -r -t 3 -p
  ##############################Install NETCDF C Library############################
- cd $WRF_FOLDER/Downloads
+ cd ${WRF_FOLDER}/Downloads
  tar -xzvf v$Netcdf_C_Version.tar.gz
  cd netcdf-c-$Netcdf_C_Version/
  export CPPFLAGS=-I$DIR/grib2/include
@@ -5024,7 +5020,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$MAC_CHIP" = "I
  echo " "
  read -r -t 3 -p
  ##############################NetCDF fortran library############################
- cd $WRF_FOLDER/Downloads
+ cd ${WRF_FOLDER}/Downloads
  tar -xvzf v$Netcdf_Fortran_Version.tar.gz
  cd netcdf-fortran-$Netcdf_Fortran_Version/
  export LD_LIBRARY_PATH=$DIR/NETCDF/lib:$LD_LIBRARY_PATH
@@ -5042,7 +5038,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$MAC_CHIP" = "I
  read -r -t 3 -p
  ############################# Convert Geo Tiff #################################
 
- cd $WRF_FOLDER/Downloads
+ cd ${WRF_FOLDER}/Downloads
  tar -xzvf convert_geotiff-0.1.0.tar.gz
  cd convert_geotiff-0.1.0
 
@@ -5068,20 +5064,20 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$MAC_CHIP" = "I
 
  read -r -t 3 -p
  #################################### System Environment Tests ##############
- mkdir -p $WRF_FOLDER/Tests/Environment
- mkdir -p $WRF_FOLDER/Tests/Compatibility
+ mkdir -p ${WRF_FOLDER}/Tests/Environment
+ mkdir -p ${WRF_FOLDER}/Tests/Compatibility
 
- cd $WRF_FOLDER/Downloads
+ cd ${WRF_FOLDER}/Downloads
  wget -c -4 https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_NETCDF_MPI_tests.tar
  wget -c -4 https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_tests.tar
 
- tar -xvf Fortran_C_tests.tar -C $WRF_FOLDER/Tests/Environment
- tar -xvf Fortran_C_NETCDF_MPI_tests.tar -C $WRF_FOLDER/Tests/Compatibility
+ tar -xvf Fortran_C_tests.tar -C ${WRF_FOLDER}/Tests/Environment
+ tar -xvf Fortran_C_NETCDF_MPI_tests.tar -C ${WRF_FOLDER}/Tests/Compatibility
  export one="1"
  echo " "
  ############## Testing Environment #####
 
- cd $WRF_FOLDER/Tests/Environment
+ cd ${WRF_FOLDER}/Tests/Environment
 
  echo " "
  echo " "
@@ -5145,7 +5141,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$MAC_CHIP" = "I
  echo " "
  ############## Testing Environment #####
 
- cd $WRF_FOLDER/Tests/Compatibility
+ cd ${WRF_FOLDER}/Tests/Compatibility
 
  cp ${NETCDF}/include/netcdf.inc .
 
@@ -5154,7 +5150,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$MAC_CHIP" = "I
  echo "Library Compatibility Tests "
  echo "Test 1"
  gfortran-12 -c 01_fortran+c+netcdf_f.f
- gcc -c 01_fortran+c+netcdf_c.c
+ $CC -c 01_fortran+c+netcdf_c.c
  gfortran-12 01_fortran+c+netcdf_f.o 01_fortran+c+netcdf_c.o \
  	-L${NETCDF}/lib -lnetcdff -lnetcdf
 
@@ -5172,9 +5168,9 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$MAC_CHIP" = "I
  echo " "
 
  echo "Test 2"
- $DIR/MPICH/bin/mpifort -c 02_fortran+c+netcdf+mpi_f.f
- $DIR/MPICH/bin/mpicc -c 02_fortran+c+netcdf+mpi_c.c
- $DIR/MPICH/bin/mpifort 02_fortran+c+netcdf+mpi_f.o \
+ $MPIFC -c 02_fortran+c+netcdf+mpi_f.f
+ $MPICC -c 02_fortran+c+netcdf+mpi_c.c
+ $MPIFC 02_fortran+c+netcdf+mpi_f.o \
  	02_fortran+c+netcdf+mpi_c.o \
  	-L${NETCDF}/lib -lnetcdff -lnetcdf
 
@@ -5194,7 +5190,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$MAC_CHIP" = "I
  echo " "
  read -r -t 3 -p
  #Installing Miniconda3 to WRF directory and updating libraries
- export Miniconda_Install_DIR=$WRF_FOLDER/miniconda3
+ export Miniconda_Install_DIR=${WRF_FOLDER}/miniconda3
 
  mkdir -p $Miniconda_Install_DIR
 
@@ -5235,7 +5231,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$MAC_CHIP" = "I
  ########### WRf-Python compiled via Conda  ##################
  ########### This is the preferred method by NCAR      ##################
  ##### https://wrf-python.readthedocs.io/en/latest/installation.html  ##################
- source $Anaconda_Install_DIR/etc/profile.d/conda.sh
+ source $Miniconda_Install_DIR/etc/profile.d/conda.sh
 conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
  ######################### Climate Data Operators ############
@@ -5273,15 +5269,15 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
  # option 34, option 1 for gfortran and distributed memory w/basic nesting
  # large file support enable with WRFiO_NCD_LARGE_FILE_SUPPORT=1
  ########################################################################
- cd $WRF_FOLDER
+ cd ${WRF_FOLDER}
  git clone https://github.com/openwfm/WRF-SFIRE.git
 
- cd $WRF_FOLDER/WRF-SFIRE/
+ cd ${WRF_FOLDER}/WRF-SFIRE/
  ./clean -a # Clean old configuration files
 
  if [ ${auto_config} -eq 1 ]; then
- 	sed -i '428s/.*/  $response = "17 \\n";/g' $WRF_FOLDER/WRF-SFIRE/arch/Config.pl # Answer for compiler choice
- 	sed -i '869s/.*/  $response = "1 \\n";/g' $WRF_FOLDER/WRF-SFIRE/arch/Config.pl  #Answer for basic nesting
+ 	sed -i '428s/.*/  $response = "17 \\n";/g' ${WRF_FOLDER}/WRF-SFIRE/arch/Config.pl # Answer for compiler choice
+ 	sed -i '869s/.*/  $response = "1 \\n";/g' ${WRF_FOLDER}/WRF-SFIRE/arch/Config.pl  #Answer for basic nesting
  	./configure 2>&1 | tee configure.log
  else
  	./configure 2>&1 | tee configure.log #Option 17 gfortran compiler with distributed memory option 1 for basic nesting
@@ -5292,7 +5288,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
  ./compile -j $CPU_HALF_EVEN em_real 2>&1 | tee compile.wrf1.log
 
  # IF statement to check that all files were created.
- cd $WRF_FOLDER/WRF-SFIRE/main
+ cd ${WRF_FOLDER}/WRF-SFIRE/main
  n=$(ls ./*.exe | wc -l)
  if (($n >= 3)); then
  	echo "All expected files created."
@@ -5300,9 +5296,9 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
  else
  	echo "Missing one or more expected files."
  	echo "Running compiler again"
- 	cd $WRF_FOLDER/WRF-SFIRE/
+ 	cd ${WRF_FOLDER}/WRF-SFIRE/
  	./compile -j $CPU_HALF_EVEN em_real 2>&1 | tee compile.wrf2.log
- 	cd $WRF_FOLDER/WRF-SFIRE/main
+ 	cd ${WRF_FOLDER}/WRF-SFIRE/main
  	n=$(ls ./*.exe | wc -l)
  	if (($n >= 3)); then
  		echo "All expected files created."
@@ -5316,10 +5312,10 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
  echo " "
 
  read -r -t 3 -p
- cd $WRF_FOLDER/WRF-SFIRE
+ cd ${WRF_FOLDER}/WRF-SFIRE
  ./compile -j $CPU_HALF_EVEN em_fire 2>&1 | tee compile.wrfsfire.log
 
- export WRF_DIR=$WRF_FOLDER/WRF-SFIRE
+ export WRF_DIR=${WRF_FOLDER}/WRF-SFIRE
 
  read -r -t 3 -p
  ############################WPSV4.2#####################################
@@ -5328,13 +5324,13 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
  # Cloned from openwfm
  #Option 3 for gfortran and distributed memory
  ########################################################################
- cd $WRF_FOLDER
+ cd ${WRF_FOLDER}
  git clone https://github.com/openwfm/WPS.git
 
- cd $WRF_FOLDER/WPS
+ cd ${WRF_FOLDER}/WPS
  ./clean -a
 
- cd $WRF_FOLDER/WPS
+ cd ${WRF_FOLDER}/WPS
  if [ ${auto_config} -eq 1 ]; then
  	FFLAGS=$FFLAGS echo 19 | ./configure 2>&1 | tee configure.log #Option 19 for gfortran and distributed memory
  else
@@ -5344,14 +5340,14 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
  #sed statements for issue with GNUv10+
 
  if [ $GCC_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GFORTRAN_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GPLUSPLUS_VERSION_MAJOR_VERSION -ge $version_10 ]; then
- 	sed -i '70s/-frecord-marker=4/-frecord-marker=4 -m64 -fallow-argument-mismatch/g' $WRF_FOLDER/WPS/configure.wps
- 	sed -i '71s/-frecord-marker=4/-frecord-marker=4 -m64 -fallow-argument-mismatch/g' $WRF_FOLDER/WPS/configure.wps
+ 	sed -i '70s/-frecord-marker=4/-frecord-marker=4 -m64 -fallow-argument-mismatch/g' ${WRF_FOLDER}/WPS/configure.wps
+ 	sed -i '71s/-frecord-marker=4/-frecord-marker=4 -m64 -fallow-argument-mismatch/g' ${WRF_FOLDER}/WPS/configure.wps
  fi
 
  ./compile 2>&1 | tee compile.wps.log
 
  # IF statement to check that all files were created.
- cd $WRF_FOLDER/WPS
+ cd ${WRF_FOLDER}/WPS
  n=$(ls ./*.exe | wc -l)
  if (($n == 3)); then
  	echo "All expected files created."
@@ -5361,7 +5357,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
  	echo "Running compiler again"
 
  	./compile 2>&1 | tee compile.wps2.log
- 	cd $WRF_FOLDER/WPS
+ 	cd ${WRF_FOLDER}/WPS
  	n=$(ls ./*.exe | wc -l)
  	if (($n == 3)); then
  		echo "All expected files created."
@@ -5377,20 +5373,20 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
  read -r -t 3 -p
  ######################## WPS Domain Setup Tools ########################
  ## DomainWizard
- cd $WRF_FOLDER/Downloads
+ cd ${WRF_FOLDER}/Downloads
  wget -c -4 http://esrl.noaa.gov/gsd/wrfportal/domainwizard/WRFDomainWizard.zip
- mkdir $WRF_FOLDER/WRFDomainWizard
- unzip WRFDomainWizard.zip -d $WRF_FOLDER/WRFDomainWizard
- chmod +x $WRF_FOLDER/WRFDomainWizard/run_DomainWizard
+ mkdir ${WRF_FOLDER}/WRFDomainWizard
+ unzip WRFDomainWizard.zip -d ${WRF_FOLDER}/WRFDomainWizard
+ chmod +x ${WRF_FOLDER}/WRFDomainWizard/run_DomainWizard
 
  echo " "
  ######################## WPF Portal Setup Tools ########################
  ## WRFPortal
- cd $WRF_FOLDER/Downloads
+ cd ${WRF_FOLDER}/Downloads
  wget -c -4 https://esrl.noaa.gov/gsd/wrfportal/portal/wrf-portal.zip
- mkdir $WRF_FOLDER/WRFPortal
- unzip wrf-portal.zip -d $WRF_FOLDER/WRFPortal
- chmod +x $WRF_FOLDER/WRFPortal/runWRFPortal
+ mkdir ${WRF_FOLDER}/WRFPortal
+ unzip wrf-portal.zip -d ${WRF_FOLDER}/WRFPortal
+ chmod +x ${WRF_FOLDER}/WRFPortal/runWRFPortal
 
  echo " "
 
@@ -5400,19 +5396,19 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
  # All files downloaded and untarred is 200GB
  # https://www2.mmm.ucar.edu/wrf/users/download/get_sources_wps_geog.html
  #################################################################################
- cd $WRF_FOLDER/Downloads
- mkdir $WRF_FOLDER/GEOG
- mkdir $WRF_FOLDER/GEOG/WPS_GEOG
+ cd ${WRF_FOLDER}/Downloads
+ mkdir ${WRF_FOLDER}/GEOG
+ mkdir ${WRF_FOLDER}/GEOG/WPS_GEOG
 
  echo " "
  echo "Mandatory WRF Preprocessing System (WPS) Geographical Input Data Mandatory Fields Downloads"
  echo " "
  wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_high_res_mandatory.tar.gz
- tar -xvzf geog_high_res_mandatory.tar.gz -C $WRF_FOLDER/GEOG/
+ tar -xvzf geog_high_res_mandatory.tar.gz -C ${WRF_FOLDER}/GEOG/
 
  wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_low_res_mandatory.tar.gz
- tar -xvzf geog_low_res_mandatory.tar.gz -C $WRF_FOLDER/GEOG/
- mv $WRF_FOLDER/GEOG/WPS_GEOG_LOW_RES/ $WRF_FOLDER/GEOG/WPS_GEOG
+ tar -xvzf geog_low_res_mandatory.tar.gz -C ${WRF_FOLDER}/GEOG/
+ mv ${WRF_FOLDER}/GEOG/WPS_GEOG_LOW_RES/ ${WRF_FOLDER}/GEOG/WPS_GEOG
 
  if [ ${WPS_Specific_Applications} -eq 1 ]; then
  	echo " "
@@ -5420,31 +5416,31 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
  	echo " "
 
  	wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_thompson28_chem.tar.gz
- 	tar -xvzf geog_thompson28_chem.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+ 	tar -xvzf geog_thompson28_chem.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
  	wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_noahmp.tar.gz
- 	tar -xvzf geog_noahmp.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+ 	tar -xvzf geog_noahmp.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
  	wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/irrigation.tar.gz
- 	tar -xvzf irrigation.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+ 	tar -xvzf irrigation.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
  	wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_px.tar.gz
- 	tar -xvzf geog_px.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+ 	tar -xvzf geog_px.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
  	wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_urban.tar.gz
- 	tar -xvzf geog_urban.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+ 	tar -xvzf geog_urban.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
  	wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_ssib.tar.gz
- 	tar -xvzf geog_ssib.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+ 	tar -xvzf geog_ssib.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
  	wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/lake_depth.tar.bz2
- 	tar -xvf lake_depth.tar.bz2 -C $WRF_FOLDER/GEOG/WPS_GEOG
+ 	tar -xvf lake_depth.tar.bz2 -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
  	wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/topobath_30s.tar.bz2
- 	tar -xvf topobath_30s.tar.bz2 -C $WRF_FOLDER/GEOG/WPS_GEOG
+ 	tar -xvf topobath_30s.tar.bz2 -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
  	wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/gsl_gwd.tar.bz2
- 	tar -xvf gsl_gwd.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+ 	tar -xvf gsl_gwd.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
  fi
 
  if [ ${Optional_GEOG} -eq 1 ]; then
@@ -5453,22 +5449,22 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
  	echo " "
 
  	wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_older_than_2000.tar.gz
- 	tar -xvzf geog_older_than_2000.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+ 	tar -xvzf geog_older_than_2000.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
  	wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s_with_lakes.tar.gz
- 	tar -xvzf modis_landuse_20class_15s_with_lakes.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+ 	tar -xvzf modis_landuse_20class_15s_with_lakes.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
  	wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_alt_lsm.tar.gz
- 	tar -xvzf geog_alt_lsm.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+ 	tar -xvzf geog_alt_lsm.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
  	wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/nlcd2006_ll_9s.tar.bz2
- 	tar -xvf nlcd2006_ll_9s.tar.bz2 -C $WRF_FOLDER/GEOG/WPS_GEOG
+ 	tar -xvf nlcd2006_ll_9s.tar.bz2 -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
  	wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/updated_Iceland_LU.tar.gz
- 	tar -xvf updated_Iceland_LU.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+ 	tar -xvf updated_Iceland_LU.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
  	wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s.tar.bz2
- 	tar -xvf modis_landuse_20class_15s.tar.bz2 -C $WRF_FOLDER/GEOG/WPS_GEOG
+ 	tar -xvf modis_landuse_20class_15s.tar.bz2 -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
  fi
 fi
@@ -5476,31 +5472,55 @@ fi
 if [ "$macos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$MAC_CHIP" = "ARM" ]; then
 
 	#############################basic package managment############################
-	brew install wget
-	brew install git
-	brew install gcc@12
-	brew install libtool
-	brew install automake
-	brew install autoconf
-	brew install make
-	brew install m4
-	brew install java
-	brew install ksh
-	brew install grads
-	brew install ksh
-	brew install tcsh
-	brew install python@3.10
-	brew install cmake
-	brew install xorgproto
-	brew install xorgrgb
-	brew install xauth
-	brew install curl
-	brew install flex
-	brew install byacc
-	brew install bison
-	brew install gnu-sed
-	brew install libgeotiff
-	brew install libtiff
+
+brew install autoconf
+sleep 1
+brew install automake
+sleep 1
+brew install bison
+sleep 1
+brew install byacc
+sleep 1
+brew install cmake
+sleep 1
+brew install curl
+sleep 1
+brew install flex
+sleep 1
+brew install gcc@12
+sleep 1
+brew install gnu-sed
+sleep 1
+brew install git
+sleep 1
+brew install java
+sleep 1
+brew install jpeg
+sleep 1
+brew install ksh
+sleep 1
+brew install libgeotiff
+sleep 1
+brew install libtool
+sleep 1
+brew install libtiff
+sleep 1
+brew install m4
+sleep 1
+brew install make
+sleep 1
+brew install python@3.10
+sleep 1
+brew install tcsh
+sleep 1
+brew install wget
+sleep 1
+brew install xauth
+sleep 1
+brew install xorgproto
+sleep 1
+brew install xorgrgb
+
 
 	export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
 	export PATH=/usr/local/bin:$PATH
@@ -5513,10 +5533,10 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$MAC_CHIP" = "A
 	)
 	mkdir $HOME/WRF_SFIRE
 	export WRF_FOLDER=$HOME/WRF_SFIRE
-	cd $WRF_FOLDER/
+	cd ${WRF_FOLDER}/
 	mkdir Downloads
 	mkdir Libs
-	export DIR=$WRF_FOLDER/Libs
+	export DIR=${WRF_FOLDER}/Libs
 	mkdir -p Libs/grib2
 	mkdir -p Libs/NETCDF
 	mkdir -p Tests/Environment
@@ -5543,7 +5563,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$MAC_CHIP" = "A
 
 	##############################Downloading Libraries############################
 
-	cd $WRF_FOLDER/Downloads
+	cd ${WRF_FOLDER}/Downloads
 	wget -c -4 https://github.com/madler/zlib/archive/refs/tags/v$Zlib_Version.tar.gz
 	wget -c -4 https://github.com/HDFGroup/hdf5/archive/refs/tags/hdf5-$HDF5_Version.tar.gz
 	wget -c -4 https://github.com/Unidata/netcdf-c/archive/refs/tags/v$Netcdf_C_Version.tar.gz
@@ -5552,7 +5572,6 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$MAC_CHIP" = "A
 	wget -c -4 https://www.ece.uvic.ca/~frodo/jasper/software/jasper-$Jasper_Version.zip
 	wget -c -4 https://github.com/pmodels/mpich/releases/download/v$Mpich_Version/mpich-$Mpich_Version.tar.gz
 	wget -c -4 https://parallel-netcdf.github.io/Release/pnetcdf-$Pnetcdf_Version.tar.gz
-	wget -c -4 https://sourceforge.net/projects/opengrads/files/grads2/2.2.1.oga.1/Linux%20%2864%20Bits%29/opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz
 	wget -c -4 https://github.com/openwfm/convert_geotiff/releases/download/v0.1/convert_geotiff-0.1.0.tar.gz
 
 	echo " "
@@ -5625,7 +5644,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$MAC_CHIP" = "A
 	#Uncalling compilers due to comfigure issue with zlib1.2.12
 	#With CC & CXX definied ./configure uses different compiler Flags
 
-	cd $WRF_FOLDER/Downloads
+	cd ${WRF_FOLDER}/Downloads
 	tar -xvzf v$Zlib_Version.tar.gz
 	cd zlib-$Zlib_Version/
 	autoreconf -i -f 2>&1 | tee autoreconf.log
@@ -5638,7 +5657,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$MAC_CHIP" = "A
 	echo " "
 
 	##############################MPICH############################
-	cd $WRF_FOLDER/Downloads
+	cd ${WRF_FOLDER}/Downloads
 	tar -xvzf mpich-$Mpich_Version.tar.gz
 	cd mpich-$Mpich_Version/
 	autoreconf -i -f 2>&1 | tee autoreconf.log
@@ -5659,7 +5678,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$MAC_CHIP" = "A
 
 	read -r -t 3 -p
 	#############################libpng############################
-	cd $WRF_FOLDER/Downloads
+	cd ${WRF_FOLDER}/Downloads
 	export LDFLAGS=-L$DIR/grib2/lib
 	export CPPFLAGS=-I$DIR/grib2/include
 	tar -xvzf libpng-$Libpng_Version.tar.gz
@@ -5674,7 +5693,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$MAC_CHIP" = "A
 	echo " "
 	#############################JasPer############################
 
-	cd $WRF_FOLDER/Downloads
+	cd ${WRF_FOLDER}/Downloads
 	unzip jasper-$Jasper_Version.zip
 	cd jasper-$Jasper_Version/
 	autoreconf -i -f 2>&1 | tee autoreconf.log
@@ -5689,7 +5708,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$MAC_CHIP" = "A
 	read -r -t 3 -p
 	#############################hdf5 library for netcdf4 functionality############################
 
-	cd $WRF_FOLDER/Downloads
+	cd ${WRF_FOLDER}/Downloads
 	tar -xvzf hdf5-$HDF5_Version.tar.gz
 	cd hdf5-hdf5-$HDF5_Version
 	autoreconf -i -f 2>&1 | tee autoreconf.log
@@ -5709,7 +5728,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$MAC_CHIP" = "A
 	#Make file created with half of available cpu cores
 	#Hard path for MPI added
 	##################################################################################
-	cd $WRF_FOLDER/Downloads
+	cd ${WRF_FOLDER}/Downloads
 	tar -xvzf pnetcdf-$Pnetcdf_Version.tar.gz
 	cd pnetcdf-$Pnetcdf_Version
 	export MPIFC=$DIR/MPICH/bin/mpifort
@@ -5730,7 +5749,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$MAC_CHIP" = "A
 
 	read -r -t 3 -p
 	##############################Install NETCDF C Library############################
-	cd $WRF_FOLDER/Downloads
+	cd ${WRF_FOLDER}/Downloads
 	tar -xzvf v$Netcdf_C_Version.tar.gz
 	cd netcdf-c-$Netcdf_C_Version/
 	export CPPFLAGS=-I$DIR/grib2/include
@@ -5748,7 +5767,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$MAC_CHIP" = "A
 	echo " "
 	read -r -t 3 -p
 	##############################NetCDF fortran library############################
-	cd $WRF_FOLDER/Downloads
+	cd ${WRF_FOLDER}/Downloads
 	tar -xvzf v$Netcdf_Fortran_Version.tar.gz
 	cd netcdf-fortran-$Netcdf_Fortran_Version/
 	export LD_LIBRARY_PATH=$DIR/NETCDF/lib:$LD_LIBRARY_PATH
@@ -5766,7 +5785,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$MAC_CHIP" = "A
 	read -r -t 3 -p
 	############################# Convert Geo Tiff #################################
 
-	cd $WRF_FOLDER/Downloads
+	cd ${WRF_FOLDER}/Downloads
 	tar -xzvf convert_geotiff-0.1.0.tar.gz
 	cd convert_geotiff-0.1.0
 
@@ -5792,20 +5811,20 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$MAC_CHIP" = "A
 
 	read -r -t 3 -p
 	#################################### System Environment Tests ##############
-	mkdir -p $WRF_FOLDER/Tests/Environment
-	mkdir -p $WRF_FOLDER/Tests/Compatibility
+	mkdir -p ${WRF_FOLDER}/Tests/Environment
+	mkdir -p ${WRF_FOLDER}/Tests/Compatibility
 
-	cd $WRF_FOLDER/Downloads
+	cd ${WRF_FOLDER}/Downloads
 	wget -c -4 https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_NETCDF_MPI_tests.tar
 	wget -c -4 https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_tests.tar
 
-	tar -xvf Fortran_C_tests.tar -C $WRF_FOLDER/Tests/Environment
-	tar -xvf Fortran_C_NETCDF_MPI_tests.tar -C $WRF_FOLDER/Tests/Compatibility
+	tar -xvf Fortran_C_tests.tar -C ${WRF_FOLDER}/Tests/Environment
+	tar -xvf Fortran_C_NETCDF_MPI_tests.tar -C ${WRF_FOLDER}/Tests/Compatibility
 	export one="1"
 	echo " "
 	############## Testing Environment #####
 
-	cd $WRF_FOLDER/Tests/Environment
+	cd ${WRF_FOLDER}/Tests/Environment
 
 	echo " "
 	echo " "
@@ -5869,7 +5888,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$MAC_CHIP" = "A
 	echo " "
 	############## Testing Environment #####
 
-	cd $WRF_FOLDER/Tests/Compatibility
+	cd ${WRF_FOLDER}/Tests/Compatibility
 
 	cp ${NETCDF}/include/netcdf.inc .
 
@@ -5878,7 +5897,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$MAC_CHIP" = "A
 	echo "Library Compatibility Tests "
 	echo "Test 1"
 	gfortran-12 -c 01_fortran+c+netcdf_f.f
-	gcc -c 01_fortran+c+netcdf_c.c
+	$CC -c 01_fortran+c+netcdf_c.c
 	gfortran-12 01_fortran+c+netcdf_f.o 01_fortran+c+netcdf_c.o \
 		-L${NETCDF}/lib -lnetcdff -lnetcdf
 
@@ -5896,9 +5915,9 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$MAC_CHIP" = "A
 	echo " "
 
 	echo "Test 2"
-	$DIR/MPICH/bin/mpifort -c 02_fortran+c+netcdf+mpi_f.f
-	$DIR/MPICH/bin/mpicc -c 02_fortran+c+netcdf+mpi_c.c
-	$DIR/MPICH/bin/mpifort 02_fortran+c+netcdf+mpi_f.o \
+	$MPIFC -c 02_fortran+c+netcdf+mpi_f.f
+	$MPICC -c 02_fortran+c+netcdf+mpi_c.c
+	$MPIFC 02_fortran+c+netcdf+mpi_f.o \
 		02_fortran+c+netcdf+mpi_c.o \
 		-L${NETCDF}/lib -lnetcdff -lnetcdf
 
@@ -5919,7 +5938,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$MAC_CHIP" = "A
 	read -r -t 3 -p
 
 	Installing Miniconda3 to WRF directory and updating libraries
-	#export Miniconda_Install_DIR=$WRF_FOLDER/miniconda3
+	#export Miniconda_Install_DIR=${WRF_FOLDER}/miniconda3
 
 	mkdir -p $Miniconda_Install_DIR
 
@@ -5960,7 +5979,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$MAC_CHIP" = "A
 	########### WRf-Python compiled via Conda  ##################
 	########### This is the preferred method by NCAR      ##################
 	##### https://wrf-python.readthedocs.io/en/latest/installation.html  ##################
-	source $Anaconda_Install_DIR/etc/profile.d/conda.sh
+	source $Miniconda_Install_DIR/etc/profile.d/conda.sh
 conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 	######################### Climate Data Operators ############
@@ -5998,15 +6017,15 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	# option 34, option 1 for gfortran and distributed memory w/basic nesting
 	# large file support enable with WRFiO_NCD_LARGE_FILE_SUPPORT=1
 	########################################################################
-	cd $WRF_FOLDER
+	cd ${WRF_FOLDER}
 	git clone https://github.com/openwfm/WRF-SFIRE.git
 
-	cd $WRF_FOLDER/WRF-SFIRE/
+	cd ${WRF_FOLDER}/WRF-SFIRE/
 	./clean -a # Clean old configuration files
 
 	if [ ${auto_config} -eq 1 ]; then
-		sed -i '428s/.*/  $response = "17 \\n";/g' $WRF_FOLDER/WRF-SFIRE/arch/Config.pl # Answer for compiler choice
-		sed -i '869s/.*/  $response = "1 \\n";/g' $WRF_FOLDER/WRF-SFIRE/arch/Config.pl  #Answer for basic nesting
+		sed -i '428s/.*/  $response = "17 \\n";/g' ${WRF_FOLDER}/WRF-SFIRE/arch/Config.pl # Answer for compiler choice
+		sed -i '869s/.*/  $response = "1 \\n";/g' ${WRF_FOLDER}/WRF-SFIRE/arch/Config.pl  #Answer for basic nesting
 		./configure 2>&1 | tee configure.log
 	else
 		./configure 2>&1 | tee configure.log #Option 17 gfortran compiler with distributed memory option 1 for basic nesting
@@ -6017,7 +6036,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	./compile -j $CPU_HALF_EVEN em_real 2>&1 | tee compile.wrf1.log
 
 	# IF statement to check that all files were created.
-	cd $WRF_FOLDER/WRF-SFIRE/main
+	cd ${WRF_FOLDER}/WRF-SFIRE/main
 	n=$(ls ./*.exe | wc -l)
 	if (($n >= 3)); then
 		echo "All expected files created."
@@ -6025,9 +6044,9 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	else
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
-		cd $WRF_FOLDER/WRF-SFIRE/
+		cd ${WRF_FOLDER}/WRF-SFIRE/
 		./compile -j $CPU_HALF_EVEN em_real 2>&1 | tee compile.wrf2.log
-		cd $WRF_FOLDER/WRF-SFIRE/main
+		cd ${WRF_FOLDER}/WRF-SFIRE/main
 		n=$(ls ./*.exe | wc -l)
 		if (($n >= 3)); then
 			echo "All expected files created."
@@ -6041,10 +6060,10 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	echo " "
 
 	read -r -t 3 -p
-	cd $WRF_FOLDER/WRF-SFIRE
+	cd ${WRF_FOLDER}/WRF-SFIRE
 	./compile -j $CPU_HALF_EVEN em_fire 2>&1 | tee compile.wrfsfire.log
 
-	export WRF_DIR=$WRF_FOLDER/WRF-SFIRE
+	export WRF_DIR=${WRF_FOLDER}/WRF-SFIRE
 
 	read -r -t 3 -p
 	############################WPSV4.2#####################################
@@ -6053,13 +6072,13 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	# Cloned from openwfm
 	#Option 3 for gfortran and distributed memory
 	########################################################################
-	cd $WRF_FOLDER
+	cd ${WRF_FOLDER}
 	git clone https://github.com/openwfm/WPS.git
 
-	cd $WRF_FOLDER/WPS
+	cd ${WRF_FOLDER}/WPS
 	./clean -a
 
-	cd $WRF_FOLDER/WPS
+	cd ${WRF_FOLDER}/WPS
 	if [ ${auto_config} -eq 1 ]; then
 		FFLAGS=$FFLAGS echo 19 | ./configure 2>&1 | tee configure.log #Option 19 for gfortran and distributed memory
 	else
@@ -6069,14 +6088,14 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	#sed statements for issue with GNUv10+
 
 	if [ $GCC_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GFORTRAN_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GPLUSPLUS_VERSION_MAJOR_VERSION -ge $version_10 ]; then
-		sed -i '72s/-frecord-marker=4/-frecord-marker=4 -m64 -fallow-argument-mismatch/g' $WRF_FOLDER/WPS/configure.wps
-		sed -i '73s/-frecord-marker=4/-frecord-marker=4 -m64 -fallow-argument-mismatch/g' $WRF_FOLDER/WPS/configure.wps
+		sed -i '72s/-frecord-marker=4/-frecord-marker=4 -m64 -fallow-argument-mismatch/g' ${WRF_FOLDER}/WPS/configure.wps
+		sed -i '73s/-frecord-marker=4/-frecord-marker=4 -m64 -fallow-argument-mismatch/g' ${WRF_FOLDER}/WPS/configure.wps
 	fi
 
 	./compile 2>&1 | tee compile.wps.log
 
 	# IF statement to check that all files were created.
-	cd $WRF_FOLDER/WPS
+	cd ${WRF_FOLDER}/WPS
 	n=$(ls ./*.exe | wc -l)
 	if (($n == 3)); then
 		echo "All expected files created."
@@ -6086,7 +6105,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 		echo "Running compiler again"
 
 		./compile 2>&1 | tee compile.wps2.log
-		cd $WRF_FOLDER/WPS
+		cd ${WRF_FOLDER}/WPS
 		n=$(ls ./*.exe | wc -l)
 		if (($n == 3)); then
 			echo "All expected files created."
@@ -6102,20 +6121,20 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	read -r -t 3 -p
 	######################## WPS Domain Setup Tools ########################
 	## DomainWizard
-	cd $WRF_FOLDER/Downloads
+	cd ${WRF_FOLDER}/Downloads
 	wget -c -4 http://esrl.noaa.gov/gsd/wrfportal/domainwizard/WRFDomainWizard.zip
-	mkdir $WRF_FOLDER/WRFDomainWizard
-	unzip WRFDomainWizard.zip -d $WRF_FOLDER/WRFDomainWizard
-	chmod +x $WRF_FOLDER/WRFDomainWizard/run_DomainWizard
+	mkdir ${WRF_FOLDER}/WRFDomainWizard
+	unzip WRFDomainWizard.zip -d ${WRF_FOLDER}/WRFDomainWizard
+	chmod +x ${WRF_FOLDER}/WRFDomainWizard/run_DomainWizard
 
 	echo " "
 	######################## WPF Portal Setup Tools ########################
 	# WRFPortal
-	cd $WRF_FOLDER/Downloads
+	cd ${WRF_FOLDER}/Downloads
 	wget -c -4 https://esrl.noaa.gov/gsd/wrfportal/portal/wrf-portal.zip
-	mkdir $WRF_FOLDER/WRFPortal
-	unzip wrf-portal.zip -d $WRF_FOLDER/WRFPortal
-	chmod +x $WRF_FOLDER/WRFPortal/runWRFPortal
+	mkdir ${WRF_FOLDER}/WRFPortal
+	unzip wrf-portal.zip -d ${WRF_FOLDER}/WRFPortal
+	chmod +x ${WRF_FOLDER}/WRFPortal/runWRFPortal
 
 	echo " "
 
@@ -6125,19 +6144,19 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	# All files downloaded and untarred is 200GB
 	# https://www2.mmm.ucar.edu/wrf/users/download/get_sources_wps_geog.html
 	#################################################################################
-	cd $WRF_FOLDER/Downloads
-	mkdir $WRF_FOLDER/GEOG
-	mkdir $WRF_FOLDER/GEOG/WPS_GEOG
+	cd ${WRF_FOLDER}/Downloads
+	mkdir ${WRF_FOLDER}/GEOG
+	mkdir ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 	echo " "
 	echo "Mandatory WRF Preprocessing System (WPS) Geographical Input Data Mandatory Fields Downloads"
 	echo " "
 	wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_high_res_mandatory.tar.gz
-	tar -xvzf geog_high_res_mandatory.tar.gz -C $WRF_FOLDER/GEOG/
+	tar -xvzf geog_high_res_mandatory.tar.gz -C ${WRF_FOLDER}/GEOG/
 
 	wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_low_res_mandatory.tar.gz
-	tar -xvzf geog_low_res_mandatory.tar.gz -C $WRF_FOLDER/GEOG/
-	mv $WRF_FOLDER/GEOG/WPS_GEOG_LOW_RES/ $WRF_FOLDER/GEOG/WPS_GEOG
+	tar -xvzf geog_low_res_mandatory.tar.gz -C ${WRF_FOLDER}/GEOG/
+	mv ${WRF_FOLDER}/GEOG/WPS_GEOG_LOW_RES/ ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 	if [ ${WPS_Specific_Applications} -eq 1 ]; then
 		echo " "
@@ -6145,31 +6164,31 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 		echo " "
 
 		wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_thompson28_chem.tar.gz
-		tar -xvzf geog_thompson28_chem.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+		tar -xvzf geog_thompson28_chem.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 		wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_noahmp.tar.gz
-		tar -xvzf geog_noahmp.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+		tar -xvzf geog_noahmp.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 		wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/irrigation.tar.gz
-		tar -xvzf irrigation.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+		tar -xvzf irrigation.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 		wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_px.tar.gz
-		tar -xvzf geog_px.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+		tar -xvzf geog_px.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 		wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_urban.tar.gz
-		tar -xvzf geog_urban.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+		tar -xvzf geog_urban.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 		wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_ssib.tar.gz
-		tar -xvzf geog_ssib.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+		tar -xvzf geog_ssib.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 		wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/lake_depth.tar.bz2
-		tar -xvf lake_depth.tar.bz2 -C $WRF_FOLDER/GEOG/WPS_GEOG
+		tar -xvf lake_depth.tar.bz2 -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 		wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/topobath_30s.tar.bz2
-		tar -xvf topobath_30s.tar.bz2 -C $WRF_FOLDER/GEOG/WPS_GEOG
+		tar -xvf topobath_30s.tar.bz2 -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 		wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/gsl_gwd.tar.bz2
-		tar -xvf gsl_gwd.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+		tar -xvf gsl_gwd.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 	fi
 
 	if [ ${Optional_GEOG} -eq 1 ]; then
@@ -6178,22 +6197,22 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 		echo " "
 
 		wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_older_than_2000.tar.gz
-		tar -xvzf geog_older_than_2000.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+		tar -xvzf geog_older_than_2000.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 		wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s_with_lakes.tar.gz
-		tar -xvzf modis_landuse_20class_15s_with_lakes.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+		tar -xvzf modis_landuse_20class_15s_with_lakes.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 		wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_alt_lsm.tar.gz
-		tar -xvzf geog_alt_lsm.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+		tar -xvzf geog_alt_lsm.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 		wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/nlcd2006_ll_9s.tar.bz2
-		tar -xvf nlcd2006_ll_9s.tar.bz2 -C $WRF_FOLDER/GEOG/WPS_GEOG
+		tar -xvf nlcd2006_ll_9s.tar.bz2 -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 		wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/updated_Iceland_LU.tar.gz
-		tar -xvf updated_Iceland_LU.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+		tar -xvf updated_Iceland_LU.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 		wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s.tar.bz2
-		tar -xvf modis_landuse_20class_15s.tar.bz2 -C $WRF_FOLDER/GEOG/WPS_GEOG
+		tar -xvf modis_landuse_20class_15s.tar.bz2 -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 	fi
 
@@ -6215,7 +6234,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
 	echo $PASSWD | sudo -S apt -y update
 
 	# necessary binary packages (especially pkg-config and build-essential)
-	echo $PASSWD | sudo -S apt -y install autoconf automake bison build-essential byacc cmake csh curl default-jdk default-jre emacs flex g++ gawk gcc gfortran git ksh libcurl4-openssl-dev libjpeg-dev  libncurses6 libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev m4 make  ncview okular openbox pipenv pkg-config  python3 python3-dev python3-pip tcsh unzip xauth xorg time libgeotiff-dev
+	echo $PASSWD | sudo -S apt -y install autoconf automake bison build-essential byacc cmake csh curl default-jdk default-jre emacs flex g++ gawk gcc gfortran git ksh libcurl4-openssl-dev libjpeg-dev libncurses5 libncurses6 libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev m4 make mlocate ncview okular openbox pipenv pkg-config  python3 python3-dev python3-pip tcsh unzip xauth xorg time libgeotiff-dev
 
 	# install the Intel compilers
 	echo $PASSWD | sudo -S apt -y install intel-basekit
@@ -6273,9 +6292,9 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
 		pwd
 	)
 	export WRF_FOLDER=$HOME/WRF_SFIRE_Intel
-	export DIR=$WRF_FOLDER/Libs
-	mkdir $WRF_FOLDER
-	cd $WRF_FOLDER
+	export DIR=${WRF_FOLDER}/Libs
+	mkdir ${WRF_FOLDER}
+	cd ${WRF_FOLDER}
 	mkdir Downloads
 	mkdir WRFPLUS
 	mkdir WRFDA
@@ -6304,7 +6323,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
 	echo " "
 	############################# ZLib ############################
 
-	cd $WRF_FOLDER/Downloads
+	cd ${WRF_FOLDER}/Downloads
 	tar -xvzf v$Zlib_Version.tar.gz
 	cd zlib-$Zlib_Version/
 	autoreconf -i -f 2>&1 | tee autoreconf.log
@@ -6318,7 +6337,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
 	echo " "
 	############################# LibPNG ############################
 
-	cd $WRF_FOLDER/Downloads
+	cd ${WRF_FOLDER}/Downloads
 
 	# other libraries below need these variables to be set
 	export LDFLAGS=-L$DIR/grib2/lib
@@ -6337,7 +6356,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
 	echo " "
 	############################# JasPer ############################
 
-	cd $WRF_FOLDER/Downloads
+	cd ${WRF_FOLDER}/Downloads
 	unzip jasper-$Jasper_Version.zip
 	cd jasper-$Jasper_Version/
 	autoreconf -i -f 2>&1 | tee autoreconf.log
@@ -6354,7 +6373,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
 	echo " "
 	############################# HDF5 library for NetCDF4 & parallel functionality ############################
 
-	cd $WRF_FOLDER/Downloads
+	cd ${WRF_FOLDER}/Downloads
 	tar -xvzf hdf5-$HDF5_Version.tar.gz
 	cd hdf5-hdf5-$HDF5_Version
 	autoreconf -i -f 2>&1 | tee autoreconf.log
@@ -6376,7 +6395,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
 	#Make file created with half of available cpu cores
 	#Hard path for MPI added
 	##################################################################################
-	cd $WRF_FOLDER/Downloads
+	cd ${WRF_FOLDER}/Downloads
 	tar -xzvf pnetcdf-$Pnetcdf_Version.tar.gz
 	cd pnetcdf-$Pnetcdf_Version
 	autoreconf -i -f 2>&1 | tee autoreconf.log
@@ -6390,7 +6409,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
 
 	############################## Install NETCDF-C Library ############################
 
-	cd $WRF_FOLDER/Downloads
+	cd ${WRF_FOLDER}/Downloads
 	tar -xzvf v$Netcdf_C_Version.tar.gz
 	cd netcdf-c-$Netcdf_C_Version/
 	autoreconf -i -f 2>&1 | tee autoreconf.log
@@ -6412,7 +6431,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
 	echo " "
 	############################## NetCDF-Fortran library ############################
 
-	cd $WRF_FOLDER/Downloads
+	cd ${WRF_FOLDER}/Downloads
 	tar -xvzf v$Netcdf_Fortran_Version.tar.gz
 	cd netcdf-fortran-$Netcdf_Fortran_Version/
 	autoreconf -i -f 2>&1 | tee autoreconf.log
@@ -6431,7 +6450,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
 
 	############################# Convert Geo Tiff #################################
 
-	cd $WRF_FOLDER/Downloads
+	cd ${WRF_FOLDER}/Downloads
 	tar -xzvf convert_geotiff-0.1.0.tar.gz
 	cd convert_geotiff-0.1.0
 	autoreconf -i -f 2>&1 | tee autoreconf.log
@@ -6442,18 +6461,18 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
 
 	#################################### System Environment Tests ##############
 
-	cd $WRF_FOLDER/Downloads
+	cd ${WRF_FOLDER}/Downloads
 	wget -c -4 https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_NETCDF_MPI_tests.tar
 	wget -c -4 https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_tests.tar
 
-	tar -xvf Fortran_C_tests.tar -C $WRF_FOLDER/Tests/Environment
-	tar -xvf Fortran_C_NETCDF_MPI_tests.tar -C $WRF_FOLDER/Tests/Compatibility
+	tar -xvf Fortran_C_tests.tar -C ${WRF_FOLDER}/Tests/Environment
+	tar -xvf Fortran_C_NETCDF_MPI_tests.tar -C ${WRF_FOLDER}/Tests/Compatibility
 
 	export one="1"
 	echo " "
 	############## Testing Environment #####
 
-	cd $WRF_FOLDER/Tests/Environment
+	cd ${WRF_FOLDER}/Tests/Environment
 
 	cp ${NETCDF}/include/netcdf.inc .
 
@@ -6461,7 +6480,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
 	echo " "
 	echo "Environment Testing "
 	echo "Test 1"
-	gfortran TEST_1_fortran_only_fixed.f
+	$FC TEST_1_fortran_only_fixed.f
 	./a.out | tee env_test1.txt
 	export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test1.txt | awk '{print$1}')
 	if [ $TEST_PASS -ge 1 ]; then
@@ -6474,7 +6493,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
 
 	echo " "
 	echo "Test 2"
-	gfortran TEST_2_fortran_only_free.f90
+	$FC TEST_2_fortran_only_free.f90
 	./a.out | tee env_test2.txt
 	export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test2.txt | awk '{print$1}')
 	if [ $TEST_PASS -ge 1 ]; then
@@ -6488,7 +6507,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
 
 	echo " "
 	echo "Test 3"
-	gcc TEST_3_c_only.c
+	$CC TEST_3_c_only.c
 	./a.out | tee env_test3.txt
 	export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test3.txt | awk '{print$1}')
 	if [ $TEST_PASS -ge 1 ]; then
@@ -6502,9 +6521,9 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
 
 	echo " "
 	echo "Test 4"
-	gcc -c -m64 TEST_4_fortran+c_c.c
-	gfortran -c -m64 TEST_4_fortran+c_f.f90
-	gfortran -m64 TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
+	$CC -c -m64 TEST_4_fortran+c_c.c
+	$FC -c -m64 TEST_4_fortran+c_f.f90
+	$FC -m64 TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
 	./a.out | tee env_test4.txt
 	export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test4.txt | awk '{print$1}')
 	if [ $TEST_PASS -ge 1 ]; then
@@ -6519,7 +6538,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
 	echo " "
 	############## Testing Environment #####
 
-	cd $WRF_FOLDER/Tests/Compatibility
+	cd ${WRF_FOLDER}/Tests/Compatibility
 
 	cp ${NETCDF}/include/netcdf.inc .
 
@@ -6527,9 +6546,9 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
 	echo " "
 	echo "Library Compatibility Tests "
 	echo "Test 1"
-	gfortran -c 01_fortran+c+netcdf_f.f
-	gcc -c 01_fortran+c+netcdf_c.c
-	gfortran 01_fortran+c+netcdf_f.o 01_fortran+c+netcdf_c.o \
+	$FC -c 01_fortran+c+netcdf_f.f
+	$CC -c 01_fortran+c+netcdf_c.c
+	$FC 01_fortran+c+netcdf_f.o 01_fortran+c+netcdf_c.o \
 		-L${NETCDF}/lib -lnetcdff -lnetcdf
 
 	./a.out | tee comp_test1.txt
@@ -6546,9 +6565,9 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
 	echo " "
 
 	echo "Test 2"
-	mpiifort -c 02_fortran+c+netcdf+mpi_f.f
-	mpiicc -c 02_fortran+c+netcdf+mpi_c.c
-	mpiifort 02_fortran+c+netcdf+mpi_f.o \
+	$MPIFC -c 02_fortran+c+netcdf+mpi_f.f
+	$MPICC -c 02_fortran+c+netcdf+mpi_c.c
+	$MPIFC 02_fortran+c+netcdf+mpi_f.o \
 		02_fortran+c+netcdf+mpi_c.o \
 		-L${NETCDF}/lib -lnetcdff -lnetcdf
 
@@ -6576,7 +6595,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
 	#If iand error occurs go to https://github.com/NCAR/NCEPlibs/pull/16/files make adjustment and re-run ./make_ncep_libs.sh
 	############################################################################
 
-	cd $WRF_FOLDER/Downloads
+	cd ${WRF_FOLDER}/Downloads
 	git clone https://github.com/NCAR/NCEPlibs.git
 	cd NCEPlibs
 	mkdir $DIR/nceplibs
@@ -6600,7 +6619,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
 	#since the WRF was written
 	#Option 8 gfortran compiler with distributed memory
 	#############################################################################
-	cd $WRF_FOLDER
+	cd ${WRF_FOLDER}
 	git clone -b dtc_post_v4.1.0 --recurse-submodules https://github.com/NOAA-EMC/EMC_post UPPV4.1
 	cd UPPV4.1
 	mkdir postprd
@@ -6613,17 +6632,17 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
 		./configure #Option 4 intel compiler with distributed memory
 	fi
 
-	sed -i '24s/ mpif90/ mpiifort/g' $WRF_FOLDER/UPPV4.1/configure.upp
-	sed -i '25s/ mpif90/ mpiifort/g' $WRF_FOLDER/UPPV4.1/configure.upp
-	sed -i '26s/ mpicc/ mpiicc/g' $WRF_FOLDER/UPPV4.1/configure.upp
+	sed -i '24s/ mpif90/ mpiifort/g' ${WRF_FOLDER}/UPPV4.1/configure.upp
+	sed -i '25s/ mpif90/ mpiifort/g' ${WRF_FOLDER}/UPPV4.1/configure.upp
+	sed -i '26s/ mpicc/ mpiicc/g' ${WRF_FOLDER}/UPPV4.1/configure.upp
 
 	./compile
-	cd $WRF_FOLDER/UPPV4.1/scripts
+	cd ${WRF_FOLDER}/UPPV4.1/scripts
 	echo $PASSWD | sudo -S cpan install XML::LibXML
 	chmod +x run_unipost
 
 	# IF statement to check that all files were created.
-	cd $WRF_FOLDER/UPPV4.1/exec
+	cd ${WRF_FOLDER}/UPPV4.1/exec
 	n=$(ls ./*.exe | wc -l)
 	if (($n == 1)); then
 		echo "All expected files created."
@@ -6640,12 +6659,12 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
 	## ARWpost
 	##Configure #3
 	###################################################################
-	cd $WRF_FOLDER/Downloads
+	cd ${WRF_FOLDER}/Downloads
 	wget -c http://www2.mmm.ucar.edu/wrf/src/ARWpost_V3.tar.gz
-	tar -xvzf ARWpost_V3.tar.gz -C $WRF_FOLDER
-	cd $WRF_FOLDER/ARWpost
+	tar -xvzf ARWpost_V3.tar.gz -C ${WRF_FOLDER}
+	cd ${WRF_FOLDER}/ARWpost
 	./clean -a
-	sed -i -e 's/-lnetcdf/-lnetcdff -lnetcdf/g' $WRF_FOLDER/ARWpost/src/Makefile
+	sed -i -e 's/-lnetcdf/-lnetcdff -lnetcdf/g' ${WRF_FOLDER}/ARWpost/src/Makefile
 	export NETCDF=$DIR/NETCDF
 
 	if [ ${auto_config} -eq 1 ]; then
@@ -6654,32 +6673,32 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
 		./configure #Option 2 intel compiler with distributed memory
 	fi
 
-	sed -i -e 's/-C -P -traditional/-P -traditional/g' $WRF_FOLDER/ARWpost/configure.arwp
+	sed -i -e 's/-C -P -traditional/-P -traditional/g' ${WRF_FOLDER}/ARWpost/configure.arwp
 	./compile
 
-	export PATH=$WRF_FOLDER/ARWpost/ARWpost.exe:$PATH
+	export PATH=${WRF_FOLDER}/ARWpost/ARWpost.exe:$PATH
 
 	echo " "
 	################################OpenGrADS######################################
 	#Verison 2.2.1 64bit of Linux
 	#############################################################################
 	if [[ $GRADS_PICK -eq 1 ]]; then
-		cd $WRF_FOLDER/Downloads
-		tar -xzvf opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz -C $WRF_FOLDER/
-		cd $WRF_FOLDER/
-		mv $WRF_FOLDER/opengrads-2.2.1.oga.1 $WRF_FOLDER/GrADS
+		cd ${WRF_FOLDER}/Downloads
+		tar -xzvf opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz -C ${WRF_FOLDER}/
+		cd ${WRF_FOLDER}/
+		mv ${WRF_FOLDER}/opengrads-2.2.1.oga.1 ${WRF_FOLDER}/GrADS
 		cd GrADS/Contents
 		wget -c https://github.com/regisgrundig/SIMOP/blob/master/g2ctl.pl
 		chmod +x g2ctl.pl
 		wget -c https://sourceforge.net/projects/opengrads/files/wgrib2/0.1.9.4/wgrib2-v0.1.9.4-bin-x86_64-glibc2.5-linux-gnu.tar.gz
 		tar -xzvf wgrib2-v0.1.9.4-bin-x86_64-glibc2.5-linux-gnu.tar.gz
 		cd wgrib2-v0.1.9.4/bin
-		mv wgrib2 $WRF_FOLDER/GrADS/Contents
-		cd $WRF_FOLDER/GrADS/Contents
+		mv wgrib2 ${WRF_FOLDER}/GrADS/Contents
+		cd ${WRF_FOLDER}/GrADS/Contents
 		rm wgrib2-v0.1.9.4-bin-x86_64-glibc2.5-linux-gnu.tar.gz
 		rm -r wgrib2-v0.1.9.4
 
-		export PATH=$WRF_FOLDER/GrADS/Contents:$PATH
+		export PATH=${WRF_FOLDER}/GrADS/Contents:$PATH
 	fi
 	################################## GrADS ###############################
 	# Version  2.2.1
@@ -6704,7 +6723,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
 	pip install --upgrade --force-reinstall zstd
 	pip3 install --upgrade --force-reinstall zstandard
 	pip3 install --upgrade --force-reinstall zstd
-	export Miniconda_Install_DIR=$WRF_FOLDER/miniconda3
+	export Miniconda_Install_DIR=${WRF_FOLDER}/miniconda3
 
 	mkdir -p $Miniconda_Install_DIR
 
@@ -6713,7 +6732,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
 
 	rm -rf $Miniconda_Install_DIR/miniconda.sh
 
-	export PATH=$WRF_FOLDER/miniconda3/bin:$PATH
+	export PATH=${WRF_FOLDER}/miniconda3/bin:$PATH
 
 	source $Miniconda_Install_DIR/etc/profile.d/conda.sh
 
@@ -6746,7 +6765,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
 	########### WRf-Python compiled via Conda  ##################
 	########### This is the preferred method by NCAR      ##################
 	##### https://wrf-python.readthedocs.io/en/latest/installation.html  ##################
-	source $Anaconda_Install_DIR/etc/profile.d/conda.sh
+	source $Miniconda_Install_DIR/etc/profile.d/conda.sh
 conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 	######################### Climate Data Operators ############
@@ -6784,15 +6803,15 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	# option 34, option 1 for gfortran and distributed memory w/basic nesting
 	# large file support enable with WRFiO_NCD_LARGE_FILE_SUPPORT=1
 	########################################################################
-	cd $WRF_FOLDER
+	cd ${WRF_FOLDER}
 	git clone https://github.com/openwfm/WRF-SFIRE.git
 
-	cd $WRF_FOLDER/WRF-SFIRE/
+	cd ${WRF_FOLDER}/WRF-SFIRE/
 	./clean -a # Clean old configuration files
 
 	if [ ${auto_config} -eq 1 ]; then
-		sed -i '428s/.*/  $response = "15 \\n";/g' $WRF_FOLDER/WRF-SFIRE/arch/Config.pl # Answer for compiler choice
-		sed -i '869s/.*/  $response = "1 \\n";/g' $WRF_FOLDER/WRF-SFIRE/arch/Config.pl  #Answer for basic nesting
+		sed -i '428s/.*/  $response = "15 \\n";/g' ${WRF_FOLDER}/WRF-SFIRE/arch/Config.pl # Answer for compiler choice
+		sed -i '869s/.*/  $response = "1 \\n";/g' ${WRF_FOLDER}/WRF-SFIRE/arch/Config.pl  #Answer for basic nesting
 		./configure 2>&1 | tee configure.log
 	else
 		./configure 2>&1 | tee configure.log #Option 34 gfortran compiler with distributed memory option 1 for basic nesting
@@ -6802,7 +6821,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	./compile -j $CPU_HALF_EVEN em_real 2>&1 | tee compile.wrf2.log
 
 	# IF statement to check that all files were created.
-	cd $WRF_FOLDER/WRF-SFIRE/main
+	cd ${WRF_FOLDER}/WRF-SFIRE/main
 	n=$(ls ./*.exe | wc -l)
 	if (($n >= 3)); then
 		echo "All expected files created."
@@ -6810,9 +6829,9 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	else
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
-		cd $WRF_FOLDER/WRF-SFIRE/
+		cd ${WRF_FOLDER}/WRF-SFIRE/
 		./compile -j $CPU_HALF_EVEN em_real 2>&1 | tee compile.wrf2.log
-		cd $WRF_FOLDER/WRF-SFIRE/main
+		cd ${WRF_FOLDER}/WRF-SFIRE/main
 		n=$(ls ./*.exe | wc -l)
 		if (($n >= 3)); then
 			echo "All expected files created."
@@ -6825,10 +6844,10 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 	echo " "
 
-	cd $WRF_FOLDER/WRF-SFIRE
+	cd ${WRF_FOLDER}/WRF-SFIRE
 	./compile -j $CPU_HALF_EVEN em_fire 2>&1 | tee compile.wrfsfire.log
 
-	export WRF_DIR=$WRF_FOLDER/WRF-SFIRE
+	export WRF_DIR=${WRF_FOLDER}/WRF-SFIRE
 
 	############################WPSV4.2#####################################
 	## WPS v4.2
@@ -6836,26 +6855,26 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	# Cloned from openwfm
 	#Option 3 for gfortran and distributed memory
 	########################################################################
-	cd $WRF_FOLDER
+	cd ${WRF_FOLDER}
 	git clone https://github.com/openwfm/WPS.git
 
-	cd $WRF_FOLDER/WPS
+	cd ${WRF_FOLDER}/WPS
 	./clean -a
 
-	cd $WRF_FOLDER/WPS
+	cd ${WRF_FOLDER}/WPS
 	if [ ${auto_config} -eq 1 ]; then
 		echo 19 | ./configure 2>&1 | tee configure.log #Option 3 for gfortran and distributed memory
 	else
 		./configure 2>&1 | tee configure.log #Option 3 gfortran compiler with distributed memory
 	fi
 
-	sed -i '65s|mpif90|mpiifort|g' $WRF_FOLDER/WPS/configure.wps
-	sed -i '66s|mpicc|mpiicc|g' $WRF_FOLDER/WPS/configure.wps
+	sed -i '65s|mpif90|mpiifort|g' ${WRF_FOLDER}/WPS/configure.wps
+	sed -i '66s|mpicc|mpiicc|g' ${WRF_FOLDER}/WPS/configure.wps
 
 	./compile 2>&1 | tee compile.wps.log
 
 	# IF statement to check that all files were created.
-	cd $WRF_FOLDER/WPS
+	cd ${WRF_FOLDER}/WPS
 	n=$(ls ./*.exe | wc -l)
 	if (($n == 3)); then
 		echo "All expected files created."
@@ -6865,7 +6884,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 		echo "Running compiler again"
 
 		./compile 2>&1 | tee compile.wps2.log
-		cd $WRF_FOLDER/WPS
+		cd ${WRF_FOLDER}/WPS
 		n=$(ls ./*.exe | wc -l)
 		if (($n == 3)); then
 			echo "All expected files created."
@@ -6880,20 +6899,20 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 	######################## WPS Domain Setup Tools ########################
 	## DomainWizard
-	cd $WRF_FOLDER/Downloads
+	cd ${WRF_FOLDER}/Downloads
 	wget -c -4 http://esrl.noaa.gov/gsd/wrfportal/domainwizard/WRFDomainWizard.zip
-	mkdir $WRF_FOLDER/WRFDomainWizard
-	unzip WRFDomainWizard.zip -d $WRF_FOLDER/WRFDomainWizard
-	chmod +x $WRF_FOLDER/WRFDomainWizard/run_DomainWizard
+	mkdir ${WRF_FOLDER}/WRFDomainWizard
+	unzip WRFDomainWizard.zip -d ${WRF_FOLDER}/WRFDomainWizard
+	chmod +x ${WRF_FOLDER}/WRFDomainWizard/run_DomainWizard
 
 	echo " "
 	######################## WPF Portal Setup Tools ########################
 	## WRFPortal
-	cd $WRF_FOLDER/Downloads
+	cd ${WRF_FOLDER}/Downloads
 	wget -c -4 https://esrl.noaa.gov/gsd/wrfportal/portal/wrf-portal.zip
-	mkdir $WRF_FOLDER/WRFPortal
-	unzip wrf-portal.zip -d $WRF_FOLDER/WRFPortal
-	chmod +x $WRF_FOLDER/WRFPortal/runWRFPortal
+	mkdir ${WRF_FOLDER}/WRFPortal
+	unzip wrf-portal.zip -d ${WRF_FOLDER}/WRFPortal
+	chmod +x ${WRF_FOLDER}/WRFPortal/runWRFPortal
 
 	echo " "
 
@@ -6903,19 +6922,19 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	# All files downloaded and untarred is 200GB
 	# https://www2.mmm.ucar.edu/wrf/users/download/get_sources_wps_geog.html
 	#################################################################################
-	cd $WRF_FOLDER/Downloads
-	mkdir $WRF_FOLDER/GEOG
-	mkdir $WRF_FOLDER/GEOG/WPS_GEOG
+	cd ${WRF_FOLDER}/Downloads
+	mkdir ${WRF_FOLDER}/GEOG
+	mkdir ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 	echo " "
 	echo "Mandatory WRF Preprocessing System (WPS) Geographical Input Data Mandatory Fields Downloads"
 	echo " "
 	wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_high_res_mandatory.tar.gz
-	tar -xvzf geog_high_res_mandatory.tar.gz -C $WRF_FOLDER/GEOG/
+	tar -xvzf geog_high_res_mandatory.tar.gz -C ${WRF_FOLDER}/GEOG/
 
 	wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_low_res_mandatory.tar.gz
-	tar -xvzf geog_low_res_mandatory.tar.gz -C $WRF_FOLDER/GEOG/
-	mv $WRF_FOLDER/GEOG/WPS_GEOG_LOW_RES/ $WRF_FOLDER/GEOG/WPS_GEOG
+	tar -xvzf geog_low_res_mandatory.tar.gz -C ${WRF_FOLDER}/GEOG/
+	mv ${WRF_FOLDER}/GEOG/WPS_GEOG_LOW_RES/ ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 	if [ ${WPS_Specific_Applications} -eq 1 ]; then
 		echo " "
@@ -6923,31 +6942,31 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 		echo " "
 
 		wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_thompson28_chem.tar.gz
-		tar -xvzf geog_thompson28_chem.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+		tar -xvzf geog_thompson28_chem.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 		wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_noahmp.tar.gz
-		tar -xvzf geog_noahmp.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+		tar -xvzf geog_noahmp.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 		wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/irrigation.tar.gz
-		tar -xvzf irrigation.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+		tar -xvzf irrigation.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 		wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_px.tar.gz
-		tar -xvzf geog_px.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+		tar -xvzf geog_px.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 		wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_urban.tar.gz
-		tar -xvzf geog_urban.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+		tar -xvzf geog_urban.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 		wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_ssib.tar.gz
-		tar -xvzf geog_ssib.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+		tar -xvzf geog_ssib.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 		wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/lake_depth.tar.bz2
-		tar -xvf lake_depth.tar.bz2 -C $WRF_FOLDER/GEOG/WPS_GEOG
+		tar -xvf lake_depth.tar.bz2 -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 		wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/topobath_30s.tar.bz2
-		tar -xvf topobath_30s.tar.bz2 -C $WRF_FOLDER/GEOG/WPS_GEOG
+		tar -xvf topobath_30s.tar.bz2 -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 		wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/gsl_gwd.tar.bz2
-		tar -xvf gsl_gwd.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+		tar -xvf gsl_gwd.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 	fi
 
 	if [ ${Optional_GEOG} -eq 1 ]; then
@@ -6956,22 +6975,22 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 		echo " "
 
 		wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_older_than_2000.tar.gz
-		tar -xvzf geog_older_than_2000.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+		tar -xvzf geog_older_than_2000.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 		wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s_with_lakes.tar.gz
-		tar -xvzf modis_landuse_20class_15s_with_lakes.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+		tar -xvzf modis_landuse_20class_15s_with_lakes.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 		wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_alt_lsm.tar.gz
-		tar -xvzf geog_alt_lsm.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+		tar -xvzf geog_alt_lsm.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 		wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/nlcd2006_ll_9s.tar.bz2
-		tar -xvf nlcd2006_ll_9s.tar.bz2 -C $WRF_FOLDER/GEOG/WPS_GEOG
+		tar -xvf nlcd2006_ll_9s.tar.bz2 -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 		wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/updated_Iceland_LU.tar.gz
-		tar -xvf updated_Iceland_LU.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+		tar -xvf updated_Iceland_LU.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 		wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s.tar.bz2
-		tar -xvf modis_landuse_20class_15s.tar.bz2 -C $WRF_FOLDER/GEOG/WPS_GEOG
+		tar -xvf modis_landuse_20class_15s.tar.bz2 -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 	fi
 
@@ -6985,7 +7004,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
 	    echo $PASSWD | sudo -S dnf install dnf -y
 	    echo $PASSWD | sudo -S dnf -y update
 	    echo $PASSWD | sudo -S dnf -y upgrade
-	    echo $PASSWD | sudo -S dnf -y install autoconf automake bzip2 bzip2-devel byacc cairo-devel cmake cpp curl curl-devel flex fontconfig fontconfig-devel gcc gcc-c++ gcc-gfortran git java-11-openjdk java-11-openjdk-devel ksh libjpeg libjpeg-devel libX11 libX11-devel libXaw libXaw-devel libXext-devel libXmu libXmu-devel libXrender libXrender-devel libXt libXt-devel libxml2 libxml2-devel libXmu  libXmu-devel libgeotiff libgeotiff-devel libtiff libtiff-devel m4  nfs-utils perl pkgconfig pixman  pixman-devel python3 python3-devel tcsh time unzip wget
+	    echo $PASSWD | sudo -S dnf -y install autoconf automake bzip2 bzip2-devel byacc cairo-devel cmake cpp curl curl-devel flex fontconfig fontconfig-devel gcc gcc-c++ gcc-gfortran git java-11-openjdk java-11-openjdk-devel ksh libjpeg libjpeg-devel libX11 libX11-devel libXaw libXaw-devel libXext-devel libXmu libXmu-devel libXrender libXrender-devel libXt libXt-devel libxml2 libxml2-devel libXmu  libXmu-devel libgeotiff libgeotiff-devel libtiff libtiff-devel m4 mlocate nfs-utils perl pkgconfig pixman  pixman-devel python3 python3-devel tcsh time unzip wget
 	    echo $PASSWD | sudo -S  dnf -y groupinstall "Development Tools"
 	    echo $PASSWD | sudo -S dnf -y update
 	    echo $PASSWD | sudo -S dnf -y upgrade
@@ -6997,10 +7016,10 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
 
 	    mkdir $HOME/WRF_SFIRE
 	    export WRF_FOLDER=$HOME/WRF_SFIRE
-	    cd $WRF_FOLDER/
+	    cd ${WRF_FOLDER}/
 	    mkdir Downloads
 	    mkdir Libs
-	    export DIR=$WRF_FOLDER/Libs
+	    export DIR=${WRF_FOLDER}/Libs
 	    mkdir Libs/grib2
 	    mkdir Libs/NETCDF
 	    mkdir Libs/MPICH
@@ -7092,7 +7111,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
 	    #Uncalling compilers due to comfigure issue with zlib$Zlib_Version
 	    #With CC & CXX definied ./configure uses different compiler Flags
 
-	  cd $WRF_FOLDER/Downloads
+	  cd ${WRF_FOLDER}/Downloads
 	  tar -xvzf v$Zlib_Version.tar.gz
 	  cd zlib-$Zlib_Version/
 	autoreconf -i -f 2>&1 | tee autoreconf.log
@@ -7105,7 +7124,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
 	  echo " "
 	    ##############################MPICH############################
 	   #F90= due to compiler issues with mpich install
-	  cd $WRF_FOLDER/Downloads
+	  cd ${WRF_FOLDER}/Downloads
 	  tar -xvzf mpich-$Mpich_Version.tar.gz
 	  cd mpich-$Mpich_Version/
 	autoreconf -i -f 2>&1 | tee autoreconf.log
@@ -7128,7 +7147,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
 
 	  echo " "
 	    #############################libpng############################
-	  cd $WRF_FOLDER/Downloads
+	  cd ${WRF_FOLDER}/Downloads
 	  export LDFLAGS=-L$DIR/grib2/lib
 	  export CPPFLAGS=-I$DIR/grib2/include
 	  tar -xvzf libpng-$Libpng_Version.tar.gz
@@ -7142,7 +7161,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
 	  echo " "k
 	    echo " "
 	    #############################JasPer############################
-	  cd $WRF_FOLDER/Downloads
+	  cd ${WRF_FOLDER}/Downloads
 	  unzip jasper-$Jasper_Version.zip
 	  cd jasper-$Jasper_Version/
 	autoreconf -i -f 2>&1 | tee autoreconf.log
@@ -7159,7 +7178,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
 
 	  echo " "
 	    #############################hdf5 library for netcdf4 functionality############################
-	  cd $WRF_FOLDER/Downloads
+	  cd ${WRF_FOLDER}/Downloads
 	  tar -xvzf hdf5-$HDF5_Version.tar.gz
 	  cd hdf5-hdf5-$HDF5_Version
 	autoreconf -i -f 2>&1 | tee autoreconf.log
@@ -7180,7 +7199,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
 	    #Make file created with half of available cpu cores
 	    #Hard path for MPI added
 	    ##################################################################################
-	  cd $WRF_FOLDER/Downloads
+	  cd ${WRF_FOLDER}/Downloads
 	  tar -xzvf pnetcdf-$Pnetcdf_Version.tar.gz
 	  cd pnetcdf-$Pnetcdf_Version
 	  export MPIFC=$DIR/MPICH/bin/mpifort
@@ -7201,7 +7220,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
 
 
 	    ##############################Install NETCDF C Library############################
-	  cd $WRF_FOLDER/Downloads
+	  cd ${WRF_FOLDER}/Downloads
 	  tar -xzvf v$Netcdf_C_Version.tar.gz
 	  cd netcdf-c-$Netcdf_C_Version/
 	  export CPPFLAGS=-I$DIR/grib2/include
@@ -7218,7 +7237,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
 	  export NETCDF=$DIR/NETCDF
 	  echo " "
 	    ##############################NetCDF fortran library############################
-	  cd $WRF_FOLDER/Downloads
+	  cd ${WRF_FOLDER}/Downloads
 	  tar -xvzf v$Netcdf_Fortran_Version.tar.gz
 	  cd netcdf-fortran-$Netcdf_Fortran_Version/
 	  export LD_LIBRARY_PATH=$DIR/NETCDF/lib:$LD_LIBRARY_PATH
@@ -7236,7 +7255,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
 
 	 ############################# Convert Geo Tiff #################################
 
-	  cd $WRF_FOLDER/Downloads
+	  cd ${WRF_FOLDER}/Downloads
 	  tar -xzvf convert_geotiff-0.1.0.tar.gz
 	  cd convert_geotiff-0.1.0
 	  export CPPFLAGS="-I$DIR/NETCDF/include -I$DIR/grib2/include -I/usr/include/libgeotiff"
@@ -7254,18 +7273,18 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
 
 	    #################################### System Environment Tests ##############
 
-	    cd $WRF_FOLDER/Downloads
+	    cd ${WRF_FOLDER}/Downloads
 	    wget -c -4 https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_NETCDF_MPI_tests.tar
 	    wget -c -4 https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_tests.tar
 
-	    tar -xvf Fortran_C_tests.tar -C $WRF_FOLDER/Tests/Environment
-	    tar -xvf Fortran_C_NETCDF_MPI_tests.tar -C $WRF_FOLDER/Tests/Compatibility
+	    tar -xvf Fortran_C_tests.tar -C ${WRF_FOLDER}/Tests/Environment
+	    tar -xvf Fortran_C_NETCDF_MPI_tests.tar -C ${WRF_FOLDER}/Tests/Compatibility
 
 	    export one="1"
 	    echo " "
 	    ############## Testing Environment #####
 
-	    cd $WRF_FOLDER/Tests/Environment
+	    cd ${WRF_FOLDER}/Tests/Environment
 
 	    cp ${NETCDF}/include/netcdf.inc .
 
@@ -7273,7 +7292,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
 	    echo " "
 	    echo "Environment Testing "
 	    echo "Test 1"
-	    gfortran TEST_1_fortran_only_fixed.f
+	    $FC TEST_1_fortran_only_fixed.f
 	    ./a.out | tee env_test1.txt
 	    export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test1.txt | awk  '{print$1}')
 	     if [ $TEST_PASS -ge 1 ]
@@ -7287,7 +7306,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
 
 	    echo " "
 	    echo "Test 2"
-	    gfortran TEST_2_fortran_only_free.f90
+	    $FC TEST_2_fortran_only_free.f90
 	    ./a.out | tee env_test2.txt
 	    export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test2.txt | awk  '{print$1}')
 	     if [ $TEST_PASS -ge 1 ]
@@ -7302,7 +7321,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
 
 	    echo " "
 	    echo "Test 3"
-	    gcc TEST_3_c_only.c
+	    $CC TEST_3_c_only.c
 	    ./a.out | tee env_test3.txt
 	    export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test3.txt | awk  '{print$1}')
 	     if [ $TEST_PASS -ge 1 ]
@@ -7317,9 +7336,9 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
 
 	    echo " "
 	    echo "Test 4"
-	    gcc -c -m64 TEST_4_fortran+c_c.c
-	    gfortran -c -m64 TEST_4_fortran+c_f.f90
-	    gfortran -m64 TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
+	    $CC -c -m64 TEST_4_fortran+c_c.c
+	    $FC -c -m64 TEST_4_fortran+c_f.f90
+	    $FC -m64 TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
 	    ./a.out | tee env_test4.txt
 	    export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test4.txt | awk  '{print$1}')
 	     if [ $TEST_PASS -ge 1 ]
@@ -7335,7 +7354,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
 	    echo " "
 	    ############## Testing Environment #####
 
-	    cd $WRF_FOLDER/Tests/Compatibility
+	    cd ${WRF_FOLDER}/Tests/Compatibility
 
 	    cp ${NETCDF}/include/netcdf.inc .
 
@@ -7343,9 +7362,9 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
 	    echo " "
 	    echo "Library Compatibility Tests "
 	    echo "Test 1"
-	    gfortran -c 01_fortran+c+netcdf_f.f
-	    gcc -c 01_fortran+c+netcdf_c.c
-	    gfortran 01_fortran+c+netcdf_f.o 01_fortran+c+netcdf_c.o \
+	    $FC -c 01_fortran+c+netcdf_f.f
+	    $CC -c 01_fortran+c+netcdf_c.c
+	    $FC 01_fortran+c+netcdf_f.o 01_fortran+c+netcdf_c.o \
 	         -L${NETCDF}/lib -lnetcdff -lnetcdf
 
 	         ./a.out | tee comp_test1.txt
@@ -7363,9 +7382,9 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
 	    echo " "
 
 	    echo "Test 2"
-	    $DIR/MPICH/bin/mpifort -c 02_fortran+c+netcdf+mpi_f.f
-	    $DIR/MPICH/bin/mpicc -c 02_fortran+c+netcdf+mpi_c.c
-	    $DIR/MPICH/bin/mpifort 02_fortran+c+netcdf+mpi_f.o \
+	    $MPIFC -c 02_fortran+c+netcdf+mpi_f.f
+	    $MPICC -c 02_fortran+c+netcdf+mpi_c.c
+	    $MPIFC 02_fortran+c+netcdf+mpi_f.o \
 	    02_fortran+c+netcdf+mpi_c.o \
 	         -L${NETCDF}/lib -lnetcdff -lnetcdf
 
@@ -7397,7 +7416,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
 
 
 
-	    cd $WRF_FOLDER/Downloads
+	    cd ${WRF_FOLDER}/Downloads
 	    git clone https://github.com/NCAR/NCEPlibs.git
 	    cd NCEPlibs
 	    mkdir $DIR/nceplibs
@@ -7422,7 +7441,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
 	    then
 	      y="24 28 32 36 40 45 49 53 56 60 64 68 69 73 74 79"
 	      for X in $y; do
-	        sed -i "${X}s/= /= $fallow_argument $boz_argument /g" $WRF_FOLDER/Downloads/NCEPlibs/macros.make.linux.gnu
+	        sed -i "${X}s/= /= $fallow_argument $boz_argument /g" ${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu
 	      done
 	    else
 	      echo ""
@@ -7445,7 +7464,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
 	    #since the WRF was written
 	    #Option 8 gfortran compiler with distributed memory
 	    #############################################################################
-	    cd $WRF_FOLDER/
+	    cd ${WRF_FOLDER}/
 	    git clone -b dtc_post_v4.1.0 --recurse-submodules https://github.com/NOAA-EMC/EMC_post UPPV4.1
 	    cd UPPV4.1
 	    mkdir postprd
@@ -7475,7 +7494,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
 	      then
 	        z="58 63"
 	        for X in $z; do
-	          sed -i "${X}s/(FOPT)/(FOPT) $fallow_argument $boz_argument  /g" $WRF_FOLDER/UPPV4.1/configure.upp
+	          sed -i "${X}s/(FOPT)/(FOPT) $fallow_argument $boz_argument  /g" ${WRF_FOLDER}/UPPV4.1/configure.upp
 	        done
 	      else
 	        echo ""
@@ -7483,12 +7502,12 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
 	    fi
 
 	    ./compile
-	    cd $WRF_FOLDER/UPPV4.1/scripts
+	    cd ${WRF_FOLDER}/UPPV4.1/scripts
 	    echo $PASSWD | sudo -S cpan install XML::LibXML
 	  chmod +x run_unipost
 
 	    # IF statement to check that all files were created.
-	     cd $WRF_FOLDER/UPPV4.1/exec
+	     cd ${WRF_FOLDER}/UPPV4.1/exec
 	     n=$(ls ./*.exe | wc -l)
 	     if (( $n == 1 ))
 	      then
@@ -7508,12 +7527,12 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
 	    ## ARWpost
 	    ##Configure #3
 	    ###################################################################
-	    cd $WRF_FOLDER/Downloads
+	    cd ${WRF_FOLDER}/Downloads
 	    wget -c -4 http://www2.mmm.ucar.edu/wrf/src/ARWpost_V3.tar.gz
-	    tar -xvzf ARWpost_V3.tar.gz -C $WRF_FOLDER/
-	    cd $WRF_FOLDER/ARWpost
+	    tar -xvzf ARWpost_V3.tar.gz -C ${WRF_FOLDER}/
+	    cd ${WRF_FOLDER}/ARWpost
 	    ./clean -a
-	    sed -i -e 's/-lnetcdf/-lnetcdff -lnetcdf/g' $WRF_FOLDER/ARWpost/src/Makefile
+	    sed -i -e 's/-lnetcdf/-lnetcdff -lnetcdf/g' ${WRF_FOLDER}/ARWpost/src/Makefile
 	    export NETCDF=$DIR/NETCDF
 
 
@@ -7541,34 +7560,34 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
 	    fi
 
 
-	    sed -i -e 's/-C -P -traditional/-P -traditional/g' $WRF_FOLDER/ARWpost/configure.arwp
+	    sed -i -e 's/-C -P -traditional/-P -traditional/g' ${WRF_FOLDER}/ARWpost/configure.arwp
 	    ./compile
 
 
-	    export PATH=$WRF_FOLDER/ARWpost/ARWpost.exe:$PATH
+	    export PATH=${WRF_FOLDER}/ARWpost/ARWpost.exe:$PATH
 
 	    echo " "
 	    ################################ OpenGrADS ##################################
 	    #Verison 2.2.1 32bit of Linux
 	    #############################################################################
 	    if [[ $GRADS_PICK -eq 1 ]]; then
-	      cd $WRF_FOLDER/Downloads
-	      tar -xzvf opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz -C $WRF_FOLDER/
-	      cd $WRF_FOLDER/
-	      mv $WRF_FOLDER/opengrads-2.2.1.oga.1  $WRF_FOLDER/GrADS
+	      cd ${WRF_FOLDER}/Downloads
+	      tar -xzvf opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz -C ${WRF_FOLDER}/
+	      cd ${WRF_FOLDER}/
+	      mv ${WRF_FOLDER}/opengrads-2.2.1.oga.1  ${WRF_FOLDER}/GrADS
 	      cd GrADS/Contents
 	      wget -c -4 https://github.com/regisgrundig/SIMOP/blob/master/g2ctl.pl
 	      chmod +x g2ctl.pl
 	      wget -c -4 https://sourceforge.net/projects/opengrads/files/wgrib2/0.1.9.4/wgrib2-v0.1.9.4-bin-i686-glib2.5-linux-gnu.tar.gz
 	      tar -xzvf wgrib2-v0.1.9.4-bin-i686-glib2.5-linux-gnu.tar.gz
 	      cd wgrib2-v0.1.9.4/bin
-	      mv wgrib2 $WRF_FOLDER/GrADS/Contents
-	      cd $WRF_FOLDER/GrADS/Contents
+	      mv wgrib2 ${WRF_FOLDER}/GrADS/Contents
+	      cd ${WRF_FOLDER}/GrADS/Contents
 	      rm wgrib2-v0.1.9.4-bin-i686-glib2.5-linux-gnu.tar.gz
 	      rm -r wgrib2-v0.1.9.4
 
 
-	      export PATH=$WRF_FOLDER/GrADS/Contents:$PATH
+	      export PATH=${WRF_FOLDER}/GrADS/Contents:$PATH
 
 
 	    echo " "
@@ -7579,10 +7598,10 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
 	    # GrADS instructions: http://cola.gmu.edu/grads/downloads.php
 	    ########################################################################
 	    if [[ $GRADS_PICK -eq 2 ]]; then
-	       cd $WRF_FOLDER/Downloads
+	       cd ${WRF_FOLDER}/Downloads
 	       wget -c -4 ftp://cola.gmu.edu/grads/2.2/grads-2.2.1-bin-centos7.4-x86_64.tar.gz
-	       tar -xzvf grads-2.2.1-bin-centos7.4-x86_64.tar.gz -C $WRF_FOLDER
-	       cd $WRF_FOLDER/grads-2.2.1/bin
+	       tar -xzvf grads-2.2.1-bin-centos7.4-x86_64.tar.gz -C ${WRF_FOLDER}
+	       cd ${WRF_FOLDER}/grads-2.2.1/bin
 	       chmod 775 *
 
 	    fi
@@ -7594,7 +7613,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
 	      ########### https://www.ncl.ucar.edu/index.shtml      ##################
 	      #Installing Miniconda3 to WRF-Hydro directory and updating libraries
 
-	      export Miniconda_Install_DIR=$WRF_FOLDER/miniconda3
+	      export Miniconda_Install_DIR=${WRF_FOLDER}/miniconda3
 
 	      mkdir -p $Miniconda_Install_DIR
 
@@ -7603,7 +7622,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
 
 	      rm -rf $Miniconda_Install_DIR/miniconda.sh
 
-	      export PATH=$WRF_FOLDER/miniconda3/bin:$PATH
+	      export PATH=${WRF_FOLDER}/miniconda3/bin:$PATH
 
 	      source $Miniconda_Install_DIR/etc/profile.d/conda.sh
 
@@ -7639,33 +7658,33 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
 	      echo " "
 
 	    ############################## RIP4 #####################################
-	    mkdir $WRF_FOLDER/RIP4
-	    cd $WRF_FOLDER/Downloads
+	    mkdir ${WRF_FOLDER}/RIP4
+	    cd ${WRF_FOLDER}/Downloads
 	    wget -c -4 https://www2.mmm.ucar.edu/wrf/src/RIP_47.tar.gz
-	    tar -xvzf RIP_47.tar.gz -C $WRF_FOLDER/RIP4
-	    cd $WRF_FOLDER/RIP4/RIP_47
+	    tar -xvzf RIP_47.tar.gz -C ${WRF_FOLDER}/RIP4
+	    cd ${WRF_FOLDER}/RIP4/RIP_47
 	    mv * ..
-	    cd $WRF_FOLDER/RIP4
+	    cd ${WRF_FOLDER}/RIP4
 	    rm -rd RIP_47
 	    source $Miniconda_Install_DIR/etc/profile.d/conda.sh
 	    conda activate ncl_stable
 	    conda install -c conda-forge c-compiler fortran-compiler cxx-compiler -y
 
 
-	    export RIP_ROOT=$WRF_FOLDER/RIP4
+	    export RIP_ROOT=${WRF_FOLDER}/RIP4
 	    export NETCDF=$DIR/NETCDF
-	    export NCARG_ROOT=$WRF_FOLDER/anaconda3/envs/ncl_stable
+	    export NCARG_ROOT=${WRF_FOLDER}/anaconda3/envs/ncl_stable
 
 
-	    sed -i '349s|-L${NETCDF}/lib -lnetcdf $NETCDFF|-L${NETCDF}/lib $NETCDFF -lnetcdff -lnetcdf -lnetcdf -lnetcdff_C -lhdf5 |g' $WRF_FOLDER/RIP4/configure
+	    sed -i '349s|-L${NETCDF}/lib -lnetcdf $NETCDFF|-L${NETCDF}/lib $NETCDFF -lnetcdff -lnetcdf -lnetcdf -lnetcdff_C -lhdf5 |g' ${WRF_FOLDER}/RIP4/configure
 
-	    sed -i '27s|NETCDFLIB	= -L${NETCDF}/lib -lnetcdf CONFIGURE_NETCDFF_LIB|NETCDFLIB	= -L</usr/lib/x86_64-linux-gnu/libm.a> -lm -L${NETCDF}/lib CONFIGURE_NETCDFF_LIB -lnetcdf -lhdf5 -lhdf5_hl -lgfortran -lgcc -lz |g' $WRF_FOLDER/RIP4/arch/preamble
+	    sed -i '27s|NETCDFLIB	= -L${NETCDF}/lib -lnetcdf CONFIGURE_NETCDFF_LIB|NETCDFLIB	= -L</usr/lib/x86_64-linux-gnu/libm.a> -lm -L${NETCDF}/lib CONFIGURE_NETCDFF_LIB -lnetcdf -lhdf5 -lhdf5_hl -lgfortran -lgcc -lz |g' ${WRF_FOLDER}/RIP4/arch/preamble
 
-	    sed -i '31s|-L${NCARG_ROOT}/lib -lncarg -lncarg_gks -lncarg_c -lX11 -lXext -lpng -lz CONFIGURE_NCARG_LIB| -L${NCARG_ROOT}/lib -lncarg -lncarg_gks -lncarg_c -lX11 -lXext -lpng -lz -lcairo -lfontconfig -lpixman-1 -lfreetype -lexpat -lpthread -lbz2 -lXrender -lgfortran -lgcc -L</usr/lib/x86_64-linux-gnu/> -lm -lhdf5 -lhdf5_hl |g' $WRF_FOLDER/RIP4/arch/preamble
+	    sed -i '31s|-L${NCARG_ROOT}/lib -lncarg -lncarg_gks -lncarg_c -lX11 -lXext -lpng -lz CONFIGURE_NCARG_LIB| -L${NCARG_ROOT}/lib -lncarg -lncarg_gks -lncarg_c -lX11 -lXext -lpng -lz -lcairo -lfontconfig -lpixman-1 -lfreetype -lexpat -lpthread -lbz2 -lXrender -lgfortran -lgcc -L</usr/lib/x86_64-linux-gnu/> -lm -lhdf5 -lhdf5_hl |g' ${WRF_FOLDER}/RIP4/arch/preamble
 
-	    sed -i '33s| -O|-fallow-argument-mismatch -O |g' $WRF_FOLDER/RIP4/arch/configure.defaults
+	    sed -i '33s| -O|-fallow-argument-mismatch -O |g' ${WRF_FOLDER}/RIP4/arch/configure.defaults
 
-	    sed -i '35s|=|= -L$WRF_FOLDER/LIBS/grib2/lib -lhdf5 -lhdf5_hl |g' $WRF_FOLDER/RIP4/arch/configure.defaults
+	    sed -i '35s|=|= -L${WRF_FOLDER}/LIBS/grib2/lib -lhdf5 -lhdf5_hl |g' ${WRF_FOLDER}/RIP4/arch/configure.defaults
 
 
 	    if [ ${auto_config} -eq 1 ]
@@ -7689,7 +7708,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
 	    ########### WRf-Python compiled via Conda  ##################
 	    ########### This is the preferred method by NCAR      ##################
 	    ##### https://wrf-python.readthedocs.io/en/latest/installation.html  ##################
-	    source $Anaconda_Install_DIR/etc/profile.d/conda.sh
+	    source $Miniconda_Install_DIR/etc/profile.d/conda.sh
 conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 	    echo " "
@@ -7732,16 +7751,16 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	  # option 34, option 1 for gfortran and distributed memory w/basic nesting
 	  # large file support enable with WRFiO_NCD_LARGE_FILE_SUPPORT=1
 	  ########################################################################
-	  cd $WRF_FOLDER
+	  cd ${WRF_FOLDER}
 	  git clone https://github.com/openwfm/WRF-SFIRE.git
 
-	  cd $WRF_FOLDER/WRF-SFIRE/
+	  cd ${WRF_FOLDER}/WRF-SFIRE/
 	  ./clean -a                      # Clean old configuration files
 
 	   if [ ${auto_config} -eq 1 ]
 	    then
-	        sed -i '428s/.*/  $response = "34 \\n";/g' $WRF_FOLDER/WRF-SFIRE/arch/Config.pl # Answer for compiler choice
-	        sed -i '869s/.*/  $response = "1 \\n";/g' $WRF_FOLDER/WRF-SFIRE/arch/Config.pl  #Answer for basic nesting
+	        sed -i '428s/.*/  $response = "34 \\n";/g' ${WRF_FOLDER}/WRF-SFIRE/arch/Config.pl # Answer for compiler choice
+	        sed -i '869s/.*/  $response = "1 \\n";/g' ${WRF_FOLDER}/WRF-SFIRE/arch/Config.pl  #Answer for basic nesting
 	        ./configure 2>&1 | tee configure.log
 	    else
 	      ./configure 2>&1 | tee configure.log  #Option 34 gfortran compiler with distributed memory option 1 for basic nesting
@@ -7751,7 +7770,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	 ./compile -j $CPU_HALF_EVEN em_real 2>&1 | tee compile.wrf2.log
 
 	   # IF statement to check that all files were created.
-	    cd $WRF_FOLDER/WRF-SFIRE/main
+	    cd ${WRF_FOLDER}/WRF-SFIRE/main
 	    n=$(ls ./*.exe | wc -l)
 	    if (($n >= 3)); then
 	      echo "All expected files created."
@@ -7759,9 +7778,9 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	    else
 	      echo "Missing one or more expected files."
 	      echo "Running compiler again"
-	      cd $WRF_FOLDER/WRF-SFIRE/
+	      cd ${WRF_FOLDER}/WRF-SFIRE/
 	      ./compile -j $CPU_HALF_EVEN em_real 2>&1 | tee compile.wrf2.log
-	      cd $WRF_FOLDER/WRF-SFIRE/main
+	      cd ${WRF_FOLDER}/WRF-SFIRE/main
 	      n=$(ls ./*.exe | wc -l)
 	      if (($n >= 3)); then
 	        echo "All expected files created."
@@ -7774,10 +7793,10 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 	    echo " "
 
-	  cd $WRF_FOLDER/WRF-SFIRE
+	  cd ${WRF_FOLDER}/WRF-SFIRE
 	 ./compile -j $CPU_HALF_EVEN em_fire 2>&1 | tee compile.wrfsfire.log
 
-	  export WRF_DIR=$WRF_FOLDER/WRF-SFIRE
+	  export WRF_DIR=${WRF_FOLDER}/WRF-SFIRE
 
 
 
@@ -7787,13 +7806,13 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	  # Cloned from openwfm
 	  #Option 3 for gfortran and distributed memory
 	  ########################################################################
-	  cd $WRF_FOLDER
+	  cd ${WRF_FOLDER}
 	  git clone https://github.com/openwfm/WPS.git
 
-	  cd $WRF_FOLDER/WPS
+	  cd ${WRF_FOLDER}/WPS
 	  ./clean -a
 
-	  cd $WRF_FOLDER/WPS
+	  cd ${WRF_FOLDER}/WPS
 	  if [ ${auto_config} -eq 1 ]
 	    then
 	      FFLAGS=$FFLAGS  echo 3 | ./configure 2>&1 | tee configure.log #Option 3 for gfortran and distributed memory
@@ -7805,15 +7824,15 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 	  if [ $GCC_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GFORTRAN_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GPLUSPLUS_VERSION_MAJOR_VERSION -ge $version_10 ]
 	    then
-	  sed -i '70s/-frecord-marker=4/-frecord-marker=4 -m64 -fallow-argument-mismatch/g' $WRF_FOLDER/WPS/configure.wps
-	  sed -i '71s/-frecord-marker=4/-frecord-marker=4 -m64 -fallow-argument-mismatch/g' $WRF_FOLDER/WPS/configure.wps
+	  sed -i '70s/-frecord-marker=4/-frecord-marker=4 -m64 -fallow-argument-mismatch/g' ${WRF_FOLDER}/WPS/configure.wps
+	  sed -i '71s/-frecord-marker=4/-frecord-marker=4 -m64 -fallow-argument-mismatch/g' ${WRF_FOLDER}/WPS/configure.wps
 	  fi
 
 	  ./compile 2>&1 | tee compile.wps.log
 
 
 	  # IF statement to check that all files were created.
-	  cd $WRF_FOLDER/WPS
+	  cd ${WRF_FOLDER}/WPS
 	  n=$(ls ./*.exe | wc -l)
 	  if (($n == 3)); then
 	    echo "All expected files created."
@@ -7823,7 +7842,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	    echo "Running compiler again"
 
 	    ./compile 2>&1 | tee compile.wps2.log
-	    cd $WRF_FOLDER/WPS
+	    cd ${WRF_FOLDER}/WPS
 	    n=$(ls ./*.exe | wc -l)
 	    if (($n == 3)); then
 	      echo "All expected files created."
@@ -7841,20 +7860,20 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 	  ######################## WPS Domain Setup Tools ########################
 	  ## DomainWizard
-	  cd $WRF_FOLDER/Downloads
+	  cd ${WRF_FOLDER}/Downloads
 	  wget -c -4 http://esrl.noaa.gov/gsd/wrfportal/domainwizard/WRFDomainWizard.zip
-	  mkdir $WRF_FOLDER/WRFDomainWizard
-	  unzip WRFDomainWizard.zip -d $WRF_FOLDER/WRFDomainWizard
-	  chmod +x $WRF_FOLDER/WRFDomainWizard/run_DomainWizard
+	  mkdir ${WRF_FOLDER}/WRFDomainWizard
+	  unzip WRFDomainWizard.zip -d ${WRF_FOLDER}/WRFDomainWizard
+	  chmod +x ${WRF_FOLDER}/WRFDomainWizard/run_DomainWizard
 
 	  echo " "
 	  ######################## WPF Portal Setup Tools ########################
 	  ## WRFPortal
-	  cd $WRF_FOLDER/Downloads
+	  cd ${WRF_FOLDER}/Downloads
 	  wget -c -4 https://esrl.noaa.gov/gsd/wrfportal/portal/wrf-portal.zip
-	  mkdir $WRF_FOLDER/WRFPortal
-	  unzip wrf-portal.zip -d $WRF_FOLDER/WRFPortal
-	  chmod +x $WRF_FOLDER/WRFPortal/runWRFPortal
+	  mkdir ${WRF_FOLDER}/WRFPortal
+	  unzip wrf-portal.zip -d ${WRF_FOLDER}/WRFPortal
+	  chmod +x ${WRF_FOLDER}/WRFPortal/runWRFPortal
 
 
 	  echo " "
@@ -7865,19 +7884,19 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	  # All files downloaded and untarred is 200GB
 	  # https://www2.mmm.ucar.edu/wrf/users/download/get_sources_wps_geog.html
 	  #################################################################################
-	  cd $WRF_FOLDER/Downloads
-	  mkdir $WRF_FOLDER/GEOG
-	  mkdir $WRF_FOLDER/GEOG/WPS_GEOG
+	  cd ${WRF_FOLDER}/Downloads
+	  mkdir ${WRF_FOLDER}/GEOG
+	  mkdir ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 	  echo " "
 	  echo "Mandatory WRF Preprocessing System (WPS) Geographical Input Data Mandatory Fields Downloads"
 	  echo " "
 	  wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_high_res_mandatory.tar.gz
-	  tar -xvzf geog_high_res_mandatory.tar.gz -C $WRF_FOLDER/GEOG/
+	  tar -xvzf geog_high_res_mandatory.tar.gz -C ${WRF_FOLDER}/GEOG/
 
 	  wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_low_res_mandatory.tar.gz
-	  tar -xvzf geog_low_res_mandatory.tar.gz -C $WRF_FOLDER/GEOG/
-	  mv $WRF_FOLDER/GEOG/WPS_GEOG_LOW_RES/ $WRF_FOLDER/GEOG/WPS_GEOG
+	  tar -xvzf geog_low_res_mandatory.tar.gz -C ${WRF_FOLDER}/GEOG/
+	  mv ${WRF_FOLDER}/GEOG/WPS_GEOG_LOW_RES/ ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 
 	  if [ ${WPS_Specific_Applications} -eq 1 ]
@@ -7887,31 +7906,31 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	      echo " "
 
 	      wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_thompson28_chem.tar.gz
-	      tar -xvzf geog_thompson28_chem.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+	      tar -xvzf geog_thompson28_chem.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 	      wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_noahmp.tar.gz
-	      tar -xvzf geog_noahmp.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+	      tar -xvzf geog_noahmp.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 	      wget -c -4  https://www2.mmm.ucar.edu/wrf/src/wps_files/irrigation.tar.gz
-	      tar -xvzf irrigation.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+	      tar -xvzf irrigation.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 	      wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_px.tar.gz
-	      tar -xvzf geog_px.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+	      tar -xvzf geog_px.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 	      wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_urban.tar.gz
-	      tar -xvzf geog_urban.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+	      tar -xvzf geog_urban.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 	      wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_ssib.tar.gz
-	      tar -xvzf geog_ssib.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+	      tar -xvzf geog_ssib.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 	      wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/lake_depth.tar.bz2
-	      tar -xvf lake_depth.tar.bz2 -C $WRF_FOLDER/GEOG/WPS_GEOG
+	      tar -xvf lake_depth.tar.bz2 -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 	      wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/topobath_30s.tar.bz2
-	      tar -xvf topobath_30s.tar.bz2 -C $WRF_FOLDER/GEOG/WPS_GEOG
+	      tar -xvf topobath_30s.tar.bz2 -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 	      wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/gsl_gwd.tar.bz2
-	      tar -xvf gsl_gwd.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+	      tar -xvf gsl_gwd.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 	  fi
 
 
@@ -7923,22 +7942,22 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 
 	      wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_older_than_2000.tar.gz
-	      tar -xvzf geog_older_than_2000.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+	      tar -xvzf geog_older_than_2000.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 	      wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s_with_lakes.tar.gz
-	      tar -xvzf modis_landuse_20class_15s_with_lakes.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+	      tar -xvzf modis_landuse_20class_15s_with_lakes.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 	      wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_alt_lsm.tar.gz
-	      tar -xvzf geog_alt_lsm.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+	      tar -xvzf geog_alt_lsm.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 	      wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/nlcd2006_ll_9s.tar.bz2
-	      tar -xvf nlcd2006_ll_9s.tar.bz2 -C $WRF_FOLDER/GEOG/WPS_GEOG
+	      tar -xvf nlcd2006_ll_9s.tar.bz2 -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 	      wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/updated_Iceland_LU.tar.gz
-	      tar -xvf updated_Iceland_LU.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+	      tar -xvf updated_Iceland_LU.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 	      wget -c -4 https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s.tar.bz2
-	      tar -xvf modis_landuse_20class_15s.tar.bz2 -C $WRF_FOLDER/GEOG/WPS_GEOG
+	      tar -xvf modis_landuse_20class_15s.tar.bz2 -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 
 	  fi
@@ -7966,7 +7985,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$SFIRE_PICK" = "1" ]; then
     echo $PASSWD | sudo -S dnf install dnf -y
     echo $PASSWD | sudo -S dnf -y update
     echo $PASSWD | sudo -S dnf -y upgrade
-    echo $PASSWD | sudo -S dnf -y install autoconf automake bzip2 bzip2-devel byacc cairo-devel cmake cpp curl curl-devel flex fontconfig fontconfig-devel gcc gcc-c++ gcc-gfortran git java-11-openjdk java-11-openjdk-devel ksh libjpeg libjpeg-deve libX11 libX11-devel libXaw libXaw-devel libXext-devel libXmu libXmu-devel libXrender libXrender-devel libXt libXt-devel libxml2 libxml2-devel libXmu  libXmu-devel libgeotiff libgeotiff-devel libtiff libtiff-devel m4  nfs-utils perl pkgconfig pixman  pixman-devel python3 python3-devel tcsh time unzip wget
+    echo $PASSWD | sudo -S dnf -y install autoconf automake bzip2 bzip2-devel byacc cairo-devel cmake cpp curl curl-devel flex fontconfig fontconfig-devel gcc gcc-c++ gcc-gfortran git java-11-openjdk java-11-openjdk-devel ksh libjpeg libjpeg-deve libX11 libX11-devel libXaw libXaw-devel libXext-devel libXmu libXmu-devel libXrender libXrender-devel libXt libXt-devel libxml2 libxml2-devel libXmu  libXmu-devel libgeotiff libgeotiff-devel libtiff libtiff-devel m4 mlocate nfs-utils perl pkgconfig pixman  pixman-devel python3 python3-devel tcsh time unzip wget
     echo $PASSWD | sudo -S  dnf -y groupinstall "Development Tools"
     echo $PASSWD | sudo -S dnf -y update
     echo $PASSWD | sudo -S dnf -y upgrade
@@ -7978,10 +7997,10 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$SFIRE_PICK" = "1" ]; then
 
     mkdir $HOME/WRF_SFIRE
     export WRF_FOLDER=$HOME/WRF_SFIRE
-    cd $WRF_FOLDER/
+    cd ${WRF_FOLDER}/
     mkdir Downloads
     mkdir Libs
-    export DIR=$WRF_FOLDER/Libs
+    export DIR=${WRF_FOLDER}/Libs
     mkdir Libs/grib2
     mkdir Libs/NETCDF
     mkdir Libs/MPICH
@@ -8073,7 +8092,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$SFIRE_PICK" = "1" ]; then
     #Uncalling compilers due to comfigure issue with zlib$Zlib_Version
     #With CC & CXX definied ./configure uses different compiler Flags
 
-  cd $WRF_FOLDER/Downloads
+  cd ${WRF_FOLDER}/Downloads
   tar -xvzf v$Zlib_Version.tar.gz
   cd zlib-$Zlib_Version/
 autoreconf -i -f 2>&1 | tee autoreconf.log
@@ -8086,7 +8105,7 @@ automake -a -f 2>&1 | tee automake.log
   echo " "
     ##############################MPICH############################
    #F90= due to compiler issues with mpich install
-  cd $WRF_FOLDER/Downloads
+  cd ${WRF_FOLDER}/Downloads
   tar -xvzf mpich-$Mpich_Version.tar.gz
   cd mpich-$Mpich_Version/
 autoreconf -i -f 2>&1 | tee autoreconf.log
@@ -8109,7 +8128,7 @@ automake -a -f 2>&1 | tee automake.log
 
   echo " "
     #############################libpng############################
-  cd $WRF_FOLDER/Downloads
+  cd ${WRF_FOLDER}/Downloads
   export LDFLAGS=-L$DIR/grib2/lib
   export CPPFLAGS=-I$DIR/grib2/include
   tar -xvzf libpng-$Libpng_Version.tar.gz
@@ -8123,7 +8142,7 @@ automake -a -f 2>&1 | tee automake.log
   echo " "
 
     #############################JasPer############################
-  cd $WRF_FOLDER/Downloads
+  cd ${WRF_FOLDER}/Downloads
   unzip jasper-$Jasper_Version.zip
   cd jasper-$Jasper_Version/
 autoreconf -i -f 2>&1 | tee autoreconf.log
@@ -8140,7 +8159,7 @@ automake -a -f 2>&1 | tee automake.log
 
   echo " "
     #############################hdf5 library for netcdf4 functionality############################
-  cd $WRF_FOLDER/Downloads
+  cd ${WRF_FOLDER}/Downloads
   tar -xvzf hdf5-$HDF5_Version.tar.gz
   cd hdf5-hdf5-$HDF5_Version
 autoreconf -i -f 2>&1 | tee autoreconf.log
@@ -8161,7 +8180,7 @@ automake -a -f 2>&1 | tee automake.log
     #Make file created with half of available cpu cores
     #Hard path for MPI added
     ##################################################################################
-  cd $WRF_FOLDER/Downloads
+  cd ${WRF_FOLDER}/Downloads
   tar -xzvf pnetcdf-$Pnetcdf_Version.tar.gz
   cd pnetcdf-$Pnetcdf_Version
   export MPIFC=$DIR/MPICH/bin/mpifort
@@ -8182,7 +8201,7 @@ automake -a -f 2>&1 | tee automake.log
 
 
     ##############################Install NETCDF C Library############################
-  cd $WRF_FOLDER/Downloads
+  cd ${WRF_FOLDER}/Downloads
   tar -xzvf v$Netcdf_C_Version.tar.gz
   cd netcdf-c-$Netcdf_C_Version/
   export CPPFLAGS=-I$DIR/grib2/include
@@ -8199,7 +8218,7 @@ automake -a -f 2>&1 | tee automake.log
   export NETCDF=$DIR/NETCDF
   echo " "
     ##############################NetCDF fortran library############################
-  cd $WRF_FOLDER/Downloads
+  cd ${WRF_FOLDER}/Downloads
   tar -xvzf v$Netcdf_Fortran_Version.tar.gz
   cd netcdf-fortran-$Netcdf_Fortran_Version/
   export LD_LIBRARY_PATH=$DIR/NETCDF/lib:$LD_LIBRARY_PATH
@@ -8217,7 +8236,7 @@ automake -a -f 2>&1 | tee automake.log
 
  ############################# Convert Geo Tiff #################################
 
-  cd $WRF_FOLDER/Downloads
+  cd ${WRF_FOLDER}/Downloads
   tar -xzvf convert_geotiff-0.1.0.tar.gz
   cd convert_geotiff-0.1.0
   export CPPFLAGS="-I$DIR/NETCDF/include -I$DIR/grib2/include -I/usr/include/libgeotiff"
@@ -8235,18 +8254,18 @@ automake -a -f 2>&1 | tee automake.log
 
     #################################### System Environment Tests ##############
 
-    cd $WRF_FOLDER/Downloads
+    cd ${WRF_FOLDER}/Downloads
     wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_NETCDF_MPI_tests.tar
     wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_tests.tar
 
-    tar -xvf Fortran_C_tests.tar -C $WRF_FOLDER/Tests/Environment
-    tar -xvf Fortran_C_NETCDF_MPI_tests.tar -C $WRF_FOLDER/Tests/Compatibility
+    tar -xvf Fortran_C_tests.tar -C ${WRF_FOLDER}/Tests/Environment
+    tar -xvf Fortran_C_NETCDF_MPI_tests.tar -C ${WRF_FOLDER}/Tests/Compatibility
 
     export one="1"
     echo " "
     ############## Testing Environment #####
 
-    cd $WRF_FOLDER/Tests/Environment
+    cd ${WRF_FOLDER}/Tests/Environment
 
     cp ${NETCDF}/include/netcdf.inc .
 
@@ -8254,7 +8273,7 @@ automake -a -f 2>&1 | tee automake.log
     echo " "
     echo "Environment Testing "
     echo "Test 1"
-    gfortran TEST_1_fortran_only_fixed.f
+    $FC TEST_1_fortran_only_fixed.f
     ./a.out | tee env_test1.txt
     export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test1.txt | awk  '{print$1}')
      if [ $TEST_PASS -ge 1 ]
@@ -8268,7 +8287,7 @@ automake -a -f 2>&1 | tee automake.log
 
     echo " "
     echo "Test 2"
-    gfortran TEST_2_fortran_only_free.f90
+    $FC TEST_2_fortran_only_free.f90
     ./a.out | tee env_test2.txt
     export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test2.txt | awk  '{print$1}')
      if [ $TEST_PASS -ge 1 ]
@@ -8283,7 +8302,7 @@ automake -a -f 2>&1 | tee automake.log
 
     echo " "
     echo "Test 3"
-    gcc TEST_3_c_only.c
+    $CC TEST_3_c_only.c
     ./a.out | tee env_test3.txt
     export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test3.txt | awk  '{print$1}')
      if [ $TEST_PASS -ge 1 ]
@@ -8298,9 +8317,9 @@ automake -a -f 2>&1 | tee automake.log
 
     echo " "
     echo "Test 4"
-    gcc -c -m64 TEST_4_fortran+c_c.c
-    gfortran -c -m64 TEST_4_fortran+c_f.f90
-    gfortran -m64 TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
+    $CC -c -m64 TEST_4_fortran+c_c.c
+    $FC -c -m64 TEST_4_fortran+c_f.f90
+    $FC -m64 TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
     ./a.out | tee env_test4.txt
     export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test4.txt | awk  '{print$1}')
      if [ $TEST_PASS -ge 1 ]
@@ -8316,7 +8335,7 @@ automake -a -f 2>&1 | tee automake.log
     echo " "
     ############## Testing Environment #####
 
-    cd $WRF_FOLDER/Tests/Compatibility
+    cd ${WRF_FOLDER}/Tests/Compatibility
 
     cp ${NETCDF}/include/netcdf.inc .
 
@@ -8324,9 +8343,9 @@ automake -a -f 2>&1 | tee automake.log
     echo " "
     echo "Library Compatibility Tests "
     echo "Test 1"
-    gfortran -c 01_fortran+c+netcdf_f.f
-    gcc -c 01_fortran+c+netcdf_c.c
-    gfortran 01_fortran+c+netcdf_f.o 01_fortran+c+netcdf_c.o \
+    $FC -c 01_fortran+c+netcdf_f.f
+    $CC -c 01_fortran+c+netcdf_c.c
+    $FC 01_fortran+c+netcdf_f.o 01_fortran+c+netcdf_c.o \
          -L${NETCDF}/lib -lnetcdff -lnetcdf
 
          ./a.out | tee comp_test1.txt
@@ -8344,9 +8363,9 @@ automake -a -f 2>&1 | tee automake.log
     echo " "
 
     echo "Test 2"
-    $DIR/MPICH/bin/mpifort -c 02_fortran+c+netcdf+mpi_f.f
-    $DIR/MPICH/bin/mpicc -c 02_fortran+c+netcdf+mpi_c.c
-    $DIR/MPICH/bin/mpifort 02_fortran+c+netcdf+mpi_f.o \
+    $MPIFC -c 02_fortran+c+netcdf+mpi_f.f
+    $MPICC -c 02_fortran+c+netcdf+mpi_c.c
+    $MPIFC 02_fortran+c+netcdf+mpi_f.o \
     02_fortran+c+netcdf+mpi_c.o \
          -L${NETCDF}/lib -lnetcdff -lnetcdf
 
@@ -8378,7 +8397,7 @@ automake -a -f 2>&1 | tee automake.log
 
 
 
-    cd $WRF_FOLDER/Downloads
+    cd ${WRF_FOLDER}/Downloads
     git clone https://github.com/NCAR/NCEPlibs.git
     cd NCEPlibs
     mkdir $DIR/nceplibs
@@ -8403,7 +8422,7 @@ automake -a -f 2>&1 | tee automake.log
     then
       y="24 28 32 36 40 45 49 53 56 60 64 68 69 73 74 79"
       for X in $y; do
-        sed -i "${X}s/= /= $fallow_argument $boz_argument /g" $WRF_FOLDER/Downloads/NCEPlibs/macros.make.linux.gnu
+        sed -i "${X}s/= /= $fallow_argument $boz_argument /g" ${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu
       done
     else
       echo ""
@@ -8426,7 +8445,7 @@ automake -a -f 2>&1 | tee automake.log
     #since the WRF was written
     #Option 8 gfortran compiler with distributed memory
     #############################################################################
-    cd $WRF_FOLDER/
+    cd ${WRF_FOLDER}/
     git clone -b dtc_post_v$Mpich_Version.0 --recurse-submodules https://github.com/NOAA-EMC/EMC_post UPPV$Mpich_Version
     cd UPPV$Mpich_Version
     mkdir postprd
@@ -8456,7 +8475,7 @@ automake -a -f 2>&1 | tee automake.log
       then
         z="58 63"
         for X in $z; do
-          sed -i "${X}s/(FOPT)/(FOPT) $fallow_argument $boz_argument  /g" $WRF_FOLDER/UPPV$Mpich_Version/configure.upp
+          sed -i "${X}s/(FOPT)/(FOPT) $fallow_argument $boz_argument  /g" ${WRF_FOLDER}/UPPV$Mpich_Version/configure.upp
         done
       else
         echo ""
@@ -8464,12 +8483,12 @@ automake -a -f 2>&1 | tee automake.log
     fi
 
     ./compile
-    cd $WRF_FOLDER/UPPV$Mpich_Version/scripts
+    cd ${WRF_FOLDER}/UPPV$Mpich_Version/scripts
     echo $PASSWD | sudo -S cpan install XML::LibXML
   chmod +x run_unipost
 
     # IF statement to check that all files were created.
-     cd $WRF_FOLDER/UPPV$Mpich_Version/exec
+     cd ${WRF_FOLDER}/UPPV$Mpich_Version/exec
      n=$(ls ./*.exe | wc -l)
      if (( $n == 1 ))
       then
@@ -8489,12 +8508,12 @@ automake -a -f 2>&1 | tee automake.log
     ## ARWpost
     ##Configure #3
     ###################################################################
-    cd $WRF_FOLDER/Downloads
+    cd ${WRF_FOLDER}/Downloads
     wget -c http://www2.mmm.ucar.edu/wrf/src/ARWpost_V3.tar.gz
-    tar -xvzf ARWpost_V3.tar.gz -C $WRF_FOLDER/
-    cd $WRF_FOLDER/ARWpost
+    tar -xvzf ARWpost_V3.tar.gz -C ${WRF_FOLDER}/
+    cd ${WRF_FOLDER}/ARWpost
     ./clean -a
-    sed -i -e 's/-lnetcdf/-lnetcdff -lnetcdf/g' $WRF_FOLDER/ARWpost/src/Makefile
+    sed -i -e 's/-lnetcdf/-lnetcdff -lnetcdf/g' ${WRF_FOLDER}/ARWpost/src/Makefile
     export NETCDF=$DIR/NETCDF
 
 
@@ -8522,34 +8541,34 @@ automake -a -f 2>&1 | tee automake.log
     fi
 
 
-    sed -i -e 's/-C -P -traditional/-P -traditional/g' $WRF_FOLDER/ARWpost/configure.arwp
+    sed -i -e 's/-C -P -traditional/-P -traditional/g' ${WRF_FOLDER}/ARWpost/configure.arwp
     ./compile
 
 
-    export PATH=$WRF_FOLDER/ARWpost/ARWpost.exe:$PATH
+    export PATH=${WRF_FOLDER}/ARWpost/ARWpost.exe:$PATH
 
     echo " "
     ################################ OpenGrADS ##################################
     #Verison 2.2.1 32bit of Linux
     #############################################################################
     if [[ $GRADS_PICK -eq 1 ]]; then
-      cd $WRF_FOLDER/Downloads
-      tar -xzvf opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz -C $WRF_FOLDER/
-      cd $WRF_FOLDER/
-      mv $WRF_FOLDER/opengrads-2.2.1.oga.1  $WRF_FOLDER/GrADS
+      cd ${WRF_FOLDER}/Downloads
+      tar -xzvf opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz -C ${WRF_FOLDER}/
+      cd ${WRF_FOLDER}/
+      mv ${WRF_FOLDER}/opengrads-2.2.1.oga.1  ${WRF_FOLDER}/GrADS
       cd GrADS/Contents
       wget -c https://github.com/regisgrundig/SIMOP/blob/master/g2ctl.pl
       chmod +x g2ctl.pl
       wget -c https://sourceforge.net/projects/opengrads/files/wgrib2/0.1.9.4/wgrib2-v0.1.9.4-bin-i686-glib2.5-linux-gnu.tar.gz
       tar -xzvf wgrib2-v0.1.9.4-bin-i686-glib2.5-linux-gnu.tar.gz
       cd wgrib2-v0.1.9.4/bin
-      mv wgrib2 $WRF_FOLDER/GrADS/Contents
-      cd $WRF_FOLDER/GrADS/Contents
+      mv wgrib2 ${WRF_FOLDER}/GrADS/Contents
+      cd ${WRF_FOLDER}/GrADS/Contents
       rm wgrib2-v0.1.9.4-bin-i686-glib2.5-linux-gnu.tar.gz
       rm -r wgrib2-v0.1.9.4
 
 
-      export PATH=$WRF_FOLDER/GrADS/Contents:$PATH
+      export PATH=${WRF_FOLDER}/GrADS/Contents:$PATH
 
 
     echo " "
@@ -8560,10 +8579,10 @@ automake -a -f 2>&1 | tee automake.log
     # GrADS instructions: http://cola.gmu.edu/grads/downloads.php
     ########################################################################
     if [[ $GRADS_PICK -eq 2 ]]; then
-       cd $WRF_FOLDER/Downloads
+       cd ${WRF_FOLDER}/Downloads
        wget -c ftp://cola.gmu.edu/grads/2.2/grads-2.2.1-bin-centos7.4-x86_64.tar.gz
-       tar -xzvf grads-2.2.1-bin-centos7.4-x86_64.tar.gz -C $WRF_FOLDER
-       cd $WRF_FOLDER/grads-2.2.1/bin
+       tar -xzvf grads-2.2.1-bin-centos7.4-x86_64.tar.gz -C ${WRF_FOLDER}
+       cd ${WRF_FOLDER}/grads-2.2.1/bin
        chmod 775 *
 
     fi
@@ -8575,7 +8594,7 @@ automake -a -f 2>&1 | tee automake.log
       ########### https://www.ncl.ucar.edu/index.shtml      ##################
       #Installing Miniconda3 to WRF-Hydro directory and updating libraries
 
-      export Miniconda_Install_DIR=$WRF_FOLDER/miniconda3
+      export Miniconda_Install_DIR=${WRF_FOLDER}/miniconda3
 
       mkdir -p $Miniconda_Install_DIR
 
@@ -8584,7 +8603,7 @@ automake -a -f 2>&1 | tee automake.log
 
       rm -rf $Miniconda_Install_DIR/miniconda.sh
 
-      export PATH=$WRF_FOLDER/miniconda3/bin:$PATH
+      export PATH=${WRF_FOLDER}/miniconda3/bin:$PATH
 
       source $Miniconda_Install_DIR/etc/profile.d/conda.sh
 
@@ -8620,33 +8639,33 @@ automake -a -f 2>&1 | tee automake.log
       echo " "
 
     ############################## RIP4 #####################################
-    mkdir $WRF_FOLDER/RIP4
-    cd $WRF_FOLDER/Downloads
+    mkdir ${WRF_FOLDER}/RIP4
+    cd ${WRF_FOLDER}/Downloads
     wget -c https://www2.mmm.ucar.edu/wrf/src/RIP_47.tar.gz
-    tar -xvzf RIP_47.tar.gz -C $WRF_FOLDER/RIP4
-    cd $WRF_FOLDER/RIP4/RIP_47
+    tar -xvzf RIP_47.tar.gz -C ${WRF_FOLDER}/RIP4
+    cd ${WRF_FOLDER}/RIP4/RIP_47
     mv * ..
-    cd $WRF_FOLDER/RIP4
+    cd ${WRF_FOLDER}/RIP4
     rm -rd RIP_47
     source $Miniconda_Install_DIR/etc/profile.d/conda.sh
     conda activate ncl_stable
     conda install -c conda-forge c-compiler fortran-compiler cxx-compiler -y
 
 
-    export RIP_ROOT=$WRF_FOLDER/RIP4
+    export RIP_ROOT=${WRF_FOLDER}/RIP4
     export NETCDF=$DIR/NETCDF
-    export NCARG_ROOT=$WRF_FOLDER/anaconda3/envs/ncl_stable
+    export NCARG_ROOT=${WRF_FOLDER}/anaconda3/envs/ncl_stable
 
 
-    sed -i '349s|-L${NETCDF}/lib -lnetcdf $NETCDFF|-L${NETCDF}/lib $NETCDFF -lnetcdff -lnetcdf -lnetcdf -lnetcdff_C -lhdf5 |g' $WRF_FOLDER/RIP4/configure
+    sed -i '349s|-L${NETCDF}/lib -lnetcdf $NETCDFF|-L${NETCDF}/lib $NETCDFF -lnetcdff -lnetcdf -lnetcdf -lnetcdff_C -lhdf5 |g' ${WRF_FOLDER}/RIP4/configure
 
-    sed -i '27s|NETCDFLIB	= -L${NETCDF}/lib -lnetcdf CONFIGURE_NETCDFF_LIB|NETCDFLIB	= -L</usr/lib/x86_64-linux-gnu/libm.a> -lm -L${NETCDF}/lib CONFIGURE_NETCDFF_LIB -lnetcdf -lhdf5 -lhdf5_hl -lgfortran -lgcc -lz |g' $WRF_FOLDER/RIP4/arch/preamble
+    sed -i '27s|NETCDFLIB	= -L${NETCDF}/lib -lnetcdf CONFIGURE_NETCDFF_LIB|NETCDFLIB	= -L</usr/lib/x86_64-linux-gnu/libm.a> -lm -L${NETCDF}/lib CONFIGURE_NETCDFF_LIB -lnetcdf -lhdf5 -lhdf5_hl -lgfortran -lgcc -lz |g' ${WRF_FOLDER}/RIP4/arch/preamble
 
-    sed -i '31s|-L${NCARG_ROOT}/lib -lncarg -lncarg_gks -lncarg_c -lX11 -lXext -lpng -lz CONFIGURE_NCARG_LIB| -L${NCARG_ROOT}/lib -lncarg -lncarg_gks -lncarg_c -lX11 -lXext -lpng -lz -lcairo -lfontconfig -lpixman-1 -lfreetype -lexpat -lpthread -lbz2 -lXrender -lgfortran -lgcc -L</usr/lib/x86_64-linux-gnu/> -lm -lhdf5 -lhdf5_hl |g' $WRF_FOLDER/RIP4/arch/preamble
+    sed -i '31s|-L${NCARG_ROOT}/lib -lncarg -lncarg_gks -lncarg_c -lX11 -lXext -lpng -lz CONFIGURE_NCARG_LIB| -L${NCARG_ROOT}/lib -lncarg -lncarg_gks -lncarg_c -lX11 -lXext -lpng -lz -lcairo -lfontconfig -lpixman-1 -lfreetype -lexpat -lpthread -lbz2 -lXrender -lgfortran -lgcc -L</usr/lib/x86_64-linux-gnu/> -lm -lhdf5 -lhdf5_hl |g' ${WRF_FOLDER}/RIP4/arch/preamble
 
-    sed -i '33s| -O|-fallow-argument-mismatch -O |g' $WRF_FOLDER/RIP4/arch/configure.defaults
+    sed -i '33s| -O|-fallow-argument-mismatch -O |g' ${WRF_FOLDER}/RIP4/arch/configure.defaults
 
-    sed -i '35s|=|= -L$WRF_FOLDER/LIBS/grib2/lib -lhdf5 -lhdf5_hl |g' $WRF_FOLDER/RIP4/arch/configure.defaults
+    sed -i '35s|=|= -L${WRF_FOLDER}/LIBS/grib2/lib -lhdf5 -lhdf5_hl |g' ${WRF_FOLDER}/RIP4/arch/configure.defaults
 
 
     if [ ${auto_config} -eq 1 ]
@@ -8670,7 +8689,7 @@ automake -a -f 2>&1 | tee automake.log
     ########### WRf-Python compiled via Conda  ##################
     ########### This is the preferred method by NCAR      ##################
     ##### https://wrf-python.readthedocs.io/en/latest/installation.html  ##################
-    source $Anaconda_Install_DIR/etc/profile.d/conda.sh
+    source $Miniconda_Install_DIR/etc/profile.d/conda.sh
 conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
     echo " "
@@ -8713,16 +8732,16 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
   # option 34, option 1 for gfortran and distributed memory w/basic nesting
   # large file support enable with WRFiO_NCD_LARGE_FILE_SUPPORT=1
   ########################################################################
-  cd $WRF_FOLDER
+  cd ${WRF_FOLDER}
   git clone https://github.com/openwfm/WRF-SFIRE.git
 
-  cd $WRF_FOLDER/WRF-SFIRE/
+  cd ${WRF_FOLDER}/WRF-SFIRE/
   ./clean -a                      # Clean old configuration files
 
    if [ ${auto_config} -eq 1 ]
     then
-        sed -i '428s/.*/  $response = "34 \\n";/g' $WRF_FOLDER/WRF-SFIRE/arch/Config.pl # Answer for compiler choice
-        sed -i '869s/.*/  $response = "1 \\n";/g' $WRF_FOLDER/WRF-SFIRE/arch/Config.pl  #Answer for basic nesting
+        sed -i '428s/.*/  $response = "34 \\n";/g' ${WRF_FOLDER}/WRF-SFIRE/arch/Config.pl # Answer for compiler choice
+        sed -i '869s/.*/  $response = "1 \\n";/g' ${WRF_FOLDER}/WRF-SFIRE/arch/Config.pl  #Answer for basic nesting
         ./configure 2>&1 | tee configure.log
     else
       ./configure 2>&1 | tee configure.log  #Option 34 gfortran compiler with distributed memory option 1 for basic nesting
@@ -8731,7 +8750,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
  ./compile -j $CPU_HALF_EVEN em_real 2>&1 | tee compile.wrf1.log
 
    # IF statement to check that all files were created.
-    cd $WRF_FOLDER/WRF-SFIRE/main
+    cd ${WRF_FOLDER}/WRF-SFIRE/main
     n=$(ls ./*.exe | wc -l)
     if (($n >= 3)); then
       echo "All expected files created."
@@ -8739,9 +8758,9 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
     else
       echo "Missing one or more expected files."
       echo "Running compiler again"
-      cd $WRF_FOLDER/WRF-SFIRE/
+      cd ${WRF_FOLDER}/WRF-SFIRE/
       ./compile -j $CPU_HALF_EVEN em_real 2>&1 | tee compile.wrf2.log
-      cd $WRF_FOLDER/WRF-SFIRE/main
+      cd ${WRF_FOLDER}/WRF-SFIRE/main
       n=$(ls ./*.exe | wc -l)
       if (($n >= 3)); then
         echo "All expected files created."
@@ -8754,10 +8773,10 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
     echo " "
 
-  cd $WRF_FOLDER/WRF-SFIRE
+  cd ${WRF_FOLDER}/WRF-SFIRE
 
 
-  export WRF_DIR=$WRF_FOLDER/WRF-SFIRE
+  export WRF_DIR=${WRF_FOLDER}/WRF-SFIRE
 
 
 
@@ -8767,13 +8786,13 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
   # Cloned from openwfm
   #Option 3 for gfortran and distributed memory
   ########################################################################
-  cd $WRF_FOLDER
+  cd ${WRF_FOLDER}
   git clone https://github.com/openwfm/WPS.git
 
-  cd $WRF_FOLDER/WPS
+  cd ${WRF_FOLDER}/WPS
   ./clean -a
 
-  cd $WRF_FOLDER/WPS
+  cd ${WRF_FOLDER}/WPS
 
   if [ ${auto_config} -eq 1 ]
     then
@@ -8786,15 +8805,15 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
   if [ $GCC_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GFORTRAN_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GPLUSPLUS_VERSION_MAJOR_VERSION -ge $version_10 ]
     then
-  sed -i '70s/-frecord-marker=4/-frecord-marker=4 -m64 -fallow-argument-mismatch/g' $WRF_FOLDER/WPS/configure.wps
-  sed -i '71s/-frecord-marker=4/-frecord-marker=4 -m64 -fallow-argument-mismatch/g' $WRF_FOLDER/WPS/configure.wps
+  sed -i '70s/-frecord-marker=4/-frecord-marker=4 -m64 -fallow-argument-mismatch/g' ${WRF_FOLDER}/WPS/configure.wps
+  sed -i '71s/-frecord-marker=4/-frecord-marker=4 -m64 -fallow-argument-mismatch/g' ${WRF_FOLDER}/WPS/configure.wps
   fi
 
   ./compile 2>&1 | tee compile.wps.log
 
 
   # IF statement to check that all files were created.
-  cd $WRF_FOLDER/WPS
+  cd ${WRF_FOLDER}/WPS
   n=$(ls ./*.exe | wc -l)
   if (($n == 3)); then
     echo "All expected files created."
@@ -8804,7 +8823,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
     echo "Running compiler again"
 
     ./compile 2>&1 | tee compile.wps2.log
-    cd $WRF_FOLDER/WPS
+    cd ${WRF_FOLDER}/WPS
     n=$(ls ./*.exe | wc -l)
     if (($n == 3)); then
       echo "All expected files created."
@@ -8822,20 +8841,20 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
   ######################## WPS Domain Setup Tools ########################
   ## DomainWizard
-  cd $WRF_FOLDER/Downloads
+  cd ${WRF_FOLDER}/Downloads
   wget -c http://esrl.noaa.gov/gsd/wrfportal/domainwizard/WRFDomainWizard.zip
-  mkdir $WRF_FOLDER/WRFDomainWizard
-  unzip WRFDomainWizard.zip -d $WRF_FOLDER/WRFDomainWizard
-  chmod +x $WRF_FOLDER/WRFDomainWizard/run_DomainWizard
+  mkdir ${WRF_FOLDER}/WRFDomainWizard
+  unzip WRFDomainWizard.zip -d ${WRF_FOLDER}/WRFDomainWizard
+  chmod +x ${WRF_FOLDER}/WRFDomainWizard/run_DomainWizard
 
   echo " "
   ######################## WPF Portal Setup Tools ########################
   ## WRFPortal
-  cd $WRF_FOLDER/Downloads
+  cd ${WRF_FOLDER}/Downloads
   wget -c https://esrl.noaa.gov/gsd/wrfportal/portal/wrf-portal.zip
-  mkdir $WRF_FOLDER/WRFPortal
-  unzip wrf-portal.zip -d $WRF_FOLDER/WRFPortal
-  chmod +x $WRF_FOLDER/WRFPortal/runWRFPortal
+  mkdir ${WRF_FOLDER}/WRFPortal
+  unzip wrf-portal.zip -d ${WRF_FOLDER}/WRFPortal
+  chmod +x ${WRF_FOLDER}/WRFPortal/runWRFPortal
 
 
   echo " "
@@ -8846,19 +8865,19 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
   # All files downloaded and untarred is 200GB
   # https://www2.mmm.ucar.edu/wrf/users/download/get_sources_wps_geog.html
   #################################################################################
-  cd $WRF_FOLDER/Downloads
-  mkdir $WRF_FOLDER/GEOG
-  mkdir $WRF_FOLDER/GEOG/WPS_GEOG
+  cd ${WRF_FOLDER}/Downloads
+  mkdir ${WRF_FOLDER}/GEOG
+  mkdir ${WRF_FOLDER}/GEOG/WPS_GEOG
 
   echo " "
   echo "Mandatory WRF Preprocessing System (WPS) Geographical Input Data Mandatory Fields Downloads"
   echo " "
   wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_high_res_mandatory.tar.gz
-  tar -xvzf geog_high_res_mandatory.tar.gz -C $WRF_FOLDER/GEOG/
+  tar -xvzf geog_high_res_mandatory.tar.gz -C ${WRF_FOLDER}/GEOG/
 
   wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_low_res_mandatory.tar.gz
-  tar -xvzf geog_low_res_mandatory.tar.gz -C $WRF_FOLDER/GEOG/
-  mv $WRF_FOLDER/GEOG/WPS_GEOG_LOW_RES/ $WRF_FOLDER/GEOG/WPS_GEOG
+  tar -xvzf geog_low_res_mandatory.tar.gz -C ${WRF_FOLDER}/GEOG/
+  mv ${WRF_FOLDER}/GEOG/WPS_GEOG_LOW_RES/ ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 
   if [ ${WPS_Specific_Applications} -eq 1 ]
@@ -8868,31 +8887,31 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
       echo " "
 
       wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_thompson28_chem.tar.gz
-      tar -xvzf geog_thompson28_chem.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+      tar -xvzf geog_thompson28_chem.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
       wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_noahmp.tar.gz
-      tar -xvzf geog_noahmp.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+      tar -xvzf geog_noahmp.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
       wget -c  https://www2.mmm.ucar.edu/wrf/src/wps_files/irrigation.tar.gz
-      tar -xvzf irrigation.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+      tar -xvzf irrigation.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
       wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_px.tar.gz
-      tar -xvzf geog_px.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+      tar -xvzf geog_px.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
       wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_urban.tar.gz
-      tar -xvzf geog_urban.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+      tar -xvzf geog_urban.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
       wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_ssib.tar.gz
-      tar -xvzf geog_ssib.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+      tar -xvzf geog_ssib.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
       wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/lake_depth.tar.bz2
-      tar -xvf lake_depth.tar.bz2 -C $WRF_FOLDER/GEOG/WPS_GEOG
+      tar -xvf lake_depth.tar.bz2 -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
       wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/topobath_30s.tar.bz2
-      tar -xvf topobath_30s.tar.bz2 -C $WRF_FOLDER/GEOG/WPS_GEOG
+      tar -xvf topobath_30s.tar.bz2 -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
       wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/gsl_gwd.tar.bz2
-      tar -xvf gsl_gwd.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+      tar -xvf gsl_gwd.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
   fi
 
 
@@ -8904,22 +8923,22 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 
       wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_older_than_2000.tar.gz
-      tar -xvzf geog_older_than_2000.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+      tar -xvzf geog_older_than_2000.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
       wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s_with_lakes.tar.gz
-      tar -xvzf modis_landuse_20class_15s_with_lakes.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+      tar -xvzf modis_landuse_20class_15s_with_lakes.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
       wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_alt_lsm.tar.gz
-      tar -xvzf geog_alt_lsm.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+      tar -xvzf geog_alt_lsm.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
       wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/nlcd2006_ll_9s.tar.bz2
-      tar -xvf nlcd2006_ll_9s.tar.bz2 -C $WRF_FOLDER/GEOG/WPS_GEOG
+      tar -xvf nlcd2006_ll_9s.tar.bz2 -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
       wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/updated_Iceland_LU.tar.gz
-      tar -xvf updated_Iceland_LU.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+      tar -xvf updated_Iceland_LU.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
       wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s.tar.bz2
-      tar -xvf modis_landuse_20class_15s.tar.bz2 -C $WRF_FOLDER/GEOG/WPS_GEOG
+      tar -xvf modis_landuse_20class_15s.tar.bz2 -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 
   fi
@@ -8928,7 +8947,7 @@ fi
 ############################################# WRF Hydro Standalone #################################
 ## WRFHYDRO Standalone installation with parallel process.
 # Download and install required library and data files for WRFHYDRO.
-# Tested in Ubuntu 20.0$WPS_VERSION LTS & Ubuntu 22.04, Rocky Linux 9 & MacOS Ventura 64bit
+# Tested in Ubuntu 20.0${WPS_VERSION} LTS & Ubuntu 22.04, Rocky Linux 9 & MacOS Ventura 64bit
 # Built in 64-bit system
 # Built with Intel or GNU compilers
 # Tested with current available libraries on 10/10/2023
@@ -8949,7 +8968,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 	#############################basic package managment############################
 	echo $PASSWD | sudo -S apt -y update
 	echo $PASSWD | sudo -S apt -y upgrade && sudo -S apt -y autoremove
-	echo $PASSWD | sudo -S apt -y install autoconf automake bison build-essential byacc cmake csh curl default-jdk default-jre emacs flex g++ gawk gcc gfortran git ksh libcurl4-openssl-dev libjpeg-dev  libncurses6 libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev m4 make  ncview okular openbox pipenv pkg-config  python3 python3-dev python3-pip tcsh unzip xauth xorg time
+	echo $PASSWD | sudo -S apt -y install autoconf automake bison build-essential byacc cmake csh curl default-jdk default-jre emacs flex g++ gawk gcc gfortran git ksh libcurl4-openssl-dev libjpeg-dev libncurses5 libncurses6 libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev m4 make mlocate ncview okular openbox pipenv pkg-config  python3 python3-dev python3-pip tcsh unzip xauth xorg time
 	echo " "
 	##############################Directory Listing############################
 	export HOME=$(
@@ -9200,7 +9219,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 	echo " "
 	echo "Environment Testing "
 	echo "Test 1"
-	gfortran TEST_1_fortran_only_fixed.f
+	$FC TEST_1_fortran_only_fixed.f
 	./a.out | tee env_test1.txt
 	export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test1.txt | awk '{print$1}')
 	if [ $TEST_PASS -ge 1 ]; then
@@ -9213,7 +9232,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 
 	echo " "
 	echo "Test 2"
-	gfortran TEST_2_fortran_only_free.f90
+	$FC TEST_2_fortran_only_free.f90
 	./a.out | tee env_test2.txt
 	export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test2.txt | awk '{print$1}')
 	if [ $TEST_PASS -ge 1 ]; then
@@ -9227,7 +9246,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 
 	echo " "
 	echo "Test 3"
-	gcc TEST_3_c_only.c
+	$CC TEST_3_c_only.c
 	./a.out | tee env_test3.txt
 	export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test3.txt | awk '{print$1}')
 	if [ $TEST_PASS -ge 1 ]; then
@@ -9241,9 +9260,9 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 
 	echo " "
 	echo "Test 4"
-	gcc -c -m64 TEST_4_fortran+c_c.c
-	gfortran -c -m64 TEST_4_fortran+c_f.f90
-	gfortran -m64 TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
+	$CC -c -m64 TEST_4_fortran+c_c.c
+	$FC -c -m64 TEST_4_fortran+c_f.f90
+	$FC -m64 TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
 	./a.out | tee env_test4.txt
 	export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test4.txt | awk '{print$1}')
 	if [ $TEST_PASS -ge 1 ]; then
@@ -9266,9 +9285,9 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 	echo " "
 	echo "Library Compatibility Tests "
 	echo "Test 1"
-	gfortran -c 01_fortran+c+netcdf_f.f
-	gcc -c 01_fortran+c+netcdf_c.c
-	gfortran 01_fortran+c+netcdf_f.o 01_fortran+c+netcdf_c.o \
+	$FC -c 01_fortran+c+netcdf_f.f
+	$CC -c 01_fortran+c+netcdf_c.c
+	$FC 01_fortran+c+netcdf_f.o 01_fortran+c+netcdf_c.o \
 		-L${NETCDF}/lib -lnetcdff -lnetcdf
 
 	./a.out | tee comp_test1.txt
@@ -9285,9 +9304,9 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 	echo " "
 
 	echo "Test 2"
-	$DIR/MPICH/bin/mpifort -c 02_fortran+c+netcdf+mpi_f.f
-	$DIR/MPICH/bin/mpicc -c 02_fortran+c+netcdf+mpi_c.c
-	$DIR/MPICH/bin/mpifort 02_fortran+c+netcdf+mpi_f.o \
+	$MPIFC -c 02_fortran+c+netcdf+mpi_f.f
+	$MPICC -c 02_fortran+c+netcdf+mpi_c.c
+	$MPIFC 02_fortran+c+netcdf+mpi_f.o \
 		02_fortran+c+netcdf+mpi_c.o \
 		-L${NETCDF}/lib -lnetcdff -lnetcdf
 
@@ -9404,7 +9423,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 	########### WRf-Python compiled via Conda  ##################
 	########### This is the preferred method by NCAR      ##################
 	##### https://wrf-python.readthedocs.io/en/latest/installation.html  ##################
-	source $Anaconda_Install_DIR/etc/profile.d/conda.sh
+	source $Miniconda_Install_DIR/etc/profile.d/conda.sh
 conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 	######################### Climate Data Operators ############
@@ -9467,32 +9486,55 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ] && [ "$
 
 	#############################basic package managment############################
 
-	brew install wget
-	brew install git
-	brew install gcc@12
-	brew install libtool
-	brew install automake
-	brew install autoconf
-	brew install make
-	brew install m4
-	brew install java
-	brew install ksh
+sleep 1
+brew install autoconf
+sleep 1
+brew install bison
+sleep 1
+brew install byacc
+sleep 1
+brew install cmake
+sleep 1
+brew install curl
+sleep 1
+brew install flex
+sleep 1
+brew install gdal
+sleep 1
+brew install gedit
+sleep 1
+brew install git
+sleep 1
+brew install gnu-sed
+sleep 1
+brew install imagemagick
+sleep 1
+brew install java
+sleep 1
+brew install ksh
+sleep 1
+brew install libtool
+sleep 1
+brew install m4
+sleep 1
+brew install make
+sleep 1
+brew install python@3.10
+sleep 1
+brew install tcsh
+sleep 1
+brew install wget
+sleep 1
+brew install xauth
+sleep 1
+brew install xorgproto
+sleep 1
+brew install xorgrgb
+sleep 1
+brew install xquartz
 
-	brew install grads
-	brew install ksh
-	brew install tcsh
-
-	brew install python@3.10
-	brew install cmake
-	brew install xorgproto
-	brew install xorgrgb
-	brew install xauth
-	brew install curl
-	brew install flex
-	brew install byacc
-	brew install bison
-	brew install gnu-sed
-
+export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
+export PATH=/usr/local/bin:$PATH
 	##############################Directory Listing############################
 
 	export HOME=$(
@@ -9540,7 +9582,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ] && [ "$
 	wget -c https://www.ece.uvic.ca/~frodo/jasper/software/jasper-$Jasper_Version.zip
 	wget -c https://github.com/pmodels/mpich/releases/download/v$Mpich_Version/mpich-$Mpich_Version.tar.gz
 	wget -c https://parallel-netcdf.github.io/Release/pnetcdf-$Pnetcdf_Version.tar.gz
-	wget -c https://sourceforge.net/projects/opengrads/files/grads2/2.2.1.oga.1/Linux%20%2864%20Bits%29/opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz
+
 
 	echo " "
 
@@ -9768,7 +9810,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ] && [ "$
 	echo " "
 	echo "Environment Testing "
 	echo "Test 1"
-	gfortran TEST_1_fortran_only_fixed.f
+	$FC TEST_1_fortran_only_fixed.f
 	./a.out | tee env_test1.txt
 	export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test1.txt | awk '{print$1}')
 	if [ $TEST_PASS -ge 1 ]; then
@@ -9781,7 +9823,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ] && [ "$
 
 	echo " "
 	echo "Test 2"
-	gfortran TEST_2_fortran_only_free.f90
+	$FC TEST_2_fortran_only_free.f90
 	./a.out | tee env_test2.txt
 	export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test2.txt | awk '{print$1}')
 	if [ $TEST_PASS -ge 1 ]; then
@@ -9795,7 +9837,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ] && [ "$
 
 	echo " "
 	echo "Test 3"
-	gcc TEST_3_c_only.c
+	$CC TEST_3_c_only.c
 	./a.out | tee env_test3.txt
 	export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test3.txt | awk '{print$1}')
 	if [ $TEST_PASS -ge 1 ]; then
@@ -9809,9 +9851,9 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ] && [ "$
 
 	echo " "
 	echo "Test 4"
-	gcc -c -m64 TEST_4_fortran+c_c.c
-	gfortran -c -m64 TEST_4_fortran+c_f.f90
-	gfortran -m64 TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
+	$CC -c -m64 TEST_4_fortran+c_c.c
+	$FC -c -m64 TEST_4_fortran+c_f.f90
+	$FC -m64 TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
 	./a.out | tee env_test4.txt
 	export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test4.txt | awk '{print$1}')
 	if [ $TEST_PASS -ge 1 ]; then
@@ -9834,9 +9876,9 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ] && [ "$
 	echo " "
 	echo "Library Compatibility Tests "
 	echo "Test 1"
-	gfortran -c 01_fortran+c+netcdf_f.f
-	gcc -c 01_fortran+c+netcdf_c.c
-	gfortran 01_fortran+c+netcdf_f.o 01_fortran+c+netcdf_c.o \
+	$FC -c 01_fortran+c+netcdf_f.f
+	$CC -c 01_fortran+c+netcdf_c.c
+	$FC 01_fortran+c+netcdf_f.o 01_fortran+c+netcdf_c.o \
 		-L${NETCDF}/lib -lnetcdff -lnetcdf
 
 	./a.out | tee comp_test1.txt
@@ -9853,9 +9895,9 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ] && [ "$
 	echo " "
 
 	echo "Test 2"
-	$DIR/MPICH/bin/mpifort -c 02_fortran+c+netcdf+mpi_f.f
-	$DIR/MPICH/bin/mpicc -c 02_fortran+c+netcdf+mpi_c.c
-	$DIR/MPICH/bin/mpifort 02_fortran+c+netcdf+mpi_f.o \
+	$MPIFC -c 02_fortran+c+netcdf+mpi_f.f
+	$MPICC -c 02_fortran+c+netcdf+mpi_c.c
+	$MPIFC 02_fortran+c+netcdf+mpi_f.o \
 		02_fortran+c+netcdf+mpi_c.o \
 		-L${NETCDF}/lib -lnetcdff -lnetcdf
 
@@ -9968,7 +10010,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ] && [ "$
 	########### WRf-Python compiled via Conda  ##################
 	########### This is the preferred method by NCAR      ##################
 	##### https://wrf-python.readthedocs.io/en/latest/installation.html  ##################
-	source $Anaconda_Install_DIR/etc/profile.d/conda.sh
+	source $Miniconda_Install_DIR/etc/profile.d/conda.sh
 conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	echo " "
 
@@ -9999,31 +10041,57 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ] && [ "$
 	#Special thanks to  Youtube's meteoadriatic and GitHub user jamal919.
 
 	#############################basic package managment############################
+sleep 1
+brew install autoconf
+sleep 1
+brew install bison
+sleep 1
+brew install byacc
+sleep 1
+brew install cmake
+sleep 1
+brew install curl
+sleep 1
+brew install flex
+sleep 1
+brew install gdal
+sleep 1
+brew install gedit
+sleep 1
+brew install git
+sleep 1
+brew install gnu-sed
+sleep 1
+brew install imagemagick
+sleep 1
+brew install java
+sleep 1
+brew install ksh
+sleep 1
+brew install libtool
+sleep 1
+brew install m4
+sleep 1
+brew install make
+sleep 1
+brew install python@3.10
+sleep 1
+brew install tcsh
+sleep 1
+brew install wget
+sleep 1
+brew install xauth
+sleep 1
+brew install xorgproto
+sleep 1
+brew install xorgrgb
+sleep 1
+brew install xquartz
 
-	brew install wget
-	brew install git
-	brew install gcc@12
-	brew install libtool
-	brew install automake
-	brew install autoconf
-	brew install make
-	brew install m4
-	brew install java
-	brew install ksh
-	brew install grads
-	brew install ksh
-	brew install tcsh
 
-	brew install python@3.10
-	brew install cmake
-	brew install xorgproto
-	brew install xorgrgb
-	brew install xauth
-	brew install curl
-	brew install flex
-	brew install byacc
-	brew install bison
-	brew install gnu-sed
+
+export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
+export PATH=/usr/local/bin:$PATH
 
 	##############################Directory Listing############################
 
@@ -10072,7 +10140,6 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ] && [ "$
 	wget -c https://www.ece.uvic.ca/~frodo/jasper/software/jasper-$Jasper_Version.zip
 	wget -c https://github.com/pmodels/mpich/releases/download/v$Mpich_Version/mpich-$Mpich_Version.tar.gz
 	wget -c https://parallel-netcdf.github.io/Release/pnetcdf-$Pnetcdf_Version.tar.gz
-	wget -c https://sourceforge.net/projects/opengrads/files/grads2/2.2.1.oga.1/Linux%20%2864%20Bits%29/opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz
 
 	echo " "
 
@@ -10316,7 +10383,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ] && [ "$
 	echo " "
 	echo "Environment Testing "
 	echo "Test 1"
-	gfortran TEST_1_fortran_only_fixed.f
+	$FC TEST_1_fortran_only_fixed.f
 	./a.out | tee env_test1.txt
 	export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test1.txt | awk '{print$1}')
 	if [ $TEST_PASS -ge 1 ]; then
@@ -10329,7 +10396,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ] && [ "$
 
 	echo " "
 	echo "Test 2"
-	gfortran TEST_2_fortran_only_free.f90
+	$FC TEST_2_fortran_only_free.f90
 	./a.out | tee env_test2.txt
 	export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test2.txt | awk '{print$1}')
 	if [ $TEST_PASS -ge 1 ]; then
@@ -10343,7 +10410,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ] && [ "$
 
 	echo " "
 	echo "Test 3"
-	gcc TEST_3_c_only.c
+	$CC TEST_3_c_only.c
 	./a.out | tee env_test3.txt
 	export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test3.txt | awk '{print$1}')
 	if [ $TEST_PASS -ge 1 ]; then
@@ -10357,9 +10424,9 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ] && [ "$
 
 	echo " "
 	echo "Test 4"
-	gcc -c -m64 TEST_4_fortran+c_c.c
-	gfortran -c -m64 TEST_4_fortran+c_f.f90
-	gfortran -m64 TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
+	$CC -c -m64 TEST_4_fortran+c_c.c
+	$FC -c -m64 TEST_4_fortran+c_f.f90
+	$FC -m64 TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
 	./a.out | tee env_test4.txt
 	export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test4.txt | awk '{print$1}')
 	if [ $TEST_PASS -ge 1 ]; then
@@ -10382,9 +10449,9 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ] && [ "$
 	echo " "
 	echo "Library Compatibility Tests "
 	echo "Test 1"
-	gfortran -c 01_fortran+c+netcdf_f.f
-	gcc -c 01_fortran+c+netcdf_c.c
-	gfortran 01_fortran+c+netcdf_f.o 01_fortran+c+netcdf_c.o \
+	$FC -c 01_fortran+c+netcdf_f.f
+	$CC -c 01_fortran+c+netcdf_c.c
+	$FC 01_fortran+c+netcdf_f.o 01_fortran+c+netcdf_c.o \
 		-L${NETCDF}/lib -lnetcdff -lnetcdf
 
 	./a.out | tee comp_test1.txt
@@ -10401,9 +10468,9 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ] && [ "$
 	echo " "
 
 	echo "Test 2"
-	$DIR/MPICH/bin/mpifort -c 02_fortran+c+netcdf+mpi_f.f
-	$DIR/MPICH/bin/mpicc -c 02_fortran+c+netcdf+mpi_c.c
-	$DIR/MPICH/bin/mpifort 02_fortran+c+netcdf+mpi_f.o \
+	$MPIFC -c 02_fortran+c+netcdf+mpi_f.f
+	$MPICC -c 02_fortran+c+netcdf+mpi_c.c
+	$MPIFC 02_fortran+c+netcdf+mpi_f.o \
 		02_fortran+c+netcdf+mpi_c.o \
 		-L${NETCDF}/lib -lnetcdff -lnetcdf
 
@@ -10516,7 +10583,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ] && [ "$
 	########### WRf-Python compiled via Conda  ##################
 	########### This is the preferred method by NCAR      ##################
 	##### https://wrf-python.readthedocs.io/en/latest/installation.html  ##################
-	source $Anaconda_Install_DIR/etc/profile.d/conda.sh
+	source $Miniconda_Install_DIR/etc/profile.d/conda.sh
 conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	echo " "
 
@@ -10554,7 +10621,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; the
 	echo $PASSWD | sudo -S apt -y update
 
 	# necessary binary packages (especially pkg-config and build-essential)
-	echo $PASSWD | sudo -S apt -y install autoconf automake bison build-essential byacc cmake csh curl default-jdk default-jre emacs flex g++ gawk gcc gfortran git ksh libcurl4-openssl-dev libjpeg-dev  libncurses6 libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev m4 make  ncview okular openbox pipenv pkg-config  python3 python3-dev python3-pip tcsh unzip xauth xorg time
+	echo $PASSWD | sudo -S apt -y install autoconf automake bison build-essential byacc cmake csh curl default-jdk default-jre emacs flex g++ gawk gcc gfortran git ksh libcurl4-openssl-dev libjpeg-dev libncurses5 libncurses6 libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev m4 make mlocate ncview okular openbox pipenv pkg-config  python3 python3-dev python3-pip tcsh unzip xauth xorg time
 
 	# install the Intel compilers
 	echo $PASSWD | sudo -S apt -y install intel-basekit
@@ -10738,7 +10805,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; the
 	export LD_LIBRARY_PATH=$DIR/NETCDF/lib:$LD_LIBRARY_PATH
 	export CPPFLAGS="-I$DIR/NETCDF/include -I$DIR/grib2/include"
 	export LDFLAGS="-L$DIR/NETCDF/lib -L$DIR/grib2/lib"
-	export LIBS="-lnetcdf -pnetcdf -lm -lcurl -lhdf5_hl -lhdf5 -lz -ldl"
+	export LIBS="-lnetcdf -lpnetcdf -lm -lcurl -lhdf5_hl -lhdf5 -lz -ldl"
 
 	CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS=$CFLAGS ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-shared --enable-static --enable-parallel-tests --enable-hdf5 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
@@ -10768,7 +10835,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; the
 	echo " "
 	echo "Environment Testing "
 	echo "Test 1"
-	gfortran TEST_1_fortran_only_fixed.f
+	$FC TEST_1_fortran_only_fixed.f
 	./a.out | tee env_test1.txt
 	export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test1.txt | awk '{print$1}')
 	if [ $TEST_PASS -ge 1 ]; then
@@ -10781,7 +10848,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; the
 
 	echo " "
 	echo "Test 2"
-	gfortran TEST_2_fortran_only_free.f90
+	$FC TEST_2_fortran_only_free.f90
 	./a.out | tee env_test2.txt
 	export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test2.txt | awk '{print$1}')
 	if [ $TEST_PASS -ge 1 ]; then
@@ -10795,7 +10862,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; the
 
 	echo " "
 	echo "Test 3"
-	gcc TEST_3_c_only.c
+	$CC TEST_3_c_only.c
 	./a.out | tee env_test3.txt
 	export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test3.txt | awk '{print$1}')
 	if [ $TEST_PASS -ge 1 ]; then
@@ -10809,9 +10876,9 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; the
 
 	echo " "
 	echo "Test 4"
-	gcc -c -m64 TEST_4_fortran+c_c.c
-	gfortran -c -m64 TEST_4_fortran+c_f.f90
-	gfortran -m64 TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
+	$CC -c -m64 TEST_4_fortran+c_c.c
+	$FC -c -m64 TEST_4_fortran+c_f.f90
+	$FC -m64 TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
 	./a.out | tee env_test4.txt
 	export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test4.txt | awk '{print$1}')
 	if [ $TEST_PASS -ge 1 ]; then
@@ -10834,9 +10901,9 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; the
 	echo " "
 	echo "Library Compatibility Tests "
 	echo "Test 1"
-	gfortran -c 01_fortran+c+netcdf_f.f
-	gcc -c 01_fortran+c+netcdf_c.c
-	gfortran 01_fortran+c+netcdf_f.o 01_fortran+c+netcdf_c.o \
+	$FC -c 01_fortran+c+netcdf_f.f
+	$CC -c 01_fortran+c+netcdf_c.c
+	$FC 01_fortran+c+netcdf_f.o 01_fortran+c+netcdf_c.o \
 		-L${NETCDF}/lib -lnetcdff -lnetcdf
 
 	./a.out | tee comp_test1.txt
@@ -10853,9 +10920,9 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; the
 	echo " "
 
 	echo "Test 2"
-	mpiifort -c 02_fortran+c+netcdf+mpi_f.f
-	mpiicc -c 02_fortran+c+netcdf+mpi_c.c
-	mpiifort 02_fortran+c+netcdf+mpi_f.o \
+	$MPIFC -c 02_fortran+c+netcdf+mpi_f.f
+	$MPICC -c 02_fortran+c+netcdf+mpi_c.c
+	$MPIFC 02_fortran+c+netcdf+mpi_f.o \
 		02_fortran+c+netcdf+mpi_c.o \
 		-L${NETCDF}/lib -lnetcdff -lnetcdf
 
@@ -10972,7 +11039,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; the
 	########### WRf-Python compiled via Conda  ##################
 	########### This is the preferred method by NCAR      ##################
 	##### https://wrf-python.readthedocs.io/en/latest/installation.html  ##################
-	source $Anaconda_Install_DIR/etc/profile.d/conda.sh
+	source $Miniconda_Install_DIR/etc/profile.d/conda.sh
 conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	echo " "
 
@@ -11003,7 +11070,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 	echo $PASSWD | sudo -S dnf install dnf -y
 	echo $PASSWD | sudo -S dnf -y update
 	echo $PASSWD | sudo -S dnf -y upgrade
-	echo $PASSWD | sudo -S dnf -y install autoconf automake bzip2 bzip2-devel byacc cairo-devel cmake cpp curl curl-devel flex flex-devel fontconfig-devel fontconfig-devel.x86_64 gcc gcc-c++ gcc-gfortran git java-11-openjdk java-11-openjdk-devel ksh libX11-devel libX11-devel.x86_64 libXaw libXaw-devel libXext-devel libXext-devel.x86_64 libXmu-devel libXrender-devel libXrender-devel.x86_64 libstdc++ libstdc++-devel libstdc++-static libxml2 libxml2-devel m4  .x86_64 nfs-utils okular perl pkgconfig pixman-devel python3 python3-devel tcsh time unzip wget
+	echo $PASSWD | sudo -S dnf -y install autoconf automake bzip2 bzip2-devel byacc cairo-devel cmake cpp curl curl-devel flex  fontconfig-devel fontconfig-devel.x86_64 gcc gcc-c++ gcc-gfortran git java-11-openjdk java-11-openjdk-devel ksh libX11-devel libX11-devel.x86_64 libXaw libXaw-devel libXext-devel libXext-devel.x86_64 libXmu-devel libXrender-devel libXrender-devel.x86_64 libstdc++ libstdc++-devel  libxml2 libxml2-devel m4 mlocate mlocate.x86_64 nfs-utils perl pkgconfig  pixman-devel python3 python3-devel tcsh time unzip wget
 	echo $PASSWD | sudo -S dnf -y groupinstall "Development Tools"
 	echo $PASSWD | sudo -S dnf -y update
 	echo $PASSWD | sudo -S dnf -y upgrade
@@ -11270,7 +11337,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 	echo " "
 	echo "Environment Testing "
 	echo "Test 1"
-	gfortran TEST_1_fortran_only_fixed.f
+	$FC TEST_1_fortran_only_fixed.f
 	./a.out | tee env_test1.txt
 	export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test1.txt | awk '{print$1}')
 	if [ $TEST_PASS -ge 1 ]; then
@@ -11283,7 +11350,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 
 	echo " "
 	echo "Test 2"
-	gfortran TEST_2_fortran_only_free.f90
+	$FC TEST_2_fortran_only_free.f90
 	./a.out | tee env_test2.txt
 	export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test2.txt | awk '{print$1}')
 	if [ $TEST_PASS -ge 1 ]; then
@@ -11297,7 +11364,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 
 	echo " "
 	echo "Test 3"
-	gcc TEST_3_c_only.c
+	$CC TEST_3_c_only.c
 	./a.out | tee env_test3.txt
 	export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test3.txt | awk '{print$1}')
 	if [ $TEST_PASS -ge 1 ]; then
@@ -11311,9 +11378,9 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 
 	echo " "
 	echo "Test 4"
-	gcc -c -m64 TEST_4_fortran+c_c.c
-	gfortran -c -m64 TEST_4_fortran+c_f.f90
-	gfortran -m64 TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
+	$CC -c -m64 TEST_4_fortran+c_c.c
+	$FC -c -m64 TEST_4_fortran+c_f.f90
+	$FC -m64 TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
 	./a.out | tee env_test4.txt
 	export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test4.txt | awk '{print$1}')
 	if [ $TEST_PASS -ge 1 ]; then
@@ -11336,9 +11403,9 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 	echo " "
 	echo "Library Compatibility Tests "
 	echo "Test 1"
-	gfortran -c 01_fortran+c+netcdf_f.f
-	gcc -c 01_fortran+c+netcdf_c.c
-	gfortran 01_fortran+c+netcdf_f.o 01_fortran+c+netcdf_c.o \
+	$FC -c 01_fortran+c+netcdf_f.f
+	$CC -c 01_fortran+c+netcdf_c.c
+	$FC 01_fortran+c+netcdf_f.o 01_fortran+c+netcdf_c.o \
 		-L${NETCDF}/lib -lnetcdff -lnetcdf
 
 	./a.out | tee comp_test1.txt
@@ -11355,9 +11422,9 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 	echo " "
 
 	echo "Test 2"
-	$DIR/MPICH/bin/mpifort -c 02_fortran+c+netcdf+mpi_f.f
-	$DIR/MPICH/bin/mpicc -c 02_fortran+c+netcdf+mpi_c.c
-	$DIR/MPICH/bin/mpifort 02_fortran+c+netcdf+mpi_f.o \
+	$MPIFC -c 02_fortran+c+netcdf+mpi_f.f
+	$MPICC -c 02_fortran+c+netcdf+mpi_c.c
+	$MPIFC 02_fortran+c+netcdf+mpi_f.o \
 		02_fortran+c+netcdf+mpi_c.o \
 		-L${NETCDF}/lib -lnetcdff -lnetcdf
 
@@ -11467,7 +11534,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 	########### WRf-Python compiled via Conda  ##################
 	########### This is the preferred method by NCAR      ##################
 	##### https://wrf-python.readthedocs.io/en/latest/installation.html  ##################
-	source $Anaconda_Install_DIR/etc/profile.d/conda.sh
+	source $Miniconda_Install_DIR/etc/profile.d/conda.sh
 conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	echo " "
 	################ NEEDS TO BE IN Master folder #######################
@@ -11504,7 +11571,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 	echo $PASSWD | sudo -S dnf install dnf -y
 	echo $PASSWD | sudo -S dnf -y update
 	echo $PASSWD | sudo -S dnf -y upgrade
-	echo $PASSWD | sudo -S dnf -y install autoconf automake bzip2 bzip2-devel byacc cairo-devel cmake cpp curl curl-devel flex flex-devel fontconfig-devel fontconfig-devel.x86_64 gcc gcc-c++ gcc-gfortran git java-11-openjdk java-11-openjdk-devel ksh libX11-devel libX11-devel.x86_64 libXaw libXaw-devel libXext-devel libXext-devel.x86_64 libXmu-devel libXrender-devel libXrender-devel.x86_64 libstdc++ libstdc++-devel libstdc++-static libxml2 libxml2-devel m4  .x86_64 nfs-utils okular perl pkgconfig pixman-devel python3 python3-devel tcsh time unzip wget
+	echo $PASSWD | sudo -S dnf -y install autoconf automake bzip2 bzip2-devel byacc cairo-devel cmake cpp curl curl-devel flex  fontconfig-devel fontconfig-devel.x86_64 gcc gcc-c++ gcc-gfortran git java-11-openjdk java-11-openjdk-devel ksh libX11-devel libX11-devel.x86_64 libXaw libXaw-devel libXext-devel libXext-devel.x86_64 libXmu-devel libXrender-devel libXrender-devel.x86_64 libstdc++ libstdc++-devel  libxml2 libxml2-devel m4 mlocate mlocate.x86_64 nfs-utils perl pkgconfig  pixman-devel python3 python3-devel tcsh time unzip wget
 	echo $PASSWD | sudo -S dnf -y groupinstall "Development Tools"
 	echo $PASSWD | sudo -S dnf -y update
 	echo $PASSWD | sudo -S dnf -y upgrade
@@ -11771,7 +11838,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 	echo " "
 	echo "Environment Testing "
 	echo "Test 1"
-	gfortran TEST_1_fortran_only_fixed.f
+	$FC TEST_1_fortran_only_fixed.f
 	./a.out | tee env_test1.txt
 	export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test1.txt | awk '{print$1}')
 	if [ $TEST_PASS -ge 1 ]; then
@@ -11784,7 +11851,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 
 	echo " "
 	echo "Test 2"
-	gfortran TEST_2_fortran_only_free.f90
+	$FC TEST_2_fortran_only_free.f90
 	./a.out | tee env_test2.txt
 	export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test2.txt | awk '{print$1}')
 	if [ $TEST_PASS -ge 1 ]; then
@@ -11798,7 +11865,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 
 	echo " "
 	echo "Test 3"
-	gcc TEST_3_c_only.c
+	$CC TEST_3_c_only.c
 	./a.out | tee env_test3.txt
 	export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test3.txt | awk '{print$1}')
 	if [ $TEST_PASS -ge 1 ]; then
@@ -11812,9 +11879,9 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 
 	echo " "
 	echo "Test 4"
-	gcc -c -m64 TEST_4_fortran+c_c.c
-	gfortran -c -m64 TEST_4_fortran+c_f.f90
-	gfortran -m64 TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
+	$CC -c -m64 TEST_4_fortran+c_c.c
+	$FC -c -m64 TEST_4_fortran+c_f.f90
+	$FC -m64 TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
 	./a.out | tee env_test4.txt
 	export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test4.txt | awk '{print$1}')
 	if [ $TEST_PASS -ge 1 ]; then
@@ -11837,9 +11904,9 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 	echo " "
 	echo "Library Compatibility Tests "
 	echo "Test 1"
-	gfortran -c 01_fortran+c+netcdf_f.f
-	gcc -c 01_fortran+c+netcdf_c.c
-	gfortran 01_fortran+c+netcdf_f.o 01_fortran+c+netcdf_c.o \
+	$FC -c 01_fortran+c+netcdf_f.f
+	$CC -c 01_fortran+c+netcdf_c.c
+	$FC 01_fortran+c+netcdf_f.o 01_fortran+c+netcdf_c.o \
 		-L${NETCDF}/lib -lnetcdff -lnetcdf
 
 	./a.out | tee comp_test1.txt
@@ -11856,9 +11923,9 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 	echo " "
 
 	echo "Test 2"
-	$DIR/MPICH/bin/mpifort -c 02_fortran+c+netcdf+mpi_f.f
-	$DIR/MPICH/bin/mpicc -c 02_fortran+c+netcdf+mpi_c.c
-	$DIR/MPICH/bin/mpifort 02_fortran+c+netcdf+mpi_f.o \
+	$MPIFC -c 02_fortran+c+netcdf+mpi_f.f
+	$MPICC -c 02_fortran+c+netcdf+mpi_c.c
+	$MPIFC 02_fortran+c+netcdf+mpi_f.o \
 		02_fortran+c+netcdf+mpi_c.o \
 		-L${NETCDF}/lib -lnetcdff -lnetcdf
 
@@ -11968,7 +12035,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 	########### WRf-Python compiled via Conda  ##################
 	########### This is the preferred method by NCAR      ##################
 	##### https://wrf-python.readthedocs.io/en/latest/installation.html  ##################
-	source $Anaconda_Install_DIR/etc/profile.d/conda.sh
+	source $Miniconda_Install_DIR/etc/profile.d/conda.sh
 conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	echo " "
 	################ NEEDS TO BE IN Master folder #######################
@@ -11992,7 +12059,7 @@ fi
 ################################### WRF Hydro Coupled ##############
 ## WRFHYDRO Coupled installation with parallel process.
 # Download and install required library and data files for WRFHYDRO Coupled.
-# Tested in Ubuntu 20.0$WPS_VERSION LTS & Ubuntu 22.04, Rocky Linux 9 & MacOS Ventura 64bit
+# Tested in Ubuntu 20.0${WPS_VERSION} LTS & Ubuntu 22.04, Rocky Linux 9 & MacOS Ventura 64bit
 # Built in 64-bit system
 # Built with Intel or GNU compilers
 # Tested with current available libraries on 10/10/2023
@@ -12013,7 +12080,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 	#############################basic package managment############################
 	echo $PASSWD | sudo -S apt -y update
 	echo $PASSWD | sudo -S apt -y upgrade && sudo -S apt -y autoremove
-	echo $PASSWD | sudo -S apt -y install autoconf automake bison build-essential byacc cmake csh curl default-jdk default-jre emacs flex g++ gawk gcc gfortran git ksh libcurl4-openssl-dev libjpeg-dev  libncurses6 libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev m4 make  ncview okular openbox pipenv pkg-config  python3 python3-dev python3-pip tcsh unzip xauth xorg time
+	echo $PASSWD | sudo -S apt -y install autoconf automake bison build-essential byacc cmake csh curl default-jdk default-jre emacs flex g++ gawk gcc gfortran git ksh libcurl4-openssl-dev libjpeg-dev libncurses5 libncurses6 libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev m4 make mlocate ncview okular openbox pipenv pkg-config  python3 python3-dev python3-pip tcsh unzip xauth xorg time
 	echo " "
 	##############################Directory Listing############################
 	export HOME=$(
@@ -12263,7 +12330,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 	echo " "
 	echo "Environment Testing "
 	echo "Test 1"
-	gfortran TEST_1_fortran_only_fixed.f
+	$FC TEST_1_fortran_only_fixed.f
 	./a.out | tee env_test1.txt
 	export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test1.txt | awk '{print$1}')
 	if [ $TEST_PASS -ge 1 ]; then
@@ -12276,7 +12343,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 
 	echo " "
 	echo "Test 2"
-	gfortran TEST_2_fortran_only_free.f90
+	$FC TEST_2_fortran_only_free.f90
 	./a.out | tee env_test2.txt
 	export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test2.txt | awk '{print$1}')
 	if [ $TEST_PASS -ge 1 ]; then
@@ -12290,7 +12357,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 
 	echo " "
 	echo "Test 3"
-	gcc TEST_3_c_only.c
+	$CC TEST_3_c_only.c
 	./a.out | tee env_test3.txt
 	export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test3.txt | awk '{print$1}')
 	if [ $TEST_PASS -ge 1 ]; then
@@ -12304,9 +12371,9 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 
 	echo " "
 	echo "Test 4"
-	gcc -c -m64 TEST_4_fortran+c_c.c
-	gfortran -c -m64 TEST_4_fortran+c_f.f90
-	gfortran -m64 TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
+	$CC -c -m64 TEST_4_fortran+c_c.c
+	$FC -c -m64 TEST_4_fortran+c_f.f90
+	$FC -m64 TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
 	./a.out | tee env_test4.txt
 	export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test4.txt | awk '{print$1}')
 	if [ $TEST_PASS -ge 1 ]; then
@@ -12329,9 +12396,9 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 	echo " "
 	echo "Library Compatibility Tests "
 	echo "Test 1"
-	gfortran -c 01_fortran+c+netcdf_f.f
-	gcc -c 01_fortran+c+netcdf_c.c
-	gfortran 01_fortran+c+netcdf_f.o 01_fortran+c+netcdf_c.o \
+	$FC -c 01_fortran+c+netcdf_f.f
+	$CC -c 01_fortran+c+netcdf_c.c
+	$FC 01_fortran+c+netcdf_f.o 01_fortran+c+netcdf_c.o \
 		-L${NETCDF}/lib -lnetcdff -lnetcdf
 
 	./a.out | tee comp_test1.txt
@@ -12348,9 +12415,9 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 	echo " "
 
 	echo "Test 2"
-	$DIR/MPICH/bin/mpifort -c 02_fortran+c+netcdf+mpi_f.f
-	$DIR/MPICH/bin/mpicc -c 02_fortran+c+netcdf+mpi_c.c
-	$DIR/MPICH/bin/mpifort 02_fortran+c+netcdf+mpi_f.o \
+	$MPIFC -c 02_fortran+c+netcdf+mpi_f.f
+	$MPICC -c 02_fortran+c+netcdf+mpi_c.c
+	$MPIFC 02_fortran+c+netcdf+mpi_f.o \
 		02_fortran+c+netcdf+mpi_c.o \
 		-L${NETCDF}/lib -lnetcdff -lnetcdf
 
@@ -12687,7 +12754,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 	########### WRf-Python compiled via Conda  ##################
 	########### This is the preferred method by NCAR      ##################
 	##### https://wrf-python.readthedocs.io/en/latest/installation.html  ##################
-	source $Anaconda_Install_DIR/etc/profile.d/conda.sh
+	source $Miniconda_Install_DIR/etc/profile.d/conda.sh
 conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 	######################### Climate Data Operators ############
@@ -12770,8 +12837,8 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 	read -r -t 5 -p "I am going to wait for 5 seconds only ..."
 	echo " "
-	############################ WRF $WPS_VERSION  #################################
-	## WRF v$WPS_VERSION
+	############################ WRF ${WPS_VERSION}  #################################
+	## WRF v${WPS_VERSION}
 	## Downloaded from git tagged releases
 	# option 34, option 1 for gfortran and distributed memory w/basic nesting
 	# large file support enable with WRFiO_NCD_LARGE_FILE_SUPPORT=1
@@ -12783,35 +12850,35 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	# Note that you need set nocolons = .true. in the section &time_control of namelist.input
 	########################################################################
 	cd $WRFHYDRO_FOLDER/Downloads
-	wget -c https://github.com/wrf-model/WRF/releases/download/v$WRF_VERSION/v$WRF_VERSION.tar.gz -O WRF-$WRF_VERSION.tar.gz
-	tar -xvzf WRF-$WRF_VERSION.tar.gz -C $WRFHYDRO_FOLDER/
+	wget -c https://github.com/wrf-model/WRF/releases/download/v${WRF_VERSION}/v${WRF_VERSION}.tar.gz -O WRF-${WRF_VERSION}.tar.gz
+	tar -xvzf WRF-${WRF_VERSION}.tar.gz -C $WRFHYDRO_FOLDER/
 
 	# If statment for changing folder name
 	if [ -d "$WRFHYDRO_FOLDER/WRF" ]; then
-		mv -f $WRFHYDRO_FOLDER/WRF $WRFHYDRO_FOLDER/WRFV$WRF_VERSION
+		mv -f $WRFHYDRO_FOLDER/WRF $WRFHYDRO_FOLDER/WRFV${WRF_VERSION}
 	fi
 
-	cd $WRFHYDRO_FOLDER/WRFV$WRF_VERSION
+	cd $WRFHYDRO_FOLDER/WRFV${WRF_VERSION}
 	export WRFIO_NCD_LARGE_FILE_SUPPORT=1
 
 	#Replace old version of WRF-Hydro distributed with WRF with updated WRF-Hydro source code
-	rm -r $WRFHYDRO_FOLDER/WRFV$WRF_VERSION/hydro/
-	cp -r $WRFHYDRO_FOLDER/Hydro-Basecode/wrf_hydro_nwm_public-5.2.0/trunk/NDHMS $WRFHYDRO_FOLDER/WRFV$WRF_VERSION/hydro
+	rm -r $WRFHYDRO_FOLDER/WRFV${WRF_VERSION}/hydro/
+	cp -r $WRFHYDRO_FOLDER/Hydro-Basecode/wrf_hydro_nwm_public-5.2.0/trunk/NDHMS $WRFHYDRO_FOLDER/WRFV${WRF_VERSION}/hydro
 
-	cd $WRFHYDRO_FOLDER/WRFV$WRF_VERSION/hydro
+	cd $WRFHYDRO_FOLDER/WRFV${WRF_VERSION}/hydro
 	source setEnvar.sh
-	cd $WRFHYDRO_FOLDER/WRFV$WRF_VERSION
+	cd $WRFHYDRO_FOLDER/WRFV${WRF_VERSION}
 
 	./clean
 
 	# SED statements to fix configure error
-	sed -i '186s/==/=/g' $WRFHYDRO_FOLDER/WRFV$WRF_VERSION/configure
-	sed -i '318s/==/=/g' $WRFHYDRO_FOLDER/WRFV$WRF_VERSION/configure
-	sed -i '919s/==/=/g' $WRFHYDRO_FOLDER/WRFV$WRF_VERSION/configure
+	sed -i '186s/==/=/g' $WRFHYDRO_FOLDER/WRFV${WRF_VERSION}/configure
+	sed -i '318s/==/=/g' $WRFHYDRO_FOLDER/WRFV${WRF_VERSION}/configure
+	sed -i '919s/==/=/g' $WRFHYDRO_FOLDER/WRFV${WRF_VERSION}/configure
 
 	if [ ${auto_config} -eq 1 ]; then
-		sed -i '443s/.*/  $response = "34 \\n";/g' $WRFHYDRO_FOLDER/WRFV$WRF_VERSION/arch/Config.pl # Answer for compiler choice
-		sed -i '909s/.*/  $response = "1 \\n";/g' $WRFHYDRO_FOLDER/WRFV$WRF_VERSION/arch/Config.pl  #Answer for basic nesting
+		sed -i '443s/.*/  $response = "34 \\n";/g' $WRFHYDRO_FOLDER/WRFV${WRF_VERSION}/arch/Config.pl # Answer for compiler choice
+		sed -i '909s/.*/  $response = "1 \\n";/g' $WRFHYDRO_FOLDER/WRFV${WRF_VERSION}/arch/Config.pl  #Answer for basic nesting
 		./configure 2>&1 | tee configure.log
 	else
 		./configure 2>&1 | tee configure.log #Option 34 gfortran compiler with distributed memory option 1 for basic nesting
@@ -12819,10 +12886,10 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 	./compile -j $CPU_HALF_EVEN em_real 2>&1 | tee compile.wrf1.log
 
-	export WRF_DIR=$WRFHYDRO_FOLDER/WRFV$WRF_VERSION
+	export WRF_DIR=$WRFHYDRO_FOLDER/WRFV${WRF_VERSION}
 
 	# IF statement to check that all files were created.
-	cd $WRFHYDRO_FOLDER/WRFV$WRF_VERSION/main
+	cd $WRFHYDRO_FOLDER/WRFV${WRF_VERSION}/main
 	n=$(ls ./*.exe | wc -l)
 	if (($n >= 3)); then
 		echo "All expected files created."
@@ -12830,9 +12897,9 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	else
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
-		cd $WRFHYDRO_FOLDER/WRFV$WRF_VERSION
+		cd $WRFHYDRO_FOLDER/WRFV${WRF_VERSION}
 		./compile -j $CPU_HALF_EVEN em_real 2>&1 | tee compile.wrf2.log
-		cd $WRFHYDRO_FOLDER/WRFV$WRF_VERSION/main
+		cd $WRFHYDRO_FOLDER/WRFV${WRF_VERSION}/main
 		n=$(ls ./*.exe | wc -l)
 		if (($n >= 3)); then
 			echo "All expected files created."
@@ -12846,16 +12913,16 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	echo " "
 
 	echo " "
-	############################WPSV$WPS_VERSION#####################################
-	## WPS v$WPS_VERSION
+	############################WPSV${WPS_VERSION}#####################################
+	## WPS v${WPS_VERSION}
 	## Downloaded from git tagged releases
 	#Option 3 for gfortran and distributed memory
 	########################################################################
 
 	cd $WRFHYDRO_FOLDER/Downloads
-	wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v$WPS_VERSION.tar.gz -O WPS-$WPS_VERSION.tar.gz
-	tar -xvzf WPS-$WPS_VERSION.tar.gz -C $WRFHYDRO_FOLDER/
-	cd $WRFHYDRO_FOLDER/WPS-$WPS_VERSION
+	wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v${WPS_VERSION}.tar.gz -O WPS-${WPS_VERSION}.tar.gz
+	tar -xvzf WPS-${WPS_VERSION}.tar.gz -C $WRFHYDRO_FOLDER/
+	cd $WRFHYDRO_FOLDER/WPS-${WPS_VERSION}
 	./clean -a
 
 	if [ ${auto_config} -eq 1 ]; then
@@ -12867,7 +12934,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 	echo " "
 	# IF statement to check that all files were created.
-	cd $WRFHYDRO_FOLDER/WPS-$WPS_VERSION
+	cd $WRFHYDRO_FOLDER/WPS-${WPS_VERSION}
 	n=$(ls ./*.exe | wc -l)
 	if (($n == 3)); then
 		echo "All expected files created."
@@ -12876,7 +12943,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
 		./compile 2>&1 | tee compile.wps2.log
-		cd $WRFHYDRO_FOLDER/WPS-$WPS_VERSION
+		cd $WRFHYDRO_FOLDER/WPS-${WPS_VERSION}
 		n=$(ls ./*.exe | wc -l)
 		if (($n == 3)); then
 			echo "All expected files created."
@@ -13005,7 +13072,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 	echo $PASSWD | sudo -S apt -y update
 
 	# necessary binary packages (especially pkg-config and build-essential)
-	echo $PASSWD | sudo -S apt -y install autoconf automake bison build-essential byacc cmake csh curl default-jdk default-jre emacs flex g++ gawk gcc gfortran git ksh libcurl4-openssl-dev libjpeg-dev  libncurses6 libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev m4 make  ncview okular openbox pipenv pkg-config  python3 python3-dev python3-pip tcsh unzip xauth xorg time
+	echo $PASSWD | sudo -S apt -y install autoconf automake bison build-essential byacc cmake csh curl default-jdk default-jre emacs flex g++ gawk gcc gfortran git ksh libcurl4-openssl-dev libjpeg-dev libncurses5 libncurses6 libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev m4 make mlocate ncview okular openbox pipenv pkg-config  python3 python3-dev python3-pip tcsh unzip xauth xorg time
 
 	# install the Intel compilers
 	echo $PASSWD | sudo -S apt -y install intel-basekit
@@ -13260,7 +13327,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 	echo " "
 	echo "Environment Testing "
 	echo "Test 1"
-	ifort TEST_1_fortran_only_fixed.f
+	$FC TEST_1_fortran_only_fixed.f
 	./a.out | tee env_test1.txt
 	export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test1.txt | awk '{print$1}')
 	if [ $TEST_PASS -ge 1 ]; then
@@ -13273,7 +13340,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 
 	echo " "
 	echo "Test 2"
-	ifort TEST_2_fortran_only_free.f90
+	$FC TEST_2_fortran_only_free.f90
 	./a.out | tee env_test2.txt
 	export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test2.txt | awk '{print$1}')
 	if [ $TEST_PASS -ge 1 ]; then
@@ -13287,7 +13354,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 
 	echo " "
 	echo "Test 3"
-	icc TEST_3_c_only.c
+	$CC TEST_3_c_only.c
 	./a.out | tee env_test3.txt
 	export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test3.txt | awk '{print$1}')
 	if [ $TEST_PASS -ge 1 ]; then
@@ -13301,9 +13368,9 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 
 	echo " "
 	echo "Test 4"
-	icc -c -m64 TEST_4_fortran+c_c.c
-	ifort -c -m64 TEST_4_fortran+c_f.f90
-	ifort -m64 TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
+	$CC -c -m64 TEST_4_fortran+c_c.c
+	$FC -c -m64 TEST_4_fortran+c_f.f90
+	$FC -m64 TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
 	./a.out | tee env_test4.txt
 	export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test4.txt | awk '{print$1}')
 	if [ $TEST_PASS -ge 1 ]; then
@@ -13326,9 +13393,9 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 	echo " "
 	echo "Library Compatibility Tests "
 	echo "Test 1"
-	ifort -c 01_fortran+c+netcdf_f.f
-	icc -c 01_fortran+c+netcdf_c.c
-	ifort 01_fortran+c+netcdf_f.o 01_fortran+c+netcdf_c.o \
+	$FC -c 01_fortran+c+netcdf_f.f
+	$CC -c 01_fortran+c+netcdf_c.c
+	$FC 01_fortran+c+netcdf_f.o 01_fortran+c+netcdf_c.o \
 		-L${NETCDF}/lib -lnetcdff -lnetcdf
 
 	./a.out | tee comp_test1.txt
@@ -13345,9 +13412,9 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 	echo " "
 
 	echo "Test 2"
-	mpiifort -c 02_fortran+c+netcdf+mpi_f.f
-	mpiicc -c 02_fortran+c+netcdf+mpi_c.c
-	mpiifort 02_fortran+c+netcdf+mpi_f.o \
+	$MPIFC -c 02_fortran+c+netcdf+mpi_f.f
+	$MPICC -c 02_fortran+c+netcdf+mpi_c.c
+	$MPIFC 02_fortran+c+netcdf+mpi_f.o \
 		02_fortran+c+netcdf+mpi_c.o \
 		-L${NETCDF}/lib -lnetcdff -lnetcdf
 
@@ -13544,7 +13611,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 	########### WRf-Python compiled via Conda  ##################
 	########### This is the preferred method by NCAR      ##################
 	##### https://wrf-python.readthedocs.io/en/latest/installation.html  ##################
-	source $Anaconda_Install_DIR/etc/profile.d/conda.sh
+	source $Miniconda_Install_DIR/etc/profile.d/conda.sh
 conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 	######################### Climate Data Operators ############
@@ -13644,8 +13711,8 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	read -r -t 5 -p "I am going to wait for 5 seconds only ..."
 	echo " "
 
-	############################ WRF $WPS_VERSION  #################################
-	## WRF v$WPS_VERSION
+	############################ WRF ${WPS_VERSION}  #################################
+	## WRF v${WPS_VERSION}
 	## Downloaded from git tagged releases
 	# option 15, option 1 for intel and distributed memory w/basic nesting
 	# large file support enable with WRFiO_NCD_LARGE_FILE_SUPPORT=1
@@ -13659,52 +13726,52 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 	cd $WRFHYDRO_FOLDER/Downloads
 
-	wget -c https://github.com/wrf-model/WRF/releases/download/v$WRF_VERSION/v$WRF_VERSION.tar.gz -O WRF-$WRF_VERSION.tar.gz
-	tar -xvzf WRF-$WRF_VERSION.tar.gz -C $WRFHYDRO_FOLDER/
+	wget -c https://github.com/wrf-model/WRF/releases/download/v${WRF_VERSION}/v${WRF_VERSION}.tar.gz -O WRF-${WRF_VERSION}.tar.gz
+	tar -xvzf WRF-${WRF_VERSION}.tar.gz -C $WRFHYDRO_FOLDER/
 
 	# If statment for changing folder name
 	if [ -d "$WRFHYDRO_FOLDER/WRF" ]; then
-		mv -f $WRFHYDRO_FOLDER/WRF $WRFHYDRO_FOLDER/WRFV$WRF_VERSION
+		mv -f $WRFHYDRO_FOLDER/WRF $WRFHYDRO_FOLDER/WRFV${WRF_VERSION}
 	fi
 
-	cd $WRFHYDRO_FOLDER/WRFV$WRF_VERSION
+	cd $WRFHYDRO_FOLDER/WRFV${WRF_VERSION}
 
 	export WRFIO_NCD_LARGE_FILE_SUPPORT=1
 
 	#Replace old version of WRF-Hydro distributed with WRF with updated WRF-Hydro source code
-	rm -r $WRFHYDRO_FOLDER/WRFV$WRF_VERSION/hydro/
-	cp -r $WRFHYDRO_FOLDER/Hydro-Basecode/wrf_hydro_nwm_public-5.2.0/trunk/NDHMS $WRFHYDRO_FOLDER/WRFV$WRF_VERSION/hydro
+	rm -r $WRFHYDRO_FOLDER/WRFV${WRF_VERSION}/hydro/
+	cp -r $WRFHYDRO_FOLDER/Hydro-Basecode/wrf_hydro_nwm_public-5.2.0/trunk/NDHMS $WRFHYDRO_FOLDER/WRFV${WRF_VERSION}/hydro
 
-	cd $WRFHYDRO_FOLDER/WRFV$WRF_VERSION/hydro
+	cd $WRFHYDRO_FOLDER/WRFV${WRF_VERSION}/hydro
 	source setEnvar.sh
-	cd $WRFHYDRO_FOLDER/WRFV$WRF_VERSION
+	cd $WRFHYDRO_FOLDER/WRFV${WRF_VERSION}
 
 	./clean
 
 	# SED statements to fix configure error
-	sed -i '186s/==/=/g' $WRFHYDRO_FOLDER/WRFV$WRF_VERSION/configure
-	sed -i '318s/==/=/g' $WRFHYDRO_FOLDER/WRFV$WRF_VERSION/configure
-	sed -i '919s/==/=/g' $WRFHYDRO_FOLDER/WRFV$WRF_VERSION/configure
+	sed -i '186s/==/=/g' $WRFHYDRO_FOLDER/WRFV${WRF_VERSION}/configure
+	sed -i '318s/==/=/g' $WRFHYDRO_FOLDER/WRFV${WRF_VERSION}/configure
+	sed -i '919s/==/=/g' $WRFHYDRO_FOLDER/WRFV${WRF_VERSION}/configure
 
 	if [ ${auto_config} -eq 1 ]; then
-		sed -i '443s/.*/  $response = "15 \\n";/g' $WRFHYDRO_FOLDER/WRFV$WRF_VERSION/arch/Config.pl # Answer for compiler choice
-		sed -i '909s/.*/  $response = "1 \\n";/g' $WRFHYDRO_FOLDER/WRFV$WRF_VERSION/arch/Config.pl  #Answer for basic nesting
+		sed -i '443s/.*/  $response = "15 \\n";/g' $WRFHYDRO_FOLDER/WRFV${WRF_VERSION}/arch/Config.pl # Answer for compiler choice
+		sed -i '909s/.*/  $response = "1 \\n";/g' $WRFHYDRO_FOLDER/WRFV${WRF_VERSION}/arch/Config.pl  #Answer for basic nesting
 		./configure 2>&1 | tee configure.log
 	else
 		./configure 2>&1 | tee configure.log #Option 15 intel compiler with distributed memory option 1 for basic nesting
 	fi
 
-	sed -i '63s/mpif90/mpiifort/g' $WRFHYDRO_FOLDER/WRFV$WRF_VERSION/hydro/macros
+	sed -i '63s/mpif90/mpiifort/g' $WRFHYDRO_FOLDER/WRFV${WRF_VERSION}/hydro/macros
 	#Need to remove mpich/GNU config calls to Intel config calls
-	sed -i '169s|mpif90 -f90=$(SFC)|mpiifort|g' $WRFHYDRO_FOLDER/WRFV$WRF_VERSION/configure.wrf
-	sed -i '170s|mpicc -cc=$(SCC)|mpiicc|g' $WRFHYDRO_FOLDER/WRFV$WRF_VERSION/configure.wrf
-	sed -i '177s|-w -O3|-diag-disable=10441 -w -O3|g' $WRFHYDRO_FOLDER/WRFV$WRF_VERSION/configure.wrf
+	sed -i '169s|mpif90 -f90=$(SFC)|mpiifort|g' $WRFHYDRO_FOLDER/WRFV${WRF_VERSION}/configure.wrf
+	sed -i '170s|mpicc -cc=$(SCC)|mpiicc|g' $WRFHYDRO_FOLDER/WRFV${WRF_VERSION}/configure.wrf
+	sed -i '177s|-w -O3|-diag-disable=10441 -w -O3|g' $WRFHYDRO_FOLDER/WRFV${WRF_VERSION}/configure.wrf
 	./compile -j $CPU_HALF_EVEN em_real 2>&1 | tee compile.wrf1.log
 
-	export WRF_DIR=$WRFHYDRO_FOLDER/WRFV$WRF_VERSION
+	export WRF_DIR=$WRFHYDRO_FOLDER/WRFV${WRF_VERSION}
 
 	# IF statement to check that all files were created.
-	cd $WRFHYDRO_FOLDER/WRFV$WRF_VERSION/main
+	cd $WRFHYDRO_FOLDER/WRFV${WRF_VERSION}/main
 	n=$(ls ./*.exe | wc -l)
 	if (($n >= 3)); then
 		echo "All expected files created."
@@ -13712,9 +13779,9 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	else
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
-		cd $WRFHYDRO_FOLDER/WRFV$WRF_VERSION
+		cd $WRFHYDRO_FOLDER/WRFV${WRF_VERSION}
 		./compile -j $CPU_HALF_EVEN em_real 2>&1 | tee compile.wrf2.log
-		cd $WRFHYDRO_FOLDER/WRFV$WRF_VERSION/main
+		cd $WRFHYDRO_FOLDER/WRFV${WRF_VERSION}/main
 		n=$(ls ./*.exe | wc -l)
 		if (($n >= 3)); then
 			echo "All expected files created."
@@ -13729,16 +13796,16 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 	echo " "
 
-	############################WPSV$WPS_VERSION#####################################
-	## WPS v$WPS_VERSION
+	############################WPSV${WPS_VERSION}#####################################
+	## WPS v${WPS_VERSION}
 	## Downloaded from git tagged releases
 	#Option 3 for gfortran and distributed memory
 	########################################################################
 
 	cd $WRFHYDRO_FOLDER/Downloads
-	wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v$WPS_VERSION.tar.gz -O WPS-$WPS_VERSION.tar.gz
-	tar -xvzf WPS-$WPS_VERSION.tar.gz -C $WRFHYDRO_FOLDER/
-	cd $WRFHYDRO_FOLDER/WPS-$WPS_VERSION
+	wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v${WPS_VERSION}.tar.gz -O WPS-${WPS_VERSION}.tar.gz
+	tar -xvzf WPS-${WPS_VERSION}.tar.gz -C $WRFHYDRO_FOLDER/
+	cd $WRFHYDRO_FOLDER/WPS-${WPS_VERSION}
 	./clean -a
 
 	if [ ${auto_config} -eq 1 ]; then
@@ -13747,14 +13814,14 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 		./configure 2>&1 | tee configure.log #Option 19 intel compiler with distributed memory
 	fi
 
-	sed -i '67s|mpif90|mpiifort|g' $WRFHYDRO_FOLDER/WPS-$WPS_VERSION/configure.wps
-	sed -i '68s|mpicc|mpiicc|g' $WRFHYDRO_FOLDER/WPS-$WPS_VERSION/configure.wps
+	sed -i '67s|mpif90|mpiifort|g' $WRFHYDRO_FOLDER/WPS-${WPS_VERSION}/configure.wps
+	sed -i '68s|mpicc|mpiicc|g' $WRFHYDRO_FOLDER/WPS-${WPS_VERSION}/configure.wps
 
 	./compile 2>&1 | tee compile.wps.log
 
 	echo " "
 	# IF statement to check that all files were created.
-	cd $WRFHYDRO_FOLDER/WPS-$WPS_VERSION
+	cd $WRFHYDRO_FOLDER/WPS-${WPS_VERSION}
 	n=$(ls ./*.exe | wc -l)
 	if (($n == 3)); then
 		echo "All expected files created."
@@ -13763,7 +13830,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
 		./compile 2>&1 | tee compile.wps2.log
-		cd $WRFHYDRO_FOLDER/WPS-$WPS_VERSION
+		cd $WRFHYDRO_FOLDER/WPS-${WPS_VERSION}
 		n=$(ls ./*.exe | wc -l)
 		if (($n == 3)); then
 			echo "All expected files created."
@@ -13878,31 +13945,55 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ] && [ "$MAC
 
 	#############################basic package managment############################
 
-	brew install wget
-	brew install git
-	brew install gcc@12
-	brew install libtool
-	brew install automake
-	brew install autoconf
-	brew install make
-	brew install m4
-	brew install java
-	brew install ksh
+sleep 1
+brew install autoconf
+sleep 1
+brew install bison
+sleep 1
+brew install byacc
+sleep 1
+brew install cmake
+sleep 1
+brew install curl
+sleep 1
+brew install flex
+sleep 1
+brew install gdal
+sleep 1
+brew install gedit
+sleep 1
+brew install git
+sleep 1
+brew install gnu-sed
+sleep 1
+brew install imagemagick
+sleep 1
+brew install java
+sleep 1
+brew install ksh
+sleep 1
+brew install libtool
+sleep 1
+brew install m4
+sleep 1
+brew install make
+sleep 1
+brew install python@3.10
+sleep 1
+brew install tcsh
+sleep 1
+brew install wget
+sleep 1
+brew install xauth
+sleep 1
+brew install xorgproto
+sleep 1
+brew install xorgrgb
+sleep 1
+brew install xquartz
 
-	brew install grads
-	brew install ksh
-	brew install tcsh
-
-	brew install python@3.10
-	brew install cmake
-	brew install xorgproto
-	brew install xorgrgb
-	brew install xauth
-	brew install curl
-	brew install flex
-	brew install byacc
-	brew install bison
-	brew install gnu-sed
+export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
+export PATH=/usr/local/bin:$PATH
 
 	##############################Directory Listing############################
 
@@ -13955,7 +14046,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ] && [ "$MAC
 	wget -c https://www.ece.uvic.ca/~frodo/jasper/software/jasper-$Jasper_Version.zip
 	wget -c https://github.com/pmodels/mpich/releases/download/v$Mpich_Version/mpich-$Mpich_Version.tar.gz
 	wget -c https://parallel-netcdf.github.io/Release/pnetcdf-$Pnetcdf_Version.tar.gz
-	wget -c https://sourceforge.net/projects/opengrads/files/grads2/2.2.1.oga.1/Linux%20%2864%20Bits%29/opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz
+
 
 	echo " "
 
@@ -14183,7 +14274,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ] && [ "$MAC
 	echo " "
 	echo "Environment Testing "
 	echo "Test 1"
-	gfortran TEST_1_fortran_only_fixed.f
+	$FC TEST_1_fortran_only_fixed.f
 	./a.out | tee env_test1.txt
 	export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test1.txt | awk '{print$1}')
 	if [ $TEST_PASS -ge 1 ]; then
@@ -14196,7 +14287,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ] && [ "$MAC
 
 	echo " "
 	echo "Test 2"
-	gfortran TEST_2_fortran_only_free.f90
+	$FC TEST_2_fortran_only_free.f90
 	./a.out | tee env_test2.txt
 	export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test2.txt | awk '{print$1}')
 	if [ $TEST_PASS -ge 1 ]; then
@@ -14210,7 +14301,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ] && [ "$MAC
 
 	echo " "
 	echo "Test 3"
-	gcc TEST_3_c_only.c
+	$CC TEST_3_c_only.c
 	./a.out | tee env_test3.txt
 	export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test3.txt | awk '{print$1}')
 	if [ $TEST_PASS -ge 1 ]; then
@@ -14224,9 +14315,9 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ] && [ "$MAC
 
 	echo " "
 	echo "Test 4"
-	gcc -c -m64 TEST_4_fortran+c_c.c
-	gfortran -c -m64 TEST_4_fortran+c_f.f90
-	gfortran -m64 TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
+	$CC -c -m64 TEST_4_fortran+c_c.c
+	$FC -c -m64 TEST_4_fortran+c_f.f90
+	$FC -m64 TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
 	./a.out | tee env_test4.txt
 	export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test4.txt | awk '{print$1}')
 	if [ $TEST_PASS -ge 1 ]; then
@@ -14249,9 +14340,9 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ] && [ "$MAC
 	echo " "
 	echo "Library Compatibility Tests "
 	echo "Test 1"
-	gfortran -c 01_fortran+c+netcdf_f.f
-	gcc -c 01_fortran+c+netcdf_c.c
-	gfortran 01_fortran+c+netcdf_f.o 01_fortran+c+netcdf_c.o \
+	$FC -c 01_fortran+c+netcdf_f.f
+	$CC -c 01_fortran+c+netcdf_c.c
+	$FC 01_fortran+c+netcdf_f.o 01_fortran+c+netcdf_c.o \
 		-L${NETCDF}/lib -lnetcdff -lnetcdf
 
 	./a.out | tee comp_test1.txt
@@ -14268,9 +14359,9 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ] && [ "$MAC
 	echo " "
 
 	echo "Test 2"
-	$DIR/MPICH/bin/mpifort -c 02_fortran+c+netcdf+mpi_f.f
-	$DIR/MPICH/bin/mpicc -c 02_fortran+c+netcdf+mpi_c.c
-	$DIR/MPICH/bin/mpifort 02_fortran+c+netcdf+mpi_f.o \
+	$MPIFC -c 02_fortran+c+netcdf+mpi_f.f
+	$MPICC -c 02_fortran+c+netcdf+mpi_c.c
+	$MPIFC 02_fortran+c+netcdf+mpi_f.o \
 		02_fortran+c+netcdf+mpi_c.o \
 		-L${NETCDF}/lib -lnetcdff -lnetcdf
 
@@ -14335,7 +14426,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ] && [ "$MAC
 	########### WRf-Python compiled via Conda  ##################
 	########### This is the preferred method by NCAR      ##################
 	##### https://wrf-python.readthedocs.io/en/latest/installation.html  ##################
-	source $Anaconda_Install_DIR/etc/profile.d/conda.sh
+	source $Miniconda_Install_DIR/etc/profile.d/conda.sh
 conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 	######################### Climate Data Operators ############
@@ -14416,38 +14507,38 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	ls -lah RUN/*.exe #Test to see if .exe files have compiled
 
 	echo " "
-	############################ WRF $WPS_VERSION  #################################
-	## WRF v$WPS_VERSION
+	############################ WRF ${WPS_VERSION}  #################################
+	## WRF v${WPS_VERSION}
 	## Downloaded from git tagged releases
 	# option 21, option 1 for gfortran and distributed memory w/basic nesting
 	# large file support enable with WRFiO_NCD_LARGE_FILE_SUPPORT=1
 	########################################################################
 
 	cd $WRFHYDRO_FOLDER/Downloads
-	wget -c https://github.com/wrf-model/WRF/releases/download/v$WRF_VERSION/v$WRF_VERSION.tar.gz -O WRF-$WRF_VERSION.tar.gz
-	tar -xvzf WRF-$WRF_VERSION.tar.gz -C $WRFHYDRO_FOLDER/
+	wget -c https://github.com/wrf-model/WRF/releases/download/v${WRF_VERSION}/v${WRF_VERSION}.tar.gz -O WRF-${WRF_VERSION}.tar.gz
+	tar -xvzf WRF-${WRF_VERSION}.tar.gz -C $WRFHYDRO_FOLDER/
 
 	# If statment for changing folder name
 	if [ -d "$WRFHYDRO_FOLDER/WRF" ]; then
-		mv -f $WRFHYDRO_FOLDER/WRF $WRFHYDRO_FOLDER/WRFV$WRF_VERSION
+		mv -f $WRFHYDRO_FOLDER/WRF $WRFHYDRO_FOLDER/WRFV${WRF_VERSION}
 	fi
 
-	cd $WRFHYDRO_FOLDER/WRFV$WRF_VERSION
+	cd $WRFHYDRO_FOLDER/WRFV${WRF_VERSION}
 	export WRFIO_NCD_LARGE_FILE_SUPPORT=1
 
 	#Replace old version of WRF-Hydro distributed with WRF with updated WRF-Hydro source code
-	rm -r $WRFHYDRO_FOLDER/WRFV$WRF_VERSION/hydro/
-	cp -r $WRFHYDRO_FOLDER/Hydro-Basecode/wrf_hydro_nwm_public-5.2.0/trunk/NDHMS $WRFHYDRO_FOLDER/WRFV$WRF_VERSION/hydro
+	rm -r $WRFHYDRO_FOLDER/WRFV${WRF_VERSION}/hydro/
+	cp -r $WRFHYDRO_FOLDER/Hydro-Basecode/wrf_hydro_nwm_public-5.2.0/trunk/NDHMS $WRFHYDRO_FOLDER/WRFV${WRF_VERSION}/hydro
 
-	cd $WRFHYDRO_FOLDER/WRFV$WRF_VERSION/hydro
+	cd $WRFHYDRO_FOLDER/WRFV${WRF_VERSION}/hydro
 	source setEnvar.sh
-	cd $WRFHYDRO_FOLDER/WRFV$WRF_VERSION
+	cd $WRFHYDRO_FOLDER/WRFV${WRF_VERSION}
 
 	./clean
 
 	if [ ${auto_config} -eq 1 ]; then
-		sed -i'' -e '443s/.*/  $response = "17 \\n";/g' $WRFHYDRO_FOLDER/WRFV$WRF_VERSION/arch/Config.pl # Answer for compiler choice
-		sed -i'' -e '909s/.*/  $response = "1 \\n";/g' $WRFHYDRO_FOLDER/WRFV$WRF_VERSION/arch/Config.pl  #Answer for basic nesting
+		sed -i'' -e '443s/.*/  $response = "17 \\n";/g' $WRFHYDRO_FOLDER/WRFV${WRF_VERSION}/arch/Config.pl # Answer for compiler choice
+		sed -i'' -e '909s/.*/  $response = "1 \\n";/g' $WRFHYDRO_FOLDER/WRFV${WRF_VERSION}/arch/Config.pl  #Answer for basic nesting
 		./configure 2>&1 | tee configure.log
 	else
 		./configure 2>&1 | tee configure.log #Option 17 gfortran compiler with distributed memory option 1 for basic nesting
@@ -14457,10 +14548,10 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 	./compile em_real 2>&1 | tee compile.wrf.log
 
-	export WRF_DIR=$WRFHYDRO_FOLDER/WRFV$WRF_VERSION
+	export WRF_DIR=$WRFHYDRO_FOLDER/WRFV${WRF_VERSION}
 
 	# IF statement to check that all files were created.
-	cd $WRFHYDRO_FOLDER/WRFV$WRF_VERSION/main
+	cd $WRFHYDRO_FOLDER/WRFV${WRF_VERSION}/main
 	n=$(ls ./*.exe | wc -l)
 	if (($n >= 3)); then
 		echo "All expected files created."
@@ -14468,9 +14559,9 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	else
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
-		cd $WRFHYDRO_FOLDER/WRFV$WRF_VERSION
+		cd $WRFHYDRO_FOLDER/WRFV${WRF_VERSION}
 		./compile -j $CPU_HALF_EVEN em_real 2>&1 | tee compile.wrf2.log
-		cd $WRFHYDRO_FOLDER/WRFV$WRF_VERSION/main
+		cd $WRFHYDRO_FOLDER/WRFV${WRF_VERSION}/main
 		n=$(ls ./*.exe | wc -l)
 		if (($n >= 3)); then
 			echo "All expected files created."
@@ -14485,16 +14576,16 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 	echo " "
 
-	############################WPSV$WPS_VERSION#####################################
-	## WPS v$WPS_VERSION
+	############################WPSV${WPS_VERSION}#####################################
+	## WPS v${WPS_VERSION}
 	## Downloaded from git tagged releases
 	#Option 3 for gfortran and distributed memory
 	########################################################################
 
 	cd $WRFHYDRO_FOLDER/Downloads
-	wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v$WPS_VERSION.tar.gz -O WPS-$WPS_VERSION.tar.gz
-	tar -xvzf WPS-$WPS_VERSION.tar.gz -C $WRFHYDRO_FOLDER/
-	cd $WRFHYDRO_FOLDER/WPS-$WPS_VERSION
+	wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v${WPS_VERSION}.tar.gz -O WPS-${WPS_VERSION}.tar.gz
+	tar -xvzf WPS-${WPS_VERSION}.tar.gz -C $WRFHYDRO_FOLDER/
+	cd $WRFHYDRO_FOLDER/WPS-${WPS_VERSION}
 	./clean -a
 
 	if [ ${auto_config} -eq 1 ]; then
@@ -14505,7 +14596,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	./compile 2>&1 | tee compile.wps.log
 
 	# IF statement to check that all files were created.
-	cd $WRFHYDRO_FOLDER/WPS-$WPS_VERSION
+	cd $WRFHYDRO_FOLDER/WPS-${WPS_VERSION}
 	n=$(ls ./*.exe | wc -l)
 	if (($n == 3)); then
 		echo "All expected files created."
@@ -14514,7 +14605,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
 		./compile 2>&1 | tee compile.wps2.log
-		cd $WRFHYDRO_FOLDER/WPS-$WPS_VERSION
+		cd $WRFHYDRO_FOLDER/WPS-${WPS_VERSION}
 		n=$(ls ./*.exe | wc -l)
 		if (($n == 3)); then
 			echo "All expected files created."
@@ -14629,30 +14720,55 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ] && [ "$MAC
 
 	#############################basic package managment############################
 
-	brew install wget
-	brew install git
-	brew install gcc@12
-	brew install libtool
-	brew install automake
-	brew install autoconf
-	brew install make
-	brew install m4
-	brew install java
-	brew install ksh
-	brew install grads
-	brew install ksh
-	brew install tcsh
+sleep 1
+brew install autoconf
+sleep 1
+brew install bison
+sleep 1
+brew install byacc
+sleep 1
+brew install cmake
+sleep 1
+brew install curl
+sleep 1
+brew install flex
+sleep 1
+brew install gdal
+sleep 1
+brew install gedit
+sleep 1
+brew install git
+sleep 1
+brew install gnu-sed
+sleep 1
+brew install imagemagick
+sleep 1
+brew install java
+sleep 1
+brew install ksh
+sleep 1
+brew install libtool
+sleep 1
+brew install m4
+sleep 1
+brew install make
+sleep 1
+brew install python@3.10
+sleep 1
+brew install tcsh
+sleep 1
+brew install wget
+sleep 1
+brew install xauth
+sleep 1
+brew install xorgproto
+sleep 1
+brew install xorgrgb
+sleep 1
+brew install xquartz
 
-	brew install python@3.10
-	brew install cmake
-	brew install xorgproto
-	brew install xorgrgb
-	brew install xauth
-	brew install curl
-	brew install flex
-	brew install byacc
-	brew install bison
-	brew install gnu-sed
+export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
+export PATH=/usr/local/bin:$PATH
 
 	##############################Directory Listing############################
 
@@ -14705,7 +14821,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ] && [ "$MAC
 	wget -c https://www.ece.uvic.ca/~frodo/jasper/software/jasper-$Jasper_Version.zip
 	wget -c https://github.com/pmodels/mpich/releases/download/v$Mpich_Version/mpich-$Mpich_Version.tar.gz
 	wget -c https://parallel-netcdf.github.io/Release/pnetcdf-$Pnetcdf_Version.tar.gz
-	wget -c https://sourceforge.net/projects/opengrads/files/grads2/2.2.1.oga.1/Linux%20%2864%20Bits%29/opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz
+
 
 	echo " "
 
@@ -14949,7 +15065,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ] && [ "$MAC
 	echo " "
 	echo "Environment Testing "
 	echo "Test 1"
-	gfortran TEST_1_fortran_only_fixed.f
+	$FC TEST_1_fortran_only_fixed.f
 	./a.out | tee env_test1.txt
 	export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test1.txt | awk '{print$1}')
 	if [ $TEST_PASS -ge 1 ]; then
@@ -14962,7 +15078,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ] && [ "$MAC
 
 	echo " "
 	echo "Test 2"
-	gfortran TEST_2_fortran_only_free.f90
+	$FC TEST_2_fortran_only_free.f90
 	./a.out | tee env_test2.txt
 	export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test2.txt | awk '{print$1}')
 	if [ $TEST_PASS -ge 1 ]; then
@@ -14976,7 +15092,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ] && [ "$MAC
 
 	echo " "
 	echo "Test 3"
-	gcc TEST_3_c_only.c
+	$CC TEST_3_c_only.c
 	./a.out | tee env_test3.txt
 	export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test3.txt | awk '{print$1}')
 	if [ $TEST_PASS -ge 1 ]; then
@@ -14990,9 +15106,9 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ] && [ "$MAC
 
 	echo " "
 	echo "Test 4"
-	gcc -c -m64 TEST_4_fortran+c_c.c
-	gfortran -c -m64 TEST_4_fortran+c_f.f90
-	gfortran -m64 TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
+	$CC -c -m64 TEST_4_fortran+c_c.c
+	$FC -c -m64 TEST_4_fortran+c_f.f90
+	$FC -m64 TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
 	./a.out | tee env_test4.txt
 	export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test4.txt | awk '{print$1}')
 	if [ $TEST_PASS -ge 1 ]; then
@@ -15015,9 +15131,9 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ] && [ "$MAC
 	echo " "
 	echo "Library Compatibility Tests "
 	echo "Test 1"
-	gfortran -c 01_fortran+c+netcdf_f.f
-	gcc -c 01_fortran+c+netcdf_c.c
-	gfortran 01_fortran+c+netcdf_f.o 01_fortran+c+netcdf_c.o \
+	$FC -c 01_fortran+c+netcdf_f.f
+	$CC -c 01_fortran+c+netcdf_c.c
+	$FC 01_fortran+c+netcdf_f.o 01_fortran+c+netcdf_c.o \
 		-L${NETCDF}/lib -lnetcdff -lnetcdf
 
 	./a.out | tee comp_test1.txt
@@ -15034,9 +15150,9 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ] && [ "$MAC
 	echo " "
 
 	echo "Test 2"
-	$DIR/MPICH/bin/mpifort -c 02_fortran+c+netcdf+mpi_f.f
-	$DIR/MPICH/bin/mpicc -c 02_fortran+c+netcdf+mpi_c.c
-	$DIR/MPICH/bin/mpifort 02_fortran+c+netcdf+mpi_f.o \
+	$MPIFC -c 02_fortran+c+netcdf+mpi_f.f
+	$MPICC -c 02_fortran+c+netcdf+mpi_c.c
+	$MPIFC 02_fortran+c+netcdf+mpi_f.o \
 		02_fortran+c+netcdf+mpi_c.o \
 		-L${NETCDF}/lib -lnetcdff -lnetcdf
 
@@ -15101,7 +15217,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ] && [ "$MAC
 	########### WRf-Python compiled via Conda  ##################
 	########### This is the preferred method by NCAR      ##################
 	##### https://wrf-python.readthedocs.io/en/latest/installation.html  ##################
-	source $Anaconda_Install_DIR/etc/profile.d/conda.sh
+	source $Miniconda_Install_DIR/etc/profile.d/conda.sh
 conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 	######################### Climate Data Operators ############
@@ -15182,38 +15298,38 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	ls -lah RUN/*.exe #Test to see if .exe files have compiled
 
 	echo " "
-	############################ WRF $WPS_VERSION  #################################
-	## WRF v$WPS_VERSION
+	############################ WRF ${WPS_VERSION}  #################################
+	## WRF v${WPS_VERSION}
 	## Downloaded from git tagged releases
 	# option 21, option 1 for gfortran and distributed memory w/basic nesting
 	# large file support enable with WRFiO_NCD_LARGE_FILE_SUPPORT=1
 	########################################################################
 
 	cd $WRFHYDRO_FOLDER/Downloads
-	wget -c https://github.com/wrf-model/WRF/releases/download/v$WRF_VERSION/v$WRF_VERSION.tar.gz -O WRF-$WRF_VERSION.tar.gz
-	tar -xvzf WRF-$WRF_VERSION.tar.gz -C $WRFHYDRO_FOLDER/
+	wget -c https://github.com/wrf-model/WRF/releases/download/v${WRF_VERSION}/v${WRF_VERSION}.tar.gz -O WRF-${WRF_VERSION}.tar.gz
+	tar -xvzf WRF-${WRF_VERSION}.tar.gz -C $WRFHYDRO_FOLDER/
 
 	# If statment for changing folder name
 	if [ -d "$WRFHYDRO_FOLDER/WRF" ]; then
-		mv -f $WRFHYDRO_FOLDER/WRF $WRFHYDRO_FOLDER/WRFV$WRF_VERSION
+		mv -f $WRFHYDRO_FOLDER/WRF $WRFHYDRO_FOLDER/WRFV${WRF_VERSION}
 	fi
 
-	cd $WRFHYDRO_FOLDER/WRFV$WRF_VERSION
+	cd $WRFHYDRO_FOLDER/WRFV${WRF_VERSION}
 	export WRFIO_NCD_LARGE_FILE_SUPPORT=1
 
 	#Replace old version of WRF-Hydro distributed with WRF with updated WRF-Hydro source code
-	rm -r $WRFHYDRO_FOLDER/WRFV$WRF_VERSION/hydro/
-	cp -r $WRFHYDRO_FOLDER/Hydro-Basecode/wrf_hydro_nwm_public-5.2.0/trunk/NDHMS $WRFHYDRO_FOLDER/WRFV$WRF_VERSION/hydro
+	rm -r $WRFHYDRO_FOLDER/WRFV${WRF_VERSION}/hydro/
+	cp -r $WRFHYDRO_FOLDER/Hydro-Basecode/wrf_hydro_nwm_public-5.2.0/trunk/NDHMS $WRFHYDRO_FOLDER/WRFV${WRF_VERSION}/hydro
 
-	cd $WRFHYDRO_FOLDER/WRFV$WRF_VERSION/hydro
+	cd $WRFHYDRO_FOLDER/WRFV${WRF_VERSION}/hydro
 	source setEnvar.sh
-	cd $WRFHYDRO_FOLDER/WRFV$WRF_VERSION
+	cd $WRFHYDRO_FOLDER/WRFV${WRF_VERSION}
 
 	./clean
 
 	if [ ${auto_config} -eq 1 ]; then
-		sed -i'' -e '443s/.*/  $response = "17 \\n";/g' $WRFHYDRO_FOLDER/WRFV$WRF_VERSION/arch/Config.pl # Answer for compiler choice
-		sed -i'' -e '909s/.*/  $response = "1 \\n";/g' $WRFHYDRO_FOLDER/WRFV$WRF_VERSION/arch/Config.pl  #Answer for basic nesting
+		sed -i'' -e '443s/.*/  $response = "17 \\n";/g' $WRFHYDRO_FOLDER/WRFV${WRF_VERSION}/arch/Config.pl # Answer for compiler choice
+		sed -i'' -e '909s/.*/  $response = "1 \\n";/g' $WRFHYDRO_FOLDER/WRFV${WRF_VERSION}/arch/Config.pl  #Answer for basic nesting
 		./configure 2>&1 | tee configure.log
 	else
 		./configure 2>&1 | tee configure.log #Option 17 gfortran compiler with distributed memory option 1 for basic nesting
@@ -15223,10 +15339,10 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 	./compile em_real 2>&1 | tee compile.wrf.log
 
-	export WRF_DIR=$WRFHYDRO_FOLDER/WRFV$WRF_VERSION
+	export WRF_DIR=$WRFHYDRO_FOLDER/WRFV${WRF_VERSION}
 
 	# IF statement to check that all files were created.
-	cd $WRFHYDRO_FOLDER/WRFV$WRF_VERSION/main
+	cd $WRFHYDRO_FOLDER/WRFV${WRF_VERSION}/main
 	n=$(ls ./*.exe | wc -l)
 	if (($n >= 3)); then
 		echo "All expected files created."
@@ -15234,9 +15350,9 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	else
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
-		cd $WRFHYDRO_FOLDER/WRFV$WRF_VERSION
+		cd $WRFHYDRO_FOLDER/WRFV${WRF_VERSION}
 		./compile -j $CPU_HALF_EVEN em_real 2>&1 | tee compile.wrf2.log
-		cd $WRFHYDRO_FOLDER/WRFV$WRF_VERSION/main
+		cd $WRFHYDRO_FOLDER/WRFV${WRF_VERSION}/main
 		n=$(ls ./*.exe | wc -l)
 		if (($n >= 3)); then
 			echo "All expected files created."
@@ -15248,16 +15364,16 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	fi
 
 	echo " "
-	############################WPSV$WPS_VERSION#####################################
-	## WPS v$WPS_VERSION
+	############################WPSV${WPS_VERSION}#####################################
+	## WPS v${WPS_VERSION}
 	## Downloaded from git tagged releases
 	#Option 3 for gfortran and distributed memory
 	########################################################################
 
 	cd $WRFHYDRO_FOLDER/Downloads
-	wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v$WPS_VERSION.tar.gz -O WPS-$WPS_VERSION.tar.gz
-	tar -xvzf WPS-$WPS_VERSION.tar.gz -C $WRFHYDRO_FOLDER/
-	cd $WRFHYDRO_FOLDER/WPS-$WPS_VERSION
+	wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v${WPS_VERSION}.tar.gz -O WPS-${WPS_VERSION}.tar.gz
+	tar -xvzf WPS-${WPS_VERSION}.tar.gz -C $WRFHYDRO_FOLDER/
+	cd $WRFHYDRO_FOLDER/WPS-${WPS_VERSION}
 	./clean -a
 
 	if [ ${auto_config} -eq 1 ]; then
@@ -15268,7 +15384,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	./compile 2>&1 | tee compile.wps.log
 
 	# IF statement to check that all files were created.
-	cd $WRFHYDRO_FOLDER/WPS-$WPS_VERSION
+	cd $WRFHYDRO_FOLDER/WPS-${WPS_VERSION}
 	n=$(ls ./*.exe | wc -l)
 	if (($n == 3)); then
 		echo "All expected files created."
@@ -15277,7 +15393,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
 		./compile 2>&1 | tee compile.wps2.log
-		cd $WRFHYDRO_FOLDER/WPS-$WPS_VERSION
+		cd $WRFHYDRO_FOLDER/WPS-${WPS_VERSION}
 		n=$(ls ./*.exe | wc -l)
 		if (($n == 3)); then
 			echo "All expected files created."
@@ -15397,7 +15513,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 	echo $PASSWD | sudo -S dnf install dnf -y
 	echo $PASSWD | sudo -S dnf -y update
 	echo $PASSWD | sudo -S dnf -y upgrade
-	echo $PASSWD | sudo -S dnf -y install autoconf automake bzip2 bzip2-devel byacc cairo-devel cmake cpp curl curl-devel flex flex-devel fontconfig-devel fontconfig-devel.x86_64 gcc gcc-c++ gcc-gfortran git java-11-openjdk java-11-openjdk-devel ksh libX11-devel libX11-devel.x86_64 libXaw libXaw-devel libXext-devel libXext-devel.x86_64 libXmu-devel libXrender-devel libXrender-devel.x86_64 libstdc++ libstdc++-devel libstdc++-static libxml2 libxml2-devel m4  .x86_64 nfs-utils okular perl pkgconfig pixman-devel python3 python3-devel tcsh time unzip wget
+	echo $PASSWD | sudo -S dnf -y install autoconf automake bzip2 bzip2-devel byacc cairo-devel cmake cpp curl curl-devel flex  fontconfig-devel fontconfig-devel.x86_64 gcc gcc-c++ gcc-gfortran git java-11-openjdk java-11-openjdk-devel ksh libX11-devel libX11-devel.x86_64 libXaw libXaw-devel libXext-devel libXext-devel.x86_64 libXmu-devel libXrender-devel libXrender-devel.x86_64 libstdc++ libstdc++-devel  libxml2 libxml2-devel m4 mlocate mlocate.x86_64 nfs-utils perl pkgconfig  pixman-devel python3 python3-devel tcsh time unzip wget
 	echo $PASSWD | sudo -S dnf -y groupinstall "Development Tools"
 	echo $PASSWD | sudo -S dnf -y update
 	echo $PASSWD | sudo -S dnf -y upgrade
@@ -15665,7 +15781,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 	echo " "
 	echo "Environment Testing "
 	echo "Test 1"
-	gfortran TEST_1_fortran_only_fixed.f
+	$FC TEST_1_fortran_only_fixed.f
 	./a.out | tee env_test1.txt
 	export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test1.txt | awk '{print$1}')
 	if [ $TEST_PASS -ge 1 ]; then
@@ -15678,7 +15794,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 
 	echo " "
 	echo "Test 2"
-	gfortran TEST_2_fortran_only_free.f90
+	$FC TEST_2_fortran_only_free.f90
 	./a.out | tee env_test2.txt
 	export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test2.txt | awk '{print$1}')
 	if [ $TEST_PASS -ge 1 ]; then
@@ -15692,7 +15808,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 
 	echo " "
 	echo "Test 3"
-	gcc TEST_3_c_only.c
+	$CC TEST_3_c_only.c
 	./a.out | tee env_test3.txt
 	export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test3.txt | awk '{print$1}')
 	if [ $TEST_PASS -ge 1 ]; then
@@ -15706,9 +15822,9 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 
 	echo " "
 	echo "Test 4"
-	gcc -c -m64 TEST_4_fortran+c_c.c
-	gfortran -c -m64 TEST_4_fortran+c_f.f90
-	gfortran -m64 TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
+	$CC -c -m64 TEST_4_fortran+c_c.c
+	$FC -c -m64 TEST_4_fortran+c_f.f90
+	$FC -m64 TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
 	./a.out | tee env_test4.txt
 	export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test4.txt | awk '{print$1}')
 	if [ $TEST_PASS -ge 1 ]; then
@@ -15731,9 +15847,9 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 	echo " "
 	echo "Library Compatibility Tests "
 	echo "Test 1"
-	gfortran -c 01_fortran+c+netcdf_f.f
-	gcc -c 01_fortran+c+netcdf_c.c
-	gfortran 01_fortran+c+netcdf_f.o 01_fortran+c+netcdf_c.o \
+	$FC -c 01_fortran+c+netcdf_f.f
+	$CC -c 01_fortran+c+netcdf_c.c
+	$FC 01_fortran+c+netcdf_f.o 01_fortran+c+netcdf_c.o \
 		-L${NETCDF}/lib -lnetcdff -lnetcdf
 
 	./a.out | tee comp_test1.txt
@@ -15750,9 +15866,9 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 	echo " "
 
 	echo "Test 2"
-	$DIR/MPICH/bin/mpifort -c 02_fortran+c+netcdf+mpi_f.f
-	$DIR/MPICH/bin/mpicc -c 02_fortran+c+netcdf+mpi_c.c
-	$DIR/MPICH/bin/mpifort 02_fortran+c+netcdf+mpi_f.o \
+	$MPIFC -c 02_fortran+c+netcdf+mpi_f.f
+	$MPICC -c 02_fortran+c+netcdf+mpi_c.c
+	$MPIFC 02_fortran+c+netcdf+mpi_f.o \
 		02_fortran+c+netcdf+mpi_c.o \
 		-L${NETCDF}/lib -lnetcdff -lnetcdf
 
@@ -16014,7 +16130,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 	cd $WRFHYDRO_FOLDER/OBSGRID
 
 	./clean -a
-	source $Anaconda_Install_DIR/etc/profile.d/conda.sh
+	source $Miniconda_Install_DIR/etc/profile.d/conda.sh
 	conda init bash
 	conda activate ncl_stable
 
@@ -16071,7 +16187,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 	mv * ..
 	cd $WRFHYDRO_FOLDER/RIP4
 	rm -rd RIP_47
-	source $Anaconda_Install_DIR/etc/profile.d/conda.sh
+	source $Miniconda_Install_DIR/etc/profile.d/conda.sh
 	conda activate ncl_stable
 	conda install -c conda-forge c-compiler fortran-compiler cxx-compiler -y
 
@@ -16106,7 +16222,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 	########### WRf-Python compiled via Conda  ##################
 	########### This is the preferred method by NCAR      ##################
 	##### https://wrf-python.readthedocs.io/en/latest/installation.html  ##################
-	source $Anaconda_Install_DIR/etc/profile.d/conda.sh
+	source $Miniconda_Install_DIR/etc/profile.d/conda.sh
 conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 	echo " "
@@ -16164,8 +16280,8 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 	read -r -t 5 -p "I am going to wait for 5 seconds only ..."
 	echo " "
-	############################ WRF $WPS_VERSION  #################################
-	## WRF v$WPS_VERSION
+	############################ WRF ${WPS_VERSION}  #################################
+	## WRF v${WPS_VERSION}
 	## Downloaded from git tagged releases
 	# option 34, option 1 for gfortran and distributed memory w/basic nesting
 	# large file support enable with WRFiO_NCD_LARGE_FILE_SUPPORT=1
@@ -16177,35 +16293,35 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	# Note that you need set nocolons = .true. in the section &time_control of namelist.input
 	########################################################################
 	cd $WRFHYDRO_FOLDER/Downloads
-	wget -c https://github.com/wrf-model/WRF/releases/download/v$WRF_VERSION/v$WRF_VERSION.tar.gz -O WRF-$WRF_VERSION.tar.gz
-	tar -xvzf WRF-$WRF_VERSION.tar.gz -C $WRFHYDRO_FOLDER/
+	wget -c https://github.com/wrf-model/WRF/releases/download/v${WRF_VERSION}/v${WRF_VERSION}.tar.gz -O WRF-${WRF_VERSION}.tar.gz
+	tar -xvzf WRF-${WRF_VERSION}.tar.gz -C $WRFHYDRO_FOLDER/
 
 	# If statment for changing folder name
 	if [ -d "$WRFHYDRO_FOLDER/WRF" ]; then
-		mv -f $WRFHYDRO_FOLDER/WRF $WRFHYDRO_FOLDER/WRFV$WRF_VERSION
+		mv -f $WRFHYDRO_FOLDER/WRF $WRFHYDRO_FOLDER/WRFV${WRF_VERSION}
 	fi
 
-	cd $WRFHYDRO_FOLDER/WRFV$WRF_VERSION
+	cd $WRFHYDRO_FOLDER/WRFV${WRF_VERSION}
 	export WRFIO_NCD_LARGE_FILE_SUPPORT=1
 
 	#Replace old version of WRF-Hydro distributed with WRF with updated WRF-Hydro source code
-	rm -r $WRFHYDRO_FOLDER/WRFV$WRF_VERSION/hydro/
-	cp -r $WRFHYDRO_FOLDER/Hydro-Basecode/wrf_hydro_nwm_public-5.2.0/trunk/NDHMS $WRFHYDRO_FOLDER/WRFV$WRF_VERSION/hydro
+	rm -r $WRFHYDRO_FOLDER/WRFV${WRF_VERSION}/hydro/
+	cp -r $WRFHYDRO_FOLDER/Hydro-Basecode/wrf_hydro_nwm_public-5.2.0/trunk/NDHMS $WRFHYDRO_FOLDER/WRFV${WRF_VERSION}/hydro
 
-	cd $WRFHYDRO_FOLDER/WRFV$WRF_VERSION/hydro
+	cd $WRFHYDRO_FOLDER/WRFV${WRF_VERSION}/hydro
 	source setEnvar.sh
-	cd $WRFHYDRO_FOLDER/WRFV$WRF_VERSION
+	cd $WRFHYDRO_FOLDER/WRFV${WRF_VERSION}
 
 	./clean
 
 	# SED statements to fix configure error
-	sed -i '186s/==/=/g' $WRFHYDRO_FOLDER/WRFV$WRF_VERSION/configure
-	sed -i '318s/==/=/g' $WRFHYDRO_FOLDER/WRFV$WRF_VERSION/configure
-	sed -i '919s/==/=/g' $WRFHYDRO_FOLDER/WRFV$WRF_VERSION/configure
+	sed -i '186s/==/=/g' $WRFHYDRO_FOLDER/WRFV${WRF_VERSION}/configure
+	sed -i '318s/==/=/g' $WRFHYDRO_FOLDER/WRFV${WRF_VERSION}/configure
+	sed -i '919s/==/=/g' $WRFHYDRO_FOLDER/WRFV${WRF_VERSION}/configure
 
 	if [ ${auto_config} -eq 1 ]; then
-		sed -i '443s/.*/  $response = "34 \\n";/g' $WRFHYDRO_FOLDER/WRFV$WRF_VERSION/arch/Config.pl # Answer for compiler choice
-		sed -i '909s/.*/  $response = "1 \\n";/g' $WRFHYDRO_FOLDER/WRFV$WRF_VERSION/arch/Config.pl  #Answer for basic nesting
+		sed -i '443s/.*/  $response = "34 \\n";/g' $WRFHYDRO_FOLDER/WRFV${WRF_VERSION}/arch/Config.pl # Answer for compiler choice
+		sed -i '909s/.*/  $response = "1 \\n";/g' $WRFHYDRO_FOLDER/WRFV${WRF_VERSION}/arch/Config.pl  #Answer for basic nesting
 		./configure 2>&1 | tee configure.log
 	else
 		./configure 2>&1 | tee configure.log #Option 34 gfortran compiler with distributed memory option 1 for basic nesting
@@ -16213,10 +16329,10 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 	./compile -j $CPU_HALF_EVEN em_real 2>&1 | tee compile.wrf1.log
 
-	export WRF_DIR=$WRFHYDRO_FOLDER/WRFV$WRF_VERSION
+	export WRF_DIR=$WRFHYDRO_FOLDER/WRFV${WRF_VERSION}
 
 	# IF statement to check that all files were created.
-	cd $WRFHYDRO_FOLDER/WRFV$WRF_VERSION/main
+	cd $WRFHYDRO_FOLDER/WRFV${WRF_VERSION}/main
 	n=$(ls ./*.exe | wc -l)
 	if (($n >= 3)); then
 		echo "All expected files created."
@@ -16224,9 +16340,9 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	else
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
-		cd $WRFHYDRO_FOLDER/WRFV$WRF_VERSION
+		cd $WRFHYDRO_FOLDER/WRFV${WRF_VERSION}
 		./compile -j $CPU_HALF_EVEN em_real 2>&1 | tee compile.wrf2.log
-		cd $WRFHYDRO_FOLDER/WRFV$WRF_VERSION/main
+		cd $WRFHYDRO_FOLDER/WRFV${WRF_VERSION}/main
 		n=$(ls ./*.exe | wc -l)
 		if (($n >= 3)); then
 			echo "All expected files created."
@@ -16238,16 +16354,16 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	fi
 
 	echo " "
-	############################WPSV$WPS_VERSION#####################################
-	## WPS v$WPS_VERSION
+	############################WPSV${WPS_VERSION}#####################################
+	## WPS v${WPS_VERSION}
 	## Downloaded from git tagged releases
 	#Option 3 for gfortran and distributed memory
 	########################################################################
 
 	cd $WRFHYDRO_FOLDER/Downloads
-	wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v$WPS_VERSION.tar.gz -O WPS-$WPS_VERSION.tar.gz
-	tar -xvzf WPS-$WPS_VERSION.tar.gz -C $WRFHYDRO_FOLDER/
-	cd $WRFHYDRO_FOLDER/WPS-$WPS_VERSION
+	wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v${WPS_VERSION}.tar.gz -O WPS-${WPS_VERSION}.tar.gz
+	tar -xvzf WPS-${WPS_VERSION}.tar.gz -C $WRFHYDRO_FOLDER/
+	cd $WRFHYDRO_FOLDER/WPS-${WPS_VERSION}
 	./clean -a
 
 	if [ ${auto_config} -eq 1 ]; then
@@ -16259,7 +16375,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 	echo " "
 	# IF statement to check that all files were created.
-	cd $WRFHYDRO_FOLDER/WPS-$WPS_VERSION
+	cd $WRFHYDRO_FOLDER/WPS-${WPS_VERSION}
 	n=$(ls ./*.exe | wc -l)
 	if (($n == 3)); then
 		echo "All expected files created."
@@ -16268,7 +16384,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
 		./compile 2>&1 | tee compile.wps2.log
-		cd $WRFHYDRO_FOLDER/WPS-$WPS_VERSION
+		cd $WRFHYDRO_FOLDER/WPS-${WPS_VERSION}
 		n=$(ls ./*.exe | wc -l)
 		if (($n == 3)); then
 			echo "All expected files created."
@@ -16398,7 +16514,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 	echo $PASSWD | sudo -S dnf install dnf -y
 	echo $PASSWD | sudo -S dnf -y update
 	echo $PASSWD | sudo -S dnf -y upgrade
-	echo $PASSWD | sudo -S dnf -y install autoconf automake bzip2 bzip2-devel byacc cairo-devel cmake cpp curl curl-devel flex flex-devel fontconfig-devel fontconfig-devel.x86_64 gcc gcc-c++ gcc-gfortran git java-11-openjdk java-11-openjdk-devel ksh libX11-devel libX11-devel.x86_64 libXaw libXaw-devel libXext-devel libXext-devel.x86_64 libXmu-devel libXrender-devel libXrender-devel.x86_64 libstdc++ libstdc++-devel libstdc++-static libxml2 libxml2-devel m4  .x86_64 nfs-utils okular perl pkgconfig pixman-devel python3 python3-devel tcsh time unzip wget
+	echo $PASSWD | sudo -S dnf -y install autoconf automake bzip2 bzip2-devel byacc cairo-devel cmake cpp curl curl-devel flex  fontconfig-devel fontconfig-devel.x86_64 gcc gcc-c++ gcc-gfortran git java-11-openjdk java-11-openjdk-devel ksh libX11-devel libX11-devel.x86_64 libXaw libXaw-devel libXext-devel libXext-devel.x86_64 libXmu-devel libXrender-devel libXrender-devel.x86_64 libstdc++ libstdc++-devel  libxml2 libxml2-devel m4 mlocate mlocate.x86_64 nfs-utils perl pkgconfig  pixman-devel python3 python3-devel tcsh time unzip wget
 	echo $PASSWD | sudo -S dnf -y groupinstall "Development Tools"
 	echo $PASSWD | sudo -S dnf -y update
 	echo $PASSWD | sudo -S dnf -y upgrade
@@ -16663,7 +16779,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 	echo " "
 	echo "Environment Testing "
 	echo "Test 1"
-	gfortran TEST_1_fortran_only_fixed.f
+	$FC TEST_1_fortran_only_fixed.f
 	./a.out | tee env_test1.txt
 	export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test1.txt | awk '{print$1}')
 	if [ $TEST_PASS -ge 1 ]; then
@@ -16676,7 +16792,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 
 	echo " "
 	echo "Test 2"
-	gfortran TEST_2_fortran_only_free.f90
+	$FC TEST_2_fortran_only_free.f90
 	./a.out | tee env_test2.txt
 	export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test2.txt | awk '{print$1}')
 	if [ $TEST_PASS -ge 1 ]; then
@@ -16690,7 +16806,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 
 	echo " "
 	echo "Test 3"
-	gcc TEST_3_c_only.c
+	$CC TEST_3_c_only.c
 	./a.out | tee env_test3.txt
 	export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test3.txt | awk '{print$1}')
 	if [ $TEST_PASS -ge 1 ]; then
@@ -16704,9 +16820,9 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 
 	echo " "
 	echo "Test 4"
-	gcc -c -m64 TEST_4_fortran+c_c.c
-	gfortran -c -m64 TEST_4_fortran+c_f.f90
-	gfortran -m64 TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
+	$CC -c -m64 TEST_4_fortran+c_c.c
+	$FC -c -m64 TEST_4_fortran+c_f.f90
+	$FC -m64 TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
 	./a.out | tee env_test4.txt
 	export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test4.txt | awk '{print$1}')
 	if [ $TEST_PASS -ge 1 ]; then
@@ -16729,9 +16845,9 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 	echo " "
 	echo "Library Compatibility Tests "
 	echo "Test 1"
-	gfortran -c 01_fortran+c+netcdf_f.f
-	gcc -c 01_fortran+c+netcdf_c.c
-	gfortran 01_fortran+c+netcdf_f.o 01_fortran+c+netcdf_c.o \
+	$FC -c 01_fortran+c+netcdf_f.f
+	$CC -c 01_fortran+c+netcdf_c.c
+	$FC 01_fortran+c+netcdf_f.o 01_fortran+c+netcdf_c.o \
 		-L${NETCDF}/lib -lnetcdff -lnetcdf
 
 	./a.out | tee comp_test1.txt
@@ -16748,9 +16864,9 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 	echo " "
 
 	echo "Test 2"
-	$DIR/MPICH/bin/mpifort -c 02_fortran+c+netcdf+mpi_f.f
-	$DIR/MPICH/bin/mpicc -c 02_fortran+c+netcdf+mpi_c.c
-	$DIR/MPICH/bin/mpifort 02_fortran+c+netcdf+mpi_f.o \
+	$MPIFC -c 02_fortran+c+netcdf+mpi_f.f
+	$MPICC -c 02_fortran+c+netcdf+mpi_c.c
+	$MPIFC 02_fortran+c+netcdf+mpi_f.o \
 		02_fortran+c+netcdf+mpi_c.o \
 		-L${NETCDF}/lib -lnetcdff -lnetcdf
 
@@ -17011,7 +17127,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 	mv * ..
 	cd $WRFHYDRO_FOLDER/RIP4
 	rm -rd RIP_47
-	source $Anaconda_Install_DIR/etc/profile.d/conda.sh
+	source $Miniconda_Install_DIR/etc/profile.d/conda.sh
 	conda activate ncl_stable
 	conda install -c conda-forge c-compiler fortran-compiler cxx-compiler -y
 
@@ -17046,7 +17162,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 	########### WRf-Python compiled via Conda  ##################
 	########### This is the preferred method by NCAR      ##################
 	##### https://wrf-python.readthedocs.io/en/latest/installation.html  ##################
-	source $Anaconda_Install_DIR/etc/profile.d/conda.sh
+	source $Miniconda_Install_DIR/etc/profile.d/conda.sh
 conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	echo " "
 
@@ -17115,8 +17231,8 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 	read -r -t 5 -p "I am going to wait for 5 seconds only ..."
 	echo " "
-	############################ WRF $WPS_VERSION  #################################
-	## WRF v$WPS_VERSION
+	############################ WRF ${WPS_VERSION}  #################################
+	## WRF v${WPS_VERSION}
 	## Downloaded from git tagged releases
 	# option 34, option 1 for gfortran and distributed memory w/basic nesting
 	# large file support enable with WRFiO_NCD_LARGE_FILE_SUPPORT=1
@@ -17128,35 +17244,35 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	# Note that you need set nocolons = .true. in the section &time_control of namelist.input
 	########################################################################
 	cd $WRFHYDRO_FOLDER/Downloads
-	wget -c https://github.com/wrf-model/WRF/releases/download/v$WRF_VERSION/v$WRF_VERSION.tar.gz -O WRF-$WRF_VERSION.tar.gz
-	tar -xvzf WRF-$WRF_VERSION.tar.gz -C $WRFHYDRO_FOLDER/
+	wget -c https://github.com/wrf-model/WRF/releases/download/v${WRF_VERSION}/v${WRF_VERSION}.tar.gz -O WRF-${WRF_VERSION}.tar.gz
+	tar -xvzf WRF-${WRF_VERSION}.tar.gz -C $WRFHYDRO_FOLDER/
 
 	# If statment for changing folder name
 	if [ -d "$WRFHYDRO_FOLDER/WRF" ]; then
-		mv -f $WRFHYDRO_FOLDER/WRF $WRFHYDRO_FOLDER/WRFV$WRF_VERSION
+		mv -f $WRFHYDRO_FOLDER/WRF $WRFHYDRO_FOLDER/WRFV${WRF_VERSION}
 	fi
 
-	cd $WRFHYDRO_FOLDER/WRFV$WRF_VERSION
+	cd $WRFHYDRO_FOLDER/WRFV${WRF_VERSION}
 	export WRFIO_NCD_LARGE_FILE_SUPPORT=1
 
 	#Replace old version of WRF-Hydro distributed with WRF with updated WRF-Hydro source code
-	rm -r $WRFHYDRO_FOLDER/WRFV$WRF_VERSION/hydro/
-	cp -r $WRFHYDRO_FOLDER/Hydro-Basecode/wrf_hydro_nwm_public-5.2.0/trunk/NDHMS $WRFHYDRO_FOLDER/WRFV$WRF_VERSION/hydro
+	rm -r $WRFHYDRO_FOLDER/WRFV${WRF_VERSION}/hydro/
+	cp -r $WRFHYDRO_FOLDER/Hydro-Basecode/wrf_hydro_nwm_public-5.2.0/trunk/NDHMS $WRFHYDRO_FOLDER/WRFV${WRF_VERSION}/hydro
 
-	cd $WRFHYDRO_FOLDER/WRFV$WRF_VERSION/hydro
+	cd $WRFHYDRO_FOLDER/WRFV${WRF_VERSION}/hydro
 	source setEnvar.sh
-	cd $WRFHYDRO_FOLDER/WRFV$WRF_VERSION
+	cd $WRFHYDRO_FOLDER/WRFV${WRF_VERSION}
 
 	./clean
 
 	# SED statements to fix configure error
-	sed -i '186s/==/=/g' $WRFHYDRO_FOLDER/WRFV$WRF_VERSION/configure
-	sed -i '318s/==/=/g' $WRFHYDRO_FOLDER/WRFV$WRF_VERSION/configure
-	sed -i '919s/==/=/g' $WRFHYDRO_FOLDER/WRFV$WRF_VERSION/configure
+	sed -i '186s/==/=/g' $WRFHYDRO_FOLDER/WRFV${WRF_VERSION}/configure
+	sed -i '318s/==/=/g' $WRFHYDRO_FOLDER/WRFV${WRF_VERSION}/configure
+	sed -i '919s/==/=/g' $WRFHYDRO_FOLDER/WRFV${WRF_VERSION}/configure
 
 	if [ ${auto_config} -eq 1 ]; then
-		sed -i '443s/.*/  $response = "34 \\n";/g' $WRFHYDRO_FOLDER/WRFV$WRF_VERSION/arch/Config.pl # Answer for compiler choice
-		sed -i '909s/.*/  $response = "1 \\n";/g' $WRFHYDRO_FOLDER/WRFV$WRF_VERSION/arch/Config.pl  #Answer for basic nesting
+		sed -i '443s/.*/  $response = "34 \\n";/g' $WRFHYDRO_FOLDER/WRFV${WRF_VERSION}/arch/Config.pl # Answer for compiler choice
+		sed -i '909s/.*/  $response = "1 \\n";/g' $WRFHYDRO_FOLDER/WRFV${WRF_VERSION}/arch/Config.pl  #Answer for basic nesting
 		./configure 2>&1 | tee configure.log
 	else
 		./configure 2>&1 | tee configure.log #Option 34 gfortran compiler with distributed memory option 1 for basic nesting
@@ -17165,7 +17281,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	./compile -j $CPU_HALF_EVEN em_real 2>&1 | tee compile.wrf1.log
 
 	# IF statement to check that all files were created.
-	cd $WRFHYDRO_FOLDER/WRFV$WRF_VERSION/main
+	cd $WRFHYDRO_FOLDER/WRFV${WRF_VERSION}/main
 	n=$(ls ./*.exe | wc -l)
 	if (($n >= 3)); then
 		echo "All expected files created."
@@ -17173,9 +17289,9 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	else
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
-		cd $WRFHYDRO_FOLDER/WRFV$WRF_VERSION
+		cd $WRFHYDRO_FOLDER/WRFV${WRF_VERSION}
 		./compile -j $CPU_HALF_EVEN em_real 2>&1 | tee compile.wrf2.log
-		cd $WRFHYDRO_FOLDER/WRFV$WRF_VERSION/main
+		cd $WRFHYDRO_FOLDER/WRFV${WRF_VERSION}/main
 		n=$(ls ./*.exe | wc -l)
 		if (($n >= 3)); then
 			echo "All expected files created."
@@ -17187,16 +17303,16 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	fi
 
 	echo " "
-	############################WPSV$WPS_VERSION#####################################
-	## WPS v$WPS_VERSION
+	############################WPSV${WPS_VERSION}#####################################
+	## WPS v${WPS_VERSION}
 	## Downloaded from git tagged releases
 	#Option 3 for gfortran and distributed memory
 	########################################################################
 
 	cd $WRFHYDRO_FOLDER/Downloads
-	wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v$WPS_VERSION.tar.gz -O WPS-$WPS_VERSION.tar.gz
-	tar -xvzf WPS-$WPS_VERSION.tar.gz -C $WRFHYDRO_FOLDER/
-	cd $WRFHYDRO_FOLDER/WPS-$WPS_VERSION
+	wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v${WPS_VERSION}.tar.gz -O WPS-${WPS_VERSION}.tar.gz
+	tar -xvzf WPS-${WPS_VERSION}.tar.gz -C $WRFHYDRO_FOLDER/
+	cd $WRFHYDRO_FOLDER/WPS-${WPS_VERSION}
 	./clean -a
 
 	if [ ${auto_config} -eq 1 ]; then
@@ -17208,7 +17324,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 	echo " "
 	# IF statement to check that all files were created.
-	cd $WRFHYDRO_FOLDER/WPS-$WPS_VERSION
+	cd $WRFHYDRO_FOLDER/WPS-${WPS_VERSION}
 	n=$(ls ./*.exe | wc -l)
 	if (($n == 3)); then
 		echo "All expected files created."
@@ -17217,7 +17333,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
 		./compile 2>&1 | tee compile.wps2.log
-		cd $WRFHYDRO_FOLDER/WPS-$WPS_VERSION
+		cd $WRFHYDRO_FOLDER/WPS-${WPS_VERSION}
 		n=$(ls ./*.exe | wc -l)
 		if (($n == 3)); then
 			echo "All expected files created."
@@ -17332,7 +17448,7 @@ fi
 ########################### WRF CHEM ##########################
 ## WRFCHEM installation with parallel process.
 # Download and install required library and data files for WRFCHEM/KPP $ WRF 3DVAR for Chemistry.
-# Tested in Ubuntu 20.0$WPS_VERSION LTS & Ubuntu 22.04, Rocky Linux 9 & MacOS Ventura 64bit
+# Tested in Ubuntu 20.0${WPS_VERSION} LTS & Ubuntu 22.04, Rocky Linux 9 & MacOS Ventura 64bit
 # Built in 64-bit system
 # Built with Intel or GNU compilers
 # Tested with current available libraries on 10/10/2023
@@ -17353,7 +17469,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	#############################basic package managment############################
 	echo $PASSWD | sudo -S apt -y update
 	echo $PASSWD | sudo -S apt -y upgrade && sudo -S apt -y autoremove
-	echo $PASSWD | sudo -S apt -y install autoconf automake bison build-essential byacc cmake csh curl default-jdk default-jre emacs flex g++ gawk gcc gfortran git ksh libcurl4-openssl-dev libjpeg-dev  libncurses6 libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev m4 make  ncview okular openbox pipenv pkg-config  python3 python3-dev python3-pip tcsh unzip xauth xorg time
+	echo $PASSWD | sudo -S apt -y install autoconf automake bison build-essential byacc cmake csh curl default-jdk default-jre emacs flex g++ gawk gcc gfortran git ksh libcurl4-openssl-dev libjpeg-dev libncurses5 libncurses6 libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev m4 make mlocate ncview okular openbox pipenv pkg-config  python3 python3-dev python3-pip tcsh unzip xauth xorg time
 
 	echo " "
 	##############################Directory Listing############################
@@ -17599,7 +17715,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	echo " "
 	echo "Environment Testing "
 	echo "Test 1"
-	gfortran TEST_1_fortran_only_fixed.f
+	$FC TEST_1_fortran_only_fixed.f
 	./a.out | tee env_test1.txt
 	export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test1.txt | awk '{print$1}')
 	if [ $TEST_PASS -ge 1 ]; then
@@ -17612,7 +17728,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 
 	echo " "
 	echo "Test 2"
-	gfortran TEST_2_fortran_only_free.f90
+	$FC TEST_2_fortran_only_free.f90
 	./a.out | tee env_test2.txt
 	export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test2.txt | awk '{print$1}')
 	if [ $TEST_PASS -ge 1 ]; then
@@ -17626,7 +17742,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 
 	echo " "
 	echo "Test 3"
-	gcc TEST_3_c_only.c
+	$CC TEST_3_c_only.c
 	./a.out | tee env_test3.txt
 	export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test3.txt | awk '{print$1}')
 	if [ $TEST_PASS -ge 1 ]; then
@@ -17640,9 +17756,9 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 
 	echo " "
 	echo "Test 4"
-	gcc -c -m64 TEST_4_fortran+c_c.c
-	gfortran -c -m64 TEST_4_fortran+c_f.f90
-	gfortran -m64 TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
+	$CC -c -m64 TEST_4_fortran+c_c.c
+	$FC -c -m64 TEST_4_fortran+c_f.f90
+	$FC -m64 TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
 	./a.out | tee env_test4.txt
 	export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test4.txt | awk '{print$1}')
 	if [ $TEST_PASS -ge 1 ]; then
@@ -17665,9 +17781,9 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	echo " "
 	echo "Library Compatibility Tests "
 	echo "Test 1"
-	gfortran -c 01_fortran+c+netcdf_f.f
-	gcc -c 01_fortran+c+netcdf_c.c
-	gfortran 01_fortran+c+netcdf_f.o 01_fortran+c+netcdf_c.o \
+	$FC -c 01_fortran+c+netcdf_f.f
+	$CC -c 01_fortran+c+netcdf_c.c
+	$FC 01_fortran+c+netcdf_f.o 01_fortran+c+netcdf_c.o \
 		-L${NETCDF}/lib -lnetcdff -lnetcdf
 
 	./a.out | tee comp_test1.txt
@@ -17684,9 +17800,9 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	echo " "
 
 	echo "Test 2"
-	$DIR/MPICH/bin/mpifort -c 02_fortran+c+netcdf+mpi_f.f
-	$DIR/MPICH/bin/mpicc -c 02_fortran+c+netcdf+mpi_c.c
-	$DIR/MPICH/bin/mpifort 02_fortran+c+netcdf+mpi_f.o \
+	$MPIFC -c 02_fortran+c+netcdf+mpi_f.f
+	$MPICC -c 02_fortran+c+netcdf+mpi_c.c
+	$MPIFC 02_fortran+c+netcdf+mpi_f.o \
 		02_fortran+c+netcdf+mpi_c.o \
 		-L${NETCDF}/lib -lnetcdff -lnetcdf
 
@@ -18041,7 +18157,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	########### WRf-Python compiled via Conda  ##################
 	########### This is the preferred method by NCAR      ##################
 	##### https://wrf-python.readthedocs.io/en/latest/installation.html  ##################
-	source $Anaconda_Install_DIR/etc/profile.d/conda.sh
+	source $Miniconda_Install_DIR/etc/profile.d/conda.sh
 conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 	echo " "
@@ -18074,7 +18190,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 
 	############################WRFDA 3DVAR###############################
-	## WRFDA v$WPS_VERSION 3DVAR
+	## WRFDA v${WPS_VERSION} 3DVAR
 	## Downloaded from git tagged releases
 	## Does not include RTTOV Libarary for radiation data.  If wanted will need to install library then reconfigure
 	##Note: if you intend to run both 3DVAR and 4DVAR experiments, it is not necessary to compile the code twice.
@@ -18082,19 +18198,19 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	########################################################################
 	cd $WRFCHEM_FOLDER/Downloads
 	cd $WRFCHEM_FOLDER/Downloads
-	wget -c https://github.com/wrf-model/WRF/releases/download/v$WRF_VERSION/v$WRF_VERSION.tar.gz -O WRF-$WRF_VERSION.tar.gz
+	wget -c https://github.com/wrf-model/WRF/releases/download/v${WRF_VERSION}/v${WRF_VERSION}.tar.gz -O WRF-${WRF_VERSION}.tar.gz
 	mkdir $WRFCHEM_FOLDER/WRFDA
-	tar -xvzf WRF-$WRF_VERSION.tar.gz -C $WRFCHEM_FOLDER/WRFDA
+	tar -xvzf WRF-${WRF_VERSION}.tar.gz -C $WRFCHEM_FOLDER/WRFDA
 
 	# If statment for changing folder name
 	if [ -d "$WRFCHEM_FOLDER/WRFDA/WRF" ]; then
-		mv -f $WRFCHEM_FOLDER/WRFDA/WRF $WRFCHEM_FOLDER/WRFDA/WRFV$WRF_VERSION
+		mv -f $WRFCHEM_FOLDER/WRFDA/WRF $WRFCHEM_FOLDER/WRFDA/WRFV${WRF_VERSION}
 	fi
-	cd $WRFCHEM_FOLDER/WRFDA/WRFV$WRF_VERSION
+	cd $WRFCHEM_FOLDER/WRFDA/WRFV${WRF_VERSION}
 
 	mv * $WRFCHEM_FOLDER/WRFDA
 	cd $WRFCHEM_FOLDER/WRFDA
-	rm -rf WRFV$WRF_VERSION/
+	rm -rf WRFV${WRF_VERSION}/
 	cd $WRFCHEM_FOLDER/WRFDA
 
 	ulimit -s unlimited
@@ -18124,7 +18240,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	m=$(ls ./*.exe | wc -l)
 	if ((($n == 43) && ($m == 1))); then
 		echo "All expected files created."
-		read -r -t 5 -p "Finished installing WRFDA-CHEM 3DVAR. I am going to wait for 5 seconds only ..."
+		read -r -t 5 -p "Finished installing WRFDA. I am going to wait for 5 seconds only ..."
 	else
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
@@ -18136,7 +18252,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 		m=$(ls ./*.exe | wc -l)
 		if ((($n == 43) && ($m == 1))); then
 			echo "All expected files created."
-			read -r -t 5 -p "Finished installing WRFDA-CHEM 3DVAR. I am going to wait for 5 seconds only ..."
+			read -r -t 5 -p "Finished installing WRFDA. I am going to wait for 5 seconds only ..."
 		else
 			read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
 			exit
@@ -18145,8 +18261,8 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 	echo " "
 
-	############################ WRFCHEM $WPS_VERSION #################################
-	## WRF CHEM v$WPS_VERSION
+	############################ WRFCHEM ${WPS_VERSION} #################################
+	## WRF CHEM v${WPS_VERSION}
 	## Downloaded from git tagged releases
 	# option 34, option 1 for gfortran and distributed memory w/basic nesting
 	# If the script comes back asking to locate a file (libfl.a)
@@ -18171,8 +18287,8 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	export YACC='/usr/bin/yacc -d'
 	export FLEX=/usr/bin/flex
 	export FLEX_LIB_DIR=/usr/lib/x86_64-linux-gnu/
-	export KPP_HOME=$WRFCHEM_FOLDER/WRFV$WRF_VERSION/chem/KPP/kpp/kpp-2.1
-	export WRF_SRC_ROOT_DIR=$WRFCHEM_FOLDER/WRFV$WRF_VERSION
+	export KPP_HOME=$WRFCHEM_FOLDER/WRFV${WRF_VERSION}/chem/KPP/kpp/kpp-2.1
+	export WRF_SRC_ROOT_DIR=$WRFCHEM_FOLDER/WRFV${WRF_VERSION}
 	export PATH=$KPP_HOME/bin:$PATH
 	export SED=/usr/bin/sed
 	export WRFIO_NCD_LARGE_FILE_SUPPORT=1
@@ -18180,14 +18296,14 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	#Downloading WRF code
 
 	cd $WRFCHEM_FOLDER/Downloads
-	wget -c https://github.com/wrf-model/WRF/releases/download/v$WRF_VERSION/v$WRF_VERSION.tar.gz -O WRF-$WRF_VERSION.tar.gz
-	tar -xvzf WRF-$WRF_VERSION.tar.gz -C $WRFCHEM_FOLDER/
+	wget -c https://github.com/wrf-model/WRF/releases/download/v${WRF_VERSION}/v${WRF_VERSION}.tar.gz -O WRF-${WRF_VERSION}.tar.gz
+	tar -xvzf WRF-${WRF_VERSION}.tar.gz -C $WRFCHEM_FOLDER/
 
 	# If statment for changing folder name
 	if [ -d "$WRFCHEM_FOLDER/WRF" ]; then
-		mv -f $WRFCHEM_FOLDER/WRF $WRFCHEM_FOLDER/WRFV$WRF_VERSION
+		mv -f $WRFCHEM_FOLDER/WRF $WRFCHEM_FOLDER/WRFV${WRF_VERSION}
 	fi
-	cd $WRFCHEM_FOLDER/WRFV$WRF_VERSION
+	cd $WRFCHEM_FOLDER/WRFV${WRF_VERSION}
 
 	cd chem/KPP
 	sed -i -e 's/="-O"/="-O0"/' configure_kpp
@@ -18196,8 +18312,8 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	./clean -a
 
 	if [ ${auto_config} -eq 1 ]; then
-		sed -i '443s/.*/  $response = "34 \\n";/g' $WRFCHEM_FOLDER/WRFV$WRF_VERSION/arch/Config.pl # Answer for compiler choice
-		sed -i '909s/.*/  $response = "1 \\n";/g' $WRFCHEM_FOLDER/WRFV$WRF_VERSION/arch/Config.pl  #Answer for basic nesting
+		sed -i '443s/.*/  $response = "34 \\n";/g' $WRFCHEM_FOLDER/WRFV${WRF_VERSION}/arch/Config.pl # Answer for compiler choice
+		sed -i '909s/.*/  $response = "1 \\n";/g' $WRFCHEM_FOLDER/WRFV${WRF_VERSION}/arch/Config.pl  #Answer for basic nesting
 		./configure 2>&1 | tee configure.log
 	else
 		./configure 2>&1 | tee configure.log #Option 34 gfortran compiler with distributed memory option 1 for basic nesting
@@ -18206,10 +18322,10 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	./compile -j $CPU_HALF_EVEN em_real 2>&1 | tee compile.wrf1.log
 	./compile -j $CPU_HALF_EVEN emi_conv 2>&1 | tee compile.emis.log
 
-	export WRF_DIR=$WRFCHEM_FOLDER/WRFV$WRF_VERSION
+	export WRF_DIR=$WRFCHEM_FOLDER/WRFV${WRF_VERSION}
 
 	# IF statement to check that all files were created.
-	cd $WRFCHEM_FOLDER/WRFV$WRF_VERSION/main
+	cd $WRFCHEM_FOLDER/WRFV${WRF_VERSION}/main
 	n=$(ls ./*.exe | wc -l)
 	if (($n >= 3)); then
 		echo "All expected files created."
@@ -18217,9 +18333,9 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	else
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
-		cd $WRFCHEM_FOLDER/WRFV$WRF_VERSION
+		cd $WRFCHEM_FOLDER/WRFV${WRF_VERSION}
 		./compile -j $CPU_HALF_EVEN em_real 2>&1 | tee compile.wrf2.log
-		cd $WRFCHEM_FOLDER/WRFV$WRF_VERSION/main
+		cd $WRFCHEM_FOLDER/WRFV${WRF_VERSION}/main
 		n=$(ls ./*.exe | wc -l)
 		if (($n >= 3)); then
 			echo "All expected files created."
@@ -18231,16 +18347,16 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	fi
 
 	echo " "
-	############################WPSV$WPS_VERSION#####################################
-	## WPS v$WPS_VERSION
+	############################WPSV${WPS_VERSION}#####################################
+	## WPS v${WPS_VERSION}
 	## Downloaded from git tagged releases
 	#Option 3 for gfortran and distributed memory
 	########################################################################
 
 	cd $WRFCHEM_FOLDER/Downloads
-	wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v$WPS_VERSION.tar.gz -O WPS-$WPS_VERSION.tar.gz
-	tar -xvzf WPS-$WPS_VERSION.tar.gz -C $WRFCHEM_FOLDER/
-	cd $WRFCHEM_FOLDER/WPS-$WPS_VERSION
+	wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v${WPS_VERSION}.tar.gz -O WPS-${WPS_VERSION}.tar.gz
+	tar -xvzf WPS-${WPS_VERSION}.tar.gz -C $WRFCHEM_FOLDER/
+	cd $WRFCHEM_FOLDER/WPS-${WPS_VERSION}
 
 	./clean -a
 
@@ -18254,7 +18370,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	echo " "
 
 	# IF statement to check that all files were created.
-	cd $WRFCHEM_FOLDER/WPS-$WPS_VERSION
+	cd $WRFCHEM_FOLDER/WPS-${WPS_VERSION}
 	n=$(ls ./*.exe | wc -l)
 	if (($n == 3)); then
 		echo "All expected files created."
@@ -18263,7 +18379,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
 		./compile 2>&1 | tee compile.wps2.log
-		cd $WRFCHEM_FOLDER/WPS-$WPS_VERSION
+		cd $WRFCHEM_FOLDER/WPS-${WPS_VERSION}
 		n=$(ls ./*.exe | wc -l)
 		if (($n == 3)); then
 			echo "All expected files created."
@@ -18393,7 +18509,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	echo $PASSWD | sudo -S apt -y update
 
 	# necessary binary packages (especially pkg-config and build-essential)
-	echo $PASSWD | sudo -S apt -y install autoconf automake bison build-essential byacc cmake csh curl default-jdk default-jre emacs flex g++ gawk gcc gfortran git ksh libcurl4-openssl-dev libjpeg-dev  libncurses6 libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev m4 make  ncview okular openbox pipenv pkg-config  python3 python3-dev python3-pip tcsh unzip xauth xorg time
+	echo $PASSWD | sudo -S apt -y install autoconf automake bison build-essential byacc cmake csh curl default-jdk default-jre emacs flex g++ gawk gcc gfortran git ksh libcurl4-openssl-dev libjpeg-dev libncurses5 libncurses6 libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev m4 make mlocate ncview okular openbox pipenv pkg-config  python3 python3-dev python3-pip tcsh unzip xauth xorg time
 
 	# install the Intel compilers
 	echo $PASSWD | sudo -S apt -y install intel-basekit
@@ -18626,7 +18742,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	echo " "
 	echo "Environment Testing "
 	echo "Test 1"
-	ifort TEST_1_fortran_only_fixed.f
+	$FC TEST_1_fortran_only_fixed.f
 	./a.out | tee env_test1.txt
 	export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test1.txt | awk '{print$1}')
 	if [ $TEST_PASS -ge 1 ]; then
@@ -18639,7 +18755,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 
 	echo " "
 	echo "Test 2"
-	ifort TEST_2_fortran_only_free.f90
+	$FC TEST_2_fortran_only_free.f90
 	./a.out | tee env_test2.txt
 	export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test2.txt | awk '{print$1}')
 	if [ $TEST_PASS -ge 1 ]; then
@@ -18653,7 +18769,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 
 	echo " "
 	echo "Test 3"
-	icc TEST_3_c_only.c
+	$CC TEST_3_c_only.c
 	./a.out | tee env_test3.txt
 	export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test3.txt | awk '{print$1}')
 	if [ $TEST_PASS -ge 1 ]; then
@@ -18667,9 +18783,9 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 
 	echo " "
 	echo "Test 4"
-	icc -c -m64 TEST_4_fortran+c_c.c
-	ifort -c -m64 TEST_4_fortran+c_f.f90
-	ifort -m64 TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
+	$CC -c -m64 TEST_4_fortran+c_c.c
+	$FC -c -m64 TEST_4_fortran+c_f.f90
+	$FC -m64 TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
 	./a.out | tee env_test4.txt
 	export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test4.txt | awk '{print$1}')
 	if [ $TEST_PASS -ge 1 ]; then
@@ -18692,9 +18808,9 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	echo " "
 	echo "Library Compatibility Tests "
 	echo "Test 1"
-	ifort -c 01_fortran+c+netcdf_f.f
-	icc -c 01_fortran+c+netcdf_c.c
-	ifort 01_fortran+c+netcdf_f.o 01_fortran+c+netcdf_c.o \
+	$FC -c 01_fortran+c+netcdf_f.f
+	$CC -c 01_fortran+c+netcdf_c.c
+	$FC 01_fortran+c+netcdf_f.o 01_fortran+c+netcdf_c.o \
 		-L${NETCDF}/lib -lnetcdff -lnetcdf
 
 	./a.out | tee comp_test1.txt
@@ -18711,9 +18827,9 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	echo " "
 
 	echo "Test 2"
-	mpiifort -c 02_fortran+c+netcdf+mpi_f.f
-	mpiicc -c 02_fortran+c+netcdf+mpi_c.c
-	mpiifort 02_fortran+c+netcdf+mpi_f.o \
+	$MPIFC -c 02_fortran+c+netcdf+mpi_f.f
+	$MPICC -c 02_fortran+c+netcdf+mpi_c.c
+	$MPIFC 02_fortran+c+netcdf+mpi_f.o \
 		02_fortran+c+netcdf+mpi_c.o \
 		-L${NETCDF}/lib -lnetcdff -lnetcdf
 
@@ -18805,7 +18921,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	###################################################################
 	cd $WRFCHEM_FOLDER/Downloads
 	wget -c http://www2.mmm.ucar.edu/wrf/src/ARWpost_V3.tar.gz
-	tar -xvzf ARWpost_V3.tar.gz -C $WRF_FOLDER
+	tar -xvzf ARWpost_V3.tar.gz -C ${WRF_FOLDER}
 	cd $WRFCHEM_FOLDER/ARWpost
 	./clean -a
 	sed -i -e 's/-lnetcdf/-lnetcdff -lnetcdf/g' $WRFCHEM_FOLDER/ARWpost/src/Makefile
@@ -18907,7 +19023,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	########### WRf-Python compiled via Conda  ##################
 	########### This is the preferred method by NCAR      ##################
 	##### https://wrf-python.readthedocs.io/en/latest/installation.html  ##################
-	source $Anaconda_Install_DIR/etc/profile.d/conda.sh
+	source $Miniconda_Install_DIR/etc/profile.d/conda.sh
 conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 	######################### Climate Data Operators ############
@@ -18939,7 +19055,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	echo " "
 
 	############################WRFDA 3DVAR###############################
-	## WRFDA v$WPS_VERSION 3DVAR
+	## WRFDA v${WPS_VERSION} 3DVAR
 	## Downloaded from git tagged releases
 	## Does not include RTTOV Libarary for radiation data.  If wanted will need to install library then reconfigure
 	##Note: if you intend to run both 3DVAR and 4DVAR experiments, it is not necessary to compile the code twice.
@@ -18947,17 +19063,17 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	########################################################################
 	cd $WRFCHEM_FOLDER/Downloads
 	cd $WRFCHEM_FOLDER/Downloads
-	wget -c https://github.com/wrf-model/WRF/releases/download/v$WRF_VERSION/v$WRF_VERSION.tar.gz -O WRF-$WRF_VERSION.tar.gz
+	wget -c https://github.com/wrf-model/WRF/releases/download/v${WRF_VERSION}/v${WRF_VERSION}.tar.gz -O WRF-${WRF_VERSION}.tar.gz
 	mkdir $WRFCHEM_FOLDER/WRFDA
-	tar -xvzf WRF-$WRF_VERSION.tar.gz -C $WRFCHEM_FOLDER/WRFDA
+	tar -xvzf WRF-${WRF_VERSION}.tar.gz -C $WRFCHEM_FOLDER/WRFDA
 	# If statment for changing folder name
 	if [ -d "$WRFCHEM_FOLDER/WRFDA/WRF" ]; then
-		mv -f $WRFCHEM_FOLDER/WRFDA/WRF $WRFCHEM_FOLDER/WRFDA/WRFV$WRF_VERSION
+		mv -f $WRFCHEM_FOLDER/WRFDA/WRF $WRFCHEM_FOLDER/WRFDA/WRFV${WRF_VERSION}
 	fi
-	cd $WRFCHEM_FOLDER/WRFDA/WRFV$WRF_VERSION
+	cd $WRFCHEM_FOLDER/WRFDA/WRFV${WRF_VERSION}
 	mv * $WRFCHEM_FOLDER/WRFDA
 	cd $WRFCHEM_FOLDER/WRFDA
-	rm -rf WRFV$WRF_VERSION/
+	rm -rf WRFV${WRF_VERSION}/
 	cd $WRFCHEM_FOLDER/WRFDA
 
 	ulimit -s unlimited
@@ -18987,7 +19103,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	m=$(ls ./*.exe | wc -l)
 	if ((($n == 43) && ($m == 1))); then
 		echo "All expected files created."
-		read -r -t 5 -p "Finished installing WRFDA-CHEM 3DVAR. I am going to wait for 5 seconds only ..."
+		read -r -t 5 -p "Finished installing WRFDA. I am going to wait for 5 seconds only ..."
 	else
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
@@ -18999,7 +19115,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 		m=$(ls ./*.exe | wc -l)
 		if ((($n == 43) && ($m == 1))); then
 			echo "All expected files created."
-			read -r -t 5 -p "Finished installing WRFDA-CHEM 3DVAR. I am going to wait for 5 seconds only ..."
+			read -r -t 5 -p "Finished installing WRFDA. I am going to wait for 5 seconds only ..."
 		else
 			read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
 			exit
@@ -19007,8 +19123,8 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	fi
 	echo " "
 
-	############################ WRF $WPS_VERSION  #################################
-	## WRF v$WPS_VERSION
+	############################ WRF ${WPS_VERSION}  #################################
+	## WRF v${WPS_VERSION}
 	## Downloaded from git tagged releases
 	# option 15, option 1 for intel and distributed memory w/basic nesting
 	# large file support enable with WRFiO_NCD_LARGE_FILE_SUPPORT=1
@@ -19024,20 +19140,20 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	export YACC='/usr/bin/yacc -d'
 	export FLEX=/usr/bin/flex
 	export FLEX_LIB_DIR=/usr/lib/x86_64-linux-gnu/
-	export KPP_HOME=$WRFCHEM_FOLDER/WRFV$WRF_VERSION/chem/KPP/kpp/kpp-2.1
-	export WRF_SRC_ROOT_DIR=$WRFCHEM_FOLDER/WRFV$WRF_VERSION
+	export KPP_HOME=$WRFCHEM_FOLDER/WRFV${WRF_VERSION}/chem/KPP/kpp/kpp-2.1
+	export WRF_SRC_ROOT_DIR=$WRFCHEM_FOLDER/WRFV${WRF_VERSION}
 	export PATH=$KPP_HOME/bin:$PATH
 	export SED=/usr/bin/sed
 	export WRFIO_NCD_LARGE_FILE_SUPPORT=1
 
 	cd $WRFCHEM_FOLDER/Downloads
-	wget -c https://github.com/wrf-model/WRF/releases/download/v$WRF_VERSION/v$WRF_VERSION.tar.gz -O WRF-$WRF_VERSION.tar.gz
-	tar -xvzf WRF-$WRF_VERSION.tar.gz -C $WRFCHEM_FOLDER/
+	wget -c https://github.com/wrf-model/WRF/releases/download/v${WRF_VERSION}/v${WRF_VERSION}.tar.gz -O WRF-${WRF_VERSION}.tar.gz
+	tar -xvzf WRF-${WRF_VERSION}.tar.gz -C $WRFCHEM_FOLDER/
 	# If statment for changing folder name
 	if [ -d "$WRFCHEM_FOLDER/WRF" ]; then
-		mv -f $WRFCHEM_FOLDER/WRF $WRFCHEM_FOLDER/WRFV$WRF_VERSION
+		mv -f $WRFCHEM_FOLDER/WRF $WRFCHEM_FOLDER/WRFV${WRF_VERSION}
 	fi
-	cd $WRFCHEM_FOLDER/WRFV$WRF_VERSION
+	cd $WRFCHEM_FOLDER/WRFV${WRF_VERSION}
 
 	cd chem/KPP
 	sed -i -e 's/="-O"/="-O0"/' configure_kpp
@@ -19047,25 +19163,25 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	./clean -a
 
 	if [ ${auto_config} -eq 1 ]; then
-		sed -i '443s/.*/  $response = "15 \\n";/g' $WRFCHEM_FOLDER/WRFV$WRF_VERSION/arch/Config.pl # Answer for compiler choice
-		sed -i '909s/.*/  $response = "1 \\n";/g' $WRFCHEM_FOLDER/WRFV$WRF_VERSION/arch/Config.pl  #Answer for basic nesting
+		sed -i '443s/.*/  $response = "15 \\n";/g' $WRFCHEM_FOLDER/WRFV${WRF_VERSION}/arch/Config.pl # Answer for compiler choice
+		sed -i '909s/.*/  $response = "1 \\n";/g' $WRFCHEM_FOLDER/WRFV${WRF_VERSION}/arch/Config.pl  #Answer for basic nesting
 		./configure 2>&1 | tee configure.log
 	else
 		./configure 2>&1 | tee configure.log #Option 15 intel compiler with distributed memory option 1 for basic nesting
 	fi
 
 	#Need to remove mpich/GNU config calls to Intel config calls
-	sed -i '169s|mpif90 -f90=$(SFC)|mpiifort|g' $WRFCHEM_FOLDER/WRFV$WRF_VERSION/configure.wrf
-	sed -i '170s|mpicc -cc=$(SCC)|mpiicc|g' $WRFCHEM_FOLDER/WRFV$WRF_VERSION/configure.wrf
-	sed -i '177s|-w -O3|-diag-disable=10441 -w -O3|g' $WRFCHEM_FOLDER/WRFV$WRF_VERSION/configure.wrf
+	sed -i '169s|mpif90 -f90=$(SFC)|mpiifort|g' $WRFCHEM_FOLDER/WRFV${WRF_VERSION}/configure.wrf
+	sed -i '170s|mpicc -cc=$(SCC)|mpiicc|g' $WRFCHEM_FOLDER/WRFV${WRF_VERSION}/configure.wrf
+	sed -i '177s|-w -O3|-diag-disable=10441 -w -O3|g' $WRFCHEM_FOLDER/WRFV${WRF_VERSION}/configure.wrf
 	./compile -j $CPU_HALF_EVEN em_real 2>&1 | tee compile.wrf1_extra_flag.log
 	./compile -j $CPU_HALF_EVEN emi_conv 2>&1 | tee compile.emis.log
 
-	export WRF_DIR=$WRFCHEM_FOLDER/WRFV$WRF_VERSION
+	export WRF_DIR=$WRFCHEM_FOLDER/WRFV${WRF_VERSION}
 
 	# IF statement to check that all files were created.
 	# IF statement to check that all files were created.
-	cd $WRFCHEM_FOLDER/WRFV$WRF_VERSION/main
+	cd $WRFCHEM_FOLDER/WRFV${WRF_VERSION}/main
 	n=$(ls ./*.exe | wc -l)
 	if (($n >= 3)); then
 		echo "All expected files created."
@@ -19073,9 +19189,9 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	else
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
-		cd $WRFCHEM_FOLDER/WRFV$WRF_VERSION
+		cd $WRFCHEM_FOLDER/WRFV${WRF_VERSION}
 		./compile -j $CPU_HALF_EVEN em_real 2>&1 | tee compile.wrf2.log
-		cd $WRFCHEM_FOLDER/WRFV$WRF_VERSION/main
+		cd $WRFCHEM_FOLDER/WRFV${WRF_VERSION}/main
 		n=$(ls ./*.exe | wc -l)
 		if (($n >= 3)); then
 			echo "All expected files created."
@@ -19087,16 +19203,16 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	fi
 
 	echo " "
-	############################WPSV$WPS_VERSION#####################################
-	## WPS v$WPS_VERSION
+	############################WPSV${WPS_VERSION}#####################################
+	## WPS v${WPS_VERSION}
 	## Downloaded from git tagged releases
 	#Option 3 for gfortran and distributed memory
 	########################################################################
 
 	cd $WRFCHEM_FOLDER/Downloads
-	wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v$WPS_VERSION.tar.gz -O WPS-$WPS_VERSION.tar.gz
-	tar -xvzf WPS-$WPS_VERSION.tar.gz -C $WRFCHEM_FOLDER/
-	cd $WRFCHEM_FOLDER/WPS-$WPS_VERSION
+	wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v${WPS_VERSION}.tar.gz -O WPS-${WPS_VERSION}.tar.gz
+	tar -xvzf WPS-${WPS_VERSION}.tar.gz -C $WRFCHEM_FOLDER/
+	cd $WRFCHEM_FOLDER/WPS-${WPS_VERSION}
 	./clean -a
 
 	if [ ${auto_config} -eq 1 ]; then
@@ -19105,14 +19221,14 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 		./configure 2>&1 | tee configure.log #Option 19 intel compiler with distributed memory
 	fi
 
-	sed -i '67s|mpif90|mpiifort|g' $WRFCHEM_FOLDER/WPS-$WPS_VERSION/configure.wps
-	sed -i '68s|mpicc|mpiicc|g' $WRFCHEM_FOLDER/WPS-$WPS_VERSION/configure.wps
+	sed -i '67s|mpif90|mpiifort|g' $WRFCHEM_FOLDER/WPS-${WPS_VERSION}/configure.wps
+	sed -i '68s|mpicc|mpiicc|g' $WRFCHEM_FOLDER/WPS-${WPS_VERSION}/configure.wps
 
 	./compile 2>&1 | tee compile.wps.log
 
 	echo " "
 	# IF statement to check that all files were created.
-	cd $WRFCHEM_FOLDER/WPS-$WPS_VERSION
+	cd $WRFCHEM_FOLDER/WPS-${WPS_VERSION}
 	n=$(ls ./*.exe | wc -l)
 	if (($n == 3)); then
 		echo "All expected files created."
@@ -19121,7 +19237,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
 		./compile 2>&1 | tee compile.wps2.log
-		cd $WRFCHEM_FOLDER/WPS-$WPS_VERSION
+		cd $WRFCHEM_FOLDER/WPS-${WPS_VERSION}
 		n=$(ls ./*.exe | wc -l)
 		if (($n == 3)); then
 			echo "All expected files created."
@@ -19235,31 +19351,55 @@ fi
 if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$MAC_CHIP" = "Intel" ]; then
 
 	#############################basic package managment############################
-	brew install wget
-	brew install git
-	brew install gcc@12
-	brew install libtool
-	brew install automake
-	brew install autoconf
-	brew install make
-	brew install m4
-	brew install java
-	brew install ksh
+sleep 1
+brew install autoconf
+sleep 1
+brew install bison
+sleep 1
+brew install byacc
+sleep 1
+brew install cmake
+sleep 1
+brew install curl
+sleep 1
+brew install flex
+sleep 1
+brew install gdal
+sleep 1
+brew install gedit
+sleep 1
+brew install git
+sleep 1
+brew install gnu-sed
+sleep 1
+brew install imagemagick
+sleep 1
+brew install java
+sleep 1
+brew install ksh
+sleep 1
+brew install libtool
+sleep 1
+brew install m4
+sleep 1
+brew install make
+sleep 1
+brew install python@3.10
+sleep 1
+brew install tcsh
+sleep 1
+brew install wget
+sleep 1
+brew install xauth
+sleep 1
+brew install xorgproto
+sleep 1
+brew install xorgrgb
+sleep 1
+brew install xquartz
 
-	brew install grads
-	brew install ksh
-	brew install tcsh
-
-	brew install python@3.10
-	brew install cmake
-	brew install xorgproto
-	brew install xorgrgb
-	brew install xauth
-	brew install curl
-	brew install flex
-	brew install byacc
-	brew install bison
-	brew install gnu-sed
+export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
+export PATH=/usr/local/bin:$PATH
 
 	##############################Directory Listing############################
 
@@ -19309,7 +19449,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$MAC_CHIP" = 
 	wget -c https://www.ece.uvic.ca/~frodo/jasper/software/jasper-$Jasper_Version.zip
 	wget -c https://github.com/pmodels/mpich/releases/download/v$Mpich_Version/mpich-$Mpich_Version.tar.gz
 	wget -c https://parallel-netcdf.github.io/Release/pnetcdf-$Pnetcdf_Version.tar.gz
-	wget -c https://sourceforge.net/projects/opengrads/files/grads2/2.2.1.oga.1/Linux%20%2864%20Bits%29/opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz
+
 
 	echo " "
 
@@ -19486,7 +19626,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$MAC_CHIP" = 
 	export LIBS="-lhdf5_hl -lhdf5 -lz -lcurl -lgfortran -lgcc -lm -ldl -lpnetcdf"
 	autoreconf -i -f 2>&1 | tee autoreconf.log
 
-	CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS=$CFLAGS ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-shared --enable-static --enable-pnetcdf --enable-cdf5 --enable-parallel-tests 2>&1 | tee configure.log
+	CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS=$CFLAGS ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-shared --enable-static --enablelnet --enable-cdf5 --enable-parallel-tests 2>&1 | tee configure.log
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
@@ -19536,7 +19676,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$MAC_CHIP" = 
 	echo " "
 	echo "Environment Testing "
 	echo "Test 1"
-	gfortran TEST_1_fortran_only_fixed.f
+	$FC TEST_1_fortran_only_fixed.f
 	./a.out | tee env_test1.txt
 	export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test1.txt | awk '{print$1}')
 	if [ $TEST_PASS -ge 1 ]; then
@@ -19549,7 +19689,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$MAC_CHIP" = 
 
 	echo " "
 	echo "Test 2"
-	gfortran TEST_2_fortran_only_free.f90
+	$FC TEST_2_fortran_only_free.f90
 	./a.out | tee env_test2.txt
 	export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test2.txt | awk '{print$1}')
 	if [ $TEST_PASS -ge 1 ]; then
@@ -19563,7 +19703,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$MAC_CHIP" = 
 
 	echo " "
 	echo "Test 3"
-	gcc TEST_3_c_only.c
+	$CC TEST_3_c_only.c
 	./a.out | tee env_test3.txt
 	export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test3.txt | awk '{print$1}')
 	if [ $TEST_PASS -ge 1 ]; then
@@ -19577,9 +19717,9 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$MAC_CHIP" = 
 
 	echo " "
 	echo "Test 4"
-	gcc -c -m64 TEST_4_fortran+c_c.c
-	gfortran -c -m64 TEST_4_fortran+c_f.f90
-	gfortran -m64 TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
+	$CC -c -m64 TEST_4_fortran+c_c.c
+	$FC -c -m64 TEST_4_fortran+c_f.f90
+	$FC -m64 TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
 	./a.out | tee env_test4.txt
 	export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test4.txt | awk '{print$1}')
 	if [ $TEST_PASS -ge 1 ]; then
@@ -19602,9 +19742,9 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$MAC_CHIP" = 
 	echo " "
 	echo "Library Compatibility Tests "
 	echo "Test 1"
-	gfortran -c 01_fortran+c+netcdf_f.f
-	gcc -c 01_fortran+c+netcdf_c.c
-	gfortran 01_fortran+c+netcdf_f.o 01_fortran+c+netcdf_c.o \
+	$FC -c 01_fortran+c+netcdf_f.f
+	$CC -c 01_fortran+c+netcdf_c.c
+	$FC 01_fortran+c+netcdf_f.o 01_fortran+c+netcdf_c.o \
 		-L${NETCDF}/lib -lnetcdff -lnetcdf
 
 	./a.out | tee comp_test1.txt
@@ -19621,9 +19761,9 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$MAC_CHIP" = 
 	echo " "
 
 	echo "Test 2"
-	$DIR/MPICH/bin/mpifort -c 02_fortran+c+netcdf+mpi_f.f
-	$DIR/MPICH/bin/mpicc -c 02_fortran+c+netcdf+mpi_c.c
-	$DIR/MPICH/bin/mpifort 02_fortran+c+netcdf+mpi_f.o \
+	$MPIFC -c 02_fortran+c+netcdf+mpi_f.f
+	$MPICC -c 02_fortran+c+netcdf+mpi_c.c
+	$MPIFC 02_fortran+c+netcdf+mpi_f.o \
 		02_fortran+c+netcdf+mpi_c.o \
 		-L${NETCDF}/lib -lnetcdff -lnetcdf
 
@@ -19688,7 +19828,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$MAC_CHIP" = 
 	########### WRf-Python compiled via Conda  ##################
 	########### This is the preferred method by NCAR      ##################
 	##### https://wrf-python.readthedocs.io/en/latest/installation.html  ##################
-	source $Anaconda_Install_DIR/etc/profile.d/conda.sh
+	source $Miniconda_Install_DIR/etc/profile.d/conda.sh
 conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 	######################### Climate Data Operators ############
@@ -19719,8 +19859,8 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 	echo " "
 
-	############################ WRFCHEM $WPS_VERSION #################################
-	## WRF CHEM v$WPS_VERSION
+	############################ WRFCHEM ${WPS_VERSION} #################################
+	## WRF CHEM v${WPS_VERSION}
 	## Downloaded from git tagged releases
 	# option 17, option 1 for gfortran and distributed memory w/basic nesting
 	# If the script comes back asking to locate a file (libfl.a)
@@ -19742,34 +19882,34 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 	#Downloading WRF code
 	cd $WRFCHEM_FOLDER/Downloads
-	wget -c https://github.com/wrf-model/WRF/releases/download/v$WRF_VERSION/v$WRF_VERSION.tar.gz -O WRF-$WRF_VERSION.tar.gz
-	tar -xvzf WRF-$WRF_VERSION.tar.gz -C $WRFCHEM_FOLDER/
+	wget -c https://github.com/wrf-model/WRF/releases/download/v${WRF_VERSION}/v${WRF_VERSION}.tar.gz -O WRF-${WRF_VERSION}.tar.gz
+	tar -xvzf WRF-${WRF_VERSION}.tar.gz -C $WRFCHEM_FOLDER/
 
 	# If statment for changing folder name
 	if [ -d "$WRFCHEM_FOLDER/WRF" ]; then
-		mv -f $WRFCHEM_FOLDER/WRF $WRFCHEM_FOLDER/WRFV$WRF_VERSION
+		mv -f $WRFCHEM_FOLDER/WRF $WRFCHEM_FOLDER/WRFV${WRF_VERSION}
 	fi
-	cd $WRFCHEM_FOLDER/WRFV$WRF_VERSION
+	cd $WRFCHEM_FOLDER/WRFV${WRF_VERSION}
 
 	./clean -a
 
 	if [ ${auto_config} -eq 1 ]; then
-		sed -i'' -e '443s/.*/  $response = "17 \\n";/g' $WRFCHEM_FOLDER/WRFV$WRF_VERSION/arch/Config.pl # Answer for compiler choice
-		sed -i'' -e '909s/.*/  $response = "1 \\n";/g' $WRFCHEM_FOLDER/WRFV$WRF_VERSION/arch/Config.pl  #Answer for basic nesting
+		sed -i'' -e '443s/.*/  $response = "17 \\n";/g' $WRFCHEM_FOLDER/WRFV${WRF_VERSION}/arch/Config.pl # Answer for compiler choice
+		sed -i'' -e '909s/.*/  $response = "1 \\n";/g' $WRFCHEM_FOLDER/WRFV${WRF_VERSION}/arch/Config.pl  #Answer for basic nesting
 		./configure 2>&1 | tee configure.log
 	else
 		./configure 2>&1 | tee configure.log #Option 17 gfortran compiler with distributed memory option 1 for basic nesting
 	fi
 
-	sed -i'' -e 's/-w  -c/-w  -c -fPIC -fPIE -O3 -Wno-implicit-function-declaration/g' $WRFCHEM_FOLDER/WRFV$WRF_VERSION/configure.wrf
+	sed -i'' -e 's/-w  -c/-w  -c -fPIC -fPIE -O3 -Wno-implicit-function-declaration/g' $WRFCHEM_FOLDER/WRFV${WRF_VERSION}/configure.wrf
 
 	./compile em_real 2>&1 | tee compile.wrf.log
 	./compile emi_conv 2>&1 | tee compile.emis.log
 
-	export WRF_DIR=$WRFCHEM_FOLDER/WRFV$WRF_VERSION
+	export WRF_DIR=$WRFCHEM_FOLDER/WRFV${WRF_VERSION}
 
 	# IF statement to check that all files were created.
-	cd $WRFCHEM_FOLDER/WRFV$WRF_VERSION/main
+	cd $WRFCHEM_FOLDER/WRFV${WRF_VERSION}/main
 	n=$(ls ./*.exe | wc -l)
 	if (($n >= 3)); then
 		echo "All expected files created."
@@ -19777,9 +19917,9 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	else
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
-		cd $WRFCHEM_FOLDER/WRFV$WRF_VERSION
+		cd $WRFCHEM_FOLDER/WRFV${WRF_VERSION}
 		./compile -j $CPU_HALF_EVEN em_real 2>&1 | tee compile.wrf2.log
-		cd $WRFCHEM_FOLDER/WRFV$WRF_VERSION/main
+		cd $WRFCHEM_FOLDER/WRFV${WRF_VERSION}/main
 		n=$(ls ./*.exe | wc -l)
 		if (($n >= 3)); then
 			echo "All expected files created."
@@ -19791,16 +19931,16 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	fi
 
 	echo " "
-	############################WPSV$WPS_VERSION#####################################
-	## WPS v$WPS_VERSION
+	############################WPSV${WPS_VERSION}#####################################
+	## WPS v${WPS_VERSION}
 	## Downloaded from git tagged releases
 	#Option 3 for gfortran and distributed memory
 	########################################################################
 
 	cd $WRFCHEM_FOLDER/Downloads
-	wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v$WPS_VERSION.tar.gz -O WPS-$WPS_VERSION.tar.gz
-	tar -xvzf WPS-$WPS_VERSION.tar.gz -C $WRFCHEM_FOLDER/
-	cd $WRFCHEM_FOLDER/WPS-$WPS_VERSION
+	wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v${WPS_VERSION}.tar.gz -O WPS-${WPS_VERSION}.tar.gz
+	tar -xvzf WPS-${WPS_VERSION}.tar.gz -C $WRFCHEM_FOLDER/
+	cd $WRFCHEM_FOLDER/WPS-${WPS_VERSION}
 	./clean -a
 
 	if [ ${auto_config} -eq 1 ]; then
@@ -19812,7 +19952,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	./compile 2>&1 | tee compile.wps.log
 
 	# IF statement to check that all files were created.
-	cd $WRFCHEM_FOLDER/WPS-$WPS_VERSION
+	cd $WRFCHEM_FOLDER/WPS-${WPS_VERSION}
 	n=$(ls ./*.exe | wc -l)
 	if (($n == 3)); then
 		echo "All expected files created."
@@ -19821,7 +19961,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
 		./compile 2>&1 | tee compile.wps2.log
-		cd $WRFCHEM_FOLDER/WPS-$WPS_VERSION
+		cd $WRFCHEM_FOLDER/WPS-${WPS_VERSION}
 		n=$(ls ./*.exe | wc -l)
 		if (($n == 3)); then
 			echo "All expected files created."
@@ -19835,7 +19975,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	echo " "
 
 	############################WRFDA 3DVAR###############################
-	## WRFDA v$WPS_VERSION 3DVAR
+	## WRFDA v${WPS_VERSION} 3DVAR
 	## Downloaded from git tagged releases
 	## Does not include RTTOV Libarary for radiation data.  If wanted will need to install library then reconfigure
 	##Note: if you intend to run both 3DVAR and 4DVAR experiments, it is not necessary to compile the code twice.
@@ -19843,17 +19983,17 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	########################################################################
 	cd $WRFCHEM_FOLDER/Downloads
 	cd $WRFCHEM_FOLDER/Downloads
-	wget -c https://github.com/wrf-model/WRF/releases/download/v$WRF_VERSION/v$WRF_VERSION.tar.gz -O WRF-$WRF_VERSION.tar.gz
+	wget -c https://github.com/wrf-model/WRF/releases/download/v${WRF_VERSION}/v${WRF_VERSION}.tar.gz -O WRF-${WRF_VERSION}.tar.gz
 	mkdir $WRFCHEM_FOLDER/WRFDA
-	tar -xvzf WRF-$WRF_VERSION.tar.gz -C $WRFCHEM_FOLDER/WRFDA
+	tar -xvzf WRF-${WRF_VERSION}.tar.gz -C $WRFCHEM_FOLDER/WRFDA
 	# If statment for changing folder name
 	if [ -d "$WRFCHEM_FOLDER/WRFDA/WRF" ]; then
-		mv -f $WRFCHEM_FOLDER/WRFDA/WRF $WRFCHEM_FOLDER/WRFDA/WRFV$WRF_VERSION
+		mv -f $WRFCHEM_FOLDER/WRFDA/WRF $WRFCHEM_FOLDER/WRFDA/WRFV${WRF_VERSION}
 	fi
-	cd $WRFCHEM_FOLDER/WRFDA/WRFV$WRF_VERSION
+	cd $WRFCHEM_FOLDER/WRFDA/WRFV${WRF_VERSION}
 	mv * $WRFCHEM_FOLDER/WRFDA
 	cd $WRFCHEM_FOLDER/WRFDA
-	rm -rf WRFV$WRF_VERSION/
+	rm -rf WRFV${WRF_VERSION}/
 	cd $WRFCHEM_FOLDER/WRFDA
 
 	ulimit -s unlimited
@@ -19878,7 +20018,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	m=$(ls ./*.exe | wc -l)
 	if ((($n == 43) && ($m == 1))); then
 		echo "All expected files created."
-		read -r -t 5 -p "Finished installing WRFDA-CHEM 3DVAR. I am going to wait for 5 seconds only ..."
+		read -r -t 5 -p "Finished installing WRFDA. I am going to wait for 5 seconds only ..."
 	else
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
@@ -19890,7 +20030,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 		m=$(ls ./*.exe | wc -l)
 		if ((($n == 43) && ($m == 1))); then
 			echo "All expected files created."
-			read -r -t 5 -p "Finished installing WRFDA-CHEM 3DVAR. I am going to wait for 5 seconds only ..."
+			read -r -t 5 -p "Finished installing WRFDA. I am going to wait for 5 seconds only ..."
 		else
 			read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
 			exit
@@ -20002,30 +20142,55 @@ fi
 if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$MAC_CHIP" = "ARM" ]; then
 
 	#############################basic package managment############################
-	brew install wget
-	brew install git
-	brew install gcc@12
-	brew install libtool
-	brew install automake
-	brew install autoconf
-	brew install make
-	brew install m4
-	brew install java
-	brew install ksh
-	brew install grads
-	brew install ksh
-	brew install tcsh
+sleep 1
+brew install autoconf
+sleep 1
+brew install bison
+sleep 1
+brew install byacc
+sleep 1
+brew install cmake
+sleep 1
+brew install curl
+sleep 1
+brew install flex
+sleep 1
+brew install gdal
+sleep 1
+brew install gedit
+sleep 1
+brew install git
+sleep 1
+brew install gnu-sed
+sleep 1
+brew install imagemagick
+sleep 1
+brew install java
+sleep 1
+brew install ksh
+sleep 1
+brew install libtool
+sleep 1
+brew install m4
+sleep 1
+brew install make
+sleep 1
+brew install python@3.10
+sleep 1
+brew install tcsh
+sleep 1
+brew install wget
+sleep 1
+brew install xauth
+sleep 1
+brew install xorgproto
+sleep 1
+brew install xorgrgb
+sleep 1
+brew install xquartz
 
-	brew install python@3.10
-	brew install cmake
-	brew install xorgproto
-	brew install xorgrgb
-	brew install xauth
-	brew install curl
-	brew install flex
-	brew install byacc
-	brew install bison
-	brew install gnu-sed
+export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
+export PATH=/usr/local/bin:$PATH
 
 	##############################Directory Listing############################
 
@@ -20075,7 +20240,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$MAC_CHIP" = 
 	wget -c https://www.ece.uvic.ca/~frodo/jasper/software/jasper-$Jasper_Version.zip
 	wget -c https://github.com/pmodels/mpich/releases/download/v$Mpich_Version/mpich-$Mpich_Version.tar.gz
 	wget -c https://parallel-netcdf.github.io/Release/pnetcdf-$Pnetcdf_Version.tar.gz
-	wget -c https://sourceforge.net/projects/opengrads/files/grads2/2.2.1.oga.1/Linux%20%2864%20Bits%29/opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz
+
 
 	echo " "
 
@@ -20318,7 +20483,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$MAC_CHIP" = 
 	echo " "
 	echo "Environment Testing "
 	echo "Test 1"
-	gfortran TEST_1_fortran_only_fixed.f
+	$FC TEST_1_fortran_only_fixed.f
 	./a.out | tee env_test1.txt
 	export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test1.txt | awk '{print$1}')
 	if [ $TEST_PASS -ge 1 ]; then
@@ -20331,7 +20496,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$MAC_CHIP" = 
 
 	echo " "
 	echo "Test 2"
-	gfortran TEST_2_fortran_only_free.f90
+	$FC TEST_2_fortran_only_free.f90
 	./a.out | tee env_test2.txt
 	export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test2.txt | awk '{print$1}')
 	if [ $TEST_PASS -ge 1 ]; then
@@ -20345,7 +20510,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$MAC_CHIP" = 
 
 	echo " "
 	echo "Test 3"
-	gcc TEST_3_c_only.c
+	$CC TEST_3_c_only.c
 	./a.out | tee env_test3.txt
 	export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test3.txt | awk '{print$1}')
 	if [ $TEST_PASS -ge 1 ]; then
@@ -20359,9 +20524,9 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$MAC_CHIP" = 
 
 	echo " "
 	echo "Test 4"
-	gcc -c -m64 TEST_4_fortran+c_c.c
-	gfortran -c -m64 TEST_4_fortran+c_f.f90
-	gfortran -m64 TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
+	$CC -c -m64 TEST_4_fortran+c_c.c
+	$FC -c -m64 TEST_4_fortran+c_f.f90
+	$FC -m64 TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
 	./a.out | tee env_test4.txt
 	export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test4.txt | awk '{print$1}')
 	if [ $TEST_PASS -ge 1 ]; then
@@ -20384,9 +20549,9 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$MAC_CHIP" = 
 	echo " "
 	echo "Library Compatibility Tests "
 	echo "Test 1"
-	gfortran -c 01_fortran+c+netcdf_f.f
-	gcc -c 01_fortran+c+netcdf_c.c
-	gfortran 01_fortran+c+netcdf_f.o 01_fortran+c+netcdf_c.o \
+	$FC -c 01_fortran+c+netcdf_f.f
+	$CC -c 01_fortran+c+netcdf_c.c
+	$FC 01_fortran+c+netcdf_f.o 01_fortran+c+netcdf_c.o \
 		-L${NETCDF}/lib -lnetcdff -lnetcdf
 
 	./a.out | tee comp_test1.txt
@@ -20403,9 +20568,9 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$MAC_CHIP" = 
 	echo " "
 
 	echo "Test 2"
-	$DIR/MPICH/bin/mpifort -c 02_fortran+c+netcdf+mpi_f.f
-	$DIR/MPICH/bin/mpicc -c 02_fortran+c+netcdf+mpi_c.c
-	$DIR/MPICH/bin/mpifort 02_fortran+c+netcdf+mpi_f.o \
+	$MPIFC -c 02_fortran+c+netcdf+mpi_f.f
+	$MPICC -c 02_fortran+c+netcdf+mpi_c.c
+	$MPIFC 02_fortran+c+netcdf+mpi_f.o \
 		02_fortran+c+netcdf+mpi_c.o \
 		-L${NETCDF}/lib -lnetcdff -lnetcdf
 
@@ -20470,7 +20635,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$MAC_CHIP" = 
 	########### WRf-Python compiled via Conda  ##################
 	########### This is the preferred method by NCAR      ##################
 	##### https://wrf-python.readthedocs.io/en/latest/installation.html  ##################
-	source $Anaconda_Install_DIR/etc/profile.d/conda.sh
+	source $Miniconda_Install_DIR/etc/profile.d/conda.sh
 conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 	######################### Climate Data Operators ############
@@ -20501,8 +20666,8 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 	echo " "
 
-	############################ WRFCHEM $WPS_VERSION #################################
-	## WRF CHEM v$WPS_VERSION
+	############################ WRFCHEM ${WPS_VERSION} #################################
+	## WRF CHEM v${WPS_VERSION}
 	## Downloaded from git tagged releases
 	# option 17, option 1 for gfortran and distributed memory w/basic nesting
 	# If the script comes back asking to locate a file (libfl.a)
@@ -20524,34 +20689,34 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 	#Downloading WRF code
 	cd $WRFCHEM_FOLDER/Downloads
-	wget -c https://github.com/wrf-model/WRF/releases/download/v$WRF_VERSION/v$WRF_VERSION.tar.gz -O WRF-$WRF_VERSION.tar.gz
-	tar -xvzf WRF-$WRF_VERSION.tar.gz -C $WRFCHEM_FOLDER/
+	wget -c https://github.com/wrf-model/WRF/releases/download/v${WRF_VERSION}/v${WRF_VERSION}.tar.gz -O WRF-${WRF_VERSION}.tar.gz
+	tar -xvzf WRF-${WRF_VERSION}.tar.gz -C $WRFCHEM_FOLDER/
 
 	# If statment for changing folder name
 	if [ -d "$WRFCHEM_FOLDER/WRF" ]; then
-		mv -f $WRFCHEM_FOLDER/WRF $WRFCHEM_FOLDER/WRFV$WRF_VERSION
+		mv -f $WRFCHEM_FOLDER/WRF $WRFCHEM_FOLDER/WRFV${WRF_VERSION}
 	fi
-	cd $WRFCHEM_FOLDER/WRFV$WRF_VERSION
+	cd $WRFCHEM_FOLDER/WRFV${WRF_VERSION}
 
 	./clean -a
 
 	if [ ${auto_config} -eq 1 ]; then
-		sed -i'' -e '443s/.*/  $response = "17 \\n";/g' $WRFCHEM_FOLDER/WRFV$WRF_VERSION/arch/Config.pl # Answer for compiler choice
-		sed -i'' -e '909s/.*/  $response = "1 \\n";/g' $WRFCHEM_FOLDER/WRFV$WRF_VERSION/arch/Config.pl  #Answer for basic nesting
+		sed -i'' -e '443s/.*/  $response = "17 \\n";/g' $WRFCHEM_FOLDER/WRFV${WRF_VERSION}/arch/Config.pl # Answer for compiler choice
+		sed -i'' -e '909s/.*/  $response = "1 \\n";/g' $WRFCHEM_FOLDER/WRFV${WRF_VERSION}/arch/Config.pl  #Answer for basic nesting
 		./configure 2>&1 | tee configure.log
 	else
 		./configure 2>&1 | tee configure.log #Option 17 gfortran compiler with distributed memory option 1 for basic nesting
 	fi
 
-	sed -i'' -e 's/-w  -c/-w  -c -fPIC -fPIE -O3 -Wno-implicit-function-declaration/g' $WRFCHEM_FOLDER/WRFV$WRF_VERSION/configure.wrf
+	sed -i'' -e 's/-w  -c/-w  -c -fPIC -fPIE -O3 -Wno-implicit-function-declaration/g' $WRFCHEM_FOLDER/WRFV${WRF_VERSION}/configure.wrf
 
 	./compile em_real 2>&1 | tee compile.wrf.log
 	./compile emi_conv 2>&1 | tee compile.emis.log
 
-	export WRF_DIR=$WRFCHEM_FOLDER/WRFV$WRF_VERSION
+	export WRF_DIR=$WRFCHEM_FOLDER/WRFV${WRF_VERSION}
 
 	# IF statement to check that all files were created.
-	cd $WRFCHEM_FOLDER/WRFV$WRF_VERSION/main
+	cd $WRFCHEM_FOLDER/WRFV${WRF_VERSION}/main
 	n=$(ls ./*.exe | wc -l)
 	if (($n >= 3)); then
 		echo "All expected files created."
@@ -20559,9 +20724,9 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	else
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
-		cd $WRFCHEM_FOLDER/WRFV$WRF_VERSION
+		cd $WRFCHEM_FOLDER/WRFV${WRF_VERSION}
 		./compile -j $CPU_HALF_EVEN em_real 2>&1 | tee compile.wrf2.log
-		cd $WRFCHEM_FOLDER/WRFV$WRF_VERSION/main
+		cd $WRFCHEM_FOLDER/WRFV${WRF_VERSION}/main
 		n=$(ls ./*.exe | wc -l)
 		if (($n >= 3)); then
 			echo "All expected files created."
@@ -20573,16 +20738,16 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	fi
 
 	echo " "
-	############################WPSV$WPS_VERSION#####################################
-	## WPS v$WPS_VERSION
+	############################WPSV${WPS_VERSION}#####################################
+	## WPS v${WPS_VERSION}
 	## Downloaded from git tagged releases
 	#Option 3 for gfortran and distributed memory
 	########################################################################
 
 	cd $WRFCHEM_FOLDER/Downloads
-	wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v$WPS_VERSION.tar.gz -O WPS-$WPS_VERSION.tar.gz
-	tar -xvzf WPS-$WPS_VERSION.tar.gz -C $WRFCHEM_FOLDER/
-	cd $WRFCHEM_FOLDER/WPS-$WPS_VERSION
+	wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v${WPS_VERSION}.tar.gz -O WPS-${WPS_VERSION}.tar.gz
+	tar -xvzf WPS-${WPS_VERSION}.tar.gz -C $WRFCHEM_FOLDER/
+	cd $WRFCHEM_FOLDER/WPS-${WPS_VERSION}
 	./clean -a
 
 	if [ ${auto_config} -eq 1 ]; then
@@ -20594,7 +20759,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	./compile 2>&1 | tee compile.wps.log
 
 	# IF statement to check that all files were created.
-	cd $WRFCHEM_FOLDER/WPS-$WPS_VERSION
+	cd $WRFCHEM_FOLDER/WPS-${WPS_VERSION}
 	n=$(ls ./*.exe | wc -l)
 	if (($n == 3)); then
 		echo "All expected files created."
@@ -20603,7 +20768,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
 		./compile 2>&1 | tee compile.wps2.log
-		cd $WRFCHEM_FOLDER/WPS-$WPS_VERSION
+		cd $WRFCHEM_FOLDER/WPS-${WPS_VERSION}
 		n=$(ls ./*.exe | wc -l)
 		if (($n == 3)); then
 			echo "All expected files created."
@@ -20617,7 +20782,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	echo " "
 
 	############################WRFDA 3DVAR###############################
-	## WRFDA v$WPS_VERSION 3DVAR
+	## WRFDA v${WPS_VERSION} 3DVAR
 	## Downloaded from git tagged releases
 	## Does not include RTTOV Libarary for radiation data.  If wanted will need to install library then reconfigure
 	##Note: if you intend to run both 3DVAR and 4DVAR experiments, it is not necessary to compile the code twice.
@@ -20625,17 +20790,17 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	########################################################################
 	cd $WRFCHEM_FOLDER/Downloads
 	cd $WRFCHEM_FOLDER/Downloads
-	wget -c https://github.com/wrf-model/WRF/releases/download/v$WRF_VERSION/v$WRF_VERSION.tar.gz -O WRF-$WRF_VERSION.tar.gz
+	wget -c https://github.com/wrf-model/WRF/releases/download/v${WRF_VERSION}/v${WRF_VERSION}.tar.gz -O WRF-${WRF_VERSION}.tar.gz
 	mkdir $WRFCHEM_FOLDER/WRFDA
-	tar -xvzf WRF-$WRF_VERSION.tar.gz -C $WRFCHEM_FOLDER/WRFDA
+	tar -xvzf WRF-${WRF_VERSION}.tar.gz -C $WRFCHEM_FOLDER/WRFDA
 	# If statment for changing folder name
 	if [ -d "$WRFCHEM_FOLDER/WRFDA/WRF" ]; then
-		mv -f $WRFCHEM_FOLDER/WRFDA/WRF $WRFCHEM_FOLDER/WRFDA/WRFV$WRF_VERSION
+		mv -f $WRFCHEM_FOLDER/WRFDA/WRF $WRFCHEM_FOLDER/WRFDA/WRFV${WRF_VERSION}
 	fi
-	cd $WRFCHEM_FOLDER/WRFDA/WRFV$WRF_VERSION
+	cd $WRFCHEM_FOLDER/WRFDA/WRFV${WRF_VERSION}
 	mv * $WRFCHEM_FOLDER/WRFDA
 	cd $WRFCHEM_FOLDER/WRFDA
-	rm -rf WRFV$WRF_VERSION/
+	rm -rf WRFV${WRF_VERSION}/
 	cd $WRFCHEM_FOLDER/WRFDA
 
 	ulimit -s unlimited
@@ -20660,7 +20825,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	m=$(ls ./*.exe | wc -l)
 	if ((($n == 43) && ($m == 1))); then
 		echo "All expected files created."
-		read -r -t 5 -p "Finished installing WRFDA-CHEM 3DVAR. I am going to wait for 5 seconds only ..."
+		read -r -t 5 -p "Finished installing WRFDA. I am going to wait for 5 seconds only ..."
 	else
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
@@ -20672,7 +20837,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 		m=$(ls ./*.exe | wc -l)
 		if ((($n == 43) && ($m == 1))); then
 			echo "All expected files created."
-			read -r -t 5 -p "Finished installing WRFDA-CHEM 3DVAR. I am going to wait for 5 seconds only ..."
+			read -r -t 5 -p "Finished installing WRFDA. I am going to wait for 5 seconds only ..."
 		else
 			read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
 			exit
@@ -20790,7 +20955,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	echo $PASSWD | sudo -S dnf install dnf -y
 	echo $PASSWD | sudo -S dnf -y update
 	echo $PASSWD | sudo -S dnf -y upgrade
-	echo $PASSWD | sudo -S dnf -y install autoconf automake bzip2 bzip2-devel byacc cairo-devel cmake cpp curl curl-devel flex flex-devel fontconfig-devel fontconfig-devel.x86_64 gcc gcc-c++ gcc-gfortran git java-11-openjdk java-11-openjdk-devel ksh libX11-devel libX11-devel.x86_64 libXaw libXaw-devel libXext-devel libXext-devel.x86_64 libXmu-devel libXrender-devel libXrender-devel.x86_64 libstdc++ libstdc++-devel libstdc++-static libxml2 libxml2-devel m4  .x86_64 nfs-utils okular perl pkgconfig pixman-devel python3 python3-devel tcsh time unzip wget
+	echo $PASSWD | sudo -S dnf -y install autoconf automake bzip2 bzip2-devel byacc cairo-devel cmake cpp curl curl-devel flex  fontconfig-devel fontconfig-devel.x86_64 gcc gcc-c++ gcc-gfortran git java-11-openjdk java-11-openjdk-devel ksh libX11-devel libX11-devel.x86_64 libXaw libXaw-devel libXext-devel libXext-devel.x86_64 libXmu-devel libXrender-devel libXrender-devel.x86_64 libstdc++ libstdc++-devel  libxml2 libxml2-devel m4 mlocate mlocate.x86_64 nfs-utils perl pkgconfig  pixman-devel python3 python3-devel tcsh time unzip wget
 	echo $PASSWD | sudo -S dnf -y groupinstall "Development Tools"
 	echo $PASSWD | sudo -S dnf -y update
 	echo $PASSWD | sudo -S dnf -y upgrade
@@ -21056,7 +21221,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	echo " "
 	echo "Environment Testing "
 	echo "Test 1"
-	gfortran TEST_1_fortran_only_fixed.f
+	$FC TEST_1_fortran_only_fixed.f
 	./a.out | tee env_test1.txt
 	export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test1.txt | awk '{print$1}')
 	if [ $TEST_PASS -ge 1 ]; then
@@ -21069,7 +21234,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 
 	echo " "
 	echo "Test 2"
-	gfortran TEST_2_fortran_only_free.f90
+	$FC TEST_2_fortran_only_free.f90
 	./a.out | tee env_test2.txt
 	export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test2.txt | awk '{print$1}')
 	if [ $TEST_PASS -ge 1 ]; then
@@ -21083,7 +21248,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 
 	echo " "
 	echo "Test 3"
-	gcc TEST_3_c_only.c
+	$CC TEST_3_c_only.c
 	./a.out | tee env_test3.txt
 	export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test3.txt | awk '{print$1}')
 	if [ $TEST_PASS -ge 1 ]; then
@@ -21097,9 +21262,9 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 
 	echo " "
 	echo "Test 4"
-	gcc -c -m64 TEST_4_fortran+c_c.c
-	gfortran -c -m64 TEST_4_fortran+c_f.f90
-	gfortran -m64 TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
+	$CC -c -m64 TEST_4_fortran+c_c.c
+	$FC -c -m64 TEST_4_fortran+c_f.f90
+	$FC -m64 TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
 	./a.out | tee env_test4.txt
 	export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test4.txt | awk '{print$1}')
 	if [ $TEST_PASS -ge 1 ]; then
@@ -21122,9 +21287,9 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	echo " "
 	echo "Library Compatibility Tests "
 	echo "Test 1"
-	gfortran -c 01_fortran+c+netcdf_f.f
-	gcc -c 01_fortran+c+netcdf_c.c
-	gfortran 01_fortran+c+netcdf_f.o 01_fortran+c+netcdf_c.o \
+	$FC -c 01_fortran+c+netcdf_f.f
+	$CC -c 01_fortran+c+netcdf_c.c
+	$FC 01_fortran+c+netcdf_f.o 01_fortran+c+netcdf_c.o \
 		-L${NETCDF}/lib -lnetcdff -lnetcdf
 
 	./a.out | tee comp_test1.txt
@@ -21141,9 +21306,9 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	echo " "
 
 	echo "Test 2"
-	$DIR/MPICH/bin/mpifort -c 02_fortran+c+netcdf+mpi_f.f
-	$DIR/MPICH/bin/mpicc -c 02_fortran+c+netcdf+mpi_c.c
-	$DIR/MPICH/bin/mpifort 02_fortran+c+netcdf+mpi_f.o \
+	$MPIFC -c 02_fortran+c+netcdf+mpi_f.f
+	$MPICC -c 02_fortran+c+netcdf+mpi_c.c
+	$MPIFC 02_fortran+c+netcdf+mpi_f.o \
 		02_fortran+c+netcdf+mpi_c.o \
 		-L${NETCDF}/lib -lnetcdff -lnetcdf
 
@@ -21404,7 +21569,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	cd $WRFCHEM_FOLDER/OBSGRID
 
 	./clean -a
-	source $Anaconda_Install_DIR/etc/profile.d/conda.sh
+	source $Miniconda_Install_DIR/etc/profile.d/conda.sh
 	conda init bash
 	conda activate ncl_stable
 
@@ -21461,7 +21626,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	mv * ..
 	cd $WRFCHEM_FOLDER/RIP4
 	rm -rd RIP_47
-	source $Anaconda_Install_DIR/etc/profile.d/conda.sh
+	source $Miniconda_Install_DIR/etc/profile.d/conda.sh
 	conda activate ncl_stable
 	conda install -c conda-forge c-compiler fortran-compiler cxx-compiler -y
 
@@ -21496,7 +21661,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	########### WRf-Python compiled via Conda  ##################
 	########### This is the preferred method by NCAR      ##################
 	##### https://wrf-python.readthedocs.io/en/latest/installation.html  ##################
-	source $Anaconda_Install_DIR/etc/profile.d/conda.sh
+	source $Miniconda_Install_DIR/etc/profile.d/conda.sh
 conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 	echo " "
@@ -21513,7 +21678,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 
 	############################WRFDA 3DVAR###############################
-	## WRFDA v$WPS_VERSION 3DVAR
+	## WRFDA v${WPS_VERSION} 3DVAR
 	## Downloaded from git tagged releases
 	## Does not include RTTOV Libarary for radiation data.  If wanted will need to install library then reconfigure
 	##Note: if you intend to run both 3DVAR and 4DVAR experiments, it is not necessary to compile the code twice.
@@ -21521,17 +21686,17 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	########################################################################
 	cd $WRFCHEM_FOLDER/Downloads
 	cd $WRFCHEM_FOLDER/Downloads
-	wget -c https://github.com/wrf-model/WRF/releases/download/v$WRF_VERSION/v$WRF_VERSION.tar.gz -O WRF-$WRF_VERSION.tar.gz
+	wget -c https://github.com/wrf-model/WRF/releases/download/v${WRF_VERSION}/v${WRF_VERSION}.tar.gz -O WRF-${WRF_VERSION}.tar.gz
 	mkdir $WRFCHEM_FOLDER/WRFDA
-	tar -xvzf WRF-$WRF_VERSION.tar.gz -C $WRFCHEM_FOLDER/WRFDA
+	tar -xvzf WRF-${WRF_VERSION}.tar.gz -C $WRFCHEM_FOLDER/WRFDA
 	# If statment for changing folder name
 	if [ -d "$WRFCHEM_FOLDER/WRFDA/WRF" ]; then
-		mv -f $WRFCHEM_FOLDER/WRFDA/WRF $WRFCHEM_FOLDER/WRFDA/WRFV$WRF_VERSION
+		mv -f $WRFCHEM_FOLDER/WRFDA/WRF $WRFCHEM_FOLDER/WRFDA/WRFV${WRF_VERSION}
 	fi
-	cd $WRFCHEM_FOLDER/WRFDA/WRFV$WRF_VERSION
+	cd $WRFCHEM_FOLDER/WRFDA/WRFV${WRF_VERSION}
 	mv * $WRFCHEM_FOLDER/WRFDA
 	cd $WRFCHEM_FOLDER/WRFDA
-	rm -rf WRFV$WRF_VERSION/
+	rm -rf WRFV${WRF_VERSION}/
 	cd $WRFCHEM_FOLDER/WRFDA
 
 	ulimit -s unlimited
@@ -21561,7 +21726,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	m=$(ls ./*.exe | wc -l)
 	if ((($n == 43) && ($m == 1))); then
 		echo "All expected files created."
-		read -r -t 5 -p "Finished installing WRFDA-CHEM 3DVAR. I am going to wait for 5 seconds only ..."
+		read -r -t 5 -p "Finished installing WRFDA. I am going to wait for 5 seconds only ..."
 	else
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
@@ -21573,7 +21738,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 		m=$(ls ./*.exe | wc -l)
 		if ((($n == 43) && ($m == 1))); then
 			echo "All expected files created."
-			read -r -t 5 -p "Finished installing WRFDA-CHEM 3DVAR. I am going to wait for 5 seconds only ..."
+			read -r -t 5 -p "Finished installing WRFDA. I am going to wait for 5 seconds only ..."
 		else
 			read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
 			exit
@@ -21581,8 +21746,8 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	fi
 	echo " "
 
-	############################ WRFCHEM $WPS_VERSION #################################
-	## WRF CHEM v$WPS_VERSION
+	############################ WRFCHEM ${WPS_VERSION} #################################
+	## WRF CHEM v${WPS_VERSION}
 	## Downloaded from git tagged releases
 	# option 34, option 1 for gfortran and distributed memory w/basic nesting
 	# If the script comes back asking to locate a file (libfl.a)
@@ -21607,8 +21772,8 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	export YACC='/usr/bin/yacc -d'
 	export FLEX=/usr/bin/flex
 	export FLEX_LIB_DIR=/usr/lib64
-	export KPP_HOME=$WRFCHEM_FOLDER/WRFV$WRF_VERSION/chem/KPP/kpp/kpp-2.1
-	export WRF_SRC_ROOT_DIR=$WRFCHEM_FOLDER/WRFV$WRF_VERSION
+	export KPP_HOME=$WRFCHEM_FOLDER/WRFV${WRF_VERSION}/chem/KPP/kpp/kpp-2.1
+	export WRF_SRC_ROOT_DIR=$WRFCHEM_FOLDER/WRFV${WRF_VERSION}
 	export PATH=$KPP_HOME/bin:$PATH
 	export SED=/usr/bin/sed
 	export WRFIO_NCD_LARGE_FILE_SUPPORT=1
@@ -21616,13 +21781,13 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	#Downloading WRF code
 
 	cd $WRFCHEM_FOLDER/Downloads
-	wget -c https://github.com/wrf-model/WRF/releases/download/v$WRF_VERSION/v$WRF_VERSION.tar.gz -O WRF-$WRF_VERSION.tar.gz
-	tar -xvzf WRF-$WRF_VERSION.tar.gz -C $WRFCHEM_FOLDER/
+	wget -c https://github.com/wrf-model/WRF/releases/download/v${WRF_VERSION}/v${WRF_VERSION}.tar.gz -O WRF-${WRF_VERSION}.tar.gz
+	tar -xvzf WRF-${WRF_VERSION}.tar.gz -C $WRFCHEM_FOLDER/
 	# If statment for changing folder name
 	if [ -d "$WRFCHEM_FOLDER/WRF" ]; then
-		mv -f $WRFCHEM_FOLDER/WRF $WRFCHEM_FOLDER/WRFV$WRF_VERSION
+		mv -f $WRFCHEM_FOLDER/WRF $WRFCHEM_FOLDER/WRFV${WRF_VERSION}
 	fi
-	cd $WRFCHEM_FOLDER/WRFV$WRF_VERSION
+	cd $WRFCHEM_FOLDER/WRFV${WRF_VERSION}
 
 	cd chem/KPP
 	sed -i -e 's/="-O"/="-O0"/' configure_kpp
@@ -21631,8 +21796,8 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	./clean -a
 
 	if [ ${auto_config} -eq 1 ]; then
-		sed -i '443s/.*/  $response = "34 \\n";/g' $WRFCHEM_FOLDER/WRFV$WRF_VERSION/arch/Config.pl # Answer for compiler choice
-		sed -i '909s/.*/  $response = "1 \\n";/g' $WRFCHEM_FOLDER/WRFV$WRF_VERSION/arch/Config.pl  #Answer for basic nesting
+		sed -i '443s/.*/  $response = "34 \\n";/g' $WRFCHEM_FOLDER/WRFV${WRF_VERSION}/arch/Config.pl # Answer for compiler choice
+		sed -i '909s/.*/  $response = "1 \\n";/g' $WRFCHEM_FOLDER/WRFV${WRF_VERSION}/arch/Config.pl  #Answer for basic nesting
 		./configure 2>&1 | tee configure.log
 	else
 		./configure 2>&1 | tee configure.log #Option 34 gfortran compiler with distributed memory option 1 for basic nesting
@@ -21641,10 +21806,10 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	./compile -j $CPU_HALF_EVEN em_real 2>&1 | tee compile.wrf1.log
 	./compile -j $CPU_HALF_EVEN emi_conv 2>&1 | tee compile.emis.log
 
-	export WRF_DIR=$WRFCHEM_FOLDER/WRFV$WRF_VERSION
+	export WRF_DIR=$WRFCHEM_FOLDER/WRFV${WRF_VERSION}
 
 	# IF statement to check that all files were created.
-	cd $WRFCHEM_FOLDER/WRFV$WRF_VERSION/main
+	cd $WRFCHEM_FOLDER/WRFV${WRF_VERSION}/main
 	n=$(ls ./*.exe | wc -l)
 	if (($n >= 3)); then
 		echo "All expected files created."
@@ -21652,9 +21817,9 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	else
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
-		cd $WRFCHEM_FOLDER/WRFV$WRF_VERSION
+		cd $WRFCHEM_FOLDER/WRFV${WRF_VERSION}
 		./compile -j $CPU_HALF_EVEN em_real 2>&1 | tee compile.wrf2.log
-		cd $WRFCHEM_FOLDER/WRFV$WRF_VERSION/main
+		cd $WRFCHEM_FOLDER/WRFV${WRF_VERSION}/main
 		n=$(ls ./*.exe | wc -l)
 		if (($n >= 3)); then
 			echo "All expected files created."
@@ -21666,16 +21831,16 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	fi
 
 	echo " "
-	############################WPSV$WPS_VERSION#####################################
-	## WPS v$WPS_VERSION
+	############################WPSV${WPS_VERSION}#####################################
+	## WPS v${WPS_VERSION}
 	## Downloaded from git tagged releases
 	#Option 3 for gfortran and distributed memory
 	########################################################################
 
 	cd $WRFCHEM_FOLDER/Downloads
-	wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v$WPS_VERSION.tar.gz -O WPS-$WPS_VERSION.tar.gz
-	tar -xvzf WPS-$WPS_VERSION.tar.gz -C $WRFCHEM_FOLDER/
-	cd $WRFCHEM_FOLDER/WPS-$WPS_VERSION
+	wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v${WPS_VERSION}.tar.gz -O WPS-${WPS_VERSION}.tar.gz
+	tar -xvzf WPS-${WPS_VERSION}.tar.gz -C $WRFCHEM_FOLDER/
+	cd $WRFCHEM_FOLDER/WPS-${WPS_VERSION}
 
 	./clean -a
 
@@ -21689,7 +21854,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	echo " "
 
 	# IF statement to check that all files were created.
-	cd $WRFCHEM_FOLDER/WPS-$WPS_VERSION
+	cd $WRFCHEM_FOLDER/WPS-${WPS_VERSION}
 	n=$(ls ./*.exe | wc -l)
 	if (($n == 3)); then
 		echo "All expected files created."
@@ -21698,7 +21863,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
 		./compile 2>&1 | tee compile.wps2.log
-		cd $WRFCHEM_FOLDER/WPS-$WPS_VERSION
+		cd $WRFCHEM_FOLDER/WPS-${WPS_VERSION}
 		n=$(ls ./*.exe | wc -l)
 		if (($n == 3)); then
 			echo "All expected files created."
@@ -21827,7 +21992,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	echo $PASSWD | sudo -S dnf install dnf -y
 	echo $PASSWD | sudo -S dnf -y update
 	echo $PASSWD | sudo -S dnf -y upgrade
-	echo $PASSWD | sudo -S dnf -y install autoconf automake bzip2 bzip2-devel byacc cairo-devel cmake cpp curl curl-devel flex flex-devel fontconfig-devel fontconfig-devel.x86_64 gcc gcc-c++ gcc-gfortran git java-11-openjdk java-11-openjdk-devel ksh libX11-devel libX11-devel.x86_64 libXaw libXaw-devel libXext-devel libXext-devel.x86_64 libXmu-devel libXrender-devel libXrender-devel.x86_64 libstdc++ libstdc++-devel libstdc++-static libxml2 libxml2-devel m4  .x86_64 nfs-utils okular perl pkgconfig pixman-devel python3 python3-devel tcsh time unzip wget
+	echo $PASSWD | sudo -S dnf -y install autoconf automake bzip2 bzip2-devel byacc cairo-devel cmake cpp curl curl-devel flex  fontconfig-devel fontconfig-devel.x86_64 gcc gcc-c++ gcc-gfortran git java-11-openjdk java-11-openjdk-devel ksh libX11-devel libX11-devel.x86_64 libXaw libXaw-devel libXext-devel libXext-devel.x86_64 libXmu-devel libXrender-devel libXrender-devel.x86_64 libstdc++ libstdc++-devel  libxml2 libxml2-devel m4 mlocate mlocate.x86_64 nfs-utils perl pkgconfig  pixman-devel python3 python3-devel tcsh time unzip wget
 	echo $PASSWD | sudo -S dnf -y groupinstall "Development Tools"
 	echo $PASSWD | sudo -S dnf -y update
 	echo $PASSWD | sudo -S dnf -y upgrade
@@ -22094,7 +22259,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	echo " "
 	echo "Environment Testing "
 	echo "Test 1"
-	gfortran TEST_1_fortran_only_fixed.f
+	$FC TEST_1_fortran_only_fixed.f
 	./a.out | tee env_test1.txt
 	export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test1.txt | awk '{print$1}')
 	if [ $TEST_PASS -ge 1 ]; then
@@ -22107,7 +22272,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 
 	echo " "
 	echo "Test 2"
-	gfortran TEST_2_fortran_only_free.f90
+	$FC TEST_2_fortran_only_free.f90
 	./a.out | tee env_test2.txt
 	export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test2.txt | awk '{print$1}')
 	if [ $TEST_PASS -ge 1 ]; then
@@ -22121,7 +22286,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 
 	echo " "
 	echo "Test 3"
-	gcc TEST_3_c_only.c
+	$CC TEST_3_c_only.c
 	./a.out | tee env_test3.txt
 	export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test3.txt | awk '{print$1}')
 	if [ $TEST_PASS -ge 1 ]; then
@@ -22135,9 +22300,9 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 
 	echo " "
 	echo "Test 4"
-	gcc -c -m64 TEST_4_fortran+c_c.c
-	gfortran -c -m64 TEST_4_fortran+c_f.f90
-	gfortran -m64 TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
+	$CC -c -m64 TEST_4_fortran+c_c.c
+	$FC -c -m64 TEST_4_fortran+c_f.f90
+	$FC -m64 TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
 	./a.out | tee env_test4.txt
 	export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test4.txt | awk '{print$1}')
 	if [ $TEST_PASS -ge 1 ]; then
@@ -22160,9 +22325,9 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	echo " "
 	echo "Library Compatibility Tests "
 	echo "Test 1"
-	gfortran -c 01_fortran+c+netcdf_f.f
-	gcc -c 01_fortran+c+netcdf_c.c
-	gfortran 01_fortran+c+netcdf_f.o 01_fortran+c+netcdf_c.o \
+	$FC -c 01_fortran+c+netcdf_f.f
+	$CC -c 01_fortran+c+netcdf_c.c
+	$FC 01_fortran+c+netcdf_f.o 01_fortran+c+netcdf_c.o \
 		-L${NETCDF}/lib -lnetcdff -lnetcdf
 
 	./a.out | tee comp_test1.txt
@@ -22179,9 +22344,9 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	echo " "
 
 	echo "Test 2"
-	$DIR/MPICH/bin/mpifort -c 02_fortran+c+netcdf+mpi_f.f
-	$DIR/MPICH/bin/mpicc -c 02_fortran+c+netcdf+mpi_c.c
-	$DIR/MPICH/bin/mpifort 02_fortran+c+netcdf+mpi_f.o \
+	$MPIFC -c 02_fortran+c+netcdf+mpi_f.f
+	$MPICC -c 02_fortran+c+netcdf+mpi_c.c
+	$MPIFC 02_fortran+c+netcdf+mpi_f.o \
 		02_fortran+c+netcdf+mpi_c.o \
 		-L${NETCDF}/lib -lnetcdff -lnetcdf
 
@@ -22420,7 +22585,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	cd $WRFCHEM_FOLDER/OBSGRID
 
 	./clean -a
-	source $Anaconda_Install_DIR/etc/profile.d/conda.sh
+	source $Miniconda_Install_DIR/etc/profile.d/conda.sh
 	conda init bash
 	conda activate ncl_stable
 
@@ -22477,7 +22642,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	mv * ..
 	cd $WRFCHEM_FOLDER/RIP4
 	rm -rd RIP_47
-	source $Anaconda_Install_DIR/etc/profile.d/conda.sh
+	source $Miniconda_Install_DIR/etc/profile.d/conda.sh
 	conda activate ncl_stable
 	conda install -c conda-forge c-compiler fortran-compiler cxx-compiler -y
 
@@ -22512,7 +22677,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	########### WRf-Python compiled via Conda  ##################
 	########### This is the preferred method by NCAR      ##################
 	##### https://wrf-python.readthedocs.io/en/latest/installation.html  ##################
-	source $Anaconda_Install_DIR/etc/profile.d/conda.sh
+	source $Miniconda_Install_DIR/etc/profile.d/conda.sh
 conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 
@@ -22529,7 +22694,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 
 	############################WRFDA 3DVAR###############################
-	## WRFDA v$WPS_VERSION 3DVAR
+	## WRFDA v${WPS_VERSION} 3DVAR
 	## Downloaded from git tagged releases
 	## Does not include RTTOV Libarary for radiation data.  If wanted will need to install library then reconfigure
 	##Note: if you intend to run both 3DVAR and 4DVAR experiments, it is not necessary to compile the code twice.
@@ -22537,17 +22702,17 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	########################################################################
 	cd $WRFCHEM_FOLDER/Downloads
 	cd $WRFCHEM_FOLDER/Downloads
-	wget -c https://github.com/wrf-model/WRF/releases/download/v$WRF_VERSION/v$WRF_VERSION.tar.gz -O WRF-$WRF_VERSION.tar.gz
+	wget -c https://github.com/wrf-model/WRF/releases/download/v${WRF_VERSION}/v${WRF_VERSION}.tar.gz -O WRF-${WRF_VERSION}.tar.gz
 	mkdir $WRFCHEM_FOLDER/WRFDA
-	tar -xvzf WRF-$WRF_VERSION.tar.gz -C $WRFCHEM_FOLDER/WRFDA
+	tar -xvzf WRF-${WRF_VERSION}.tar.gz -C $WRFCHEM_FOLDER/WRFDA
 	# If statment for changing folder name
 	if [ -d "$WRFCHEM_FOLDER/WRFDA/WRF" ]; then
-		mv -f $WRFCHEM_FOLDER/WRFDA/WRF $WRFCHEM_FOLDER/WRFDA/WRFV$WRF_VERSION
+		mv -f $WRFCHEM_FOLDER/WRFDA/WRF $WRFCHEM_FOLDER/WRFDA/WRFV${WRF_VERSION}
 	fi
-	cd $WRFCHEM_FOLDER/WRFDA/WRFV$WRF_VERSION
+	cd $WRFCHEM_FOLDER/WRFDA/WRFV${WRF_VERSION}
 	mv * $WRFCHEM_FOLDER/WRFDA
 	cd $WRFCHEM_FOLDER/WRFDA
-	rm -rf WRFV$WRF_VERSION/
+	rm -rf WRFV${WRF_VERSION}/
 	cd $WRFCHEM_FOLDER/WRFDA
 
 	ulimit -s unlimited
@@ -22577,7 +22742,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	m=$(ls ./*.exe | wc -l)
 	if ((($n == 43) && ($m == 1))); then
 		echo "All expected files created."
-		read -r -t 5 -p "Finished installing WRFDA-CHEM 3DVAR. I am going to wait for 5 seconds only ..."
+		read -r -t 5 -p "Finished installing WRFDA. I am going to wait for 5 seconds only ..."
 	else
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
@@ -22589,7 +22754,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 		m=$(ls ./*.exe | wc -l)
 		if ((($n == 43) && ($m == 1))); then
 			echo "All expected files created."
-			read -r -t 5 -p "Finished installing WRFDA-CHEM 3DVAR. I am going to wait for 5 seconds only ..."
+			read -r -t 5 -p "Finished installing WRFDA. I am going to wait for 5 seconds only ..."
 		else
 			read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
 			exit
@@ -22597,8 +22762,8 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	fi
 	echo " "
 
-	############################ WRFCHEM $WPS_VERSION #################################
-	## WRF CHEM v$WPS_VERSION
+	############################ WRFCHEM ${WPS_VERSION} #################################
+	## WRF CHEM v${WPS_VERSION}
 	## Downloaded from git tagged releases
 	# option 34, option 1 for gfortran and distributed memory w/basic nesting
 	# If the script comes back asking to locate a file (libfl.a)
@@ -22623,8 +22788,8 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	export YACC='/usr/bin/yacc -d'
 	export FLEX=/usr/bin/flex
 	export FLEX_LIB_DIR=/usr/lib64
-	export KPP_HOME=$WRFCHEM_FOLDER/WRFV$WRF_VERSION/chem/KPP/kpp/kpp-2.1
-	export WRF_SRC_ROOT_DIR=$WRFCHEM_FOLDER/WRFV$WRF_VERSION
+	export KPP_HOME=$WRFCHEM_FOLDER/WRFV${WRF_VERSION}/chem/KPP/kpp/kpp-2.1
+	export WRF_SRC_ROOT_DIR=$WRFCHEM_FOLDER/WRFV${WRF_VERSION}
 	export PATH=$KPP_HOME/bin:$PATH
 	export SED=/usr/bin/sed
 	export WRFIO_NCD_LARGE_FILE_SUPPORT=1
@@ -22632,13 +22797,13 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	#Downloading WRF code
 
 	cd $WRFCHEM_FOLDER/Downloads
-	wget -c https://github.com/wrf-model/WRF/releases/download/v$WRF_VERSION/v$WRF_VERSION.tar.gz -O WRF-$WRF_VERSION.tar.gz
-	tar -xvzf WRF-$WRF_VERSION.tar.gz -C $WRFCHEM_FOLDER/
+	wget -c https://github.com/wrf-model/WRF/releases/download/v${WRF_VERSION}/v${WRF_VERSION}.tar.gz -O WRF-${WRF_VERSION}.tar.gz
+	tar -xvzf WRF-${WRF_VERSION}.tar.gz -C $WRFCHEM_FOLDER/
 	# If statment for changing folder name
 	if [ -d "$WRFCHEM_FOLDER/WRF" ]; then
-		mv -f $WRFCHEM_FOLDER/WRF $WRFCHEM_FOLDER/WRFV$WRF_VERSION
+		mv -f $WRFCHEM_FOLDER/WRF $WRFCHEM_FOLDER/WRFV${WRF_VERSION}
 	fi
-	cd $WRFCHEM_FOLDER/WRFV$WRF_VERSION
+	cd $WRFCHEM_FOLDER/WRFV${WRF_VERSION}
 
 	cd chem/KPP
 	sed -i -e 's/="-O"/="-O0"/' configure_kpp
@@ -22647,8 +22812,8 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	./clean -a
 
 	if [ ${auto_config} -eq 1 ]; then
-		sed -i '443s/.*/  $response = "34 \\n";/g' $WRFCHEM_FOLDER/WRFV$WRF_VERSION/arch/Config.pl # Answer for compiler choice
-		sed -i '909s/.*/  $response = "1 \\n";/g' $WRFCHEM_FOLDER/WRFV$WRF_VERSION/arch/Config.pl  #Answer for basic nesting
+		sed -i '443s/.*/  $response = "34 \\n";/g' $WRFCHEM_FOLDER/WRFV${WRF_VERSION}/arch/Config.pl # Answer for compiler choice
+		sed -i '909s/.*/  $response = "1 \\n";/g' $WRFCHEM_FOLDER/WRFV${WRF_VERSION}/arch/Config.pl  #Answer for basic nesting
 		./configure 2>&1 | tee configure.log
 	else
 		./configure 2>&1 | tee configure.log #Option 34 gfortran compiler with distributed memory option 1 for basic nesting
@@ -22657,10 +22822,10 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	./compile -j $CPU_HALF_EVEN em_real 2>&1 | tee compile.wrf1.log
 	./compile -j $CPU_HALF_EVEN emi_conv 2>&1 | tee compile.emis.log
 
-	export WRF_DIR=$WRFCHEM_FOLDER/WRFV$WRF_VERSION
+	export WRF_DIR=$WRFCHEM_FOLDER/WRFV${WRF_VERSION}
 
 	# IF statement to check that all files were created.
-	cd $WRFCHEM_FOLDER/WRFV$WRF_VERSION/main
+	cd $WRFCHEM_FOLDER/WRFV${WRF_VERSION}/main
 	n=$(ls ./*.exe | wc -l)
 	if (($n >= 3)); then
 		echo "All expected files created."
@@ -22668,9 +22833,9 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	else
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
-		cd $WRFCHEM_FOLDER/WRFV$WRF_VERSION
+		cd $WRFCHEM_FOLDER/WRFV${WRF_VERSION}
 		./compile -j $CPU_HALF_EVEN em_real 2>&1 | tee compile.wrf2.log
-		cd $WRFCHEM_FOLDER/WRFV$WRF_VERSION/main
+		cd $WRFCHEM_FOLDER/WRFV${WRF_VERSION}/main
 		n=$(ls ./*.exe | wc -l)
 		if (($n >= 3)); then
 			echo "All expected files created."
@@ -22682,16 +22847,16 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	fi
 
 	echo " "
-	############################WPSV$WPS_VERSION#####################################
-	## WPS v$WPS_VERSION
+	############################WPSV${WPS_VERSION}#####################################
+	## WPS v${WPS_VERSION}
 	## Downloaded from git tagged releases
 	#Option 3 for gfortran and distributed memory
 	########################################################################
 
 	cd $WRFCHEM_FOLDER/Downloads
-	wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v$WPS_VERSION.tar.gz -O WPS-$WPS_VERSION.tar.gz
-	tar -xvzf WPS-$WPS_VERSION.tar.gz -C $WRFCHEM_FOLDER/
-	cd $WRFCHEM_FOLDER/WPS-$WPS_VERSION
+	wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v${WPS_VERSION}.tar.gz -O WPS-${WPS_VERSION}.tar.gz
+	tar -xvzf WPS-${WPS_VERSION}.tar.gz -C $WRFCHEM_FOLDER/
+	cd $WRFCHEM_FOLDER/WPS-${WPS_VERSION}
 
 	./clean -a
 
@@ -22705,7 +22870,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	echo " "
 
 	# IF statement to check that all files were created.
-	cd $WRFCHEM_FOLDER/WPS-$WPS_VERSION
+	cd $WRFCHEM_FOLDER/WPS-${WPS_VERSION}
 	n=$(ls ./*.exe | wc -l)
 	if (($n == 3)); then
 		echo "All expected files created."
@@ -22714,7 +22879,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
 		./compile 2>&1 | tee compile.wps2.log
-		cd $WRFCHEM_FOLDER/WPS-$WPS_VERSION
+		cd $WRFCHEM_FOLDER/WPS-${WPS_VERSION}
 		n=$(ls ./*.exe | wc -l)
 		if (($n == 3)); then
 			echo "All expected files created."
@@ -22829,7 +22994,7 @@ fi
 ########################### WRF  ##########################
 ## WRF installation with parallel process.
 # Download and install required library and data files for WRF, WRFPLUS, WRFDA 4DVAR, WPS.
-# Tested in Ubuntu 20.0$WPS_VERSION LTS & Ubuntu 22.04, Rocky Linux 9 & MacOS Ventura 64bit
+# Tested in Ubuntu 20.0${WPS_VERSION} LTS & Ubuntu 22.04, Rocky Linux 9 & MacOS Ventura 64bit
 # Built in 64-bit system
 # Built with Intel or GNU compilers
 # Tested with current available libraries on 10/10/2023
@@ -22850,7 +23015,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	#############################basic package managment############################
 	echo $PASSWD | sudo -S apt -y update
 	echo $PASSWD | sudo -S apt -y upgrade && sudo -S apt -y autoremove
-	echo $PASSWD | sudo -S apt -y install autoconf automake bison build-essential byacc cmake csh curl default-jdk default-jre emacs flex g++ gawk gcc gfortran git ksh libcurl4-openssl-dev libjpeg-dev  libncurses6 libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev m4 make  ncview okular openbox pipenv pkg-config  python3 python3-dev python3-pip tcsh unzip xauth xorg time
+	echo $PASSWD | sudo -S apt -y install autoconf automake bison build-essential byacc cmake csh curl default-jdk default-jre emacs flex g++ gawk gcc gfortran git ksh libcurl4-openssl-dev libjpeg-dev libncurses5 libncurses6 libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev m4 make mlocate ncview okular openbox pipenv pkg-config  python3 python3-dev python3-pip tcsh unzip xauth xorg time
 
 	echo " "
 	##############################Directory Listing############################
@@ -22861,12 +23026,12 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 
 	mkdir $HOME/WRF
 	export WRF_FOLDER=$HOME/WRF
-	cd $WRF_FOLDER/
+	cd ${WRF_FOLDER}/
 	mkdir Downloads
 	mkdir WRFPLUS
 	mkdir WRFDA
 	mkdir Libs
-	export DIR=$WRF_FOLDER/Libs
+	export DIR=${WRF_FOLDER}/Libs
 	mkdir Libs/grib2
 	mkdir Libs/NETCDF
 	mkdir Libs/MPICH
@@ -22946,7 +23111,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	#Uncalling compilers due to comfigure issue with zlib$Zlib_Version
 	#With CC & CXX definied ./configure uses different compiler Flags
 
-	cd $WRF_FOLDER/Downloads
+	cd ${WRF_FOLDER}/Downloads
 	tar -xvzf v$Zlib_Version.tar.gz
 	cd zlib-$Zlib_Version/
 	autoreconf -i -f 2>&1 | tee autoreconf.log
@@ -22959,7 +23124,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	echo " "
 	##############################MPICH############################
 	#F90= due to compiler issues with mpich install
-	cd $WRF_FOLDER/Downloads
+	cd ${WRF_FOLDER}/Downloads
 	tar -xvzf mpich-$Mpich_Version.tar.gz
 	cd mpich-$Mpich_Version/
 	autoreconf -i -f 2>&1 | tee autoreconf.log
@@ -22980,7 +23145,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 
 	echo " "
 	#############################libpng############################
-	cd $WRF_FOLDER/Downloads
+	cd ${WRF_FOLDER}/Downloads
 	export LDFLAGS=-L$DIR/grib2/lib
 	export CPPFLAGS=-I$DIR/grib2/include
 	tar -xvzf libpng-$Libpng_Version.tar.gz
@@ -22994,7 +23159,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	#make check
 	echo " "
 	#############################JasPer############################
-	cd $WRF_FOLDER/Downloads
+	cd ${WRF_FOLDER}/Downloads
 	unzip jasper-$Jasper_Version.zip
 	cd jasper-$Jasper_Version/
 	autoreconf -i -f 2>&1 | tee autoreconf.log
@@ -23011,7 +23176,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 
 	echo " "
 	#############################hdf5 library for netcdf4 functionality############################
-	cd $WRF_FOLDER/Downloads
+	cd ${WRF_FOLDER}/Downloads
 	tar -xvzf hdf5-$HDF5_Version.tar.gz
 	cd hdf5-hdf5-$HDF5_Version
 	autoreconf -i -f 2>&1 | tee autoreconf.log
@@ -23031,7 +23196,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	#Make file created with half of available cpu cores
 	#Hard path for MPI added
 	##################################################################################
-	cd $WRF_FOLDER/Downloads
+	cd ${WRF_FOLDER}/Downloads
 	tar -xzvf pnetcdf-$Pnetcdf_Version.tar.gz
 	cd pnetcdf-$Pnetcdf_Version
 	export MPIFC=$DIR/MPICH/bin/mpifort
@@ -23051,7 +23216,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	echo " "
 
 	##############################Install NETCDF C Library############################
-	cd $WRF_FOLDER/Downloads
+	cd ${WRF_FOLDER}/Downloads
 	tar -xzvf v$Netcdf_C_Version.tar.gz
 	cd netcdf-c-$Netcdf_C_Version/
 	export CPPFLAGS=-I$DIR/grib2/include
@@ -23069,7 +23234,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	export NETCDF=$DIR/NETCDF
 	echo " "
 	##############################NetCDF fortran library############################
-	cd $WRF_FOLDER/Downloads
+	cd ${WRF_FOLDER}/Downloads
 	tar -xvzf v$Netcdf_Fortran_Version.tar.gz
 	cd netcdf-fortran-$Netcdf_Fortran_Version/
 	export LD_LIBRARY_PATH=$DIR/NETCDF/lib:$LD_LIBRARY_PATH
@@ -23087,18 +23252,18 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	echo " "
 	#################################### System Environment Tests ##############
 
-	cd $WRF_FOLDER/Downloads
+	cd ${WRF_FOLDER}/Downloads
 	wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_NETCDF_MPI_tests.tar
 	wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_tests.tar
 
-	tar -xvf Fortran_C_tests.tar -C $WRF_FOLDER/Tests/Environment
-	tar -xvf Fortran_C_NETCDF_MPI_tests.tar -C $WRF_FOLDER/Tests/Compatibility
+	tar -xvf Fortran_C_tests.tar -C ${WRF_FOLDER}/Tests/Environment
+	tar -xvf Fortran_C_NETCDF_MPI_tests.tar -C ${WRF_FOLDER}/Tests/Compatibility
 
 	export one="1"
 	echo " "
 	############## Testing Environment #####
 
-	cd $WRF_FOLDER/Tests/Environment
+	cd ${WRF_FOLDER}/Tests/Environment
 
 	cp ${NETCDF}/include/netcdf.inc .
 
@@ -23106,7 +23271,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	echo " "
 	echo "Environment Testing "
 	echo "Test 1"
-	gfortran TEST_1_fortran_only_fixed.f
+	$FC TEST_1_fortran_only_fixed.f
 	./a.out | tee env_test1.txt
 	export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test1.txt | awk '{print$1}')
 	if [ $TEST_PASS -ge 1 ]; then
@@ -23119,7 +23284,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 
 	echo " "
 	echo "Test 2"
-	gfortran TEST_2_fortran_only_free.f90
+	$FC TEST_2_fortran_only_free.f90
 	./a.out | tee env_test2.txt
 	export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test2.txt | awk '{print$1}')
 	if [ $TEST_PASS -ge 1 ]; then
@@ -23133,7 +23298,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 
 	echo " "
 	echo "Test 3"
-	gcc TEST_3_c_only.c
+	$CC TEST_3_c_only.c
 	./a.out | tee env_test3.txt
 	export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test3.txt | awk '{print$1}')
 	if [ $TEST_PASS -ge 1 ]; then
@@ -23147,9 +23312,9 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 
 	echo " "
 	echo "Test 4"
-	gcc -c -m64 TEST_4_fortran+c_c.c
-	gfortran -c -m64 TEST_4_fortran+c_f.f90
-	gfortran -m64 TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
+	$CC -c -m64 TEST_4_fortran+c_c.c
+	$FC -c -m64 TEST_4_fortran+c_f.f90
+	$FC -m64 TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
 	./a.out | tee env_test4.txt
 	export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test4.txt | awk '{print$1}')
 	if [ $TEST_PASS -ge 1 ]; then
@@ -23164,7 +23329,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	echo " "
 	############## Testing Environment #####
 
-	cd $WRF_FOLDER/Tests/Compatibility
+	cd ${WRF_FOLDER}/Tests/Compatibility
 
 	cp ${NETCDF}/include/netcdf.inc .
 
@@ -23172,9 +23337,9 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	echo " "
 	echo "Library Compatibility Tests "
 	echo "Test 1"
-	gfortran -c 01_fortran+c+netcdf_f.f
-	gcc -c 01_fortran+c+netcdf_c.c
-	gfortran 01_fortran+c+netcdf_f.o 01_fortran+c+netcdf_c.o \
+	$FC -c 01_fortran+c+netcdf_f.f
+	$CC -c 01_fortran+c+netcdf_c.c
+	$FC 01_fortran+c+netcdf_f.o 01_fortran+c+netcdf_c.o \
 		-L${NETCDF}/lib -lnetcdff -lnetcdf
 
 	./a.out | tee comp_test1.txt
@@ -23191,9 +23356,9 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	echo " "
 
 	echo "Test 2"
-	$DIR/MPICH/bin/mpifort -c 02_fortran+c+netcdf+mpi_f.f
-	$DIR/MPICH/bin/mpicc -c 02_fortran+c+netcdf+mpi_c.c
-	$DIR/MPICH/bin/mpifort 02_fortran+c+netcdf+mpi_f.o \
+	$MPIFC -c 02_fortran+c+netcdf+mpi_f.f
+	$MPICC -c 02_fortran+c+netcdf+mpi_c.c
+	$MPIFC 02_fortran+c+netcdf+mpi_f.o \
 		02_fortran+c+netcdf+mpi_c.o \
 		-L${NETCDF}/lib -lnetcdff -lnetcdf
 
@@ -23221,7 +23386,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	#If iand error occurs go to https://github.com/NCAR/NCEPlibs/pull/16/files make adjustment and re-run ./make_ncep_libs.sh
 	############################################################################
 
-	cd $WRF_FOLDER/Downloads
+	cd ${WRF_FOLDER}/Downloads
 	git clone https://github.com/NCAR/NCEPlibs.git
 	cd NCEPlibs
 	mkdir $DIR/nceplibs
@@ -23245,7 +23410,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	if [ $GCC_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GFORTRAN_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GPLUSPLUS_VERSION_MAJOR_VERSION -ge $version_10 ]; then
 		y="24 28 32 36 40 45 49 53 56 60 64 68 69 73 74 79"
 		for X in $y; do
-			sed -i "${X}s/= /= $fallow_argument $boz_argument /g" $WRF_FOLDER/Downloads/NCEPlibs/macros.make.linux.gnu
+			sed -i "${X}s/= /= $fallow_argument $boz_argument /g" ${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu
 		done
 	else
 		echo ""
@@ -23267,7 +23432,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	#since the WRF was written
 	#Option 8 gfortran compiler with distributed memory
 	#############################################################################
-	cd $WRF_FOLDER/
+	cd ${WRF_FOLDER}/
 	git clone -b dtc_post_v4.1.0 --recurse-submodules https://github.com/NOAA-EMC/EMC_post UPPV4.1
 	cd UPPV4.1
 	mkdir postprd
@@ -23294,7 +23459,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	if [ $GCC_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GFORTRAN_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GPLUSPLUS_VERSION_MAJOR_VERSION -ge $version_10 ]; then
 		z="58 63"
 		for X in $z; do
-			sed -i "${X}s/(FOPT)/(FOPT) $fallow_argument $boz_argument  /g" $WRF_FOLDER/UPPV4.1/configure.upp
+			sed -i "${X}s/(FOPT)/(FOPT) $fallow_argument $boz_argument  /g" ${WRF_FOLDER}/UPPV4.1/configure.upp
 		done
 	else
 		echo ""
@@ -23302,12 +23467,12 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	fi
 
 	./compile
-	cd $WRF_FOLDER/UPPV4.1/scripts
+	cd ${WRF_FOLDER}/UPPV4.1/scripts
 	echo $PASSWD | sudo -S cpan install XML::LibXML
 	chmod +x run_unipost
 
 	# IF statement to check that all files were created.
-	cd $WRF_FOLDER/UPPV4.1/exec
+	cd ${WRF_FOLDER}/UPPV4.1/exec
 	n=$(ls ./*.exe | wc -l)
 	if (($n == 1)); then
 		echo "All expected files created."
@@ -23324,12 +23489,12 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	## ARWpost
 	##Configure #3
 	###################################################################
-	cd $WRF_FOLDER/Downloads
+	cd ${WRF_FOLDER}/Downloads
 	wget -c http://www2.mmm.ucar.edu/wrf/src/ARWpost_V3.tar.gz
-	tar -xvzf ARWpost_V3.tar.gz -C $WRF_FOLDER/
-	cd $WRF_FOLDER/ARWpost
+	tar -xvzf ARWpost_V3.tar.gz -C ${WRF_FOLDER}/
+	cd ${WRF_FOLDER}/ARWpost
 	./clean -a
-	sed -i -e 's/-lnetcdf/-lnetcdff -lnetcdf/g' $WRF_FOLDER/ARWpost/src/Makefile
+	sed -i -e 's/-lnetcdf/-lnetcdff -lnetcdf/g' ${WRF_FOLDER}/ARWpost/src/Makefile
 	export NETCDF=$DIR/NETCDF
 
 	if [ ${auto_config} -eq 1 ]; then
@@ -23352,32 +23517,32 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 		sed -i '32s/-ffree-form -O -fno-second-underscore -fconvert=big-endian -frecord-marker=4/-ffree-form -O -fno-second-underscore -fconvert=big-endian -frecord-marker=4 ${fallow_argument} /g' configure.arwp
 	fi
 
-	sed -i -e 's/-C -P -traditional/-P -traditional/g' $WRF_FOLDER/ARWpost/configure.arwp
+	sed -i -e 's/-C -P -traditional/-P -traditional/g' ${WRF_FOLDER}/ARWpost/configure.arwp
 	./compile
 
-	export PATH=$WRF_FOLDER/ARWpost/ARWpost.exe:$PATH
+	export PATH=${WRF_FOLDER}/ARWpost/ARWpost.exe:$PATH
 
 	echo " "
 	################################ OpenGrADS ##################################
 	#Verison 2.2.1 32bit of Linux
 	#############################################################################
 	if [[ $GRADS_PICK -eq 1 ]]; then
-		cd $WRF_FOLDER/Downloads
-		tar -xzvf opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz -C $WRF_FOLDER/
-		cd $WRF_FOLDER/
-		mv $WRF_FOLDER/opengrads-2.2.1.oga.1 $WRF_FOLDER/GrADS
+		cd ${WRF_FOLDER}/Downloads
+		tar -xzvf opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz -C ${WRF_FOLDER}/
+		cd ${WRF_FOLDER}/
+		mv ${WRF_FOLDER}/opengrads-2.2.1.oga.1 ${WRF_FOLDER}/GrADS
 		cd GrADS/Contents
 		wget -c https://github.com/regisgrundig/SIMOP/blob/master/g2ctl.pl
 		chmod +x g2ctl.pl
 		wget -c https://sourceforge.net/projects/opengrads/files/wgrib2/0.1.9.4/wgrib2-v0.1.9.4-bin-i686-glib2.5-linux-gnu.tar.gz
 		tar -xzvf wgrib2-v0.1.9.4-bin-i686-glib2.5-linux-gnu.tar.gz
 		cd wgrib2-v0.1.9.4/bin
-		mv wgrib2 $WRF_FOLDER/GrADS/Contents
-		cd $WRF_FOLDER/GrADS/Contents
+		mv wgrib2 ${WRF_FOLDER}/GrADS/Contents
+		cd ${WRF_FOLDER}/GrADS/Contents
 		rm wgrib2-v0.1.9.4-bin-i686-glib2.5-linux-gnu.tar.gz
 		rm -r wgrib2-v0.1.9.4
 
-		export PATH=$WRF_FOLDER/GrADS/Contents:$PATH
+		export PATH=${WRF_FOLDER}/GrADS/Contents:$PATH
 
 		echo " "
 	fi
@@ -23402,7 +23567,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	pip install --upgrade --force-reinstall zstd
 	pip3 install --upgrade --force-reinstall zstandard
 	pip3 install --upgrade --force-reinstall zstd
-	export Miniconda_Install_DIR=$WRF_FOLDER/miniconda3
+	export Miniconda_Install_DIR=${WRF_FOLDER}/miniconda3
 
 	mkdir -p $Miniconda_Install_DIR
 
@@ -23411,7 +23576,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 
 	rm -rf $Miniconda_Install_DIR/miniconda.sh
 
-	export PATH=$WRF_FOLDER/miniconda3/bin:$PATH
+	export PATH=${WRF_FOLDER}/miniconda3/bin:$PATH
 
 	source $Miniconda_Install_DIR/etc/profile.d/conda.sh
 
@@ -23446,9 +23611,9 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	## Downloaded from git tagged releases
 	## Option #2
 	########################################################################
-	cd $WRF_FOLDER/
+	cd ${WRF_FOLDER}/
 	git clone https://github.com/wrf-model/OBSGRID.git
-	cd $WRF_FOLDER/OBSGRID
+	cd ${WRF_FOLDER}/OBSGRID
 
 	./clean -a
 	source $Miniconda_Install_DIR/etc/profile.d/conda.sh
@@ -23459,7 +23624,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 		cd
 		pwd
 	)
-	export DIR=$WRF_FOLDER/Libs
+	export DIR=${WRF_FOLDER}/Libs
 	export NETCDF=$DIR/NETCDF
 
 	if [ ${auto_config} -eq 1 ]; then
@@ -23487,7 +23652,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 
 	echo " "
 	# IF statement to check that all files were created.
-	cd $WRF_FOLDER/OBSGRID
+	cd ${WRF_FOLDER}/OBSGRID
 	n=$(ls ./*.exe | wc -l)
 	if (($n == 3)); then
 		echo "All expected files created."
@@ -23500,31 +23665,31 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 
 	echo " "
 	############################## RIP4 #####################################
-	mkdir $WRF_FOLDER/RIP4
-	cd $WRF_FOLDER/Downloads
+	mkdir ${WRF_FOLDER}/RIP4
+	cd ${WRF_FOLDER}/Downloads
 	wget -c https://www2.mmm.ucar.edu/wrf/src/RIP_47.tar.gz
-	tar -xvzf RIP_47.tar.gz -C $WRF_FOLDER/RIP4
-	cd $WRF_FOLDER/RIP4/RIP_47
+	tar -xvzf RIP_47.tar.gz -C ${WRF_FOLDER}/RIP4
+	cd ${WRF_FOLDER}/RIP4/RIP_47
 	mv * ..
-	cd $WRF_FOLDER/RIP4
+	cd ${WRF_FOLDER}/RIP4
 	rm -rd RIP_47
 	source $Miniconda_Install_DIR/etc/profile.d/conda.sh
 	conda activate ncl_stable
 	conda install -c conda-forge ncl c-compiler fortran-compiler cxx-compiler -y
 
-	export RIP_ROOT=$WRF_FOLDER/RIP4
+	export RIP_ROOT=${WRF_FOLDER}/RIP4
 	export NETCDF=$DIR/NETCDF
-	export NCARG_ROOT=$WRF_FOLDER/miniconda3/envs/ncl_stable
+	export NCARG_ROOT=${WRF_FOLDER}/miniconda3/envs/ncl_stable
 
-	sed -i '349s|-L${NETCDF}/lib -lnetcdf $NETCDFF|-L${NETCDF}/lib $NETCDFF -lnetcdff -lnetcdf -lnetcdf -lnetcdff_C -lhdf5 |g' $WRF_FOLDER/RIP4/configure
+	sed -i '349s|-L${NETCDF}/lib -lnetcdf $NETCDFF|-L${NETCDF}/lib $NETCDFF -lnetcdff -lnetcdf -lnetcdf -lnetcdff_C -lhdf5 |g' ${WRF_FOLDER}/RIP4/configure
 
-	sed -i '27s|NETCDFLIB	= -L${NETCDF}/lib -lnetcdf CONFIGURE_NETCDFF_LIB|NETCDFLIB	= -L</usr/lib/x86_64-linux-gnu/libm.a> -lm -L${NETCDF}/lib CONFIGURE_NETCDFF_LIB -lnetcdf -lhdf5 -lhdf5_hl -lgfortran -lgcc -lz |g' $WRF_FOLDER/RIP4/arch/preamble
+	sed -i '27s|NETCDFLIB	= -L${NETCDF}/lib -lnetcdf CONFIGURE_NETCDFF_LIB|NETCDFLIB	= -L</usr/lib/x86_64-linux-gnu/libm.a> -lm -L${NETCDF}/lib CONFIGURE_NETCDFF_LIB -lnetcdf -lhdf5 -lhdf5_hl -lgfortran -lgcc -lz |g' ${WRF_FOLDER}/RIP4/arch/preamble
 
-	sed -i '31s|-L${NCARG_ROOT}/lib -lncarg -lncarg_gks -lncarg_c -lX11 -lXext -lpng -lz CONFIGURE_NCARG_LIB| -L${NCARG_ROOT}/lib -lncarg -lncarg_gks -lncarg_c -lX11 -lXext -lpng -lz -lcairo -lfontconfig -lpixman-1 -lfreetype -lexpat -lpthread -lbz2 -lXrender -lgfortran -lgcc -L</usr/lib/x86_64-linux-gnu/> -lm -lhdf5 -lhdf5_hl |g' $WRF_FOLDER/RIP4/arch/preamble
+	sed -i '31s|-L${NCARG_ROOT}/lib -lncarg -lncarg_gks -lncarg_c -lX11 -lXext -lpng -lz CONFIGURE_NCARG_LIB| -L${NCARG_ROOT}/lib -lncarg -lncarg_gks -lncarg_c -lX11 -lXext -lpng -lz -lcairo -lfontconfig -lpixman-1 -lfreetype -lexpat -lpthread -lbz2 -lXrender -lgfortran -lgcc -L</usr/lib/x86_64-linux-gnu/> -lm -lhdf5 -lhdf5_hl |g' ${WRF_FOLDER}/RIP4/arch/preamble
 
-	sed -i '33s| -O|-fallow-argument-mismatch -O |g' $WRF_FOLDER/RIP4/arch/configure.defaults
+	sed -i '33s| -O|-fallow-argument-mismatch -O |g' ${WRF_FOLDER}/RIP4/arch/configure.defaults
 
-	sed -i '35s|=|= -L$WRF_FOLDER/LIBS/grib2/lib -lhdf5 -lhdf5_hl |g' $WRF_FOLDER/RIP4/arch/configure.defaults
+	sed -i '35s|=|= -L${WRF_FOLDER}/LIBS/grib2/lib -lhdf5 -lhdf5_hl |g' ${WRF_FOLDER}/RIP4/arch/configure.defaults
 
 	if [ ${auto_config} -eq 1 ]; then
 		echo 3 | ./configure #Option 3 gfortran compiler with distributed memory
@@ -23543,7 +23708,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	########### WRf-Python compiled via Conda  ##################
 	########### This is the preferred method by NCAR      ##################
 	##### https://wrf-python.readthedocs.io/en/latest/installation.html  ##################
-	source $Anaconda_Install_DIR/etc/profile.d/conda.sh
+	source $Miniconda_Install_DIR/etc/profile.d/conda.sh
 conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 	######################### Climate Data Operators ############
@@ -23574,8 +23739,8 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 	echo " "
 
-	############################ WRF $WPS_VERSION  #################################
-	## WRF v$WPS_VERSION
+	############################ WRF ${WPS_VERSION}  #################################
+	## WRF v${WPS_VERSION}
 	## Downloaded from git tagged releases
 	# option 34, option 1 for gfortran and distributed memory w/basic nesting
 	# large file support enable with WRFiO_NCD_LARGE_FILE_SUPPORT=1
@@ -23586,22 +23751,22 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	# io_form_auxhist2
 	# Note that you need set nocolons = .true. in the section &time_control of namelist.input
 	########################################################################
-	cd $WRF_FOLDER/Downloads
-	wget -c https://github.com/wrf-model/WRF/releases/download/v$WRF_VERSION/v$WRF_VERSION.tar.gz -O WRF-$WRF_VERSION.tar.gz
-	tar -xvzf WRF-$WRF_VERSION.tar.gz -C $WRF_FOLDER/
+	cd ${WRF_FOLDER}/Downloads
+	wget -c https://github.com/wrf-model/WRF/releases/download/v${WRF_VERSION}/v${WRF_VERSION}.tar.gz -O WRF-${WRF_VERSION}.tar.gz
+	tar -xvzf WRF-${WRF_VERSION}.tar.gz -C ${WRF_FOLDER}/
 
 	# If statment for changing folder name
-	if [ -d "$WRF_FOLDER/WRF" ]; then
-		mv -f $WRF_FOLDER/WRF $WRF_FOLDER/WRFV$WRF_VERSION
+	if [ -d "${WRF_FOLDER}/WRF" ]; then
+		mv -f ${WRF_FOLDER}/WRF ${WRF_FOLDER}/WRFV${WRF_VERSION}
 	fi
 
-	cd $WRF_FOLDER/WRFV$WRF_VERSION
+	cd ${WRF_FOLDER}/WRFV${WRF_VERSION}
 	export WRFIO_NCD_LARGE_FILE_SUPPORT=1
 	./clean -a
 
 	if [ ${auto_config} -eq 1 ]; then
-		sed -i '443s/.*/  $response = "34 \\n";/g' $WRF_FOLDER/WRFV$WRF_VERSION/arch/Config.pl # Answer for compiler choice
-		sed -i '909s/.*/  $response = "1 \\n";/g' $WRF_FOLDER/WRFV$WRF_VERSION/arch/Config.pl  #Answer for basic nesting
+		sed -i '443s/.*/  $response = "34 \\n";/g' ${WRF_FOLDER}/WRFV${WRF_VERSION}/arch/Config.pl # Answer for compiler choice
+		sed -i '909s/.*/  $response = "1 \\n";/g' ${WRF_FOLDER}/WRFV${WRF_VERSION}/arch/Config.pl  #Answer for basic nesting
 		./configure 2>&1 | tee configure.log
 	else
 		./configure 2>&1 | tee configure.log #Option 34 gfortran compiler with distributed memory option 1 for basic nesting
@@ -23609,10 +23774,10 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 	./compile -j $CPU_HALF_EVEN em_real 2>&1 | tee compile.wrf1.log
 
-	export WRF_DIR=$WRF_FOLDER/WRFV$WRF_VERSION
+	export WRF_DIR=${WRF_FOLDER}/WRFV${WRF_VERSION}
 
 	# IF statement to check that all files were created.
-	cd $WRF_FOLDER/WRFV$WRF_VERSION/main
+	cd ${WRF_FOLDER}/WRFV${WRF_VERSION}/main
 	n=$(ls ./*.exe | wc -l)
 	if (($n >= 3)); then
 		echo "All expected files created."
@@ -23620,9 +23785,9 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	else
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
-		cd $WRF_FOLDER/WRFV$WRF_VERSION
+		cd ${WRF_FOLDER}/WRFV${WRF_VERSION}
 		./compile -j $CPU_HALF_EVEN em_real 2>&1 | tee compile.wrf2.log
-		cd $WRF_FOLDER/WRFV$WRF_VERSION/main
+		cd ${WRF_FOLDER}/WRFV${WRF_VERSION}/main
 		n=$(ls ./*.exe | wc -l)
 		if (($n >= 3)); then
 			echo "All expected files created."
@@ -23634,16 +23799,16 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	fi
 
 	echo " "
-	############################WPSV$WPS_VERSION#####################################
-	## WPS v$WPS_VERSION
+	############################WPSV${WPS_VERSION}#####################################
+	## WPS v${WPS_VERSION}
 	## Downloaded from git tagged releases
 	#Option 3 for gfortran and distributed memory
 	########################################################################
 
-	cd $WRF_FOLDER/Downloads
-	wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v$WPS_VERSION.tar.gz -O WPS-$WPS_VERSION.tar.gz
-	tar -xvzf WPS-$WPS_VERSION.tar.gz -C $WRF_FOLDER/
-	cd $WRF_FOLDER/WPS-$WPS_VERSION
+	cd ${WRF_FOLDER}/Downloads
+	wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v${WPS_VERSION}.tar.gz -O WPS-${WPS_VERSION}.tar.gz
+	tar -xvzf WPS-${WPS_VERSION}.tar.gz -C ${WRF_FOLDER}/
+	cd ${WRF_FOLDER}/WPS-${WPS_VERSION}
 	./clean -a
 
 	if [ ${auto_config} -eq 1 ]; then
@@ -23655,7 +23820,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 	echo " "
 	# IF statement to check that all files were created.
-	cd $WRF_FOLDER/WPS-$WPS_VERSION
+	cd ${WRF_FOLDER}/WPS-${WPS_VERSION}
 	n=$(ls ./*.exe | wc -l)
 	if (($n == 3)); then
 		echo "All expected files created."
@@ -23664,7 +23829,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
 		./compile 2>&1 | tee compile.wps2.log
-		cd $WRF_FOLDER/WPS-$WPS_VERSION
+		cd ${WRF_FOLDER}/WPS-${WPS_VERSION}
 		n=$(ls ./*.exe | wc -l)
 		if (($n == 3)); then
 			echo "All expected files created."
@@ -23677,25 +23842,25 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 	echo " "
 	############################WRFPLUS 4DVAR###############################
-	## WRFPLUS v$WPS_VERSION 4DVAR
+	## WRFPLUS v${WPS_VERSION} 4DVAR
 	## Downloaded from git tagged releases
 	## WRFPLUS is built within the WRF git folder
 	## Does not include RTTOV Libarary for radiation data.  If wanted will need to install library then reconfigure
 	##Note: if you intend to run both 3DVAR and 4DVAR experiments, it is not necessary to compile the code twice.
 	#Option 18 for gfortran/gcc and distribunted memory
 	########################################################################
-	cd $WRF_FOLDER/Downloads
-	tar -xvzf WRF-$WRF_VERSION.tar.gz -C $WRF_FOLDER/WRFPLUS
+	cd ${WRF_FOLDER}/Downloads
+	tar -xvzf WRF-${WRF_VERSION}.tar.gz -C ${WRF_FOLDER}/WRFPLUS
 
 	# If statment for changing folder name
-	if [ -d "$WRF_FOLDER/WRFPLUS/WRF" ]; then
-		mv -f $WRF_FOLDER/WRFPLUS/WRF $WRF_FOLDER/WRFPLUS/WRFV$WRF_VERSION
+	if [ -d "${WRF_FOLDER}/WRFPLUS/WRF" ]; then
+		mv -f ${WRF_FOLDER}/WRFPLUS/WRF ${WRF_FOLDER}/WRFPLUS/WRFV${WRF_VERSION}
 	fi
 
-	cd $WRF_FOLDER/WRFPLUS/WRFV$WRF_VERSION
-	mv * $WRF_FOLDER/WRFPLUS
-	cd $WRF_FOLDER/WRFPLUS
-	rm -rf WRFV$WRF_VERSION/
+	cd ${WRF_FOLDER}/WRFPLUS/WRFV${WRF_VERSION}
+	mv * ${WRF_FOLDER}/WRFPLUS
+	cd ${WRF_FOLDER}/WRFPLUS
+	rm -rf WRFV${WRF_VERSION}/
 	export NETCDF=$DIR/NETCDF
 	export HDF5=$DIR/grib2
 	export LD_LIBRARY_PATH=$DIR/grib2/lib:$LD_LIBRARY_PATH
@@ -23708,12 +23873,12 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	fi
 	echo " "
 	./compile -j $CPU_HALF_EVEN wrfplus 2>&1 | tee compile.wrfplus.log
-	export WRFPLUS_DIR=$WRF_FOLDER/WRFPLUS
+	export WRFPLUS_DIR=${WRF_FOLDER}/WRFPLUS
 
 	echo " "
 
 	# IF statement to check that all files were created.
-	cd $WRF_FOLDER/WRFPLUS/main
+	cd ${WRF_FOLDER}/WRFPLUS/main
 	n=$(ls ./wrfplus.exe | wc -l)
 	if (($n == 1)); then
 		echo "All expected files created."
@@ -23721,9 +23886,9 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	else
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
-		cd $WRF_FOLDER/WRFPLUS/WRFV$WRF_VERSION
+		cd ${WRF_FOLDER}/WRFPLUS/WRFV${WRF_VERSION}
 		./compile -j $CPU_HALF_EVEN wrfplus 2>&1 | tee compile.wrfplus.log
-		cd $WRF_FOLDER/WRFPLUS/main
+		cd ${WRF_FOLDER}/WRFPLUS/main
 		n=$(ls ./wrfplus.exe | wc -l)
 		if (($n == 1)); then
 			echo "All expected files created."
@@ -23738,30 +23903,30 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	echo " "
 
 	############################WRFDA 4DVAR###############################
-	## WRFDA v$WPS_VERSION 4DVAR
+	## WRFDA v${WPS_VERSION} 4DVAR
 	## Downloaded from git tagged releases
 	## WRFDA is built within the WRFPLUS folder
 	## Does not include RTTOV Libarary for radiation data.  If wanted will need to install library then reconfigure
 	##Note: if you intend to run both 3DVAR and 4DVAR experiments, it is not necessary to compile the code twice.
 	#Option 18 for gfortran/gcc and distribunted memory
 	########################################################################
-	cd $WRF_FOLDER/Downloads
-	mkdir $WRF_FOLDER/WRFDA
-	tar -xvzf WRF-$WRF_VERSION.tar.gz -C $WRF_FOLDER/WRFDA
+	cd ${WRF_FOLDER}/Downloads
+	mkdir ${WRF_FOLDER}/WRFDA
+	tar -xvzf WRF-${WRF_VERSION}.tar.gz -C ${WRF_FOLDER}/WRFDA
 
 	# If statment for changing folder name
-	if [ -d "$WRF_FOLDER/WRFDA/WRF" ]; then
-		mv -f $WRF_FOLDER/WRFDA/WRF $WRF_FOLDER/WRFDA/WRFV$WRF_VERSION
+	if [ -d "${WRF_FOLDER}/WRFDA/WRF" ]; then
+		mv -f ${WRF_FOLDER}/WRFDA/WRF ${WRF_FOLDER}/WRFDA/WRFV${WRF_VERSION}
 	fi
 
-	cd $WRF_FOLDER/WRFDA/WRFV$WRF_VERSION
-	mv * $WRF_FOLDER/WRFDA
-	cd $WRF_FOLDER/WRFDA
-	rm -rf WRFV$WRF_VERSION/
+	cd ${WRF_FOLDER}/WRFDA/WRFV${WRF_VERSION}
+	mv * ${WRF_FOLDER}/WRFDA
+	cd ${WRF_FOLDER}/WRFDA
+	rm -rf WRFV${WRF_VERSION}/
 	export NETCDF=$DIR/NETCDF
 	export HDF5=$DIR/grib2
 	export LD_LIBRARY_PATH=$DIR/grib2/lib:$LD_LIBRARY_PATH
-	export WRFPLUS_DIR=$WRF_FOLDER/WRFPLUS
+	export WRFPLUS_DIR=${WRF_FOLDER}/WRFPLUS
 	./clean -a
 
 	if [ ${auto_config} -eq 1 ]; then
@@ -23774,25 +23939,25 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	echo " "
 
 	# IF statement to check that all files were created.
-	cd $WRF_FOLDER/WRFDA/var/da
+	cd ${WRF_FOLDER}/WRFDA/var/da
 	n=$(ls ./*.exe | wc -l)
-	cd $WRF_FOLDER/WRFDA/var/obsproc/src
+	cd ${WRF_FOLDER}/WRFDA/var/obsproc/src
 	m=$(ls ./*.exe | wc -l)
 	if ((($n == 43) && ($m == 1))); then
 		echo "All expected files created."
-		read -r -t 5 -p "Finished installing WRFDA-CHEM 3DVAR. I am going to wait for 5 seconds only ..."
+		read -r -t 5 -p "Finished installing WRFDA. I am going to wait for 5 seconds only ..."
 	else
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
-		cd $WRF_FOLDER/WRFDA
+		cd ${WRF_FOLDER}/WRFDA
 		./compile -j $CPU_HALF_EVEN all_wrfvar 2>&1 | tee compile.chem.wrfvar2.log
-		cd $WRF_FOLDER/WRFDA/var/da
+		cd ${WRF_FOLDER}/WRFDA/var/da
 		n=$(ls ./*.exe | wc -l)
-		cd $WRF_FOLDER/WRFDA/var/obsproc/src
+		cd ${WRF_FOLDER}/WRFDA/var/obsproc/src
 		m=$(ls ./*.exe | wc -l)
 		if ((($n == 43) && ($m == 1))); then
 			echo "All expected files created."
-			read -r -t 5 -p "Finished installing WRFDA-CHEM 3DVAR. I am going to wait for 5 seconds only ..."
+			read -r -t 5 -p "Finished installing WRFDA. I am going to wait for 5 seconds only ..."
 		else
 			read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
 			exit
@@ -23802,20 +23967,20 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 	######################## WPS Domain Setup Tools ########################
 	## DomainWizard
-	cd $WRF_FOLDER/Downloads
+	cd ${WRF_FOLDER}/Downloads
 	wget -c http://esrl.noaa.gov/gsd/wrfportal/domainwizard/WRFDomainWizard.zip
-	mkdir $WRF_FOLDER/WRFDomainWizard
-	unzip WRFDomainWizard.zip -d $WRF_FOLDER/WRFDomainWizard
-	chmod +x $WRF_FOLDER/WRFDomainWizard/run_DomainWizard
+	mkdir ${WRF_FOLDER}/WRFDomainWizard
+	unzip WRFDomainWizard.zip -d ${WRF_FOLDER}/WRFDomainWizard
+	chmod +x ${WRF_FOLDER}/WRFDomainWizard/run_DomainWizard
 
 	echo " "
 	######################## WPF Portal Setup Tools ########################
 	## WRFPortal
-	cd $WRF_FOLDER/Downloads
+	cd ${WRF_FOLDER}/Downloads
 	wget -c https://esrl.noaa.gov/gsd/wrfportal/portal/wrf-portal.zip
-	mkdir $WRF_FOLDER/WRFPortal
-	unzip wrf-portal.zip -d $WRF_FOLDER/WRFPortal
-	chmod +x $WRF_FOLDER/WRFPortal/runWRFPortal
+	mkdir ${WRF_FOLDER}/WRFPortal
+	unzip wrf-portal.zip -d ${WRF_FOLDER}/WRFPortal
+	chmod +x ${WRF_FOLDER}/WRFPortal/runWRFPortal
 
 	echo " "
 
@@ -23825,19 +23990,19 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	# All files downloaded and untarred is 200GB
 	# https://www2.mmm.ucar.edu/wrf/users/download/get_sources_wps_geog.html
 	#################################################################################
-	cd $WRF_FOLDER/Downloads
-	mkdir $WRF_FOLDER/GEOG
-	mkdir $WRF_FOLDER/GEOG/WPS_GEOG
+	cd ${WRF_FOLDER}/Downloads
+	mkdir ${WRF_FOLDER}/GEOG
+	mkdir ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 	echo " "
 	echo "Mandatory WRF Preprocessing System (WPS) Geographical Input Data Mandatory Fields Downloads"
 	echo " "
 	wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_high_res_mandatory.tar.gz
-	tar -xvzf geog_high_res_mandatory.tar.gz -C $WRF_FOLDER/GEOG/
+	tar -xvzf geog_high_res_mandatory.tar.gz -C ${WRF_FOLDER}/GEOG/
 
 	wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_low_res_mandatory.tar.gz
-	tar -xvzf geog_low_res_mandatory.tar.gz -C $WRF_FOLDER/GEOG/
-	mv $WRF_FOLDER/GEOG/WPS_GEOG_LOW_RES/ $WRF_FOLDER/GEOG/WPS_GEOG
+	tar -xvzf geog_low_res_mandatory.tar.gz -C ${WRF_FOLDER}/GEOG/
+	mv ${WRF_FOLDER}/GEOG/WPS_GEOG_LOW_RES/ ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 	if [ ${WPS_Specific_Applications} -eq 1 ]; then
 		echo " "
@@ -23845,31 +24010,31 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 		echo " "
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_thompson28_chem.tar.gz
-		tar -xvzf geog_thompson28_chem.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+		tar -xvzf geog_thompson28_chem.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_noahmp.tar.gz
-		tar -xvzf geog_noahmp.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+		tar -xvzf geog_noahmp.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/irrigation.tar.gz
-		tar -xvzf irrigation.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+		tar -xvzf irrigation.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_px.tar.gz
-		tar -xvzf geog_px.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+		tar -xvzf geog_px.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_urban.tar.gz
-		tar -xvzf geog_urban.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+		tar -xvzf geog_urban.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_ssib.tar.gz
-		tar -xvzf geog_ssib.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+		tar -xvzf geog_ssib.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/lake_depth.tar.bz2
-		tar -xvf lake_depth.tar.bz2 -C $WRF_FOLDER/GEOG/WPS_GEOG
+		tar -xvf lake_depth.tar.bz2 -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/topobath_30s.tar.bz2
-		tar -xvf topobath_30s.tar.bz2 -C $WRF_FOLDER/GEOG/WPS_GEOG
+		tar -xvf topobath_30s.tar.bz2 -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/gsl_gwd.tar.bz2
-		tar -xvf gsl_gwd.tar.bz2 -C $WRF_FOLDER/GEOG/WPS_GEOG
+		tar -xvf gsl_gwd.tar.bz2 -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 	fi
 
 	if [ ${Optional_GEOG} -eq 1 ]; then
@@ -23878,22 +24043,22 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 		echo " "
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_older_than_2000.tar.gz
-		tar -xvzf geog_older_than_2000.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+		tar -xvzf geog_older_than_2000.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s_with_lakes.tar.gz
-		tar -xvzf modis_landuse_20class_15s_with_lakes.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+		tar -xvzf modis_landuse_20class_15s_with_lakes.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_alt_lsm.tar.gz
-		tar -xvzf geog_alt_lsm.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+		tar -xvzf geog_alt_lsm.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/nlcd2006_ll_9s.tar.bz2
-		tar -xvf nlcd2006_ll_9s.tar.bz2 -C $WRF_FOLDER/GEOG/WPS_GEOG
+		tar -xvf nlcd2006_ll_9s.tar.bz2 -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/updated_Iceland_LU.tar.gz
-		tar -xvf updated_Iceland_LU.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+		tar -xvf updated_Iceland_LU.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s.tar.bz2
-		tar -xvf modis_landuse_20class_15s.tar.bz2 -C $WRF_FOLDER/GEOG/WPS_GEOG
+		tar -xvf modis_landuse_20class_15s.tar.bz2 -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 	fi
 
@@ -23918,7 +24083,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	echo $PASSWD | sudo -S apt -y update
 
 	# necessary binary packages (especially pkg-config and build-essential)
-	echo $PASSWD | sudo -S apt -y install autoconf automake bison build-essential byacc cmake csh curl default-jdk default-jre emacs flex g++ gawk gcc gfortran git ksh libcurl4-openssl-dev libjpeg-dev  libncurses6 libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev m4 make  ncview okular openbox pipenv pkg-config  python3 python3-dev python3-pip tcsh unzip xauth xorg time
+	echo $PASSWD | sudo -S apt -y install autoconf automake bison build-essential byacc cmake csh curl default-jdk default-jre emacs flex g++ gawk gcc gfortran git ksh libcurl4-openssl-dev libjpeg-dev libncurses5 libncurses6 libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev m4 make mlocate ncview okular openbox pipenv pkg-config  python3 python3-dev python3-pip tcsh unzip xauth xorg time
 
 	# install the Intel compilers
 	echo $PASSWD | sudo -S apt -y install intel-basekit
@@ -23976,9 +24141,9 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 		pwd
 	)
 	export WRF_FOLDER=$HOME/WRF_Intel
-	export DIR=$WRF_FOLDER/Libs
-	mkdir $WRF_FOLDER
-	cd $WRF_FOLDER
+	export DIR=${WRF_FOLDER}/Libs
+	mkdir ${WRF_FOLDER}
+	cd ${WRF_FOLDER}
 	mkdir Downloads
 	mkdir WRFPLUS
 	mkdir WRFDA
@@ -23992,7 +24157,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	echo " "
 	############################## Downloading Libraries ############################
 
-	cd $WRF_FOLDER/Downloads
+	cd ${WRF_FOLDER}/Downloads
 	wget -c https://github.com/madler/zlib/archive/refs/tags/v$Zlib_Version.tar.gz
 	wget -c https://github.com/HDFGroup/hdf5/archive/refs/tags/hdf5-$HDF5_Version.tar.gz
 	wget -c https://github.com/Unidata/netcdf-c/archive/refs/tags/v$Netcdf_C_Version.tar.gz
@@ -24005,7 +24170,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	echo " "
 	############################# ZLib ############################
 
-	cd $WRF_FOLDER/Downloads
+	cd ${WRF_FOLDER}/Downloads
 	tar -xvzf v$Zlib_Version.tar.gz
 	cd zlib-$Zlib_Version/
 	autoreconf -i -f 2>&1 | tee autoreconf.log
@@ -24019,7 +24184,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	echo " "
 	############################# LibPNG ############################
 
-	cd $WRF_FOLDER/Downloads
+	cd ${WRF_FOLDER}/Downloads
 
 	# other libraries below need these variables to be set
 	export LDFLAGS=-L$DIR/grib2/lib
@@ -24038,7 +24203,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	echo " "
 	############################# JasPer ############################
 
-	cd $WRF_FOLDER/Downloads
+	cd ${WRF_FOLDER}/Downloads
 	unzip jasper-$Jasper_Version.zip
 	cd jasper-$Jasper_Version/
 	autoreconf -i -f 2>&1 | tee autoreconf.log
@@ -24055,7 +24220,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	echo " "
 	############################# HDF5 library for NetCDF4 & parallel functionality ############################
 
-	cd $WRF_FOLDER/Downloads
+	cd ${WRF_FOLDER}/Downloads
 	tar -xvzf hdf5-$HDF5_Version.tar.gz
 	cd hdf5-hdf5-$HDF5_Version
 	autoreconf -i -f 2>&1 | tee autoreconf.log
@@ -24077,7 +24242,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	#Make file created with half of available cpu cores
 	#Hard path for MPI added
 	##################################################################################
-	cd $WRF_FOLDER/Downloads
+	cd ${WRF_FOLDER}/Downloads
 	tar -xzvf pnetcdf-$Pnetcdf_Version.tar.gz
 	cd pnetcdf-$Pnetcdf_Version
 	autoreconf -i -f 2>&1 | tee autoreconf.log
@@ -24093,7 +24258,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 
 	############################## Install NETCDF-C Library ############################
 
-	cd $WRF_FOLDER/Downloads
+	cd ${WRF_FOLDER}/Downloads
 	tar -xzvf v$Netcdf_C_Version.tar.gz
 	cd netcdf-c-$Netcdf_C_Version/
 
@@ -24115,7 +24280,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	echo " "
 	############################## NetCDF-Fortran library ############################
 
-	cd $WRF_FOLDER/Downloads
+	cd ${WRF_FOLDER}/Downloads
 	tar -xvzf v$Netcdf_Fortran_Version.tar.gz
 	cd netcdf-fortran-$Netcdf_Fortran_Version/
 
@@ -24133,24 +24298,24 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	echo " "
 	#################################### System Environment Tests ##############
 
-	cd $WRF_FOLDER/Downloads
+	cd ${WRF_FOLDER}/Downloads
 	wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_NETCDF_MPI_tests.tar
 	wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_tests.tar
 
-	tar -xvf Fortran_C_tests.tar -C $WRF_FOLDER/Tests/Environment
-	tar -xvf Fortran_C_NETCDF_MPI_tests.tar -C $WRF_FOLDER/Tests/Compatibility
+	tar -xvf Fortran_C_tests.tar -C ${WRF_FOLDER}/Tests/Environment
+	tar -xvf Fortran_C_NETCDF_MPI_tests.tar -C ${WRF_FOLDER}/Tests/Compatibility
 
 	export one="1"
 	echo " "
 	############## Testing Environment #####
 
-	cd $WRF_FOLDER/Tests/Environment
+	cd ${WRF_FOLDER}/Tests/Environment
 
 	echo " "
 	echo " "
 	echo "Environment Testing "
 	echo "Test 1"
-	ifort TEST_1_fortran_only_fixed.f
+	$FC TEST_1_fortran_only_fixed.f
 	./a.out | tee env_test1.txt
 	export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test1.txt | awk '{print$1}')
 	if [ $TEST_PASS -ge 1 ]; then
@@ -24163,7 +24328,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 
 	echo " "
 	echo "Test 2"
-	ifort TEST_2_fortran_only_free.f90
+	$FC TEST_2_fortran_only_free.f90
 	./a.out | tee env_test2.txt
 	export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test2.txt | awk '{print$1}')
 	if [ $TEST_PASS -ge 1 ]; then
@@ -24177,7 +24342,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 
 	echo " "
 	echo "Test 3"
-	icc TEST_3_c_only.c
+	$CC TEST_3_c_only.c
 	./a.out | tee env_test3.txt
 	export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test3.txt | awk '{print$1}')
 	if [ $TEST_PASS -ge 1 ]; then
@@ -24191,9 +24356,9 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 
 	echo " "
 	echo "Test 4"
-	icc -c -m64 TEST_4_fortran+c_c.c
-	ifort -c -m64 TEST_4_fortran+c_f.f90
-	ifort -m64 TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
+	$CC -c -m64 TEST_4_fortran+c_c.c
+	$FC -c -m64 TEST_4_fortran+c_f.f90
+	$FC -m64 TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
 	./a.out | tee env_test4.txt
 	export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test4.txt | awk '{print$1}')
 	if [ $TEST_PASS -ge 1 ]; then
@@ -24208,7 +24373,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	echo " "
 	############## Testing Environment #####
 
-	cd $WRF_FOLDER/Tests/Compatibility
+	cd ${WRF_FOLDER}/Tests/Compatibility
 
 	cp ${NETCDF}/include/netcdf.inc .
 
@@ -24216,9 +24381,9 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	echo " "
 	echo "Library Compatibility Tests "
 	echo "Test 1"
-	ifort -c 01_fortran+c+netcdf_f.f
-	icc -c 01_fortran+c+netcdf_c.c
-	ifort 01_fortran+c+netcdf_f.o 01_fortran+c+netcdf_c.o \
+	$FC -c 01_fortran+c+netcdf_f.f
+	$CC -c 01_fortran+c+netcdf_c.c
+	$FC 01_fortran+c+netcdf_f.o 01_fortran+c+netcdf_c.o \
 		-L${NETCDF}/lib -lnetcdff -lnetcdf
 
 	./a.out | tee comp_test1.txt
@@ -24235,9 +24400,9 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	echo " "
 
 	echo "Test 2"
-	mpiifort -c 02_fortran+c+netcdf+mpi_f.f
-	mpiicc -c 02_fortran+c+netcdf+mpi_c.c
-	mpiifort 02_fortran+c+netcdf+mpi_f.o \
+	$MPIFC -c 02_fortran+c+netcdf+mpi_f.f
+	$MPICC -c 02_fortran+c+netcdf+mpi_c.c
+	$MPIFC 02_fortran+c+netcdf+mpi_f.o \
 		02_fortran+c+netcdf+mpi_c.o \
 		-L${NETCDF}/lib -lnetcdff -lnetcdf
 
@@ -24264,7 +24429,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	#If iand error occurs go to https://github.com/NCAR/NCEPlibs/pull/16/files make adjustment and re-run ./make_ncep_libs.sh
 	############################################################################
 
-	cd $WRF_FOLDER/Downloads
+	cd ${WRF_FOLDER}/Downloads
 	git clone https://github.com/NCAR/NCEPlibs.git
 	cd NCEPlibs
 	mkdir $DIR/nceplibs
@@ -24288,7 +24453,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	#since the WRF was written
 	#Option 8 gfortran compiler with distributed memory
 	#############################################################################
-	cd $WRF_FOLDER
+	cd ${WRF_FOLDER}
 	git clone -b dtc_post_v4.1.0 --recurse-submodules https://github.com/NOAA-EMC/EMC_post UPPV4.1
 	cd UPPV4.1
 	mkdir postprd
@@ -24301,17 +24466,17 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 		./configure #Option 4 intel compiler with distributed memory
 	fi
 
-	sed -i '24s/ mpif90/ mpiifort/g' $WRF_FOLDER/UPPV4.1/configure.upp
-	sed -i '25s/ mpif90/ mpiifort/g' $WRF_FOLDER/UPPV4.1/configure.upp
-	sed -i '26s/ mpicc/ mpiicc/g' $WRF_FOLDER/UPPV4.1/configure.upp
+	sed -i '24s/ mpif90/ mpiifort/g' ${WRF_FOLDER}/UPPV4.1/configure.upp
+	sed -i '25s/ mpif90/ mpiifort/g' ${WRF_FOLDER}/UPPV4.1/configure.upp
+	sed -i '26s/ mpicc/ mpiicc/g' ${WRF_FOLDER}/UPPV4.1/configure.upp
 
 	./compile
-	cd $WRF_FOLDER/UPPV4.1/scripts
+	cd ${WRF_FOLDER}/UPPV4.1/scripts
 	echo $PASSWD | sudo -S cpan install XML::LibXML
 	chmod +x run_unipost
 
 	# IF statement to check that all files were created.
-	cd $WRF_FOLDER/UPPV4.1/exec
+	cd ${WRF_FOLDER}/UPPV4.1/exec
 	n=$(ls ./*.exe | wc -l)
 	if (($n == 1)); then
 		echo "All expected files created."
@@ -24328,12 +24493,12 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	## ARWpost
 	##Configure #3
 	###################################################################
-	cd $WRF_FOLDER/Downloads
+	cd ${WRF_FOLDER}/Downloads
 	wget -c http://www2.mmm.ucar.edu/wrf/src/ARWpost_V3.tar.gz
-	tar -xvzf ARWpost_V3.tar.gz -C $WRF_FOLDER
-	cd $WRF_FOLDER/ARWpost
+	tar -xvzf ARWpost_V3.tar.gz -C ${WRF_FOLDER}
+	cd ${WRF_FOLDER}/ARWpost
 	./clean -a
-	sed -i -e 's/-lnetcdf/-lnetcdff -lnetcdf/g' $WRF_FOLDER/ARWpost/src/Makefile
+	sed -i -e 's/-lnetcdf/-lnetcdff -lnetcdf/g' ${WRF_FOLDER}/ARWpost/src/Makefile
 	export NETCDF=$DIR/NETCDF
 
 	if [ ${auto_config} -eq 1 ]; then
@@ -24342,32 +24507,32 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 		./configure #Option 2 intel compiler with distributed memory
 	fi
 
-	sed -i -e 's/-C -P -traditional/-P -traditional/g' $WRF_FOLDER/ARWpost/configure.arwp
+	sed -i -e 's/-C -P -traditional/-P -traditional/g' ${WRF_FOLDER}/ARWpost/configure.arwp
 	./compile
 
-	export PATH=$WRF_FOLDER/ARWpost/ARWpost.exe:$PATH
+	export PATH=${WRF_FOLDER}/ARWpost/ARWpost.exe:$PATH
 
 	echo " "
 	################################OpenGrADS######################################
 	#Verison 2.2.1 64bit of Linux
 	#############################################################################
 	if [[ $GRADS_PICK -eq 1 ]]; then
-		cd $WRF_FOLDER/Downloads
-		tar -xzvf opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz -C $WRF_FOLDER/
-		cd $WRF_FOLDER/
-		mv $WRF_FOLDER/opengrads-2.2.1.oga.1 $WRF_FOLDER/GrADS
+		cd ${WRF_FOLDER}/Downloads
+		tar -xzvf opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz -C ${WRF_FOLDER}/
+		cd ${WRF_FOLDER}/
+		mv ${WRF_FOLDER}/opengrads-2.2.1.oga.1 ${WRF_FOLDER}/GrADS
 		cd GrADS/Contents
 		wget -c https://github.com/regisgrundig/SIMOP/blob/master/g2ctl.pl
 		chmod +x g2ctl.pl
 		wget -c https://sourceforge.net/projects/opengrads/files/wgrib2/0.1.9.4/wgrib2-v0.1.9.4-bin-x86_64-glibc2.5-linux-gnu.tar.gz
 		tar -xzvf wgrib2-v0.1.9.4-bin-x86_64-glibc2.5-linux-gnu.tar.gz
 		cd wgrib2-v0.1.9.4/bin
-		mv wgrib2 $WRF_FOLDER/GrADS/Contents
-		cd $WRF_FOLDER/GrADS/Contents
+		mv wgrib2 ${WRF_FOLDER}/GrADS/Contents
+		cd ${WRF_FOLDER}/GrADS/Contents
 		rm wgrib2-v0.1.9.4-bin-x86_64-glibc2.5-linux-gnu.tar.gz
 		rm -r wgrib2-v0.1.9.4
 
-		export PATH=$WRF_FOLDER/GrADS/Contents:$PATH
+		export PATH=${WRF_FOLDER}/GrADS/Contents:$PATH
 	fi
 	################################## GrADS ###############################
 	# Version  2.2.1
@@ -24392,7 +24557,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	pip install --upgrade --force-reinstall zstd
 	pip3 install --upgrade --force-reinstall zstandard
 	pip3 install --upgrade --force-reinstall zstd
-	export Miniconda_Install_DIR=$WRF_FOLDER/miniconda3
+	export Miniconda_Install_DIR=${WRF_FOLDER}/miniconda3
 
 	mkdir -p $Miniconda_Install_DIR
 
@@ -24401,7 +24566,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 
 	rm -rf $Miniconda_Install_DIR/miniconda.sh
 
-	export PATH=$WRF_FOLDER/miniconda3/bin:$PATH
+	export PATH=${WRF_FOLDER}/miniconda3/bin:$PATH
 
 	source $Miniconda_Install_DIR/etc/profile.d/conda.sh
 
@@ -24434,7 +24599,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	########### WRf-Python compiled via Conda  ##################
 	########### This is the preferred method by NCAR      ##################
 	##### https://wrf-python.readthedocs.io/en/latest/installation.html  ##################
-	source $Anaconda_Install_DIR/etc/profile.d/conda.sh
+	source $Miniconda_Install_DIR/etc/profile.d/conda.sh
 conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 	######################### Climate Data Operators ############
@@ -24465,44 +24630,44 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 	echo " "
 
-	############################ WRF $WPS_VERSION  #################################
-	## WRF v$WPS_VERSION
+	############################ WRF ${WPS_VERSION}  #################################
+	## WRF v${WPS_VERSION}
 	## Downloaded from git tagged releases
 	# option 15, option 1 for intel and distributed memory w/basic nesting
 	# large file support enable with WRFiO_NCD_LARGE_FILE_SUPPORT=1
 	########################################################################
-	cd $WRF_FOLDER/Downloads
-	wget -c https://github.com/wrf-model/WRF/releases/download/v$WRF_VERSION/v$WRF_VERSION.tar.gz -O WRF-$WRF_VERSION.tar.gz
-	tar -xvzf WRF-$WRF_VERSION.tar.gz -C $WRF_FOLDER/
+	cd ${WRF_FOLDER}/Downloads
+	wget -c https://github.com/wrf-model/WRF/releases/download/v${WRF_VERSION}/v${WRF_VERSION}.tar.gz -O WRF-${WRF_VERSION}.tar.gz
+	tar -xvzf WRF-${WRF_VERSION}.tar.gz -C ${WRF_FOLDER}/
 
 	# If statment for changing folder name
-	if [ -d "$WRF_FOLDER/WRF" ]; then
-		mv -f $WRF_FOLDER/WRF $WRF_FOLDER/WRFV$WRF_VERSION
+	if [ -d "${WRF_FOLDER}/WRF" ]; then
+		mv -f ${WRF_FOLDER}/WRF ${WRF_FOLDER}/WRFV${WRF_VERSION}
 	fi
 
-	cd $WRF_FOLDER/WRFV$WRF_VERSION
+	cd ${WRF_FOLDER}/WRFV${WRF_VERSION}
 	export WRFIO_NCD_LARGE_FILE_SUPPORT=1
 	./clean -a
 
 	if [ ${auto_config} -eq 1 ]; then
-		sed -i '443s/.*/  $response = "15 \\n";/g' $WRF_FOLDER/WRFV$WRF_VERSION/arch/Config.pl # Answer for compiler choice
-		sed -i '909s/.*/  $response = "1 \\n";/g' $WRF_FOLDER/WRFV$WRF_VERSION/arch/Config.pl  #Answer for basic nesting
+		sed -i '443s/.*/  $response = "15 \\n";/g' ${WRF_FOLDER}/WRFV${WRF_VERSION}/arch/Config.pl # Answer for compiler choice
+		sed -i '909s/.*/  $response = "1 \\n";/g' ${WRF_FOLDER}/WRFV${WRF_VERSION}/arch/Config.pl  #Answer for basic nesting
 		./configure 2>&1 | tee configure.log
 	else
 		./configure 2>&1 | tee configure.log #Option 15 intel compiler with distributed memory option 1 for basic nesting
 	fi
 
 	#Need to remove mpich/GNU config calls to Intel config calls
-	sed -i '169s|mpif90 -f90=$(SFC)|mpiifort|g' $WRF_FOLDER/WRFV$WRF_VERSION/configure.wrf
-	sed -i '170s|mpicc -cc=$(SCC)|mpiicc|g' $WRF_FOLDER/WRFV$WRF_VERSION/configure.wrf
-	sed -i '177s|-w -O3|-diag-disable=10441 -w -O3|g' $WRF_FOLDER/WRFV$WRF_VERSION/configure.wrf
+	sed -i '169s|mpif90 -f90=$(SFC)|mpiifort|g' ${WRF_FOLDER}/WRFV${WRF_VERSION}/configure.wrf
+	sed -i '170s|mpicc -cc=$(SCC)|mpiicc|g' ${WRF_FOLDER}/WRFV${WRF_VERSION}/configure.wrf
+	sed -i '177s|-w -O3|-diag-disable=10441 -w -O3|g' ${WRF_FOLDER}/WRFV${WRF_VERSION}/configure.wrf
 
 	./compile -j $CPU_HALF_EVEN em_real 2>&1 | tee compile.wrf1.log
 
-	export WRF_DIR=$WRF_FOLDER/WRFV$WRF_VERSION
+	export WRF_DIR=${WRF_FOLDER}/WRFV${WRF_VERSION}
 
 	# IF statement to check that all files were created.
-	cd $WRF_FOLDER/WRFV$WRF_VERSION/main
+	cd ${WRF_FOLDER}/WRFV${WRF_VERSION}/main
 	n=$(ls ./*.exe | wc -l)
 	if (($n >= 3)); then
 		echo "All expected files created."
@@ -24510,9 +24675,9 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	else
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
-		cd $WRF_FOLDER/WRFV$WRF_VERSION
+		cd ${WRF_FOLDER}/WRFV${WRF_VERSION}
 		./compile -j $CPU_HALF_EVEN em_real 2>&1 | tee compile.wrf2.log
-		cd $WRF_FOLDER/WRFV$WRF_VERSION/main
+		cd ${WRF_FOLDER}/WRFV${WRF_VERSION}/main
 		n=$(ls ./*.exe | wc -l)
 		if (($n >= 3)); then
 			echo "All expected files created."
@@ -24524,16 +24689,16 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	fi
 
 	echo " "
-	############################WPSV$WPS_VERSION#####################################
-	## WPS v$WPS_VERSION
+	############################WPSV${WPS_VERSION}#####################################
+	## WPS v${WPS_VERSION}
 	## Downloaded from git tagged releases
 	#Option 3 for gfortran and distributed memory
 	########################################################################
 
-	cd $WRF_FOLDER/Downloads
-	wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v$WPS_VERSION.tar.gz -O WPS-$WPS_VERSION.tar.gz
-	tar -xvzf WPS-$WPS_VERSION.tar.gz -C $WRF_FOLDER/
-	cd $WRF_FOLDER/WPS-$WPS_VERSION
+	cd ${WRF_FOLDER}/Downloads
+	wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v${WPS_VERSION}.tar.gz -O WPS-${WPS_VERSION}.tar.gz
+	tar -xvzf WPS-${WPS_VERSION}.tar.gz -C ${WRF_FOLDER}/
+	cd ${WRF_FOLDER}/WPS-${WPS_VERSION}
 	./clean -a
 
 	if [ ${auto_config} -eq 1 ]; then
@@ -24542,14 +24707,14 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 		./configure 2>&1 | tee configure.log #Option 19 intel compiler with distributed memory
 	fi
 
-	sed -i '67s|mpif90|mpiifort|g' $WRF_FOLDER/WPS-$WPS_VERSION/configure.wps
-	sed -i '68s|mpicc|mpiicc|g' $WRF_FOLDER/WPS-$WPS_VERSION/configure.wps
+	sed -i '67s|mpif90|mpiifort|g' ${WRF_FOLDER}/WPS-${WPS_VERSION}/configure.wps
+	sed -i '68s|mpicc|mpiicc|g' ${WRF_FOLDER}/WPS-${WPS_VERSION}/configure.wps
 
 	./compile 2>&1 | tee compile.wps.log
 
 	echo " "
 	# IF statement to check that all files were created.
-	cd $WRF_FOLDER/WPS-$WPS_VERSION
+	cd ${WRF_FOLDER}/WPS-${WPS_VERSION}
 	n=$(ls ./*.exe | wc -l)
 	if (($n == 3)); then
 		echo "All expected files created."
@@ -24558,7 +24723,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
 		./compile 2>&1 | tee compile.wps2.log
-		cd $WRF_FOLDER/WPS-$WPS_VERSION
+		cd ${WRF_FOLDER}/WPS-${WPS_VERSION}
 		n=$(ls ./*.exe | wc -l)
 		if (($n == 3)); then
 			echo "All expected files created."
@@ -24571,26 +24736,26 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 	echo " "
 	############################WRFPLUS 4DVAR###############################
-	## WRFPLUS v$WPS_VERSION 4DVAR
+	## WRFPLUS v${WPS_VERSION} 4DVAR
 	## Downloaded from git tagged releases
 	## WRFPLUS is built within the WRF git folder
 	## Does not include RTTOV Libarary for radiation data.  If wanted will need to install library then reconfigure
 	##Note: if you intend to run both 3DVAR and 4DVAR experiments, it is not necessary to compile the code twice.
 	#Option 8 for intel and distribunted memory
 	########################################################################
-	cd $WRF_FOLDER/Downloads
-	mkdir $WRF_FOLDER/WRFPLUS
-	tar -xvzf WRF-$WRF_VERSION.tar.gz -C $WRF_FOLDER/WRFPLUS
+	cd ${WRF_FOLDER}/Downloads
+	mkdir ${WRF_FOLDER}/WRFPLUS
+	tar -xvzf WRF-${WRF_VERSION}.tar.gz -C ${WRF_FOLDER}/WRFPLUS
 
 	# If statment for changing folder name
-	if [ -d "$WRF_FOLDER/WRFPLUS/WRF" ]; then
-		mv -f $WRF_FOLDER/WRFPLUS/WRF $WRF_FOLDER/WRFPLUS/WRFV$WRF_VERSION
+	if [ -d "${WRF_FOLDER}/WRFPLUS/WRF" ]; then
+		mv -f ${WRF_FOLDER}/WRFPLUS/WRF ${WRF_FOLDER}/WRFPLUS/WRFV${WRF_VERSION}
 	fi
 
-	cd $WRF_FOLDER/WRFPLUS/WRFV$WRF_VERSION
-	mv * $WRF_FOLDER/WRFPLUS
-	cd $WRF_FOLDER/WRFPLUS
-	rm -rf WRFV$WRF_VERSION/
+	cd ${WRF_FOLDER}/WRFPLUS/WRFV${WRF_VERSION}
+	mv * ${WRF_FOLDER}/WRFPLUS
+	cd ${WRF_FOLDER}/WRFPLUS
+	rm -rf WRFV${WRF_VERSION}/
 	export NETCDF=$DIR/NETCDF
 	export HDF5=$DIR/grib2
 	export LD_LIBRARY_PATH=$DIR/grib2/lib:$LD_LIBRARY_PATH
@@ -24603,18 +24768,18 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	fi
 	echo " "
 
-	sed -i '169s|mpif90 -f90=$(SFC)|mpiifort|g' $WRF_FOLDER/WRFPLUS/configure.wrf
-	sed -i '170s|mpicc -cc=$(SCC)|mpiicc|g' $WRF_FOLDER/WRFPLUS/configure.wrf
-	sed -i '177s|-w -O3|-diag-disable=10441 -w -O3|g' $WRF_FOLDER/WRFPLUS/configure.wrf
+	sed -i '169s|mpif90 -f90=$(SFC)|mpiifort|g' ${WRF_FOLDER}/WRFPLUS/configure.wrf
+	sed -i '170s|mpicc -cc=$(SCC)|mpiicc|g' ${WRF_FOLDER}/WRFPLUS/configure.wrf
+	sed -i '177s|-w -O3|-diag-disable=10441 -w -O3|g' ${WRF_FOLDER}/WRFPLUS/configure.wrf
 
 	./compile -j $CPU_HALF_EVEN wrfplus 2>&1 | tee wrfplus1.compile.log
-	./compile -j $CPU_HALF_EVEN wrfplus 2>&1 | tee wrfplus2.compile.log
-	export WRFPLUS_DIR=$WRF_FOLDER/WRFPLUS
+
+	export WRFPLUS_DIR=${WRF_FOLDER}/WRFPLUS
 
 	echo " "
 
 	# IF statement to check that all files were created.
-	cd $WRF_FOLDER/WRFPLUS/main
+	cd ${WRF_FOLDER}/WRFPLUS/main
 	n=$(ls ./wrfplus.exe | wc -l)
 	if (($n == 1)); then
 		echo "All expected files created."
@@ -24622,9 +24787,9 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	else
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
-		cd $WRF_FOLDER/WRFPLUS/WRFV$WRF_VERSION
-		./compile -j $CPU_HALF_EVEN wrfplus 2>&1 | tee compile.wrfplus.log
-		cd $WRF_FOLDER/WRFPLUS/main
+		cd ${WRF_FOLDER}/WRFPLUS/WRFV${WRF_VERSION}
+		./compile -j $CPU_HALF_EVEN wrfplus 2>&1 | tee compile.wrfplus2.log
+		cd ${WRF_FOLDER}/WRFPLUS/main
 		n=$(ls ./wrfplus.exe | wc -l)
 		if (($n == 1)); then
 			echo "All expected files created."
@@ -24639,29 +24804,29 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	echo " "
 
 	############################WRFDA 4DVAR###############################
-	## WRFDA v$WPS_VERSION 4DVAR
+	## WRFDA v${WPS_VERSION} 4DVAR
 	## Downloaded from git tagged releases
 	## WRFDA is built within the WRFPLUS folder
 	## Does not include RTTOV Libarary for radiation data.  If wanted will need to install library then reconfigure
 	##Note: if you intend to run both 3DVAR and 4DVAR experiments, it is not necessary to compile the code twice.
 	#Option 8 for intel and distribunted memory
 	########################################################################
-	cd $WRF_FOLDER/Downloads
-	tar -xvzf WRF-$WRF_VERSION.tar.gz -C $WRF_FOLDER/WRFDA
+	cd ${WRF_FOLDER}/Downloads
+	tar -xvzf WRF-${WRF_VERSION}.tar.gz -C ${WRF_FOLDER}/WRFDA
 
 	# If statment for changing folder name
-	if [ -d "$WRF_FOLDER/WRFDA/WRF" ]; then
-		mv -f $WRF_FOLDER/WRFDA/WRF $WRF_FOLDER/WRFDA/WRFV$WRF_VERSION
+	if [ -d "${WRF_FOLDER}/WRFDA/WRF" ]; then
+		mv -f ${WRF_FOLDER}/WRFDA/WRF ${WRF_FOLDER}/WRFDA/WRFV${WRF_VERSION}
 	fi
 
-	cd $WRF_FOLDER/WRFDA/WRFV$WRF_VERSION
-	mv * $WRF_FOLDER/WRFDA
-	cd $WRF_FOLDER/WRFDA
-	rm -rf WRFV$WRF_VERSION/
+	cd ${WRF_FOLDER}/WRFDA/WRFV${WRF_VERSION}
+	mv * ${WRF_FOLDER}/WRFDA
+	cd ${WRF_FOLDER}/WRFDA
+	rm -rf WRFV${WRF_VERSION}/
 	export NETCDF=$DIR/NETCDF
 	export HDF5=$DIR/grib2
 	export LD_LIBRARY_PATH=$DIR/grib2/lib:$LD_LIBRARY_PATH
-	export WRFPLUS_DIR=$WRF_FOLDER/WRFPLUS
+	export WRFPLUS_DIR=${WRF_FOLDER}/WRFPLUS
 	./clean -a
 
 	if [ ${auto_config} -eq 1 ]; then
@@ -24671,32 +24836,32 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	fi
 	echo " "
 
-	sed -i '169s|mpif90 -f90=$(SFC)|mpiifort|g' $WRF_FOLDER/WRFDA/configure.wrf
-	sed -i '170s|mpicc -cc=$(SCC)|mpiicc|g' $WRF_FOLDER/WRFDA/configure.wrf
-	sed -i '177s|-w -O3|-diag-disable=10441 -w -O3|g' $WRF_FOLDER/WRFDA/configure.wrf
+	sed -i '169s|mpif90 -f90=$(SFC)|mpiifort|g' ${WRF_FOLDER}/WRFDA/configure.wrf
+	sed -i '170s|mpicc -cc=$(SCC)|mpiicc|g' ${WRF_FOLDER}/WRFDA/configure.wrf
+	sed -i '177s|-w -O3|-diag-disable=10441 -w -O3|g' ${WRF_FOLDER}/WRFDA/configure.wrf
 	./compile all_wrfvar 2>&1 | tee wrfda.compile.log
 	echo " "
 
 	# IF statement to check that all files were created.
-	cd $WRF_FOLDER/WRFDA/var/da
+	cd ${WRF_FOLDER}/WRFDA/var/da
 	n=$(ls ./*.exe | wc -l)
-	cd $WRF_FOLDER/WRFDA/var/obsproc/src
+	cd ${WRF_FOLDER}/WRFDA/var/obsproc/src
 	m=$(ls ./*.exe | wc -l)
 	if ((($n == 43) && ($m == 1))); then
 		echo "All expected files created."
-		read -r -t 5 -p "Finished installing WRFDA-CHEM 3DVAR. I am going to wait for 5 seconds only ..."
+		read -r -t 5 -p "Finished installing WRFDA-4DVAR. I am going to wait for 5 seconds only ..."
 	else
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
-		cd $WRF_FOLDER/WRFDA
+		cd ${WRF_FOLDER}/WRFDA
 		./compile -j $CPU_HALF_EVEN all_wrfvar 2>&1 | tee compile.chem.wrfvar2.log
-		cd $WRF_FOLDER/WRFDA/var/da
+		cd ${WRF_FOLDER}/WRFDA/var/da
 		n=$(ls ./*.exe | wc -l)
-		cd $WRF_FOLDER/WRFDA/var/obsproc/src
+		cd ${WRF_FOLDER}/WRFDA/var/obsproc/src
 		m=$(ls ./*.exe | wc -l)
 		if ((($n == 43) && ($m == 1))); then
 			echo "All expected files created."
-			read -r -t 5 -p "Finished installing WRFDA-CHEM 3DVAR. I am going to wait for 5 seconds only ..."
+			read -r -t 5 -p "Finished installing WRFDA. I am going to wait for 5 seconds only ..."
 		else
 			read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
 			exit
@@ -24706,20 +24871,20 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 	######################## WPS Domain Setup Tools ########################
 	## DomainWizard
-	cd $WRF_FOLDER/Downloads
+	cd ${WRF_FOLDER}/Downloads
 	wget -c http://esrl.noaa.gov/gsd/wrfportal/domainwizard/WRFDomainWizard.zip
-	mkdir $WRF_FOLDER/WRFDomainWizard
-	unzip WRFDomainWizard.zip -d $WRF_FOLDER/WRFDomainWizard
-	chmod +x $WRF_FOLDER/WRFDomainWizard/run_DomainWizard
+	mkdir ${WRF_FOLDER}/WRFDomainWizard
+	unzip WRFDomainWizard.zip -d ${WRF_FOLDER}/WRFDomainWizard
+	chmod +x ${WRF_FOLDER}/WRFDomainWizard/run_DomainWizard
 
 	echo " "
 	######################## WPF Portal Setup Tools ########################
 	## WRFPortal
-	cd $WRF_FOLDER/Downloads
+	cd ${WRF_FOLDER}/Downloads
 	wget -c https://esrl.noaa.gov/gsd/wrfportal/portal/wrf-portal.zip
-	mkdir $WRF_FOLDER/WRFPortal
-	unzip wrf-portal.zip -d $WRF_FOLDER/WRFPortal
-	chmod +x $WRF_FOLDER/WRFPortal/runWRFPortal
+	mkdir ${WRF_FOLDER}/WRFPortal
+	unzip wrf-portal.zip -d ${WRF_FOLDER}/WRFPortal
+	chmod +x ${WRF_FOLDER}/WRFPortal/runWRFPortal
 
 	echo " "
 
@@ -24729,19 +24894,19 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	# All files downloaded and untarred is 200GB
 	# https://www2.mmm.ucar.edu/wrf/users/download/get_sources_wps_geog.html
 	#################################################################################
-	cd $WRF_FOLDER/Downloads
-	mkdir $WRF_FOLDER/GEOG
-	mkdir $WRF_FOLDER/GEOG/WPS_GEOG
+	cd ${WRF_FOLDER}/Downloads
+	mkdir ${WRF_FOLDER}/GEOG
+	mkdir ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 	echo " "
 	echo "Mandatory WRF Preprocessing System (WPS) Geographical Input Data Mandatory Fields Downloads"
 	echo " "
 	wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_high_res_mandatory.tar.gz
-	tar -xvzf geog_high_res_mandatory.tar.gz -C $WRF_FOLDER/GEOG/
+	tar -xvzf geog_high_res_mandatory.tar.gz -C ${WRF_FOLDER}/GEOG/
 
 	wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_low_res_mandatory.tar.gz
-	tar -xvzf geog_low_res_mandatory.tar.gz -C $WRF_FOLDER/GEOG/
-	mv $WRF_FOLDER/GEOG/WPS_GEOG_LOW_RES/ $WRF_FOLDER/GEOG/WPS_GEOG
+	tar -xvzf geog_low_res_mandatory.tar.gz -C ${WRF_FOLDER}/GEOG/
+	mv ${WRF_FOLDER}/GEOG/WPS_GEOG_LOW_RES/ ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 	if [ ${WPS_Specific_Applications} -eq 1 ]; then
 		echo " "
@@ -24749,31 +24914,31 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 		echo " "
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_thompson28_chem.tar.gz
-		tar -xvzf geog_thompson28_chem.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+		tar -xvzf geog_thompson28_chem.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_noahmp.tar.gz
-		tar -xvzf geog_noahmp.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+		tar -xvzf geog_noahmp.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/irrigation.tar.gz
-		tar -xvzf irrigation.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+		tar -xvzf irrigation.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_px.tar.gz
-		tar -xvzf geog_px.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+		tar -xvzf geog_px.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_urban.tar.gz
-		tar -xvzf geog_urban.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+		tar -xvzf geog_urban.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_ssib.tar.gz
-		tar -xvzf geog_ssib.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+		tar -xvzf geog_ssib.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/lake_depth.tar.bz2
-		tar -xvf lake_depth.tar.bz2 -C $WRF_FOLDER/GEOG/WPS_GEOG
+		tar -xvf lake_depth.tar.bz2 -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/topobath_30s.tar.bz2
-		tar -xvf topobath_30s.tar.bz2 -C $WRF_FOLDER/GEOG/WPS_GEOG
+		tar -xvf topobath_30s.tar.bz2 -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/gsl_gwd.tar.bz2
-		tar -xvf gsl_gwd.tar.bz2 -C $WRF_FOLDER/GEOG/WPS_GEOG
+		tar -xvf gsl_gwd.tar.bz2 -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 	fi
 
 	if [ ${Optional_GEOG} -eq 1 ]; then
@@ -24782,22 +24947,22 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 		echo " "
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_older_than_2000.tar.gz
-		tar -xvzf geog_older_than_2000.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+		tar -xvzf geog_older_than_2000.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s_with_lakes.tar.gz
-		tar -xvzf modis_landuse_20class_15s_with_lakes.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+		tar -xvzf modis_landuse_20class_15s_with_lakes.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_alt_lsm.tar.gz
-		tar -xvzf geog_alt_lsm.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+		tar -xvzf geog_alt_lsm.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/nlcd2006_ll_9s.tar.bz2
-		tar -xvf nlcd2006_ll_9s.tar.bz2 -C $WRF_FOLDER/GEOG/WPS_GEOG
+		tar -xvf nlcd2006_ll_9s.tar.bz2 -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/updated_Iceland_LU.tar.gz
-		tar -xvf updated_Iceland_LU.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+		tar -xvf updated_Iceland_LU.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s.tar.bz2
-		tar -xvf modis_landuse_20class_15s.tar.bz2 -C $WRF_FOLDER/GEOG/WPS_GEOG
+		tar -xvf modis_landuse_20class_15s.tar.bz2 -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 	fi
 
 fi
@@ -24805,30 +24970,55 @@ fi
 if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "Intel" ]; then
 
 	#############################basic package managment############################
-	brew install wget
-	brew install git
-	brew install gcc@12
-	brew install libtool
-	brew install automake
-	brew install autoconf
-	brew install make
-	brew install m4
-	brew install java
-	brew install ksh
-	brew install grads
-	brew install ksh
-	brew install tcsh
+sleep 1
+brew install autoconf
+sleep 1
+brew install bison
+sleep 1
+brew install byacc
+sleep 1
+brew install cmake
+sleep 1
+brew install curl
+sleep 1
+brew install flex
+sleep 1
+brew install gdal
+sleep 1
+brew install gedit
+sleep 1
+brew install git
+sleep 1
+brew install gnu-sed
+sleep 1
+brew install imagemagick
+sleep 1
+brew install java
+sleep 1
+brew install ksh
+sleep 1
+brew install libtool
+sleep 1
+brew install m4
+sleep 1
+brew install make
+sleep 1
+brew install python@3.10
+sleep 1
+brew install tcsh
+sleep 1
+brew install wget
+sleep 1
+brew install xauth
+sleep 1
+brew install xorgproto
+sleep 1
+brew install xorgrgb
+sleep 1
+brew install xquartz
 
-	brew install python@3.10
-	brew install cmake
-	brew install xorgproto
-	brew install xorgrgb
-	brew install xauth
-	brew install curl
-	brew install flex
-	brew install byacc
-	brew install bison
-	brew install gnu-sed
+export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
+export PATH=/usr/local/bin:$PATH
 
 	##############################Directory Listing############################
 
@@ -24838,12 +25028,12 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "Int
 	)
 	mkdir $HOME/WRF
 	export WRF_FOLDER=$HOME/WRF
-	cd $WRF_FOLDER/
+	cd ${WRF_FOLDER}/
 	mkdir Downloads
 	mkdir WRFPLUS
 	mkdir WRFDA
 	mkdir Libs
-	export DIR=$WRF_FOLDER/Libs
+	export DIR=${WRF_FOLDER}/Libs
 	mkdir -p Libs/grib2
 	mkdir -p Libs/NETCDF
 	mkdir -p Tests/Environment
@@ -24870,7 +25060,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "Int
 
 	##############################Downloading Libraries############################
 
-	cd $WRF_FOLDER/Downloads
+	cd ${WRF_FOLDER}/Downloads
 	wget -c https://github.com/madler/zlib/archive/refs/tags/v$Zlib_Version.tar.gz
 	wget -c https://github.com/HDFGroup/hdf5/archive/refs/tags/hdf5-$HDF5_Version.tar.gz
 	wget -c https://github.com/Unidata/netcdf-c/archive/refs/tags/v$Netcdf_C_Version.tar.gz
@@ -24879,7 +25069,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "Int
 	wget -c https://www.ece.uvic.ca/~frodo/jasper/software/jasper-$Jasper_Version.zip
 	wget -c https://github.com/pmodels/mpich/releases/download/v$Mpich_Version/mpich-$Mpich_Version.tar.gz
 	wget -c https://parallel-netcdf.github.io/Release/pnetcdf-$Pnetcdf_Version.tar.gz
-	wget -c https://sourceforge.net/projects/opengrads/files/grads2/2.2.1.oga.1/Linux%20%2864%20Bits%29/opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz
+
 
 	echo " "
 
@@ -24936,7 +25126,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "Int
 	#Uncalling compilers due to comfigure issue with zlib1.2.12
 	#With CC & CXX definied ./configure uses different compiler Flags
 
-	cd $WRF_FOLDER/Downloads
+	cd ${WRF_FOLDER}/Downloads
 	tar -xvzf v$Zlib_Version.tar.gz
 	cd zlib-$Zlib_Version/
 	autoreconf -i -f 2>&1 | tee autoreconf.log
@@ -24949,7 +25139,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "Int
 	echo " "
 
 	##############################MPICH############################
-	cd $WRF_FOLDER/Downloads
+	cd ${WRF_FOLDER}/Downloads
 	tar -xvzf mpich-$Mpich_Version.tar.gz
 	cd mpich-$Mpich_Version/
 	autoreconf -i -f 2>&1 | tee autoreconf.log
@@ -24972,7 +25162,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "Int
 	echo " "
 
 	#############################libpng############################
-	cd $WRF_FOLDER/Downloads
+	cd ${WRF_FOLDER}/Downloads
 	export LDFLAGS=-L$DIR/grib2/lib
 	export CPPFLAGS=-I$DIR/grib2/include
 	tar -xvzf libpng-$Libpng_Version.tar.gz
@@ -24988,7 +25178,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "Int
 	echo " "
 	#############################JasPer############################
 
-	cd $WRF_FOLDER/Downloads
+	cd ${WRF_FOLDER}/Downloads
 	unzip jasper-$Jasper_Version.zip
 	cd jasper-$Jasper_Version/
 	autoreconf -i -f 2>&1 | tee autoreconf.log
@@ -25003,7 +25193,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "Int
 	echo " "
 	#############################hdf5 library for netcdf4 functionality############################
 
-	cd $WRF_FOLDER/Downloads
+	cd ${WRF_FOLDER}/Downloads
 	tar -xvzf hdf5-$HDF5_Version.tar.gz
 	cd hdf5-hdf5-$HDF5_Version
 	autoreconf -i -f 2>&1 | tee autoreconf.log
@@ -25024,7 +25214,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "Int
 	#Make file created with half of available cpu cores
 	#Hard path for MPI added
 	##################################################################################
-	cd $WRF_FOLDER/Downloads
+	cd ${WRF_FOLDER}/Downloads
 	tar -xvzf pnetcdf-$Pnetcdf_Version.tar.gz
 	cd pnetcdf-$Pnetcdf_Version
 	export MPIFC=$DIR/MPICH/bin/mpifort
@@ -25044,7 +25234,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "Int
 	echo " "
 
 	##############################Install NETCDF C Library############################
-	cd $WRF_FOLDER/Downloads
+	cd ${WRF_FOLDER}/Downloads
 	tar -xzvf v$Netcdf_C_Version.tar.gz
 	cd netcdf-c-$Netcdf_C_Version/
 	export CPPFLAGS=-I$DIR/grib2/include
@@ -25063,7 +25253,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "Int
 	echo " "
 
 	##############################NetCDF fortran library############################
-	cd $WRF_FOLDER/Downloads
+	cd ${WRF_FOLDER}/Downloads
 	tar -xvzf v$Netcdf_Fortran_Version.tar.gz
 	cd netcdf-fortran-$Netcdf_Fortran_Version/
 	export LD_LIBRARY_PATH=$DIR/NETCDF/lib:$LD_LIBRARY_PATH
@@ -25081,26 +25271,26 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "Int
 	echo " "
 
 	#################################### System Environment Tests ##############
-	mkdir -p $WRF_FOLDER/Tests/Environment
-	mkdir -p $WRF_FOLDER/Tests/Compatibility
+	mkdir -p ${WRF_FOLDER}/Tests/Environment
+	mkdir -p ${WRF_FOLDER}/Tests/Compatibility
 
-	cd $WRF_FOLDER/Downloads
+	cd ${WRF_FOLDER}/Downloads
 	wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_NETCDF_MPI_tests.tar
 	wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_tests.tar
 
-	tar -xvf Fortran_C_tests.tar -C $WRF_FOLDER/Tests/Environment
-	tar -xvf Fortran_C_NETCDF_MPI_tests.tar -C $WRF_FOLDER/Tests/Compatibility
+	tar -xvf Fortran_C_tests.tar -C ${WRF_FOLDER}/Tests/Environment
+	tar -xvf Fortran_C_NETCDF_MPI_tests.tar -C ${WRF_FOLDER}/Tests/Compatibility
 	export one="1"
 	echo " "
 	############## Testing Environment #####
 
-	cd $WRF_FOLDER/Tests/Environment
+	cd ${WRF_FOLDER}/Tests/Environment
 
 	echo " "
 	echo " "
 	echo "Environment Testing "
 	echo "Test 1"
-	gfortran TEST_1_fortran_only_fixed.f
+	$FC TEST_1_fortran_only_fixed.f
 	./a.out | tee env_test1.txt
 	export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test1.txt | awk '{print$1}')
 	if [ $TEST_PASS -ge 1 ]; then
@@ -25113,7 +25303,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "Int
 
 	echo " "
 	echo "Test 2"
-	gfortran TEST_2_fortran_only_free.f90
+	$FC TEST_2_fortran_only_free.f90
 	./a.out | tee env_test2.txt
 	export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test2.txt | awk '{print$1}')
 	if [ $TEST_PASS -ge 1 ]; then
@@ -25127,7 +25317,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "Int
 
 	echo " "
 	echo "Test 3"
-	gcc TEST_3_c_only.c
+	$CC TEST_3_c_only.c
 	./a.out | tee env_test3.txt
 	export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test3.txt | awk '{print$1}')
 	if [ $TEST_PASS -ge 1 ]; then
@@ -25141,9 +25331,9 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "Int
 
 	echo " "
 	echo "Test 4"
-	gcc -c -m64 TEST_4_fortran+c_c.c
-	gfortran -c -m64 TEST_4_fortran+c_f.f90
-	gfortran -m64 TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
+	$CC -c -m64 TEST_4_fortran+c_c.c
+	$FC -c -m64 TEST_4_fortran+c_f.f90
+	$FC -m64 TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
 	./a.out | tee env_test4.txt
 	export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test4.txt | awk '{print$1}')
 	if [ $TEST_PASS -ge 1 ]; then
@@ -25158,7 +25348,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "Int
 	echo " "
 	############## Testing Environment #####
 
-	cd $WRF_FOLDER/Tests/Compatibility
+	cd ${WRF_FOLDER}/Tests/Compatibility
 
 	cp ${NETCDF}/include/netcdf.inc .
 
@@ -25166,9 +25356,9 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "Int
 	echo " "
 	echo "Library Compatibility Tests "
 	echo "Test 1"
-	gfortran -c 01_fortran+c+netcdf_f.f
-	gcc -c 01_fortran+c+netcdf_c.c
-	gfortran 01_fortran+c+netcdf_f.o 01_fortran+c+netcdf_c.o \
+	$FC -c 01_fortran+c+netcdf_f.f
+	$CC -c 01_fortran+c+netcdf_c.c
+	$FC 01_fortran+c+netcdf_f.o 01_fortran+c+netcdf_c.o \
 		-L${NETCDF}/lib -lnetcdff -lnetcdf
 
 	./a.out | tee comp_test1.txt
@@ -25185,9 +25375,9 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "Int
 	echo " "
 
 	echo "Test 2"
-	$DIR/MPICH/bin/mpifort -c 02_fortran+c+netcdf+mpi_f.f
-	$DIR/MPICH/bin/mpicc -c 02_fortran+c+netcdf+mpi_c.c
-	$DIR/MPICH/bin/mpifort 02_fortran+c+netcdf+mpi_f.o \
+	$MPIFC -c 02_fortran+c+netcdf+mpi_f.f
+	$MPICC -c 02_fortran+c+netcdf+mpi_c.c
+	$MPIFC 02_fortran+c+netcdf+mpi_f.o \
 		02_fortran+c+netcdf+mpi_c.o \
 		-L${NETCDF}/lib -lnetcdff -lnetcdf
 
@@ -25211,7 +25401,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "Int
 	pip install --upgrade --force-reinstall zstd
 	pip3 install --upgrade --force-reinstall zstandard
 	pip3 install --upgrade --force-reinstall zstd
-	export Miniconda_Install_DIR=$WRF_FOLDER/miniconda3
+	export Miniconda_Install_DIR=${WRF_FOLDER}/miniconda3
 
 	mkdir -p $Miniconda_Install_DIR
 
@@ -25248,11 +25438,14 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "Int
 	conda deactivate
 	echo " "
 
+
+
+
 	##################### WRF Python           ##################
 	########### WRf-Python compiled via Conda  ##################
 	########### This is the preferred method by NCAR      ##################
 	##### https://wrf-python.readthedocs.io/en/latest/installation.html  ##################
-	source $Anaconda_Install_DIR/etc/profile.d/conda.sh
+	source $Miniconda_Install_DIR/etc/profile.d/conda.sh
 conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 	######################### Climate Data Operators ############
@@ -25283,30 +25476,30 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 	echo " "
 
-	############################ WRF $WPS_VERSION  #################################
-	## WRF v$WPS_VERSION
+	############################ WRF ${WPS_VERSION}  #################################
+	## WRF v${WPS_VERSION}
 	## Downloaded from git tagged releases
 	# option 17, option 1 for gfortran and distributed memory w/basic nesting
 	# large file support enable with WRFiO_NCD_LARGE_FILE_SUPPORT=1
 	########################################################################
 
 	export WRFIO_NCD_LARGE_FILE_SUPPORT=1
-	cd $WRF_FOLDER/Downloads
-	wget -c https://github.com/wrf-model/WRF/releases/download/v$WRF_VERSION/v$WRF_VERSION.tar.gz -O WRF-$WRF_VERSION.tar.gz
-	tar -xvzf WRF-$WRF_VERSION.tar.gz -C $WRF_FOLDER/
+	cd ${WRF_FOLDER}/Downloads
+	wget -c https://github.com/wrf-model/WRF/releases/download/v${WRF_VERSION}/v${WRF_VERSION}.tar.gz -O WRF-${WRF_VERSION}.tar.gz
+	tar -xvzf WRF-${WRF_VERSION}.tar.gz -C ${WRF_FOLDER}/
 
 	# If statment for changing folder name
-	if [ -d "$WRF_FOLDER/WRF" ]; then
-		mv -f $WRF_FOLDER/WRF $WRF_FOLDER/WRFV$WRF_VERSION
+	if [ -d "${WRF_FOLDER}/WRF" ]; then
+		mv -f ${WRF_FOLDER}/WRF ${WRF_FOLDER}/WRFV${WRF_VERSION}
 	fi
 
-	cd $WRF_FOLDER/WRFV$WRF_VERSION
+	cd ${WRF_FOLDER}/WRFV${WRF_VERSION}
 
 	./clean
 
 	if [ ${auto_config} -eq 1 ]; then
-		sed -i'' -e '443s/.*/  $response = "17 \\n";/g' $WRF_FOLDER/WRFV$WRF_VERSION/arch/Config.pl # Answer for compiler choice
-		sed -i'' -e '909s/.*/  $response = "1 \\n";/g' $WRF_FOLDER/WRFV$WRF_VERSION/arch/Config.pl  #Answer for basic nesting
+		sed -i'' -e '443s/.*/  $response = "17 \\n";/g' ${WRF_FOLDER}/WRFV${WRF_VERSION}/arch/Config.pl # Answer for compiler choice
+		sed -i'' -e '909s/.*/  $response = "1 \\n";/g' ${WRF_FOLDER}/WRFV${WRF_VERSION}/arch/Config.pl  #Answer for basic nesting
 		./configure 2>&1 | tee configure.log
 	else
 		./configure 2>&1 | tee configure.log #Option 17 gfortran compiler with distributed memory option 1 for basic nesting
@@ -25314,10 +25507,10 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 	./compile em_real 2>&1 | tee compile.wrf.log
 
-	export WRF_DIR=$WRF_FOLDER/WRFV$WRF_VERSION
+	export WRF_DIR=${WRF_FOLDER}/WRFV${WRF_VERSION}
 
 	# IF statement to check that all files were created.
-	cd $WRF_FOLDER/WRFV$WRF_VERSION/main
+	cd ${WRF_FOLDER}/WRFV${WRF_VERSION}/main
 	n=$(ls ./*.exe | wc -l)
 	if (($n >= 3)); then
 		echo "All expected files created."
@@ -25325,9 +25518,9 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	else
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
-		cd $WRF_FOLDER/WRFV$WRF_VERSION
+		cd ${WRF_FOLDER}/WRFV${WRF_VERSION}
 		./compile -j $CPU_HALF_EVEN em_real 2>&1 | tee compile.wrf2.log
-		cd $WRF_FOLDER/WRFV$WRF_VERSION/main
+		cd ${WRF_FOLDER}/WRFV${WRF_VERSION}/main
 		n=$(ls ./*.exe | wc -l)
 		if (($n >= 3)); then
 			echo "All expected files created."
@@ -25338,16 +25531,16 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 		fi
 	fi
 	echo " "
-	############################WPSV$WPS_VERSION#####################################
-	## WPS v$WPS_VERSION
+	############################WPSV${WPS_VERSION}#####################################
+	## WPS v${WPS_VERSION}
 	## Downloaded from git tagged releases
 	#Option 3 for gfortran and distributed memory
 	########################################################################
 
-	cd $WRF_FOLDER/Downloads
-	wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v$WPS_VERSION.tar.gz -O WPS-$WPS_VERSION.tar.gz
-	tar -xvzf WPS-$WPS_VERSION.tar.gz -C $WRF_FOLDER/
-	cd $WRF_FOLDER/WPS-$WPS_VERSION
+	cd ${WRF_FOLDER}/Downloads
+	wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v${WPS_VERSION}.tar.gz -O WPS-${WPS_VERSION}.tar.gz
+	tar -xvzf WPS-${WPS_VERSION}.tar.gz -C ${WRF_FOLDER}/
+	cd ${WRF_FOLDER}/WPS-${WPS_VERSION}
 	./clean -a
 
 	if [ ${auto_config} -eq 1 ]; then
@@ -25359,7 +25552,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	./compile 2>&1 | tee compile.wrf.log
 
 	# IF statement to check that all files were created.
-	cd $WRF_FOLDER/WPS-$WPS_VERSION
+	cd ${WRF_FOLDER}/WPS-${WPS_VERSION}
 	n=$(ls ./*.exe | wc -l)
 	if (($n == 3)); then
 		echo "All expected files created."
@@ -25368,7 +25561,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
 		./compile 2>&1 | tee compile.wps2.log
-		cd $WRF_FOLDER/WPS-$WPS_VERSION
+		cd ${WRF_FOLDER}/WPS-${WPS_VERSION}
 		n=$(ls ./*.exe | wc -l)
 		if (($n == 3)); then
 			echo "All expected files created."
@@ -25381,7 +25574,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	echo " "
 
 	############################WRFPLUS 4DVAR###############################
-	## WRFPLUS v$WPS_VERSION 4DVAR
+	## WRFPLUS v${WPS_VERSION} 4DVAR
 	## Downloaded from git tagged releases
 	## WRFPLUS is built within the WRF git folder
 	## Does not include RTTOV Libarary for radiation data.  If wanted will need to install library then reconfigure
@@ -25389,18 +25582,18 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	#Option 10 for gfortran/gcc and distribunted memory
 	########################################################################
 
-	cd $WRF_FOLDER/Downloads
-	tar -xvzf WRF-$WRF_VERSION.tar.gz -C $WRF_FOLDER/WRFPLUS
+	cd ${WRF_FOLDER}/Downloads
+	tar -xvzf WRF-${WRF_VERSION}.tar.gz -C ${WRF_FOLDER}/WRFPLUS
 
 	# If statment for changing folder name
-	if [ -d "$WRF_FOLDER/WRFPLUS/WRF" ]; then
-		mv -f $WRF_FOLDER/WRFPLUS/WRF $WRF_FOLDER/WRFPLUS/WRFV$WRF_VERSION
+	if [ -d "${WRF_FOLDER}/WRFPLUS/WRF" ]; then
+		mv -f ${WRF_FOLDER}/WRFPLUS/WRF ${WRF_FOLDER}/WRFPLUS/WRFV${WRF_VERSION}
 	fi
 
-	cd $WRF_FOLDER/WRFPLUS/WRFV$WRF_VERSION
-	mv * $WRF_FOLDER/WRFPLUS
-	cd $WRF_FOLDER/WRFPLUS
-	rm -rf WRFV$WRF_VERSION/
+	cd ${WRF_FOLDER}/WRFPLUS/WRFV${WRF_VERSION}
+	mv * ${WRF_FOLDER}/WRFPLUS
+	cd ${WRF_FOLDER}/WRFPLUS
+	rm -rf WRFV${WRF_VERSION}/
 	export NETCDF=$DIR/NETCDF
 	export HDF5=$DIR/grib2
 	export LD_LIBRARY_PATH=$DIR/grib2/lib:$LD_LIBRARY_PATH
@@ -25412,10 +25605,10 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	fi
 
 	./compile wrfplus 2>&1 | tee compile.wrfplus.log
-	export WRFPLUS_DIR=$WRF_FOLDER/WRFPLUS
+	export WRFPLUS_DIR=${WRF_FOLDER}/WRFPLUS
 
 	# IF statement to check that all files were created.
-	cd $WRF_FOLDER/WRFPLUS/main
+	cd ${WRF_FOLDER}/WRFPLUS/main
 	n=$(ls ./wrfplus.exe | wc -l)
 	if (($n == 1)); then
 		echo "All expected files created."
@@ -25423,9 +25616,9 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	else
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
-		cd $WRF_FOLDER/WRFPLUS/WRFV$WRF_VERSION
+		cd ${WRF_FOLDER}/WRFPLUS/WRFV${WRF_VERSION}
 		./compile -j $CPU_HALF_EVEN wrfplus 2>&1 | tee compile.wrfplus2.log
-		cd $WRF_FOLDER/WRFPLUS/main
+		cd ${WRF_FOLDER}/WRFPLUS/main
 		n=$(ls ./wrfplus.exe | wc -l)
 		if (($n == 1)); then
 			echo "All expected files created."
@@ -25439,7 +25632,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 	echo " "
 	############################WRFDA 4DVAR###############################
-	## WRFDA v$WPS_VERSION 4DVAR
+	## WRFDA v${WPS_VERSION} 4DVAR
 	## Downloaded from git tagged releases
 	## WRFDA is built within the WRFPLUS folder
 	## Does not include RTTOV Libarary for radiation data.  If wanted will need to install library then reconfigure
@@ -25447,22 +25640,22 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	#Option 10 for gfortran/clang and distribunted memory
 	########################################################################
 
-	cd $WRF_FOLDER/Downloads
-	tar -xvzf WRF-$WRF_VERSION.tar.gz -C $WRF_FOLDER/WRFDA
+	cd ${WRF_FOLDER}/Downloads
+	tar -xvzf WRF-${WRF_VERSION}.tar.gz -C ${WRF_FOLDER}/WRFDA
 
 	# If statment for changing folder name
-	if [ -d "$WRF_FOLDER/WRFDA/WRF" ]; then
-		mv -f $WRF_FOLDER/WRFDA/WRF $WRF_FOLDER/WRFDA/WRFV$WRF_VERSION
+	if [ -d "${WRF_FOLDER}/WRFDA/WRF" ]; then
+		mv -f ${WRF_FOLDER}/WRFDA/WRF ${WRF_FOLDER}/WRFDA/WRFV${WRF_VERSION}
 	fi
 
-	cd $WRF_FOLDER/WRFDA/WRFV$WRF_VERSION
-	mv * $WRF_FOLDER/WRFDA
-	cd $WRF_FOLDER/WRFDA
-	rm -rf WRFV$WRF_VERSION/
+	cd ${WRF_FOLDER}/WRFDA/WRFV${WRF_VERSION}
+	mv * ${WRF_FOLDER}/WRFDA
+	cd ${WRF_FOLDER}/WRFDA
+	rm -rf WRFV${WRF_VERSION}/
 	export NETCDF=$DIR/NETCDF
 	export HDF5=$DIR/grib2
 	export LD_LIBRARY_PATH=$DIR/grib2/lib:$LD_LIBRARY_PATH
-	export WRFPLUS_DIR=$WRF_FOLDER/WRFPLUS
+	export WRFPLUS_DIR=${WRF_FOLDER}/WRFPLUS
 
 	if [ ${auto_config} -eq 1 ]; then
 		echo 10 | ./configure 4dvar 2>&1 | tee configure.log #Option 18 for gfortran/gcc and distribunted memory
@@ -25473,25 +25666,25 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	./compile all_wrfvar 2>&1 | tee compile.wrf4dvar.log
 
 	# IF statement to check that all files were created.
-	cd $WRF_FOLDER/WRFDA/var/da
+	cd ${WRF_FOLDER}/WRFDA/var/da
 	n=$(ls ./*.exe | wc -l)
-	cd $WRF_FOLDER/WRFDA/var/obsproc/src
+	cd ${WRF_FOLDER}/WRFDA/var/obsproc/src
 	m=$(ls ./*.exe | wc -l)
 	if ((($n == 43) && ($m == 1))); then
 		echo "All expected files created."
-		read -r -t 5 -p "Finished installing WRFDA-CHEM 3DVAR. I am going to wait for 5 seconds only ..."
+		read -r -t 5 -p "Finished installing WRFDA. I am going to wait for 5 seconds only ..."
 	else
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
-		cd $WRF_FOLDER/WRFDA
+		cd ${WRF_FOLDER}/WRFDA
 		./compile -j $CPU_HALF_EVEN all_wrfvar 2>&1 | tee compile.chem.wrfvar2.log
-		cd $WRF_FOLDER/WRFDA/var/da
+		cd ${WRF_FOLDER}/WRFDA/var/da
 		n=$(ls ./*.exe | wc -l)
-		cd $WRF_FOLDER/WRFDA/var/obsproc/src
+		cd ${WRF_FOLDER}/WRFDA/var/obsproc/src
 		m=$(ls ./*.exe | wc -l)
 		if ((($n == 43) && ($m == 1))); then
 			echo "All expected files created."
-			read -r -t 5 -p "Finished installing WRFDA-CHEM 3DVAR. I am going to wait for 5 seconds only ..."
+			read -r -t 5 -p "Finished installing WRFDA. I am going to wait for 5 seconds only ..."
 		else
 			read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
 			exit
@@ -25503,20 +25696,20 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	######################## WPS Domain Setup Tools ########################
 	## DomainWizard
 
-	cd $WRF_FOLDER/Downloads
+	cd ${WRF_FOLDER}/Downloads
 	wget http://esrl.noaa.gov/gsd/wrfportal/domainwizard/WRFDomainWizard.zip
-	mkdir $WRF_FOLDER/WRFDomainWizard
-	unzip WRFDomainWizard.zip -d $WRF_FOLDER/WRFDomainWizard
-	chmod +x $WRF_FOLDER/WRFDomainWizard/run_DomainWizard
+	mkdir ${WRF_FOLDER}/WRFDomainWizard
+	unzip WRFDomainWizard.zip -d ${WRF_FOLDER}/WRFDomainWizard
+	chmod +x ${WRF_FOLDER}/WRFDomainWizard/run_DomainWizard
 
 	echo " "
 	######################## WPF Portal Setup Tools ########################
 	## WRFPortal
-	cd $WRF_FOLDER/Downloads
+	cd ${WRF_FOLDER}/Downloads
 	wget https://esrl.noaa.gov/gsd/wrfportal/portal/wrf-portal.zip
-	mkdir $WRF_FOLDER/WRFPortal
-	unzip wrf-portal.zip -d $WRF_FOLDER/WRFPortal
-	chmod +x $WRF_FOLDER/WRFPortal/runWRFPortal
+	mkdir ${WRF_FOLDER}/WRFPortal
+	unzip wrf-portal.zip -d ${WRF_FOLDER}/WRFPortal
+	chmod +x ${WRF_FOLDER}/WRFPortal/runWRFPortal
 
 	echo " "
 	######################## Static Geography Data inc/ Optional ####################
@@ -25525,19 +25718,19 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	# All files downloaded and untarred is 200GB
 	# https://www2.mmm.ucar.edu/wrf/users/download/get_sources_wps_geog.html
 	#################################################################################
-	cd $WRF_FOLDER/Downloads
-	mkdir $WRF_FOLDER/GEOG
-	mkdir $WRF_FOLDER/GEOG/WPS_GEOG
+	cd ${WRF_FOLDER}/Downloads
+	mkdir ${WRF_FOLDER}/GEOG
+	mkdir ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 	echo " "
 	echo "Mandatory WRF Preprocessing System (WPS) Geographical Input Data Mandatory Fields Downloads"
 	echo " "
 	wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_high_res_mandatory.tar.gz
-	tar -xvzf geog_high_res_mandatory.tar.gz -C $WRF_FOLDER/GEOG/
+	tar -xvzf geog_high_res_mandatory.tar.gz -C ${WRF_FOLDER}/GEOG/
 
 	wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_low_res_mandatory.tar.gz
-	tar -xvzf geog_low_res_mandatory.tar.gz -C $WRF_FOLDER/GEOG/
-	mv $WRF_FOLDER/GEOG/WPS_GEOG_LOW_RES/ $WRF_FOLDER/GEOG/WPS_GEOG
+	tar -xvzf geog_low_res_mandatory.tar.gz -C ${WRF_FOLDER}/GEOG/
+	mv ${WRF_FOLDER}/GEOG/WPS_GEOG_LOW_RES/ ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 	if [ ${WPS_Specific_Applications} -eq 1 ]; then
 		echo " "
@@ -25545,31 +25738,31 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 		echo " "
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_thompson28_chem.tar.gz
-		tar -xvzf geog_thompson28_chem.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+		tar -xvzf geog_thompson28_chem.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_noahmp.tar.gz
-		tar -xvzf geog_noahmp.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+		tar -xvzf geog_noahmp.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/irrigation.tar.gz
-		tar -xvzf irrigation.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+		tar -xvzf irrigation.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_px.tar.gz
-		tar -xvzf geog_px.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+		tar -xvzf geog_px.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_urban.tar.gz
-		tar -xvzf geog_urban.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+		tar -xvzf geog_urban.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_ssib.tar.gz
-		tar -xvzf geog_ssib.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+		tar -xvzf geog_ssib.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/lake_depth.tar.bz2
-		tar -xvf lake_depth.tar.bz2 -C $WRF_FOLDER/GEOG/WPS_GEOG
+		tar -xvf lake_depth.tar.bz2 -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/topobath_30s.tar.bz2
-		tar -xvf topobath_30s.tar.bz2 -C $WRF_FOLDER/GEOG/WPS_GEOG
+		tar -xvf topobath_30s.tar.bz2 -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/gsl_gwd.tar.bz2
-		tar -xvf gsl_gwd.tar.bz2 -C $WRF_FOLDER/GEOG/WPS_GEOG
+		tar -xvf gsl_gwd.tar.bz2 -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 	fi
 
@@ -25580,22 +25773,22 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 		echo " "
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_older_than_2000.tar.gz
-		tar -xvzf geog_older_than_2000.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+		tar -xvzf geog_older_than_2000.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s_with_lakes.tar.gz
-		tar -xvzf modis_landuse_20class_15s_with_lakes.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+		tar -xvzf modis_landuse_20class_15s_with_lakes.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_alt_lsm.tar.gz
-		tar -xvzf geog_alt_lsm.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+		tar -xvzf geog_alt_lsm.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/nlcd2006_ll_9s.tar.bz2
-		tar -xvf nlcd2006_ll_9s.tar.bz2 -C $WRF_FOLDER/GEOG/WPS_GEOG
+		tar -xvf nlcd2006_ll_9s.tar.bz2 -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/updated_Iceland_LU.tar.gz
-		tar -xvf updated_Iceland_LU.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+		tar -xvf updated_Iceland_LU.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s.tar.bz2
-		tar -xvf modis_landuse_20class_15s.tar.bz2 -C $WRF_FOLDER/GEOG/WPS_GEOG
+		tar -xvf modis_landuse_20class_15s.tar.bz2 -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 	fi
 
@@ -25603,30 +25796,55 @@ fi
 
 if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "ARM" ]; then
 	#############################basic package managment############################
-	brew install wget
-	brew install git
-	brew install gcc@12
-	brew install libtool
-	brew install automake
-	brew install autoconf
-	brew install make
-	brew install m4
-	brew install java
-	brew install ksh
-	brew install grads
-	brew install ksh
-	brew install tcsh
+sleep 1
+brew install autoconf
+sleep 1
+brew install bison
+sleep 1
+brew install byacc
+sleep 1
+brew install cmake
+sleep 1
+brew install curl
+sleep 1
+brew install flex
+sleep 1
+brew install gdal
+sleep 1
+brew install gedit
+sleep 1
+brew install git
+sleep 1
+brew install gnu-sed
+sleep 1
+brew install imagemagick
+sleep 1
+brew install java
+sleep 1
+brew install ksh
+sleep 1
+brew install libtool
+sleep 1
+brew install m4
+sleep 1
+brew install make
+sleep 1
+brew install python@3.10
+sleep 1
+brew install tcsh
+sleep 1
+brew install wget
+sleep 1
+brew install xauth
+sleep 1
+brew install xorgproto
+sleep 1
+brew install xorgrgb
+sleep 1
+brew install xquartz
 
-	brew install python@3.10
-	brew install cmake
-	brew install xorgproto
-	brew install xorgrgb
-	brew install xauth
-	brew install curl
-	brew install flex
-	brew install byacc
-	brew install bison
-	brew install gnu-sed
+export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
+export PATH=/usr/local/bin:$PATH
 
 	##############################Directory Listing############################
 
@@ -25636,12 +25854,12 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "ARM
 	)
 	mkdir $HOME/WRF
 	export WRF_FOLDER=$HOME/WRF
-	cd $WRF_FOLDER/
+	cd ${WRF_FOLDER}/
 	mkdir Downloads
 	mkdir WRFPLUS
 	mkdir WRFDA
 	mkdir Libs
-	export DIR=$WRF_FOLDER/Libs
+	export DIR=${WRF_FOLDER}/Libs
 	mkdir -p Libs/grib2
 	mkdir -p Libs/NETCDF
 	mkdir -p Tests/Environment
@@ -25668,7 +25886,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "ARM
 
 	##############################Downloading Libraries############################
 
-	cd $WRF_FOLDER/Downloads
+	cd ${WRF_FOLDER}/Downloads
 	wget -c https://github.com/madler/zlib/archive/refs/tags/v$Zlib_Version.tar.gz
 	wget -c https://github.com/HDFGroup/hdf5/archive/refs/tags/hdf5-$HDF5_Version.tar.gz
 	wget -c https://github.com/Unidata/netcdf-c/archive/refs/tags/v$Netcdf_C_Version.tar.gz
@@ -25677,7 +25895,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "ARM
 	wget -c https://www.ece.uvic.ca/~frodo/jasper/software/jasper-$Jasper_Version.zip
 	wget -c https://github.com/pmodels/mpich/releases/download/v$Mpich_Version/mpich-$Mpich_Version.tar.gz
 	wget -c https://parallel-netcdf.github.io/Release/pnetcdf-$Pnetcdf_Version.tar.gz
-	wget -c https://sourceforge.net/projects/opengrads/files/grads2/2.2.1.oga.1/Linux%20%2864%20Bits%29/opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz
+
 
 	echo " "
 
@@ -25750,7 +25968,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "ARM
 	#Uncalling compilers due to comfigure issue with zlib1.2.12
 	#With CC & CXX definied ./configure uses different compiler Flags
 
-	cd $WRF_FOLDER/Downloads
+	cd ${WRF_FOLDER}/Downloads
 	tar -xvzf v$Zlib_Version.tar.gz
 	cd zlib-$Zlib_Version/
 	autoreconf -i -f 2>&1 | tee autoreconf.log
@@ -25763,7 +25981,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "ARM
 	echo " "
 
 	##############################MPICH############################
-	cd $WRF_FOLDER/Downloads
+	cd ${WRF_FOLDER}/Downloads
 	tar -xvzf mpich-$Mpich_Version.tar.gz
 	cd mpich-$Mpich_Version/
 	autoreconf -i -f 2>&1 | tee autoreconf.log
@@ -25786,7 +26004,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "ARM
 	echo " "
 
 	#############################libpng############################
-	cd $WRF_FOLDER/Downloads
+	cd ${WRF_FOLDER}/Downloads
 	export LDFLAGS=-L$DIR/grib2/lib
 	export CPPFLAGS=-I$DIR/grib2/include
 	tar -xvzf libpng-$Libpng_Version.tar.gz
@@ -25802,7 +26020,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "ARM
 	echo " "
 	#############################JasPer############################
 
-	cd $WRF_FOLDER/Downloads
+	cd ${WRF_FOLDER}/Downloads
 	unzip jasper-$Jasper_Version.zip
 	cd jasper-$Jasper_Version/
 	autoreconf -i -f 2>&1 | tee autoreconf.log
@@ -25817,7 +26035,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "ARM
 	echo " "
 	#############################hdf5 library for netcdf4 functionality############################
 
-	cd $WRF_FOLDER/Downloads
+	cd ${WRF_FOLDER}/Downloads
 	tar -xvzf hdf5-$HDF5_Version.tar.gz
 	cd hdf5-hdf5-$HDF5_Version
 	autoreconf -i -f 2>&1 | tee autoreconf.log
@@ -25838,7 +26056,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "ARM
 	#Make file created with half of available cpu cores
 	#Hard path for MPI added
 	##################################################################################
-	cd $WRF_FOLDER/Downloads
+	cd ${WRF_FOLDER}/Downloads
 	tar -xvzf pnetcdf-$Pnetcdf_Version.tar.gz
 	cd pnetcdf-$Pnetcdf_Version
 
@@ -25859,7 +26077,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "ARM
 	echo " "
 
 	##############################Install NETCDF C Library############################
-	cd $WRF_FOLDER/Downloads
+	cd ${WRF_FOLDER}/Downloads
 	tar -xzvf v$Netcdf_C_Version.tar.gz
 	cd netcdf-c-$Netcdf_C_Version/
 
@@ -25878,7 +26096,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "ARM
 	echo " "
 
 	##############################NetCDF fortran library############################
-	cd $WRF_FOLDER/Downloads
+	cd ${WRF_FOLDER}/Downloads
 	tar -xvzf v$Netcdf_Fortran_Version.tar.gz
 	cd netcdf-fortran-$Netcdf_Fortran_Version/
 
@@ -25896,26 +26114,26 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "ARM
 	echo " "
 
 	#################################### System Environment Tests ##############
-	mkdir -p $WRF_FOLDER/Tests/Environment
-	mkdir -p $WRF_FOLDER/Tests/Compatibility
+	mkdir -p ${WRF_FOLDER}/Tests/Environment
+	mkdir -p ${WRF_FOLDER}/Tests/Compatibility
 
-	cd $WRF_FOLDER/Downloads
+	cd ${WRF_FOLDER}/Downloads
 	wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_NETCDF_MPI_tests.tar
 	wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_tests.tar
 
-	tar -xvf Fortran_C_tests.tar -C $WRF_FOLDER/Tests/Environment
-	tar -xvf Fortran_C_NETCDF_MPI_tests.tar -C $WRF_FOLDER/Tests/Compatibility
+	tar -xvf Fortran_C_tests.tar -C ${WRF_FOLDER}/Tests/Environment
+	tar -xvf Fortran_C_NETCDF_MPI_tests.tar -C ${WRF_FOLDER}/Tests/Compatibility
 	export one="1"
 	echo " "
 	############## Testing Environment #####
 
-	cd $WRF_FOLDER/Tests/Environment
+	cd ${WRF_FOLDER}/Tests/Environment
 
 	echo " "
 	echo " "
 	echo "Environment Testing "
 	echo "Test 1"
-	gfortran TEST_1_fortran_only_fixed.f
+	$FC TEST_1_fortran_only_fixed.f
 	./a.out | tee env_test1.txt
 	export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test1.txt | awk '{print$1}')
 	if [ $TEST_PASS -ge 1 ]; then
@@ -25928,7 +26146,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "ARM
 
 	echo " "
 	echo "Test 2"
-	gfortran TEST_2_fortran_only_free.f90
+	$FC TEST_2_fortran_only_free.f90
 	./a.out | tee env_test2.txt
 	export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test2.txt | awk '{print$1}')
 	if [ $TEST_PASS -ge 1 ]; then
@@ -25942,7 +26160,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "ARM
 
 	echo " "
 	echo "Test 3"
-	gcc TEST_3_c_only.c
+	$CC TEST_3_c_only.c
 	./a.out | tee env_test3.txt
 	export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test3.txt | awk '{print$1}')
 	if [ $TEST_PASS -ge 1 ]; then
@@ -25956,9 +26174,9 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "ARM
 
 	echo " "
 	echo "Test 4"
-	gcc -c -m64 TEST_4_fortran+c_c.c
-	gfortran -c -m64 TEST_4_fortran+c_f.f90
-	gfortran -m64 TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
+	$CC -c -m64 TEST_4_fortran+c_c.c
+	$FC -c -m64 TEST_4_fortran+c_f.f90
+	$FC -m64 TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
 	./a.out | tee env_test4.txt
 	export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test4.txt | awk '{print$1}')
 	if [ $TEST_PASS -ge 1 ]; then
@@ -25973,7 +26191,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "ARM
 	echo " "
 	############## Testing Environment #####
 
-	cd $WRF_FOLDER/Tests/Compatibility
+	cd ${WRF_FOLDER}/Tests/Compatibility
 
 	cp ${NETCDF}/include/netcdf.inc .
 
@@ -25981,9 +26199,9 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "ARM
 	echo " "
 	echo "Library Compatibility Tests "
 	echo "Test 1"
-	gfortran -c 01_fortran+c+netcdf_f.f
-	gcc -c 01_fortran+c+netcdf_c.c
-	gfortran 01_fortran+c+netcdf_f.o 01_fortran+c+netcdf_c.o \
+	$FC -c 01_fortran+c+netcdf_f.f
+	$CC -c 01_fortran+c+netcdf_c.c
+	$FC 01_fortran+c+netcdf_f.o 01_fortran+c+netcdf_c.o \
 		-L${NETCDF}/lib -lnetcdff -lnetcdf
 
 	./a.out | tee comp_test1.txt
@@ -26000,9 +26218,9 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "ARM
 	echo " "
 
 	echo "Test 2"
-	$DIR/MPICH/bin/mpifort -c 02_fortran+c+netcdf+mpi_f.f
-	$DIR/MPICH/bin/mpicc -c 02_fortran+c+netcdf+mpi_c.c
-	$DIR/MPICH/bin/mpifort 02_fortran+c+netcdf+mpi_f.o \
+	$MPIFC -c 02_fortran+c+netcdf+mpi_f.f
+	$MPICC -c 02_fortran+c+netcdf+mpi_c.c
+	$MPIFC 02_fortran+c+netcdf+mpi_f.o \
 		02_fortran+c+netcdf+mpi_c.o \
 		-L${NETCDF}/lib -lnetcdff -lnetcdf
 
@@ -26026,7 +26244,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "ARM
 	pip install --upgrade --force-reinstall zstd
 	pip3 install --upgrade --force-reinstall zstandard
 	pip3 install --upgrade --force-reinstall zstd
-	export Miniconda_Install_DIR=$WRF_FOLDER/miniconda3
+	export Miniconda_Install_DIR=${WRF_FOLDER}/miniconda3
 
 	mkdir -p $Miniconda_Install_DIR
 
@@ -26067,7 +26285,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "ARM
 	########### WRf-Python compiled via Conda  ##################
 	########### This is the preferred method by NCAR      ##################
 	##### https://wrf-python.readthedocs.io/en/latest/installation.html  ##################
-	source $Anaconda_Install_DIR/etc/profile.d/conda.sh
+	source $Miniconda_Install_DIR/etc/profile.d/conda.sh
 conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 	######################### Climate Data Operators ############
@@ -26098,30 +26316,30 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 	echo " "
 
-	############################ WRF $WPS_VERSION  #################################
-	## WRF v$WPS_VERSION
+	############################ WRF ${WPS_VERSION}  #################################
+	## WRF v${WPS_VERSION}
 	## Downloaded from git tagged releases
 	# option 17, option 1 for gfortran and distributed memory w/basic nesting
 	# large file support enable with WRFiO_NCD_LARGE_FILE_SUPPORT=1
 	########################################################################
 
 	export WRFIO_NCD_LARGE_FILE_SUPPORT=1
-	cd $WRF_FOLDER/Downloads
-	wget -c https://github.com/wrf-model/WRF/releases/download/v$WRF_VERSION/v$WRF_VERSION.tar.gz -O WRF-$WRF_VERSION.tar.gz
-	tar -xvzf WRF-$WRF_VERSION.tar.gz -C $WRF_FOLDER/
+	cd ${WRF_FOLDER}/Downloads
+	wget -c https://github.com/wrf-model/WRF/releases/download/v${WRF_VERSION}/v${WRF_VERSION}.tar.gz -O WRF-${WRF_VERSION}.tar.gz
+	tar -xvzf WRF-${WRF_VERSION}.tar.gz -C ${WRF_FOLDER}/
 
 	# If statment for changing folder name
-	if [ -d "$WRF_FOLDER/WRF" ]; then
-		mv -f $WRF_FOLDER/WRF $WRF_FOLDER/WRFV$WRF_VERSION
+	if [ -d "${WRF_FOLDER}/WRF" ]; then
+		mv -f ${WRF_FOLDER}/WRF ${WRF_FOLDER}/WRFV${WRF_VERSION}
 	fi
 
-	cd $WRF_FOLDER/WRFV$WRF_VERSION
+	cd ${WRF_FOLDER}/WRFV${WRF_VERSION}
 
 	./clean
 
 	if [ ${auto_config} -eq 1 ]; then
-		sed -i'' -e '443s/.*/  $response = "17 \\n";/g' $WRF_FOLDER/WRFV$WRF_VERSION/arch/Config.pl # Answer for compiler choice
-		sed -i'' -e '909s/.*/  $response = "1 \\n";/g' $WRF_FOLDER/WRFV$WRF_VERSION/arch/Config.pl  #Answer for basic nesting
+		sed -i'' -e '443s/.*/  $response = "17 \\n";/g' ${WRF_FOLDER}/WRFV${WRF_VERSION}/arch/Config.pl # Answer for compiler choice
+		sed -i'' -e '909s/.*/  $response = "1 \\n";/g' ${WRF_FOLDER}/WRFV${WRF_VERSION}/arch/Config.pl  #Answer for basic nesting
 		./configure 2>&1 | tee configure.log
 	else
 		./configure 2>&1 | tee configure.log #Option 17 gfortran compiler with distributed memory option 1 for basic nesting
@@ -26129,10 +26347,10 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 	./compile em_real 2>&1 | tee compile.wrf.log
 
-	export WRF_DIR=$WRF_FOLDER/WRFV$WRF_VERSION
+	export WRF_DIR=${WRF_FOLDER}/WRFV${WRF_VERSION}
 
 	# IF statement to check that all files were created.
-	cd $WRF_FOLDER/WRFV$WRF_VERSION/main
+	cd ${WRF_FOLDER}/WRFV${WRF_VERSION}/main
 	n=$(ls ./*.exe | wc -l)
 	if (($n >= 3)); then
 		echo "All expected files created."
@@ -26140,9 +26358,9 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	else
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
-		cd $WRF_FOLDER/WRFV$WRF_VERSION
+		cd ${WRF_FOLDER}/WRFV${WRF_VERSION}
 		./compile -j $CPU_HALF_EVEN em_real 2>&1 | tee compile.wrf2.log
-		cd $WRF_FOLDER/WRFV$WRF_VERSION/main
+		cd ${WRF_FOLDER}/WRFV${WRF_VERSION}/main
 		n=$(ls ./*.exe | wc -l)
 		if (($n >= 3)); then
 			echo "All expected files created."
@@ -26153,16 +26371,16 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 		fi
 	fi
 	echo " "
-	############################WPSV$WPS_VERSION#####################################
-	## WPS v$WPS_VERSION
+	############################WPSV${WPS_VERSION}#####################################
+	## WPS v${WPS_VERSION}
 	## Downloaded from git tagged releases
 	#Option 3 for gfortran and distributed memory
 	########################################################################
 
-	cd $WRF_FOLDER/Downloads
-	wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v$WPS_VERSION.tar.gz -O WPS-$WPS_VERSION.tar.gz
-	tar -xvzf WPS-$WPS_VERSION.tar.gz -C $WRF_FOLDER/
-	cd $WRF_FOLDER/WPS-$WPS_VERSION
+	cd ${WRF_FOLDER}/Downloads
+	wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v${WPS_VERSION}.tar.gz -O WPS-${WPS_VERSION}.tar.gz
+	tar -xvzf WPS-${WPS_VERSION}.tar.gz -C ${WRF_FOLDER}/
+	cd ${WRF_FOLDER}/WPS-${WPS_VERSION}
 	./clean -a
 
 	if [ ${auto_config} -eq 1 ]; then
@@ -26174,7 +26392,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	./compile | tee 2>&1 compile.wrf.log
 
 	# IF statement to check that all files were created.
-	cd $WRF_FOLDER/WPS-$WPS_VERSION
+	cd ${WRF_FOLDER}/WPS-${WPS_VERSION}
 	n=$(ls ./*.exe | wc -l)
 	if (($n == 3)); then
 		echo "All expected files created."
@@ -26183,7 +26401,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
 		./compile 2>&1 | tee compile.wps2.log
-		cd $WRF_FOLDER/WPS-$WPS_VERSION
+		cd ${WRF_FOLDER}/WPS-${WPS_VERSION}
 		n=$(ls ./*.exe | wc -l)
 		if (($n == 3)); then
 			echo "All expected files created."
@@ -26196,7 +26414,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	echo " "
 
 	############################WRFPLUS 4DVAR###############################
-	## WRFPLUS v$WPS_VERSION 4DVAR
+	## WRFPLUS v${WPS_VERSION} 4DVAR
 	## Downloaded from git tagged releases
 	## WRFPLUS is built within the WRF git folder
 	## Does not include RTTOV Libarary for radiation data.  If wanted will need to install library then reconfigure
@@ -26204,18 +26422,18 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	#Option 10 for gfortran/gcc and distribunted memory
 	########################################################################
 
-	cd $WRF_FOLDER/Downloads
-	tar -xvzf WRF-$WRF_VERSION.tar.gz -C $WRF_FOLDER/WRFPLUS
+	cd ${WRF_FOLDER}/Downloads
+	tar -xvzf WRF-${WRF_VERSION}.tar.gz -C ${WRF_FOLDER}/WRFPLUS
 
 	# If statment for changing folder name
-	if [ -d "$WRF_FOLDER/WRFPLUS/WRF" ]; then
-		mv -f $WRF_FOLDER/WRFPLUS/WRF $WRF_FOLDER/WRFPLUS/WRFV$WRF_VERSION
+	if [ -d "${WRF_FOLDER}/WRFPLUS/WRF" ]; then
+		mv -f ${WRF_FOLDER}/WRFPLUS/WRF ${WRF_FOLDER}/WRFPLUS/WRFV${WRF_VERSION}
 	fi
 
-	cd $WRF_FOLDER/WRFPLUS/WRFV$WRF_VERSION
-	mv * $WRF_FOLDER/WRFPLUS
-	cd $WRF_FOLDER/WRFPLUS
-	rm -rf WRFV$WRF_VERSION/
+	cd ${WRF_FOLDER}/WRFPLUS/WRFV${WRF_VERSION}
+	mv * ${WRF_FOLDER}/WRFPLUS
+	cd ${WRF_FOLDER}/WRFPLUS
+	rm -rf WRFV${WRF_VERSION}/
 	export NETCDF=$DIR/NETCDF
 	export HDF5=$DIR/grib2
 	export LD_LIBRARY_PATH=$DIR/grib2/lib:$LD_LIBRARY_PATH
@@ -26227,10 +26445,10 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	fi
 
 	./compile wrfplus 2>&1 | tee compile.wrfplus.log
-	export WRFPLUS_DIR=$WRF_FOLDER/WRFPLUS
+	export WRFPLUS_DIR=${WRF_FOLDER}/WRFPLUS
 
 	# IF statement to check that all files were created.
-	cd $WRF_FOLDER/WRFPLUS/main
+	cd ${WRF_FOLDER}/WRFPLUS/main
 	n=$(ls ./wrfplus.exe | wc -l)
 	if (($n == 1)); then
 		echo "All expected files created."
@@ -26238,9 +26456,9 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	else
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
-		cd $WRF_FOLDER/WRFPLUS/WRFV$WRF_VERSION
+		cd ${WRF_FOLDER}/WRFPLUS/WRFV${WRF_VERSION}
 		./compile -j $CPU_HALF_EVEN wrfplus 2>&1 | tee compile.wrfplus2.log
-		cd $WRF_FOLDER/WRFPLUS/main
+		cd ${WRF_FOLDER}/WRFPLUS/main
 		n=$(ls ./wrfplus.exe | wc -l)
 		if (($n == 1)); then
 			echo "All expected files created."
@@ -26254,7 +26472,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 	echo " "
 	############################WRFDA 4DVAR###############################
-	## WRFDA v$WPS_VERSION 4DVAR
+	## WRFDA v${WPS_VERSION} 4DVAR
 	## Downloaded from git tagged releases
 	## WRFDA is built within the WRFPLUS folder
 	## Does not include RTTOV Libarary for radiation data.  If wanted will need to install library then reconfigure
@@ -26262,22 +26480,22 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	#Option 10 for gfortran/clang and distribunted memory
 	########################################################################
 
-	cd $WRF_FOLDER/Downloads
-	tar -xvzf WRF-$WRF_VERSION.tar.gz -C $WRF_FOLDER/WRFDA
+	cd ${WRF_FOLDER}/Downloads
+	tar -xvzf WRF-${WRF_VERSION}.tar.gz -C ${WRF_FOLDER}/WRFDA
 
 	# If statment for changing folder name
-	if [ -d "$WRF_FOLDER/WRFDA/WRF" ]; then
-		mv -f $WRF_FOLDER/WRFDA/WRF $WRF_FOLDER/WRFDA/WRFV$WRF_VERSION
+	if [ -d "${WRF_FOLDER}/WRFDA/WRF" ]; then
+		mv -f ${WRF_FOLDER}/WRFDA/WRF ${WRF_FOLDER}/WRFDA/WRFV${WRF_VERSION}
 	fi
 
-	cd $WRF_FOLDER/WRFDA/WRFV$WRF_VERSION
-	mv * $WRF_FOLDER/WRFDA
-	cd $WRF_FOLDER/WRFDA
-	rm -rf WRFV$WRF_VERSION/
+	cd ${WRF_FOLDER}/WRFDA/WRFV${WRF_VERSION}
+	mv * ${WRF_FOLDER}/WRFDA
+	cd ${WRF_FOLDER}/WRFDA
+	rm -rf WRFV${WRF_VERSION}/
 	export NETCDF=$DIR/NETCDF
 	export HDF5=$DIR/grib2
 	export LD_LIBRARY_PATH=$DIR/grib2/lib:$LD_LIBRARY_PATH
-	export WRFPLUS_DIR=$WRF_FOLDER/WRFPLUS
+	export WRFPLUS_DIR=${WRF_FOLDER}/WRFPLUS
 
 	if [ ${auto_config} -eq 1 ]; then
 		echo 10 | ./configure 4dvar 2>&1 | tee configure.log #Option 18 for gfortran/gcc and distribunted memory
@@ -26288,25 +26506,25 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	./compile all_wrfvar 2>&1 | tee compile.wrf4dvar.log
 
 	# IF statement to check that all files were created.
-	cd $WRF_FOLDER/WRFDA/var/da
+	cd ${WRF_FOLDER}/WRFDA/var/da
 	n=$(ls ./*.exe | wc -l)
-	cd $WRF_FOLDER/WRFDA/var/obsproc/src
+	cd ${WRF_FOLDER}/WRFDA/var/obsproc/src
 	m=$(ls ./*.exe | wc -l)
 	if ((($n == 43) && ($m == 1))); then
 		echo "All expected files created."
-		read -r -t 5 -p "Finished installing WRFDA-CHEM 3DVAR. I am going to wait for 5 seconds only ..."
+		read -r -t 5 -p "Finished installing WRFDA. I am going to wait for 5 seconds only ..."
 	else
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
-		cd $WRF_FOLDER/WRFDA
+		cd ${WRF_FOLDER}/WRFDA
 		./compile -j $CPU_HALF_EVEN all_wrfvar 2>&1 | tee compile.chem.wrfvar2.log
-		cd $WRF_FOLDER/WRFDA/var/da
+		cd ${WRF_FOLDER}/WRFDA/var/da
 		n=$(ls ./*.exe | wc -l)
-		cd $WRF_FOLDER/WRFDA/var/obsproc/src
+		cd ${WRF_FOLDER}/WRFDA/var/obsproc/src
 		m=$(ls ./*.exe | wc -l)
 		if ((($n == 43) && ($m == 1))); then
 			echo "All expected files created."
-			read -r -t 5 -p "Finished installing WRFDA-CHEM 3DVAR. I am going to wait for 5 seconds only ..."
+			read -r -t 5 -p "Finished installing WRFDA. I am going to wait for 5 seconds only ..."
 		else
 			read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
 			exit
@@ -26318,20 +26536,20 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	######################## WPS Domain Setup Tools ########################
 	## DomainWizard
 
-	cd $WRF_FOLDER/Downloads
+	cd ${WRF_FOLDER}/Downloads
 	wget http://esrl.noaa.gov/gsd/wrfportal/domainwizard/WRFDomainWizard.zip
-	mkdir $WRF_FOLDER/WRFDomainWizard
-	unzip WRFDomainWizard.zip -d $WRF_FOLDER/WRFDomainWizard
-	chmod +x $WRF_FOLDER/WRFDomainWizard/run_DomainWizard
+	mkdir ${WRF_FOLDER}/WRFDomainWizard
+	unzip WRFDomainWizard.zip -d ${WRF_FOLDER}/WRFDomainWizard
+	chmod +x ${WRF_FOLDER}/WRFDomainWizard/run_DomainWizard
 
 	echo " "
 	######################## WPF Portal Setup Tools ########################
 	## WRFPortal
-	cd $WRF_FOLDER/Downloads
+	cd ${WRF_FOLDER}/Downloads
 	wget https://esrl.noaa.gov/gsd/wrfportal/portal/wrf-portal.zip
-	mkdir $WRF_FOLDER/WRFPortal
-	unzip wrf-portal.zip -d $WRF_FOLDER/WRFPortal
-	chmod +x $WRF_FOLDER/WRFPortal/runWRFPortal
+	mkdir ${WRF_FOLDER}/WRFPortal
+	unzip wrf-portal.zip -d ${WRF_FOLDER}/WRFPortal
+	chmod +x ${WRF_FOLDER}/WRFPortal/runWRFPortal
 
 	echo " "
 	######################## Static Geography Data inc/ Optional ####################
@@ -26340,19 +26558,19 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	# All files downloaded and untarred is 200GB
 	# https://www2.mmm.ucar.edu/wrf/users/download/get_sources_wps_geog.html
 	#################################################################################
-	cd $WRF_FOLDER/Downloads
-	mkdir $WRF_FOLDER/GEOG
-	mkdir $WRF_FOLDER/GEOG/WPS_GEOG
+	cd ${WRF_FOLDER}/Downloads
+	mkdir ${WRF_FOLDER}/GEOG
+	mkdir ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 	echo " "
 	echo "Mandatory WRF Preprocessing System (WPS) Geographical Input Data Mandatory Fields Downloads"
 	echo " "
 	wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_high_res_mandatory.tar.gz
-	tar -xvzf geog_high_res_mandatory.tar.gz -C $WRF_FOLDER/GEOG/
+	tar -xvzf geog_high_res_mandatory.tar.gz -C ${WRF_FOLDER}/GEOG/
 
 	wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_low_res_mandatory.tar.gz
-	tar -xvzf geog_low_res_mandatory.tar.gz -C $WRF_FOLDER/GEOG/
-	mv $WRF_FOLDER/GEOG/WPS_GEOG_LOW_RES/ $WRF_FOLDER/GEOG/WPS_GEOG
+	tar -xvzf geog_low_res_mandatory.tar.gz -C ${WRF_FOLDER}/GEOG/
+	mv ${WRF_FOLDER}/GEOG/WPS_GEOG_LOW_RES/ ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 	if [ ${WPS_Specific_Applications} -eq 1 ]; then
 		echo " "
@@ -26360,31 +26578,31 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 		echo " "
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_thompson28_chem.tar.gz
-		tar -xvzf geog_thompson28_chem.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+		tar -xvzf geog_thompson28_chem.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_noahmp.tar.gz
-		tar -xvzf geog_noahmp.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+		tar -xvzf geog_noahmp.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/irrigation.tar.gz
-		tar -xvzf irrigation.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+		tar -xvzf irrigation.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_px.tar.gz
-		tar -xvzf geog_px.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+		tar -xvzf geog_px.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_urban.tar.gz
-		tar -xvzf geog_urban.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+		tar -xvzf geog_urban.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_ssib.tar.gz
-		tar -xvzf geog_ssib.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+		tar -xvzf geog_ssib.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/lake_depth.tar.bz2
-		tar -xvf lake_depth.tar.bz2 -C $WRF_FOLDER/GEOG/WPS_GEOG
+		tar -xvf lake_depth.tar.bz2 -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/topobath_30s.tar.bz2
-		tar -xvf topobath_30s.tar.bz2 -C $WRF_FOLDER/GEOG/WPS_GEOG
+		tar -xvf topobath_30s.tar.bz2 -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/gsl_gwd.tar.bz2
-		tar -xvf gsl_gwd.tar.bz2 -C $WRF_FOLDER/GEOG/WPS_GEOG
+		tar -xvf gsl_gwd.tar.bz2 -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 	fi
 
@@ -26395,22 +26613,22 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 		echo " "
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_older_than_2000.tar.gz
-		tar -xvzf geog_older_than_2000.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+		tar -xvzf geog_older_than_2000.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s_with_lakes.tar.gz
-		tar -xvzf modis_landuse_20class_15s_with_lakes.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+		tar -xvzf modis_landuse_20class_15s_with_lakes.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_alt_lsm.tar.gz
-		tar -xvzf geog_alt_lsm.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+		tar -xvzf geog_alt_lsm.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/nlcd2006_ll_9s.tar.bz2
-		tar -xvf nlcd2006_ll_9s.tar.bz2 -C $WRF_FOLDER/GEOG/WPS_GEOG
+		tar -xvf nlcd2006_ll_9s.tar.bz2 -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/updated_Iceland_LU.tar.gz
-		tar -xvf updated_Iceland_LU.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+		tar -xvf updated_Iceland_LU.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s.tar.bz2
-		tar -xvf modis_landuse_20class_15s.tar.bz2 -C $WRF_FOLDER/GEOG/WPS_GEOG
+		tar -xvf modis_landuse_20class_15s.tar.bz2 -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 	fi
 
@@ -26425,7 +26643,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	echo $PASSWD | sudo -S dnf install dnf -y
 	echo $PASSWD | sudo -S dnf -y update
 	echo $PASSWD | sudo -S dnf -y upgrade
-	echo $PASSWD | sudo -S dnf -y install autoconf automake bzip2 bzip2-devel byacc cairo-devel cmake cpp curl curl-devel flex flex-devel fontconfig-devel fontconfig-devel.x86_64 gcc gcc-c++ gcc-gfortran git java-11-openjdk java-11-openjdk-devel ksh libX11-devel libX11-devel.x86_64 libXaw libXaw-devel libXext-devel libXext-devel.x86_64 libXmu-devel libXrender-devel libXrender-devel.x86_64 libstdc++ libstdc++-devel libstdc++-static libxml2 libxml2-devel m4  .x86_64 nfs-utils okular perl pkgconfig pixman-devel python3 python3-devel tcsh time unzip wget
+	echo $PASSWD | sudo -S dnf -y install autoconf automake bzip2 bzip2-devel byacc cairo-devel cmake cpp curl curl-devel flex fontconfig-devel fontconfig-devel.x86_64 gcc gcc-c++ gcc-gfortran git java-11-openjdk java-11-openjdk-devel ksh libX11-devel libX11-devel.x86_64 libXaw libXaw-devel libXext-devel libXext-devel.x86_64 libXmu-devel libXrender-devel libXrender-devel.x86_64 libstdc++ libstdc++-devel libxml2 libxml2-devel m4 mlocate mlocate.x86_64 nfs-utils perl pkgconfig  pixman-devel python3 python3-devel tcsh time unzip wget
 	echo $PASSWD | sudo -S dnf -y groupinstall "Development Tools"
 	echo $PASSWD | sudo -S dnf -y update
 	echo $PASSWD | sudo -S dnf -y upgrade
@@ -26439,12 +26657,12 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 
 	mkdir $HOME/WRF
 	export WRF_FOLDER=$HOME/WRF
-	cd $WRF_FOLDER/
+	cd ${WRF_FOLDER}/
 	mkdir Downloads
 	mkdir WRFPLUS
 	mkdir WRFDA
 	mkdir Libs
-	export DIR=$WRF_FOLDER/Libs
+	export DIR=${WRF_FOLDER}/Libs
 	mkdir Libs/grib2
 	mkdir Libs/NETCDF
 	mkdir Libs/MPICH
@@ -26524,7 +26742,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	#Uncalling compilers due to comfigure issue with zlib$Zlib_Version
 	#With CC & CXX definied ./configure uses different compiler Flags
 
-	cd $WRF_FOLDER/Downloads
+	cd ${WRF_FOLDER}/Downloads
 	tar -xvzf v$Zlib_Version.tar.gz
 	cd zlib-$Zlib_Version/
 	autoreconf -i -f 2>&1 | tee autoreconf.log
@@ -26538,7 +26756,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	echo " "
 	##############################MPICH############################
 	#F90= due to compiler issues with mpich install
-	cd $WRF_FOLDER/Downloads
+	cd ${WRF_FOLDER}/Downloads
 	tar -xvzf mpich-$Mpich_Version.tar.gz
 	cd mpich-$Mpich_Version/
 	autoreconf -i -f 2>&1 | tee autoreconf.log
@@ -26559,7 +26777,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 
 	echo " "
 	#############################libpng############################
-	cd $WRF_FOLDER/Downloads
+	cd ${WRF_FOLDER}/Downloads
 	export LDFLAGS=-L$DIR/grib2/lib
 	export CPPFLAGS=-I$DIR/grib2/include
 	tar -xvzf libpng-$Libpng_Version.tar.gz
@@ -26574,7 +26792,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	#make check
 	echo " "
 	#############################JasPer############################
-	cd $WRF_FOLDER/Downloads
+	cd ${WRF_FOLDER}/Downloads
 	unzip jasper-$Jasper_Version.zip
 	cd jasper-$Jasper_Version/
 	autoreconf -i -f 2>&1 | tee autoreconf.log
@@ -26592,7 +26810,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 
 	echo " "
 	#############################hdf5 library for netcdf4 functionality############################
-	cd $WRF_FOLDER/Downloads
+	cd ${WRF_FOLDER}/Downloads
 	tar -xvzf hdf5-$HDF5_Version.tar.gz
 	cd hdf5-hdf5-$HDF5_Version
 	autoreconf -i -f 2>&1 | tee autoreconf.log
@@ -26613,7 +26831,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	#Make file created with half of available cpu cores
 	#Hard path for MPI added
 	##################################################################################
-	cd $WRF_FOLDER/Downloads
+	cd ${WRF_FOLDER}/Downloads
 	tar -xvzf pnetcdf-$Pnetcdf_Version.tar.gz
 	cd pnetcdf-$Pnetcdf_Version
 
@@ -26635,7 +26853,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	echo " "
 
 	##############################Install NETCDF C Library############################
-	cd $WRF_FOLDER/Downloads
+	cd ${WRF_FOLDER}/Downloads
 	tar -xzvf v$Netcdf_C_Version.tar.gz
 	cd netcdf-c-$Netcdf_C_Version/
 	export CPPFLAGS=-I$DIR/grib2/include
@@ -26654,7 +26872,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	export NETCDF=$DIR/NETCDF
 	echo " "
 	##############################NetCDF fortran library############################
-	cd $WRF_FOLDER/Downloads
+	cd ${WRF_FOLDER}/Downloads
 	tar -xvzf v$Netcdf_Fortran_Version.tar.gz
 	cd netcdf-fortran-$Netcdf_Fortran_Version/
 	export LD_LIBRARY_PATH=$DIR/NETCDF/lib:$LD_LIBRARY_PATH
@@ -26673,18 +26891,18 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	echo " "
 	#################################### System Environment Tests ##############
 
-	cd $WRF_FOLDER/Downloads
+	cd ${WRF_FOLDER}/Downloads
 	wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_NETCDF_MPI_tests.tar
 	wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_tests.tar
 
-	tar -xvf Fortran_C_tests.tar -C $WRF_FOLDER/Tests/Environment
-	tar -xvf Fortran_C_NETCDF_MPI_tests.tar -C $WRF_FOLDER/Tests/Compatibility
+	tar -xvf Fortran_C_tests.tar -C ${WRF_FOLDER}/Tests/Environment
+	tar -xvf Fortran_C_NETCDF_MPI_tests.tar -C ${WRF_FOLDER}/Tests/Compatibility
 
 	export one="1"
 	echo " "
 	############## Testing Environment #####
 
-	cd $WRF_FOLDER/Tests/Environment
+	cd ${WRF_FOLDER}/Tests/Environment
 
 	cp ${NETCDF}/include/netcdf.inc .
 
@@ -26692,7 +26910,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	echo " "
 	echo "Environment Testing "
 	echo "Test 1"
-	gfortran TEST_1_fortran_only_fixed.f
+	$FC TEST_1_fortran_only_fixed.f
 	./a.out | tee env_test1.txt
 	export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test1.txt | awk '{print$1}')
 	if [ $TEST_PASS -ge 1 ]; then
@@ -26705,7 +26923,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 
 	echo " "
 	echo "Test 2"
-	gfortran TEST_2_fortran_only_free.f90
+	$FC TEST_2_fortran_only_free.f90
 	./a.out | tee env_test2.txt
 	export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test2.txt | awk '{print$1}')
 	if [ $TEST_PASS -ge 1 ]; then
@@ -26719,7 +26937,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 
 	echo " "
 	echo "Test 3"
-	gcc TEST_3_c_only.c
+	$CC TEST_3_c_only.c
 	./a.out | tee env_test3.txt
 	export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test3.txt | awk '{print$1}')
 	if [ $TEST_PASS -ge 1 ]; then
@@ -26733,9 +26951,9 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 
 	echo " "
 	echo "Test 4"
-	gcc -c -m64 TEST_4_fortran+c_c.c
-	gfortran -c -m64 TEST_4_fortran+c_f.f90
-	gfortran -m64 TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
+	$CC -c -m64 TEST_4_fortran+c_c.c
+	$FC -c -m64 TEST_4_fortran+c_f.f90
+	$FC -m64 TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
 	./a.out | tee env_test4.txt
 	export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test4.txt | awk '{print$1}')
 	if [ $TEST_PASS -ge 1 ]; then
@@ -26750,7 +26968,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	echo " "
 	############## Testing Environment #####
 
-	cd $WRF_FOLDER/Tests/Compatibility
+	cd ${WRF_FOLDER}/Tests/Compatibility
 
 	cp ${NETCDF}/include/netcdf.inc .
 
@@ -26758,9 +26976,9 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	echo " "
 	echo "Library Compatibility Tests "
 	echo "Test 1"
-	gfortran -c 01_fortran+c+netcdf_f.f
-	gcc -c 01_fortran+c+netcdf_c.c
-	gfortran 01_fortran+c+netcdf_f.o 01_fortran+c+netcdf_c.o \
+	$FC -c 01_fortran+c+netcdf_f.f
+	$CC -c 01_fortran+c+netcdf_c.c
+	$FC 01_fortran+c+netcdf_f.o 01_fortran+c+netcdf_c.o \
 		-L${NETCDF}/lib -lnetcdff -lnetcdf
 
 	./a.out | tee comp_test1.txt
@@ -26777,9 +26995,9 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	echo " "
 
 	echo "Test 2"
-	$DIR/MPICH/bin/mpifort -c 02_fortran+c+netcdf+mpi_f.f
-	$DIR/MPICH/bin/mpicc -c 02_fortran+c+netcdf+mpi_c.c
-	$DIR/MPICH/bin/mpifort 02_fortran+c+netcdf+mpi_f.o \
+	$MPIFC -c 02_fortran+c+netcdf+mpi_f.f
+	$MPICC -c 02_fortran+c+netcdf+mpi_c.c
+	$MPIFC 02_fortran+c+netcdf+mpi_f.o \
 		02_fortran+c+netcdf+mpi_c.o \
 		-L${NETCDF}/lib -lnetcdff -lnetcdf
 
@@ -26807,7 +27025,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	#If iand error occurs go to https://github.com/NCAR/NCEPlibs/pull/16/files make adjustment and re-run ./make_ncep_libs.sh
 	############################################################################
 
-	cd $WRF_FOLDER/Downloads
+	cd ${WRF_FOLDER}/Downloads
 	git clone https://github.com/NCAR/NCEPlibs.git
 	cd NCEPlibs
 	mkdir $DIR/nceplibs
@@ -26831,7 +27049,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	if [ $GCC_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GFORTRAN_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GPLUSPLUS_VERSION_MAJOR_VERSION -ge $version_10 ]; then
 		y="24 28 32 36 40 45 49 53 56 60 64 68 69 73 74 79"
 		for X in $y; do
-			sed -i "${X}s/= /= $fallow_argument $boz_argument /g" $WRF_FOLDER/Downloads/NCEPlibs/macros.make.linux.gnu
+			sed -i "${X}s/= /= $fallow_argument $boz_argument /g" ${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu
 		done
 	else
 		echo ""
@@ -26853,7 +27071,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	#since the WRF was written
 	#Option 8 gfortran compiler with distributed memory
 	#############################################################################
-	cd $WRF_FOLDER/
+	cd ${WRF_FOLDER}/
 	git clone -b dtc_post_v4.1.0 --recurse-submodules https://github.com/NOAA-EMC/EMC_post UPPV4.1
 	cd UPPV4.1
 	mkdir postprd
@@ -26880,7 +27098,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	if [ $GCC_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GFORTRAN_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GPLUSPLUS_VERSION_MAJOR_VERSION -ge $version_10 ]; then
 		z="58 63"
 		for X in $z; do
-			sed -i "${X}s/(FOPT)/(FOPT) $fallow_argument $boz_argument  /g" $WRF_FOLDER/UPPV4.1/configure.upp
+			sed -i "${X}s/(FOPT)/(FOPT) $fallow_argument $boz_argument  /g" ${WRF_FOLDER}/UPPV4.1/configure.upp
 		done
 	else
 		echo ""
@@ -26888,12 +27106,12 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	fi
 
 	./compile
-	cd $WRF_FOLDER/UPPV4.1/scripts
+	cd ${WRF_FOLDER}/UPPV4.1/scripts
 	echo $PASSWD | sudo -S cpan install XML::LibXML
 	chmod +x run_unipost
 
 	# IF statement to check that all files were created.
-	cd $WRF_FOLDER/UPPV4.1/exec
+	cd ${WRF_FOLDER}/UPPV4.1/exec
 	n=$(ls ./*.exe | wc -l)
 	if (($n == 1)); then
 		echo "All expected files created."
@@ -26910,12 +27128,12 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	## ARWpost
 	##Configure #3
 	###################################################################
-	cd $WRF_FOLDER/Downloads
+	cd ${WRF_FOLDER}/Downloads
 	wget -c http://www2.mmm.ucar.edu/wrf/src/ARWpost_V3.tar.gz
-	tar -xvzf ARWpost_V3.tar.gz -C $WRF_FOLDER/
-	cd $WRF_FOLDER/ARWpost
+	tar -xvzf ARWpost_V3.tar.gz -C ${WRF_FOLDER}/
+	cd ${WRF_FOLDER}/ARWpost
 	./clean -a
-	sed -i -e 's/-lnetcdf/-lnetcdff -lnetcdf/g' $WRF_FOLDER/ARWpost/src/Makefile
+	sed -i -e 's/-lnetcdf/-lnetcdff -lnetcdf/g' ${WRF_FOLDER}/ARWpost/src/Makefile
 	export NETCDF=$DIR/NETCDF
 
 	if [ ${auto_config} -eq 1 ]; then
@@ -26938,32 +27156,32 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 		sed -i '32s/-ffree-form -O -fno-second-underscore -fconvert=big-endian -frecord-marker=4/-ffree-form -O -fno-second-underscore -fconvert=big-endian -frecord-marker=4 ${fallow_argument} /g' configure.arwp
 	fi
 
-	sed -i -e 's/-C -P -traditional/-P -traditional/g' $WRF_FOLDER/ARWpost/configure.arwp
+	sed -i -e 's/-C -P -traditional/-P -traditional/g' ${WRF_FOLDER}/ARWpost/configure.arwp
 	./compile
 
-	export PATH=$WRF_FOLDER/ARWpost/ARWpost.exe:$PATH
+	export PATH=${WRF_FOLDER}/ARWpost/ARWpost.exe:$PATH
 
 	echo " "
 	################################ OpenGrADS ##################################
 	#Verison 2.2.1 32bit of Linux
 	#############################################################################
 	if [[ $GRADS_PICK -eq 1 ]]; then
-		cd $WRF_FOLDER/Downloads
-		tar -xzvf opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz -C $WRF_FOLDER/
-		cd $WRF_FOLDER/
-		mv $WRF_FOLDER/opengrads-2.2.1.oga.1 $WRF_FOLDER/GrADS
+		cd ${WRF_FOLDER}/Downloads
+		tar -xzvf opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz -C ${WRF_FOLDER}/
+		cd ${WRF_FOLDER}/
+		mv ${WRF_FOLDER}/opengrads-2.2.1.oga.1 ${WRF_FOLDER}/GrADS
 		cd GrADS/Contents
 		wget -c https://github.com/regisgrundig/SIMOP/blob/master/g2ctl.pl
 		chmod +x g2ctl.pl
 		wget -c https://sourceforge.net/projects/opengrads/files/wgrib2/0.1.9.4/wgrib2-v0.1.9.4-bin-i686-glib2.5-linux-gnu.tar.gz
 		tar -xzvf wgrib2-v0.1.9.4-bin-i686-glib2.5-linux-gnu.tar.gz
 		cd wgrib2-v0.1.9.4/bin
-		mv wgrib2 $WRF_FOLDER/GrADS/Contents
-		cd $WRF_FOLDER/GrADS/Contents
+		mv wgrib2 ${WRF_FOLDER}/GrADS/Contents
+		cd ${WRF_FOLDER}/GrADS/Contents
 		rm wgrib2-v0.1.9.4-bin-i686-glib2.5-linux-gnu.tar.gz
 		rm -r wgrib2-v0.1.9.4
 
-		export PATH=$WRF_FOLDER/GrADS/Contents:$PATH
+		export PATH=${WRF_FOLDER}/GrADS/Contents:$PATH
 
 		echo " "
 	fi
@@ -26973,10 +27191,10 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	# GrADS instructions: http://cola.gmu.edu/grads/downloads.php
 	########################################################################
 	if [[ $GRADS_PICK -eq 2 ]]; then
-		cd $WRF_FOLDER/Downloads
+		cd ${WRF_FOLDER}/Downloads
 		wget -c ftp://cola.gmu.edu/grads/2.2/grads-2.2.1-bin-centos7.4-x86_64.tar.gz
-		tar -xzvf grads-2.2.1-bin-centos7.4-x86_64.tar.gz -C $WRF_FOLDER
-		cd $WRF_FOLDER/grads-2.2.1/bin
+		tar -xzvf grads-2.2.1-bin-centos7.4-x86_64.tar.gz -C ${WRF_FOLDER}
+		cd ${WRF_FOLDER}/grads-2.2.1/bin
 		chmod 775 *
 
 	fi
@@ -26991,7 +27209,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	pip install --upgrade --force-reinstall zstd
 	pip3 install --upgrade --force-reinstall zstandard
 	pip3 install --upgrade --force-reinstall zstd
-	export Miniconda_Install_DIR=$WRF_FOLDER/miniconda3
+	export Miniconda_Install_DIR=${WRF_FOLDER}/miniconda3
 
 	mkdir -p $Miniconda_Install_DIR
 
@@ -27000,7 +27218,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 
 	rm -rf $Miniconda_Install_DIR/miniconda.sh
 
-	export PATH=$WRF_FOLDER/miniconda3/bin:$PATH
+	export PATH=${WRF_FOLDER}/miniconda3/bin:$PATH
 
 	source $Miniconda_Install_DIR/etc/profile.d/conda.sh
 
@@ -27036,12 +27254,12 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	## Downloaded from git tagged releases
 	## Option #2
 	########################################################################
-	cd $WRF_FOLDER/
+	cd ${WRF_FOLDER}/
 	git clone https://github.com/wrf-model/OBSGRID.git
-	cd $WRF_FOLDER/OBSGRID
+	cd ${WRF_FOLDER}/OBSGRID
 
 	./clean -a
-	source $Anaconda_Install_DIR/etc/profile.d/conda.sh
+	source $Miniconda_Install_DIR/etc/profile.d/conda.sh
 	conda init bash
 	conda activate ncl_stable
 
@@ -27049,7 +27267,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 		cd
 		pwd
 	)
-	export DIR=$WRF_FOLDER/Libs
+	export DIR=${WRF_FOLDER}/Libs
 	export NETCDF=$DIR/NETCDF
 
 	if [ ${auto_config} -eq 1 ]; then
@@ -27077,7 +27295,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 
 	echo " "
 	# IF statement to check that all files were created.
-	cd $WRF_FOLDER/OBSGRID
+	cd ${WRF_FOLDER}/OBSGRID
 	n=$(ls ./*.exe | wc -l)
 	if (($n == 3)); then
 		echo "All expected files created."
@@ -27090,31 +27308,31 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 
 	echo " "
 	############################## RIP4 #####################################
-	mkdir $WRF_FOLDER/RIP4
-	cd $WRF_FOLDER/Downloads
+	mkdir ${WRF_FOLDER}/RIP4
+	cd ${WRF_FOLDER}/Downloads
 	wget -c https://www2.mmm.ucar.edu/wrf/src/RIP_47.tar.gz
-	tar -xvzf RIP_47.tar.gz -C $WRF_FOLDER/RIP4
-	cd $WRF_FOLDER/RIP4/RIP_47
+	tar -xvzf RIP_47.tar.gz -C ${WRF_FOLDER}/RIP4
+	cd ${WRF_FOLDER}/RIP4/RIP_47
 	mv * ..
-	cd $WRF_FOLDER/RIP4
+	cd ${WRF_FOLDER}/RIP4
 	rm -rd RIP_47
-	source $Anaconda_Install_DIR/etc/profile.d/conda.sh
+	source $Miniconda_Install_DIR/etc/profile.d/conda.sh
 	conda activate ncl_stable
 	conda install -c conda-forge c-compiler fortran-compiler cxx-compiler -y
 
-	export RIP_ROOT=$WRF_FOLDER/RIP4
+	export RIP_ROOT=${WRF_FOLDER}/RIP4
 	export NETCDF=$DIR/NETCDF
-	export NCARG_ROOT=$WRF_FOLDER/anaconda3/envs/ncl_stable
+	export NCARG_ROOT=${WRF_FOLDER}/anaconda3/envs/ncl_stable
 
-	sed -i '349s|-L${NETCDF}/lib -lnetcdf $NETCDFF|-L${NETCDF}/lib $NETCDFF -lnetcdff -lnetcdf -lnetcdf -lnetcdff_C -lhdf5 |g' $WRF_FOLDER/RIP4/configure
+	sed -i '349s|-L${NETCDF}/lib -lnetcdf $NETCDFF|-L${NETCDF}/lib $NETCDFF -lnetcdff -lnetcdf -lnetcdf -lnetcdff_C -lhdf5 |g' ${WRF_FOLDER}/RIP4/configure
 
-	sed -i '27s|NETCDFLIB	= -L${NETCDF}/lib -lnetcdf CONFIGURE_NETCDFF_LIB|NETCDFLIB	= -L</usr/lib/x86_64-linux-gnu/libm.a> -lm -L${NETCDF}/lib CONFIGURE_NETCDFF_LIB -lnetcdf -lhdf5 -lhdf5_hl -lgfortran -lgcc -lz |g' $WRF_FOLDER/RIP4/arch/preamble
+	sed -i '27s|NETCDFLIB	= -L${NETCDF}/lib -lnetcdf CONFIGURE_NETCDFF_LIB|NETCDFLIB	= -L</usr/lib/x86_64-linux-gnu/libm.a> -lm -L${NETCDF}/lib CONFIGURE_NETCDFF_LIB -lnetcdf -lhdf5 -lhdf5_hl -lgfortran -lgcc -lz |g' ${WRF_FOLDER}/RIP4/arch/preamble
 
-	sed -i '31s|-L${NCARG_ROOT}/lib -lncarg -lncarg_gks -lncarg_c -lX11 -lXext -lpng -lz CONFIGURE_NCARG_LIB| -L${NCARG_ROOT}/lib -lncarg -lncarg_gks -lncarg_c -lX11 -lXext -lpng -lz -lcairo -lfontconfig -lpixman-1 -lfreetype -lexpat -lpthread -lbz2 -lXrender -lgfortran -lgcc -L</usr/lib/x86_64-linux-gnu/> -lm -lhdf5 -lhdf5_hl |g' $WRF_FOLDER/RIP4/arch/preamble
+	sed -i '31s|-L${NCARG_ROOT}/lib -lncarg -lncarg_gks -lncarg_c -lX11 -lXext -lpng -lz CONFIGURE_NCARG_LIB| -L${NCARG_ROOT}/lib -lncarg -lncarg_gks -lncarg_c -lX11 -lXext -lpng -lz -lcairo -lfontconfig -lpixman-1 -lfreetype -lexpat -lpthread -lbz2 -lXrender -lgfortran -lgcc -L</usr/lib/x86_64-linux-gnu/> -lm -lhdf5 -lhdf5_hl |g' ${WRF_FOLDER}/RIP4/arch/preamble
 
-	sed -i '33s| -O|-fallow-argument-mismatch -O |g' $WRF_FOLDER/RIP4/arch/configure.defaults
+	sed -i '33s| -O|-fallow-argument-mismatch -O |g' ${WRF_FOLDER}/RIP4/arch/configure.defaults
 
-	sed -i '35s|=|= -L$WRF_FOLDER/LIBS/grib2/lib -lhdf5 -lhdf5_hl |g' $WRF_FOLDER/RIP4/arch/configure.defaults
+	sed -i '35s|=|= -L${WRF_FOLDER}/LIBS/grib2/lib -lhdf5 -lhdf5_hl |g' ${WRF_FOLDER}/RIP4/arch/configure.defaults
 
 	if [ ${auto_config} -eq 1 ]; then
 		echo 3 | ./configure #Option 3 gfortran compiler with distributed memory
@@ -27133,7 +27351,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	########### WRf-Python compiled via Conda  ##################
 	########### This is the preferred method by NCAR      ##################
 	##### https://wrf-python.readthedocs.io/en/latest/installation.html  ##################
-	source $Anaconda_Install_DIR/etc/profile.d/conda.sh
+	source $Miniconda_Install_DIR/etc/profile.d/conda.sh
 conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 	################################## QGIS #####################################
@@ -27148,8 +27366,8 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 
 	echo " "
-	############################ WRF $WPS_VERSION  #################################
-	## WRF v$WPS_VERSION
+	############################ WRF ${WPS_VERSION}  #################################
+	## WRF v${WPS_VERSION}
 	## Downloaded from git tagged releases
 	# option 34, option 1 for gfortran and distributed memory w/basic nesting
 	# large file support enable with WRFiO_NCD_LARGE_FILE_SUPPORT=1
@@ -27160,22 +27378,22 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	# io_form_auxhist2
 	# Note that you need set nocolons = .true. in the section &time_control of namelist.input
 	########################################################################
-	cd $WRF_FOLDER/Downloads
-	wget -c https://github.com/wrf-model/WRF/releases/download/v$WRF_VERSION/v$WRF_VERSION.tar.gz -O WRF-$WRF_VERSION.tar.gz
-	tar -xvzf WRF-$WRF_VERSION.tar.gz -C $WRF_FOLDER/
+	cd ${WRF_FOLDER}/Downloads
+	wget -c https://github.com/wrf-model/WRF/releases/download/v${WRF_VERSION}/v${WRF_VERSION}.tar.gz -O WRF-${WRF_VERSION}.tar.gz
+	tar -xvzf WRF-${WRF_VERSION}.tar.gz -C ${WRF_FOLDER}/
 
 	# If statment for changing folder name
-	if [ -d "$WRF_FOLDER/WRF" ]; then
-		mv -f $WRF_FOLDER/WRF $WRF_FOLDER/WRFV$WRF_VERSION
+	if [ -d "${WRF_FOLDER}/WRF" ]; then
+		mv -f ${WRF_FOLDER}/WRF ${WRF_FOLDER}/WRFV${WRF_VERSION}
 	fi
 
-	cd $WRF_FOLDER/WRFV$WRF_VERSION
+	cd ${WRF_FOLDER}/WRFV${WRF_VERSION}
 	export WRFIO_NCD_LARGE_FILE_SUPPORT=1
 	./clean -a
 
 	if [ ${auto_config} -eq 1 ]; then
-		sed -i '443s/.*/  $response = "34 \\n";/g' $WRF_FOLDER/WRFV$WRF_VERSION/arch/Config.pl # Answer for compiler choice
-		sed -i '909s/.*/  $response = "1 \\n";/g' $WRF_FOLDER/WRFV$WRF_VERSION/arch/Config.pl  #Answer for basic nesting
+		sed -i '443s/.*/  $response = "34 \\n";/g' ${WRF_FOLDER}/WRFV${WRF_VERSION}/arch/Config.pl # Answer for compiler choice
+		sed -i '909s/.*/  $response = "1 \\n";/g' ${WRF_FOLDER}/WRFV${WRF_VERSION}/arch/Config.pl  #Answer for basic nesting
 		./configure 2>&1 | tee configure.log
 	else
 		./configure 2>&1 | tee configure.log #Option 34 gfortran compiler with distributed memory option 1 for basic nesting
@@ -27183,10 +27401,10 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 	./compile -j $CPU_HALF_EVEN em_real 2>&1 | tee compile.wrf1.log
 
-	export WRF_DIR=$WRF_FOLDER/WRFV$WRF_VERSION
+	export WRF_DIR=${WRF_FOLDER}/WRFV${WRF_VERSION}
 
 	# IF statement to check that all files were created.
-	cd $WRF_FOLDER/WRFV$WRF_VERSION/main
+	cd ${WRF_FOLDER}/WRFV${WRF_VERSION}/main
 	n=$(ls ./*.exe | wc -l)
 	if (($n >= 3)); then
 		echo "All expected files created."
@@ -27194,9 +27412,9 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	else
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
-		cd $WRF_FOLDER/WRFV$WRF_VERSION
+		cd ${WRF_FOLDER}/WRFV${WRF_VERSION}
 		./compile -j $CPU_HALF_EVEN em_real 2>&1 | tee compile.wrf2.log
-		cd $WRF_FOLDER/WRFV$WRF_VERSION/main
+		cd ${WRF_FOLDER}/WRFV${WRF_VERSION}/main
 		n=$(ls ./*.exe | wc -l)
 		if (($n >= 3)); then
 			echo "All expected files created."
@@ -27208,16 +27426,16 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	fi
 
 	echo " "
-	############################WPSV$WPS_VERSION#####################################
-	## WPS v$WPS_VERSION
+	############################WPSV${WPS_VERSION}#####################################
+	## WPS v${WPS_VERSION}
 	## Downloaded from git tagged releases
 	#Option 3 for gfortran and distributed memory
 	########################################################################
 
-	cd $WRF_FOLDER/Downloads
-	wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v$WPS_VERSION.tar.gz -O WPS-$WPS_VERSION.tar.gz
-	tar -xvzf WPS-$WPS_VERSION.tar.gz -C $WRF_FOLDER/
-	cd $WRF_FOLDER/WPS-$WPS_VERSION
+	cd ${WRF_FOLDER}/Downloads
+	wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v${WPS_VERSION}.tar.gz -O WPS-${WPS_VERSION}.tar.gz
+	tar -xvzf WPS-${WPS_VERSION}.tar.gz -C ${WRF_FOLDER}/
+	cd ${WRF_FOLDER}/WPS-${WPS_VERSION}
 	./clean -a
 
 	if [ ${auto_config} -eq 1 ]; then
@@ -27229,7 +27447,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 	echo " "
 	# IF statement to check that all files were created.
-	cd $WRF_FOLDER/WPS-$WPS_VERSION
+	cd ${WRF_FOLDER}/WPS-${WPS_VERSION}
 	n=$(ls ./*.exe | wc -l)
 	if (($n == 3)); then
 		echo "All expected files created."
@@ -27238,7 +27456,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
 		./compile 2>&1 | tee compile.wps2.log
-		cd $WRF_FOLDER/WPS-$WPS_VERSION
+		cd ${WRF_FOLDER}/WPS-${WPS_VERSION}
 		n=$(ls ./*.exe | wc -l)
 		if (($n == 3)); then
 			echo "All expected files created."
@@ -27251,25 +27469,25 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 	echo " "
 	############################WRFPLUS 4DVAR###############################
-	## WRFPLUS v$WPS_VERSION 4DVAR
+	## WRFPLUS v${WPS_VERSION} 4DVAR
 	## Downloaded from git tagged releases
 	## WRFPLUS is built within the WRF git folder
 	## Does not include RTTOV Libarary for radiation data.  If wanted will need to install library then reconfigure
 	##Note: if you intend to run both 3DVAR and 4DVAR experiments, it is not necessary to compile the code twice.
 	#Option 18 for gfortran/gcc and distribunted memory
 	########################################################################
-	cd $WRF_FOLDER/Downloads
-	tar -xvzf WRF-$WRF_VERSION.tar.gz -C $WRF_FOLDER/WRFPLUS
+	cd ${WRF_FOLDER}/Downloads
+	tar -xvzf WRF-${WRF_VERSION}.tar.gz -C ${WRF_FOLDER}/WRFPLUS
 
 	# If statment for changing folder name
-	if [ -d "$WRF_FOLDER/WRFPLUS/WRF" ]; then
-		mv -f $WRF_FOLDER/WRFPLUS/WRF $WRF_FOLDER/WRFPLUS/WRFV$WRF_VERSION
+	if [ -d "${WRF_FOLDER}/WRFPLUS/WRF" ]; then
+		mv -f ${WRF_FOLDER}/WRFPLUS/WRF ${WRF_FOLDER}/WRFPLUS/WRFV${WRF_VERSION}
 	fi
 
-	cd $WRF_FOLDER/WRFPLUS/WRFV$WRF_VERSION
-	mv * $WRF_FOLDER/WRFPLUS
-	cd $WRF_FOLDER/WRFPLUS
-	rm -rf WRFV$WRF_VERSION/
+	cd ${WRF_FOLDER}/WRFPLUS/WRFV${WRF_VERSION}
+	mv * ${WRF_FOLDER}/WRFPLUS
+	cd ${WRF_FOLDER}/WRFPLUS
+	rm -rf WRFV${WRF_VERSION}/
 	export NETCDF=$DIR/NETCDF
 	export HDF5=$DIR/grib2
 	export LD_LIBRARY_PATH=$DIR/grib2/lib:$LD_LIBRARY_PATH
@@ -27282,11 +27500,11 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	fi
 	echo " "
 	./compile -j $CPU_HALF_EVEN wrfplus 2>&1 | tee compile.wrfplus.log
-	export WRFPLUS_DIR=$WRF_FOLDER/WRFPLUS
+	export WRFPLUS_DIR=${WRF_FOLDER}/WRFPLUS
 
 	echo " "
 	# IF statement to check that all files were created.
-	cd $WRF_FOLDER/WRFPLUS/main
+	cd ${WRF_FOLDER}/WRFPLUS/main
 	n=$(ls ./wrfplus.exe | wc -l)
 	if (($n == 1)); then
 		echo "All expected files created."
@@ -27294,9 +27512,9 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	else
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
-		cd $WRF_FOLDER/WRFPLUS/WRFV$WRF_VERSION
+		cd ${WRF_FOLDER}/WRFPLUS/WRFV${WRF_VERSION}
 		./compile -j $CPU_HALF_EVEN wrfplus 2>&1 | tee compile.wrfplus2.log
-		cd $WRF_FOLDER/WRFPLUS/main
+		cd ${WRF_FOLDER}/WRFPLUS/main
 		n=$(ls ./wrfplus.exe | wc -l)
 		if (($n == 1)); then
 			echo "All expected files created."
@@ -27310,30 +27528,30 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 	echo " "
 	############################WRFDA 4DVAR###############################
-	## WRFDA v$WPS_VERSION 4DVAR
+	## WRFDA v${WPS_VERSION} 4DVAR
 	## Downloaded from git tagged releases
 	## WRFDA is built within the WRFPLUS folder
 	## Does not include RTTOV Libarary for radiation data.  If wanted will need to install library then reconfigure
 	##Note: if you intend to run both 3DVAR and 4DVAR experiments, it is not necessary to compile the code twice.
 	#Option 18 for gfortran/gcc and distribunted memory
 	########################################################################
-	cd $WRF_FOLDER/Downloads
-	mkdir $WRF_FOLDER/WRFDA
-	tar -xvzf WRF-$WRF_VERSION.tar.gz -C $WRF_FOLDER/WRFDA
+	cd ${WRF_FOLDER}/Downloads
+	mkdir ${WRF_FOLDER}/WRFDA
+	tar -xvzf WRF-${WRF_VERSION}.tar.gz -C ${WRF_FOLDER}/WRFDA
 
 	# If statment for changing folder name
-	if [ -d "$WRF_FOLDER/WRFDA/WRF" ]; then
-		mv -f $WRF_FOLDER/WRFDA/WRF $WRF_FOLDER/WRFDA/WRFV$WRF_VERSION
+	if [ -d "${WRF_FOLDER}/WRFDA/WRF" ]; then
+		mv -f ${WRF_FOLDER}/WRFDA/WRF ${WRF_FOLDER}/WRFDA/WRFV${WRF_VERSION}
 	fi
 
-	cd $WRF_FOLDER/WRFDA/WRFV$WRF_VERSION
-	mv * $WRF_FOLDER/WRFDA
-	cd $WRF_FOLDER/WRFDA
-	rm -rf WRFV$WRF_VERSION/
+	cd ${WRF_FOLDER}/WRFDA/WRFV${WRF_VERSION}
+	mv * ${WRF_FOLDER}/WRFDA
+	cd ${WRF_FOLDER}/WRFDA
+	rm -rf WRFV${WRF_VERSION}/
 	export NETCDF=$DIR/NETCDF
 	export HDF5=$DIR/grib2
 	export LD_LIBRARY_PATH=$DIR/grib2/lib:$LD_LIBRARY_PATH
-	export WRFPLUS_DIR=$WRF_FOLDER/WRFPLUS
+	export WRFPLUS_DIR=${WRF_FOLDER}/WRFPLUS
 	./clean -a
 
 	if [ ${auto_config} -eq 1 ]; then
@@ -27346,25 +27564,25 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 	echo " "
 	# IF statement to check that all files were created.
-	cd $WRF_FOLDER/WRFDA/var/da
+	cd ${WRF_FOLDER}/WRFDA/var/da
 	n=$(ls ./*.exe | wc -l)
-	cd $WRF_FOLDER/WRFDA/var/obsproc/src
+	cd ${WRF_FOLDER}/WRFDA/var/obsproc/src
 	m=$(ls ./*.exe | wc -l)
 	if ((($n == 43) && ($m == 1))); then
 		echo "All expected files created."
-		read -r -t 5 -p "Finished installing WRFDA-CHEM 3DVAR. I am going to wait for 5 seconds only ..."
+		read -r -t 5 -p "Finished installing WRFDA. I am going to wait for 5 seconds only ..."
 	else
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
-		cd $WRF_FOLDER/WRFDA
+		cd ${WRF_FOLDER}/WRFDA
 		./compile -j $CPU_HALF_EVEN all_wrfvar 2>&1 | tee compile.chem.wrfvar2.log
-		cd $WRF_FOLDER/WRFDA/var/da
+		cd ${WRF_FOLDER}/WRFDA/var/da
 		n=$(ls ./*.exe | wc -l)
-		cd $WRF_FOLDER/WRFDA/var/obsproc/src
+		cd ${WRF_FOLDER}/WRFDA/var/obsproc/src
 		m=$(ls ./*.exe | wc -l)
 		if ((($n == 43) && ($m == 1))); then
 			echo "All expected files created."
-			read -r -t 5 -p "Finished installing WRFDA-CHEM 3DVAR. I am going to wait for 5 seconds only ..."
+			read -r -t 5 -p "Finished installing WRFDA. I am going to wait for 5 seconds only ..."
 		else
 			read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
 			exit
@@ -27375,20 +27593,20 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	echo " "
 	######################## WPS Domain Setup Tools ########################
 	## DomainWizard
-	cd $WRF_FOLDER/Downloads
+	cd ${WRF_FOLDER}/Downloads
 	wget -c http://esrl.noaa.gov/gsd/wrfportal/domainwizard/WRFDomainWizard.zip
-	mkdir $WRF_FOLDER/WRFDomainWizard
-	unzip WRFDomainWizard.zip -d $WRF_FOLDER/WRFDomainWizard
-	chmod +x $WRF_FOLDER/WRFDomainWizard/run_DomainWizard
+	mkdir ${WRF_FOLDER}/WRFDomainWizard
+	unzip WRFDomainWizard.zip -d ${WRF_FOLDER}/WRFDomainWizard
+	chmod +x ${WRF_FOLDER}/WRFDomainWizard/run_DomainWizard
 
 	echo " "
 	######################## WPF Portal Setup Tools ########################
 	## WRFPortal
-	cd $WRF_FOLDER/Downloads
+	cd ${WRF_FOLDER}/Downloads
 	wget -c https://esrl.noaa.gov/gsd/wrfportal/portal/wrf-portal.zip
-	mkdir $WRF_FOLDER/WRFPortal
-	unzip wrf-portal.zip -d $WRF_FOLDER/WRFPortal
-	chmod +x $WRF_FOLDER/WRFPortal/runWRFPortal
+	mkdir ${WRF_FOLDER}/WRFPortal
+	unzip wrf-portal.zip -d ${WRF_FOLDER}/WRFPortal
+	chmod +x ${WRF_FOLDER}/WRFPortal/runWRFPortal
 
 	echo " "
 
@@ -27398,19 +27616,19 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	# All files downloaded and untarred is 200GB
 	# https://www2.mmm.ucar.edu/wrf/users/download/get_sources_wps_geog.html
 	#################################################################################
-	cd $WRF_FOLDER/Downloads
-	mkdir $WRF_FOLDER/GEOG
-	mkdir $WRF_FOLDER/GEOG/WPS_GEOG
+	cd ${WRF_FOLDER}/Downloads
+	mkdir ${WRF_FOLDER}/GEOG
+	mkdir ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 	echo " "
 	echo "Mandatory WRF Preprocessing System (WPS) Geographical Input Data Mandatory Fields Downloads"
 	echo " "
 	wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_high_res_mandatory.tar.gz
-	tar -xvzf geog_high_res_mandatory.tar.gz -C $WRF_FOLDER/GEOG/
+	tar -xvzf geog_high_res_mandatory.tar.gz -C ${WRF_FOLDER}/GEOG/
 
 	wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_low_res_mandatory.tar.gz
-	tar -xvzf geog_low_res_mandatory.tar.gz -C $WRF_FOLDER/GEOG/
-	mv $WRF_FOLDER/GEOG/WPS_GEOG_LOW_RES/ $WRF_FOLDER/GEOG/WPS_GEOG
+	tar -xvzf geog_low_res_mandatory.tar.gz -C ${WRF_FOLDER}/GEOG/
+	mv ${WRF_FOLDER}/GEOG/WPS_GEOG_LOW_RES/ ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 	if [ ${WPS_Specific_Applications} -eq 1 ]; then
 		echo " "
@@ -27418,33 +27636,33 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 		echo " "
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_thompson28_chem.tar.gz
-		tar -xvzf geog_thompson28_chem.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+		tar -xvzf geog_thompson28_chem.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_noahmp.tar.gz
-		tar -xvzf geog_noahmp.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+		tar -xvzf geog_noahmp.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/irrigation.tar.gz
-		tar -xvzf irrigation.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
-		mkdir $WRF_FOLDER/GEOG/WPS_GEOG/irrigation
-		mv $WRF_FOLDER/GEOG/WPS_GEOG/fao $WRF_FOLDER/GEOG/WPS_GEOG/irrigation
+		tar -xvzf irrigation.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
+		mkdir ${WRF_FOLDER}/GEOG/WPS_GEOG/irrigation
+		mv ${WRF_FOLDER}/GEOG/WPS_GEOG/fao ${WRF_FOLDER}/GEOG/WPS_GEOG/irrigation
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_px.tar.gz
-		tar -xvzf geog_px.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+		tar -xvzf geog_px.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_urban.tar.gz
-		tar -xvzf geog_urban.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+		tar -xvzf geog_urban.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_ssib.tar.gz
-		tar -xvzf geog_ssib.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+		tar -xvzf geog_ssib.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/lake_depth.tar.bz2
-		tar -xvf lake_depth.tar.bz2 -C $WRF_FOLDER/GEOG/WPS_GEOG
+		tar -xvf lake_depth.tar.bz2 -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/topobath_30s.tar.bz2
-		tar -xvf topobath_30s.tar.bz2 -C $WRF_FOLDER/GEOG/WPS_GEOG
+		tar -xvf topobath_30s.tar.bz2 -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/gsl_gwd.tar.bz2
-		tar -xvf gsl_gwd.tar.bz2 -C $WRF_FOLDER/GEOG/WPS_GEOG
+		tar -xvf gsl_gwd.tar.bz2 -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 	fi
 
 	if [ ${Optional_GEOG} -eq 1 ]; then
@@ -27453,22 +27671,22 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 		echo " "
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_older_than_2000.tar.gz
-		tar -xvzf geog_older_than_2000.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+		tar -xvzf geog_older_than_2000.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s_with_lakes.tar.gz
-		tar -xvzf modis_landuse_20class_15s_with_lakes.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+		tar -xvzf modis_landuse_20class_15s_with_lakes.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_alt_lsm.tar.gz
-		tar -xvzf geog_alt_lsm.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+		tar -xvzf geog_alt_lsm.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/nlcd2006_ll_9s.tar.bz2
-		tar -xvf nlcd2006_ll_9s.tar.bz2 -C $WRF_FOLDER/GEOG/WPS_GEOG
+		tar -xvf nlcd2006_ll_9s.tar.bz2 -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/updated_Iceland_LU.tar.gz
-		tar -xvf updated_Iceland_LU.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+		tar -xvf updated_Iceland_LU.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s.tar.bz2
-		tar -xvf modis_landuse_20class_15s.tar.bz2 -C $WRF_FOLDER/GEOG/WPS_GEOG
+		tar -xvf modis_landuse_20class_15s.tar.bz2 -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 	fi
 fi
 
@@ -27489,7 +27707,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRF_PICK" = "1" ]; then
 	echo $PASSWD | sudo -S dnf install dnf -y
 	echo $PASSWD | sudo -S dnf -y update
 	echo $PASSWD | sudo -S dnf -y upgrade
-	echo $PASSWD | sudo -S dnf -y install autoconf automake bzip2 bzip2-devel byacc cairo-devel cmake cpp curl curl-devel flex flex-devel fontconfig-devel fontconfig-devel.x86_64 gcc gcc-c++ gcc-gfortran git java-11-openjdk java-11-openjdk-devel ksh libX11-devel libX11-devel.x86_64 libXaw libXaw-devel libXext-devel libXext-devel.x86_64 libXmu-devel libXrender-devel libXrender-devel.x86_64 libstdc++ libstdc++-devel libstdc++-static libxml2 libxml2-devel m4  .x86_64 nfs-utils okular perl pkgconfig pixman-devel python3 python3-devel tcsh time unzip wget
+	echo $PASSWD | sudo -S dnf -y install autoconf automake bzip2 bzip2-devel byacc cairo-devel cmake cpp curl curl-devel flex  fontconfig-devel fontconfig-devel.x86_64 gcc gcc-c++ gcc-gfortran git java-11-openjdk java-11-openjdk-devel ksh libX11-devel libX11-devel.x86_64 libXaw libXaw-devel libXext-devel libXext-devel.x86_64 libXmu-devel libXrender-devel libXrender-devel.x86_64 libstdc++ libstdc++-devel  libxml2 libxml2-devel m4 mlocate mlocate.x86_64 nfs-utils perl pkgconfig  pixman-devel python3 python3-devel tcsh time unzip wget
 	echo $PASSWD | sudo -S dnf -y groupinstall "Development Tools"
 	echo $PASSWD | sudo -S dnf -y update
 	echo $PASSWD | sudo -S dnf -y upgrade
@@ -27503,12 +27721,12 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRF_PICK" = "1" ]; then
 
 	mkdir $HOME/WRF
 	export WRF_FOLDER=$HOME/WRF
-	cd $WRF_FOLDER/
+	cd ${WRF_FOLDER}/
 	mkdir Downloads
 	mkdir WRFPLUS
 	mkdir WRFDA
 	mkdir Libs
-	export DIR=$WRF_FOLDER/Libs
+	export DIR=${WRF_FOLDER}/Libs
 	mkdir Libs/grib2
 	mkdir Libs/NETCDF
 	mkdir Libs/MPICH
@@ -27588,7 +27806,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRF_PICK" = "1" ]; then
 	#Uncalling compilers due to comfigure issue with zlib$Zlib_Version
 	#With CC & CXX definied ./configure uses different compiler Flags
 
-	cd $WRF_FOLDER/Downloads
+	cd ${WRF_FOLDER}/Downloads
 	tar -xvzf v$Zlib_Version.tar.gz
 	cd zlib-$Zlib_Version/
 	autoreconf -i -f 2>&1 | tee autoreconf.log
@@ -27602,7 +27820,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRF_PICK" = "1" ]; then
 	echo " "
 	##############################MPICH############################
 	#F90= due to compiler issues with mpich install
-	cd $WRF_FOLDER/Downloads
+	cd ${WRF_FOLDER}/Downloads
 	tar -xvzf mpich-$Mpich_Version.tar.gz
 	cd mpich-$Mpich_Version/
 	autoreconf -i -f 2>&1 | tee autoreconf.log
@@ -27623,7 +27841,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRF_PICK" = "1" ]; then
 
 	echo " "
 	#############################libpng############################
-	cd $WRF_FOLDER/Downloads
+	cd ${WRF_FOLDER}/Downloads
 	export LDFLAGS=-L$DIR/grib2/lib
 	export CPPFLAGS=-I$DIR/grib2/include
 	tar -xvzf libpng-$Libpng_Version.tar.gz
@@ -27638,7 +27856,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRF_PICK" = "1" ]; then
 	#make check
 	echo " "
 	#############################JasPer############################
-	cd $WRF_FOLDER/Downloads
+	cd ${WRF_FOLDER}/Downloads
 	unzip jasper-$Jasper_Version.zip
 	cd jasper-$Jasper_Version/
 	autoreconf -i -f 2>&1 | tee autoreconf.log
@@ -27656,7 +27874,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRF_PICK" = "1" ]; then
 
 	echo " "
 	#############################hdf5 library for netcdf4 functionality############################
-	cd $WRF_FOLDER/Downloads
+	cd ${WRF_FOLDER}/Downloads
 	tar -xvzf hdf5-$HDF5_Version.tar.gz
 	cd hdf5-hdf5-$HDF5_Version
 	autoreconf -i -f 2>&1 | tee autoreconf.log
@@ -27677,7 +27895,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRF_PICK" = "1" ]; then
 	#Make file created with half of available cpu cores
 	#Hard path for MPI added
 	##################################################################################
-	cd $WRF_FOLDER/Downloads
+	cd ${WRF_FOLDER}/Downloads
 	tar -xvzf pnetcdf-$Pnetcdf_Version.tar.gz
 	cd pnetcdf-$Pnetcdf_Version
 	export MPIFC=$DIR/MPICH/bin/mpifort
@@ -27698,7 +27916,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRF_PICK" = "1" ]; then
 	echo " "
 
 	##############################Install NETCDF C Library############################
-	cd $WRF_FOLDER/Downloads
+	cd ${WRF_FOLDER}/Downloads
 	tar -xzvf v$Netcdf_C_Version.tar.gz
 	cd netcdf-c-$Netcdf_C_Version/
 	export CPPFLAGS=-I$DIR/grib2/include
@@ -27717,7 +27935,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRF_PICK" = "1" ]; then
 	export NETCDF=$DIR/NETCDF
 	echo " "
 	##############################NetCDF fortran library############################
-	cd $WRF_FOLDER/Downloads
+	cd ${WRF_FOLDER}/Downloads
 	tar -xvzf v$Netcdf_Fortran_Version.tar.gz
 	cd netcdf-fortran-$Netcdf_Fortran_Version/
 	export LD_LIBRARY_PATH=$DIR/NETCDF/lib:$LD_LIBRARY_PATH
@@ -27736,18 +27954,18 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRF_PICK" = "1" ]; then
 	echo " "
 	#################################### System Environment Tests ##############
 
-	cd $WRF_FOLDER/Downloads
+	cd ${WRF_FOLDER}/Downloads
 	wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_NETCDF_MPI_tests.tar
 	wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_tests.tar
 
-	tar -xvf Fortran_C_tests.tar -C $WRF_FOLDER/Tests/Environment
-	tar -xvf Fortran_C_NETCDF_MPI_tests.tar -C $WRF_FOLDER/Tests/Compatibility
+	tar -xvf Fortran_C_tests.tar -C ${WRF_FOLDER}/Tests/Environment
+	tar -xvf Fortran_C_NETCDF_MPI_tests.tar -C ${WRF_FOLDER}/Tests/Compatibility
 
 	export one="1"
 	echo " "
 	############## Testing Environment #####
 
-	cd $WRF_FOLDER/Tests/Environment
+	cd ${WRF_FOLDER}/Tests/Environment
 
 	cp ${NETCDF}/include/netcdf.inc .
 
@@ -27755,7 +27973,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRF_PICK" = "1" ]; then
 	echo " "
 	echo "Environment Testing "
 	echo "Test 1"
-	gfortran TEST_1_fortran_only_fixed.f
+	$FC TEST_1_fortran_only_fixed.f
 	./a.out | tee env_test1.txt
 	export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test1.txt | awk '{print$1}')
 	if [ $TEST_PASS -ge 1 ]; then
@@ -27768,7 +27986,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRF_PICK" = "1" ]; then
 
 	echo " "
 	echo "Test 2"
-	gfortran TEST_2_fortran_only_free.f90
+	$FC TEST_2_fortran_only_free.f90
 	./a.out | tee env_test2.txt
 	export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test2.txt | awk '{print$1}')
 	if [ $TEST_PASS -ge 1 ]; then
@@ -27782,7 +28000,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRF_PICK" = "1" ]; then
 
 	echo " "
 	echo "Test 3"
-	gcc TEST_3_c_only.c
+	$CC TEST_3_c_only.c
 	./a.out | tee env_test3.txt
 	export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test3.txt | awk '{print$1}')
 	if [ $TEST_PASS -ge 1 ]; then
@@ -27796,9 +28014,9 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRF_PICK" = "1" ]; then
 
 	echo " "
 	echo "Test 4"
-	gcc -c -m64 TEST_4_fortran+c_c.c
-	gfortran -c -m64 TEST_4_fortran+c_f.f90
-	gfortran -m64 TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
+	$CC -c -m64 TEST_4_fortran+c_c.c
+	$FC -c -m64 TEST_4_fortran+c_f.f90
+	$FC -m64 TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
 	./a.out | tee env_test4.txt
 	export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test4.txt | awk '{print$1}')
 	if [ $TEST_PASS -ge 1 ]; then
@@ -27813,7 +28031,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRF_PICK" = "1" ]; then
 	echo " "
 	############## Testing Environment #####
 
-	cd $WRF_FOLDER/Tests/Compatibility
+	cd ${WRF_FOLDER}/Tests/Compatibility
 
 	cp ${NETCDF}/include/netcdf.inc .
 
@@ -27821,9 +28039,9 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRF_PICK" = "1" ]; then
 	echo " "
 	echo "Library Compatibility Tests "
 	echo "Test 1"
-	gfortran -c 01_fortran+c+netcdf_f.f
-	gcc -c 01_fortran+c+netcdf_c.c
-	gfortran 01_fortran+c+netcdf_f.o 01_fortran+c+netcdf_c.o \
+	$FC -c 01_fortran+c+netcdf_f.f
+	$CC -c 01_fortran+c+netcdf_c.c
+	$FC 01_fortran+c+netcdf_f.o 01_fortran+c+netcdf_c.o \
 		-L${NETCDF}/lib -lnetcdff -lnetcdf
 
 	./a.out | tee comp_test1.txt
@@ -27840,9 +28058,9 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRF_PICK" = "1" ]; then
 	echo " "
 
 	echo "Test 2"
-	$DIR/MPICH/bin/mpifort -c 02_fortran+c+netcdf+mpi_f.f
-	$DIR/MPICH/bin/mpicc -c 02_fortran+c+netcdf+mpi_c.c
-	$DIR/MPICH/bin/mpifort 02_fortran+c+netcdf+mpi_f.o \
+	$MPIFC -c 02_fortran+c+netcdf+mpi_f.f
+	$MPICC -c 02_fortran+c+netcdf+mpi_c.c
+	$MPIFC 02_fortran+c+netcdf+mpi_f.o \
 		02_fortran+c+netcdf+mpi_c.o \
 		-L${NETCDF}/lib -lnetcdff -lnetcdf
 
@@ -27870,7 +28088,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRF_PICK" = "1" ]; then
 	#If iand error occurs go to https://github.com/NCAR/NCEPlibs/pull/16/files make adjustment and re-run ./make_ncep_libs.sh
 	############################################################################
 
-	cd $WRF_FOLDER/Downloads
+	cd ${WRF_FOLDER}/Downloads
 	git clone https://github.com/NCAR/NCEPlibs.git
 	cd NCEPlibs
 	mkdir $DIR/nceplibs
@@ -27894,7 +28112,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRF_PICK" = "1" ]; then
 	if [ $GCC_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GFORTRAN_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GPLUSPLUS_VERSION_MAJOR_VERSION -ge $version_10 ]; then
 		y="24 28 32 36 40 45 49 53 56 60 64 68 69 73 74 79"
 		for X in $y; do
-			sed -i "${X}s/= /= $fallow_argument $boz_argument /g" $WRF_FOLDER/Downloads/NCEPlibs/macros.make.linux.gnu
+			sed -i "${X}s/= /= $fallow_argument $boz_argument /g" ${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu
 		done
 	else
 		echo ""
@@ -27916,7 +28134,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRF_PICK" = "1" ]; then
 	#since the WRF was written
 	#Option 8 gfortran compiler with distributed memory
 	#############################################################################
-	cd $WRF_FOLDER/
+	cd ${WRF_FOLDER}/
 	git clone -b dtc_post_v4.1.0 --recurse-submodules https://github.com/NOAA-EMC/EMC_post UPPV4.1
 	cd UPPV4.1
 	mkdir postprd
@@ -27943,7 +28161,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRF_PICK" = "1" ]; then
 	if [ $GCC_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GFORTRAN_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GPLUSPLUS_VERSION_MAJOR_VERSION -ge $version_10 ]; then
 		z="58 63"
 		for X in $z; do
-			sed -i "${X}s/(FOPT)/(FOPT) $fallow_argument $boz_argument  /g" $WRF_FOLDER/UPPV4.1/configure.upp
+			sed -i "${X}s/(FOPT)/(FOPT) $fallow_argument $boz_argument  /g" ${WRF_FOLDER}/UPPV4.1/configure.upp
 		done
 	else
 		echo ""
@@ -27951,12 +28169,12 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRF_PICK" = "1" ]; then
 	fi
 
 	./compile
-	cd $WRF_FOLDER/UPPV4.1/scripts
+	cd ${WRF_FOLDER}/UPPV4.1/scripts
 	echo $PASSWD | sudo -S cpan install XML::LibXML
 	chmod +x run_unipost
 
 	# IF statement to check that all files were created.
-	cd $WRF_FOLDER/UPPV4.1/exec
+	cd ${WRF_FOLDER}/UPPV4.1/exec
 	n=$(ls ./*.exe | wc -l)
 	if (($n == 1)); then
 		echo "All expected files created."
@@ -27973,12 +28191,12 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRF_PICK" = "1" ]; then
 	## ARWpost
 	##Configure #3
 	###################################################################
-	cd $WRF_FOLDER/Downloads
+	cd ${WRF_FOLDER}/Downloads
 	wget -c http://www2.mmm.ucar.edu/wrf/src/ARWpost_V3.tar.gz
-	tar -xvzf ARWpost_V3.tar.gz -C $WRF_FOLDER/
-	cd $WRF_FOLDER/ARWpost
+	tar -xvzf ARWpost_V3.tar.gz -C ${WRF_FOLDER}/
+	cd ${WRF_FOLDER}/ARWpost
 	./clean -a
-	sed -i -e 's/-lnetcdf/-lnetcdff -lnetcdf/g' $WRF_FOLDER/ARWpost/src/Makefile
+	sed -i -e 's/-lnetcdf/-lnetcdff -lnetcdf/g' ${WRF_FOLDER}/ARWpost/src/Makefile
 	export NETCDF=$DIR/NETCDF
 
 	if [ ${auto_config} -eq 1 ]; then
@@ -28001,32 +28219,32 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRF_PICK" = "1" ]; then
 		sed -i '32s/-ffree-form -O -fno-second-underscore -fconvert=big-endian -frecord-marker=4/-ffree-form -O -fno-second-underscore -fconvert=big-endian -frecord-marker=4 ${fallow_argument} /g' configure.arwp
 	fi
 
-	sed -i -e 's/-C -P -traditional/-P -traditional/g' $WRF_FOLDER/ARWpost/configure.arwp
+	sed -i -e 's/-C -P -traditional/-P -traditional/g' ${WRF_FOLDER}/ARWpost/configure.arwp
 	./compile
 
-	export PATH=$WRF_FOLDER/ARWpost/ARWpost.exe:$PATH
+	export PATH=${WRF_FOLDER}/ARWpost/ARWpost.exe:$PATH
 
 	echo " "
 	################################ OpenGrADS ##################################
 	#Verison 2.2.1 32bit of Linux
 	#############################################################################
 	if [[ $GRADS_PICK -eq 1 ]]; then
-		cd $WRF_FOLDER/Downloads
-		tar -xzvf opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz -C $WRF_FOLDER/
-		cd $WRF_FOLDER/
-		mv $WRF_FOLDER/opengrads-2.2.1.oga.1 $WRF_FOLDER/GrADS
+		cd ${WRF_FOLDER}/Downloads
+		tar -xzvf opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz -C ${WRF_FOLDER}/
+		cd ${WRF_FOLDER}/
+		mv ${WRF_FOLDER}/opengrads-2.2.1.oga.1 ${WRF_FOLDER}/GrADS
 		cd GrADS/Contents
 		wget -c https://github.com/regisgrundig/SIMOP/blob/master/g2ctl.pl
 		chmod +x g2ctl.pl
 		wget -c https://sourceforge.net/projects/opengrads/files/wgrib2/0.1.9.4/wgrib2-v0.1.9.4-bin-i686-glib2.5-linux-gnu.tar.gz
 		tar -xzvf wgrib2-v0.1.9.4-bin-i686-glib2.5-linux-gnu.tar.gz
 		cd wgrib2-v0.1.9.4/bin
-		mv wgrib2 $WRF_FOLDER/GrADS/Contents
-		cd $WRF_FOLDER/GrADS/Contents
+		mv wgrib2 ${WRF_FOLDER}/GrADS/Contents
+		cd ${WRF_FOLDER}/GrADS/Contents
 		rm wgrib2-v0.1.9.4-bin-i686-glib2.5-linux-gnu.tar.gz
 		rm -r wgrib2-v0.1.9.4
 
-		export PATH=$WRF_FOLDER/GrADS/Contents:$PATH
+		export PATH=${WRF_FOLDER}/GrADS/Contents:$PATH
 
 		echo " "
 	fi
@@ -28036,10 +28254,10 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRF_PICK" = "1" ]; then
 	# GrADS instructions: http://cola.gmu.edu/grads/downloads.php
 	########################################################################
 	if [[ $GRADS_PICK -eq 2 ]]; then
-		cd $WRF_FOLDER/Downloads
+		cd ${WRF_FOLDER}/Downloads
 		wget -c ftp://cola.gmu.edu/grads/2.2/grads-2.2.1-bin-centos7.4-x86_64.tar.gz
-		tar -xzvf grads-2.2.1-bin-centos7.4-x86_64.tar.gz -C $WRF_FOLDER
-		cd $WRF_FOLDER/grads-2.2.1/bin
+		tar -xzvf grads-2.2.1-bin-centos7.4-x86_64.tar.gz -C ${WRF_FOLDER}
+		cd ${WRF_FOLDER}/grads-2.2.1/bin
 		chmod 775 *
 
 	fi
@@ -28054,7 +28272,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRF_PICK" = "1" ]; then
 	pip install --upgrade --force-reinstall zstd
 	pip3 install --upgrade --force-reinstall zstandard
 	pip3 install --upgrade --force-reinstall zstd
-	export Miniconda_Install_DIR=$WRF_FOLDER/miniconda3
+	export Miniconda_Install_DIR=${WRF_FOLDER}/miniconda3
 
 	mkdir -p $Miniconda_Install_DIR
 
@@ -28063,7 +28281,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRF_PICK" = "1" ]; then
 
 	rm -rf $Miniconda_Install_DIR/miniconda.sh
 
-	export PATH=$WRF_FOLDER/miniconda3/bin:$PATH
+	export PATH=${WRF_FOLDER}/miniconda3/bin:$PATH
 
 	source $Miniconda_Install_DIR/etc/profile.d/conda.sh
 
@@ -28098,12 +28316,12 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRF_PICK" = "1" ]; then
 	## Downloaded from git tagged releases
 	## Option #2
 	########################################################################
-	cd $WRF_FOLDER/
+	cd ${WRF_FOLDER}/
 	git clone https://github.com/wrf-model/OBSGRID.git
-	cd $WRF_FOLDER/OBSGRID
+	cd ${WRF_FOLDER}/OBSGRID
 
 	./clean -a
-	source $Anaconda_Install_DIR/etc/profile.d/conda.sh
+	source $Miniconda_Install_DIR/etc/profile.d/conda.sh
 	conda init bash
 	conda activate ncl_stable
 
@@ -28111,7 +28329,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRF_PICK" = "1" ]; then
 		cd
 		pwd
 	)
-	export DIR=$WRF_FOLDER/Libs
+	export DIR=${WRF_FOLDER}/Libs
 	export NETCDF=$DIR/NETCDF
 
 	if [ ${auto_config} -eq 1 ]; then
@@ -28139,7 +28357,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRF_PICK" = "1" ]; then
 
 	echo " "
 	# IF statement to check that all files were created.
-	cd $WRF_FOLDER/OBSGRID
+	cd ${WRF_FOLDER}/OBSGRID
 	n=$(ls ./*.exe | wc -l)
 	if (($n == 3)); then
 		echo "All expected files created."
@@ -28152,31 +28370,31 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRF_PICK" = "1" ]; then
 
 	echo " "
 	############################## RIP4 #####################################
-	mkdir $WRF_FOLDER/RIP4
-	cd $WRF_FOLDER/Downloads
+	mkdir ${WRF_FOLDER}/RIP4
+	cd ${WRF_FOLDER}/Downloads
 	wget -c https://www2.mmm.ucar.edu/wrf/src/RIP_47.tar.gz
-	tar -xvzf RIP_47.tar.gz -C $WRF_FOLDER/RIP4
-	cd $WRF_FOLDER/RIP4/RIP_47
+	tar -xvzf RIP_47.tar.gz -C ${WRF_FOLDER}/RIP4
+	cd ${WRF_FOLDER}/RIP4/RIP_47
 	mv * ..
-	cd $WRF_FOLDER/RIP4
+	cd ${WRF_FOLDER}/RIP4
 	rm -rd RIP_47
-	source $Anaconda_Install_DIR/etc/profile.d/conda.sh
+	source $Miniconda_Install_DIR/etc/profile.d/conda.sh
 	conda activate ncl_stable
 	conda install -c conda-forge c-compiler fortran-compiler cxx-compiler -y
 
-	export RIP_ROOT=$WRF_FOLDER/RIP4
+	export RIP_ROOT=${WRF_FOLDER}/RIP4
 	export NETCDF=$DIR/NETCDF
-	export NCARG_ROOT=$WRF_FOLDER/anaconda3/envs/ncl_stable
+	export NCARG_ROOT=${WRF_FOLDER}/anaconda3/envs/ncl_stable
 
-	sed -i '349s|-L${NETCDF}/lib -lnetcdf $NETCDFF|-L${NETCDF}/lib $NETCDFF -lnetcdff -lnetcdf -lnetcdf -lnetcdff_C -lhdf5 |g' $WRF_FOLDER/RIP4/configure
+	sed -i '349s|-L${NETCDF}/lib -lnetcdf $NETCDFF|-L${NETCDF}/lib $NETCDFF -lnetcdff -lnetcdf -lnetcdf -lnetcdff_C -lhdf5 |g' ${WRF_FOLDER}/RIP4/configure
 
-	sed -i '27s|NETCDFLIB	= -L${NETCDF}/lib -lnetcdf CONFIGURE_NETCDFF_LIB|NETCDFLIB	= -L</usr/lib/x86_64-linux-gnu/libm.a> -lm -L${NETCDF}/lib CONFIGURE_NETCDFF_LIB -lnetcdf -lhdf5 -lhdf5_hl -lgfortran -lgcc -lz |g' $WRF_FOLDER/RIP4/arch/preamble
+	sed -i '27s|NETCDFLIB	= -L${NETCDF}/lib -lnetcdf CONFIGURE_NETCDFF_LIB|NETCDFLIB	= -L</usr/lib/x86_64-linux-gnu/libm.a> -lm -L${NETCDF}/lib CONFIGURE_NETCDFF_LIB -lnetcdf -lhdf5 -lhdf5_hl -lgfortran -lgcc -lz |g' ${WRF_FOLDER}/RIP4/arch/preamble
 
-	sed -i '31s|-L${NCARG_ROOT}/lib -lncarg -lncarg_gks -lncarg_c -lX11 -lXext -lpng -lz CONFIGURE_NCARG_LIB| -L${NCARG_ROOT}/lib -lncarg -lncarg_gks -lncarg_c -lX11 -lXext -lpng -lz -lcairo -lfontconfig -lpixman-1 -lfreetype -lexpat -lpthread -lbz2 -lXrender -lgfortran -lgcc -L</usr/lib/x86_64-linux-gnu/> -lm -lhdf5 -lhdf5_hl |g' $WRF_FOLDER/RIP4/arch/preamble
+	sed -i '31s|-L${NCARG_ROOT}/lib -lncarg -lncarg_gks -lncarg_c -lX11 -lXext -lpng -lz CONFIGURE_NCARG_LIB| -L${NCARG_ROOT}/lib -lncarg -lncarg_gks -lncarg_c -lX11 -lXext -lpng -lz -lcairo -lfontconfig -lpixman-1 -lfreetype -lexpat -lpthread -lbz2 -lXrender -lgfortran -lgcc -L</usr/lib/x86_64-linux-gnu/> -lm -lhdf5 -lhdf5_hl |g' ${WRF_FOLDER}/RIP4/arch/preamble
 
-	sed -i '33s| -O|-fallow-argument-mismatch -O |g' $WRF_FOLDER/RIP4/arch/configure.defaults
+	sed -i '33s| -O|-fallow-argument-mismatch -O |g' ${WRF_FOLDER}/RIP4/arch/configure.defaults
 
-	sed -i '35s|=|= -L$WRF_FOLDER/LIBS/grib2/lib -lhdf5 -lhdf5_hl |g' $WRF_FOLDER/RIP4/arch/configure.defaults
+	sed -i '35s|=|= -L${WRF_FOLDER}/LIBS/grib2/lib -lhdf5 -lhdf5_hl |g' ${WRF_FOLDER}/RIP4/arch/configure.defaults
 
 	if [ ${auto_config} -eq 1 ]; then
 		echo 3 | ./configure #Option 3 gfortran compiler with distributed memory
@@ -28195,7 +28413,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRF_PICK" = "1" ]; then
 	########### WRf-Python compiled via Conda  ##################
 	########### This is the preferred method by NCAR      ##################
 	##### https://wrf-python.readthedocs.io/en/latest/installation.html  ##################
-	source $Anaconda_Install_DIR/etc/profile.d/conda.sh
+	source $Miniconda_Install_DIR/etc/profile.d/conda.sh
 conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 	echo " "
@@ -28212,8 +28430,8 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 
 
-	############################ WRF $WPS_VERSION  #################################
-	## WRF v$WPS_VERSION
+	############################ WRF ${WPS_VERSION}  #################################
+	## WRF v${WPS_VERSION}
 	## Downloaded from git tagged releases
 	# option 34, option 1 for gfortran and distributed memory w/basic nesting
 	# large file support enable with WRFiO_NCD_LARGE_FILE_SUPPORT=1
@@ -28224,22 +28442,22 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	# io_form_auxhist2
 	# Note that you need set nocolons = .true. in the section &time_control of namelist.input
 	########################################################################
-	cd $WRF_FOLDER/Downloads
-	wget -c https://github.com/wrf-model/WRF/releases/download/v$WRF_VERSION/v$WRF_VERSION.tar.gz -O WRF-$WRF_VERSION.tar.gz
-	tar -xvzf WRF-$WRF_VERSION.tar.gz -C $WRF_FOLDER/
+	cd ${WRF_FOLDER}/Downloads
+	wget -c https://github.com/wrf-model/WRF/releases/download/v${WRF_VERSION}/v${WRF_VERSION}.tar.gz -O WRF-${WRF_VERSION}.tar.gz
+	tar -xvzf WRF-${WRF_VERSION}.tar.gz -C ${WRF_FOLDER}/
 
 	# If statment for changing folder name
-	if [ -d "$WRF_FOLDER/WRF" ]; then
-		mv -f $WRF_FOLDER/WRF $WRF_FOLDER/WRFV$WRF_VERSION
+	if [ -d "${WRF_FOLDER}/WRF" ]; then
+		mv -f ${WRF_FOLDER}/WRF ${WRF_FOLDER}/WRFV${WRF_VERSION}
 	fi
 
-	cd $WRF_FOLDER/WRFV$WRF_VERSION
+	cd ${WRF_FOLDER}/WRFV${WRF_VERSION}
 	export WRFIO_NCD_LARGE_FILE_SUPPORT=1
 	./clean -a
 
 	if [ ${auto_config} -eq 1 ]; then
-		sed -i '443s/.*/  $response = "34 \\n";/g' $WRF_FOLDER/WRFV$WRF_VERSION/arch/Config.pl # Answer for compiler choice
-		sed -i '909s/.*/  $response = "1 \\n";/g' $WRF_FOLDER/WRFV$WRF_VERSION/arch/Config.pl  #Answer for basic nesting
+		sed -i '443s/.*/  $response = "34 \\n";/g' ${WRF_FOLDER}/WRFV${WRF_VERSION}/arch/Config.pl # Answer for compiler choice
+		sed -i '909s/.*/  $response = "1 \\n";/g' ${WRF_FOLDER}/WRFV${WRF_VERSION}/arch/Config.pl  #Answer for basic nesting
 		./configure 2>&1 | tee configure.log
 	else
 		./configure 2>&1 | tee configure.log #Option 34 gfortran compiler with distributed memory option 1 for basic nesting
@@ -28247,10 +28465,10 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 	./compile -j $CPU_HALF_EVEN em_real 2>&1 | tee compile.wrf1.log
 
-	export WRF_DIR=$WRF_FOLDER/WRFV$WRF_VERSION
+	export WRF_DIR=${WRF_FOLDER}/WRFV${WRF_VERSION}
 
 	# IF statement to check that all files were created.
-	cd $WRF_FOLDER/WRFV$WRF_VERSION/main
+	cd ${WRF_FOLDER}/WRFV${WRF_VERSION}/main
 	n=$(ls ./*.exe | wc -l)
 	if (($n >= 3)); then
 		echo "All expected files created."
@@ -28258,9 +28476,9 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	else
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
-		cd $WRF_FOLDER/WRFV$WRF_VERSION
+		cd ${WRF_FOLDER}/WRFV${WRF_VERSION}
 		./compile -j $CPU_HALF_EVEN em_real 2>&1 | tee compile.wrf2.log
-		cd $WRF_FOLDER/WRFV$WRF_VERSION/main
+		cd ${WRF_FOLDER}/WRFV${WRF_VERSION}/main
 		n=$(ls ./*.exe | wc -l)
 		if (($n >= 3)); then
 			echo "All expected files created."
@@ -28272,16 +28490,16 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	fi
 
 	echo " "
-	############################WPSV$WPS_VERSION#####################################
-	## WPS v$WPS_VERSION
+	############################WPSV${WPS_VERSION}#####################################
+	## WPS v${WPS_VERSION}
 	## Downloaded from git tagged releases
 	#Option 3 for gfortran and distributed memory
 	########################################################################
 
-	cd $WRF_FOLDER/Downloads
-	wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v$WPS_VERSION.tar.gz -O WPS-$WPS_VERSION.tar.gz
-	tar -xvzf WPS-$WPS_VERSION.tar.gz -C $WRF_FOLDER/
-	cd $WRF_FOLDER/WPS-$WPS_VERSION
+	cd ${WRF_FOLDER}/Downloads
+	wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v${WPS_VERSION}.tar.gz -O WPS-${WPS_VERSION}.tar.gz
+	tar -xvzf WPS-${WPS_VERSION}.tar.gz -C ${WRF_FOLDER}/
+	cd ${WRF_FOLDER}/WPS-${WPS_VERSION}
 	./clean -a
 
 	if [ ${auto_config} -eq 1 ]; then
@@ -28293,7 +28511,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 	echo " "
 	# IF statement to check that all files were created.
-	cd $WRF_FOLDER/WPS-$WPS_VERSION
+	cd ${WRF_FOLDER}/WPS-${WPS_VERSION}
 	n=$(ls ./*.exe | wc -l)
 	if (($n == 3)); then
 		echo "All expected files created."
@@ -28302,7 +28520,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
 		./compile 2>&1 | tee compile.wps2.log
-		cd $WRF_FOLDER/WPS-$WPS_VERSION
+		cd ${WRF_FOLDER}/WPS-${WPS_VERSION}
 		n=$(ls ./*.exe | wc -l)
 		if (($n == 3)); then
 			echo "All expected files created."
@@ -28315,25 +28533,25 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 	echo " "
 	############################WRFPLUS 4DVAR###############################
-	## WRFPLUS v$WPS_VERSION 4DVAR
+	## WRFPLUS v${WPS_VERSION} 4DVAR
 	## Downloaded from git tagged releases
 	## WRFPLUS is built within the WRF git folder
 	## Does not include RTTOV Libarary for radiation data.  If wanted will need to install library then reconfigure
 	##Note: if you intend to run both 3DVAR and 4DVAR experiments, it is not necessary to compile the code twice.
 	#Option 18 for gfortran/gcc and distribunted memory
 	########################################################################
-	cd $WRF_FOLDER/Downloads
-	tar -xvzf WRF-$WRF_VERSION.tar.gz -C $WRF_FOLDER/WRFPLUS
+	cd ${WRF_FOLDER}/Downloads
+	tar -xvzf WRF-${WRF_VERSION}.tar.gz -C ${WRF_FOLDER}/WRFPLUS
 
 	# If statment for changing folder name
-	if [ -d "$WRF_FOLDER/WRFPLUS/WRF" ]; then
-		mv -f $WRF_FOLDER/WRFPLUS/WRF $WRF_FOLDER/WRFPLUS/WRFV$WRF_VERSION
+	if [ -d "${WRF_FOLDER}/WRFPLUS/WRF" ]; then
+		mv -f ${WRF_FOLDER}/WRFPLUS/WRF ${WRF_FOLDER}/WRFPLUS/WRFV${WRF_VERSION}
 	fi
 
-	cd $WRF_FOLDER/WRFPLUS/WRFV$WRF_VERSION
-	mv * $WRF_FOLDER/WRFPLUS
-	cd $WRF_FOLDER/WRFPLUS
-	rm -rf WRFV$WRF_VERSION/
+	cd ${WRF_FOLDER}/WRFPLUS/WRFV${WRF_VERSION}
+	mv * ${WRF_FOLDER}/WRFPLUS
+	cd ${WRF_FOLDER}/WRFPLUS
+	rm -rf WRFV${WRF_VERSION}/
 	export NETCDF=$DIR/NETCDF
 	export HDF5=$DIR/grib2
 	export LD_LIBRARY_PATH=$DIR/grib2/lib:$LD_LIBRARY_PATH
@@ -28346,11 +28564,11 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	fi
 	echo " "
 	./compile -j $CPU_HALF_EVEN wrfplus 2>&1 | tee compile.wrfplus.log
-	export WRFPLUS_DIR=$WRF_FOLDER/WRFPLUS
+	export WRFPLUS_DIR=${WRF_FOLDER}/WRFPLUS
 
 	echo " "
 	# IF statement to check that all files were created.
-	cd $WRF_FOLDER/WRFPLUS/main
+	cd ${WRF_FOLDER}/WRFPLUS/main
 	n=$(ls ./wrfplus.exe | wc -l)
 	if (($n == 1)); then
 		echo "All expected files created."
@@ -28358,9 +28576,9 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	else
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
-		cd $WRF_FOLDER/WRFPLUS/WRFV$WRF_VERSION
+		cd ${WRF_FOLDER}/WRFPLUS/WRFV${WRF_VERSION}
 		./compile -j $CPU_HALF_EVEN wrfplus 2>&1 | tee compile.wrfplus2.log
-		cd $WRF_FOLDER/WRFPLUS/main
+		cd ${WRF_FOLDER}/WRFPLUS/main
 		n=$(ls ./wrfplus.exe | wc -l)
 		if (($n == 1)); then
 			echo "All expected files created."
@@ -28374,30 +28592,30 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 	echo " "
 	############################WRFDA 4DVAR###############################
-	## WRFDA v$WPS_VERSION 4DVAR
+	## WRFDA v${WPS_VERSION} 4DVAR
 	## Downloaded from git tagged releases
 	## WRFDA is built within the WRFPLUS folder
 	## Does not include RTTOV Libarary for radiation data.  If wanted will need to install library then reconfigure
 	##Note: if you intend to run both 3DVAR and 4DVAR experiments, it is not necessary to compile the code twice.
 	#Option 18 for gfortran/gcc and distribunted memory
 	########################################################################
-	cd $WRF_FOLDER/Downloads
-	mkdir $WRF_FOLDER/WRFDA
-	tar -xvzf WRF-$WRF_VERSION.tar.gz -C $WRF_FOLDER/WRFDA
+	cd ${WRF_FOLDER}/Downloads
+	mkdir ${WRF_FOLDER}/WRFDA
+	tar -xvzf WRF-${WRF_VERSION}.tar.gz -C ${WRF_FOLDER}/WRFDA
 
 	# If statment for changing folder name
-	if [ -d "$WRF_FOLDER/WRFDA/WRF" ]; then
-		mv -f $WRF_FOLDER/WRFDA/WRF $WRF_FOLDER/WRFDA/WRFV$WRF_VERSION
+	if [ -d "${WRF_FOLDER}/WRFDA/WRF" ]; then
+		mv -f ${WRF_FOLDER}/WRFDA/WRF ${WRF_FOLDER}/WRFDA/WRFV${WRF_VERSION}
 	fi
 
-	cd $WRF_FOLDER/WRFDA/WRFV$WRF_VERSION
-	mv * $WRF_FOLDER/WRFDA
-	cd $WRF_FOLDER/WRFDA
-	rm -rf WRFV$WRF_VERSION/
+	cd ${WRF_FOLDER}/WRFDA/WRFV${WRF_VERSION}
+	mv * ${WRF_FOLDER}/WRFDA
+	cd ${WRF_FOLDER}/WRFDA
+	rm -rf WRFV${WRF_VERSION}/
 	export NETCDF=$DIR/NETCDF
 	export HDF5=$DIR/grib2
 	export LD_LIBRARY_PATH=$DIR/grib2/lib:$LD_LIBRARY_PATH
-	export WRFPLUS_DIR=$WRF_FOLDER/WRFPLUS
+	export WRFPLUS_DIR=${WRF_FOLDER}/WRFPLUS
 	./clean -a
 
 	if [ ${auto_config} -eq 1 ]; then
@@ -28409,25 +28627,25 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	./compile all_wrfvar 2>&1 | tee compile.wrf4dvar.log
 	echo " "
 	# IF statement to check that all files were created.
-	cd $WRF_FOLDER/WRFDA/var/da
+	cd ${WRF_FOLDER}/WRFDA/var/da
 	n=$(ls ./*.exe | wc -l)
-	cd $WRF_FOLDER/WRFDA/var/obsproc/src
+	cd ${WRF_FOLDER}/WRFDA/var/obsproc/src
 	m=$(ls ./*.exe | wc -l)
 	if ((($n == 43) && ($m == 1))); then
 		echo "All expected files created."
-		read -r -t 5 -p "Finished installing WRFDA-CHEM 3DVAR. I am going to wait for 5 seconds only ..."
+		read -r -t 5 -p "Finished installing WRFDA. I am going to wait for 5 seconds only ..."
 	else
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
-		cd $WRF_FOLDER/WRFDA
+		cd ${WRF_FOLDER}/WRFDA
 		./compile -j $CPU_HALF_EVEN all_wrfvar 2>&1 | tee compile.chem.wrfvar2.log
-		cd $WRF_FOLDER/WRFDA/var/da
+		cd ${WRF_FOLDER}/WRFDA/var/da
 		n=$(ls ./*.exe | wc -l)
-		cd $WRF_FOLDER/WRFDA/var/obsproc/src
+		cd ${WRF_FOLDER}/WRFDA/var/obsproc/src
 		m=$(ls ./*.exe | wc -l)
 		if ((($n == 43) && ($m == 1))); then
 			echo "All expected files created."
-			read -r -t 5 -p "Finished installing WRFDA-CHEM 3DVAR. I am going to wait for 5 seconds only ..."
+			read -r -t 5 -p "Finished installing WRFDA. I am going to wait for 5 seconds only ..."
 		else
 			read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
 			exit
@@ -28438,20 +28656,20 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	echo " "
 	######################## WPS Domain Setup Tools ########################
 	## DomainWizard
-	cd $WRF_FOLDER/Downloads
+	cd ${WRF_FOLDER}/Downloads
 	wget -c http://esrl.noaa.gov/gsd/wrfportal/domainwizard/WRFDomainWizard.zip
-	mkdir $WRF_FOLDER/WRFDomainWizard
-	unzip WRFDomainWizard.zip -d $WRF_FOLDER/WRFDomainWizard
-	chmod +x $WRF_FOLDER/WRFDomainWizard/run_DomainWizard
+	mkdir ${WRF_FOLDER}/WRFDomainWizard
+	unzip WRFDomainWizard.zip -d ${WRF_FOLDER}/WRFDomainWizard
+	chmod +x ${WRF_FOLDER}/WRFDomainWizard/run_DomainWizard
 
 	echo " "
 	######################## WPF Portal Setup Tools ########################
 	## WRFPortal
-	cd $WRF_FOLDER/Downloads
+	cd ${WRF_FOLDER}/Downloads
 	wget -c https://esrl.noaa.gov/gsd/wrfportal/portal/wrf-portal.zip
-	mkdir $WRF_FOLDER/WRFPortal
-	unzip wrf-portal.zip -d $WRF_FOLDER/WRFPortal
-	chmod +x $WRF_FOLDER/WRFPortal/runWRFPortal
+	mkdir ${WRF_FOLDER}/WRFPortal
+	unzip wrf-portal.zip -d ${WRF_FOLDER}/WRFPortal
+	chmod +x ${WRF_FOLDER}/WRFPortal/runWRFPortal
 
 	echo " "
 
@@ -28461,19 +28679,19 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	# All files downloaded and untarred is 200GB
 	# https://www2.mmm.ucar.edu/wrf/users/download/get_sources_wps_geog.html
 	#################################################################################
-	cd $WRF_FOLDER/Downloads
-	mkdir $WRF_FOLDER/GEOG
-	mkdir $WRF_FOLDER/GEOG/WPS_GEOG
+	cd ${WRF_FOLDER}/Downloads
+	mkdir ${WRF_FOLDER}/GEOG
+	mkdir ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 	echo " "
 	echo "Mandatory WRF Preprocessing System (WPS) Geographical Input Data Mandatory Fields Downloads"
 	echo " "
 	wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_high_res_mandatory.tar.gz
-	tar -xvzf geog_high_res_mandatory.tar.gz -C $WRF_FOLDER/GEOG/
+	tar -xvzf geog_high_res_mandatory.tar.gz -C ${WRF_FOLDER}/GEOG/
 
 	wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_low_res_mandatory.tar.gz
-	tar -xvzf geog_low_res_mandatory.tar.gz -C $WRF_FOLDER/GEOG/
-	mv $WRF_FOLDER/GEOG/WPS_GEOG_LOW_RES/ $WRF_FOLDER/GEOG/WPS_GEOG
+	tar -xvzf geog_low_res_mandatory.tar.gz -C ${WRF_FOLDER}/GEOG/
+	mv ${WRF_FOLDER}/GEOG/WPS_GEOG_LOW_RES/ ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 	if [ ${WPS_Specific_Applications} -eq 1 ]; then
 		echo " "
@@ -28481,33 +28699,33 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 		echo " "
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_thompson28_chem.tar.gz
-		tar -xvzf geog_thompson28_chem.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+		tar -xvzf geog_thompson28_chem.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_noahmp.tar.gz
-		tar -xvzf geog_noahmp.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+		tar -xvzf geog_noahmp.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/irrigation.tar.gz
-		tar -xvzf irrigation.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
-		mkdir $WRF_FOLDER/GEOG/WPS_GEOG/irrigation
-		mv $WRF_FOLDER/GEOG/WPS_GEOG/fao $WRF_FOLDER/GEOG/WPS_GEOG/irrigation
+		tar -xvzf irrigation.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
+		mkdir ${WRF_FOLDER}/GEOG/WPS_GEOG/irrigation
+		mv ${WRF_FOLDER}/GEOG/WPS_GEOG/fao ${WRF_FOLDER}/GEOG/WPS_GEOG/irrigation
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_px.tar.gz
-		tar -xvzf geog_px.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+		tar -xvzf geog_px.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_urban.tar.gz
-		tar -xvzf geog_urban.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+		tar -xvzf geog_urban.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_ssib.tar.gz
-		tar -xvzf geog_ssib.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+		tar -xvzf geog_ssib.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/lake_depth.tar.bz2
-		tar -xvf lake_depth.tar.bz2 -C $WRF_FOLDER/GEOG/WPS_GEOG
+		tar -xvf lake_depth.tar.bz2 -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/topobath_30s.tar.bz2
-		tar -xvf topobath_30s.tar.bz2 -C $WRF_FOLDER/GEOG/WPS_GEOG
+		tar -xvf topobath_30s.tar.bz2 -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/gsl_gwd.tar.bz2
-		tar -xvf gsl_gwd.tar.bz2 -C $WRF_FOLDER/GEOG/WPS_GEOG
+		tar -xvf gsl_gwd.tar.bz2 -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 	fi
 
 	if [ ${Optional_GEOG} -eq 1 ]; then
@@ -28516,29 +28734,29 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 		echo " "
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_older_than_2000.tar.gz
-		tar -xvzf geog_older_than_2000.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+		tar -xvzf geog_older_than_2000.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s_with_lakes.tar.gz
-		tar -xvzf modis_landuse_20class_15s_with_lakes.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+		tar -xvzf modis_landuse_20class_15s_with_lakes.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_alt_lsm.tar.gz
-		tar -xvzf geog_alt_lsm.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+		tar -xvzf geog_alt_lsm.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/nlcd2006_ll_9s.tar.bz2
-		tar -xvf nlcd2006_ll_9s.tar.bz2 -C $WRF_FOLDER/GEOG/WPS_GEOG
+		tar -xvf nlcd2006_ll_9s.tar.bz2 -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/updated_Iceland_LU.tar.gz
-		tar -xvf updated_Iceland_LU.tar.gz -C $WRF_FOLDER/GEOG/WPS_GEOG
+		tar -xvf updated_Iceland_LU.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s.tar.bz2
-		tar -xvf modis_landuse_20class_15s.tar.bz2 -C $WRF_FOLDER/GEOG/WPS_GEOG
+		tar -xvf modis_landuse_20class_15s.tar.bz2 -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 	fi
 fi
 
 ################################################################
 ## HWRF installation with parallel process.
 # Download and install required library and data files for HWRF.
-# Tested in Ubuntu 20.0$WPS_VERSION LTS & Ubuntu 22.04 LTS
+# Tested in Ubuntu 20.0${WPS_VERSION} LTS & Ubuntu 22.04 LTS
 # Built in 64-bit system
 # Tested with current available libraries on 10/10/2023
 # Intel compilers utilized
@@ -28574,7 +28792,7 @@ if [ "$HWRF_PICK" = "1" ]; then
 	echo $PASSWD | sudo -S apt -y update
 
 	# necessary binary packages (especially pkg-config and build-essential)
-	echo $PASSWD | sudo -S apt -y install autoconf automake bison build-essential byacc cmake csh curl default-jdk default-jre emacs flex g++ gawk gcc gfortran git ksh libcurl4-openssl-dev libjpeg-dev  libncurses6 libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev m4 make  ncview okular openbox pipenv pkg-config  python3 python3-dev python3-pip tcsh unzip xauth xorg time
+	echo $PASSWD | sudo -S apt -y install autoconf automake bison build-essential byacc cmake csh curl default-jdk default-jre emacs flex g++ gawk gcc gfortran git ksh libcurl4-openssl-dev libjpeg-dev libncurses5 libncurses6 libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev m4 make mlocate ncview okular openbox pipenv pkg-config  python3 python3-dev python3-pip tcsh unzip xauth xorg time
 
 	# install the Intel compilers
 	echo $PASSWD | sudo -S apt -y install intel-basekit
