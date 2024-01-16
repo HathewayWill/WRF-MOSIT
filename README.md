@@ -24,13 +24,13 @@ This is a BASH script that provides options to install the following Weather Res
 - Libraries are manually installed in sub-folders utilizing either Intel or GNU Compilers.
     - Libraries installed with GNU compilers
         - zlib (1.2.13)
-        - MPICH (4.0.3)
+        - MPICH (4.1.2)
         - libpng (1.6.39)
         - JasPer (1.900.1)
         - HDF5 (1.14.2)
         - PHDF5 (1.14.2)
         - Parallel-NetCDF (1.12.3)
-        - NetCDF-C (4.9.2)
+        - NetCDF-C (4.9.0)
         - NetCDF-Fortran (4.6.1)
         - Miniconda
     - Libraries installed with Intel compilers
@@ -40,7 +40,7 @@ This is a BASH script that provides options to install the following Weather Res
         - HDF5 (1.14.2)
         - PHDF5 (1.14.2)
         - Parallel-NetCDF (1.12.3)
-        - NetCDF-C (4.9.2)
+        - NetCDF-C (4.9.0)
         - NetCDF-Fortran (4.6.1)
         - Miniconda
         - Intel-Basekit
