@@ -19626,7 +19626,7 @@ export PATH=/usr/local/bin:$PATH
 	export LIBS="-lhdf5_hl -lhdf5 -lz -lcurl -lgfortran -lgcc -lm -ldl -lpnetcdf"
 	autoreconf -i -f 2>&1 | tee autoreconf.log
 
-	CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS=$CFLAGS ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-shared --enable-static --enablelnet --enable-cdf5 --enable-parallel-tests 2>&1 | tee configure.log
+	CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS=$CFLAGS ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-shared --enable-static --enable-pnetcdf --enable-cdf5 --enable-parallel-tests 2>&1 | tee configure.log
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
