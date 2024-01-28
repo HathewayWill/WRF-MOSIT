@@ -137,7 +137,8 @@ This is a BASH script that provides options to install the following Weather Res
 
 
 ### Installation
-- (Make sure to download folder into your Home Directory): cd $HOME
+- (Make sure to download folder into your Home Directory):
+> cd $HOME
 
 
 > git clone https://github.com/HathewayWill/WRF-MOSIT.git
@@ -164,7 +165,7 @@ This is a BASH script that provides options to install the following Weather Res
 
 ---
 
-  ##### *** Tested on Ubuntu 20.04.5 LTS,  Ubuntu 22.04.1 LTS, MacOS Ventura, Windows Sub-Linux Ubuntu***
+  ##### *** Tested on Ubuntu 20.04.6 LTS,  Ubuntu 22.04.3 LTS, MacOS Ventura, MacOS Sonoma, Centos7, Rocky Linux 9, Windows Sub-Linux Ubuntu***
 - Built 64-bit system.
 - Tested with current available libraries on 11/01/2023, execptions have been noted in the script documentation.
 ---
