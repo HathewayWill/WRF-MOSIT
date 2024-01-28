@@ -131,8 +131,13 @@ This is a BASH script that provides options to install the following Weather Res
     - Development Testbed Center (DTC) Enhanced Model Evaluation Tools (METplus) v5.1.0
     - Development Testbed Center (DTC) Unified Post Processor (UPP) v4.1
 ---
+### MacOS Installation
+- Make sure to download and Homebrew before moving to installation.
+> /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
+
+
 ### Installation
-- (Make sure to download folder into your Home Directory): $HOME
+- (Make sure to download folder into your Home Directory): cd $HOME
 
 
 > git clone https://github.com/HathewayWill/WRF-MOSIT.git
