@@ -1290,57 +1290,30 @@ fi
 
 if [ "$macos_64bit_GNU" = "1" ] && [ "$DTC_MET" = "1" ] && [ "$MAC_CHIP" = "Intel" ]; then
 	echo "MET INSTALLING"
-brew install automake
-sleep 1
-brew install autoconf
-sleep 1
-brew install bison
-sleep 1
-brew install cmake
-sleep 1
-brew install curl
-sleep 1
-brew install flex
-sleep 1
-brew install gdal
-sleep 1
-brew install gedit
-sleep 1
-brew install gcc@12
-sleep 1
-brew install gnu-sed
-sleep 1
-brew install imagemagick
-sleep 1
-brew install java
-sleep 1
-brew install ksh
-sleep 1
-brew install ksh
-sleep 1
-brew install libtool
-sleep 1
-brew install make
-sleep 1
-brew install m4
-sleep 1
-brew install python@3.10
-sleep 1
-brew install snapcraft
-sleep 1
-brew install tcsh
-sleep 1
-brew install wget
-sleep 1
-brew install xauth
-sleep 1
-brew install xorgproto
-sleep 1
-brew install xorgrgb
-sleep 1
-brew install xquartz
-sleep 1
+# Update Homebrew and get list of outdated packages
+brew update
+outdated_packages=$(brew outdated --quiet)
+
+# List of packages to check/install
+packages=("automake" "autoconf" "bison" "cmake" "curl" "flex" "gdal" "gedit" "gcc@12" "gnu-sed" "imagemagick" "java" "ksh" "libtool" "make" "m4" "python@3.10" "snapcraft" "tcsh" "wget" "xauth" "xorgproto" "xorgrgb" "xquartz")
+
+for pkg in "${packages[@]}"; do
+    if brew list "$pkg" &>/dev/null; then
+        echo "$pkg is already installed."
+        if [[ $outdated_packages == *"$pkg"* ]]; then
+            echo "$pkg has a newer version available. Upgrading..."
+            brew upgrade "$pkg"
+        fi
+    else
+        echo "$pkg is not installed. Installing..."
+        brew install "$pkg"
+    fi
+    sleep 1
+done
+
+# Install python-dateutil using pip
 pip3.10 install python-dateutil
+pip3.10 install python-dateutil==2.8
 	#Directory Listings
 	if [ "$WRFCHEM_PICK" = "1" ]; then
 		mkdir $HOME/WRFCHEM
@@ -1484,57 +1457,30 @@ fi
 
 if [ "$macos_64bit_GNU" = "1" ] && [ "$DTC_MET" = "1" ] && [ "$MAC_CHIP" = "ARM" ]; then
 	echo "MET INSTALLING"
-brew install automake
-sleep 1
-brew install autoconf
-sleep 1
-brew install bison
-sleep 1
-brew install cmake
-sleep 1
-brew install curl
-sleep 1
-brew install flex
-sleep 1
-brew install gdal
-sleep 1
-brew install gedit
-sleep 1
-brew install gcc@12
-sleep 1
-brew install gnu-sed
-sleep 1
-brew install imagemagick
-sleep 1
-brew install java
-sleep 1
-brew install ksh
-sleep 1
-brew install ksh
-sleep 1
-brew install libtool
-sleep 1
-brew install make
-sleep 1
-brew install m4
-sleep 1
-brew install python@3.10
-sleep 1
-brew install snapcraft
-sleep 1
-brew install tcsh
-sleep 1
-brew install wget
-sleep 1
-brew install xauth
-sleep 1
-brew install xorgproto
-sleep 1
-brew install xorgrgb
-sleep 1
-brew install xquartz
-sleep 1
+# Update Homebrew and get list of outdated packages
+brew update
+outdated_packages=$(brew outdated --quiet)
+
+# List of packages to check/install
+packages=("automake" "autoconf" "bison" "cmake" "curl" "flex" "gdal" "gedit" "gcc@12" "gnu-sed" "imagemagick" "java" "ksh" "libtool" "make" "m4" "python@3.10" "snapcraft" "tcsh" "wget" "xauth" "xorgproto" "xorgrgb" "xquartz")
+
+for pkg in "${packages[@]}"; do
+    if brew list "$pkg" &>/dev/null; then
+        echo "$pkg is already installed."
+        if [[ $outdated_packages == *"$pkg"* ]]; then
+            echo "$pkg has a newer version available. Upgrading..."
+            brew upgrade "$pkg"
+        fi
+    else
+        echo "$pkg is not installed. Installing..."
+        brew install "$pkg"
+    fi
+    sleep 1
+done
+
+# Install python-dateutil using pip
 pip3.10 install python-dateutil
+pip3.10 install python-dateutil==2.8
 	#Directory Listings
 	if [ "$WRFCHEM_PICK" = "1" ]; then
 		mkdir $HOME/WRFCHEM
