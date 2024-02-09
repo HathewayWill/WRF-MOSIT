@@ -50,7 +50,7 @@ This is a BASH script that provides options to install the following Weather Res
 ---
 ### Software Packages
 - WRF
-    - WRF v4.5
+    - WRF v4.5.2
     - WPS v4.5
     - WRF PLUS v4.5
     - WRFDA 4DVAR v4.5    
@@ -62,10 +62,10 @@ This is a BASH script that provides options to install the following Weather Res
     - WRF-Hydro v5.2
 - WRF-Hydro Coupled
     - WRF-Hydro v5.2
-    - WRF v4.5
+    - WRF v4.5.2
     - WPS v4.5
 - WRF-CMAQ
-    - WRF v4.5
+    - WRF v4.5.2
     - CMAW v5.4
     - WPS v4.5
 - WRF-SFIRE
