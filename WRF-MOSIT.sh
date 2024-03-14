@@ -23890,7 +23890,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	else
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
-		cd ${WRF_FOLDER}/WRFPLUS/WRFV${WRF_VERSION}
+		cd ${WRF_FOLDER}/WRFPLUS/
 		./compile -j $CPU_HALF_EVEN wrfplus 2>&1 | tee compile.wrfplus.log
 		cd ${WRF_FOLDER}/WRFPLUS/main
 		n=$(ls ./wrfplus.exe | wc -l)
@@ -24792,7 +24792,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	else
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
-		cd ${WRF_FOLDER}/WRFPLUS/WRFV${WRF_VERSION}
+		cd ${WRF_FOLDER}/WRFPLUS/
 		./compile -j $CPU_HALF_EVEN wrfplus 2>&1 | tee compile.wrfplus2.log
 		cd ${WRF_FOLDER}/WRFPLUS/main
 		n=$(ls ./wrfplus.exe | wc -l)
@@ -25621,7 +25621,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	else
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
-		cd ${WRF_FOLDER}/WRFPLUS/WRFV${WRF_VERSION}
+		cd ${WRF_FOLDER}/WRFPLUS/
 		./compile -j $CPU_HALF_EVEN wrfplus 2>&1 | tee compile.wrfplus2.log
 		cd ${WRF_FOLDER}/WRFPLUS/main
 		n=$(ls ./wrfplus.exe | wc -l)
@@ -26461,7 +26461,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	else
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
-		cd ${WRF_FOLDER}/WRFPLUS/WRFV${WRF_VERSION}
+		cd ${WRF_FOLDER}/WRFPLUS/
 		./compile -j $CPU_HALF_EVEN wrfplus 2>&1 | tee compile.wrfplus2.log
 		cd ${WRF_FOLDER}/WRFPLUS/main
 		n=$(ls ./wrfplus.exe | wc -l)
@@ -27517,7 +27517,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	else
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
-		cd ${WRF_FOLDER}/WRFPLUS/WRFV${WRF_VERSION}
+		cd ${WRF_FOLDER}/WRFPLUS/
 		./compile -j $CPU_HALF_EVEN wrfplus 2>&1 | tee compile.wrfplus2.log
 		cd ${WRF_FOLDER}/WRFPLUS/main
 		n=$(ls ./wrfplus.exe | wc -l)
@@ -28581,7 +28581,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	else
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
-		cd ${WRF_FOLDER}/WRFPLUS/WRFV${WRF_VERSION}
+		cd ${WRF_FOLDER}/WRFPLUS/
 		./compile -j $CPU_HALF_EVEN wrfplus 2>&1 | tee compile.wrfplus2.log
 		cd ${WRF_FOLDER}/WRFPLUS/main
 		n=$(ls ./wrfplus.exe | wc -l)
