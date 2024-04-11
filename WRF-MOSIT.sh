@@ -4,12 +4,12 @@
 if [ -n "$CONDA_DEFAULT_ENV" ]; then
     echo "CONDA_DEFAULT_ENV is active: $CONDA_DEFAULT_ENV"
     echo "Turning off $CONDA_DEFAULT_ENV"
-    conda deactivate 
+    conda deactivate
     conda deactivate
 else
     echo "CONDA_DEFAULT_ENV is not active."
     echo "Continuing script"
-    
+
 fi
 
 start=$(date)
@@ -640,7 +640,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$DTC_MET" = "1" ]; then
 	echo $PASSWD | sudo -S sudo apt install git
 	echo "MET INSTALLING"
 	echo $PASSWD | sudo -S apt -y update
-	echo $PASSWD | sudo -S apt -y upgrade 
+	echo $PASSWD | sudo -S apt -y upgrade
 
 	# download the key to system keyring; this and the following echo command are
 	# needed in order to install the Intel compilers
@@ -652,7 +652,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$DTC_MET" = "1" ]; then
 
 	# this update should get the Intel package info from the Intel repository
 	echo $PASSWD | sudo -S apt -y update
-	echo $PASSWD | sudo -S apt -y upgrade 
+	echo $PASSWD | sudo -S apt -y upgrade
 	echo $PASSWD | sudo -S apt -y install autoconf automake bison build-essential byacc cmake csh curl default-jdk default-jre emacs flex g++ gawk gcc gfortran git ksh libcurl4-openssl-dev libjpeg-dev libncurses6 libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev m4 make  ncview okular openbox pipenv pkg-config  python3 python3-dev python3-pip python3-dateutil tcsh unzip xauth xorg time
 
 	# install the Intel compilers
@@ -784,7 +784,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$DTC_MET" = "1" ]; then
 	#Basic Package Management for Model Evaluation Tools (METplus)
 
 	echo $PASSWD | sudo -S apt -y update
-	echo $PASSWD | sudo -S apt -y upgrade 
+	echo $PASSWD | sudo -S apt -y upgrade
 
 	#Directory Listings for Model Evaluation Tools (METplus
 
@@ -846,7 +846,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$DTC_MET" = "1" ]; then
 
 	#############################basic package managment############################
 	echo $PASSWD | sudo -S apt -y update
-	echo $PASSWD | sudo -S apt -y upgrade 
+	echo $PASSWD | sudo -S apt -y upgrade
 	echo $PASSWD | sudo -S apt -y install autoconf automake bison build-essential byacc cmake csh curl default-jdk default-jre emacs flex g++ gawk gcc gfortran git ksh libcurl4-openssl-dev libjpeg-dev libncurses6 libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev m4 make  ncview okular openbox pipenv pkg-config  python3 python3-dev python3-pip python3-dateutil tcsh unzip xauth xorg time
 
 	#Downloading latest dateutil due to python3.8 running old version.
@@ -958,7 +958,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$DTC_MET" = "1" ]; then
 	#basic Package Management for Model Evaluation Tools (METplus)
 
 	echo $PASSWD | sudo -S apt -y update
-	echo $PASSWD | sudo -S apt -y upgrade 
+	echo $PASSWD | sudo -S apt -y upgrade
 
 	#Directory Listings for Model Evaluation Tools (METplus
 
@@ -1802,7 +1802,7 @@ fi
 if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
 	#############################basic package managment############################
 	  echo $PASSWD | sudo -S apt -y update
-	  echo $PASSWD | sudo -S apt -y upgrade 
+	  echo $PASSWD | sudo -S apt -y upgrade
 	  echo $PASSWD | sudo -S apt -y install autoconf automake bison build-essential byacc cmake csh curl default-jdk default-jre emacs flex g++ gawk gcc gfortran git ksh libcurl4-openssl-dev libjpeg-dev libncurses6 libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev m4 make  ncview okular openbox pipenv pkg-config  python3 python3-dev python3-pip python3-dateutil tcsh unzip xauth xorg time
 
 	  echo " "
@@ -2420,6 +2420,9 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
 
 	      wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/gsl_gwd.tar.bz2
 	      tar -xvf gsl_gwd.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
+
+        wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/cglc_modis_lcz_global.tar.gz
+        tar -xvf cglc_modis_lcz_global.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 	  fi
 
 
@@ -3084,6 +3087,10 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
 
       wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/gsl_gwd.tar.bz2
       tar -xvf gsl_gwd.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
+
+      wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/cglc_modis_lcz_global.tar.gz
+      tar -xvf cglc_modis_lcz_global.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
+
   fi
 
 
@@ -3758,6 +3765,9 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$CMAQ_PICK" = "1" ]; then
 
       wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/gsl_gwd.tar.bz2
       tar -xvf gsl_gwd.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
+
+      wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/cglc_modis_lcz_global.tar.gz
+      tar -xvf cglc_modis_lcz_global.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
   fi
 
 
@@ -3813,7 +3823,7 @@ fi
 if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
 	#############################basic package managment############################
 echo $PASSWD | sudo -S apt -y update
-echo $PASSWD | sudo -S apt -y upgrade 
+echo $PASSWD | sudo -S apt -y upgrade
 echo $PASSWD | sudo -S apt -y install autoconf automake bison build-essential byacc cmake csh curl default-jdk default-jre emacs flex g++ gawk gcc gfortran git ksh libcurl4-openssl-dev libjpeg-dev libncurses6 libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev m4 make  ncview okular openbox pipenv pkg-config  python3 python3-dev python3-pip python3-dateutil tcsh unzip xauth xorg time libgeotiff-dev
 
 echo " "
@@ -6236,7 +6246,7 @@ fi
 
 if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
 	echo $PASSWD | sudo -S apt -y update
-	echo $PASSWD | sudo -S apt -y upgrade 
+	echo $PASSWD | sudo -S apt -y upgrade
 
 	# download the key to system keyring; this and the following echo command are
 	# needed in order to install the Intel compilers
@@ -8928,6 +8938,9 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
       wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/gsl_gwd.tar.bz2
       tar -xvf gsl_gwd.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
+
+      wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/cglc_modis_lcz_global.tar.gz
+      tar -xvf cglc_modis_lcz_global.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
   fi
 
 
@@ -8983,7 +8996,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 
 	#############################basic package managment############################
 	echo $PASSWD | sudo -S apt -y update
-	echo $PASSWD | sudo -S apt -y upgrade 
+	echo $PASSWD | sudo -S apt -y upgrade
 	echo $PASSWD | sudo -S apt -y install autoconf automake bison build-essential byacc cmake csh curl default-jdk default-jre emacs flex g++ gawk gcc gfortran git ksh libcurl4-openssl-dev libjpeg-dev libncurses6 libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev m4 make  ncview okular openbox pipenv pkg-config  python3 python3-dev python3-pip python3-dateutil tcsh unzip xauth xorg time
 	echo " "
 	##############################Directory Listing############################
@@ -10623,7 +10636,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; the
 	############################# Basic package managment ############################
 
 	echo $PASSWD | sudo -S apt -y update
-	echo $PASSWD | sudo -S apt -y upgrade 
+	echo $PASSWD | sudo -S apt -y upgrade
 
 	# download the key to system keyring; this and the following echo command are
 	# needed in order to install the Intel compilers
@@ -12095,7 +12108,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 
 	#############################basic package managment############################
 	echo $PASSWD | sudo -S apt -y update
-	echo $PASSWD | sudo -S apt -y upgrade 
+	echo $PASSWD | sudo -S apt -y upgrade
 	echo $PASSWD | sudo -S apt -y install autoconf automake bison build-essential byacc cmake csh curl default-jdk default-jre emacs flex g++ gawk gcc gfortran git ksh libcurl4-openssl-dev libjpeg-dev libncurses6 libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev m4 make  ncview okular openbox pipenv pkg-config  python3 python3-dev python3-pip python3-dateutil tcsh unzip xauth xorg time
 	echo " "
 	##############################Directory Listing############################
@@ -13040,6 +13053,9 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/gsl_gwd.tar.bz2
 		tar -xvf gsl_gwd.tar.bz2 -C $WRFHYDRO_FOLDER/GEOG/WPS_GEOG
+
+    wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/cglc_modis_lcz_global.tar.gz
+    tar -xvf cglc_modis_lcz_global.tar.gz -C $WRFHYDRO_FOLDER/GEOG/WPS_GEOG
 	fi
 
 	if [ ${Optional_GEOG} -eq 1 ]; then
@@ -13074,7 +13090,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 	############################# Basic package managment ############################
 
 	echo $PASSWD | sudo -S apt -y update
-	echo $PASSWD | sudo -S apt -y upgrade 
+	echo $PASSWD | sudo -S apt -y upgrade
 
 	# download the key to system keyring; this and the following echo command are
 	# needed in order to install the Intel compilers
@@ -13929,6 +13945,9 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/gsl_gwd.tar.bz2
 		tar -xvf gsl_gwd.tar.bz2 -C $WRFHYDRO_FOLDER/GEOG/WPS_GEOG
+
+    wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/cglc_modis_lcz_global.tar.gz
+    tar -xvf cglc_modis_lcz_global.tar.gz -C $WRFHYDRO_FOLDER/GEOG/WPS_GEOG
 	fi
 
 	if [ ${Optional_GEOG} -eq 1 ]; then
@@ -14704,6 +14723,9 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/gsl_gwd.tar.bz2
 		tar -xvf gsl_gwd.tar.bz2 -C $WRFHYDRO_FOLDER/GEOG/WPS_GEOG
+
+    wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/cglc_modis_lcz_global.tar.gz
+    tar -xvf cglc_modis_lcz_global.tar.gz -C $WRFHYDRO_FOLDER/GEOG/WPS_GEOG
 	fi
 
 	if [ ${Optional_GEOG} -eq 1 ]; then
@@ -15492,6 +15514,9 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/gsl_gwd.tar.bz2
 		tar -xvf gsl_gwd.tar.bz2 -C $WRFHYDRO_FOLDER/GEOG/WPS_GEOG
+
+    wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/cglc_modis_lcz_global.tar.gz
+    tar -xvf cglc_modis_lcz_global.tar.gz -C $WRFHYDRO_FOLDER/GEOG/WPS_GEOG
 	fi
 
 	if [ ${Optional_GEOG} -eq 1 ]; then
@@ -16485,6 +16510,9 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/gsl_gwd.tar.bz2
 		tar -xvf gsl_gwd.tar.bz2 -C $WRFHYDRO_FOLDER/GEOG/WPS_GEOG
+
+    wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/cglc_modis_lcz_global.tar.gz
+    tar -xvf cglc_modis_lcz_global.tar.gz -C $WRFHYDRO_FOLDER/GEOG/WPS_GEOG
 	fi
 
 	if [ ${Optional_GEOG} -eq 1 ]; then
@@ -17434,6 +17462,9 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/gsl_gwd.tar.bz2
 		tar -xvf gsl_gwd.tar.bz2 -C $WRFHYDRO_FOLDER/GEOG/WPS_GEOG
+
+    wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/cglc_modis_lcz_global.tar.gz
+    tar -xvf cglc_modis_lcz_global.tar.gz -C $WRFHYDRO_FOLDER/GEOG/WPS_GEOG
 	fi
 
 	if [ ${Optional_GEOG} -eq 1 ]; then
@@ -17484,7 +17515,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 
 	#############################basic package managment############################
 	echo $PASSWD | sudo -S apt -y update
-	echo $PASSWD | sudo -S apt -y upgrade 
+	echo $PASSWD | sudo -S apt -y upgrade
 	echo $PASSWD | sudo -S apt -y install autoconf automake bison build-essential byacc cmake csh curl default-jdk default-jre emacs flex g++ gawk gcc gfortran git ksh libcurl4-openssl-dev libjpeg-dev libncurses6 libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev m4 make  ncview okular openbox pipenv pkg-config  python3 python3-dev python3-pip python3-dateutil tcsh unzip xauth xorg time
 
 	echo " "
@@ -18476,6 +18507,9 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/gsl_gwd.tar.bz2
 		tar -xvf gsl_gwd.tar.bz2 -C $WRFCHEM_FOLDER/GEOG/WPS_GEOG
+
+    wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/cglc_modis_lcz_global.tar.gz
+    tar -xvf cglc_modis_lcz_global.tar.gz -C $WRFCHEM_FOLDER/GEOG/WPS_GEOG
 	fi
 
 	if [ ${Optional_GEOG} -eq 1 ]; then
@@ -18511,7 +18545,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	############################# Basic package managment ############################
 
 	echo $PASSWD | sudo -S apt -y update
-	echo $PASSWD | sudo -S apt -y upgrade 
+	echo $PASSWD | sudo -S apt -y upgrade
 
 	# download the key to system keyring; this and the following echo command are
 	# needed in order to install the Intel compilers
@@ -19336,6 +19370,9 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/gsl_gwd.tar.bz2
 		tar -xvf gsl_gwd.tar.bz2 -C $WRFCHEM_FOLDER/GEOG/WPS_GEOG
+
+    wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/cglc_modis_lcz_global.tar.gz
+    tar -xvf cglc_modis_lcz_global.tar.gz -C $WRFCHEM_FOLDER/GEOG/WPS_GEOG
 	fi
 
 	if [ ${Optional_GEOG} -eq 1 ]; then
@@ -20124,6 +20161,9 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/gsl_gwd.tar.bz2
 		tar -xvf gsl_gwd.tar.bz2 -C $WRFCHEM_FOLDER/GEOG/WPS_GEOG
+
+    wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/cglc_modis_lcz_global.tar.gz
+    tar -xvf cglc_modis_lcz_global.tar.gz -C $WRFCHEM_FOLDER/GEOG/WPS_GEOG
 
 	fi
 
@@ -20931,6 +20971,9 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/gsl_gwd.tar.bz2
 		tar -xvf gsl_gwd.tar.bz2 -C $WRFCHEM_FOLDER/GEOG/WPS_GEOG
+
+    wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/cglc_modis_lcz_global.tar.gz
+    tar -xvf cglc_modis_lcz_global.tar.gz -C $WRFCHEM_FOLDER/GEOG/WPS_GEOG
 
 	fi
 
@@ -21964,6 +22007,9 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/gsl_gwd.tar.bz2
 		tar -xvf gsl_gwd.tar.bz2 -C $WRFCHEM_FOLDER/GEOG/WPS_GEOG
+
+    wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/cglc_modis_lcz_global.tar.gz
+    tar -xvf cglc_modis_lcz_global.tar.gz -C $WRFCHEM_FOLDER/GEOG/WPS_GEOG
 	fi
 
 	if [ ${Optional_GEOG} -eq 1 ]; then
@@ -22980,6 +23026,9 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/gsl_gwd.tar.bz2
 		tar -xvf gsl_gwd.tar.bz2 -C $WRFCHEM_FOLDER/GEOG/WPS_GEOG
+
+    wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/cglc_modis_lcz_global.tar.gz
+    tar -xvf cglc_modis_lcz_global.tar.gz -C $WRFCHEM_FOLDER/GEOG/WPS_GEOG
 	fi
 
 	if [ ${Optional_GEOG} -eq 1 ]; then
@@ -23030,7 +23079,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 
 	#############################basic package managment############################
 	echo $PASSWD | sudo -S apt -y update
-	echo $PASSWD | sudo -S apt -y upgrade 
+	echo $PASSWD | sudo -S apt -y upgrade
 	echo $PASSWD | sudo -S apt -y install autoconf automake bison build-essential byacc cmake csh curl default-jdk default-jre emacs flex g++ gawk gcc gfortran git ksh libcurl4-openssl-dev libjpeg-dev libncurses6 libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev m4 make  ncview okular openbox pipenv pkg-config  python3 python3-dev python3-pip python3-dateutil tcsh unzip xauth xorg time
 
 	echo " "
@@ -24051,6 +24100,9 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/gsl_gwd.tar.bz2
 		tar -xvf gsl_gwd.tar.bz2 -C ${WRF_FOLDER}/GEOG/WPS_GEOG
+
+    wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/cglc_modis_lcz_global.tar.gz
+    tar -xvf cglc_modis_lcz_global.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 	fi
 
 	if [ ${Optional_GEOG} -eq 1 ]; then
@@ -24085,7 +24137,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	############################# Basic package managment ############################
 
 	echo $PASSWD | sudo -S apt -y update
-	echo $PASSWD | sudo -S apt -y upgrade 
+	echo $PASSWD | sudo -S apt -y upgrade
 
 	# download the key to system keyring; this and the following echo command are
 	# needed in order to install the Intel compilers
@@ -24956,6 +25008,9 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/gsl_gwd.tar.bz2
 		tar -xvf gsl_gwd.tar.bz2 -C ${WRF_FOLDER}/GEOG/WPS_GEOG
+
+    wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/cglc_modis_lcz_global.tar.gz
+    tar -xvf cglc_modis_lcz_global.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 	fi
 
 	if [ ${Optional_GEOG} -eq 1 ]; then
@@ -25780,6 +25835,9 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/gsl_gwd.tar.bz2
 		tar -xvf gsl_gwd.tar.bz2 -C ${WRF_FOLDER}/GEOG/WPS_GEOG
+
+    wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/cglc_modis_lcz_global.tar.gz
+    tar -xvf cglc_modis_lcz_global.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 	fi
 
@@ -26620,6 +26678,9 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/gsl_gwd.tar.bz2
 		tar -xvf gsl_gwd.tar.bz2 -C ${WRF_FOLDER}/GEOG/WPS_GEOG
+
+    wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/cglc_modis_lcz_global.tar.gz
+    tar -xvf cglc_modis_lcz_global.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 
 	fi
 
@@ -27680,6 +27741,9 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/gsl_gwd.tar.bz2
 		tar -xvf gsl_gwd.tar.bz2 -C ${WRF_FOLDER}/GEOG/WPS_GEOG
+
+    wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/cglc_modis_lcz_global.tar.gz
+    tar -xvf cglc_modis_lcz_global.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 	fi
 
 	if [ ${Optional_GEOG} -eq 1 ]; then
@@ -28743,6 +28807,9 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/gsl_gwd.tar.bz2
 		tar -xvf gsl_gwd.tar.bz2 -C ${WRF_FOLDER}/GEOG/WPS_GEOG
+
+    wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/cglc_modis_lcz_global.tar.gz
+    tar -xvf cglc_modis_lcz_global.tar.gz -C ${WRF_FOLDER}/GEOG/WPS_GEOG
 	fi
 
 	if [ ${Optional_GEOG} -eq 1 ]; then
@@ -28795,7 +28862,7 @@ if [ "$HWRF_PICK" = "1" ]; then
 	############################# Basic package managment ############################
 
 	echo $PASSWD | sudo -S apt -y update
-	echo $PASSWD | sudo -S apt -y upgrade 
+	echo $PASSWD | sudo -S apt -y upgrade
 
 	# download the key to system keyring; this and the following echo command are
 	# needed in order to install the Intel compilers
@@ -29428,6 +29495,9 @@ if [ "$HWRF_PICK" = "1" ]; then
 
 	wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/gsl_gwd.tar.bz2
 	tar -xvf gsl_gwd.tar.bz2 -C $HWRF_FOLDER/GEOG/WPS_GEOG
+
+  wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/cglc_modis_lcz_global.tar.gz
+  tar -xvf cglc_modis_lcz_global.tar.gz -C $HWRF_FOLDER/GEOG/WPS_GEOG
 
 	# Optional WPS Geographical Input Data
 
