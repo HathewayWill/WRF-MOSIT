@@ -1,5 +1,17 @@
 #!/bin/bash
 
+#Conda environment test
+if [ -n "$CONDA_DEFAULT_ENV" ]; then
+    echo "CONDA_DEFAULT_ENV is active: $CONDA_DEFAULT_ENV"
+    echo "Turning off $CONDA_DEFAULT_ENV"
+    conda deactivate 
+    conda deactivate
+else
+    echo "CONDA_DEFAULT_ENV is not active."
+    echo "Continuing script"
+    
+fi
+
 start=$(date)
 START=$(date +"%s")
 
