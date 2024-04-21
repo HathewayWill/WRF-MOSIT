@@ -175,6 +175,8 @@ if [ "$SYSTEMBIT" = "64" ] && [ "$SYSTEMOS" = "MacOS" ] && [ "$MAC_CHIP" = "ARM"
 
 fi
 
+Intel_MESSAGE="\e[91m(Not available do to Intel LLVM Upgrade.  Please Select GNU)\e[0m"
+
 if [ "$SYSTEMBIT" = "64" ] && [ "$SYSTEMOS" = "Linux" ]; then
 	echo "Your system is 64bit version of Debian Linux Kernal"
 	echo " "
@@ -185,6 +187,8 @@ if [ "$SYSTEMBIT" = "64" ] && [ "$SYSTEMOS" = "Linux" ]; then
 
   -GNU
 
+  
+
   Please answer Intel or GNU and press enter (case sensative).
   " yn; do
 
@@ -192,7 +196,7 @@ if [ "$SYSTEMBIT" = "64" ] && [ "$SYSTEMOS" = "Linux" ]; then
 		Intel)
 			echo "-------------------------------------------------- "
 			echo " "
-			echo "Intel is selected for installation"
+			echo "Intel is selected for installation $Intel_MESSAGE"
 			export Ubuntu_64bit_Intel=1
 			break
 			;;
