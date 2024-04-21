@@ -181,7 +181,7 @@ if [ "$SYSTEMBIT" = "64" ] && [ "$SYSTEMOS" = "Linux" ]; then
 	echo "Your system is 64bit version of Debian Linux Kernal"
 	echo " "
 	while read -r -p "Which compiler do you want to use?
-  -Intel
+  -Intel  $Intel_MESSAGE
    --Please note that Hurricane WRF (HWRF) is only compatibile with Intel Compilers.
 	 --Please note that WRF_CMAQ i sonly compatibile with GNU Compilers
 
@@ -196,7 +196,7 @@ if [ "$SYSTEMBIT" = "64" ] && [ "$SYSTEMOS" = "Linux" ]; then
 		Intel)
 			echo "-------------------------------------------------- "
 			echo " "
-			echo "Intel is selected for installation $Intel_MESSAGE"
+			echo "Intel is selected for installation"
 			export Ubuntu_64bit_Intel=1
 			break
 			;;
