@@ -145,6 +145,7 @@ This is a BASH script that provides options to install the following Weather Res
 - (Make sure to download folder into your Home Directory):
 > cd $HOME
 
+> sudo apt install git -y
 
 > git clone https://github.com/HathewayWill/WRF-MOSIT.git
 
