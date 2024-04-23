@@ -140,8 +140,17 @@ This is a BASH script that provides options to install the following Weather Res
 - Make sure to download and Homebrew before moving to installation.
 > /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
 
+> brew install git
 
-### Installation
+> git clone https://github.com/HathewayWill/WRF-MOSIT.git
+
+> cd $HOME/WRF-MOSIT
+
+> chmod 775 *.sh
+
+> ./WRF-MOSIT.sh 2>&1 | tee WRF_MOSIT.log
+
+### APT Installation
 - (Make sure to download folder into your Home Directory):
 > cd $HOME
 
@@ -152,7 +161,22 @@ This is a BASH script that provides options to install the following Weather Res
 > cd $HOME/WRF-MOSIT
 
 > chmod 775 *.sh
->
+
+> ./WRF-MOSIT.sh 2>&1 | tee WRF_MOSIT.log
+
+
+### YUM/DNF Installation
+- (Make sure to download folder into your Home Directory):
+> cd $HOME
+
+> sudo (yum or dnf) install git -y
+
+> git clone https://github.com/HathewayWill/WRF-MOSIT.git
+
+> cd $HOME/WRF-MOSIT
+
+> chmod 775 *.sh
+
 > ./WRF-MOSIT.sh 2>&1 | tee WRF_MOSIT.log
 
 - Script will check for System Architecture Type and Storage Space requirements.
