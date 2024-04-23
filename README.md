@@ -22,29 +22,29 @@ This is a BASH script that provides options to install the following Weather Res
     - Linux Debian Distro (Ubuntu, Mint, etc)
     - Windows Subsystem for Linux (Debian Distro, Ubuntu, Mint, etc)
     - CentOS based systems not supported
-- 350 Gigabyte (GB) of storage space
+- 350 Gigabyte (GB) of free storage space
 
 ---
 ### Libraries Installed (Latest libraries as of 11/01/2023)
 - Libraries are manually installed in sub-folders utilizing either Intel or GNU Compilers.
     - Libraries installed with GNU compilers
-        - zlib (1.2.13)
-        - MPICH (4.1.2)
+        - zlib (1.3.0)
+        - MPICH (4.2.1)
         - libpng (1.6.39)
         - JasPer (1.900.1)
-        - HDF5 (1.14.2)
-        - PHDF5 (1.14.2)
-        - Parallel-NetCDF (1.12.3)
+        - HDF5 (1.14.4.2)
+        - PHDF5 (1.14.4.2)
+        - Parallel-NetCDF (1.13.0)
         - NetCDF-C (4.9.0)
         - NetCDF-Fortran (4.6.1)
         - Miniconda
     - Libraries installed with Intel compilers
-        - zlib (1.2.13)
+        - zlib (1.3.0)
         - libpng (1.6.39)
         - JasPer (1.900.1)
-        - HDF5 (1.14.2)
-        - PHDF5 (1.14.2)
-        - Parallel-NetCDF (1.12.3)
+        - HDF5 (1.14.4.2)
+        - PHDF5 (1.14.4.2)
+        - Parallel-NetCDF (1.13.0)
         - NetCDF-C (4.9.0)
         - NetCDF-Fortran (4.6.1)
         - Miniconda
