@@ -192,6 +192,32 @@ This is a BASH script that provides options to install the following Weather Res
       - Author of script reccomends selecting "YES" if user is unsure.
     - Last option, Pick which WRF software user wants to install
 
+---
+
+### Exports to run WRF and WPS programs
+- GNU Compilers
+ 
+    > export LD_LIBRARY_PATH=$HOME/WRF/Libs/NETCDF/lib:$LD_LIBRARY_PATH
+ 
+    > export LD_LIBRARY_PATH=$HOME/WRF/Libs/grib2/lib:$LD_LIBRARY_PATH
+ 
+    > export PATH=$HOME/WRF/Libs/MPICH/bin:$PATH
+ 
+    > export PATH=$HOME/WRF/Libs/grib2/lib:$PATH
+    
+ 
+    
+    
+- Intel Compilers
+ 
+    > source /opt/intel/oneapi/setvars.sh
+    
+    > export LD_LIBRARY_PATH=$HOME/WRF_Intel/Libs/NETCDF/lib:$LD_LIBRARY_PATH
+    
+    > export LD_LIBRARY_PATH=$HOME/WRF_Intel/Libs/grib2/lib:$LD_LIBRARY_PATH
+    
+    > export PATH=$HOME/WRF_Intel/Libs/grib2/lib:$PATH
+
 
 ---
 
