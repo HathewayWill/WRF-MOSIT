@@ -20,22 +20,24 @@ START=$(date +"%s")
 # For Ease of updating
 ##########################################################################
 export METPLUS_Version=5.1.0
-export met_Version_number=11.1.0
+export met_Version_number=11.1.1
 export met_VERSION_number=11.1
 export METPLUS_DATA=5.1
 
-export HDF5_Version=1.14.4
-export HDF5_Sub_Version=2
 export Zlib_Version=1.3.1
-export Netcdf_C_Version=4.9.0
-export Netcdf_Fortran_Version=4.6.1
-export Mpich_Version=4.2.1
+export Mpich_Version=4.2.2
 export Libpng_Version=1.6.39
 export Jasper_Version=1.900.1
+export HDF5_Version=1.14.4
+export HDF5_Sub_Version=3
 export Pnetcdf_Version=1.13.0
+export Netcdf_C_Version=4.9.2
+export Netcdf_Fortran_Version=4.6.1
 
-export WRF_VERSION=4.5.2
-export WPS_VERSION=4.5
+
+
+export WRF_VERSION=4.6.0
+export WPS_VERSION=4.6.0
 
 
 ############################### Citation Requirement  ####################
@@ -176,15 +178,12 @@ if [ "$SYSTEMBIT" = "64" ] && [ "$SYSTEMOS" = "MacOS" ] && [ "$MAC_CHIP" = "ARM"
 
 fi
 
-Intel_MESSAGE="\e[91m(Intel Compilers are NOT available due to Intel LLVM Upgrade.  Please Select GNU)\e[0m"
-
 if [ "$SYSTEMBIT" = "64" ] && [ "$SYSTEMOS" = "Linux" ]; then
 	echo "Your system is 64bit version of Debian Linux Kernal"
 	echo " "
         echo -e "$Intel_MESSAGE"
 	while read -r -p "Which compiler do you want to use?
   -Intel
-   --Please note that Hurricane WRF (HWRF) is only compatibile with Intel Compilers.
 	 --Please note that WRF_CMAQ i sonly compatibile with GNU Compilers
 
   -GNU
@@ -414,12 +413,10 @@ Please answer with either OpenGrADS or GrADS and press enter.
       ;;
     esac
   done
-else
-  echo "MacOS is not supported for GrADS or OpenGrADS at this installation."
 fi
 
 echo " "
-################################# Auto Configuration Test ##################
+##################################### Auto Configuration Test ##################
 
 while true; do
 	echo " Auto Configuration Check"
@@ -450,6 +447,7 @@ while true; do
 	echo " NCAR's DTC MET Tools Install"
 	read -r -p "
   Would you like the script to install the NCAR's DTC Model Evaluation Tools?
+  ***DTC MET Tools are not available for Intel Compilers at this time***
 
 
   (Y/N)    " yn
@@ -525,7 +523,6 @@ echo " "
 
 # Define the colored messages
 CMAQ_MESSAGE="\e[91m(Not available on MacOS && GNU Only)\e[0m"
-HWRF_MESSAGE="\e[91m(Not available on CentOS Kernel & MacOS)\e[0m"
 
 echo -e "Which version of WRF would you like to install?
 -WRF
@@ -534,7 +531,7 @@ echo -e "Which version of WRF would you like to install?
 -WRFHYDRO_STANDALONE
 -WRF_SFIRE
 -WRF_CMAQ $CMAQ_MESSAGE
--HURRICANE_WRF $HWRF_MESSAGE
+
 Please enter one of the above options and press enter (Case Sensitive):"
 
 while read -r yn; do
@@ -550,14 +547,6 @@ while read -r yn; do
 			echo "WRF_CMAQ selected for installation"
 			echo "WRF_CMAQ is only compatible with GNU Compilers"
 			export CMAQ_PICK=1 #variable set for grads or opengrads choice
-			break
-			;;
-		HURRICANE_WRF)
-			echo " "
-			echo "Hurricane WRF (HWRF) selected for installation"
-			echo "HWRF is only compatible with Intel Compilers"
-			echo "All geography files are downloaded and must be installed on system."
-			export HWRF_PICK=1 #variable set for grads or opengrads choice
 			break
 			;;
 		WRF)
@@ -640,204 +629,200 @@ echo " "
 ###################################################################################################
 
 
-if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$DTC_MET" = "1" ]; then
-
-	echo $PASSWD | sudo -S sudo apt install git
-	echo "MET INSTALLING"
-	echo $PASSWD | sudo -S apt -y update
-	echo $PASSWD | sudo -S apt -y upgrade
-
-	# download the key to system keyring; this and the following echo command are
-	# needed in order to install the Intel compilers
-	wget -O- https://apt.repos.intel.com/intel-gpg-keys/GPG-PUB-KEY-INTEL-SW-PRODUCTS.PUB |
-		gpg --dearmor | sudo tee /usr/share/keyrings/oneapi-archive-keyring.gpg >/dev/null
-
-	# add signed entry to apt sources and configure the APT client to use Intel repository:
-	echo "deb [signed-by=/usr/share/keyrings/oneapi-archive-keyring.gpg] https://apt.repos.intel.com/oneapi all main" | sudo tee /etc/apt/sources.list.d/oneAPI.list
-
-	# this update should get the Intel package info from the Intel repository
-	echo $PASSWD | sudo -S apt -y update
-	echo $PASSWD | sudo -S apt -y upgrade
-	echo $PASSWD | sudo -S apt -y install autoconf automake bison build-essential byacc cmake csh curl default-jdk default-jre emacs flex g++ gawk gcc gfortran git ksh libcurl4-openssl-dev libjpeg-dev libncurses6 libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev m4 make  ncview okular openbox pipenv pkg-config  python3 python3-dev python3-pip python3-dateutil tcsh unzip xauth xorg time
-
-	# install the Intel compilers
-	echo $PASSWD | sudo -S apt -y install intel-basekit
-	echo $PASSWD | sudo -S apt -y install intel-hpckit
-	echo $PASSWD | sudo -S apt -y install intel-oneapi-python
-
-	echo $PASSWD | sudo -S apt -y update
-
-	# make sure some critical packages have been installed
-	which cmake pkg-config make gcc g++ gfortran
-
-	# add the Intel compiler file paths to various environment variables
-	source /opt/intel/oneapi/setvars.sh
-
-	# some of the libraries we install below need one or more of these variables
-	export CC=icc
-	export CXX=icpc
-	export FC=ifort
-	export F77=ifort
-	export F90=ifort
-	export MPIFC=mpiifort
-	export MPIF77=mpiifort
-	export MPIF90=mpiifort
-	export MPICC=mpiicc
-	export MPICXX=mpiicpc
-	export CFLAGS="-fPIC -fPIE -O3 -diag-disable=10441 "
-	export FFLAGS="-m64"
-	export FCFLAGS="-m64"
-	#########################
-
-	#Downloading latest dateutil due to python3.8 running old version.
-	pip3 install python-dateutil==2.8
-	pip3 install python-dateutil
-
-	#Directory Listings
-	if [ "$WRFCHEM_PICK" = "1" ]; then
-		mkdir $HOME/WRFCHEM_Intel
-		export WRF_FOLDER=$HOME/WRFCHEM_Intel
-	fi
-
-	if [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
-		mkdir $HOME/WRFHYDRO_COUPLED_Intel
-		export WRF_FOLDER=$HOME/WRFHYDRO_COUPLED_Intel
-	fi
-
-	if [ "$WRF_PICK" = "1" ]; then
-		mkdir $HOME/WRF_Intel
-		export WRF_FOLDER=$HOME/WRF_Intel
-	fi
-
-	if [ "$HWRF_PICK" = "1" ]; then
-		mkdir $HOME/HWRF
-		export WRF_FOLDER=$HOME/HWRF
-	fi
-
-	if [ "$SFIRE_PICK" = "1" ]; then
-		mkdir $HOME/WRF_SFIRE_Intel
-		export WRF_FOLDER=$HOME/WRF_SFIRE_Intel
-	fi
-
-	mkdir "${WRF_FOLDER}"/MET-$met_Version_number
-	mkdir "${WRF_FOLDER}"/MET-$met_Version_number/Downloads
-	mkdir "${WRF_FOLDER}"/METplus-$METPLUS_Version
-	mkdir "${WRF_FOLDER}"/METplus-$METPLUS_Version/Downloads
-
-	#Downloading MET and untarring files
-	#Note weblinks change often update as needed.
-	cd "${WRF_FOLDER}"/MET-$met_Version_number/Downloads
-	wget -c https://raw.githubusercontent.com/dtcenter/MET/main_v$met_VERSION_number/internal/scripts/installation/compile_MET_all.sh
-
-	wget -c https://dtcenter.ucar.edu/dfiles/code/METplus/MET/installation/tar_files.tgz
-
-	wget -c https://github.com/dtcenter/MET/archive/refs/tags/v$met_Version_number.tar.gz
-
-	cp compile_MET_all.sh "${WRF_FOLDER}"/MET-$met_Version_number
-	tar -xvzf tar_files.tgz -C "${WRF_FOLDER}"/MET-$met_Version_number
-	cp v$met_Version_number.tar.gz "${WRF_FOLDER}"/MET-$met_Version_number/tar_files
-	cd "${WRF_FOLDER}"/MET-$met_Version_number
-
-	cd "${WRF_FOLDER}"/MET-$met_Version_number
-
-	export PYTHON_VERSION=$(/opt/intel/oneapi/intelpython/latest/bin/python3 -V 2>&1 | awk '{print $2}')
-	export PYTHON_VERSION_MAJOR_VERSION=$(echo $PYTHON_VERSION | awk -F. '{print $1}')
-	export PYTHON_VERSION_MINOR_VERSION=$(echo $PYTHON_VERSION | awk -F. '{print $2}')
-	export PYTHON_VERSION_COMBINED=$PYTHON_VERSION_MAJOR_VERSION.$PYTHON_VERSION_MINOR_VERSION
-
-	export CC=icc
-	export CXX=icpc
-	export FC=ifort
-	export F77=ifort
-	export F90=ifort
-	export gcc_version=$(icc -dumpversion -diag-disable=10441)
-	export TEST_BASE="${WRF_FOLDER}"/MET-$met_Version_number
-	export COMPILER=intel_$gcc_version
-	export MET_SUBDIR=${TEST_BASE}
-	export MET_TARBALL=v$met_Version_number.tar.gz
-	export USE_MODULES=FALSE
-	export MET_PYTHON=/opt/intel/oneapi/intelpython/python${PYTHON_VERSION_COMBINED}
-	export MET_PYTHON_CC="$(python3-config --cflags --embed)"
-	export MET_PYTHON_LD="$(python3-config --ldflags --embed) -L${MET_PYTHON}/lib -lpython${PYTHON_VERSION_COMBINED}"
-	export SET_D64BIT=FALSE
-	export CPU_CORE=$(nproc) # number of available threads on system
-	export CPU_6CORE="6"
-	export CPU_HALF=$(($CPU_CORE / 2))                    #half of availble cores on system
-	export CPU_HALF_EVEN=$(($CPU_HALF - ($CPU_HALF % 2))) #Forces CPU cores to even number to avoid partial core export. ie 7 cores would be 3.5 cores.
-
-	if [ $CPU_CORE -le $CPU_6CORE ]; then #If statement for low core systems.  Forces computers to only use 1 core if there are 4 cores or less on the system.
-		export CPU_HALF_EVEN="2"
-	else
-		export CPU_HALF_EVEN=$(($CPU_HALF - ($CPU_HALF % 2)))
-	fi
-
-	echo "##########################################"
-	echo "Number of Threads being used $CPU_HALF_EVEN"
-	echo "##########################################"
-
-	echo " "
-
-	export MAKE_ARGS="-j 4"
-
-
-	chmod 775 compile_MET_all.sh
-
-	time ./compile_MET_all.sh 2>&1 | tee compile_MET_all.log
-
-	export PATH="${WRF_FOLDER}"/MET-$met_Version_number/bin:$PATH #Add MET executables to path
-
-	#Basic Package Management for Model Evaluation Tools (METplus)
-
-	echo $PASSWD | sudo -S apt -y update
-	echo $PASSWD | sudo -S apt -y upgrade
-
-	#Directory Listings for Model Evaluation Tools (METplus
-
-	mkdir "${WRF_FOLDER}"/METplus-$METPLUS_Version
-	mkdir "${WRF_FOLDER}"/METplus-$METPLUS_Version/Sample_Data
-	mkdir "${WRF_FOLDER}"/METplus-$METPLUS_Version/Output
-	mkdir "${WRF_FOLDER}"/METplus-$METPLUS_Version/Downloads
-
-	#Downloading METplus and untarring files
-
-	cd "${WRF_FOLDER}"/METplus-$METPLUS_Version/Downloads
-	wget -c https://github.com/dtcenter/METplus/archive/refs/tags/v$METPLUS_Version.tar.gz
-	tar -xvzf v$METPLUS_Version.tar.gz -C "${WRF_FOLDER}"
-
-	# Insatlllation of Model Evaluation Tools Plus
-	cd "${WRF_FOLDER}"/METplus-$METPLUS_Version/parm/metplus_config
-
-	sed -i "s|MET_INSTALL_DIR = /path/to|MET_INSTALL_DIR = "${WRF_FOLDER}"/MET-$met_Version_number|" defaults.conf
-	sed -i "s|INPUT_BASE = /path/to|INPUT_BASE = "${WRF_FOLDER}"/METplus-$METPLUS_Version/Sample_Data|" defaults.conf
-	sed -i "s|OUTPUT_BASE = /path/to|OUTPUT_BASE = "${WRF_FOLDER}"/METplus-$METPLUS_Version/Output|" defaults.conf
-
-	# Downloading Sample Data
-
-	cd "${WRF_FOLDER}"/METplus-$METPLUS_Version/Downloads
-	wget -c https://dtcenter.ucar.edu/dfiles/code/METplus/METplus_Data/v$METPLUS_DATA/sample_data-met_tool_wrapper-$METPLUS_DATA.tgz
-	tar -xvzf sample_data-met_tool_wrapper-$METPLUS_DATA.tgz -C "${WRF_FOLDER}"/METplus-$METPLUS_Version/Sample_Data
-
-	# Testing if installation of MET & METPlus was sucessfull
-	# If you see in terminal "METplus has successfully finished running."
-	# Then MET & METPLUS is sucessfully installed
-
-	echo 'Testing MET & METPLUS Installation.'
-	$WRF_FOLDER/METplus-$METPLUS_Version/ush/run_metplus.py -c $WRF_FOLDER/METplus-$METPLUS_Version/parm/use_cases/met_tool_wrapper/GridStat/GridStat.conf
-
-	# Check if the previous command was successful
-	if [ $? -eq 0 ]; then
-			echo " "
-			echo "MET and METPLUS successfully installed with GNU compilers."
-			echo " "
-			export PATH=$WRF_FOLDER/METplus-$METPLUS_Version/ush:$PATH
-	else
-			echo " "
-			echo "Error: MET and METPLUS installation failed."
-			echo " "
-			# Handle the error case, e.g., exit the script or retry installation
-			exit 1
-	fi
-fi
+# if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$DTC_MET" = "1" ]; then
+#
+# 	echo $PASSWD | sudo -S sudo apt install git
+# 	echo "MET INSTALLING"
+# 	echo $PASSWD | sudo -S apt -y update
+# 	echo $PASSWD | sudo -S apt -y upgrade
+#
+# 	# download the key to system keyring; this and the following echo command are
+# 	# needed in order to install the Intel compilers
+# 	wget -O- https://apt.repos.intel.com/intel-gpg-keys/GPG-PUB-KEY-INTEL-SW-PRODUCTS.PUB |
+# 		gpg --dearmor | sudo tee /usr/share/keyrings/oneapi-archive-keyring.gpg >/dev/null
+#
+# 	# add signed entry to apt sources and configure the APT client to use Intel repository:
+# 	echo "deb [signed-by=/usr/share/keyrings/oneapi-archive-keyring.gpg] https://apt.repos.intel.com/oneapi all main" | sudo tee /etc/apt/sources.list.d/oneAPI.list
+#
+# 	# this update should get the Intel package info from the Intel repository
+# 	echo $PASSWD | sudo -S apt -y update
+# 	echo $PASSWD | sudo -S apt -y upgrade
+# 	echo $PASSWD | sudo -S apt -y install autoconf automake bison build-essential byacc cmake csh curl default-jdk default-jre emacs flex g++ gawk gcc gfortran git ksh libcurl4-openssl-dev libjpeg-dev libncurses6 libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev m4 make  ncview okular openbox pipenv pkg-config  python3 python3-dev python3-pip python3-dateutil tcsh unzip xauth xorg time
+#
+# 	# install the Intel compilers
+# 	echo $PASSWD | sudo -S apt -y install intel-basekit
+# 	echo $PASSWD | sudo -S apt -y install intel-hpckit
+# 	echo $PASSWD | sudo -S apt -y install intel-oneapi-python
+#
+# 	echo $PASSWD | sudo -S apt -y update
+#
+# 	# make sure some critical packages have been installed
+# 	which cmake pkg-config make gcc g++ gfortran
+#
+# 	# add the Intel compiler file paths to various environment variables
+# 	source /opt/intel/oneapi/setvars.sh
+#
+# 	# some of the libraries we install below need one or more of these variables
+# 	export CC=icx
+# 	export CXX=icpx
+# 	export FC=ifx
+# 	export F77=ifx
+# 	export F90=ifx
+# 	export MPIFC=mpiifx
+# 	export MPIF77=mpiifx
+# 	export MPIF90=mpiifx
+# 	export MPICC=mpiicx
+# 	export MPICXX=mpiicpc
+# 	export CFLAGS="-fPIC -fPIE -O3 -Wno-implicit-function-declaration -Wno-incompatible-function-pointer-types -Wno-unused-command-line-argument"
+# 	export FFLAGS="-m64"
+# 	export FCFLAGS="-m64"
+# 	#########################
+#
+# 	#Downloading latest dateutil due to python3.8 running old version.
+# 	pip3 install python-dateutil==2.8
+# 	pip3 install python-dateutil
+#
+# 	#Directory Listings
+# 	if [ "$WRFCHEM_PICK" = "1" ]; then
+# 		mkdir $HOME/WRFCHEM_Intel
+# 		export WRF_FOLDER=$HOME/WRFCHEM_Intel
+# 	fi
+#
+# 	if [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
+# 		mkdir $HOME/WRFHYDRO_COUPLED_Intel
+# 		export WRF_FOLDER=$HOME/WRFHYDRO_COUPLED_Intel
+# 	fi
+#
+# 	if [ "$WRF_PICK" = "1" ]; then
+# 		mkdir $HOME/WRF_Intel
+# 		export WRF_FOLDER=$HOME/WRF_Intel
+# 	fi
+#
+# 	#
+# 	if [ "$SFIRE_PICK" = "1" ]; then
+# 		mkdir $HOME/WRF_SFIRE_Intel
+# 		export WRF_FOLDER=$HOME/WRF_SFIRE_Intel
+# 	fi
+#
+# 	mkdir "${WRF_FOLDER}"/MET-$met_Version_number
+# 	mkdir "${WRF_FOLDER}"/MET-$met_Version_number/Downloads
+# 	mkdir "${WRF_FOLDER}"/METplus-$METPLUS_Version
+# 	mkdir "${WRF_FOLDER}"/METplus-$METPLUS_Version/Downloads
+#
+# 	#Downloading MET and untarring files
+# 	#Note weblinks change often update as needed.
+# 	cd "${WRF_FOLDER}"/MET-$met_Version_number/Downloads
+# 	wget -c https://raw.githubusercontent.com/dtcenter/MET/main_v$met_VERSION_number/internal/scripts/installation/compile_MET_all.sh
+#
+# 	wget -c https://dtcenter.ucar.edu/dfiles/code/METplus/MET/installation/tar_files.tgz
+#
+# 	wget -c https://github.com/dtcenter/MET/archive/refs/tags/v$met_Version_number.tar.gz
+#
+# 	cp compile_MET_all.sh "${WRF_FOLDER}"/MET-$met_Version_number
+# 	tar -xvzf tar_files.tgz -C "${WRF_FOLDER}"/MET-$met_Version_number
+# 	cp v$met_Version_number.tar.gz "${WRF_FOLDER}"/MET-$met_Version_number/tar_files
+# 	cd "${WRF_FOLDER}"/MET-$met_Version_number
+#
+# 	cd "${WRF_FOLDER}"/MET-$met_Version_number
+#
+# 	export PYTHON_VERSION=$(/opt/intel/oneapi/intelpython/latest/bin/python3 -V 2>&1 | awk '{print $2}')
+# 	export PYTHON_VERSION_MAJOR_VERSION=$(echo $PYTHON_VERSION | awk -F. '{print $1}')
+# 	export PYTHON_VERSION_MINOR_VERSION=$(echo $PYTHON_VERSION | awk -F. '{print $2}')
+# 	export PYTHON_VERSION_COMBINED=$PYTHON_VERSION_MAJOR_VERSION.$PYTHON_VERSION_MINOR_VERSION
+#
+# 	export CC=icx
+# 	export CXX=icpx
+# 	export FC=ifx
+# 	export F77=ifx
+# 	export F90=ifx
+# 	export gcc_version=$(icc -dumpversion)
+# 	export TEST_BASE="${WRF_FOLDER}"/MET-$met_Version_number
+# 	export COMPILER=intel_$gcc_version
+# 	export MET_SUBDIR=${TEST_BASE}
+# 	export MET_TARBALL=v$met_Version_number.tar.gz
+# 	export USE_MODULES=FALSE
+# 	export MET_PYTHON=/opt/intel/oneapi/intelpython/python${PYTHON_VERSION_COMBINED}
+# 	export MET_PYTHON_CC="$(python3-config --cflags --embed)"
+# 	export MET_PYTHON_LD="$(python3-config --ldflags --embed) -L${MET_PYTHON}/lib -lpython${PYTHON_VERSION_COMBINED}"
+# 	export SET_D64BIT=FALSE
+# 	export CPU_CORE=$(nproc) # number of available threads on system
+# 	export CPU_6CORE="6"
+# 	export CPU_HALF=$(($CPU_CORE / 2))                    #half of availble cores on system
+# 	export CPU_HALF_EVEN=$(($CPU_HALF - ($CPU_HALF % 2))) #Forces CPU cores to even number to avoid partial core export. ie 7 cores would be 3.5 cores.
+#
+# 	if [ $CPU_CORE -le $CPU_6CORE ]; then #If statement for low core systems.  Forces computers to only use 1 core if there are 4 cores or less on the system.
+# 		export CPU_HALF_EVEN="2"
+# 	else
+# 		export CPU_HALF_EVEN=$(($CPU_HALF - ($CPU_HALF % 2)))
+# 	fi
+#
+# 	echo "##########################################"
+# 	echo "Number of Threads being used $CPU_HALF_EVEN"
+# 	echo "##########################################"
+#
+# 	echo " "
+#
+# 	export MAKE_ARGS="-j 4"
+#
+#
+# 	chmod 775 compile_MET_all.sh
+#
+# 	time ./compile_MET_all.sh 2>&1 | tee compile_MET_all.log
+#
+# 	export PATH="${WRF_FOLDER}"/MET-$met_Version_number/bin:$PATH #Add MET executables to path
+#
+# 	#Basic Package Management for Model Evaluation Tools (METplus)
+#
+# 	echo $PASSWD | sudo -S apt -y update
+# 	echo $PASSWD | sudo -S apt -y upgrade
+#
+# 	#Directory Listings for Model Evaluation Tools (METplus
+#
+# 	mkdir "${WRF_FOLDER}"/METplus-$METPLUS_Version
+# 	mkdir "${WRF_FOLDER}"/METplus-$METPLUS_Version/Sample_Data
+# 	mkdir "${WRF_FOLDER}"/METplus-$METPLUS_Version/Output
+# 	mkdir "${WRF_FOLDER}"/METplus-$METPLUS_Version/Downloads
+#
+# 	#Downloading METplus and untarring files
+#
+# 	cd "${WRF_FOLDER}"/METplus-$METPLUS_Version/Downloads
+# 	wget -c https://github.com/dtcenter/METplus/archive/refs/tags/v$METPLUS_Version.tar.gz
+# 	tar -xvzf v$METPLUS_Version.tar.gz -C "${WRF_FOLDER}"
+#
+# 	# Insatlllation of Model Evaluation Tools Plus
+# 	cd "${WRF_FOLDER}"/METplus-$METPLUS_Version/parm/metplus_config
+#
+# 	sed -i "s|MET_INSTALL_DIR = /path/to|MET_INSTALL_DIR = "${WRF_FOLDER}"/MET-$met_Version_number|" defaults.conf
+# 	sed -i "s|INPUT_BASE = /path/to|INPUT_BASE = "${WRF_FOLDER}"/METplus-$METPLUS_Version/Sample_Data|" defaults.conf
+# 	sed -i "s|OUTPUT_BASE = /path/to|OUTPUT_BASE = "${WRF_FOLDER}"/METplus-$METPLUS_Version/Output|" defaults.conf
+#
+# 	# Downloading Sample Data
+#
+# 	cd "${WRF_FOLDER}"/METplus-$METPLUS_Version/Downloads
+# 	wget -c https://dtcenter.ucar.edu/dfiles/code/METplus/METplus_Data/v$METPLUS_DATA/sample_data-met_tool_wrapper-$METPLUS_DATA.tgz
+# 	tar -xvzf sample_data-met_tool_wrapper-$METPLUS_DATA.tgz -C "${WRF_FOLDER}"/METplus-$METPLUS_Version/Sample_Data
+#
+# 	# Testing if installation of MET & METPlus was sucessfull
+# 	# If you see in terminal "METplus has successfully finished running."
+# 	# Then MET & METPLUS is sucessfully installed
+#
+# 	echo 'Testing MET & METPLUS Installation.'
+# 	$WRF_FOLDER/METplus-$METPLUS_Version/ush/run_metplus.py -c $WRF_FOLDER/METplus-$METPLUS_Version/parm/use_cases/met_tool_wrapper/GridStat/GridStat.conf
+#
+# 	# Check if the previous command was successful
+# 	if [ $? -eq 0 ]; then
+# 			echo " "
+# 			echo "MET and METPLUS successfully installed with GNU compilers."
+# 			echo " "
+# 			export PATH=$WRF_FOLDER/METplus-$METPLUS_Version/ush:$PATH
+# 	else
+# 			echo " "
+# 			echo "Error: MET and METPLUS installation failed."
+# 			echo " "
+# 			# Handle the error case, e.g., exit the script or retry installation
+# 			exit 1
+# 	fi
+# fi
 
 if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$DTC_MET" = "1" ]; then
 
@@ -879,10 +864,6 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$DTC_MET" = "1" ]; then
 		export WRF_FOLDER=$HOME/WRF
 	fi
 
-	if [ "$HWRF_PICK" = "1" ]; then
-		mkdir $HOME/HWRF
-		export WRF_FOLDER=$HOME/HWRF
-	fi
 
 	if [ "$CMAQ_PICK" = "1" ]; then
 		mkdir $HOME/WRF_CMAQ
@@ -1396,10 +1377,6 @@ pip3.10 install python-dateutil==2.8
 		export WRF_FOLDER=$HOME/WRF
 	fi
 
-	if [ "$HWRF_PICK" = "1" ]; then
-		mkdir $HOME/HWRF
-		export WRF_FOLDER=$HOME/HWRF
-	fi
 
 	if [ "$CMAQ_PICK" = "1" ]; then
 		mkdir $HOME/WRF_CMAQ
@@ -1570,10 +1547,6 @@ pip3.10 install python-dateutil==2.8
 		export WRF_FOLDER=$HOME/WRF
 	fi
 
-	if [ "$HWRF_PICK" = "1" ]; then
-		mkdir $HOME/HWRF
-		export WRF_FOLDER=$HOME/HWRF
-	fi
 
 	if [ "$CMAQ_PICK" = "1" ]; then
 		mkdir $HOME/WRF_CMAQ
@@ -2316,7 +2289,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
 	  fi
 	  echo " "
 
-	  ############################WPSV${WPS_VERSION}#####################################
+	  ############################WPS#####################################
 	  ## WPS v${WPS_VERSION}
 	  ## Downloaded from git tagged releases
 	  #Option 3 for gfortran and distributed memory
@@ -2558,6 +2531,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	make -j $CPU_HALF_EVEN check
 
@@ -2573,6 +2547,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	# make check
 
@@ -2596,6 +2571,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make -j $CPU_HALF_EVEN check
 	echo " "
@@ -2610,6 +2586,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make -j $CPU_HALF_EVEN check
 
@@ -2627,6 +2604,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make -j $CPU_HALF_EVEN check
 
@@ -2652,6 +2630,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make -j $CPU_HALF_EVEN check
 
@@ -2673,6 +2652,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make -j $CPU_HALF_EVEN check
 
@@ -2693,6 +2673,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make -j $CPU_HALF_EVEN check
 
@@ -2964,7 +2945,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
   echo " "
 
 
-  ############################WPSV${WPS_VERSION}#####################################
+  ############################WPS#####################################
   ## WPS v${WPS_VERSION}
   ## Downloaded from git tagged releases
   #Option 3 for gfortran and distributed memory
@@ -3218,6 +3199,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$CMAQ_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	make -j $CPU_HALF_EVEN check
 
@@ -3233,6 +3215,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$CMAQ_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	# make check
 
@@ -3256,6 +3239,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$CMAQ_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	make -j $CPU_HALF_EVEN check
 	echo " "
@@ -3270,6 +3254,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$CMAQ_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	make -j $CPU_HALF_EVEN check
 
@@ -3287,6 +3272,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$CMAQ_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make -j $CPU_HALF_EVEN check
 
@@ -3312,6 +3298,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$CMAQ_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make -j $CPU_HALF_EVEN check
 
@@ -3333,6 +3320,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$CMAQ_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	make -j $CPU_HALF_EVEN check
 
@@ -3353,6 +3341,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$CMAQ_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make -j $CPU_HALF_EVEN check
 
@@ -3623,7 +3612,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$CMAQ_PICK" = "1" ]; then
   fi
   echo " "
 
-  ############################WPSV${WPS_VERSION}#####################################
+  ############################WPS#####################################
   ## WPS v${WPS_VERSION}
   ## Downloaded from git tagged releases
   #Option 3 for gfortran and distributed memory
@@ -4320,7 +4309,20 @@ sed -i -e 's/-C -P -traditional/-P -traditional/g' "${WRF_FOLDER}"/ARWpost/confi
 ./compile
 
 
-export PATH="${WRF_FOLDER}"/ARWpost/ARWpost.exe:$PATH
+#IF statement to check that all files were created.
+cd "${WRF_FOLDER}"/ARWpost
+n=$(ls ./*.exe | wc -l)
+if (($n == 1)); then
+  echo "All expected files created."
+  read -r -t 5 -p "Finished installing ARWpost. I am going to wait for 5 seconds only ..."
+else
+  echo "Missing one or more expected files. Exiting the script."
+  read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
+  exit
+fi
+
+echo " "
+      export PATH="${WRF_FOLDER}"/ARWpost/ARWpost.exe:$PATH
 
 echo " "
 ################################ OpenGrADS ##################################
@@ -4721,17 +4723,17 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
 	source /opt/intel/oneapi/setvars.sh
 
 	# some of the libraries we install below need one or more of these variables
-	export CC=icc
-	export CXX=icpc
-	export FC=ifort
-	export F77=ifort
-	export F90=ifort
-	export MPIFC=mpiifort
-	export MPIF77=mpiifort
-	export MPIF90=mpiifort
-	export MPICC=mpiicc
+	export CC=icx
+	export CXX=icpx
+	export FC=ifx
+	export F77=ifx
+	export F90=ifx
+	export MPIFC=mpiifx
+	export MPIF77=mpiifx
+	export MPIF90=mpiifx
+	export MPICC=mpiicx
 	export MPICXX=mpiicpc
-	export CFLAGS="-fPIC -fPIE -O3 -diag-disable=10441 "
+	export CFLAGS="-fPIC -fPIE -O3 -Wno-implicit-function-declaration -Wno-incompatible-function-pointer-types -Wno-unused-command-line-argument"
 	export FFLAGS="-m64"
 	export FCFLAGS="-m64"
 	############################# CPU Core Management ####################################
@@ -4802,7 +4804,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
 	CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS=$CFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
-	# make check | tee zlib.makecheck.log
+	make -j $CPU_HALF_EVEN 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 
 	echo " "
@@ -4821,7 +4823,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
 	CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS=$CFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
-	#make -j $CPU_HALF_EVEN check | tee libpng.makecheck.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 
 	echo " "
@@ -4835,6 +4837,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
 	CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS=$CFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 
 	# other libraries below need these variables to be set
@@ -4852,6 +4855,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
 	CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS=$CFLAGS ./configure --prefix=$DIR/grib2 --with-zlib=$DIR/grib2 --enable-hl --enable-fortran --enable-parallel 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 
 	# other libraries below need these variables to be set
@@ -4873,6 +4877,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
 	./configure --prefix=$DIR/grib2 --enable-shared --enable-static 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -4888,11 +4893,12 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
 	# these variables need to be set for the NetCDF-C install to work
 	export CPPFLAGS=-I$DIR/grib2/include
 	export LDFLAGS=-L$DIR/grib2/lib
-	export LIBS="-lhdf5_hl -lhdf5 -lz -lcurl -lgfortran -lgcc -lm -ldl -lpnetcdf"
+	export LIBS="-lhdf5_hl -lhdf5 -lz -lcurl -lgcc -lm -ldl -lpnetcdf"
 
 	CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS=$CFLAGS ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-shared --enable-pnetcdf --enable-cdf5 --enable-parallel-tests 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 
 	# other libraries below need these variables to be set
@@ -4911,10 +4917,11 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
 	export LD_LIBRARY_PATH=$DIR/NETCDF/lib:$LD_LIBRARY_PATH
 	export CPPFLAGS="-I$DIR/NETCDF/include -I$DIR/grib2/include"
 	export LDFLAGS="-L$DIR/NETCDF/lib -L$DIR/grib2/lib"
-	export LIBS="-lnetcdf -lpnetcdf -lcurl -lhdf5_hl -lhdf5 -lz -lm -ldl -lgcc -lgfortran"
+	export LIBS="-lnetcdf -lpnetcdf -lcurl -lhdf5_hl -lhdf5 -lz -lm -ldl -lgcc"
 	CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS=$CFLAGS ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-parallel-tests --enable-hdf5 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 
 	echo " "
@@ -4928,6 +4935,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
 	CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 ./configure -exec-prefix=$DIR/grib2 --prefix=$DIR/grib2 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 
 	#################################### System Environment Tests ##############
@@ -5103,9 +5111,13 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
 		./configure #Option 4 intel compiler with distributed memory
 	fi
 
-	sed -i '24s/ mpif90/ mpiifort/g' "${WRF_FOLDER}"/UPPV4.1/configure.upp
-	sed -i '25s/ mpif90/ mpiifort/g' "${WRF_FOLDER}"/UPPV4.1/configure.upp
-	sed -i '26s/ mpicc/ mpiicc/g' "${WRF_FOLDER}"/UPPV4.1/configure.upp
+  sed -i '20s/ ifort/ ifx/g' "${WRF_FOLDER}"/UPPV4.1/configure.upp
+	sed -i '21s/ ifort/ ifx/g' "${WRF_FOLDER}"/UPPV4.1/configure.upp
+	sed -i '22s/ icc/ icx/g' "${WRF_FOLDER}"/UPPV4.1/configure.upp
+
+	sed -i '24s/ mpif90/ mpiifx/g' "${WRF_FOLDER}"/UPPV4.1/configure.upp
+	sed -i '25s/ mpif90/ mpiifx/g' "${WRF_FOLDER}"/UPPV4.1/configure.upp
+	sed -i '26s/ mpicc/ mpiicx/g' "${WRF_FOLDER}"/UPPV4.1/configure.upp
 
 	./compile
 	cd "${WRF_FOLDER}"/UPPV4.1/scripts
@@ -5144,10 +5156,26 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
 		./configure #Option 2 intel compiler with distributed memory
 	fi
 
-	sed -i -e 's/-C -P -traditional/-P -traditional/g' "${WRF_FOLDER}"/ARWpost/configure.arwp
+  sed -i -e '31s/ifort/ifx/g' "${WRF_FOLDER}"/ARWpost/configure.arwp
+	sed -i -e '36s/gcc/icx/g' "${WRF_FOLDER}"/ARWpost/configure.arwp
+	sed -i -e '38s/-C -P -traditional/-P -traditional/g' "${WRF_FOLDER}"/ARWpost/configure.arwp
 	./compile
 
-	export PATH="${WRF_FOLDER}"/ARWpost/ARWpost.exe:$PATH
+
+	#IF statement to check that all files were created.
+cd "${WRF_FOLDER}"/ARWpost
+n=$(ls ./*.exe | wc -l)
+if (($n == 1)); then
+  echo "All expected files created."
+  read -r -t 5 -p "Finished installing ARWpost. I am going to wait for 5 seconds only ..."
+else
+  echo "Missing one or more expected files. Exiting the script."
+  read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
+  exit
+fi
+
+echo " "
+      export PATH="${WRF_FOLDER}"/ARWpost/ARWpost.exe:$PATH
 
 	echo " "
 	################################OpenGrADS######################################
@@ -5257,15 +5285,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 	echo " "
 
-	################################## QGIS #####################################
-	#QGIS (Quantum Geographic Information System) is a free and open-source platform that allows users to
-	#analyze, view, and edit geospatial data. It supports both vector and raster layers, as well as various #web services, and is extensible through community-developed plugins. Key features include map
-	#creation, spatial analysis, and data management.
-	#############################################################################
 
-	conda env create -f $HOME/WRF-MOSIT/qgis.3.28.8.yml
-
-	echo " "
 
 
 	############################ WRF-SFIRE  #################################
@@ -5281,7 +5301,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	./clean -a # Clean old configuration files
 
 	if [ ${auto_config} -eq 1 ]; then
-		sed -i '428s/.*/  $response = "15 \\n";/g' "${WRF_FOLDER}"/WRF-SFIRE/arch/Config.pl # Answer for compiler choice
+		sed -i '428s/.*/  $response = "78 \\n";/g' "${WRF_FOLDER}"/WRF-SFIRE/arch/Config.pl # Answer for compiler choice
 		sed -i '869s/.*/  $response = "1 \\n";/g' "${WRF_FOLDER}"/WRF-SFIRE/arch/Config.pl  #Answer for basic nesting
 		./configure 2>&1 | tee configure.log
 	else
@@ -5339,8 +5359,8 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 		./configure 2>&1 | tee configure.log #Option 3 gfortran compiler with distributed memory
 	fi
 
-	sed -i '65s|mpif90|mpiifort|g' "${WRF_FOLDER}"/WPS/configure.wps
-	sed -i '66s|mpicc|mpiicc|g' "${WRF_FOLDER}"/WPS/configure.wps
+	sed -i '65s|mpif90|mpiifx|g' "${WRF_FOLDER}"/WPS/configure.wps
+	sed -i '66s|mpicc|mpiicx|g' "${WRF_FOLDER}"/WPS/configure.wps
 
 	./compile 2>&1 | tee compile.wps.log
 
@@ -5499,6 +5519,8 @@ sleep 1
 brew install xauth
 sleep 1
 brew install xorgproto
+sleep 1
+brew install xquartz
 sleep 1
 brew install xorgrgb
 
@@ -5901,7 +5923,32 @@ brew install xorgrgb
  echo " All tests completed and passed"
  echo " "
  read -r -t 3 -p
+
+
+ 	################################OpenGrADS######################################
+ 	#Verison 2.2.1 64bit of Linux
+ 	#############################################################################
+ 	if [[ $GRADS_PICK -eq 1 ]]; then
+ 		cd "${WRF_FOLDER}"/Downloads
+ 		wget -c -4 https://sourceforge.net/projects/opengrads/files/grads2/2.2.1.oga.1/macOS/opengrads-2.2.1.oga.1-bundle-x86_64-apple-darwin20.5.0.pkg
+     sudo -S installer -pkg opengrads-2.2.1.oga.1-bundle-x86_64-apple-darwin20.5.0.pkg -target /Applications/OpenGrads <<< "$PASSWD"
+
+ 	fi
+ 	################################## GrADS ###############################
+ 	# Version  2.2.1
+ 	# Sublibs library instructions: http://cola.gmu.edu/grads/gadoc/supplibs2.html
+ 	# GrADS instructions: http://cola.gmu.edu/grads/downloads.php
+ 	########################################################################
+ 	if [[ $GRADS_PICK -eq 2 ]]; then
+
+ 		brew install grads
+
+ 	fi
+
+
+ #########################################################################
  #Installing Miniconda3 to WRF directory and updating libraries
+ #########################################################################
  export Miniconda_Install_DIR="${WRF_FOLDER}"/miniconda3
 
  mkdir -p $Miniconda_Install_DIR
@@ -6217,6 +6264,8 @@ brew install xauth
 sleep 1
 brew install xorgproto
 sleep 1
+brew install xquartz
+sleep 1
 brew install xorgrgb
 
 
@@ -6349,6 +6398,7 @@ brew install xorgrgb
 	CC=$CC CXX=$CXX FC=$FC F77=$F77 ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -6385,6 +6435,7 @@ brew install xorgrgb
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -6398,6 +6449,7 @@ brew install xorgrgb
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	export JASPERLIB=$DIR/grib2/lib
 	export JASPERINC=$DIR/grib2/include
@@ -6413,6 +6465,7 @@ brew install xorgrgb
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX ./configure --prefix=$DIR/grib2 --with-zlib=$DIR/grib2 --enable-hl --enable-fortran --enable-parallel 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -6438,6 +6491,7 @@ brew install xorgrgb
 	./configure --prefix=$DIR/grib2 --enable-shared --enable-static 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -6457,6 +6511,7 @@ brew install xorgrgb
 	CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-shared --enable-pnetcdf --enable-cdf5 --enable-parallel-tests 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -6476,6 +6531,7 @@ brew install xorgrgb
 	CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-shared --enable-parallel-tests --enable-hdf5 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -6500,6 +6556,7 @@ brew install xorgrgb
 	CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 ./configure -exec-prefix=$DIR/grib2 --prefix=$DIR/grib2 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 
 	# Changes flags back to netcdf only
@@ -6635,8 +6692,31 @@ brew install xorgrgb
 	echo " "
 	read -r -t 3 -p
 
-	Installing Miniconda3 to WRF directory and updating libraries
-	#export Miniconda_Install_DIR="${WRF_FOLDER}"/miniconda3
+
+  	################################OpenGrADS######################################
+  	#Verison 2.2.1 64bit of Linux
+  	#############################################################################
+  	if [[ $GRADS_PICK -eq 1 ]]; then
+  		cd "${WRF_FOLDER}"/Downloads
+  		wget -c -4 https://sourceforge.net/projects/opengrads/files/grads2/2.2.1.oga.1/macOS/opengrads-2.2.1.oga.1-bundle-x86_64-apple-darwin20.5.0.pkg
+      sudo -S installer -pkg opengrads-2.2.1.oga.1-bundle-x86_64-apple-darwin20.5.0.pkg -target /Applications/OpenGrads <<< "$PASSWD"
+
+  	fi
+  	################################## GrADS ###############################
+  	# Version  2.2.1
+  	# Sublibs library instructions: http://cola.gmu.edu/grads/gadoc/supplibs2.html
+  	# GrADS instructions: http://cola.gmu.edu/grads/downloads.php
+  	########################################################################
+  	if [[ $GRADS_PICK -eq 2 ]]; then
+
+  		brew install grads
+
+  	fi
+
+#######################################################################
+	#Installing Miniconda3 to WRF directory and updating libraries
+	export Miniconda_Install_DIR="${WRF_FOLDER}"/miniconda3
+#######################################################################
 
 	mkdir -p $Miniconda_Install_DIR
 
@@ -6698,15 +6778,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 	echo " "
 
-	################################## QGIS #####################################
-	#QGIS (Quantum Geographic Information System) is a free and open-source platform that allows users to
-	#analyze, view, and edit geospatial data. It supports both vector and raster layers, as well as various #web services, and is extensible through community-developed plugins. Key features include map
-	#creation, spatial analysis, and data management.
-	#############################################################################
 
-	conda env create -f $HOME/WRF-MOSIT/qgis.3.28.8.yml
-
-	echo " "
 
 	read -r -t 3 -p
 	############################ WRF-SFIRE  #################################
@@ -7469,7 +7541,20 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
 	    ./compile
 
 
-	    export PATH="${WRF_FOLDER}"/ARWpost/ARWpost.exe:$PATH
+	    #IF statement to check that all files were created.
+cd "${WRF_FOLDER}"/ARWpost
+n=$(ls ./*.exe | wc -l)
+if (($n == 1)); then
+  echo "All expected files created."
+  read -r -t 5 -p "Finished installing ARWpost. I am going to wait for 5 seconds only ..."
+else
+  echo "Missing one or more expected files. Exiting the script."
+  read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
+  exit
+fi
+
+echo " "
+      export PATH="${WRF_FOLDER}"/ARWpost/ARWpost.exe:$PATH
 
 	    echo " "
 	    ################################ OpenGrADS ##################################
@@ -8429,7 +8514,20 @@ automake -a -f 2>&1 | tee automake.log
     ./compile
 
 
-    export PATH="${WRF_FOLDER}"/ARWpost/ARWpost.exe:$PATH
+    #IF statement to check that all files were created.
+cd "${WRF_FOLDER}"/ARWpost
+n=$(ls ./*.exe | wc -l)
+if (($n == 1)); then
+  echo "All expected files created."
+  read -r -t 5 -p "Finished installing ARWpost. I am going to wait for 5 seconds only ..."
+else
+  echo "Missing one or more expected files. Exiting the script."
+  read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
+  exit
+fi
+
+echo " "
+      export PATH="${WRF_FOLDER}"/ARWpost/ARWpost.exe:$PATH
 
     echo " "
     ################################ OpenGrADS ##################################
@@ -8932,6 +9030,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 	./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -8945,6 +9044,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 	F90= ./configure --prefix=$DIR/MPICH --with-device=ch3 FFLAGS="$fallow_argument -m64" FCFLAGS="$fallow_argument -m64" 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -8967,6 +9067,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 	echo " "
@@ -8979,6 +9080,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -8995,6 +9097,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS ./configure --prefix=$DIR/grib2 --with-zlib=$DIR/grib2 --enable-hl --enable-fortran --enable-parallel 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -9019,6 +9122,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 	./configure --prefix=$DIR/grib2 --enable-shared --enable-static 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -9038,6 +9142,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 	CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS=$CFLAGS ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-shared --enable-static --enable-pnetcdf --enable-cdf5 --enable-parallel-tests 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -9057,6 +9162,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 	CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS=$CFLAGS ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-shared --enable-static --enable-parallel-tests --enable-hdf5 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -9308,15 +9414,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 	echo " "
 
-	################################## QGIS #####################################
-	#QGIS (Quantum Geographic Information System) is a free and open-source platform that allows users to
-	#analyze, view, and edit geospatial data. It supports both vector and raster layers, as well as various #web services, and is extensible through community-developed plugins. Key features include map
-	#creation, spatial analysis, and data management.
-	#############################################################################
 
-	conda env create -f $HOME/WRF-MOSIT/qgis.3.28.8.yml
-
-	echo " "
 
 	################ NEEDS TO BE IN Master folder #######################
 	cp $HOME/WRF-MOSIT/SurfaceRunoff.py "${WRFHYDRO_FOLDER}"/domain/NWM
@@ -9392,6 +9490,8 @@ sleep 1
 brew install xauth
 sleep 1
 brew install xorgproto
+sleep 1
+brew install xquartz
 sleep 1
 brew install xorgrgb
 sleep 1
@@ -9511,6 +9611,7 @@ export PATH=/usr/local/bin:$PATH
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -9525,6 +9626,7 @@ export PATH=/usr/local/bin:$PATH
 	F90= ./configure --prefix=$DIR/MPICH --with-device=ch3 FFLAGS="$fallow_argument -m64" FCFLAGS="$fallow_argument -m64" 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -9550,6 +9652,7 @@ export PATH=/usr/local/bin:$PATH
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 	#make check
@@ -9566,6 +9669,7 @@ export PATH=/usr/local/bin:$PATH
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	export JASPERLIB=$DIR/grib2/lib
 	export JASPERINC=$DIR/grib2/include
@@ -9582,6 +9686,7 @@ export PATH=/usr/local/bin:$PATH
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -9608,6 +9713,7 @@ export PATH=/usr/local/bin:$PATH
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -9628,6 +9734,7 @@ export PATH=/usr/local/bin:$PATH
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -9649,6 +9756,7 @@ export PATH=/usr/local/bin:$PATH
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -9781,6 +9889,31 @@ export PATH=/usr/local/bin:$PATH
 	echo " "
 
 	echo " "
+
+  ################################OpenGrADS######################################
+	#Verison 2.2.1 64bit of Linux
+	#############################################################################
+	if [[ $GRADS_PICK -eq 1 ]]; then
+		cd "${WRFHYDRO_FOLDER}"/Downloads
+		wget -c -4 https://sourceforge.net/projects/opengrads/files/grads2/2.2.1.oga.1/macOS/opengrads-2.2.1.oga.1-bundle-x86_64-apple-darwin20.5.0.pkg
+    sudo -S installer -pkg opengrads-2.2.1.oga.1-bundle-x86_64-apple-darwin20.5.0.pkg -target /Applications/OpenGrads <<< "$PASSWD"
+
+	fi
+	################################## GrADS ###############################
+	# Version  2.2.1
+	# Sublibs library instructions: http://cola.gmu.edu/grads/gadoc/supplibs2.html
+	# GrADS instructions: http://cola.gmu.edu/grads/downloads.php
+	########################################################################
+	if [[ $GRADS_PICK -eq 2 ]]; then
+
+		brew install grads
+
+	fi
+
+
+
+
+
 	############################# WRF HYDRO V5.2.0 #################################
 	# Version 5.2.0
 	# Standalone mode
@@ -9948,6 +10081,8 @@ brew install xauth
 sleep 1
 brew install xorgproto
 sleep 1
+brew install xquartz
+sleep 1
 brew install xorgrgb
 sleep 1
 brew install xquartz
@@ -10084,6 +10219,7 @@ export PATH=/usr/local/bin:$PATH
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -10098,6 +10234,7 @@ export PATH=/usr/local/bin:$PATH
 	F90= ./configure --prefix=$DIR/MPICH --with-device=ch3 FFLAGS="$fallow_argument -m64" FCFLAGS="$fallow_argument -m64" 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -10123,6 +10260,7 @@ export PATH=/usr/local/bin:$PATH
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 	#make check
@@ -10139,6 +10277,7 @@ export PATH=/usr/local/bin:$PATH
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	export JASPERLIB=$DIR/grib2/lib
 	export JASPERINC=$DIR/grib2/include
@@ -10155,6 +10294,7 @@ export PATH=/usr/local/bin:$PATH
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -10181,6 +10321,7 @@ export PATH=/usr/local/bin:$PATH
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -10201,6 +10342,7 @@ export PATH=/usr/local/bin:$PATH
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -10222,6 +10364,7 @@ export PATH=/usr/local/bin:$PATH
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -10354,6 +10497,31 @@ export PATH=/usr/local/bin:$PATH
 	echo " "
 
 	echo " "
+
+  ################################OpenGrADS######################################
+	#Verison 2.2.1 64bit of Linux
+	#############################################################################
+	if [[ $GRADS_PICK -eq 1 ]]; then
+		cd "${WRFHYDRO_FOLDER}"/Downloads
+		wget -c -4 https://sourceforge.net/projects/opengrads/files/grads2/2.2.1.oga.1/macOS/opengrads-2.2.1.oga.1-bundle-x86_64-apple-darwin20.5.0.pkg
+    sudo -S installer -pkg opengrads-2.2.1.oga.1-bundle-x86_64-apple-darwin20.5.0.pkg -target /Applications/OpenGrads <<< "$PASSWD"
+
+	fi
+	################################## GrADS ###############################
+	# Version  2.2.1
+	# Sublibs library instructions: http://cola.gmu.edu/grads/gadoc/supplibs2.html
+	# GrADS instructions: http://cola.gmu.edu/grads/downloads.php
+	########################################################################
+	if [[ $GRADS_PICK -eq 2 ]]; then
+
+		brew install grads
+
+	fi
+
+
+
+
+
 	############################# WRF HYDRO V5.2.0 #################################
 	# Version 5.2.0
 	# Standalone mode
@@ -10501,17 +10669,17 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; the
 	source /opt/intel/oneapi/setvars.sh
 
 	# some of the libraries we install below need one or more of these variables
-	export CC=icc
-	export CXX=icpc
-	export FC=ifort
-	export F77=ifort
-	export F90=ifort
-	export MPIFC=mpiifort
-	export MPIF77=mpiifort
-	export MPIF90=mpiifort
-	export MPICC=mpiicc
+	export CC=icx
+	export CXX=icpx
+	export FC=ifx
+	export F77=ifx
+	export F90=ifx
+	export MPIFC=mpiifx
+	export MPIF77=mpiifx
+	export MPIF90=mpiifx
+	export MPICC=mpiicx
 	export MPICXX=mpiicpc
-	export CFLAGS="-fPIC -fPIE -O3  -diag-disable=10441"
+	export CFLAGS="-fPIC -fPIE -O3 -Wno-implicit-function-declaration -Wno-incompatible-function-pointer-types -Wno-unused-command-line-argument"
 	############################# CPU Core Management ####################################
 
 	export CPU_CORE=$(nproc) # number of available threads on system
@@ -10573,6 +10741,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; the
 	2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -10588,6 +10757,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; the
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 	echo " "
@@ -10600,6 +10770,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; the
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 	export JASPERLIB=$DIR/grib2/lib
@@ -10616,6 +10787,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; the
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS ./configure --prefix=$DIR/grib2 --with-zlib=$DIR/grib2 --enable-hl --enable-fortran --enable-parallel 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -10636,6 +10808,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; the
 	automake -a -f 2>&1 | tee automake.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -10649,12 +10822,13 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; the
 	cd netcdf-c-$Netcdf_C_Version/
 	export CPPFLAGS=-I$DIR/grib2/include
 	export LDFLAGS=-L$DIR/grib2/lib
-	export LIBS="-lhdf5_hl -lhdf5 -lz -lcurl -lgfortran -lgcc -lm -ldl -lpnetcdf"
+	export LIBS="-lhdf5_hl -lhdf5 -lz -lcurl -lgcc -lm -ldl -lpnetcdf"
 	autoreconf -i -f 2>&1 | tee autoreconf.log
 
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS ./configure --prefix=$DIR/NETCDF --with-zlib=$DIR/grib2 --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-shared --enable-static --enable-pnetcdf --enable-cdf5 --enable-parallel-tests 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -10674,6 +10848,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; the
 	CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS=$CFLAGS ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-shared --enable-static --enable-parallel-tests --enable-hdf5 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -11041,6 +11216,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -11056,6 +11232,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	# make check
 
@@ -11079,6 +11256,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 	echo " "
@@ -11093,6 +11271,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -11110,6 +11289,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -11136,6 +11316,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -11156,6 +11337,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -11176,6 +11358,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -11542,6 +11725,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -11557,6 +11741,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	# make check
 
@@ -11580,6 +11765,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 	echo " "
@@ -11594,6 +11780,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -11611,6 +11798,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -11637,6 +11825,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -11657,6 +11846,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -11677,6 +11867,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -12044,6 +12235,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 	./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -12057,6 +12249,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 	F90= ./configure --prefix=$DIR/MPICH --with-device=ch3 FFLAGS="$fallow_argument -m64" FCFLAGS="$fallow_argument -m64" 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -12079,6 +12272,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 	echo " "
@@ -12091,6 +12285,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -12107,6 +12302,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS ./configure --prefix=$DIR/grib2 --with-zlib=$DIR/grib2 --enable-hl --enable-fortran --enable-parallel 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -12131,6 +12327,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 	./configure --prefix=$DIR/grib2 --enable-shared --enable-static 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -12150,6 +12347,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 	CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS=$CFLAGS ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-shared --enable-static --enable-pnetcdf --enable-cdf5 --enable-parallel-tests 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -12169,6 +12367,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 	CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS=$CFLAGS ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-shared --enable-static --enable-parallel-tests --enable-hdf5 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -12431,6 +12630,20 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 	sed -i -e 's/-C -P -traditional/-P -traditional/g' "${WRFHYDRO_FOLDER}"/ARWpost/configure.arwp
 	./compile
 
+  #IF statement to check that all files were created.
+	cd "${WRFHYDRO_FOLDER}"/ARWpost
+	n=$(ls ./*.exe | wc -l)
+	if (($n == 1)); then
+		echo "All expected files created."
+		read -r -t 5 -p "Finished installing ARWpost. I am going to wait for 5 seconds only ..."
+	else
+		echo "Missing one or more expected files. Exiting the script."
+		read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
+		exit
+	fi
+
+	echo " "
+
 	export PATH="${WRFHYDRO_FOLDER}"/ARWpost/ARWpost.exe:$PATH
 
 	echo " "
@@ -12526,7 +12739,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 	export NETCDF=$DIR/NETCDF
 
 	if [ ${auto_config} -eq 1 ]; then
-		echo 2 | ./configure 2>&1 | tee configure.log#Option 2 for gfortran/gcc and distribunted memory
+		echo 2 | ./configure 2>&1 | tee configure.log #Option 2 for gfortran/gcc and distribunted memory
 	else
 		./configure 2>&1 | tee configure.log #Option 2 for gfortran/gcc and distribunted memory
 	fi
@@ -12639,15 +12852,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 	echo " "
 
-	################################## QGIS #####################################
-	#QGIS (Quantum Geographic Information System) is a free and open-source platform that allows users to
-	#analyze, view, and edit geospatial data. It supports both vector and raster layers, as well as various #web services, and is extensible through community-developed plugins. Key features include map
-	#creation, spatial analysis, and data management.
-	#############################################################################
 
-	conda env create -f $HOME/WRF-MOSIT/qgis.3.28.8.yml
-
-	echo " "
 
 	########################## WRF Hydro GIS PreProcessor ##############################
 	#  Compiled with Conda
@@ -12701,7 +12906,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 	read -r -t 5 -p "I am going to wait for 5 seconds only ..."
 	echo " "
-	############################ WRF ${WPS_VERSION}  #################################
+	############################ WRF #################################
 	## WRF v${WPS_VERSION}
 	## Downloaded from git tagged releases
 	# option 34, option 1 for gfortran and distributed memory w/basic nesting
@@ -12777,7 +12982,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	echo " "
 
 	echo " "
-	############################WPSV${WPS_VERSION}#####################################
+	############################WPS#####################################
 	## WPS v${WPS_VERSION}
 	## Downloaded from git tagged releases
 	#Option 3 for gfortran and distributed memory
@@ -12938,17 +13143,17 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 	source /opt/intel/oneapi/setvars.sh
 
 	# some of the libraries we install below need one or more of these variables
-	export CC=icc
-	export CXX=icpc
-	export FC=ifort
-	export F77=ifort
-	export F90=ifort
-	export MPIFC=mpiifort
-	export MPIF77=mpiifort
-	export MPIF90=mpiifort
-	export MPICC=mpiicc
+	export CC=icx
+	export CXX=icpx
+	export FC=ifx
+	export F77=ifx
+	export F90=ifx
+	export MPIFC=mpiifx
+	export MPIF77=mpiifx
+	export MPIF90=mpiifx
+	export MPICC=mpiicx
 	export MPICXX=mpiicpc
-	export CFLAGS="-fPIC -fPIE -O3 -diag-disable=10441 "
+	export CFLAGS="-fPIC -fPIE -O3 -Wno-implicit-function-declaration -Wno-incompatible-function-pointer-types -Wno-unused-command-line-argument"
 	export FFLAGS="-m64"
 	export FCFLAGS="-m64"
 	############################# CPU Core Management ####################################
@@ -13013,10 +13218,10 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 	cd zlib-$Zlib_Version/
 	autoreconf -i -f 2>&1 | tee autoreconf.log
 
-	CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS=$CFLAGS CFLAGS=$CFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
+	CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS=$CFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
-	# make check | tee zlib.makecheck.log
+	make -j $CPU_HALF_EVEN 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 
 	echo " "
@@ -13032,12 +13237,10 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 	cd libpng-$Libpng_Version/
 	autoreconf -i -f 2>&1 | tee autoreconf.log
 
-	CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS=$CFLAGS CFLAGS=$CFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
-	automake -a -f 2>&1 | tee automake.log
-
+	CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS=$CFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
-	#make -j $CPU_HALF_EVEN check | tee libpng.makecheck.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 
 	echo " "
@@ -13048,11 +13251,10 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 	cd jasper-$Jasper_Version/
 	autoreconf -i -f 2>&1 | tee autoreconf.log
 
-	CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS=$CFLAGS CFLAGS=$CFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
-	automake -a -f 2>&1 | tee automake.log
-
+	CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS=$CFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 
 	# other libraries below need these variables to be set
@@ -13067,11 +13269,10 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 	cd hdf5-$HDF5_Version-$HDF5_Sub_Version
 	autoreconf -i -f 2>&1 | tee autoreconf.log
 
-	CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS=$CFLAGS CFLAGS=$CFLAGS ./configure --prefix=$DIR/grib2 --with-zlib=$DIR/grib2 --enable-hl --enable-fortran --enable-parallel 2>&1 | tee configure.log
-	automake -a -f 2>&1 | tee automake.log
-
+	CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS=$CFLAGS ./configure --prefix=$DIR/grib2 --with-zlib=$DIR/grib2 --enable-hl --enable-fortran --enable-parallel 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 
 	# other libraries below need these variables to be set
@@ -13089,25 +13290,24 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 	cd "${WRFHYDRO_FOLDER}"/Downloads
 	tar -xvzf pnetcdf-$Pnetcdf_Version.tar.gz
 	cd pnetcdf-$Pnetcdf_Version
-	export CC=icc
-	export CXX=icpc
-	export FC=ifort
-	export F77=ifort
-	export F90=ifort
-	export MPIFC=mpiifort
-	export MPIF77=mpiifort
-	export MPIF90=mpiifort
-	export MPICC=mpiicc
+	export CC=icx
+	export CXX=icpx
+	export FC=ifx
+	export F77=ifx
+	export F90=ifx
+	export MPIFC=mpiifx
+	export MPIF77=mpiifx
+	export MPIF90=mpiifx
+	export MPICC=mpiicx
 	export MPICXX=mpiicpc
-	export CFLAGS="-fPIC -fPIE -O3  -diag-disable=10441"
+	export CFLAGS="-fPIC -fPIE -O3 -Wno-implicit-function-declaration -Wno-incompatible-function-pointer-types -Wno-unused-command-line-argument"
 	export FFLAGS="-m64"
 	export FCFLAGS="-m64"
 	autoreconf -i -f 2>&1 | tee autoreconf.log
 	./configure --prefix=$DIR/grib2 --enable-shared --enable-static 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
-
-	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -13126,11 +13326,10 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 	export LDFLAGS=-L$DIR/grib2/lib
 	export LIBS="-lhdf5_hl -lhdf5 -lz -lcurl -lm -ldl"
 
-	CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS=$CFLAGS CFLAGS=$CFLAGS ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-shared --enable-static --enable-pnetcdf --enable-cdf5 --enable-parallel-tests 2>&1 | tee configure.log
-	automake -a -f 2>&1 | tee automake.log
-
+	CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS=$CFLAGS ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-shared --enable-static --enable-pnetcdf --enable-cdf5 --enable-parallel-tests 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 
 	# other libraries below need these variables to be set
@@ -13150,11 +13349,10 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 	export LDFLAGS="-L$DIR/NETCDF/lib -L$DIR/grib2/lib"
 	export LIBS="-lnetcdf -lpnetcdf -lcurl -lm -lcurl -lhdf5_hl -lhdf5 -lz -ldl"
 
-	CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS=$CFLAGS CFLAGS=$CFLAGS ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-parallel-tests --enable-hdf5 2>&1 | tee configure.log
-	automake -a -f 2>&1 | tee automake.log
-
+	CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS=$CFLAGS ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-parallel-tests --enable-hdf5 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 
 	echo " "
@@ -13327,9 +13525,9 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 		./configure #Option 4 intel compiler with distributed memory
 	fi
 
-	sed -i '24s/ mpif90/ mpiifort/g' "${WRFHYDRO_FOLDER}"/UPPV4.1/configure.upp
-	sed -i '25s/ mpif90/ mpiifort/g' "${WRFHYDRO_FOLDER}"/UPPV4.1/configure.upp
-	sed -i '26s/ mpicc/ mpiicc/g' "${WRFHYDRO_FOLDER}"/UPPV4.1/configure.upp
+	sed -i '24s/ mpif90/ mpiifx/g' "${WRFHYDRO_FOLDER}"/UPPV4.1/configure.upp
+	sed -i '25s/ mpif90/ mpiifx/g' "${WRFHYDRO_FOLDER}"/UPPV4.1/configure.upp
+	sed -i '26s/ mpicc/ mpiicx/g' "${WRFHYDRO_FOLDER}"/UPPV4.1/configure.upp
 
 	./compile | tee upp_compile.log
 	cd "${WRFHYDRO_FOLDER}"/UPPV4.1/scripts
@@ -13370,6 +13568,20 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 
 	sed -i -e 's/-C -P -traditional/-P -traditional/g' "${WRFHYDRO_FOLDER}"/ARWpost/configure.arwp
 	./compile
+
+  #IF statement to check that all files were created.
+	cd "${WRFHYDRO_FOLDER}"/ARWpost
+	n=$(ls ./*.exe | wc -l)
+	if (($n == 1)); then
+		echo "All expected files created."
+		read -r -t 5 -p "Finished installing ARWpost. I am going to wait for 5 seconds only ..."
+	else
+		echo "Missing one or more expected files. Exiting the script."
+		read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
+		exit
+	fi
+
+	echo " "
 
 	export PATH="${WRFHYDRO_FOLDER}"/ARWpost/ARWpost.exe:$PATH
 
@@ -13482,15 +13694,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 	echo " "
 
-	################################## QGIS #####################################
-	#QGIS (Quantum Geographic Information System) is a free and open-source platform that allows users to
-	#analyze, view, and edit geospatial data. It supports both vector and raster layers, as well as various #web services, and is extensible through community-developed plugins. Key features include map
-	#creation, spatial analysis, and data management.
-	#############################################################################
 
-	conda env create -f $HOME/WRF-MOSIT/qgis.3.28.8.yml
-
-	echo " "
 
 	########################## WRF Hydro GIS PreProcessor ##############################
 	#  Compiled with Conda
@@ -13561,10 +13765,10 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	read -r -t 5 -p "I am going to wait for 5 seconds only ..."
 	echo " "
 
-	############################ WRF ${WPS_VERSION}  #################################
+	############################ WRF #################################
 	## WRF v${WPS_VERSION}
 	## Downloaded from git tagged releases
-	# option 15, option 1 for intel and distributed memory w/basic nesting
+	# option 78, option 1 for intel and distributed memory w/basic nesting
 	# large file support enable with WRFiO_NCD_LARGE_FILE_SUPPORT=1
 	# In the namelist.input, the following settings support pNetCDF by setting  value to 11:
 	# io_form_boundary
@@ -13604,18 +13808,18 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	sed -i '919s/==/=/g' "${WRFHYDRO_FOLDER}"/WRFV${WRF_VERSION}/configure
 
 	if [ ${auto_config} -eq 1 ]; then
-		sed -i '443s/.*/  $response = "15 \\n";/g' "${WRFHYDRO_FOLDER}"/WRFV${WRF_VERSION}/arch/Config.pl # Answer for compiler choice
+		sed -i '443s/.*/  $response = "78 \\n";/g' "${WRFHYDRO_FOLDER}"/WRFV${WRF_VERSION}/arch/Config.pl # Answer for compiler choice
 		sed -i '909s/.*/  $response = "1 \\n";/g' "${WRFHYDRO_FOLDER}"/WRFV${WRF_VERSION}/arch/Config.pl  #Answer for basic nesting
 		./configure 2>&1 | tee configure.log
 	else
-		./configure 2>&1 | tee configure.log #Option 15 intel compiler with distributed memory option 1 for basic nesting
+		./configure 2>&1 | tee configure.log #option 78 intel compiler with distributed memory option 1 for basic nesting
 	fi
 
 	sed -i '63s/mpif90/mpiifort/g' "${WRFHYDRO_FOLDER}"/WRFV${WRF_VERSION}/hydro/macros
 	#Need to remove mpich/GNU config calls to Intel config calls
-	sed -i '169s|mpif90 -f90=$(SFC)|mpiifort|g' "${WRFHYDRO_FOLDER}"/WRFV${WRF_VERSION}/configure.wrf
-	sed -i '170s|mpicc -cc=$(SCC)|mpiicc|g' "${WRFHYDRO_FOLDER}"/WRFV${WRF_VERSION}/configure.wrf
-	sed -i '177s|-w -O3|-diag-disable=10441 -w -O3|g' "${WRFHYDRO_FOLDER}"/WRFV${WRF_VERSION}/configure.wrf
+	sed -i '136s|mpif90 -f90=$(SFC)|mpiifx|g' "${WRFHYDRO_FOLDER}"/WRFV${WRF_VERSION}/configure.wrf
+	sed -i '137s|mpicc -cc=$(SCC)|mpiicx|g' "${WRFHYDRO_FOLDER}"/WRFV${WRF_VERSION}/configure.wrf
+
 	./compile -j $CPU_HALF_EVEN em_real 2>&1 | tee compile.wrf1.log
 
 	export WRF_DIR="${WRFHYDRO_FOLDER}"/WRFV${WRF_VERSION}
@@ -13646,7 +13850,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 	echo " "
 
-	############################WPSV${WPS_VERSION}#####################################
+	############################WPS#####################################
 	## WPS v${WPS_VERSION}
 	## Downloaded from git tagged releases
 	#Option 3 for gfortran and distributed memory
@@ -13664,8 +13868,8 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 		./configure 2>&1 | tee configure.log #Option 19 intel compiler with distributed memory
 	fi
 
-	sed -i '67s|mpif90|mpiifort|g' "${WRFHYDRO_FOLDER}"/WPS-${WPS_VERSION}/configure.wps
-	sed -i '68s|mpicc|mpiicc|g' "${WRFHYDRO_FOLDER}"/WPS-${WPS_VERSION}/configure.wps
+	sed -i '67s|mpif90|mpiifx|g' "${WRFHYDRO_FOLDER}"/WPS-${WPS_VERSION}/configure.wps
+	sed -i '68s|mpicc|mpiicx|g' "${WRFHYDRO_FOLDER}"/WPS-${WPS_VERSION}/configure.wps
 
 	./compile 2>&1 | tee compile.wps.log
 
@@ -13822,6 +14026,8 @@ brew install xauth
 sleep 1
 brew install xorgproto
 sleep 1
+brew install xquartz
+sleep 1
 brew install xorgrgb
 sleep 1
 brew install xquartz
@@ -13945,6 +14151,7 @@ export PATH=/usr/local/bin:$PATH
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -13958,9 +14165,8 @@ export PATH=/usr/local/bin:$PATH
 
 	F90= ./configure --prefix=$DIR/MPICH --with-device=ch3 FFLAGS="$fallow_argument -m64" FCFLAGS="$fallow_argument -m64" 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
-
-	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -13985,6 +14191,7 @@ export PATH=/usr/local/bin:$PATH
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 	#make check
@@ -14001,6 +14208,7 @@ export PATH=/usr/local/bin:$PATH
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	export JASPERLIB=$DIR/grib2/lib
 	export JASPERINC=$DIR/grib2/include
@@ -14017,6 +14225,7 @@ export PATH=/usr/local/bin:$PATH
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -14043,6 +14252,7 @@ export PATH=/usr/local/bin:$PATH
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -14056,13 +14266,14 @@ export PATH=/usr/local/bin:$PATH
 	cd netcdf-c-$Netcdf_C_Version/
 	export CPPFLAGS=-I$DIR/grib2/include
 	export LDFLAGS=-L$DIR/grib2/lib
-	export LIBS="-lhdf5_hl -lhdf5 -lz -lcurl -lgfortran -lgcc -lm -ldl -lpnetcdf"
+	export LIBS="-lhdf5_hl -lhdf5 -lz -lcurl -lgcc -lm -ldl -lpnetcdf"
 	autoreconf -i -f 2>&1 | tee autoreconf.log
 
 	CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS=$CFLAGS ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-shared --enable-static --enable-pnetcdf --enable-cdf5 --enable-parallel-tests 2>&1 | tee configure.log
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -14077,13 +14288,14 @@ export PATH=/usr/local/bin:$PATH
 	export LD_LIBRARY_PATH=$DIR/NETCDF/lib:$LD_LIBRARY_PATH
 	export CPPFLAGS="-I$DIR/NETCDF/include -I$DIR/grib2/include"
 	export LDFLAGS="-L$DIR/NETCDF/lib -L$DIR/grib2/lib"
-	export LIBS="-lnetcdf -lpnetcdf -lcurl -lhdf5_hl -lhdf5 -lz -lm -ldl -lgcc -lgfortran"
+	export LIBS="-lnetcdf -lpnetcdf -lcurl -lhdf5_hl -lhdf5 -lz -lm -ldl -lgcc"
 	autoreconf -i -f 2>&1 | tee autoreconf.log
 
 	CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS=$CFLAGS ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-shared --enable-static --enable-parallel-tests --enable-hdf5 2>&1 | tee configure.log
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -14214,7 +14426,32 @@ export PATH=/usr/local/bin:$PATH
 	echo " All tests completed and passed"
 	echo " "
 
+  ################################OpenGrADS######################################
+	#Verison 2.2.1 64bit of Linux
+	#############################################################################
+	if [[ $GRADS_PICK -eq 1 ]]; then
+		cd "${WRFHYDRO_FOLDER}"/Downloads
+		wget -c -4 https://sourceforge.net/projects/opengrads/files/grads2/2.2.1.oga.1/macOS/opengrads-2.2.1.oga.1-bundle-x86_64-apple-darwin20.5.0.pkg
+    sudo -S installer -pkg opengrads-2.2.1.oga.1-bundle-x86_64-apple-darwin20.5.0.pkg -target /Applications/OpenGrads <<< "$PASSWD"
+
+	fi
+	################################## GrADS ###############################
+	# Version  2.2.1
+	# Sublibs library instructions: http://cola.gmu.edu/grads/gadoc/supplibs2.html
+	# GrADS instructions: http://cola.gmu.edu/grads/downloads.php
+	########################################################################
+	if [[ $GRADS_PICK -eq 2 ]]; then
+
+		brew install grads
+
+	fi
+
+
+
+
+######################################################################
 	#Installing Miniconda3 to WRF directory and updating libraries
+######################################################################
 	pip install --upgrade --force-reinstall zstandard
 	pip install --upgrade --force-reinstall zstd
 	pip3 install --upgrade --force-reinstall zstandard
@@ -14281,15 +14518,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 	echo " "
 
-	################################## QGIS #####################################
-	#QGIS (Quantum Geographic Information System) is a free and open-source platform that allows users to
-	#analyze, view, and edit geospatial data. It supports both vector and raster layers, as well as various #web services, and is extensible through community-developed plugins. Key features include map
-	#creation, spatial analysis, and data management.
-	#############################################################################
 
-	conda env create -f $HOME/WRF-MOSIT/qgis.3.28.8.yml
-
-	echo " "
 
 	########################## WRF Hydro GIS PreProcessor ##############################
 	#  Compiled with Conda
@@ -14341,7 +14570,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	ls -lah RUN/*.exe #Test to see if .exe files have compiled
 
 	echo " "
-	############################ WRF ${WPS_VERSION}  #################################
+	############################ WRF #################################
 	## WRF v${WPS_VERSION}
 	## Downloaded from git tagged releases
 	# option 21, option 1 for gfortran and distributed memory w/basic nesting
@@ -14410,7 +14639,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 	echo " "
 
-	############################WPSV${WPS_VERSION}#####################################
+	############################WPS#####################################
 	## WPS v${WPS_VERSION}
 	## Downloaded from git tagged releases
 	#Option 3 for gfortran and distributed memory
@@ -14581,6 +14810,8 @@ brew install xauth
 sleep 1
 brew install xorgproto
 sleep 1
+brew install xquartz
+sleep 1
 brew install xorgrgb
 sleep 1
 brew install xquartz
@@ -14720,6 +14951,7 @@ export PATH=/usr/local/bin:$PATH
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -14733,9 +14965,8 @@ export PATH=/usr/local/bin:$PATH
 
 	F90= ./configure --prefix=$DIR/MPICH --with-device=ch3 FFLAGS="$fallow_argument -m64" FCFLAGS="$fallow_argument -m64" 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
-
-	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -14760,6 +14991,7 @@ export PATH=/usr/local/bin:$PATH
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 	#make check
@@ -14776,6 +15008,7 @@ export PATH=/usr/local/bin:$PATH
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	export JASPERLIB=$DIR/grib2/lib
 	export JASPERINC=$DIR/grib2/include
@@ -14792,6 +15025,7 @@ export PATH=/usr/local/bin:$PATH
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -14818,6 +15052,7 @@ export PATH=/usr/local/bin:$PATH
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -14838,6 +15073,7 @@ export PATH=/usr/local/bin:$PATH
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -14859,6 +15095,7 @@ export PATH=/usr/local/bin:$PATH
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -14989,7 +15226,31 @@ export PATH=/usr/local/bin:$PATH
 	echo " All tests completed and passed"
 	echo " "
 
+
+
+  ################################OpenGrADS######################################
+	#Verison 2.2.1 64bit of Linux
+	#############################################################################
+	if [[ $GRADS_PICK -eq 1 ]]; then
+		cd "${WRFHYDRO_FOLDER}"/Downloads
+		wget -c -4 https://sourceforge.net/projects/opengrads/files/grads2/2.2.1.oga.1/macOS/opengrads-2.2.1.oga.1-bundle-x86_64-apple-darwin20.5.0.pkg
+                sudo -S installer -pkg opengrads-2.2.1.oga.1-bundle-x86_64-apple-darwin20.5.0.pkg -target /Applications/OpenGrads <<< "$PASSWD"
+		export PATH="${WRF_FOLDER}"/GrADS/Contents:$PATH
+	fi
+	################################## GrADS ###############################
+	# Version  2.2.1
+	# Sublibs library instructions: http://cola.gmu.edu/grads/gadoc/supplibs2.html
+	# GrADS instructions: http://cola.gmu.edu/grads/downloads.php
+	########################################################################
+	if [[ $GRADS_PICK -eq 2 ]]; then
+
+		brew install grads
+
+	fi
+
+##################################################################
 	#Installing Miniconda3 to WRF directory and updating libraries
+##################################################################
 	pip install --upgrade --force-reinstall zstandard
 	pip install --upgrade --force-reinstall zstd
 	pip3 install --upgrade --force-reinstall zstandard
@@ -15056,15 +15317,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 	echo " "
 
-	################################## QGIS #####################################
-	#QGIS (Quantum Geographic Information System) is a free and open-source platform that allows users to
-	#analyze, view, and edit geospatial data. It supports both vector and raster layers, as well as various #web services, and is extensible through community-developed plugins. Key features include map
-	#creation, spatial analysis, and data management.
-	#############################################################################
 
-	conda env create -f $HOME/WRF-MOSIT/qgis.3.28.8.yml
-
-	echo " "
 
 	########################## WRF Hydro GIS PreProcessor ##############################
 	#  Compiled with Conda
@@ -15116,7 +15369,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	ls -lah RUN/*.exe #Test to see if .exe files have compiled
 
 	echo " "
-	############################ WRF ${WPS_VERSION}  #################################
+	############################ WRF #################################
 	## WRF v${WPS_VERSION}
 	## Downloaded from git tagged releases
 	# option 21, option 1 for gfortran and distributed memory w/basic nesting
@@ -15182,7 +15435,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	fi
 
 	echo " "
-	############################WPSV${WPS_VERSION}#####################################
+	############################WPS#####################################
 	## WPS v${WPS_VERSION}
 	## Downloaded from git tagged releases
 	#Option 3 for gfortran and distributed memory
@@ -15425,6 +15678,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -15440,6 +15694,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	# make check
 
@@ -15463,6 +15718,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 	echo " "
@@ -15477,6 +15733,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -15494,6 +15751,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -15519,6 +15777,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -15539,6 +15798,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -15559,6 +15819,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -15832,6 +16093,20 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 
 	sed -i -e 's/-C -P -traditional/-P -traditional/g' "${WRFHYDRO_FOLDER}"/ARWpost/configure.arwp
 	./compile
+
+  #IF statement to check that all files were created.
+	cd "${WRFHYDRO_FOLDER}"/ARWpost
+	n=$(ls ./*.exe | wc -l)
+	if (($n == 1)); then
+		echo "All expected files created."
+		read -r -t 5 -p "Finished installing ARWpost. I am going to wait for 5 seconds only ..."
+	else
+		echo "Missing one or more expected files. Exiting the script."
+		read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
+		exit
+	fi
+
+	echo " "
 
 	export PATH="${WRFHYDRO_FOLDER}"/ARWpost/ARWpost.exe:$PATH
 
@@ -16083,7 +16358,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 	read -r -t 5 -p "I am going to wait for 5 seconds only ..."
 	echo " "
-	############################ WRF ${WPS_VERSION}  #################################
+	############################ WRF #################################
 	## WRF v${WPS_VERSION}
 	## Downloaded from git tagged releases
 	# option 34, option 1 for gfortran and distributed memory w/basic nesting
@@ -16157,7 +16432,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	fi
 
 	echo " "
-	############################WPSV${WPS_VERSION}#####################################
+	############################WPS#####################################
 	## WPS v${WPS_VERSION}
 	## Downloaded from git tagged releases
 	#Option 3 for gfortran and distributed memory
@@ -16409,6 +16684,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -16424,6 +16700,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	# make check
 
@@ -16447,6 +16724,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 	echo " "
@@ -16461,6 +16739,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -16477,6 +16756,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -16502,6 +16782,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -16522,6 +16803,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -16542,6 +16824,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -16816,6 +17099,20 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 	sed -i -e 's/-C -P -traditional/-P -traditional/g' "${WRFHYDRO_FOLDER}"/ARWpost/configure.arwp
 	./compile
 
+  #IF statement to check that all files were created.
+	cd "${WRFHYDRO_FOLDER}"/ARWpost
+	n=$(ls ./*.exe | wc -l)
+	if (($n == 1)); then
+		echo "All expected files created."
+		read -r -t 5 -p "Finished installing ARWpost. I am going to wait for 5 seconds only ..."
+	else
+		echo "Missing one or more expected files. Exiting the script."
+		read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
+		exit
+	fi
+
+	echo " "
+
 	export PATH="${WRFHYDRO_FOLDER}"/ARWpost/ARWpost.exe:$PATH
 
 	echo " "
@@ -17019,7 +17316,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 	read -r -t 5 -p "I am going to wait for 5 seconds only ..."
 	echo " "
-	############################ WRF ${WPS_VERSION}  #################################
+	############################ WRF #################################
 	## WRF v${WPS_VERSION}
 	## Downloaded from git tagged releases
 	# option 34, option 1 for gfortran and distributed memory w/basic nesting
@@ -17091,7 +17388,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	fi
 
 	echo " "
-	############################WPSV${WPS_VERSION}#####################################
+	############################WPS#####################################
 	## WPS v${WPS_VERSION}
 	## Downloaded from git tagged releases
 	#Option 3 for gfortran and distributed memory
@@ -17339,6 +17636,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -17352,6 +17650,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	F90= ./configure --prefix=$DIR/MPICH --with-device=ch3 FFLAGS="$fallow_argument -m64" FCFLAGS="$fallow_argument -m64" 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -17374,6 +17673,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 	echo " "
@@ -17386,6 +17686,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -17402,6 +17703,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS ./configure --prefix=$DIR/grib2 --with-zlib=$DIR/grib2 --enable-hl --enable-fortran --enable-parallel 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -17427,6 +17729,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	./configure --prefix=$DIR/grib2 --enable-shared --enable-static 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -17446,6 +17749,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS=$CFLAGS ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-shared --enable-static --enable-pnetcdf --enable-cdf5 --enable-parallel-tests 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -17465,6 +17769,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS=$CFLAGS ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-shared --enable-static --enable-parallel-tests --enable-hdf5 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -17725,6 +18030,20 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	sed -i -e 's/-C -P -traditional/-P -traditional/g' "${WRFCHEM_FOLDER}"/ARWpost/configure.arwp
 	./compile
 
+  #IF statement to check that all files were created.
+	cd "${WRFCHEM_FOLDER}"/ARWpost
+	n=$(ls ./*.exe | wc -l)
+	if (($n == 1)); then
+		echo "All expected files created."
+		read -r -t 5 -p "Finished installing ARWpost. I am going to wait for 5 seconds only ..."
+	else
+		echo "Missing one or more expected files. Exiting the script."
+		read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
+		exit
+	fi
+
+	echo " "
+
 	export PATH="${WRFCHEM_FOLDER}"/ARWpost/ARWpost.exe:$PATH
 
 	echo " "
@@ -17951,15 +18270,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	conda deactivate
 	conda deactivate
 
-	################################## QGIS #####################################
-	#QGIS (Quantum Geographic Information System) is a free and open-source platform that allows users to
-	#analyze, view, and edit geospatial data. It supports both vector and raster layers, as well as various #web services, and is extensible through community-developed plugins. Key features include map
-	#creation, spatial analysis, and data management.
-	#############################################################################
 
-	conda env create -f $HOME/WRF-MOSIT/qgis.3.28.8.yml
-
-	echo " "
 
 
 	############################WRFDA 3DVAR###############################
@@ -18120,7 +18431,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	fi
 
 	echo " "
-	############################WPSV${WPS_VERSION}#####################################
+	############################WPS#####################################
 	## WPS v${WPS_VERSION}
 	## Downloaded from git tagged releases
 	#Option 3 for gfortran and distributed memory
@@ -18284,17 +18595,17 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	source /opt/intel/oneapi/setvars.sh
 
 	# some of the libraries we install below need one or more of these variables
-	export CC=icc
-	export CXX=icpc
-	export FC=ifort
-	export F77=ifort
-	export F90=ifort
-	export MPIFC=mpiifort
-	export MPIF77=mpiifort
-	export MPIF90=mpiifort
-	export MPICC=mpiicc
+	export CC=icx
+	export CXX=icpx
+	export FC=ifx
+	export F77=ifx
+	export F90=ifx
+	export MPIFC=mpiifx
+	export MPIF77=mpiifx
+	export MPIF90=mpiifx
+	export MPICC=mpiicx
 	export MPICXX=mpiicpc
-	export CFLAGS="-fPIC -fPIE -O3 -diag-disable=10441 "
+	export CFLAGS="-fPIC -fPIE -O3 -Wno-implicit-function-declaration -Wno-incompatible-function-pointer-types -Wno-unused-command-line-argument"
 	export FFLAGS="-m64"
 	export FCFLAGS="-m64"
 	############################# CPU Core Management ####################################
@@ -18360,10 +18671,10 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	cd zlib-$Zlib_Version/
 	autoreconf -i -f 2>&1 | tee autoreconf.log
 
-	CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS=$CFLAGS CFLAGS=$CFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
+	CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS=$CFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
-	# make check | tee zlib.makecheck.log
+	make -j $CPU_HALF_EVEN 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 
 	echo " "
@@ -18379,10 +18690,10 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	cd libpng-$Libpng_Version/
 	autoreconf -i -f 2>&1 | tee autoreconf.log
 
-	CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS=$CFLAGS CFLAGS=$CFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
+	CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS=$CFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
-	#make -j $CPU_HALF_EVEN check | tee libpng.makecheck.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 
 	echo " "
@@ -18393,9 +18704,10 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	cd jasper-$Jasper_Version/
 	autoreconf -i -f 2>&1 | tee autoreconf.log
 
-	CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS=$CFLAGS CFLAGS=$CFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
+	CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS=$CFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 
 	# other libraries below need these variables to be set
@@ -18410,9 +18722,10 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	cd hdf5-$HDF5_Version-$HDF5_Sub_Version
 	autoreconf -i -f 2>&1 | tee autoreconf.log
 
-	CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS=$CFLAGS CFLAGS=$CFLAGS ./configure --prefix=$DIR/grib2 --with-zlib=$DIR/grib2 --enable-hl --enable-fortran --enable-parallel 2>&1 | tee configure.log
+	CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS=$CFLAGS ./configure --prefix=$DIR/grib2 --with-zlib=$DIR/grib2 --enable-hl --enable-fortran --enable-parallel 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 
 	# other libraries below need these variables to be set
@@ -18434,6 +18747,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	./configure --prefix=$DIR/grib2 --enable-shared --enable-static 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -18450,12 +18764,13 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	# these variables need to be set for the NetCDF-C install to work
 	export CPPFLAGS=-I$DIR/grib2/include
 	export LDFLAGS=-L$DIR/grib2/lib
-	export LIBS="-lhdf5_hl -lhdf5 -lz -lcurl -lgfortran -lgcc -lm -ldl -lpnetcdf"
+	export LIBS="-lhdf5_hl -lhdf5 -lz -lcurl -lgcc -lm -ldl -lpnetcdf"
 	autoreconf -i -f 2>&1 | tee autoreconf.log
 
-	CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS=$CFLAGS CFLAGS=$CFLAGS ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-shared --enable-static --enable-pnetcdf --enable-cdf5 --enable-parallel-tests 2>&1 | tee configure.log
+	CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS=$CFLAGS ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-shared --enable-static --enable-pnetcdf --enable-cdf5 --enable-parallel-tests 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 
 	# other libraries below need these variables to be set
@@ -18473,12 +18788,13 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	export LD_LIBRARY_PATH=$DIR/NETCDF/lib:$LD_LIBRARY_PATH
 	export CPPFLAGS="-I$DIR/NETCDF/include -I$DIR/grib2/include"
 	export LDFLAGS="-L$DIR/NETCDF/lib -L$DIR/grib2/lib"
-	export LIBS="-lnetcdf -lpnetcdf -lcurl -lhdf5_hl -lhdf5 -lz -lm -ldl -lgcc -lgfortran"
+	export LIBS="-lnetcdf -lpnetcdf -lcurl -lhdf5_hl -lhdf5 -lz -lm -ldl -lgcc"
 	autoreconf -i -f 2>&1 | tee autoreconf.log
 
 	CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS=$CFLAGS ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-shared --enable-static --enable-parallel-tests --enable-hdf5 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 
 	echo " "
@@ -18651,9 +18967,13 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 		./configure #Option 4 intel compiler with distributed memory
 	fi
 
-	sed -i '24s/ mpif90/ mpiifort/g' "${WRFCHEM_FOLDER}"/UPPV4.1/configure.upp
-	sed -i '25s/ mpif90/ mpiifort/g' "${WRFCHEM_FOLDER}"/UPPV4.1/configure.upp
-	sed -i '26s/ mpicc/ mpiicc/g' "${WRFCHEM_FOLDER}"/UPPV4.1/configure.upp
+  sed -i '20s/ ifort/ ifx/g' "${WRFCHEM_FOLDER}"/UPPV4.1/configure.upp
+	sed -i '21s/ ifort/ ifx/g' "${WRFCHEM_FOLDER}"/UPPV4.1/configure.upp
+	sed -i '22s/ icc/ icx/g' "${WRFCHEM_FOLDER}"/UPPV4.1/configure.upp
+
+	sed -i '24s/ mpif90/ mpiifx/g' "${WRFCHEM_FOLDER}"/UPPV4.1/configure.upp
+	sed -i '25s/ mpif90/ mpiifx/g' "${WRFCHEM_FOLDER}"/UPPV4.1/configure.upp
+	sed -i '26s/ mpicc/ mpiicx/g' "${WRFCHEM_FOLDER}"/UPPV4.1/configure.upp
 
 	./compile
 	cd "${WRFCHEM_FOLDER}"/UPPV4.1/scripts
@@ -18692,10 +19012,26 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 		./configure #Option 2 intel compiler with distributed memory
 	fi
 
-	sed -i -e 's/-C -P -traditional/-P -traditional/g' "${WRFCHEM_FOLDER}"/ARWpost/configure.arwp
-	./compile
+  sed -i -e '31s/ifort/ifx/g' "${WRFCHEM_FOLDER}"/ARWpost/configure.arwp
+  	sed -i -e '36s/gcc/icx/g' "${WRFCHEM_FOLDER}"/ARWpost/configure.arwp
+  	sed -i -e '38s/-C -P -traditional/-P -traditional/g' "${WRFCHEM_FOLDER}"/ARWpost/configure.arwp
+  	./compile
 
-	export PATH="${WRFCHEM_FOLDER}"/ARWpost/ARWpost.exe:$PATH
+    #IF statement to check that all files were created.
+  	cd "${WRFCHEM_FOLDER}"/ARWpost
+  	n=$(ls ./*.exe | wc -l)
+  	if (($n == 1)); then
+  		echo "All expected files created."
+  		read -r -t 5 -p "Finished installing ARWpost. I am going to wait for 5 seconds only ..."
+  	else
+  		echo "Missing one or more expected files. Exiting the script."
+  		read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
+  		exit
+  	fi
+
+  	echo " "
+
+  	export PATH="${WRFHYDRO_FOLDER}"/ARWpost/ARWpost.exe:$PATH
 
 	echo " "
 	################################OpenGrADS######################################
@@ -18803,15 +19139,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 	echo " "
 
-	################################## QGIS #####################################
-	#QGIS (Quantum Geographic Information System) is a free and open-source platform that allows users to
-	#analyze, view, and edit geospatial data. It supports both vector and raster layers, as well as various #web services, and is extensible through community-developed plugins. Key features include map
-	#creation, spatial analysis, and data management.
-	#############################################################################
 
-	conda env create -f $HOME/WRF-MOSIT/qgis.3.28.8.yml
-
-	echo " "
 
 	############################WRFDA 3DVAR###############################
 	## WRFDA v${WPS_VERSION} 3DVAR
@@ -18842,16 +19170,16 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	./clean -a
 
 	if [ ${auto_config} -eq 1 ]; then
-		echo 15 | ./configure wrfda 2>&1 | tee configure.log #Option 15 for intel and distribunted memory
+		echo 15 | ./configure wrfda 2>&1 | tee configure.log #option 78 for intel and distribunted memory
 	else
-		./configure wrfda 2>&1 | tee configure.log #Option 15 for intel and distribunted memory
+		./configure wrfda 2>&1 | tee configure.log #option 78 for intel and distribunted memory
 	fi
 	echo " "
 
 	#Need to remove mpich/GNU config calls to Intel config calls
-	sed -i '169s|mpif90 -f90=$(SFC)|mpiifort|g' "${WRFCHEM_FOLDER}"/WRFDA/configure.wrf
-	sed -i '170s|mpicc -cc=$(SCC)|mpiicc|g' "${WRFCHEM_FOLDER}"/WRFDA/configure.wrf
-	sed -i '177s|-w -O3|-diag-disable=10441 -w -O3|g' "${WRFCHEM_FOLDER}"/WRFDA/configure.wrf
+	sed -i '136s|mpif90 -f90=$(SFC)|mpiifx|g' "${WRFCHEM_FOLDER}"/WRFDA/configure.wrf
+	sed -i '137s|mpicc -cc=$(SCC)|mpiicx|g' "${WRFCHEM_FOLDER}"/WRFDA/configure.wrf
+
 	./compile -j $CPU_HALF_EVEN all_wrfvar 2>&1 | tee compile.chem.wrfvar.log
 	echo " "
 
@@ -18882,10 +19210,10 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	fi
 	echo " "
 
-	############################ WRF ${WPS_VERSION}  #################################
+	############################ WRF #################################
 	## WRF v${WPS_VERSION}
 	## Downloaded from git tagged releases
-	# option 15, option 1 for intel and distributed memory w/basic nesting
+	# option 78, option 1 for intel and distributed memory w/basic nesting
 	# large file support enable with WRFiO_NCD_LARGE_FILE_SUPPORT=1
 	########################################################################
 
@@ -18922,18 +19250,18 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	./clean -a
 
 	if [ ${auto_config} -eq 1 ]; then
-		sed -i '443s/.*/  $response = "15 \\n";/g' "${WRFCHEM_FOLDER}"/WRFV${WRF_VERSION}/arch/Config.pl # Answer for compiler choice
+		sed -i '443s/.*/  $response = "78 \\n";/g' "${WRFCHEM_FOLDER}"/WRFV${WRF_VERSION}/arch/Config.pl # Answer for compiler choice
 		sed -i '909s/.*/  $response = "1 \\n";/g' "${WRFCHEM_FOLDER}"/WRFV${WRF_VERSION}/arch/Config.pl  #Answer for basic nesting
 		./configure 2>&1 | tee configure.log
 	else
-		./configure 2>&1 | tee configure.log #Option 15 intel compiler with distributed memory option 1 for basic nesting
+		./configure 2>&1 | tee configure.log #option 78 intel compiler with distributed memory option 1 for basic nesting
 	fi
 
 	#Need to remove mpich/GNU config calls to Intel config calls
-	sed -i '169s|mpif90 -f90=$(SFC)|mpiifort|g' "${WRFCHEM_FOLDER}"/WRFV${WRF_VERSION}/configure.wrf
-	sed -i '170s|mpicc -cc=$(SCC)|mpiicc|g' "${WRFCHEM_FOLDER}"/WRFV${WRF_VERSION}/configure.wrf
-	sed -i '177s|-w -O3|-diag-disable=10441 -w -O3|g' "${WRFCHEM_FOLDER}"/WRFV${WRF_VERSION}/configure.wrf
-	./compile -j $CPU_HALF_EVEN em_real 2>&1 | tee compile.wrf1_extra_flag.log
+	sed -i '136s|mpif90 -f90=$(SFC)|mpiifx|g' "${WRFCHEM_FOLDER}"/WRFV${WRF_VERSION}/configure.wrf
+	sed -i '137s|mpicc -cc=$(SCC)|mpiicx|g' "${WRFCHEM_FOLDER}"/WRFV${WRF_VERSION}/configure.wrf
+
+	./compile -j $CPU_HALF_EVEN em_real 2>&1 | tee compile.wrf1.log
 	./compile -j $CPU_HALF_EVEN emi_conv 2>&1 | tee compile.emis.log
 
 	export WRF_DIR="${WRFCHEM_FOLDER}"/WRFV${WRF_VERSION}
@@ -18962,7 +19290,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	fi
 
 	echo " "
-	############################WPSV${WPS_VERSION}#####################################
+	############################WPS#####################################
 	## WPS v${WPS_VERSION}
 	## Downloaded from git tagged releases
 	#Option 3 for gfortran and distributed memory
@@ -18980,8 +19308,8 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 		./configure 2>&1 | tee configure.log #Option 19 intel compiler with distributed memory
 	fi
 
-	sed -i '67s|mpif90|mpiifort|g' "${WRFCHEM_FOLDER}"/WPS-${WPS_VERSION}/configure.wps
-	sed -i '68s|mpicc|mpiicc|g' "${WRFCHEM_FOLDER}"/WPS-${WPS_VERSION}/configure.wps
+	sed -i '67s|mpif90|mpiifx|g' "${WRFCHEM_FOLDER}"/WPS-${WPS_VERSION}/configure.wps
+	sed -i '68s|mpicc|mpiicx|g' "${WRFCHEM_FOLDER}"/WPS-${WPS_VERSION}/configure.wps
 
 	./compile 2>&1 | tee compile.wps.log
 
@@ -19138,6 +19466,8 @@ brew install xauth
 sleep 1
 brew install xorgproto
 sleep 1
+brew install xquartz
+sleep 1
 brew install xorgrgb
 sleep 1
 brew install xquartz
@@ -19258,6 +19588,7 @@ export PATH=/usr/local/bin:$PATH
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -19296,6 +19627,7 @@ export PATH=/usr/local/bin:$PATH
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 	#make check
@@ -19328,6 +19660,7 @@ export PATH=/usr/local/bin:$PATH
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -19354,6 +19687,7 @@ export PATH=/usr/local/bin:$PATH
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -19374,6 +19708,7 @@ export PATH=/usr/local/bin:$PATH
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -19395,6 +19730,7 @@ export PATH=/usr/local/bin:$PATH
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -19526,7 +19862,32 @@ export PATH=/usr/local/bin:$PATH
 	echo " All tests completed and passed"
 	echo " "
 
+
+
+
+	################################OpenGrADS######################################
+	#Verison 2.2.1 64bit of Linux
+	#############################################################################
+	if [[ $GRADS_PICK -eq 1 ]]; then
+		cd "${WRFCHEM_FOLDER}"/Downloads
+		wget -c -4 https://sourceforge.net/projects/opengrads/files/grads2/2.2.1.oga.1/macOS/opengrads-2.2.1.oga.1-bundle-x86_64-apple-darwin20.5.0.pkg
+                sudo -S installer -pkg opengrads-2.2.1.oga.1-bundle-x86_64-apple-darwin20.5.0.pkg -target /Applications/OpenGrads <<< "$PASSWD"
+
+	fi
+	################################## GrADS ###############################
+	# Version  2.2.1
+	# Sublibs library instructions: http://cola.gmu.edu/grads/gadoc/supplibs2.html
+	# GrADS instructions: http://cola.gmu.edu/grads/downloads.php
+	########################################################################
+	if [[ $GRADS_PICK -eq 2 ]]; then
+
+		brew install grads
+
+	fi
+
+#####################################################################
 	#Installing Miniconda3 to WRF directory and updating libraries
+#####################################################################
 	pip install --upgrade --force-reinstall zstandard
 	pip install --upgrade --force-reinstall zstd
 	pip3 install --upgrade --force-reinstall zstandard
@@ -19593,15 +19954,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 	echo " "
 
-	################################## QGIS #####################################
-	#QGIS (Quantum Geographic Information System) is a free and open-source platform that allows users to
-	#analyze, view, and edit geospatial data. It supports both vector and raster layers, as well as various #web services, and is extensible through community-developed plugins. Key features include map
-	#creation, spatial analysis, and data management.
-	#############################################################################
 
-	conda env create -f $HOME/WRF-MOSIT/qgis.3.28.8.yml
-
-	echo " "
 
 	############################ WRFCHEM ${WPS_VERSION} #################################
 	## WRF CHEM v${WPS_VERSION}
@@ -19675,7 +20028,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	fi
 
 	echo " "
-	############################WPSV${WPS_VERSION}#####################################
+	############################WPS#####################################
 	## WPS v${WPS_VERSION}
 	## Downloaded from git tagged releases
 	#Option 3 for gfortran and distributed memory
@@ -19914,6 +20267,8 @@ brew install xauth
 sleep 1
 brew install xorgproto
 sleep 1
+brew install xquartz
+sleep 1
 brew install xorgrgb
 sleep 1
 brew install xquartz
@@ -20050,6 +20405,7 @@ export PATH=/usr/local/bin:$PATH
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -20088,6 +20444,7 @@ export PATH=/usr/local/bin:$PATH
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 	#make check
@@ -20120,6 +20477,7 @@ export PATH=/usr/local/bin:$PATH
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -20146,6 +20504,7 @@ export PATH=/usr/local/bin:$PATH
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -20166,6 +20525,7 @@ export PATH=/usr/local/bin:$PATH
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -20187,6 +20547,7 @@ export PATH=/usr/local/bin:$PATH
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -20318,7 +20679,30 @@ export PATH=/usr/local/bin:$PATH
 	echo " All tests completed and passed"
 	echo " "
 
-	#Installing Miniconda3 to WRF directory and updating libraries
+
+  	################################OpenGrADS######################################
+  	#Verison 2.2.1 64bit of Linux
+  	#############################################################################
+  	if [[ $GRADS_PICK -eq 1 ]]; then
+  		cd "${WRFCHEM_FOLDER}"/Downloads
+  		wget -c -4 https://sourceforge.net/projects/opengrads/files/grads2/2.2.1.oga.1/macOS/opengrads-2.2.1.oga.1-bundle-x86_64-apple-darwin20.5.0.pkg
+                  sudo -S installer -pkg opengrads-2.2.1.oga.1-bundle-x86_64-apple-darwin20.5.0.pkg -target /Applications/OpenGrads <<< "$PASSWD"
+
+  	fi
+  	################################## GrADS ###############################
+  	# Version  2.2.1
+  	# Sublibs library instructions: http://cola.gmu.edu/grads/gadoc/supplibs2.html
+  	# GrADS instructions: http://cola.gmu.edu/grads/downloads.php
+  	########################################################################
+  	if [[ $GRADS_PICK -eq 2 ]]; then
+
+  		brew install grads
+
+  	fi
+
+  #####################################################################
+  	#Installing Miniconda3 to WRF directory and updating libraries
+  #####################################################################
 	pip install --upgrade --force-reinstall zstandard
 	pip install --upgrade --force-reinstall zstd
 	pip3 install --upgrade --force-reinstall zstandard
@@ -20385,15 +20769,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 	echo " "
 
-	################################## QGIS #####################################
-	#QGIS (Quantum Geographic Information System) is a free and open-source platform that allows users to
-	#analyze, view, and edit geospatial data. It supports both vector and raster layers, as well as various #web services, and is extensible through community-developed plugins. Key features include map
-	#creation, spatial analysis, and data management.
-	#############################################################################
 
-	conda env create -f $HOME/WRF-MOSIT/qgis.3.28.8.yml
-
-	echo " "
 
 	############################ WRFCHEM ${WPS_VERSION} #################################
 	## WRF CHEM v${WPS_VERSION}
@@ -20467,7 +20843,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	fi
 
 	echo " "
-	############################WPSV${WPS_VERSION}#####################################
+	############################WPS#####################################
 	## WPS v${WPS_VERSION}
 	## Downloaded from git tagged releases
 	#Option 3 for gfortran and distributed memory
@@ -20776,6 +21152,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -20791,6 +21168,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	# make check
 
@@ -20814,6 +21192,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 	echo " "
@@ -20828,6 +21207,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -20845,6 +21225,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -20870,6 +21251,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -20890,6 +21272,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -20910,6 +21293,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -21184,7 +21568,21 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	sed -i -e 's/-C -P -traditional/-P -traditional/g' "${WRFCHEM_FOLDER}"/ARWpost/configure.arwp
 	./compile
 
-	export PATH="${WRFCHEM_FOLDER}"/ARWpost/ARWpost.exe:$PATH
+  #IF statement to check that all files were created.
+	cd "${WRFCHEM_FOLDER}"/ARWpost
+	n=$(ls ./*.exe | wc -l)
+	if (($n == 1)); then
+		echo "All expected files created."
+		read -r -t 5 -p "Finished installing ARWpost. I am going to wait for 5 seconds only ..."
+	else
+		echo "Missing one or more expected files. Exiting the script."
+		read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
+		exit
+	fi
+
+	echo " "
+
+	export PATH="${WRFHYDRO_FOLDER}"/ARWpost/ARWpost.exe:$PATH
 
 	echo " "
 	################################ OpenGrADS ##################################
@@ -21380,15 +21778,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 	echo " "
 
-	################################## QGIS #####################################
-	#QGIS (Quantum Geographic Information System) is a free and open-source platform that allows users to
-	#analyze, view, and edit geospatial data. It supports both vector and raster layers, as well as various #web services, and is extensible through community-developed plugins. Key features include map
-	#creation, spatial analysis, and data management.
-	#############################################################################
 
-	conda env create -f $HOME/WRF-MOSIT/qgis.3.28.8.yml
-
-	echo " "
 
 
 	############################WRFDA 3DVAR###############################
@@ -21545,7 +21935,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	fi
 
 	echo " "
-	############################WPSV${WPS_VERSION}#####################################
+	############################WPS#####################################
 	## WPS v${WPS_VERSION}
 	## Downloaded from git tagged releases
 	#Option 3 for gfortran and distributed memory
@@ -21799,6 +22189,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -21814,6 +22205,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	# make check
 
@@ -21837,6 +22229,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 	echo " "
@@ -21851,6 +22244,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -21868,6 +22262,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -21893,6 +22288,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -21913,6 +22309,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -21933,6 +22330,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -22207,7 +22605,21 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	sed -i -e 's/-C -P -traditional/-P -traditional/g' "${WRFCHEM_FOLDER}"/ARWpost/configure.arwp
 	./compile
 
-	export PATH="${WRFCHEM_FOLDER}"/ARWpost/ARWpost.exe:$PATH
+  #IF statement to check that all files were created.
+	cd "${WRFCHEM_FOLDER}"/ARWpost
+	n=$(ls ./*.exe | wc -l)
+	if (($n == 1)); then
+		echo "All expected files created."
+		read -r -t 5 -p "Finished installing ARWpost. I am going to wait for 5 seconds only ..."
+	else
+		echo "Missing one or more expected files. Exiting the script."
+		read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
+		exit
+	fi
+
+	echo " "
+
+	export PATH="${WRFHYDRO_FOLDER}"/ARWpost/ARWpost.exe:$PATH
 
 	echo " "
 
@@ -22380,15 +22792,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 
-	################################## QGIS #####################################
-	#QGIS (Quantum Geographic Information System) is a free and open-source platform that allows users to
-	#analyze, view, and edit geospatial data. It supports both vector and raster layers, as well as various #web services, and is extensible through community-developed plugins. Key features include map
-	#creation, spatial analysis, and data management.
-	#############################################################################
 
-	conda env create -f $HOME/WRF-MOSIT/qgis.3.28.8.yml
-
-	echo " "
 
 
 
@@ -22546,7 +22950,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	fi
 
 	echo " "
-	############################WPSV${WPS_VERSION}#####################################
+	############################WPS#####################################
 	## WPS v${WPS_VERSION}
 	## Downloaded from git tagged releases
 	#Option 3 for gfortran and distributed memory
@@ -22803,6 +23207,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -22817,6 +23222,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	F90= ./configure --prefix=$DIR/MPICH --with-device=ch3 FFLAGS=$fallow_argument FCFLAGS=$fallow_argument 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	# make check
 
@@ -22840,6 +23246,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 	echo " "
@@ -22853,6 +23260,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -22869,6 +23277,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS ./configure --prefix=$DIR/grib2 --with-zlib=$DIR/grib2 --enable-hl --enable-fortran --enable-parallel 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -22893,6 +23302,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	./configure --prefix=$DIR/grib2 --enable-shared --enable-static 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -22912,6 +23322,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS=$CFLAGS ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-shared --enable-static --enable-pnetcdf --enable-cdf5 --enable-parallel-tests 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -22931,6 +23342,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS=$CFLAGS ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-shared --enable-static --enable-parallel-tests --enable-hdf5 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -23205,7 +23617,20 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	sed -i -e 's/-C -P -traditional/-P -traditional/g' "${WRF_FOLDER}"/ARWpost/configure.arwp
 	./compile
 
-	export PATH="${WRF_FOLDER}"/ARWpost/ARWpost.exe:$PATH
+	#IF statement to check that all files were created.
+cd "${WRF_FOLDER}"/ARWpost
+n=$(ls ./*.exe | wc -l)
+if (($n == 1)); then
+  echo "All expected files created."
+  read -r -t 5 -p "Finished installing ARWpost. I am going to wait for 5 seconds only ..."
+else
+  echo "Missing one or more expected files. Exiting the script."
+  read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
+  exit
+fi
+
+echo " "
+      export PATH="${WRF_FOLDER}"/ARWpost/ARWpost.exe:$PATH
 
 	echo " "
 	################################ OpenGrADS ##################################
@@ -23414,17 +23839,9 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 	echo " "
 
-	################################## QGIS #####################################
-	#QGIS (Quantum Geographic Information System) is a free and open-source platform that allows users to
-	#analyze, view, and edit geospatial data. It supports both vector and raster layers, as well as various #web services, and is extensible through community-developed plugins. Key features include map
-	#creation, spatial analysis, and data management.
-	#############################################################################
 
-	conda env create -f $HOME/WRF-MOSIT/qgis.3.28.8.yml
 
-	echo " "
-
-	############################ WRF ${WPS_VERSION}  #################################
+	############################ WRF #################################
 	## WRF v${WPS_VERSION}
 	## Downloaded from git tagged releases
 	# option 34, option 1 for gfortran and distributed memory w/basic nesting
@@ -23484,7 +23901,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	fi
 
 	echo " "
-	############################WPSV${WPS_VERSION}#####################################
+	############################WPS#####################################
 	## WPS v${WPS_VERSION}
 	## Downloaded from git tagged releases
 	#Option 3 for gfortran and distributed memory
@@ -23770,17 +24187,17 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 
 	# some of the libraries we install below need one or more of these variables
 	# some of the libraries we install below need one or more of these variables
-	export CC=icc
-	export CXX=icpc
-	export FC=ifort
-	export F77=ifort
-	export F90=ifort
-	export MPIFC=mpiifort
-	export MPIF77=mpiifort
-	export MPIF90=mpiifort
-	export MPICC=mpiicc
+	export CC=icx
+	export CXX=icpx
+	export FC=ifx
+	export F77=ifx
+	export F90=ifx
+	export MPIFC=mpiifx
+	export MPIF77=mpiifx
+	export MPIF90=mpiifx
+	export MPICC=mpiicx
 	export MPICXX=mpiicpc
-	export CFLAGS="-fPIC -fPIE -O3 -diag-disable=10441 "
+	export CFLAGS="-fPIC -fPIE -O3 -Wno-implicit-function-declaration -Wno-incompatible-function-pointer-types -Wno-unused-command-line-argument"
 	export FFLAGS="-m64"
 	export FCFLAGS="-m64"
 	############################# CPU Core Management ####################################
@@ -23846,10 +24263,10 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	cd zlib-$Zlib_Version/
 	autoreconf -i -f 2>&1 | tee autoreconf.log
 
-	CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS=$CFLAGS CFLAGS=$CFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
+	CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS=$CFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
-	# make check | tee zlib.makecheck.log
+	make -j $CPU_HALF_EVEN 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 
 	echo " "
@@ -23865,10 +24282,10 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	cd libpng-$Libpng_Version/
 	autoreconf -i -f 2>&1 | tee autoreconf.log
 
-	CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS=$CFLAGS CFLAGS=$CFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
+	CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS=$CFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
-	#make -j $CPU_HALF_EVEN check | tee libpng.makecheck.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 
 	echo " "
@@ -23879,9 +24296,10 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	cd jasper-$Jasper_Version/
 	autoreconf -i -f 2>&1 | tee autoreconf.log
 
-	CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS=$CFLAGS CFLAGS=$CFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
+	CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS=$CFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 
 	# other libraries below need these variables to be set
@@ -23896,9 +24314,10 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	cd hdf5-$HDF5_Version-$HDF5_Sub_Version
 	autoreconf -i -f 2>&1 | tee autoreconf.log
 
-	CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS=$CFLAGS CFLAGS=$CFLAGS ./configure --prefix=$DIR/grib2 --with-zlib=$DIR/grib2 --enable-hl --enable-fortran --enable-parallel 2>&1 | tee configure.log
+	CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS=$CFLAGS ./configure --prefix=$DIR/grib2 --with-zlib=$DIR/grib2 --enable-hl --enable-fortran --enable-parallel 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 
 	# other libraries below need these variables to be set
@@ -23920,6 +24339,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	./configure --prefix=$DIR/grib2 --enable-shared --enable-static 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -23936,12 +24356,13 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	# these variables need to be set for the NetCDF-C install to work
 	export CPPFLAGS=-I$DIR/grib2/include
 	export LDFLAGS=-L$DIR/grib2/lib
-	export LIBS="-lhdf5_hl -lhdf5 -lz -lcurl -lgfortran -lgcc -lm -ldl -lpnetcdf"
+	export LIBS="-lhdf5_hl -lhdf5 -lz -lcurl -lgcc -lm -ldl -lpnetcdf"
 	autoreconf -i -f 2>&1 | tee autoreconf.log
 
-	CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS=$CFLAGS CFLAGS=$CFLAGS ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-shared --enable-static --enable-pnetcdf --enable-cdf5 --enable-parallel-tests 2>&1 | tee configure.log
+	CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS=$CFLAGS ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-shared --enable-static --enable-pnetcdf --enable-cdf5 --enable-parallel-tests 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 
 	# other libraries below need these variables to be set
@@ -23959,11 +24380,12 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	export LD_LIBRARY_PATH=$DIR/NETCDF/lib:$LD_LIBRARY_PATH
 	export CPPFLAGS="-I$DIR/NETCDF/include -I$DIR/grib2/include"
 	export LDFLAGS="-L$DIR/NETCDF/lib -L$DIR/grib2/lib"
-	export LIBS="-lnetcdf -lpnetcdf -lcurl -lhdf5_hl -lhdf5 -lz -lm -ldl -lgcc -lgfortran"
+	export LIBS="-lnetcdf -lpnetcdf -lcurl -lhdf5_hl -lhdf5 -lz -lm -ldl -lgcc"
 	autoreconf -i -f 2>&1 | tee autoreconf.log
-	CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS=$CFLAGS CFLAGS=$CFLAGS ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-parallel-tests --enable-hdf5 2>&1 | tee configure.log
+	CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS=$CFLAGS ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-parallel-tests --enable-hdf5 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 
 	echo " "
@@ -24109,6 +24531,11 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	export PNG_INC=$DIR/grib2/include
 	export NETCDF=$DIR/NETCDF
 
+  sed -i '7s|mpiifort|mpiifx|g' "${WRF_FOLDER}"/Downloads/NCEPlibs/macros.make.linux.intel
+	sed -i '8s|ifort|ifx|g' "${WRF_FOLDER}"/Downloads/NCEPlibs/macros.make.linux.intel
+	sed -i '9s|icc|icx|g' "${WRF_FOLDER}"/Downloads/NCEPlibs/macros.make.linux.intel
+	sed -i '74s|-DLINUX|-DLINUX -Wno-deprecated -Wno-implicit-function-declaration|g' "${WRF_FOLDER}"/Downloads/NCEPlibs/macros.make.linux.intel
+
 	if [ ${auto_config} -eq 1 ]; then
 		echo yes | ./make_ncep_libs.sh -s linux -c intel -d $DIR/nceplibs -o 0 -m 1 -a upp
 	else
@@ -24137,9 +24564,14 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 		./configure #Option 4 intel compiler with distributed memory
 	fi
 
-	sed -i '24s/ mpif90/ mpiifort/g' "${WRF_FOLDER}"/UPPV4.1/configure.upp
-	sed -i '25s/ mpif90/ mpiifort/g' "${WRF_FOLDER}"/UPPV4.1/configure.upp
-	sed -i '26s/ mpicc/ mpiicc/g' "${WRF_FOLDER}"/UPPV4.1/configure.upp
+  sed -i '20s/ ifort/ ifx/g' "${WRF_FOLDER}"/UPPV4.1/configure.upp
+	sed -i '21s/ ifort/ ifx/g' "${WRF_FOLDER}"/UPPV4.1/configure.upp
+	sed -i '22s/ icc/ icx/g' "${WRF_FOLDER}"/UPPV4.1/configure.upp
+
+	sed -i '24s/ mpif90/ mpiifx/g' "${WRF_FOLDER}"/UPPV4.1/configure.upp
+	sed -i '25s/ mpif90/ mpiifx/g' "${WRF_FOLDER}"/UPPV4.1/configure.upp
+	sed -i '26s/ mpicc/ mpiicx/g' "${WRF_FOLDER}"/UPPV4.1/configure.upp
+
 
 	./compile
 	cd "${WRF_FOLDER}"/UPPV4.1/scripts
@@ -24178,10 +24610,27 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 		./configure #Option 2 intel compiler with distributed memory
 	fi
 
-	sed -i -e 's/-C -P -traditional/-P -traditional/g' "${WRF_FOLDER}"/ARWpost/configure.arwp
+  sed -i -e '31s/ifort/ifx/g' "${WRF_FOLDER}"/ARWpost/configure.arwp
+  sed -i -e '36s/gcc/icx/g' "${WRF_FOLDER}"/ARWpost/configure.arwp
+  sed -i -e '38s/-C -P -traditional/-P -traditional/g' "${WRF_FOLDER}"/ARWpost/configure.arwp
+
 	./compile
 
-	export PATH="${WRF_FOLDER}"/ARWpost/ARWpost.exe:$PATH
+
+	#IF statement to check that all files were created.
+cd "${WRF_FOLDER}"/ARWpost
+n=$(ls ./*.exe | wc -l)
+if (($n == 1)); then
+  echo "All expected files created."
+  read -r -t 5 -p "Finished installing ARWpost. I am going to wait for 5 seconds only ..."
+else
+  echo "Missing one or more expected files. Exiting the script."
+  read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
+  exit
+fi
+
+echo " "
+      export PATH="${WRF_FOLDER}"/ARWpost/ARWpost.exe:$PATH
 
 	echo " "
 	################################OpenGrADS######################################
@@ -24291,20 +24740,12 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 	echo " "
 
-	################################## QGIS #####################################
-	#QGIS (Quantum Geographic Information System) is a free and open-source platform that allows users to
-	#analyze, view, and edit geospatial data. It supports both vector and raster layers, as well as various #web services, and is extensible through community-developed plugins. Key features include map
-	#creation, spatial analysis, and data management.
-	#############################################################################
 
-	conda env create -f $HOME/WRF-MOSIT/qgis.3.28.8.yml
 
-	echo " "
-
-	############################ WRF ${WPS_VERSION}  #################################
+	############################ WRF #################################
 	## WRF v${WPS_VERSION}
 	## Downloaded from git tagged releases
-	# option 15, option 1 for intel and distributed memory w/basic nesting
+	# option 78, option 1 for intel and distributed memory w/basic nesting
 	# large file support enable with WRFiO_NCD_LARGE_FILE_SUPPORT=1
 	########################################################################
 	cd "${WRF_FOLDER}"/Downloads
@@ -24321,17 +24762,16 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	./clean -a
 
 	if [ ${auto_config} -eq 1 ]; then
-		sed -i '443s/.*/  $response = "15 \\n";/g' "${WRF_FOLDER}"/WRFV${WRF_VERSION}/arch/Config.pl # Answer for compiler choice
+		sed -i '443s/.*/  $response = "78 \\n";/g' "${WRF_FOLDER}"/WRFV${WRF_VERSION}/arch/Config.pl # Answer for compiler choice
 		sed -i '909s/.*/  $response = "1 \\n";/g' "${WRF_FOLDER}"/WRFV${WRF_VERSION}/arch/Config.pl  #Answer for basic nesting
 		./configure 2>&1 | tee configure.log
 	else
-		./configure 2>&1 | tee configure.log #Option 15 intel compiler with distributed memory option 1 for basic nesting
+		./configure 2>&1 | tee configure.log #option 78 intel compiler with distributed memory option 1 for basic nesting
 	fi
 
 	#Need to remove mpich/GNU config calls to Intel config calls
-	sed -i '169s|mpif90 -f90=$(SFC)|mpiifort|g' "${WRF_FOLDER}"/WRFV${WRF_VERSION}/configure.wrf
-	sed -i '170s|mpicc -cc=$(SCC)|mpiicc|g' "${WRF_FOLDER}"/WRFV${WRF_VERSION}/configure.wrf
-	sed -i '177s|-w -O3|-diag-disable=10441 -w -O3|g' "${WRF_FOLDER}"/WRFV${WRF_VERSION}/configure.wrf
+	sed -i '136s|mpif90 -f90=$(SFC)|mpiifx|g' "${WRF_FOLDER}"/WRFV${WRF_VERSION}/configure.wrf
+	sed -i '137s|mpicc -cc=$(SCC)|mpiicx|g' "${WRF_FOLDER}"/WRFV${WRF_VERSION}/configure.wrf
 
 	./compile -j $CPU_HALF_EVEN em_real 2>&1 | tee compile.wrf1.log
 
@@ -24360,10 +24800,10 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	fi
 
 	echo " "
-	############################WPSV${WPS_VERSION}#####################################
+	############################WPS#####################################
 	## WPS v${WPS_VERSION}
 	## Downloaded from git tagged releases
-	#Option 3 for gfortran and distributed memory
+	#Option 19 for gfortran and distributed memory
 	########################################################################
 
 	cd "${WRF_FOLDER}"/Downloads
@@ -24378,8 +24818,8 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 		./configure 2>&1 | tee configure.log #Option 19 intel compiler with distributed memory
 	fi
 
-	sed -i '67s|mpif90|mpiifort|g' "${WRF_FOLDER}"/WPS-${WPS_VERSION}/configure.wps
-	sed -i '68s|mpicc|mpiicc|g' "${WRF_FOLDER}"/WPS-${WPS_VERSION}/configure.wps
+	sed -i '67s|mpif90|mpiifx|g' "${WRF_FOLDER}"/WPS-${WPS_VERSION}/configure.wps
+	sed -i '68s|mpicc|mpiicx|g' "${WRF_FOLDER}"/WPS-${WPS_VERSION}/configure.wps
 
 	./compile 2>&1 | tee compile.wps.log
 
@@ -24439,9 +24879,8 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	fi
 	echo " "
 
-	sed -i '169s|mpif90 -f90=$(SFC)|mpiifort|g' "${WRF_FOLDER}"/WRFPLUS/configure.wrf
-	sed -i '170s|mpicc -cc=$(SCC)|mpiicc|g' "${WRF_FOLDER}"/WRFPLUS/configure.wrf
-	sed -i '177s|-w -O3|-diag-disable=10441 -w -O3|g' "${WRF_FOLDER}"/WRFPLUS/configure.wrf
+	sed -i '136s|mpif90 -f90=$(SFC)|mpiifx|g' "${WRF_FOLDER}"/WRFPLUS/configure.wrf
+	sed -i '137s|mpicc -cc=$(SCC)|mpiicx|g' "${WRF_FOLDER}"/WRFPLUS/configure.wrf
 
 	./compile -j $CPU_HALF_EVEN wrfplus 2>&1 | tee wrfplus1.compile.log
 
@@ -24507,9 +24946,9 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	fi
 	echo " "
 
-	sed -i '169s|mpif90 -f90=$(SFC)|mpiifort|g' "${WRF_FOLDER}"/WRFDA/configure.wrf
-	sed -i '170s|mpicc -cc=$(SCC)|mpiicc|g' "${WRF_FOLDER}"/WRFDA/configure.wrf
-	sed -i '177s|-w -O3|-diag-disable=10441 -w -O3|g' "${WRF_FOLDER}"/WRFDA/configure.wrf
+	sed -i '136s|mpif90 -f90=$(SFC)|mpiifx|g' "${WRF_FOLDER}"/WRFDA/configure.wrf
+	sed -i '137s|mpicc -cc=$(SCC)|mpiicx|g' "${WRF_FOLDER}"/WRFDA/configure.wrf
+
 	./compile all_wrfvar 2>&1 | tee wrfda.compile.log
 	echo " "
 
@@ -24669,6 +25108,8 @@ brew install xauth
 sleep 1
 brew install xorgproto
 sleep 1
+brew install xquartz
+sleep 1
 brew install xorgrgb
 sleep 1
 brew install xquartz
@@ -24789,6 +25230,7 @@ export PATH=/usr/local/bin:$PATH
 	./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -24828,6 +25270,7 @@ export PATH=/usr/local/bin:$PATH
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -24842,6 +25285,7 @@ export PATH=/usr/local/bin:$PATH
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	export JASPERLIB=$DIR/grib2/lib
 	export JASPERINC=$DIR/grib2/include
@@ -24857,6 +25301,7 @@ export PATH=/usr/local/bin:$PATH
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS ./configure --prefix=$DIR/grib2 --with-zlib=$DIR/grib2 --enable-hl --enable-fortran --enable-parallel 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -24882,6 +25327,7 @@ export PATH=/usr/local/bin:$PATH
 	./configure --prefix=$DIR/grib2 --enable-shared --enable-static 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -24901,6 +25347,7 @@ export PATH=/usr/local/bin:$PATH
 	CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS=$CFLAGS ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-shared --enable-static --enable-pnetcdf --enable-cdf5 --enable-parallel-tests 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -24921,6 +25368,7 @@ export PATH=/usr/local/bin:$PATH
 	CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS=$CFLAGS ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-shared --enable-static --enable-parallel-tests --enable-hdf5 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -25052,7 +25500,30 @@ export PATH=/usr/local/bin:$PATH
 	echo " All tests completed and passed"
 	echo " "
 
+
+	################################OpenGrADS######################################
+	#Verison 2.2.1 64bit of Linux
+	#############################################################################
+	if [[ $GRADS_PICK -eq 1 ]]; then
+		cd "${WRF_FOLDER}"/Downloads
+		wget -c -4 https://sourceforge.net/projects/opengrads/files/grads2/2.2.1.oga.1/macOS/opengrads-2.2.1.oga.1-bundle-x86_64-apple-darwin20.5.0.pkg
+                sudo -S installer -pkg opengrads-2.2.1.oga.1-bundle-x86_64-apple-darwin20.5.0.pkg -target /Applications/OpenGrads <<< "$PASSWD"
+
+	fi
+	################################## GrADS ###############################
+	# Version  2.2.1
+	# Sublibs library instructions: http://cola.gmu.edu/grads/gadoc/supplibs2.html
+	# GrADS instructions: http://cola.gmu.edu/grads/downloads.php
+	########################################################################
+	if [[ $GRADS_PICK -eq 2 ]]; then
+
+		brew install grads
+
+	fi
+
+####################################################################
 	#Installing Miniconda3 to WRF directory and updating libraries
+####################################################################
 	pip install --upgrade --force-reinstall zstandard
 	pip install --upgrade --force-reinstall zstd
 	pip3 install --upgrade --force-reinstall zstandard
@@ -25122,17 +25593,9 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 	echo " "
 
-	################################## QGIS #####################################
-	#QGIS (Quantum Geographic Information System) is a free and open-source platform that allows users to
-	#analyze, view, and edit geospatial data. It supports both vector and raster layers, as well as various #web services, and is extensible through community-developed plugins. Key features include map
-	#creation, spatial analysis, and data management.
-	#############################################################################
 
-	conda env create -f $HOME/WRF-MOSIT/qgis.3.28.8.yml
 
-	echo " "
-
-	############################ WRF ${WPS_VERSION}  #################################
+	############################ WRF #################################
 	## WRF v${WPS_VERSION}
 	## Downloaded from git tagged releases
 	# option 17, option 1 for gfortran and distributed memory w/basic nesting
@@ -25187,7 +25650,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 		fi
 	fi
 	echo " "
-	############################WPSV${WPS_VERSION}#####################################
+	############################WPS#####################################
 	## WPS v${WPS_VERSION}
 	## Downloaded from git tagged releases
 	#Option 3 for gfortran and distributed memory
@@ -25480,6 +25943,8 @@ brew install xauth
 sleep 1
 brew install xorgproto
 sleep 1
+brew install xquartz
+sleep 1
 brew install xorgrgb
 sleep 1
 brew install xquartz
@@ -25616,6 +26081,7 @@ export PATH=/usr/local/bin:$PATH
 	./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -25631,6 +26097,7 @@ export PATH=/usr/local/bin:$PATH
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -25655,6 +26122,7 @@ export PATH=/usr/local/bin:$PATH
 
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -25669,6 +26137,7 @@ export PATH=/usr/local/bin:$PATH
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	export JASPERLIB=$DIR/grib2/lib
 	export JASPERINC=$DIR/grib2/include
@@ -25684,6 +26153,7 @@ export PATH=/usr/local/bin:$PATH
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS ./configure --prefix=$DIR/grib2 --with-zlib=$DIR/grib2 --enable-hl --enable-fortran --enable-parallel 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -25710,6 +26180,7 @@ export PATH=/usr/local/bin:$PATH
 	./configure --prefix=$DIR/grib2 --enable-shared --enable-static 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -25729,6 +26200,7 @@ export PATH=/usr/local/bin:$PATH
 	CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS=$CFLAGS ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-shared --enable-static --enable-pnetcdf --enable-cdf5 --enable-parallel-tests 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -25749,6 +26221,7 @@ export PATH=/usr/local/bin:$PATH
 	CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS=$CFLAGS ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-shared --enable-static --enable-parallel-tests --enable-hdf5 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -25880,7 +26353,29 @@ export PATH=/usr/local/bin:$PATH
 	echo " All tests completed and passed"
 	echo " "
 
+  ################################OpenGrADS######################################
+	#Verison 2.2.1 64bit of Linux
+	#############################################################################
+	if [[ $GRADS_PICK -eq 1 ]]; then
+		cd "${WRF_FOLDER}"/Downloads
+		wget -c -4 https://sourceforge.net/projects/opengrads/files/grads2/2.2.1.oga.1/macOS/opengrads-2.2.1.oga.1-bundle-x86_64-apple-darwin20.5.0.pkg
+                sudo -S installer -pkg opengrads-2.2.1.oga.1-bundle-x86_64-apple-darwin20.5.0.pkg -target /Applications/OpenGrads <<< "$PASSWD"
+
+	fi
+	################################## GrADS ###############################
+	# Version  2.2.1
+	# Sublibs library instructions: http://cola.gmu.edu/grads/gadoc/supplibs2.html
+	# GrADS instructions: http://cola.gmu.edu/grads/downloads.php
+	########################################################################
+	if [[ $GRADS_PICK -eq 2 ]]; then
+
+		brew install grads
+
+	fi
+
+####################################################################
 	#Installing Miniconda3 to WRF directory and updating libraries
+####################################################################
 	pip install --upgrade --force-reinstall zstandard
 	pip install --upgrade --force-reinstall zstd
 	pip3 install --upgrade --force-reinstall zstandard
@@ -25947,17 +26442,9 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 	echo " "
 
-	################################## QGIS #####################################
-	#QGIS (Quantum Geographic Information System) is a free and open-source platform that allows users to
-	#analyze, view, and edit geospatial data. It supports both vector and raster layers, as well as various #web services, and is extensible through community-developed plugins. Key features include map
-	#creation, spatial analysis, and data management.
-	#############################################################################
 
-	conda env create -f $HOME/WRF-MOSIT/qgis.3.28.8.yml
 
-	echo " "
-
-	############################ WRF ${WPS_VERSION}  #################################
+	############################ WRF #################################
 	## WRF v${WPS_VERSION}
 	## Downloaded from git tagged releases
 	# option 17, option 1 for gfortran and distributed memory w/basic nesting
@@ -26012,7 +26499,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 		fi
 	fi
 	echo " "
-	############################WPSV${WPS_VERSION}#####################################
+	############################WPS#####################################
 	## WPS v${WPS_VERSION}
 	## Downloaded from git tagged releases
 	#Option 3 for gfortran and distributed memory
@@ -26376,6 +26863,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -26391,6 +26879,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	# make check
 
@@ -26414,6 +26903,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 	echo " "
@@ -26428,6 +26918,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -26445,6 +26936,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -26471,6 +26963,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -26491,6 +26984,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -26511,6 +27005,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -26785,7 +27280,20 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	sed -i -e 's/-C -P -traditional/-P -traditional/g' "${WRF_FOLDER}"/ARWpost/configure.arwp
 	./compile
 
-	export PATH="${WRF_FOLDER}"/ARWpost/ARWpost.exe:$PATH
+	#IF statement to check that all files were created.
+cd "${WRF_FOLDER}"/ARWpost
+n=$(ls ./*.exe | wc -l)
+if (($n == 1)); then
+  echo "All expected files created."
+  read -r -t 5 -p "Finished installing ARWpost. I am going to wait for 5 seconds only ..."
+else
+  echo "Missing one or more expected files. Exiting the script."
+  read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
+  exit
+fi
+
+echo " "
+      export PATH="${WRF_FOLDER}"/ARWpost/ARWpost.exe:$PATH
 
 	echo " "
 	################################ OpenGrADS ##################################
@@ -26897,7 +27405,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	export NETCDF=$DIR/NETCDF
 
 	if [ ${auto_config} -eq 1 ]; then
-		echo 2 | ./configure 2>&1 | tee configure.log#Option 2 for gfortran/gcc and distribunted memory
+		echo 2 | ./configure 2>&1 | tee configure.log #Option 2 for gfortran/gcc and distribunted memory
 	else
 		./configure 2>&1 | tee configure.log #Option 2 for gfortran/gcc and distribunted memory
 	fi
@@ -26980,19 +27488,11 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	source $Miniconda_Install_DIR/etc/profile.d/conda.sh
 conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
-	################################## QGIS #####################################
-	#QGIS (Quantum Geographic Information System) is a free and open-source platform that allows users to
-	#analyze, view, and edit geospatial data. It supports both vector and raster layers, as well as various #web services, and is extensible through community-developed plugins. Key features include map
-	#creation, spatial analysis, and data management.
-	#############################################################################
 
-	conda env create -f $HOME/WRF-MOSIT/qgis.3.28.8.yml
-
-	echo " "
 
 
 	echo " "
-	############################ WRF ${WPS_VERSION}  #################################
+	############################ WRF #################################
 	## WRF v${WPS_VERSION}
 	## Downloaded from git tagged releases
 	# option 34, option 1 for gfortran and distributed memory w/basic nesting
@@ -27052,7 +27552,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	fi
 
 	echo " "
-	############################WPSV${WPS_VERSION}#####################################
+	############################WPS#####################################
 	## WPS v${WPS_VERSION}
 	## Downloaded from git tagged releases
 	#Option 3 for gfortran and distributed memory
@@ -27425,6 +27925,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRF_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -27440,6 +27941,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRF_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	# make check
 
@@ -27463,6 +27965,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRF_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 	echo " "
@@ -27477,6 +27980,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRF_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -27494,6 +27998,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRF_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -27519,6 +28024,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRF_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -27539,6 +28045,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRF_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -27559,6 +28066,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRF_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -27833,7 +28341,20 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRF_PICK" = "1" ]; then
 	sed -i -e 's/-C -P -traditional/-P -traditional/g' "${WRF_FOLDER}"/ARWpost/configure.arwp
 	./compile
 
-	export PATH="${WRF_FOLDER}"/ARWpost/ARWpost.exe:$PATH
+	#IF statement to check that all files were created.
+cd "${WRF_FOLDER}"/ARWpost
+n=$(ls ./*.exe | wc -l)
+if (($n == 1)); then
+  echo "All expected files created."
+  read -r -t 5 -p "Finished installing ARWpost. I am going to wait for 5 seconds only ..."
+else
+  echo "Missing one or more expected files. Exiting the script."
+  read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
+  exit
+fi
+
+echo " "
+      export PATH="${WRF_FOLDER}"/ARWpost/ARWpost.exe:$PATH
 
 	echo " "
 	################################ OpenGrADS ##################################
@@ -28029,19 +28550,11 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
 	echo " "
 
-	################################## QGIS #####################################
-	#QGIS (Quantum Geographic Information System) is a free and open-source platform that allows users to
-	#analyze, view, and edit geospatial data. It supports both vector and raster layers, as well as various #web services, and is extensible through community-developed plugins. Key features include map
-	#creation, spatial analysis, and data management.
-	#############################################################################
-
-	conda env create -f $HOME/WRF-MOSIT/qgis.3.28.8.yml
-
-	echo " "
 
 
 
-	############################ WRF ${WPS_VERSION}  #################################
+
+	############################ WRF #################################
 	## WRF v${WPS_VERSION}
 	## Downloaded from git tagged releases
 	# option 34, option 1 for gfortran and distributed memory w/basic nesting
@@ -28101,7 +28614,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	fi
 
 	echo " "
-	############################WPSV${WPS_VERSION}#####################################
+	############################WPS#####################################
 	## WPS v${WPS_VERSION}
 	## Downloaded from git tagged releases
 	#Option 3 for gfortran and distributed memory
@@ -28349,691 +28862,6 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	fi
 fi
 
-################################################################
-## HWRF installation with parallel process.
-# Download and install required library and data files for HWRF.
-# Tested in Ubuntu 20.0${WPS_VERSION} LTS & Ubuntu 22.04 LTS
-# Built in 64-bit system
-# Tested with current available libraries on 10/10/2023
-# Intel compilers utilized
-# Compatibile only with WRF 4.3.3 & WPS 4.3.1 with NMM core
-# If newer libraries exist edit script paths for changes
-# Estimated Run Time ~ 45 - 90 Minutes with 10mb/s downloadspeed.
-# Special thanks to:
-# Youtube's meteoadriatic, GitHub user jamal919.
-# University of Manchester's  Doug L
-# University of Tunis El Manar's Hosni
-# GSL's Jordan S.
-# NCAR's Mary B., Christine W., & Carl D.
-# DTC's Julie P., Tara J., George M., & John H.
-# UCAR's Katelyn F., Jim B., Jordan P., Kevin M.,
-##############################################################
-
-if [ "$HWRF_PICK" = "1" ]; then
-
-	############################# Basic package managment ############################
-
-	echo $PASSWD | sudo -S apt -y update
-	echo $PASSWD | sudo -S apt -y upgrade
-
-	# download the key to system keyring; this and the following echo command are
-	# needed in order to install the Intel compilers
-	wget -O- https://apt.repos.intel.com/intel-gpg-keys/GPG-PUB-KEY-INTEL-SW-PRODUCTS.PUB |
-		gpg --dearmor | sudo tee /usr/share/keyrings/oneapi-archive-keyring.gpg >/dev/null
-
-	# add signed entry to apt sources and configure the APT client to use Intel repository:
-	echo "deb [signed-by=/usr/share/keyrings/oneapi-archive-keyring.gpg] https://apt.repos.intel.com/oneapi all main" | sudo tee /etc/apt/sources.list.d/oneAPI.list
-
-	# this update should get the Intel package info from the Intel repository
-	echo $PASSWD | sudo -S apt -y update
-
-	# necessary binary packages (especially pkg-config and build-essential)
-	echo $PASSWD | sudo -S apt -y install autoconf automake bison build-essential byacc cmake csh curl default-jdk default-jre emacs flex g++ gawk gcc gfortran git ksh libcurl4-openssl-dev libjpeg-dev libncurses6 libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev m4 make  ncview okular openbox pipenv pkg-config  python3 python3-dev python3-pip python3-dateutil tcsh unzip xauth xorg time
-
-	# install the Intel compilers
-	echo $PASSWD | sudo -S apt -y install intel-basekit
-	echo $PASSWD | sudo -S apt -y install intel-hpckit
-	echo $PASSWD | sudo -S apt -y install intel-oneapi-python
-
-	echo $PASSWD | sudo -S apt -y update
-
-	# make sure some critical packages have been installed
-	which cmake pkg-config make gcc g++ gfortran
-
-	# add the Intel compiler file paths to various environment variables
-	source /opt/intel/oneapi/setvars.sh
-
-	# some of the libraries we install below need one or more of these variables
-	export CC=icc
-	export CXX=icpc
-	export FC=ifort
-	export F77=ifort
-	export F90=ifort
-	export MPIFC=mpiifort
-	export MPIF77=mpiifort
-	export MPIF90=mpiifort
-	export MPICC=mpiicc
-	export MPICXX=mpiicpc
-
-	############################# CPU Core Management ####################################
-
-	export CPU_CORE=$(nproc) # number of available cores on system
-	export CPU_6CORE="6"
-	export CPU_HALF=$(($CPU_CORE / 2)) # half of availble cores on system
-	# Forces CPU cores to even number to avoid partial core export. ie 7 cores would be 3.5 cores.
-	export CPU_HALF_EVEN=$(($CPU_HALF - ($CPU_HALF % 2)))
-
-	# If statement for low core systems.  Forces computers to only use 1 core if there are 4 cores or less on the system.
-	if [ $CPU_CORE -le $CPU_6CORE ]; then
-		export CPU_HALF_EVEN="2"
-	else
-		export CPU_HALF_EVEN=$(($CPU_HALF - ($CPU_HALF % 2)))
-	fi
-
-	echo "##########################################"
-	echo "Number of cores being used $CPU_HALF_EVEN"
-	echo "##########################################"
-
-	############################## Directory Listing ############################
-	# makes necessary directories
-
-	export HOME=$(
-		cd
-		pwd
-	)
-	mkdir $HOME/HWRF
-	export HWRF_FOLDER=$HOME/HWRF
-	cd "${HWRF_FOLDER}"
-	mkdir Downloads
-	mkdir Libs
-	export DIR="${HWRF_FOLDER}"/Libs
-	mkdir Libs/grib2
-	mkdir Libs/NETCDF
-	mkdir Libs/LAPACK
-
-	############################## Downloading Libraries ############################
-	# these are all the libraries we're installing, including HWRF itself
-
-	cd Downloads
-	wget -c https://github.com/madler/zlib/releases/download/v$Zlib_Version/zlib-$Zlib_Version.tar.gz
-	wget -c https://github.com/HDFGroup/hdf5/releases/download/hdf5_$HDF5_Version.$HDF5_Sub_Version/hdf5-$HDF5_Version-$HDF5_Sub_Version.tar.gz
-	wget -c https://github.com/Unidata/netcdf-c/archive/refs/tags/v$Netcdf_C_Version.tar.gz
-	wget -c https://github.com/Unidata/netcdf-fortran/archive/refs/tags/v$Netcdf_Fortran_Version.tar.gz
-	wget -c https://download.sourceforge.net/libpng/libpng-$Libpng_Version.tar.gz
-	wget -c https://www.ece.uvic.ca/~frodo/jasper/software/jasper-$Jasper_Version.zip
-	wget -c https://github.com/pmodels/mpich/releases/download/v$Mpich_Version/mpich-$Mpich_Version.tar.gz
-	wget -c https://parallel-netcdf.github.io/Release/pnetcdf-$Pnetcdf_Version.tar.gz
-	wget -c https://sourceforge.net/projects/opengrads/files/grads2/2.2.1.oga.1/Linux%20%2864%20Bits%29/opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz
-	wget -c https://github.com/Reference-LAPACK/lapack/archive/refs/tags/v3.10.1.tar.gz
-
-	wget -c https://dtcenter.org/sites/default/files/HWRF_v4.0a_hwrf-utilities.tar.gz
-	wget -c https://dtcenter.org/sites/default/files/HWRF_v4.0a_pomtc.tar.gz
-	wget -c https://dtcenter.org/sites/default/files/HWRF_v4.0a_ncep-coupler.tar.gz
-	wget -c https://dtcenter.org/sites/default/files/HWRF_v4.0a_gfdl-vortextracker.tar.gz
-	wget -c https://dtcenter.org/sites/default/files/HWRF_v4.0a_GSI.tar.gz
-	wget -c https://dtcenter.org/sites/default/files/HWRF_v4.0a_UPP.tar.gz
-	wget -c https://dtcenter.org/sites/default/files/HWRF_v4.0a_hwrfrun.tar.gz
-	wget -c https://dtcenter.org/community-code/hurricane-wrf-hwrf/datasets#data-4
-
-	############################# ZLib ############################
-
-	cd "${HWRF_FOLDER}"/Downloads
-	tar -xvzf zlib-$Zlib_Version.tar.gz
-	cd zlib-$Zlib_Version/
-	autoreconf -i -f 2>&1 | tee autoreconf.log
-	CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS=$CFLAGS CFLAGS="-fPIC -diag-disable=10441" ./configure --prefix=$DIR/grib2
-	automake -a -f 2>&1 | tee automake.log
-	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
-	# make check | tee zlib.makecheck.log
-	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log 2>&1 | tee zlib.makeinstall.log
-
-	############################# LibPNG ############################
-
-	cd "${HWRF_FOLDER}"/Downloads
-
-	# other libraries below need these variables to be set
-	export LDFLAGS=-L$DIR/grib2/lib
-	export CPPFLAGS=-I$DIR/grib2/include
-
-	tar -xvzf libpng-$Libpng_Version.tar.gz
-	cd libpng-$Libpng_Version/
-	autoreconf -i -f 2>&1 | tee autoreconf.log
-
-	CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS=$CFLAGS CFLAGS="-fPIC -diag-disable=10441" ./configure --prefix=$DIR/grib2
-
-	automake -a -f 2>&1 | tee automake.log
-	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
-	#make -j $CPU_HALF_EVEN check | tee libpng.makecheck.log
-	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
-
-	############################# JasPer ############################
-
-	cd "${HWRF_FOLDER}"/Downloads
-	unzip jasper-$Jasper_Version.zip
-	cd jasper-$Jasper_Version/
-	autoreconf -i -f 2>&1 | tee autoreconf.log
-
-	CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS=$CFLAGS CFLAGS="-fPIC -diag-disable=10441" ./configure --prefix=$DIR/grib2
-
-	automake -a -f 2>&1 | tee automake.log
-	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
-	#make -j $CPU_HALF_EVEN check | tee jasper.makecheck.log
-	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log 2>&1 2>&1 | tee make.install.log
-
-	# other libraries below need these variables to be set
-	export JASPERLIB=$DIR/grib2/lib
-	export JASPERINC=$DIR/grib2/include
-
-	############################# HDF5 library for NetCDF4 & parallel functionality ############################
-
-	cd "${HWRF_FOLDER}"/Downloads
-	tar -xvzf hdf5-$HDF5_Version-$HDF5_Sub_Version.tar.gz
-	cd hdf5-$HDF5_Version-$HDF5_Sub_Version
-	autoreconf -i -f 2>&1 | tee autoreconf.log
-
-	CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS=$CFLAGS CFLAGS="-fPIC -diag-disable=10441" ./configure --prefix=$DIR/grib2 --with-zlib=$DIR/grib2 --enable-hl --enable-fortran --enable-parallel
-
-	automake -a -f 2>&1 | tee automake.log
-	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
-	#make VERBOSE=1 -j $CPU_HALF_EVEN check | tee hdf5.makecheck.log
-	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log 2>&1 | tee make.install.log
-
-	# other libraries below need these variables to be set
-	export HDF5=$DIR/grib2
-	export LD_LIBRARY_PATH=$DIR/grib2/lib:$LD_LIBRARY_PATH
-	export PATH=$HDF5/bin:$PATH
-	export PHDF5=$DIR/grib2
-
-	############################# Install Parallel-NetCDF ##############################
-
-	cd "${HWRF_FOLDER}"/Downloads
-	tar -xvzf pnetcdf-$Pnetcdf_Version.tar.gz
-	cd pnetcdf-$Pnetcdf_Version
-
-	CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS=$CFLAGS CFLAGS="-fPIC -diag-disable=10441" ./configure --prefix=$DIR/grib2
-
-	make -j $CPU_HALF_EVEN | tee pnetcdf.make.log
-	#make check | tee pnetcdf.makecheck.log
-	#make ptests | tee ptests.log
-	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log 2>&1 | tee pnetcdf.makeinstall.log
-
-	# other libraries below need these variables to be set
-	export PNETCDF=$DIR/grib2
-
-	echo " "
-	export LD_LIBRARY_PATH=$PNETCDF/lib:$LD_LIBRARY_PATH
-	export PATH=$PNETCDF/bin:$PATH
-
-	############################## Install NETCDF-C Library ############################
-
-	cd "${HWRF_FOLDER}"/Downloads
-	tar -xzvf v$Netcdf_C_Version.tar.gz
-	cd netcdf-c-$Netcdf_C_Version/
-
-	# these variables need to be set for the NetCDF-C install to work
-	export CPPFLAGS=-I$DIR/grib2/include
-	export LDFLAGS=-L$DIR/grib2/lib
-	export LIBS="-lhdf5_hl -lhdf5 -lz -lcurl -lpnetcdf -lm -ldl"
-
-	CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS=$CFLAGS CFLAGS="-fPIC -diag-disable=10441" ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-pnetcdf --enable-parallel-tests 2>&1 | tee configure.log
-	automake -a -f 2>&1 | tee automake.log
-	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
-	#make check | tee netcdf.makecheck.log
-	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log 2>&1 | tee netcdf.makeinstall.log
-
-	# other libraries below need these variables to be set
-	export PATH=$DIR/NETCDF/bin:$PATH
-	export NETCDF=$DIR/NETCDF
-
-	############################## NetCDF-Fortran library ############################
-
-	cd "${HWRF_FOLDER}"/Downloads
-	tar -xvzf v$Netcdf_Fortran_Version.tar.gz
-	cd netcdf-fortran-$Netcdf_Fortran_Version/
-
-	# these variables need to be set for the NetCDF-Fortran install to work
-	export LD_LIBRARY_PATH=$DIR/NETCDF/lib:$LD_LIBRARY_PATH
-	export CPPFLAGS="-I$DIR/NETCDF/include -I$DIR/grib2/include"
-	export LDFLAGS="-L$DIR/NETCDF/lib -L$DIR/grib2/lib"
-	export LIBS="-lnetcdf -lpnetcdf -lm -lcurl -lhdf5_hl -lhdf5 -lz -ldl"
-
-	CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS=$CFLAGS CFLAGS="-fPIC -diag-disable=10441" ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-parallel-tests --enable-hdf5
-
-	automake -a -f 2>&1 | tee automake.log
-	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
-	#make check | tee netcdf-f.makecheck.log
-	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log 2>&1 2>&1 | tee make.install.log
-
-	############################ WRF 4.3.3 #################################
-	## WRF v4.3.3
-	## NMM core version 3.2
-	## Downloaded from git tagged release
-	# ifort/icc
-	# option 15, distributed memory (dmpar)
-	# large file support enable with WRFIO_NCD_LARGE_FILE_SUPPORT=1
-	########################################################################
-
-	cd "${HWRF_FOLDER}"/Downloads
-	wget -c https://github.com/wrf-model/WRF/archive/refs/tags/v4.3.3.tar.gz -O WRF-4.3.3.tar.gz
-	mkdir "${HWRF_FOLDER}"/WRF
-	tar -xvzf WRF-4.3.3.tar.gz -C "${HWRF_FOLDER}"/WRF
-	cd "${HWRF_FOLDER}"/WRF/WRF-4.3.3
-
-	./clean -a
-
-	# these variables need to be set for the WRF install to work
-	export HWRF=1
-	export WRF_NMM_CORE=1
-	export WRF_NMM_NEST=1
-	export JASPERLIB=$DIR/grib2/lib
-	export JASPERINC=$DIR/grib2/include
-	export PNETCDF_QUILT=1
-	export WRFIO_NCD_LARGE_FILE_SUPPORT=1
-	export NETCDF_classic=
-
-	# Removing user input for configure.  Choosing correct option for configure with Intel compilers
-	sed -i '420s/<STDIN>/15/g' "${HWRF_FOLDER}"/WRF/WRF-4.3.3/arch/Config.pl
-
-	CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS=$CFLAGS ./configure # option 15
-
-	# Need to remove mpich/GNU config calls to Intel config calls
-	sed -i '169s|mpif90 -f90=$(SFC)|mpiifort|g' "${HWRF_FOLDER}"/WRF/WRF-4.3.3/configure.wrf
-	sed -i '170s|mpicc -cc=$(SCC)|mpiicc|g' "${HWRF_FOLDER}"/WRF/WRF-4.3.3/configure.wrf
-	sed -i '177s|-w -O3|-diag-disable=10441 -w -O3|g' "${HWRF_FOLDER}"/WRF/WRF-4.3.3/configure.wrf
-	./compile -j $CPU_HALF_EVEN nmm_real | tee wrf.nmm.log
-
-	export WRF_DIR="${HWRF_FOLDER}"/WRF/WRF-4.3.3
-
-	# IF statement to check that all files were created.
-	cd "${HWRF_FOLDER}"/WRF/WRF-4.3.3/main
-	n=$(ls ./*.exe | wc -l)
-	if (($n == 2)); then
-		echo "All expected files created."
-		read -r -t 5 -p "Finished installing WRF. I am going to wait for 5 seconds only ..."
-	else
-		echo "Missing one or more expected files. Exiting the script."
-		read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
-		exit
-	fi
-
-	############################ WPS 4.3.1 #####################################
-	## Downloaded from git tagged releases
-	# Option 19 for gfortran and distributed memory
-	########################################################################
-	cd "${HWRF_FOLDER}"/Downloads
-	wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v4.3.1.tar.gz -O WPS-4.3.1.tar.gz
-	tar -xvzf WPS-4.3.1.tar.gz -C "${HWRF_FOLDER}"/WRF
-	cd "${HWRF_FOLDER}"/WRF/WPS-4.3.1
-
-	./clean -a
-
-	# Removing user input for configure.  Choosing correct option for configure with Intel compilers
-	sed -i '141s/<STDIN>/19/g' "${HWRF_FOLDER}"/WRF/WPS-4.3.1/arch/Config.pl
-
-	./configure -D #Option 19 for Intel and distributed memory
-
-	sed -i '65s|mpif90|mpiifort|g' "${HWRF_FOLDER}"/WRF/WPS-4.3.1/configure.wps
-	sed -i '66s|mpicc|mpiicc|g' "${HWRF_FOLDER}"/WRF/WPS-4.3.1/configure.wps
-
-	./compile | tee compile_wps.log
-
-	# IF statement to check that all files were created.
-	cd "${HWRF_FOLDER}"/WRF/WPS-4.3.1
-	n=$(ls ./*.exe | wc -l)
-	if (($n == 3)); then
-		echo "All expected files created."
-		read -r -t 5 -p "Finished installing WPS. I am going to wait for 5 seconds only ..."
-	else
-		echo "Missing one or more expected files. Exiting the script."
-		read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
-		exit
-	fi
-
-	################### LAPACK ###########################
-
-	cd "${HWRF_FOLDER}"/Downloads
-	tar -xvzf v3.10.1.tar.gz
-	cd lapack-3.10.1
-	cp make.inc.example make.inc
-
-	# changing some variables and flags for the cmake build process
-	sed -i '9s/ gcc/ icc /g' make.inc
-	sed -i '20s/ gfortran/ ifort /g' make.inc
-	sed -i '21s/ -O2 -frecursive/  -O2/g' make.inc
-	sed -i '23s/ -O0 -frecursive/  -O0/g' make.inc
-	sed -i '40s/#TIMER = EXT_ETIME/TIMER = EXT_ETIME/g' make.inc
-	sed -i '46s/TIMER = INT_ETIME/#TIMER = INT_ETIME/g' make.inc
-
-	mkdir build && cd build
-
-	# this library uses cmake instead of make to build itself
-	cmake -DCMAKE_INSTALL_LIBDIR="${HWRF_FOLDER}"/Libs/LAPACK ..
-	cmake --build . -j $CPU_HALF_EVEN --target install
-
-	# other libraries below need these variables to be set
-	export LAPACK_DIR="${HWRF_FOLDER}"/Libs/LAPACK
-	export LD_LIBRARY_PATH=$LAPACK_DIR:$LD_LIBRARY_PATH
-
-	######################################## HWRF-Utilities ##################################
-
-	cd "${HWRF_FOLDER}"/Downloads
-	tar -xvzf HWRF_v4.0a_hwrf-utilities.tar.gz -C "${HWRF_FOLDER}"/
-	cd "${HWRF_FOLDER}"/
-	mv "${HWRF_FOLDER}"/hwrf-utilities "${HWRF_FOLDER}"/HWRF_UTILITIES
-	cd "${HWRF_FOLDER}"/HWRF_UTILITIES
-
-	###### SED statements required due to syntax error in original configure script ####
-	sed -i '130c\ if [ -z "$MKLROOT" ] && [ ! -z "$MKL" ] ; then' "${HWRF_FOLDER}"/HWRF_UTILITIES/configure
-	sed -i '132c\ elif [ ! -z "$MKLROOT" ] && [ -z "$MKL" ] ; then' "${HWRF_FOLDER}"/HWRF_UTILITIES/configure
-	sed -i '136c\ if [ ! -z "$JASPERINC" ] && [ ! -z "$JASPERLIB" ] ; then' "${HWRF_FOLDER}"/HWRF_UTILITIES/configure
-	sed -i '139c\     if [ ! -z "$PNG_LDFLAGS" ] ; then' "${HWRF_FOLDER}"/HWRF_UTILITIES/configure
-	sed -i '144c\    if [ ! -z "$Z_INC" ] ; then' "${HWRF_FOLDER}"/HWRF_UTILITIES/configure
-	sed -i '147c\     if [ ! -z "$PNG_CFLAGS" ] ; then' "${HWRF_FOLDER}"/HWRF_UTILITIES/configure
-	sed -i '151c\ if [ ! -z "$PNETCDF" ] ; then' "${HWRF_FOLDER}"/HWRF_UTILITIES/configure
-
-	# these variables need to be set for the HWRF-Utilities install to work
-	export MKL=$MKLROOT
-	export NETCDF="${HWRF_FOLDER}"/Libs/NETCDF
-	export WRF_DIR="${HWRF_FOLDER}"/WRF/WRF-4.3.3
-	export JASPERLIB=$DIR/grib2/lib
-	export JASPERINC=$DIR/grib2/include
-	export LAPACK_PATH=$LAPACK_DIR
-
-	# Removing user input for configure.  Choosing correct option for configure with Intel compilers
-	sed -i '155s/<STDIN>/7/g' "${HWRF_FOLDER}"/HWRF_UTILITIES/arch/Config.pl
-
-	./configure #option 7
-
-	# sed commands to change to Intel compiler format
-	sed -i '30s/-openmp/-qopenmp/g' "${HWRF_FOLDER}"/HWRF_UTILITIES/configure.hwrf
-	sed -i '47s/ mpif90 -f90=ifort/ mpiifort/g' "${HWRF_FOLDER}"/HWRF_UTILITIES/configure.hwrf
-	sed -i '48s/mpif90 -free -f90=ifort/mpiifort -free/g' "${HWRF_FOLDER}"/HWRF_UTILITIES/configure.hwrf
-	sed -i '49s/mpicc -cc=icc/mpiicc/g' "${HWRF_FOLDER}"/HWRF_UTILITIES/configure.hwrf
-
-	./compile 2>&1 | tee hwrfutilities.build.log
-
-	# IF statement to check that all files were created.
-	cd "${HWRF_FOLDER}"/HWRF_UTILITIES/exec
-	n=$(ls ./*.exe | wc -l)
-	cd "${HWRF_FOLDER}"/HWRF_UTILITIES/libs
-	m=$(ls ./*.a | wc -l)
-	if (($n == 79)) && (($m == 28)); then
-		echo "All expected files created."
-		read -r -t 5 -p "Finished installing HWRF-UTILITIES. I am going to wait for 5 seconds only ..."
-	else
-		echo "Missing one or more expected files. Exiting the script."
-		read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
-		exit
-	fi
-
-	##################################  MPIPOM-TC  ##############################
-
-	cd "${HWRF_FOLDER}"/Downloads
-	tar -xvzf HWRF_v4.0a_pomtc.tar.gz -C "${HWRF_FOLDER}"/
-	cd "${HWRF_FOLDER}"/
-	mv "${HWRF_FOLDER}"/pomtc "${HWRF_FOLDER}"/MPIPOM-TC
-	cd "${HWRF_FOLDER}"/MPIPOM-TC
-
-	# these variables need to be set for the MPIPOM-TC install to work
-	export JASPER="${HWRF_FOLDER}"/Libs/grib2/
-	export LIB_JASPER_PATH="${HWRF_FOLDER}"/Libs/grib2/lib
-	export LIB_PNG_PATH="${HWRF_FOLDER}"/Libs/grib2/lib
-	export LIB_Z_PATH="${HWRF_FOLDER}"/Libs/grib2/
-	export LIB_W3_PATH="${HWRF_FOLDER}"/HWRF_UTILITIES/libs/
-	export LIB_SP_PATH="${HWRF_FOLDER}"/HWRF_UTILITIES/libs/
-	export LIB_SFCIO_PATH="${HWRF_FOLDER}"/HWRF_UTILITIES/libs/
-	export LIB_BACIO_PATH="${HWRF_FOLDER}"/HWRF_UTILITIES/libs/
-	export LIB_NEMSIO_PATH="${HWRF_FOLDER}"/HWRF_UTILITIES/libs/
-	export LIB_G2_PATH="${HWRF_FOLDER}"/HWRF_UTILITIES/libs/
-	export LIB_BLAS_PATH="${HWRF_FOLDER}"/HWRF_UTILITIES/libs/
-	export PNETCDF=$DIR/grib2
-
-	echo " "
-
-	###### SED statements required due to syntax error in original configure script ####
-	sed -i 's/\[\[/\[/g' "${HWRF_FOLDER}"/MPIPOM-TC/configure
-	sed -i 's/\]\]/\]/g' "${HWRF_FOLDER}"/MPIPOM-TC/configure
-	sed -i 's/==/=/g' "${HWRF_FOLDER}"/MPIPOM-TC/configure
-	sed -i '272c\    if [ -s $ldir/libjasper.a ] || [ -s $ldir/libjasper.so ] ; then' "${HWRF_FOLDER}"/MPIPOM-TC/configure
-	sed -i '288c\    if [ -s $ldir/libpng.a ] || [ -s $ldir/libpng.so ] ; then' "${HWRF_FOLDER}"/MPIPOM-TC/configure
-	sed -i '304c\    if [ -s $ldir/libz.a ] || [ -s $ldir/libz.so ] ; then' "${HWRF_FOLDER}"/MPIPOM-TC/configure
-
-	# Removing user input for configure.  Choosing correct option for configure with Intel compilers
-	sed -i '101s/<STDIN>/3/g' "${HWRF_FOLDER}"/MPIPOM-TC/arch/Config.pl
-
-	/bin/bash ./configure #option 3
-
-	# sed commands to change to intel compiler format
-	sed -i '32s/ -openmp/ -qopenmp/g' "${HWRF_FOLDER}"/MPIPOM-TC/configure.pom
-	sed -i '41s/ mpif90 -f90=$(SFC)/ mpiifort/g' "${HWRF_FOLDER}"/MPIPOM-TC/configure.pom
-	sed -i '42s/ mpif90 -f90=$(SFC) -free / mpiifort -free/g' "${HWRF_FOLDER}"/MPIPOM-TC/configure.pom
-
-	./compile | tee ocean.log
-
-	# IF statement to check that all files were created.
-	cd "${HWRF_FOLDER}"/MPIPOM-TC/ocean_exec
-	n=$(ls ./*.exe | wc -l)
-	m=$(ls ./*.xc | wc -l)
-	if (($n == 9)) && (($m == 12)); then
-		echo "All expected files created."
-		read -r -t 5 -p "Finished installing MPIPOM-TC. I am going to wait for 5 seconds only ..."
-	else
-		echo "Missing one or more expected files. Exiting the script."
-		read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
-		exit
-	fi
-
-	################################## GFDL Vortex Tracker ##############################
-
-	cd "${HWRF_FOLDER}"/Downloads
-	tar -xvzf HWRF_v4.0a_gfdl-vortextracker.tar.gz -C "${HWRF_FOLDER}"/
-	cd "${HWRF_FOLDER}"/
-	mv "${HWRF_FOLDER}"/gfdl-vortextracker "${HWRF_FOLDER}"/GFDL_VORTEX_TRACKER
-	cd "${HWRF_FOLDER}"/GFDL_VORTEX_TRACKER
-
-	# these variables need to be set for the GFDL Vortex Tracker install to work
-	export LIB_JASPER_PATH="${HWRF_FOLDER}"/Libs/grib2/lib
-	export LIB_PNG_PATH="${HWRF_FOLDER}"/Libs/grib2/lib
-	export LIB_Z_PATH="${HWRF_FOLDER}"/Libs/grib2/
-	export LIB_W3_PATH="${HWRF_FOLDER}"/HWRF_UTILITIES/libs/
-	export LIB_BACIO_PATH="${HWRF_FOLDER}"/HWRF_UTILITIES/libs/
-	export LIB_G2_PATH="${HWRF_FOLDER}"/HWRF_UTILITIES/libs/
-
-	sed -i 's/\[\[/\[/g' "${HWRF_FOLDER}"/GFDL_VORTEX_TRACKER/configure
-	sed -i 's/\]\]/\]/g' "${HWRF_FOLDER}"/GFDL_VORTEX_TRACKER/configure
-	sed -i 's/==/=/g' "${HWRF_FOLDER}"/GFDL_VORTEX_TRACKER/configure
-
-	# Removing user input for configure.  Choosing correct option for configure with Intel compilers
-	sed -i '154s/<STDIN>/2/g' "${HWRF_FOLDER}"/GFDL_VORTEX_TRACKER/arch/Config.pl
-
-	./configure #option 2
-
-	# sed commands to change to Intel compiler format
-	sed -i '38s/ mpif90 -fc=$(SFC)/ mpiifort/g' "${HWRF_FOLDER}"/GFDL_VORTEX_TRACKER/configure.trk
-	sed -i '39s/ mpif90 -fc=$(SFC) -free/ mpiifort -free/g' "${HWRF_FOLDER}"/GFDL_VORTEX_TRACKER/configure.trk
-	sed -i '40s/ mpicc/ mpiicc/g' "${HWRF_FOLDER}"/GFDL_VORTEX_TRACKER/configure.trk
-
-	./compile 2>&1 | tee tracker.log
-
-	# IF statement to check that all files were created.
-	cd "${HWRF_FOLDER}"/GFDL_VORTEX_TRACKER/trk_exec
-	n=$(ls ./*.exe | wc -l)
-	if (($n == 3)); then
-		echo "All expected files created."
-		read -r -t 5 -p "Finished installing GFDL_VORTEX_TRACKER. I am going to wait for 5 seconds only ..."
-	else
-		echo "Missing one or more expected files. Exiting the script."
-		read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
-		exit
-	fi
-
-	################################## NCEP Coupler ##############################
-
-	cd "${HWRF_FOLDER}"/Downloads
-	tar -xvzf HWRF_v4.0a_ncep-coupler.tar.gz -C "${HWRF_FOLDER}"/
-	cd "${HWRF_FOLDER}"/
-	mv "${HWRF_FOLDER}"/ncep-coupler "${HWRF_FOLDER}"/NCEP_COUPLER
-	cd "${HWRF_FOLDER}"/NCEP_COUPLER
-
-	# Removing user input for configure.  Choosing correct option for configure with intel compilers
-	sed -i '84s/<STDIN>/3/g' "${HWRF_FOLDER}"/NCEP_COUPLER/arch/Config.pl
-
-	./configure #option 3
-
-	# sed commands to change to intel compiler format
-	sed -i '26s/ mpif90 -fc=$(SFC)/ mpiifort/g' "${HWRF_FOLDER}"/NCEP_COUPLER/configure.cpl
-	sed -i '27s/ mpif90 -fc=$(SFC) -free/ mpiifort -free/g' "${HWRF_FOLDER}"/NCEP_COUPLER/configure.cpl
-
-	./compile 2>&1 | tee coupler.log
-
-	# IF statement to check that all files were created.
-	cd "${HWRF_FOLDER}"/NCEP_COUPLER/cpl_exec
-	n=$(ls ./*.exe | wc -l)
-	if (($n == 1)); then
-		echo "All expected files created."
-		read -r -t 5 -p "Finished installing NCEP_COUPLER. I am going to wait for 5 seconds only ..."
-	else
-		echo "Missing one or more expected files. Exiting the script."
-		read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
-		exit
-	fi
-
-	################################## Unified Post Processor (UPP) ##############################
-
-	cd "${HWRF_FOLDER}"/Downloads
-	tar -xvzf HWRF_v4.0a_UPP.tar.gz -C "${HWRF_FOLDER}"/
-	cd "${HWRF_FOLDER}"/UPP
-
-	# these variables need to be set for the UPP install to work
-	export HWRF=1
-	export WRF_DIR="${HWRF_FOLDER}"/WRF/WRF-4.3.3
-	export JASPERLIB=$DIR/grib2/lib
-	export JASPERINC=$DIR/grib2/include
-
-	# Removing user input for configure.  Choosing correct option for configure with intel compilers
-	sed -i '197s/<STDIN>/4/g' "${HWRF_FOLDER}"/UPP/arch/Config.pl
-
-	./configure #compile opiton 4
-
-	# sed commands to change to intel compiler format
-	sed -i '26s/ mpif90 -fc=$(SFC)/ mpiifort/g' "${HWRF_FOLDER}"/NCEP_COUPLER/configure.cpl
-	sed -i '27s/ mpif90 -fc=$(SFC) -free/ mpiifort -free/g' "${HWRF_FOLDER}"/NCEP_COUPLER/configure.cpl
-
-	# sed commands to change to intel compiler format
-	sed -i '27s/ mpif90 -f90=$(SFC)/ mpiifort/g' "${HWRF_FOLDER}"/UPP/configure.upp
-	sed -i '28s/ mpif90 -f90=$(SFC) -free/ mpiifort -free/g' "${HWRF_FOLDER}"/UPP/configure.upp
-	sed -i '29s/ mpicc/ mpiicc/g' "${HWRF_FOLDER}"/UPP/configure.upp
-
-	./compile 2>&1 | tee build.log
-
-	# IF statement to check that all files were created.
-	cd "${HWRF_FOLDER}"/UPP/bin
-	n=$(ls ./*.exe | wc -l)
-	cd "${HWRF_FOLDER}"/UPP/lib
-	m=$(ls ./*.a | wc -l)
-	if (($n == 6)) && (($m == 13)); then
-		echo "All expected files created."
-		read -r -t 5 -p "Finished installing UPP. I am going to wait for 5 seconds only ..."
-	else
-		echo "Missing one or more expected files. Exiting the script."
-		read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
-		exit
-	fi
-
-	############################### HWRF RUN ######################################
-	# This section unpacks the runtime files for HWRF
-	# The HWRF User Guide and other documentation are downloaded as well;
-	# see chapter 3 of the User Guide for details on running HWRF.
-	###############################################################################
-
-	cd "${HWRF_FOLDER}"/Downloads
-	tar -xvzf HWRF_v4.0a_hwrfrun.tar.gz -C "${HWRF_FOLDER}"/
-	cd $HOME/HWRF
-	mv "${HWRF_FOLDER}"/hwrfrun "${HWRF_FOLDER}"/HWRF_RUN
-	cd "${HWRF_FOLDER}"/HWRF_RUN
-
-	#HWRF v4.0a Users Guide
-	wget -c https://dtcenter.org/sites/default/files/community-code/hwrf/docs/users_guide/HWRF-UG-2018.pdf
-	#HWRF Scientific Documentation - November 2018
-	wget -c https://dtcenter.org/sites/default/files/community-code/hwrf/docs/scientific_documents/HWRFv4.0a_ScientificDoc.pdf
-	#WRF-NMM V4 User's Guide
-	wget -c https://dtcenter.org/sites/default/files/community-code/hwrf/docs/scientific_documents/WRF-NMM_2018.pdf
-
-	######################## Static geographic gata incl/ optional files ####################
-	# http://www2.mmm.ucar.edu/wrf/users/download/get_sources_wps_geog.html
-	# These files are LARGE so if you only need certain ones, comment the others off with #
-	# All of these files downloaded and untarred come out to roughly 250GB
-	# https://www2.mmm.ucar.edu/wrf/users/download/get_sources_wps_geog.html
-	#################################################################################
-
-	cd "${HWRF_FOLDER}"/Downloads
-	mkdir "${HWRF_FOLDER}"/GEOG
-	mkdir "${HWRF_FOLDER}"/GEOG/WPS_GEOG
-
-	# Mandatory WRF Preprocessing System (WPS) Geographical Input Data Mandatory Fields
-
-	wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_high_res_mandatory.tar.gz
-	tar -xvzf geog_high_res_mandatory.tar.gz -C "${HWRF_FOLDER}"/GEOG/
-
-	wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_low_res_mandatory.tar.gz
-	tar -xvzf geog_low_res_mandatory.tar.gz -C "${HWRF_FOLDER}"/GEOG/
-	mv "${HWRF_FOLDER}"/GEOG/WPS_GEOG_LOW_RES/ "${HWRF_FOLDER}"/GEOG/WPS_GEOG
-
-	# WPS Geographical Input Data - Mandatory for Specific Applications
-
-	wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_thompson28_chem.tar.gz
-	tar -xvzf geog_thompson28_chem.tar.gz -C "${HWRF_FOLDER}"/GEOG/WPS_GEOG
-
-	wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_noahmp.tar.gz
-	tar -xvzf geog_noahmp.tar.gz -C "${HWRF_FOLDER}"/GEOG/WPS_GEOG
-
-	wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/irrigation.tar.gz
-	tar -xvzf irrigation.tar.gz -C "${HWRF_FOLDER}"/GEOG/WPS_GEOG
-
-	wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_px.tar.gz
-	tar -xvzf geog_px.tar.gz -C "${HWRF_FOLDER}"/GEOG/WPS_GEOG
-
-	wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_urban.tar.gz
-	tar -xvzf geog_urban.tar.gz -C "${HWRF_FOLDER}"/GEOG/WPS_GEOG
-
-	wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_ssib.tar.gz
-	tar -xvzf geog_ssib.tar.gz -C "${HWRF_FOLDER}"/GEOG/WPS_GEOG
-
-	wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/lake_depth.tar.bz2
-	tar -xvf lake_depth.tar.bz2 -C "${HWRF_FOLDER}"/GEOG/WPS_GEOG
-
-	wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/topobath_30s.tar.bz2
-	tar -xvf topobath_30s.tar.bz2 -C "${HWRF_FOLDER}"/GEOG/WPS_GEOG
-
-	wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/gsl_gwd.tar.bz2
-	tar -xvf gsl_gwd.tar.bz2 -C "${HWRF_FOLDER}"/GEOG/WPS_GEOG
-
-  wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/cglc_modis_lcz_global.tar.gz
-  tar -xvf cglc_modis_lcz_global.tar.gz -C "${HWRF_FOLDER}"/GEOG/WPS_GEOG
-
-	# Optional WPS Geographical Input Data
-
-	wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_older_than_2000.tar.gz
-	tar -xvzf geog_older_than_2000.tar.gz -C "${HWRF_FOLDER}"/GEOG/WPS_GEOG
-
-	wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s_with_lakes.tar.gz
-	tar -xvzf modis_landuse_20class_15s_with_lakes.tar.gz -C "${HWRF_FOLDER}"/GEOG/WPS_GEOG
-
-	wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_alt_lsm.tar.gz
-	tar -xvzf geog_alt_lsm.tar.gz -C "${HWRF_FOLDER}"/GEOG/WPS_GEOG
-
-	wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/nlcd2006_ll_9s.tar.bz2
-	tar -xvf nlcd2006_ll_9s.tar.bz2 -C "${HWRF_FOLDER}"/GEOG/WPS_GEOG
-
-	wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/updated_Iceland_LU.tar.gz
-	tar -xvf updated_Iceland_LU.tar.gz -C "${HWRF_FOLDER}"/GEOG/WPS_GEOG
-
-	wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s.tar.bz2
-	tar -xvf modis_landuse_20class_15s.tar.bz2 -C "${HWRF_FOLDER}"/GEOG/WPS_GEOG
-
-	echo "Congratulations! You've successfully installed all required files to run the Hurricane Weather Research Forecast (HWRF) Model verison 4.0a utilizing the intel compilers."
-	echo "Thank you for using this script."
-fi
 
 ##########################  Export PATH and LD_LIBRARY_PATH ################################
 cd $HOME

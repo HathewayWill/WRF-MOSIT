@@ -10,7 +10,6 @@ This is a BASH script that provides options to install the following Weather Res
 - Weather Research & Forecasting Model Chemistry (WRF-CHEM)
 - Weather Research & Forecasting Model Hydro Standalone (WRF-Hydro)
 - Weather Research & Forecasting Model Hydro Coupled w/ WRF (WRF-Hydro Coupled)
-- Hurricane Weather Research & Forecasting Model (HWRF)
 - Weather Research & Forecasting Model CMAQ (WRF-CMAQ)
 - Weather Research & Forecasting Model Wildland Fire (WRF-SFIRE)
 
@@ -28,24 +27,24 @@ This is a BASH script that provides options to install the following Weather Res
 ### Libraries Installed (Latest libraries as of 11/01/2023)
 - Libraries are manually installed in sub-folders utilizing either Intel or GNU Compilers.
     - Libraries installed with GNU compilers
-        - zlib (1.3.0)
-        - MPICH (4.2.1)
+        - zlib (1.3.1)
+        - MPICH (4.2.2)
         - libpng (1.6.39)
         - JasPer (1.900.1)
-        - HDF5 (1.14.4.2)
-        - PHDF5 (1.14.4.2)
+        - HDF5 (1.14.4.3)
+        - PHDF5 (1.14.4.3)
         - Parallel-NetCDF (1.13.0)
-        - NetCDF-C (4.9.0)
+        - NetCDF-C (4.9.2)
         - NetCDF-Fortran (4.6.1)
         - Miniconda
     - Libraries installed with Intel compilers
-        - zlib (1.3.0)
+        - zlib (1.3.1)
         - libpng (1.6.39)
         - JasPer (1.900.1)
-        - HDF5 (1.14.4.2)
-        - PHDF5 (1.14.4.2)
+        - HDF5 (1.14.4.3)
+        - PHDF5 (1.14.4.3)
         - Parallel-NetCDF (1.13.0)
-        - NetCDF-C (4.9.0)
+        - NetCDF-C (4.9.2)
         - NetCDF-Fortran (4.6.1)
         - Miniconda
         - Intel-Basekit
@@ -55,41 +54,33 @@ This is a BASH script that provides options to install the following Weather Res
 ---
 ### Software Packages
 - WRF
-    - WRF v4.5.2
-    - WPS v4.5
-    - WRF PLUS v4.5
-    - WRFDA 4DVAR v4.5    
+    - WRF v4.6.0
+    - WPS v4.6.0
+    - WRF PLUS v4.6.0
+    - WRFDA 4DVAR v4.6.0    
 - WRF-CHEM
     - WRF Chem w/KPP 4.5
-    - WPS 4.5
+    - WPS v4.6.0
     - WRFDA Chem 3DVAR
 - WRF-Hydro Standalone
     - WRF-Hydro v5.2
 - WRF-Hydro Coupled
     - WRF-Hydro v5.2
-    - WRF v4.5.2
-    - WPS v4.5
+    - WRF v4.6.0
+    - WPS v4.6.0
 - WRF-CMAQ
-    - WRF v4.5.2
+    - WRF v4.6.0
     - CMAW v5.4
-    - WPS v4.5
+    - WPS v4.6.0
 - WRF-SFIRE
     - WRF-SFIRE v2
     - WPS v4.2
-- Hurricane WRF (HWRF)
-    - HWRF Utilities v4.0a
-    - POMTC v4.0a
-    - NCEP Coupler v4.0a
-    - GFDL Vortex Tracker v4.0a
-    - GSI v4.0a
-    - UPP v4.0a
-    - WRF v4.3.3
-    - WPS 4.3.1
+
 ---
 ### Pre/Post Processing Packages Installed
 - WRF
-    - Development Testbed Center (DTC) Model Evaluation Tools (MET) v11.0.0
-    - Development Testbed Center (DTC) Enhanced Model Evaluation Tools (METplus) v5.0.0
+    - Development Testbed Center (DTC) Model Evaluation Tools (MET) v11.1.1
+    - Development Testbed Center (DTC) Enhanced Model Evaluation Tools (METplus) v5.1.0
     - Development Testbed Center (DTC) Unified Post Processor (UPP) v4.1
     - ARWPost v3
     - WRF-Python (Conda installed)
@@ -97,8 +88,8 @@ This is a BASH script that provides options to install the following Weather Res
     - GrADS
     - NCAR Command Langauge (Conda installed)
 - WRF-CHEM
-    - Development Testbed Center (DTC) Model Evaluation Tools (MET) v11.0.0
-    - Development Testbed Center (DTC) Enhanced Model Evaluation Tools (METplus) v5.0.0
+    - Development Testbed Center (DTC) Model Evaluation Tools (MET) v11.1.1
+    - Development Testbed Center (DTC) Enhanced Model Evaluation Tools (METplus) v5.1.0
     - Development Testbed Center (DTC) Unified Post Processor (UPP) v4.1
     - ARWPost v3
     - WRF-Python (Conda installed)
@@ -131,10 +122,7 @@ This is a BASH script that provides options to install the following Weather Res
     - GrADS
     - NCAR Command Langauge (Conda installed)
     - WRF-GIS-Preprocessor (Conda installed)
-- HWRF
-    - Development Testbed Center (DTC) Model Evaluation Tools (MET) v11.1.0
-    - Development Testbed Center (DTC) Enhanced Model Evaluation Tools (METplus) v5.1.0
-    - Development Testbed Center (DTC) Unified Post Processor (UPP) v4.1
+
 ---
 ### MacOS Installation
 - Make sure to download and Homebrew before moving to installation.
@@ -183,49 +171,49 @@ This is a BASH script that provides options to install the following Weather Res
 
 - Once running the script users will be provided with options to select how the WRF-MOSIT will compile and install the various packages.
     - First option, Which compiler users want to use Intel or GNU compilers.
-         - Please note that Hurricane WRF (HWRF) can only use Intel Compilers
     - Second option, Which graphic display package should be installed.  GrADS or OpenGrADS
     - Third option, Auto Configuration.  This allows users to have a one-click install
     - Fourth option, Secondary WPS geography file download choice.
-      - Author of script reccomends selecting "YES" if user is unsure.
-    - Fifth option, Optional WPS geography file download cohice.
-      - Author of script reccomends selecting "YES" if user is unsure.
+      - Author of script recommends selecting "YES" if user is unsure.
+    - Fifth option, Optional WPS geography file download choice.
+      - Author of script recommends selecting "YES" if user is unsure.
     - Last option, Pick which WRF software user wants to install
+
+
 
 ---
 
 ### Exports to run WRF and WPS programs
 - GNU Compilers
- 
+
     > export LD_LIBRARY_PATH=$HOME/WRF/Libs/NETCDF/lib:$LD_LIBRARY_PATH
- 
+
     > export LD_LIBRARY_PATH=$HOME/WRF/Libs/grib2/lib:$LD_LIBRARY_PATH
- 
+
     > export PATH=$HOME/WRF/Libs/MPICH/bin:$PATH
- 
+
     > export PATH=$HOME/WRF/Libs/grib2/lib:$PATH
-    
- 
-    
-    
+
+
+
+
 - Intel Compilers
- 
+
     > source /opt/intel/oneapi/setvars.sh
-    
+
     > export LD_LIBRARY_PATH=$HOME/WRF_Intel/Libs/NETCDF/lib:$LD_LIBRARY_PATH
-    
+
     > export LD_LIBRARY_PATH=$HOME/WRF_Intel/Libs/grib2/lib:$LD_LIBRARY_PATH
-    
+
     > export PATH=$HOME/WRF_Intel/Libs/grib2/lib:$PATH
 
 
 ---
 
-  ##### *** Tested on Ubuntu 20.04.6 LTS,  Ubuntu 22.04.3 LTS, MacOS Ventura, MacOS Sonoma, Centos7, Rocky Linux 9, Windows Sub-Linux Ubuntu***
+  ##### *** Tested on Ubuntu 22.04.4 LTS, Ubuntu 24.04.1 LTS, MacOS Ventura, MacOS Sonoma, Centos7, Rocky Linux 9, Windows Sub-Linux Ubuntu***
 - Built 64-bit system.
-- Tested with current available libraries on 11/01/2023, execptions have been noted in the script documentation.
+- Tested with current available libraries on 07/01/2024, exceptions have been noted in the script documentation.
 ---
-
 
 #### Estimated Run Time ~ 60 to 120 Minutes @ 10mbps download speed.
 - Intel compilers take slightly more time to install packages.
