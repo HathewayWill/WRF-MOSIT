@@ -647,8 +647,21 @@ echo " "
 # 	# this update should get the Intel package info from the Intel repository
 # 	echo $PASSWD | sudo -S apt -y update
 # 	echo $PASSWD | sudo -S apt -y upgrade
-# 	echo $PASSWD | sudo -S apt -y install autoconf automake bison build-essential byacc cmake csh curl default-jdk default-jre emacs flex g++ gawk gcc gfortran git ksh libcurl4-openssl-dev libjpeg-dev libncurses6 libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev m4 make  ncview okular openbox pipenv pkg-config  python3 python3-dev python3-pip python3-dateutil tcsh unzip xauth xorg time
 #
+# release_version=$(lsb_release -r -s)
+#
+# # Compare the release version
+# if [ "$release_version" = "24.04" ]; then
+#     # Install Emacs without recommended packages
+#     echo $PASSWD | sudo -S apt install emacs --no-install-recommends -y
+# else
+#     # Attempt to install Emacs if the release version is not 24.04
+#     echo "The release version is not 24.04, attempting to install Emacs."
+#     echo $PASSWD | sudo -S apt install emacs -y
+# fi
+#
+# echo $PASSWD | sudo -S apt -y install autoconf automake bison build-essential byacc cmake csh curl default-jdk default-jre flex g++ gawk gcc gfortran git ksh libcurl4-openssl-dev libjpeg-dev libncurses6 libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev m4 make  ncview okular openbox pipenv pkg-config  python3 python3-dev python3-pip python3-dateutil tcsh unzip xauth xorg time
+# #
 # 	# install the Intel compilers
 # 	echo $PASSWD | sudo -S apt -y install intel-basekit
 # 	echo $PASSWD | sudo -S apt -y install intel-hpckit
@@ -837,7 +850,20 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$DTC_MET" = "1" ]; then
 	#############################basic package managment############################
 	echo $PASSWD | sudo -S apt -y update
 	echo $PASSWD | sudo -S apt -y upgrade
-	echo $PASSWD | sudo -S apt -y install autoconf automake bison build-essential byacc cmake csh curl default-jdk default-jre emacs flex g++ gawk gcc gfortran git ksh libcurl4-openssl-dev libjpeg-dev libncurses6 libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev m4 make  ncview okular openbox pipenv pkg-config  python3 python3-dev python3-pip python3-dateutil tcsh unzip xauth xorg time
+
+release_version=$(lsb_release -r -s)
+
+# Compare the release version
+if [ "$release_version" = "24.04" ]; then
+    # Install Emacs without recommended packages
+    echo $PASSWD | sudo -S apt install emacs --no-install-recommends -y
+else
+    # Attempt to install Emacs if the release version is not 24.04
+    echo "The release version is not 24.04, attempting to install Emacs."
+    echo $PASSWD | sudo -S apt install emacs -y
+fi
+
+echo $PASSWD | sudo -S apt -y install autoconf automake bison build-essential byacc cmake csh curl default-jdk default-jre flex g++ gawk gcc gfortran git ksh libcurl4-openssl-dev libjpeg-dev libncurses6 libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev m4 make  ncview okular openbox pipenv pkg-config  python3 python3-dev python3-pip python3-dateutil tcsh unzip xauth xorg time
 
 	#Downloading latest dateutil due to python3.8 running old version.
 	pip3 install python-dateutil==2.8
@@ -1781,7 +1807,20 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
 	#############################basic package managment############################
 	  echo $PASSWD | sudo -S apt -y update
 	  echo $PASSWD | sudo -S apt -y upgrade
-	  echo $PASSWD | sudo -S apt -y install autoconf automake bison build-essential byacc cmake csh curl default-jdk default-jre emacs flex g++ gawk gcc gfortran git ksh libcurl4-openssl-dev libjpeg-dev libncurses6 libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev m4 make  ncview okular openbox pipenv pkg-config  python3 python3-dev python3-pip python3-dateutil tcsh unzip xauth xorg time
+
+release_version=$(lsb_release -r -s)
+
+# Compare the release version
+if [ "$release_version" = "24.04" ]; then
+    # Install Emacs without recommended packages
+    echo $PASSWD | sudo -S apt install emacs --no-install-recommends -y
+else
+    # Attempt to install Emacs if the release version is not 24.04
+    echo "The release version is not 24.04, attempting to install Emacs."
+    echo $PASSWD | sudo -S apt install emacs -y
+fi
+
+echo $PASSWD | sudo -S apt -y install autoconf automake bison build-essential byacc cmake csh curl default-jdk default-jre flex g++ gawk gcc gfortran git ksh libcurl4-openssl-dev libjpeg-dev libncurses6 libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev m4 make  ncview okular openbox pipenv pkg-config  python3 python3-dev python3-pip python3-dateutil tcsh unzip xauth xorg time
 
 	  echo " "
 	  ##############################Directory Listing############################
@@ -4706,7 +4745,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
 	# this update should get the Intel package info from the Intel repository
 	echo $PASSWD | sudo -S apt -y update
 
-	# necessary binary packages (especially pkg-config and build-essential)
+
 	echo $PASSWD | sudo -S apt -y install autoconf automake bison build-essential byacc cmake csh curl default-jdk default-jre emacs flex g++ gawk gcc gfortran git ksh libcurl4-openssl-dev libjpeg-dev libncurses6 libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev m4 make  ncview okular openbox pipenv pkg-config  python3 python3-dev python3-pip python3-dateutil tcsh unzip xauth xorg time libgeotiff-dev
 
 	# install the Intel compilers
@@ -4715,6 +4754,11 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
 	echo $PASSWD | sudo -S apt -y install intel-oneapi-python
 
 	echo $PASSWD | sudo -S apt -y update
+
+
+	#Fix any broken installations
+	echo $PASSWD | sudo -S apt --fix-broken install
+
 
 	# make sure some critical packages have been installed
 	which cmake pkg-config make gcc g++ gfortran
@@ -4804,7 +4848,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
 	CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS=$CFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
-	make -j $CPU_HALF_EVEN 2>&1 | tee make.check.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 
 	echo " "
@@ -5218,10 +5262,12 @@ echo " "
 	echo " "
 	#Installing Miniconda3 to WRF directory and updating libraries
 
-	pip install --upgrade --force-reinstall zstandard
-	pip install --upgrade --force-reinstall zstd
-	pip3 install --upgrade --force-reinstall zstandard
-	pip3 install --upgrade --force-reinstall zstd
+pip install --upgrade --force-reinstall zstandard
+pip install --upgrade --force-reinstall zstd
+pip3 install --upgrade --force-reinstall zstandard
+pip3 install --upgrade --force-reinstall zstd
+pipx install --force zstandard
+pipx install --force zstd
 	export Miniconda_Install_DIR="${WRF_FOLDER}"/miniconda3
 
 	mkdir -p $Miniconda_Install_DIR
@@ -8930,7 +8976,20 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 	#############################basic package managment############################
 	echo $PASSWD | sudo -S apt -y update
 	echo $PASSWD | sudo -S apt -y upgrade
-	echo $PASSWD | sudo -S apt -y install autoconf automake bison build-essential byacc cmake csh curl default-jdk default-jre emacs flex g++ gawk gcc gfortran git ksh libcurl4-openssl-dev libjpeg-dev libncurses6 libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev m4 make  ncview okular openbox pipenv pkg-config  python3 python3-dev python3-pip python3-dateutil tcsh unzip xauth xorg time
+
+release_version=$(lsb_release -r -s)
+
+# Compare the release version
+if [ "$release_version" = "24.04" ]; then
+    # Install Emacs without recommended packages
+    echo $PASSWD | sudo -S apt install emacs --no-install-recommends -y
+else
+    # Attempt to install Emacs if the release version is not 24.04
+    echo "The release version is not 24.04, attempting to install Emacs."
+    echo $PASSWD | sudo -S apt install emacs -y
+fi
+
+echo $PASSWD | sudo -S apt -y install autoconf automake bison build-essential byacc cmake csh curl default-jdk default-jre flex g++ gawk gcc gfortran git ksh libcurl4-openssl-dev libjpeg-dev libncurses6 libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev m4 make  ncview okular openbox pipenv pkg-config  python3 python3-dev python3-pip python3-dateutil tcsh unzip xauth xorg time
 	echo " "
 	##############################Directory Listing############################
 	export HOME=$(
@@ -9357,10 +9416,12 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 	########################### Test script for output data  ###################################
 
 	#Installing Miniconda3 to WRF directory and updating libraries
-	pip install --upgrade --force-reinstall zstandard
-	pip install --upgrade --force-reinstall zstd
-	pip3 install --upgrade --force-reinstall zstandard
-	pip3 install --upgrade --force-reinstall zstd
+pip install --upgrade --force-reinstall zstandard
+pip install --upgrade --force-reinstall zstd
+pip3 install --upgrade --force-reinstall zstandard
+pip3 install --upgrade --force-reinstall zstd
+pipx install --force zstandard
+pipx install --force zstd
 	export Miniconda_Install_DIR="${WRFHYDRO_FOLDER}"/miniconda3
 
 	mkdir -p $Miniconda_Install_DIR
@@ -9976,10 +10037,12 @@ export PATH=/usr/local/bin:$PATH
 	########################### Test script for output data  ###################################
 
 	#Installing Miniconda3 to WRF directory and updating libraries
-	pip install --upgrade --force-reinstall zstandard
-	pip install --upgrade --force-reinstall zstd
-	pip3 install --upgrade --force-reinstall zstandard
-	pip3 install --upgrade --force-reinstall zstd
+pip install --upgrade --force-reinstall zstandard
+pip install --upgrade --force-reinstall zstd
+pip3 install --upgrade --force-reinstall zstandard
+pip3 install --upgrade --force-reinstall zstd
+pipx install --force zstandard
+pipx install --force zstd
 	export Miniconda_Install_DIR="${WRFHYDRO_FOLDER}"/miniconda3
 
 	mkdir -p $Miniconda_Install_DIR
@@ -10584,10 +10647,12 @@ export PATH=/usr/local/bin:$PATH
 	########################### Test script for output data  ###################################
 
 	#Installing Miniconda3 to WRF directory and updating libraries
-	pip install --upgrade --force-reinstall zstandard
-	pip install --upgrade --force-reinstall zstd
-	pip3 install --upgrade --force-reinstall zstandard
-	pip3 install --upgrade --force-reinstall zstd
+pip install --upgrade --force-reinstall zstandard
+pip install --upgrade --force-reinstall zstd
+pip3 install --upgrade --force-reinstall zstandard
+pip3 install --upgrade --force-reinstall zstd
+pipx install --force zstandard
+pipx install --force zstd
 	export Miniconda_Install_DIR="${WRFHYDRO_FOLDER}"/miniconda3
 
 	mkdir -p $Miniconda_Install_DIR
@@ -10652,8 +10717,20 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; the
 	# this update should get the Intel package info from the Intel repository
 	echo $PASSWD | sudo -S apt -y update
 
-	# necessary binary packages (especially pkg-config and build-essential)
-	echo $PASSWD | sudo -S apt -y install autoconf automake bison build-essential byacc cmake csh curl default-jdk default-jre emacs flex g++ gawk gcc gfortran git ksh libcurl4-openssl-dev libjpeg-dev libncurses6 libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev m4 make  ncview okular openbox pipenv pkg-config  python3 python3-dev python3-pip python3-dateutil tcsh unzip xauth xorg time
+
+release_version=$(lsb_release -r -s)
+
+# Compare the release version
+if [ "$release_version" = "24.04" ]; then
+    # Install Emacs without recommended packages
+    echo $PASSWD | sudo -S apt install emacs --no-install-recommends -y
+else
+    # Attempt to install Emacs if the release version is not 24.04
+    echo "The release version is not 24.04, attempting to install Emacs."
+    echo $PASSWD | sudo -S apt install emacs -y
+fi
+
+echo $PASSWD | sudo -S apt -y install autoconf automake bison build-essential byacc cmake csh curl default-jdk default-jre flex g++ gawk gcc gfortran git ksh libcurl4-openssl-dev libjpeg-dev libncurses6 libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev m4 make  ncview okular openbox pipenv pkg-config  python3 python3-dev python3-pip python3-dateutil tcsh unzip xauth xorg time
 
 	# install the Intel compilers
 	echo $PASSWD | sudo -S apt -y install intel-basekit
@@ -10661,6 +10738,11 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; the
 	echo $PASSWD | sudo -S apt -y install intel-oneapi-python
 
 	echo $PASSWD | sudo -S apt -y update
+
+
+	#Fix any broken installations
+	echo $PASSWD | sudo -S apt --fix-broken install
+
 
 	# make sure some critical packages have been installed
 	which cmake pkg-config make gcc g++ gfortran
@@ -11046,10 +11128,12 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; the
 	########################### Test script for output data  ###################################
 
 	#Installing Miniconda3 to WRF directory and updating libraries
-	pip install --upgrade --force-reinstall zstandard
-	pip install --upgrade --force-reinstall zstd
-	pip3 install --upgrade --force-reinstall zstandard
-	pip3 install --upgrade --force-reinstall zstd
+pip install --upgrade --force-reinstall zstandard
+pip install --upgrade --force-reinstall zstd
+pip3 install --upgrade --force-reinstall zstandard
+pip3 install --upgrade --force-reinstall zstd
+pipx install --force zstandard
+pipx install --force zstd
 	export Miniconda_Install_DIR="${WRFHYDRO_FOLDER}"/miniconda3
 
 	mkdir -p $Miniconda_Install_DIR
@@ -11549,10 +11633,12 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 	echo " "
 
 	#Installing Miniconda3 to WRF directory and updating libraries
-	pip install --upgrade --force-reinstall zstandard
-	pip install --upgrade --force-reinstall zstd
-	pip3 install --upgrade --force-reinstall zstandard
-	pip3 install --upgrade --force-reinstall zstd
+pip install --upgrade --force-reinstall zstandard
+pip install --upgrade --force-reinstall zstd
+pip3 install --upgrade --force-reinstall zstandard
+pip3 install --upgrade --force-reinstall zstd
+pipx install --force zstandard
+pipx install --force zstd
 	export Miniconda_Install_DIR="${WRFHYDRO_FOLDER}"/miniconda3
 
 	mkdir -p $Miniconda_Install_DIR
@@ -12058,10 +12144,12 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 	echo " "
 
 	#Installing Miniconda3 to WRF directory and updating libraries
-	pip install --upgrade --force-reinstall zstandard
-	pip install --upgrade --force-reinstall zstd
-	pip3 install --upgrade --force-reinstall zstandard
-	pip3 install --upgrade --force-reinstall zstd
+pip install --upgrade --force-reinstall zstandard
+pip install --upgrade --force-reinstall zstd
+pip3 install --upgrade --force-reinstall zstandard
+pip3 install --upgrade --force-reinstall zstd
+pipx install --force zstandard
+pipx install --force zstd
 	export Miniconda_Install_DIR="${WRFHYDRO_FOLDER}"/miniconda3
 
 	mkdir -p $Miniconda_Install_DIR
@@ -12135,7 +12223,20 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 	#############################basic package managment############################
 	echo $PASSWD | sudo -S apt -y update
 	echo $PASSWD | sudo -S apt -y upgrade
-	echo $PASSWD | sudo -S apt -y install autoconf automake bison build-essential byacc cmake csh curl default-jdk default-jre emacs flex g++ gawk gcc gfortran git ksh libcurl4-openssl-dev libjpeg-dev libncurses6 libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev m4 make  ncview okular openbox pipenv pkg-config  python3 python3-dev python3-pip python3-dateutil tcsh unzip xauth xorg time
+
+release_version=$(lsb_release -r -s)
+
+# Compare the release version
+if [ "$release_version" = "24.04" ]; then
+    # Install Emacs without recommended packages
+    echo $PASSWD | sudo -S apt install emacs --no-install-recommends -y
+else
+    # Attempt to install Emacs if the release version is not 24.04
+    echo "The release version is not 24.04, attempting to install Emacs."
+    echo $PASSWD | sudo -S apt install emacs -y
+fi
+
+echo $PASSWD | sudo -S apt -y install autoconf automake bison build-essential byacc cmake csh curl default-jdk default-jre flex g++ gawk gcc gfortran git ksh libcurl4-openssl-dev libjpeg-dev libncurses6 libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev m4 make  ncview okular openbox pipenv pkg-config  python3 python3-dev python3-pip python3-dateutil tcsh unzip xauth xorg time
 	echo " "
 	##############################Directory Listing############################
 	export HOME=$(
@@ -12674,10 +12775,12 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 	########### https://www.ncl.ucar.edu/index.shtml      ##################
 
 	#Installing Miniconda3 to WRF-Hydro dire
-	pip install --upgrade --force-reinstall zstandard
-	pip install --upgrade --force-reinstall zstd
-	pip3 install --upgrade --force-reinstall zstandard
-	pip3 install --upgrade --force-reinstall zstd
+pip install --upgrade --force-reinstall zstandard
+pip install --upgrade --force-reinstall zstd
+pip3 install --upgrade --force-reinstall zstandard
+pip3 install --upgrade --force-reinstall zstd
+pipx install --force zstandard
+pipx install --force zstd
 	export Miniconda_Install_DIR="${WRFHYDRO_FOLDER}"/miniconda3
 
 	mkdir -p $Miniconda_Install_DIR
@@ -13126,8 +13229,20 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 	# this update should get the Intel package info from the Intel repository
 	echo $PASSWD | sudo -S apt -y update
 
-	# necessary binary packages (especially pkg-config and build-essential)
-	echo $PASSWD | sudo -S apt -y install autoconf automake bison build-essential byacc cmake csh curl default-jdk default-jre emacs flex g++ gawk gcc gfortran git ksh libcurl4-openssl-dev libjpeg-dev libncurses6 libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev m4 make  ncview okular openbox pipenv pkg-config  python3 python3-dev python3-pip python3-dateutil tcsh unzip xauth xorg time
+
+release_version=$(lsb_release -r -s)
+
+# Compare the release version
+if [ "$release_version" = "24.04" ]; then
+    # Install Emacs without recommended packages
+    echo $PASSWD | sudo -S apt install emacs --no-install-recommends -y
+else
+    # Attempt to install Emacs if the release version is not 24.04
+    echo "The release version is not 24.04, attempting to install Emacs."
+    echo $PASSWD | sudo -S apt install emacs -y
+fi
+
+echo $PASSWD | sudo -S apt -y install autoconf automake bison build-essential byacc cmake csh curl default-jdk default-jre flex g++ gawk gcc gfortran git ksh libcurl4-openssl-dev libjpeg-dev libncurses6 libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev m4 make  ncview okular openbox pipenv pkg-config  python3 python3-dev python3-pip python3-dateutil tcsh unzip xauth xorg time
 
 	# install the Intel compilers
 	echo $PASSWD | sudo -S apt -y install intel-basekit
@@ -13135,6 +13250,11 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 	echo $PASSWD | sudo -S apt -y install intel-oneapi-python
 
 	echo $PASSWD | sudo -S apt -y update
+
+
+	#Fix any broken installations
+	echo $PASSWD | sudo -S apt --fix-broken install
+
 
 	# make sure some critical packages have been installed
 	which cmake pkg-config make gcc g++ gfortran
@@ -13221,7 +13341,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 	CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS=$CFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
-	make -j $CPU_HALF_EVEN 2>&1 | tee make.check.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 
 	echo " "
@@ -13627,10 +13747,12 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 	########### https://www.ncl.ucar.edu/index.shtml      ##################
 	echo " "
 	#Installing Miniconda3 to WRF directory and updating libraries
-	pip install --upgrade --force-reinstall zstandard
-	pip install --upgrade --force-reinstall zstd
-	pip3 install --upgrade --force-reinstall zstandard
-	pip3 install --upgrade --force-reinstall zstd
+pip install --upgrade --force-reinstall zstandard
+pip install --upgrade --force-reinstall zstd
+pip3 install --upgrade --force-reinstall zstandard
+pip3 install --upgrade --force-reinstall zstd
+pipx install --force zstandard
+pipx install --force zstd
 	export Miniconda_Install_DIR="${WRFHYDRO_FOLDER}"/miniconda3
 
 	mkdir -p $Miniconda_Install_DIR
@@ -14452,10 +14574,12 @@ export PATH=/usr/local/bin:$PATH
 ######################################################################
 	#Installing Miniconda3 to WRF directory and updating libraries
 ######################################################################
-	pip install --upgrade --force-reinstall zstandard
-	pip install --upgrade --force-reinstall zstd
-	pip3 install --upgrade --force-reinstall zstandard
-	pip3 install --upgrade --force-reinstall zstd
+pip install --upgrade --force-reinstall zstandard
+pip install --upgrade --force-reinstall zstd
+pip3 install --upgrade --force-reinstall zstandard
+pip3 install --upgrade --force-reinstall zstd
+pipx install --force zstandard
+pipx install --force zstd
 	export Miniconda_Install_DIR="${WRFHYDRO_FOLDER}"/miniconda3
 
 	mkdir -p $Miniconda_Install_DIR
@@ -15251,10 +15375,12 @@ export PATH=/usr/local/bin:$PATH
 ##################################################################
 	#Installing Miniconda3 to WRF directory and updating libraries
 ##################################################################
-	pip install --upgrade --force-reinstall zstandard
-	pip install --upgrade --force-reinstall zstd
-	pip3 install --upgrade --force-reinstall zstandard
-	pip3 install --upgrade --force-reinstall zstd
+pip install --upgrade --force-reinstall zstandard
+pip install --upgrade --force-reinstall zstd
+pip3 install --upgrade --force-reinstall zstandard
+pip3 install --upgrade --force-reinstall zstd
+pipx install --force zstandard
+pipx install --force zstd
 	export Miniconda_Install_DIR="${WRFHYDRO_FOLDER}"/miniconda3
 
 	mkdir -p $Miniconda_Install_DIR
@@ -16155,10 +16281,12 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 	########### https://www.ncl.ucar.edu/index.shtml      ##################
 
 	#Installing Miniconda3 to WRF-Hydro directory and updating libraries
-	pip install --upgrade --force-reinstall zstandard
-	pip install --upgrade --force-reinstall zstd
-	pip3 install --upgrade --force-reinstall zstandard
-	pip3 install --upgrade --force-reinstall zstd
+pip install --upgrade --force-reinstall zstandard
+pip install --upgrade --force-reinstall zstd
+pip3 install --upgrade --force-reinstall zstandard
+pip3 install --upgrade --force-reinstall zstd
+pipx install --force zstandard
+pipx install --force zstd
 	export Miniconda_Install_DIR="${WRFHYDRO_FOLDER}"/miniconda3
 
 	mkdir -p $Miniconda_Install_DIR
@@ -17160,10 +17288,12 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 	########### https://www.ncl.ucar.edu/index.shtml      ##################
 
 	#Installing Miniconda3 to WRF-Hydro directory and updating libraries
-	pip install --upgrade --force-reinstall zstandard
-	pip install --upgrade --force-reinstall zstd
-	pip3 install --upgrade --force-reinstall zstandard
-	pip3 install --upgrade --force-reinstall zstd
+pip install --upgrade --force-reinstall zstandard
+pip install --upgrade --force-reinstall zstd
+pip3 install --upgrade --force-reinstall zstandard
+pip3 install --upgrade --force-reinstall zstd
+pipx install --force zstandard
+pipx install --force zstd
 	export Miniconda_Install_DIR="${WRFHYDRO_FOLDER}"/miniconda3
 
 	mkdir -p $Miniconda_Install_DIR
@@ -17539,7 +17669,20 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	#############################basic package managment############################
 	echo $PASSWD | sudo -S apt -y update
 	echo $PASSWD | sudo -S apt -y upgrade
-	echo $PASSWD | sudo -S apt -y install autoconf automake bison build-essential byacc cmake csh curl default-jdk default-jre emacs flex g++ gawk gcc gfortran git ksh libcurl4-openssl-dev libjpeg-dev libncurses6 libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev m4 make  ncview okular openbox pipenv pkg-config  python3 python3-dev python3-pip python3-dateutil tcsh unzip xauth xorg time
+
+release_version=$(lsb_release -r -s)
+
+# Compare the release version
+if [ "$release_version" = "24.04" ]; then
+    # Install Emacs without recommended packages
+    echo $PASSWD | sudo -S apt install emacs --no-install-recommends -y
+else
+    # Attempt to install Emacs if the release version is not 24.04
+    echo "The release version is not 24.04, attempting to install Emacs."
+    echo $PASSWD | sudo -S apt install emacs -y
+fi
+
+echo $PASSWD | sudo -S apt -y install autoconf automake bison build-essential byacc cmake csh curl default-jdk default-jre flex g++ gawk gcc gfortran git ksh libcurl4-openssl-dev libjpeg-dev libncurses6 libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev m4 make  ncview okular openbox pipenv pkg-config  python3 python3-dev python3-pip python3-dateutil tcsh unzip xauth xorg time
 
 	echo " "
 	##############################Directory Listing############################
@@ -18090,10 +18233,12 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	########### https://www.ncl.ucar.edu/index.shtml      ##################
 	echo " "
 	#Installing Miniconda3 to WRF directory and updating libraries
-	pip install --upgrade --force-reinstall zstandard
-	pip install --upgrade --force-reinstall zstd
-	pip3 install --upgrade --force-reinstall zstandard
-	pip3 install --upgrade --force-reinstall zstd
+pip install --upgrade --force-reinstall zstandard
+pip install --upgrade --force-reinstall zstd
+pip3 install --upgrade --force-reinstall zstandard
+pip3 install --upgrade --force-reinstall zstd
+pipx install --force zstandard
+pipx install --force zstd
 	export Miniconda_Install_DIR="${WRFCHEM_FOLDER}"/miniconda3
 
 	mkdir -p $Miniconda_Install_DIR
@@ -18578,8 +18723,20 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	# this update should get the Intel package info from the Intel repository
 	echo $PASSWD | sudo -S apt -y update
 
-	# necessary binary packages (especially pkg-config and build-essential)
-	echo $PASSWD | sudo -S apt -y install autoconf automake bison build-essential byacc cmake csh curl default-jdk default-jre emacs flex g++ gawk gcc gfortran git ksh libcurl4-openssl-dev libjpeg-dev libncurses6 libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev m4 make  ncview okular openbox pipenv pkg-config  python3 python3-dev python3-pip python3-dateutil tcsh unzip xauth xorg time
+
+release_version=$(lsb_release -r -s)
+
+# Compare the release version
+if [ "$release_version" = "24.04" ]; then
+    # Install Emacs without recommended packages
+    echo $PASSWD | sudo -S apt install emacs --no-install-recommends -y
+else
+    # Attempt to install Emacs if the release version is not 24.04
+    echo "The release version is not 24.04, attempting to install Emacs."
+    echo $PASSWD | sudo -S apt install emacs -y
+fi
+
+echo $PASSWD | sudo -S apt -y install autoconf automake bison build-essential byacc cmake csh curl default-jdk default-jre flex g++ gawk gcc gfortran git ksh libcurl4-openssl-dev libjpeg-dev libncurses6 libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev m4 make  ncview okular openbox pipenv pkg-config  python3 python3-dev python3-pip python3-dateutil tcsh unzip xauth xorg time
 
 	# install the Intel compilers
 	echo $PASSWD | sudo -S apt -y install intel-basekit
@@ -18587,6 +18744,11 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	echo $PASSWD | sudo -S apt -y install intel-oneapi-python
 
 	echo $PASSWD | sudo -S apt -y update
+
+
+	#Fix any broken installations
+	echo $PASSWD | sudo -S apt --fix-broken install
+
 
 	# make sure some critical packages have been installed
 	which cmake pkg-config make gcc g++ gfortran
@@ -18674,7 +18836,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS=$CFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
-	make -j $CPU_HALF_EVEN 2>&1 | tee make.check.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 
 	echo " "
@@ -19072,10 +19234,12 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	########### https://www.ncl.ucar.edu/index.shtml      ##################
 	echo " "
 	#Installing Miniconda3 to WRF directory and updating libraries
-	pip install --upgrade --force-reinstall zstandard
-	pip install --upgrade --force-reinstall zstd
-	pip3 install --upgrade --force-reinstall zstandard
-	pip3 install --upgrade --force-reinstall zstd
+pip install --upgrade --force-reinstall zstandard
+pip install --upgrade --force-reinstall zstd
+pip3 install --upgrade --force-reinstall zstandard
+pip3 install --upgrade --force-reinstall zstd
+pipx install --force zstandard
+pipx install --force zstd
 	export Miniconda_Install_DIR="${WRFCHEM_FOLDER}"/miniconda3
 
 	mkdir -p $Miniconda_Install_DIR
@@ -19888,10 +20052,12 @@ export PATH=/usr/local/bin:$PATH
 #####################################################################
 	#Installing Miniconda3 to WRF directory and updating libraries
 #####################################################################
-	pip install --upgrade --force-reinstall zstandard
-	pip install --upgrade --force-reinstall zstd
-	pip3 install --upgrade --force-reinstall zstandard
-	pip3 install --upgrade --force-reinstall zstd
+pip install --upgrade --force-reinstall zstandard
+pip install --upgrade --force-reinstall zstd
+pip3 install --upgrade --force-reinstall zstandard
+pip3 install --upgrade --force-reinstall zstd
+pipx install --force zstandard
+pipx install --force zstd
 	export Miniconda_Install_DIR="${WRFCHEM_FOLDER}"/miniconda3
 
 	mkdir -p $Miniconda_Install_DIR
@@ -20703,10 +20869,12 @@ export PATH=/usr/local/bin:$PATH
   #####################################################################
   	#Installing Miniconda3 to WRF directory and updating libraries
   #####################################################################
-	pip install --upgrade --force-reinstall zstandard
-	pip install --upgrade --force-reinstall zstd
-	pip3 install --upgrade --force-reinstall zstandard
-	pip3 install --upgrade --force-reinstall zstd
+pip install --upgrade --force-reinstall zstandard
+pip install --upgrade --force-reinstall zstd
+pip3 install --upgrade --force-reinstall zstandard
+pip3 install --upgrade --force-reinstall zstd
+pipx install --force zstandard
+pipx install --force zstd
 	export Miniconda_Install_DIR="${WRFCHEM_FOLDER}"/miniconda3
 
 	mkdir -p $Miniconda_Install_DIR
@@ -21628,10 +21796,12 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	########### https://www.ncl.ucar.edu/index.shtml      ##################
 	echo " "
 	#Installing Miniconda3 to WRF directory and updating libraries
-	pip install --upgrade --force-reinstall zstandard
-	pip install --upgrade --force-reinstall zstd
-	pip3 install --upgrade --force-reinstall zstandard
-	pip3 install --upgrade --force-reinstall zstd
+pip install --upgrade --force-reinstall zstandard
+pip install --upgrade --force-reinstall zstd
+pip3 install --upgrade --force-reinstall zstandard
+pip3 install --upgrade --force-reinstall zstd
+pipx install --force zstandard
+pipx install --force zstd
 	export Miniconda_Install_DIR="${WRFCHEM_FOLDER}"/miniconda3
 
 	mkdir -p $Miniconda_Install_DIR
@@ -22643,10 +22813,12 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	########### https://www.ncl.ucar.edu/index.shtml      ##################
 	echo " "
 	#Installing Miniconda3 to WRF directory and updating libraries
-	pip install --upgrade --force-reinstall zstandard
-	pip install --upgrade --force-reinstall zstd
-	pip3 install --upgrade --force-reinstall zstandard
-	pip3 install --upgrade --force-reinstall zstd
+pip install --upgrade --force-reinstall zstandard
+pip install --upgrade --force-reinstall zstd
+pip3 install --upgrade --force-reinstall zstandard
+pip3 install --upgrade --force-reinstall zstd
+pipx install --force zstandard
+pipx install --force zstd
 	export Miniconda_Install_DIR="${WRFCHEM_FOLDER}"/miniconda3
 
 	mkdir -p $Miniconda_Install_DIR
@@ -23104,7 +23276,20 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	#############################basic package managment############################
 	echo $PASSWD | sudo -S apt -y update
 	echo $PASSWD | sudo -S apt -y upgrade
-	echo $PASSWD | sudo -S apt -y install autoconf automake bison build-essential byacc cmake csh curl default-jdk default-jre emacs flex g++ gawk gcc gfortran git ksh libcurl4-openssl-dev libjpeg-dev libncurses6 libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev m4 make  ncview okular openbox pipenv pkg-config  python3 python3-dev python3-pip python3-dateutil tcsh unzip xauth xorg time
+
+release_version=$(lsb_release -r -s)
+
+# Compare the release version
+if [ "$release_version" = "24.04" ]; then
+    # Install Emacs without recommended packages
+    echo $PASSWD | sudo -S apt install emacs --no-install-recommends -y
+else
+    # Attempt to install Emacs if the release version is not 24.04
+    echo "The release version is not 24.04, attempting to install Emacs."
+    echo $PASSWD | sudo -S apt install emacs -y
+fi
+
+echo $PASSWD | sudo -S apt -y install autoconf automake bison build-essential byacc cmake csh curl default-jdk default-jre flex g++ gawk gcc gfortran git ksh libcurl4-openssl-dev libjpeg-dev libncurses6 libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev m4 make  ncview okular openbox pipenv pkg-config  python3 python3-dev python3-pip python3-dateutil tcsh unzip xauth xorg time
 
 	echo " "
 	##############################Directory Listing############################
@@ -23673,10 +23858,12 @@ echo " "
 	########### https://www.ncl.ucar.edu/index.shtml      ##################
 	#Installing Miniconda3 to WRF-Hydro directory and updating libraries
 
-	pip install --upgrade --force-reinstall zstandard
-	pip install --upgrade --force-reinstall zstd
-	pip3 install --upgrade --force-reinstall zstandard
-	pip3 install --upgrade --force-reinstall zstd
+pip install --upgrade --force-reinstall zstandard
+pip install --upgrade --force-reinstall zstd
+pip3 install --upgrade --force-reinstall zstandard
+pip3 install --upgrade --force-reinstall zstd
+pipx install --force zstandard
+pipx install --force zstd
 	export Miniconda_Install_DIR="${WRF_FOLDER}"/miniconda3
 
 	mkdir -p $Miniconda_Install_DIR
@@ -24169,8 +24356,20 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	# this update should get the Intel package info from the Intel repository
 	echo $PASSWD | sudo -S apt -y update
 
-	# necessary binary packages (especially pkg-config and build-essential)
-	echo $PASSWD | sudo -S apt -y install autoconf automake bison build-essential byacc cmake csh curl default-jdk default-jre emacs flex g++ gawk gcc gfortran git ksh libcurl4-openssl-dev libjpeg-dev libncurses6 libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev m4 make  ncview okular openbox pipenv pkg-config  python3 python3-dev python3-pip python3-dateutil tcsh unzip xauth xorg time
+
+release_version=$(lsb_release -r -s)
+
+# Compare the release version
+if [ "$release_version" = "24.04" ]; then
+    # Install Emacs without recommended packages
+    echo $PASSWD | sudo -S apt install emacs --no-install-recommends -y
+else
+    # Attempt to install Emacs if the release version is not 24.04
+    echo "The release version is not 24.04, attempting to install Emacs."
+    echo $PASSWD | sudo -S apt install emacs -y
+fi
+
+echo $PASSWD | sudo -S apt -y install autoconf automake bison build-essential byacc cmake csh curl default-jdk default-jre flex g++ gawk gcc gfortran git ksh libcurl4-openssl-dev libjpeg-dev libncurses6 libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev m4 make  ncview okular openbox pipenv pkg-config  python3 python3-dev python3-pip python3-dateutil tcsh unzip xauth xorg time
 
 	# install the Intel compilers
 	echo $PASSWD | sudo -S apt -y install intel-basekit
@@ -24179,6 +24378,11 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 
 	echo $PASSWD | sudo -S apt -y update
 
+
+	#Fix any broken installations
+	echo $PASSWD | sudo -S apt --fix-broken install
+
+
 	# make sure some critical packages have been installed
 	which cmake pkg-config make gcc g++ gfortran
 
@@ -24186,7 +24390,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	source /opt/intel/oneapi/setvars.sh
 
 	# some of the libraries we install below need one or more of these variables
-	# some of the libraries we install below need one or more of these variables
+
 	export CC=icx
 	export CXX=icpx
 	export FC=ifx
@@ -24266,7 +24470,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS=$CFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_HALF_EVEN 2>&1 | tee make.log
-	make -j $CPU_HALF_EVEN 2>&1 | tee make.check.log
+	make -j $CPU_HALF_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_HALF_EVEN install 2>&1 | tee make.install.log
 
 	echo " "
@@ -24534,7 +24738,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   sed -i '7s|mpiifort|mpiifx|g' "${WRF_FOLDER}"/Downloads/NCEPlibs/macros.make.linux.intel
 	sed -i '8s|ifort|ifx|g' "${WRF_FOLDER}"/Downloads/NCEPlibs/macros.make.linux.intel
 	sed -i '9s|icc|icx|g' "${WRF_FOLDER}"/Downloads/NCEPlibs/macros.make.linux.intel
-	sed -i '74s|-DLINUX|-DLINUX -Wno-deprecated -Wno-implicit-function-declaration|g' "${WRF_FOLDER}"/Downloads/NCEPlibs/macros.make.linux.intel
+	sed -i '74s|-DLINUX|-DLINUX -Wno-deprecated -Wno-implicit-function-declaration -Wno-incompatible-function-pointer-types -Wno-unused-command-line-argument|g' "${WRF_FOLDER}"/Downloads/NCEPlibs/macros.make.linux.intel
 
 	if [ ${auto_config} -eq 1 ]; then
 		echo yes | ./make_ncep_libs.sh -s linux -c intel -d $DIR/nceplibs -o 0 -m 1 -a upp
@@ -24673,10 +24877,12 @@ echo " "
 	echo " "
 	#Installing Miniconda3 to WRF directory and updating libraries
 
-	pip install --upgrade --force-reinstall zstandard
-	pip install --upgrade --force-reinstall zstd
-	pip3 install --upgrade --force-reinstall zstandard
-	pip3 install --upgrade --force-reinstall zstd
+pip install --upgrade --force-reinstall zstandard
+pip install --upgrade --force-reinstall zstd
+pip3 install --upgrade --force-reinstall zstandard
+pip3 install --upgrade --force-reinstall zstd
+pipx install --force zstandard
+pipx install --force zstd
 	export Miniconda_Install_DIR="${WRF_FOLDER}"/miniconda3
 
 	mkdir -p $Miniconda_Install_DIR
@@ -24772,6 +24978,7 @@ conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 	#Need to remove mpich/GNU config calls to Intel config calls
 	sed -i '136s|mpif90 -f90=$(SFC)|mpiifx|g' "${WRF_FOLDER}"/WRFV${WRF_VERSION}/configure.wrf
 	sed -i '137s|mpicc -cc=$(SCC)|mpiicx|g' "${WRF_FOLDER}"/WRFV${WRF_VERSION}/configure.wrf
+
 
 	./compile -j $CPU_HALF_EVEN em_real 2>&1 | tee compile.wrf1.log
 
@@ -25524,10 +25731,12 @@ export PATH=/usr/local/bin:$PATH
 ####################################################################
 	#Installing Miniconda3 to WRF directory and updating libraries
 ####################################################################
-	pip install --upgrade --force-reinstall zstandard
-	pip install --upgrade --force-reinstall zstd
-	pip3 install --upgrade --force-reinstall zstandard
-	pip3 install --upgrade --force-reinstall zstd
+pip install --upgrade --force-reinstall zstandard
+pip install --upgrade --force-reinstall zstd
+pip3 install --upgrade --force-reinstall zstandard
+pip3 install --upgrade --force-reinstall zstd
+pipx install --force zstandard
+pipx install --force zstd
 	export Miniconda_Install_DIR="${WRF_FOLDER}"/miniconda3
 
 	mkdir -p $Miniconda_Install_DIR
@@ -26376,10 +26585,12 @@ export PATH=/usr/local/bin:$PATH
 ####################################################################
 	#Installing Miniconda3 to WRF directory and updating libraries
 ####################################################################
-	pip install --upgrade --force-reinstall zstandard
-	pip install --upgrade --force-reinstall zstd
-	pip3 install --upgrade --force-reinstall zstandard
-	pip3 install --upgrade --force-reinstall zstd
+pip install --upgrade --force-reinstall zstandard
+pip install --upgrade --force-reinstall zstd
+pip3 install --upgrade --force-reinstall zstandard
+pip3 install --upgrade --force-reinstall zstd
+pipx install --force zstandard
+pipx install --force zstd
 	export Miniconda_Install_DIR="${WRF_FOLDER}"/miniconda3
 
 	mkdir -p $Miniconda_Install_DIR
@@ -27339,10 +27550,12 @@ echo " "
 	########### https://www.ncl.ucar.edu/index.shtml      ##################
 	#Installing Miniconda3 to WRF-Hydro directory and updating libraries
 
-	pip install --upgrade --force-reinstall zstandard
-	pip install --upgrade --force-reinstall zstd
-	pip3 install --upgrade --force-reinstall zstandard
-	pip3 install --upgrade --force-reinstall zstd
+pip install --upgrade --force-reinstall zstandard
+pip install --upgrade --force-reinstall zstd
+pip3 install --upgrade --force-reinstall zstandard
+pip3 install --upgrade --force-reinstall zstd
+pipx install --force zstandard
+pipx install --force zstd
 	export Miniconda_Install_DIR="${WRF_FOLDER}"/miniconda3
 
 	mkdir -p $Miniconda_Install_DIR
@@ -28400,10 +28613,12 @@ echo " "
 	########### https://www.ncl.ucar.edu/index.shtml      ##################
 	#Installing Miniconda3 to WRF-Hydro directory and updating libraries
 
-	pip install --upgrade --force-reinstall zstandard
-	pip install --upgrade --force-reinstall zstd
-	pip3 install --upgrade --force-reinstall zstandard
-	pip3 install --upgrade --force-reinstall zstd
+pip install --upgrade --force-reinstall zstandard
+pip install --upgrade --force-reinstall zstd
+pip3 install --upgrade --force-reinstall zstandard
+pip3 install --upgrade --force-reinstall zstd
+pipx install --force zstandard
+pipx install --force zstd
 	export Miniconda_Install_DIR="${WRF_FOLDER}"/miniconda3
 
 	mkdir -p $Miniconda_Install_DIR
