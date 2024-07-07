@@ -87,6 +87,8 @@ This is a BASH script that provides options to install the following Weather Res
     - OpenGrADS
     - GrADS
     - NCAR Command Langauge (Conda installed)
+    - Climate Data Operators (Conda installed)
+      
 - WRF-CHEM
     - Development Testbed Center (DTC) Model Evaluation Tools (MET) v11.1.1
     - Development Testbed Center (DTC) Enhanced Model Evaluation Tools (METplus) v5.1.0
@@ -96,6 +98,7 @@ This is a BASH script that provides options to install the following Weather Res
     - OpenGrADS
     - GrADS
     - NCAR Command Langauge (Conda installed)
+    - Climate Data Operators (Conda installed)
     - Prep-Chem-SRC v1.5 (GNU only)
     - WRF CHEM Tools
         - Mozbc
@@ -112,6 +115,7 @@ This is a BASH script that provides options to install the following Weather Res
 - WRF-Hydro Standalone
     - Development Testbed Center (DTC) Model Evaluation Tools (MET) v11.1.0
     - Development Testbed Center (DTC) Enhanced Model Evaluation Tools (METplus) v5.1.0
+      
 - WRF-Hydo Coupled
     - Development Testbed Center (DTC) Model Evaluation Tools (MET) v11.1.0
     - Development Testbed Center (DTC) Enhanced Model Evaluation Tools (METplus) v5.1.0
@@ -121,7 +125,30 @@ This is a BASH script that provides options to install the following Weather Res
     - OpenGrADS
     - GrADS
     - NCAR Command Langauge (Conda installed)
+    - Climate Data Operators (Conda installed)
     - WRF-GIS-Preprocessor (Conda installed)
+      
+ - WRF-SFIRE
+    - Development Testbed Center (DTC) Model Evaluation Tools (MET) v11.1.1
+    - Development Testbed Center (DTC) Enhanced Model Evaluation Tools (METplus) v5.1.0
+    - Development Testbed Center (DTC) Unified Post Processor (UPP) v4.1
+    - ARWPost v3
+    - WRF-Python (Conda installed)
+    - OpenGrADS
+    - GrADS
+    - NCAR Command Langauge (Conda installed)
+    - Climate Data Operators (Conda installed)
+  
+   - WRF-CMAQ
+    - Development Testbed Center (DTC) Model Evaluation Tools (MET) v11.1.1
+    - Development Testbed Center (DTC) Enhanced Model Evaluation Tools (METplus) v5.1.0
+    - Development Testbed Center (DTC) Unified Post Processor (UPP) v4.1
+    - ARWPost v3
+    - WRF-Python (Conda installed)
+    - OpenGrADS
+    - GrADS
+    - NCAR Command Langauge (Conda installed)
+    - Climate Data Operators (Conda installed)
 
 ---
 ### MacOS Installation
