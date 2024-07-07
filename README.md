@@ -139,7 +139,7 @@ This is a BASH script that provides options to install the following Weather Res
     - NCAR Command Langauge (Conda installed)
     - Climate Data Operators (Conda installed)
   
-   - WRF-CMAQ
+- WRF-CMAQ
     - Development Testbed Center (DTC) Model Evaluation Tools (MET) v11.1.1
     - Development Testbed Center (DTC) Enhanced Model Evaluation Tools (METplus) v5.1.0
     - Development Testbed Center (DTC) Unified Post Processor (UPP) v4.1
