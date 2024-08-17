@@ -866,8 +866,9 @@ fi
 echo $PASSWD | sudo -S apt -y install autoconf automake bison build-essential byacc cmake csh curl default-jdk default-jre flex g++ gawk gcc gfortran git ksh libcurl4-openssl-dev libjpeg-dev libncurses6 libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev m4 make  ncview okular openbox pipenv pkg-config  python3 python3-dev python3-pip python3-dateutil tcsh unzip xauth xorg time
 
 	#Downloading latest dateutil due to python3.8 running old version.
-	pip3 install python-dateutil==2.8 --break-system-packages
-	pip3 install python-dateutil --break-system-packages
+echo $PASSWD | sudo -S apt -y install python3-dateutil
+
+
 
 	#Directory Listings
 	if [ "$WRFCHEM_PICK" = "1" ]; then
@@ -1035,7 +1036,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$DTC_MET" = "1" ]; then
 	echo $PASSWD | sudo -S dnf -y update
 	echo $PASSWD | sudo -S dnf -y upgrade
 	echo $PASSWD | sudo -S dnf -y install autoconf automake bzip2 bzip2-devel byacc cairo-devel cmake cpp curl curl-devel flex  fontconfig-devel fontconfig-devel.x86_64 gcc gcc-c++ gcc-gfortran git java-11-openjdk java-11-openjdk-devel ksh libX11-devel libX11-devel.x86_64 libXaw libXaw-devel libXext-devel libXext-devel.x86_64 libXmu-devel libXrender-devel libXrender-devel.x86_64 libstdc++ libstdc++-devel  libxml2 libxml2-devel m4  .x86_64 nfs-utils perl pkgconfig  pixman-devel python3 python3-devel tcsh time unzip wget
-	pip3 install python-dateutil --break-system-packages
+	pip3 install python-dateutil
 	echo $PASSWD | sudo -S dnf -y groupinstall "Development Tools"
 	echo $PASSWD | sudo -S dnf -y update
 	echo $PASSWD | sudo -S dnf -y upgrade
@@ -1198,7 +1199,8 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$DTC_MET" = "1" ]; then
 	echo $PASSWD | sudo -S dnf -y update
 	echo $PASSWD | sudo -S dnf -y upgrade
 	echo $PASSWD | sudo -S dnf -y install autoconf automake bzip2 bzip2-devel byacc cairo-devel cmake cpp curl curl-devel flex  fontconfig-devel fontconfig-devel.x86_64 gcc gcc-c++ gcc-gfortran git java-11-openjdk java-11-openjdk-devel ksh libX11-devel libX11-devel.x86_64 libXaw libXaw-devel libXext-devel libXext-devel.x86_64 libXmu-devel libXrender-devel libXrender-devel.x86_64 libstdc++ libstdc++-devel  libxml2 libxml2-devel m4  .x86_64 nfs-utils perl pkgconfig  pixman-devel python3 python3-devel tcsh time unzip wget
-	echo $PASSWD | sudo -S pip3 install python-dateutil --break-system-packages
+	echo $PASSWD | sudo -S apt -y install python3-dateutil
+ --break-system-packages
 	echo $PASSWD | sudo -S dnf -y groupinstall "Development Tools"
 	echo $PASSWD | sudo -S dnf -y update
 	echo $PASSWD | sudo -S dnf -y upgrade
@@ -5262,12 +5264,8 @@ echo " "
 	echo " "
 	#Installing Miniconda3 to WRF directory and updating libraries
 
-pip install --upgrade --force-reinstall zstandard
-pip install --upgrade --force-reinstall zstd
-pip3 install --upgrade --force-reinstall zstandard
-pip3 install --upgrade --force-reinstall zstd
-pipx install --force zstandard
-pipx install --force zstd
+echo $PASSWD | sudo -S apt -y install python3-zstandard python3-zstd
+
 	export Miniconda_Install_DIR="${WRF_FOLDER}"/miniconda3
 
 	mkdir -p $Miniconda_Install_DIR
@@ -9416,12 +9414,8 @@ echo $PASSWD | sudo -S apt -y install autoconf automake bison build-essential by
 	########################### Test script for output data  ###################################
 
 	#Installing Miniconda3 to WRF directory and updating libraries
-pip install --upgrade --force-reinstall zstandard
-pip install --upgrade --force-reinstall zstd
-pip3 install --upgrade --force-reinstall zstandard
-pip3 install --upgrade --force-reinstall zstd
-pipx install --force zstandard
-pipx install --force zstd
+echo $PASSWD | sudo -S apt -y install python3-zstandard python3-zstd
+
 	export Miniconda_Install_DIR="${WRFHYDRO_FOLDER}"/miniconda3
 
 	mkdir -p $Miniconda_Install_DIR
@@ -10037,12 +10031,8 @@ export PATH=/usr/local/bin:$PATH
 	########################### Test script for output data  ###################################
 
 	#Installing Miniconda3 to WRF directory and updating libraries
-pip install --upgrade --force-reinstall zstandard
-pip install --upgrade --force-reinstall zstd
-pip3 install --upgrade --force-reinstall zstandard
-pip3 install --upgrade --force-reinstall zstd
-pipx install --force zstandard
-pipx install --force zstd
+echo $PASSWD | sudo -S apt -y install python3-zstandard python3-zstd
+
 	export Miniconda_Install_DIR="${WRFHYDRO_FOLDER}"/miniconda3
 
 	mkdir -p $Miniconda_Install_DIR
@@ -10647,12 +10637,8 @@ export PATH=/usr/local/bin:$PATH
 	########################### Test script for output data  ###################################
 
 	#Installing Miniconda3 to WRF directory and updating libraries
-pip install --upgrade --force-reinstall zstandard
-pip install --upgrade --force-reinstall zstd
-pip3 install --upgrade --force-reinstall zstandard
-pip3 install --upgrade --force-reinstall zstd
-pipx install --force zstandard
-pipx install --force zstd
+echo $PASSWD | sudo -S apt -y install python3-zstandard python3-zstd
+
 	export Miniconda_Install_DIR="${WRFHYDRO_FOLDER}"/miniconda3
 
 	mkdir -p $Miniconda_Install_DIR
@@ -11128,12 +11114,8 @@ echo $PASSWD | sudo -S apt -y install autoconf automake bison build-essential by
 	########################### Test script for output data  ###################################
 
 	#Installing Miniconda3 to WRF directory and updating libraries
-pip install --upgrade --force-reinstall zstandard
-pip install --upgrade --force-reinstall zstd
-pip3 install --upgrade --force-reinstall zstandard
-pip3 install --upgrade --force-reinstall zstd
-pipx install --force zstandard
-pipx install --force zstd
+echo $PASSWD | sudo -S apt -y install python3-zstandard python3-zstd
+
 	export Miniconda_Install_DIR="${WRFHYDRO_FOLDER}"/miniconda3
 
 	mkdir -p $Miniconda_Install_DIR
@@ -11633,12 +11615,8 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 	echo " "
 
 	#Installing Miniconda3 to WRF directory and updating libraries
-pip install --upgrade --force-reinstall zstandard
-pip install --upgrade --force-reinstall zstd
-pip3 install --upgrade --force-reinstall zstandard
-pip3 install --upgrade --force-reinstall zstd
-pipx install --force zstandard
-pipx install --force zstd
+echo $PASSWD | sudo -S apt -y install python3-zstandard python3-zstd
+
 	export Miniconda_Install_DIR="${WRFHYDRO_FOLDER}"/miniconda3
 
 	mkdir -p $Miniconda_Install_DIR
@@ -12144,12 +12122,8 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 	echo " "
 
 	#Installing Miniconda3 to WRF directory and updating libraries
-pip install --upgrade --force-reinstall zstandard
-pip install --upgrade --force-reinstall zstd
-pip3 install --upgrade --force-reinstall zstandard
-pip3 install --upgrade --force-reinstall zstd
-pipx install --force zstandard
-pipx install --force zstd
+echo $PASSWD | sudo -S apt -y install python3-zstandard python3-zstd
+
 	export Miniconda_Install_DIR="${WRFHYDRO_FOLDER}"/miniconda3
 
 	mkdir -p $Miniconda_Install_DIR
@@ -12775,12 +12749,8 @@ echo $PASSWD | sudo -S apt -y install autoconf automake bison build-essential by
 	########### https://www.ncl.ucar.edu/index.shtml      ##################
 
 	#Installing Miniconda3 to WRF-Hydro dire
-pip install --upgrade --force-reinstall zstandard
-pip install --upgrade --force-reinstall zstd
-pip3 install --upgrade --force-reinstall zstandard
-pip3 install --upgrade --force-reinstall zstd
-pipx install --force zstandard
-pipx install --force zstd
+echo $PASSWD | sudo -S apt -y install python3-zstandard python3-zstd
+
 	export Miniconda_Install_DIR="${WRFHYDRO_FOLDER}"/miniconda3
 
 	mkdir -p $Miniconda_Install_DIR
@@ -13747,12 +13717,8 @@ echo $PASSWD | sudo -S apt -y install autoconf automake bison build-essential by
 	########### https://www.ncl.ucar.edu/index.shtml      ##################
 	echo " "
 	#Installing Miniconda3 to WRF directory and updating libraries
-pip install --upgrade --force-reinstall zstandard
-pip install --upgrade --force-reinstall zstd
-pip3 install --upgrade --force-reinstall zstandard
-pip3 install --upgrade --force-reinstall zstd
-pipx install --force zstandard
-pipx install --force zstd
+echo $PASSWD | sudo -S apt -y install python3-zstandard python3-zstd
+
 	export Miniconda_Install_DIR="${WRFHYDRO_FOLDER}"/miniconda3
 
 	mkdir -p $Miniconda_Install_DIR
@@ -14574,12 +14540,8 @@ export PATH=/usr/local/bin:$PATH
 ######################################################################
 	#Installing Miniconda3 to WRF directory and updating libraries
 ######################################################################
-pip install --upgrade --force-reinstall zstandard
-pip install --upgrade --force-reinstall zstd
-pip3 install --upgrade --force-reinstall zstandard
-pip3 install --upgrade --force-reinstall zstd
-pipx install --force zstandard
-pipx install --force zstd
+echo $PASSWD | sudo -S apt -y install python3-zstandard python3-zstd
+
 	export Miniconda_Install_DIR="${WRFHYDRO_FOLDER}"/miniconda3
 
 	mkdir -p $Miniconda_Install_DIR
@@ -15375,12 +15337,8 @@ export PATH=/usr/local/bin:$PATH
 ##################################################################
 	#Installing Miniconda3 to WRF directory and updating libraries
 ##################################################################
-pip install --upgrade --force-reinstall zstandard
-pip install --upgrade --force-reinstall zstd
-pip3 install --upgrade --force-reinstall zstandard
-pip3 install --upgrade --force-reinstall zstd
-pipx install --force zstandard
-pipx install --force zstd
+echo $PASSWD | sudo -S apt -y install python3-zstandard python3-zstd
+
 	export Miniconda_Install_DIR="${WRFHYDRO_FOLDER}"/miniconda3
 
 	mkdir -p $Miniconda_Install_DIR
@@ -16281,12 +16239,8 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 	########### https://www.ncl.ucar.edu/index.shtml      ##################
 
 	#Installing Miniconda3 to WRF-Hydro directory and updating libraries
-pip install --upgrade --force-reinstall zstandard
-pip install --upgrade --force-reinstall zstd
-pip3 install --upgrade --force-reinstall zstandard
-pip3 install --upgrade --force-reinstall zstd
-pipx install --force zstandard
-pipx install --force zstd
+echo $PASSWD | sudo -S apt -y install python3-zstandard python3-zstd
+
 	export Miniconda_Install_DIR="${WRFHYDRO_FOLDER}"/miniconda3
 
 	mkdir -p $Miniconda_Install_DIR
@@ -17288,12 +17242,8 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 	########### https://www.ncl.ucar.edu/index.shtml      ##################
 
 	#Installing Miniconda3 to WRF-Hydro directory and updating libraries
-pip install --upgrade --force-reinstall zstandard
-pip install --upgrade --force-reinstall zstd
-pip3 install --upgrade --force-reinstall zstandard
-pip3 install --upgrade --force-reinstall zstd
-pipx install --force zstandard
-pipx install --force zstd
+echo $PASSWD | sudo -S apt -y install python3-zstandard python3-zstd
+
 	export Miniconda_Install_DIR="${WRFHYDRO_FOLDER}"/miniconda3
 
 	mkdir -p $Miniconda_Install_DIR
@@ -18233,12 +18183,8 @@ echo $PASSWD | sudo -S apt -y install autoconf automake bison build-essential by
 	########### https://www.ncl.ucar.edu/index.shtml      ##################
 	echo " "
 	#Installing Miniconda3 to WRF directory and updating libraries
-pip install --upgrade --force-reinstall zstandard
-pip install --upgrade --force-reinstall zstd
-pip3 install --upgrade --force-reinstall zstandard
-pip3 install --upgrade --force-reinstall zstd
-pipx install --force zstandard
-pipx install --force zstd
+echo $PASSWD | sudo -S apt -y install python3-zstandard python3-zstd
+
 	export Miniconda_Install_DIR="${WRFCHEM_FOLDER}"/miniconda3
 
 	mkdir -p $Miniconda_Install_DIR
@@ -19234,12 +19180,8 @@ echo $PASSWD | sudo -S apt -y install autoconf automake bison build-essential by
 	########### https://www.ncl.ucar.edu/index.shtml      ##################
 	echo " "
 	#Installing Miniconda3 to WRF directory and updating libraries
-pip install --upgrade --force-reinstall zstandard
-pip install --upgrade --force-reinstall zstd
-pip3 install --upgrade --force-reinstall zstandard
-pip3 install --upgrade --force-reinstall zstd
-pipx install --force zstandard
-pipx install --force zstd
+echo $PASSWD | sudo -S apt -y install python3-zstandard python3-zstd
+
 	export Miniconda_Install_DIR="${WRFCHEM_FOLDER}"/miniconda3
 
 	mkdir -p $Miniconda_Install_DIR
@@ -20052,12 +19994,8 @@ export PATH=/usr/local/bin:$PATH
 #####################################################################
 	#Installing Miniconda3 to WRF directory and updating libraries
 #####################################################################
-pip install --upgrade --force-reinstall zstandard
-pip install --upgrade --force-reinstall zstd
-pip3 install --upgrade --force-reinstall zstandard
-pip3 install --upgrade --force-reinstall zstd
-pipx install --force zstandard
-pipx install --force zstd
+echo $PASSWD | sudo -S apt -y install python3-zstandard python3-zstd
+
 	export Miniconda_Install_DIR="${WRFCHEM_FOLDER}"/miniconda3
 
 	mkdir -p $Miniconda_Install_DIR
@@ -20869,12 +20807,8 @@ export PATH=/usr/local/bin:$PATH
   #####################################################################
   	#Installing Miniconda3 to WRF directory and updating libraries
   #####################################################################
-pip install --upgrade --force-reinstall zstandard
-pip install --upgrade --force-reinstall zstd
-pip3 install --upgrade --force-reinstall zstandard
-pip3 install --upgrade --force-reinstall zstd
-pipx install --force zstandard
-pipx install --force zstd
+echo $PASSWD | sudo -S apt -y install python3-zstandard python3-zstd
+
 	export Miniconda_Install_DIR="${WRFCHEM_FOLDER}"/miniconda3
 
 	mkdir -p $Miniconda_Install_DIR
@@ -21796,12 +21730,8 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	########### https://www.ncl.ucar.edu/index.shtml      ##################
 	echo " "
 	#Installing Miniconda3 to WRF directory and updating libraries
-pip install --upgrade --force-reinstall zstandard
-pip install --upgrade --force-reinstall zstd
-pip3 install --upgrade --force-reinstall zstandard
-pip3 install --upgrade --force-reinstall zstd
-pipx install --force zstandard
-pipx install --force zstd
+echo $PASSWD | sudo -S apt -y install python3-zstandard python3-zstd
+
 	export Miniconda_Install_DIR="${WRFCHEM_FOLDER}"/miniconda3
 
 	mkdir -p $Miniconda_Install_DIR
@@ -22813,12 +22743,8 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	########### https://www.ncl.ucar.edu/index.shtml      ##################
 	echo " "
 	#Installing Miniconda3 to WRF directory and updating libraries
-pip install --upgrade --force-reinstall zstandard
-pip install --upgrade --force-reinstall zstd
-pip3 install --upgrade --force-reinstall zstandard
-pip3 install --upgrade --force-reinstall zstd
-pipx install --force zstandard
-pipx install --force zstd
+echo $PASSWD | sudo -S apt -y install python3-zstandard python3-zstd
+
 	export Miniconda_Install_DIR="${WRFCHEM_FOLDER}"/miniconda3
 
 	mkdir -p $Miniconda_Install_DIR
@@ -23858,12 +23784,8 @@ echo " "
 	########### https://www.ncl.ucar.edu/index.shtml      ##################
 	#Installing Miniconda3 to WRF-Hydro directory and updating libraries
 
-pip install --upgrade --force-reinstall zstandard
-pip install --upgrade --force-reinstall zstd
-pip3 install --upgrade --force-reinstall zstandard
-pip3 install --upgrade --force-reinstall zstd
-pipx install --force zstandard
-pipx install --force zstd
+echo $PASSWD | sudo -S apt -y install python3-zstandard python3-zstd
+
 	export Miniconda_Install_DIR="${WRF_FOLDER}"/miniconda3
 
 	mkdir -p $Miniconda_Install_DIR
@@ -24877,12 +24799,8 @@ echo " "
 	echo " "
 	#Installing Miniconda3 to WRF directory and updating libraries
 
-pip install --upgrade --force-reinstall zstandard
-pip install --upgrade --force-reinstall zstd
-pip3 install --upgrade --force-reinstall zstandard
-pip3 install --upgrade --force-reinstall zstd
-pipx install --force zstandard
-pipx install --force zstd
+echo $PASSWD | sudo -S apt -y install python3-zstandard python3-zstd
+
 	export Miniconda_Install_DIR="${WRF_FOLDER}"/miniconda3
 
 	mkdir -p $Miniconda_Install_DIR
@@ -25731,12 +25649,8 @@ export PATH=/usr/local/bin:$PATH
 ####################################################################
 	#Installing Miniconda3 to WRF directory and updating libraries
 ####################################################################
-pip install --upgrade --force-reinstall zstandard
-pip install --upgrade --force-reinstall zstd
-pip3 install --upgrade --force-reinstall zstandard
-pip3 install --upgrade --force-reinstall zstd
-pipx install --force zstandard
-pipx install --force zstd
+echo $PASSWD | sudo -S apt -y install python3-zstandard python3-zstd
+
 	export Miniconda_Install_DIR="${WRF_FOLDER}"/miniconda3
 
 	mkdir -p $Miniconda_Install_DIR
@@ -26585,12 +26499,8 @@ export PATH=/usr/local/bin:$PATH
 ####################################################################
 	#Installing Miniconda3 to WRF directory and updating libraries
 ####################################################################
-pip install --upgrade --force-reinstall zstandard
-pip install --upgrade --force-reinstall zstd
-pip3 install --upgrade --force-reinstall zstandard
-pip3 install --upgrade --force-reinstall zstd
-pipx install --force zstandard
-pipx install --force zstd
+echo $PASSWD | sudo -S apt -y install python3-zstandard python3-zstd
+
 	export Miniconda_Install_DIR="${WRF_FOLDER}"/miniconda3
 
 	mkdir -p $Miniconda_Install_DIR
@@ -27550,12 +27460,8 @@ echo " "
 	########### https://www.ncl.ucar.edu/index.shtml      ##################
 	#Installing Miniconda3 to WRF-Hydro directory and updating libraries
 
-pip install --upgrade --force-reinstall zstandard
-pip install --upgrade --force-reinstall zstd
-pip3 install --upgrade --force-reinstall zstandard
-pip3 install --upgrade --force-reinstall zstd
-pipx install --force zstandard
-pipx install --force zstd
+echo $PASSWD | sudo -S apt -y install python3-zstandard python3-zstd
+
 	export Miniconda_Install_DIR="${WRF_FOLDER}"/miniconda3
 
 	mkdir -p $Miniconda_Install_DIR
@@ -28613,12 +28519,8 @@ echo " "
 	########### https://www.ncl.ucar.edu/index.shtml      ##################
 	#Installing Miniconda3 to WRF-Hydro directory and updating libraries
 
-pip install --upgrade --force-reinstall zstandard
-pip install --upgrade --force-reinstall zstd
-pip3 install --upgrade --force-reinstall zstandard
-pip3 install --upgrade --force-reinstall zstd
-pipx install --force zstandard
-pipx install --force zstd
+echo $PASSWD | sudo -S apt -y install python3-zstandard python3-zstd
+
 	export Miniconda_Install_DIR="${WRF_FOLDER}"/miniconda3
 
 	mkdir -p $Miniconda_Install_DIR
