@@ -1036,7 +1036,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$DTC_MET" = "1" ]; then
 	echo $PASSWD | sudo -S dnf -y update
 	echo $PASSWD | sudo -S dnf -y upgrade
 	echo $PASSWD | sudo -S dnf -y install autoconf automake bzip2 bzip2-devel byacc cairo-devel cmake cpp curl curl-devel flex  fontconfig-devel fontconfig-devel.x86_64 gcc gcc-c++ gcc-gfortran git java-11-openjdk java-11-openjdk-devel ksh libX11-devel libX11-devel.x86_64 libXaw libXaw-devel libXext-devel libXext-devel.x86_64 libXmu-devel libXrender-devel libXrender-devel.x86_64 libstdc++ libstdc++-devel  libxml2 libxml2-devel m4  .x86_64 nfs-utils perl pkgconfig  pixman-devel python3 python3-devel tcsh time unzip wget
-	pip3 install python-dateutil
+	echo $PASSWD | sudo -S dnf -y install python3-dateutil
 	echo $PASSWD | sudo -S dnf -y groupinstall "Development Tools"
 	echo $PASSWD | sudo -S dnf -y update
 	echo $PASSWD | sudo -S dnf -y upgrade
@@ -1199,7 +1199,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$DTC_MET" = "1" ]; then
 	echo $PASSWD | sudo -S dnf -y update
 	echo $PASSWD | sudo -S dnf -y upgrade
 	echo $PASSWD | sudo -S dnf -y install autoconf automake bzip2 bzip2-devel byacc cairo-devel cmake cpp curl curl-devel flex  fontconfig-devel fontconfig-devel.x86_64 gcc gcc-c++ gcc-gfortran git java-11-openjdk java-11-openjdk-devel ksh libX11-devel libX11-devel.x86_64 libXaw libXaw-devel libXext-devel libXext-devel.x86_64 libXmu-devel libXrender-devel libXrender-devel.x86_64 libstdc++ libstdc++-devel  libxml2 libxml2-devel m4  .x86_64 nfs-utils perl pkgconfig  pixman-devel python3 python3-devel tcsh time unzip wget
-	echo $PASSWD | sudo -S apt -y install python3-dateutil
+	echo $PASSWD | sudo -S dnf -y install python3-dateutil
  --break-system-packages
 	echo $PASSWD | sudo -S dnf -y groupinstall "Development Tools"
 	echo $PASSWD | sudo -S dnf -y update
@@ -21730,7 +21730,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	########### https://www.ncl.ucar.edu/index.shtml      ##################
 	echo " "
 	#Installing Miniconda3 to WRF directory and updating libraries
-echo $PASSWD | sudo -S apt -y install python3-zstandard python3-zstd
+echo $PASSWD | sudo -S dnf -y install python3-zstandard python3-zstd
 
 	export Miniconda_Install_DIR="${WRFCHEM_FOLDER}"/miniconda3
 
@@ -22743,7 +22743,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	########### https://www.ncl.ucar.edu/index.shtml      ##################
 	echo " "
 	#Installing Miniconda3 to WRF directory and updating libraries
-echo $PASSWD | sudo -S apt -y install python3-zstandard python3-zstd
+echo $PASSWD | sudo -S dnf -y install python3-zstandard python3-zstd
 
 	export Miniconda_Install_DIR="${WRFCHEM_FOLDER}"/miniconda3
 
@@ -27460,7 +27460,7 @@ echo " "
 	########### https://www.ncl.ucar.edu/index.shtml      ##################
 	#Installing Miniconda3 to WRF-Hydro directory and updating libraries
 
-echo $PASSWD | sudo -S apt -y install python3-zstandard python3-zstd
+echo $PASSWD | sudo -S dnf -y install python3-zstandard python3-zstd
 
 	export Miniconda_Install_DIR="${WRF_FOLDER}"/miniconda3
 
@@ -28519,7 +28519,7 @@ echo " "
 	########### https://www.ncl.ucar.edu/index.shtml      ##################
 	#Installing Miniconda3 to WRF-Hydro directory and updating libraries
 
-echo $PASSWD | sudo -S apt -y install python3-zstandard python3-zstd
+echo $PASSWD | sudo -S dnf -y install python3-zstandard python3-zstd
 
 	export Miniconda_Install_DIR="${WRF_FOLDER}"/miniconda3
 
