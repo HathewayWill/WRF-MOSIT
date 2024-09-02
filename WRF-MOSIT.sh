@@ -609,15 +609,31 @@ echo " "
 ############################# Enter sudo users information #############################
 echo "-------------------------------------------------- "
 while true; do
-	echo " "
-	read -r -s -p "
-  Password is only save locally and will not be seen when typing.
-  Please enter your sudo password:
+    echo " "
+    # Prompt for the initial password
+    read -r -s -p "
+    Password is only saved locally and will not be seen when typing.
+    Please enter your sudo password:
+    " password1
+    echo " "
+    # Prompt for password verification
+    read -r -s -p "
+    Please re-enter your password to verify:
+    " password2
+    echo " "
 
-  " yn
-	export PASSWD=$yn
-	echo "-------------------------------------------------- "
-	break
+    # Check if the passwords match
+    if [ "$password1" = "$password2" ]; then
+        export PASSWD=$password1
+        echo "-------------------------------------------------- "
+        echo "Password verified successfully."
+        break
+    else
+        echo " "
+        echo "-------------------------------------------------- "
+        echo "Passwords do not match. Please enter the passwords again."
+        echo "-------------------------------------------------- "
+    fi
 done
 
 echo " "
