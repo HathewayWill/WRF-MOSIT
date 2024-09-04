@@ -12863,59 +12863,8 @@ echo $PASSWD | sudo -S apt -y install python3-zstandard python3-zstd
 	fi
 
 	echo " "
-	############################## RIP4 #####################################
-	mkdir "${WRFHYDRO_FOLDER}"/RIP4
-	cd "${WRFHYDRO_FOLDER}"/Downloads
-	wget -c https://www2.mmm.ucar.edu/wrf/src/RIP_47.tar.gz
-	tar -xvzf RIP_47.tar.gz -C "${WRFHYDRO_FOLDER}"/RIP4
-	cd "${WRFHYDRO_FOLDER}"/RIP4/RIP_47
-	mv * ..
-	cd "${WRFHYDRO_FOLDER}"/RIP4
-	rm -rd RIP_47
-	source $Miniconda_Install_DIR/etc/profile.d/conda.sh
-	conda activate ncl_stable
-	conda install -c conda-forge ncl c-compiler fortran-compiler cxx-compiler -y
 
-	export RIP_ROOT="${WRFHYDRO_FOLDER}"/RIP4
-	export NETCDF=$DIR/NETCDF
-	export NCARG_ROOT="${WRFHYDRO_FOLDER}"/miniconda3/envs/ncl_stable
 
-	sed -i '349s|-L${NETCDF}/lib -lnetcdf $NETCDFF|-L${NETCDF}/lib $NETCDFF -lnetcdff -lnetcdf -lnetcdf -lnetcdff_C -lhdf5 |g' "${WRFHYDRO_FOLDER}"/RIP4/configure
-
-	sed -i '27s|NETCDFLIB	= -L${NETCDF}/lib -lnetcdf CONFIGURE_NETCDFF_LIB|NETCDFLIB	= -L</usr/lib/x86_64-linux-gnu/libm.a> -lm -L${NETCDF}/lib CONFIGURE_NETCDFF_LIB -lnetcdf -lhdf5 -lhdf5_hl -lgfortran -lgcc -lz |g' "${WRFHYDRO_FOLDER}"/RIP4/arch/preamble
-
-	sed -i '31s|-L${NCARG_ROOT}/lib -lncarg -lncarg_gks -lncarg_c -lX11 -lXext -lpng -lz CONFIGURE_NCARG_LIB| -L${NCARG_ROOT}/lib -lncarg -lncarg_gks -lncarg_c -lX11 -lXext -lpng -lz -lcairo -lfontconfig -lpixman-1 -lfreetype -lexpat -lpthread -lbz2 -lXrender -lgfortran -lgcc -L</usr/lib/x86_64-linux-gnu/> -lm -lhdf5 -lhdf5_hl |g' "${WRFHYDRO_FOLDER}"/RIP4/arch/preamble
-
-	sed -i '33s| -O|-fallow-argument-mismatch -O |g' "${WRFHYDRO_FOLDER}"/RIP4/arch/configure.defaults
-
-	sed -i '35s|=|= -L"${WRFHYDRO_FOLDER}"/LIBS/grib2/lib -lhdf5 -lhdf5_hl |g' "${WRFHYDRO_FOLDER}"/RIP4/arch/configure.defaults
-
-	if [ ${auto_config} -eq 1 ]; then
-		echo 3 | ./configure #Option 3 gfortran compiler with distributed memory
-	else
-		./configure #Option 3 gfortran compiler with distributed memory
-	fi
-
-	./compile
-
-	conda deactivate
-	conda deactivate
-	conda deactivate
-	# IF statement to check that all files were created.
-	cd "${WRFHYDRO_FOLDER}"/RIP4
-	n=$(find . -type l -ls | wc -l)
-	if (($n == 12)); then
-		echo "All expected files created."
-		read -r -t 5 -p "Finished installing RIP4. I am going to wait for 5 seconds only ..."
-	else
-		echo "Missing one or more expected files. Exiting the script."
-		read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
-		exit
-	fi
-
-	echo " "
-
-	echo " "
 	##################### WRF Python           ##################
 	########### WRf-Python compiled via Conda  ##################
 	########### This is the preferred method by NCAR      ##################
@@ -16354,46 +16303,8 @@ echo $PASSWD | sudo -S apt -y install python3-zstandard python3-zstd
 	fi
 
 	echo " "
-	############################## RIP4 #####################################
-	mkdir "${WRFHYDRO_FOLDER}"/RIP4
-	cd "${WRFHYDRO_FOLDER}"/Downloads
-	wget -c https://www2.mmm.ucar.edu/wrf/src/RIP_47.tar.gz
-	tar -xvzf RIP_47.tar.gz -C "${WRFHYDRO_FOLDER}"/RIP4
-	cd "${WRFHYDRO_FOLDER}"/RIP4/RIP_47
-	mv * ..
-	cd "${WRFHYDRO_FOLDER}"/RIP4
-	rm -rd RIP_47
-	source $Miniconda_Install_DIR/etc/profile.d/conda.sh
-	conda activate ncl_stable
-	conda install -c conda-forge c-compiler fortran-compiler cxx-compiler -y
 
-	export RIP_ROOT="${WRFHYDRO_FOLDER}"/RIP4
-	export NETCDF=$DIR/NETCDF
-	export NCARG_ROOT="${WRFHYDRO_FOLDER}"/anaconda3/envs/ncl_stable
 
-	sed -i '349s|-L${NETCDF}/lib -lnetcdf $NETCDFF|-L${NETCDF}/lib $NETCDFF -lnetcdff -lnetcdf -lnetcdf -lnetcdff_C -lhdf5 |g' "${WRFHYDRO_FOLDER}"/RIP4/configure
-
-	sed -i '27s|NETCDFLIB	= -L${NETCDF}/lib -lnetcdf CONFIGURE_NETCDFF_LIB|NETCDFLIB	= -L</usr/lib/x86_64-linux-gnu/libm.a> -lm -L${NETCDF}/lib CONFIGURE_NETCDFF_LIB -lnetcdf -lhdf5 -lhdf5_hl -lgfortran -lgcc -lz |g' "${WRFHYDRO_FOLDER}"/RIP4/arch/preamble
-
-	sed -i '31s|-L${NCARG_ROOT}/lib -lncarg -lncarg_gks -lncarg_c -lX11 -lXext -lpng -lz CONFIGURE_NCARG_LIB| -L${NCARG_ROOT}/lib -lncarg -lncarg_gks -lncarg_c -lX11 -lXext -lpng -lz -lcairo -lfontconfig -lpixman-1 -lfreetype -lexpat -lpthread -lbz2 -lXrender -lgfortran -lgcc -L</usr/lib/x86_64-linux-gnu/> -lm -lhdf5 -lhdf5_hl |g' "${WRFHYDRO_FOLDER}"/RIP4/arch/preamble
-
-	sed -i '33s| -O|-fallow-argument-mismatch -O |g' "${WRFHYDRO_FOLDER}"/RIP4/arch/configure.defaults
-
-	sed -i '35s|=|= -L"${WRFHYDRO_FOLDER}"/LIBS/grib2/lib -lhdf5 -lhdf5_hl |g' "${WRFHYDRO_FOLDER}"/RIP4/arch/configure.defaults
-
-	if [ ${auto_config} -eq 1 ]; then
-		echo 3 | ./configure #Option 3 gfortran compiler with distributed memory
-	else
-		./configure #Option 3 gfortran compiler with distributed memory
-	fi
-
-	./compile
-
-	conda deactivate
-	conda deactivate
-	conda deactivate
-
-	echo " "
 	##################### WRF Python           ##################
 	########### WRf-Python compiled via Conda  ##################
 	########### This is the preferred method by NCAR      ##################
@@ -17299,46 +17210,8 @@ echo $PASSWD | sudo -S apt -y install python3-zstandard python3-zstd
 
 	echo " "
 
-	############################## RIP4 #####################################
-	mkdir "${WRFHYDRO_FOLDER}"/RIP4
-	cd "${WRFHYDRO_FOLDER}"/Downloads
-	wget -c https://www2.mmm.ucar.edu/wrf/src/RIP_47.tar.gz
-	tar -xvzf RIP_47.tar.gz -C "${WRFHYDRO_FOLDER}"/RIP4
-	cd "${WRFHYDRO_FOLDER}"/RIP4/RIP_47
-	mv * ..
-	cd "${WRFHYDRO_FOLDER}"/RIP4
-	rm -rd RIP_47
-	source $Miniconda_Install_DIR/etc/profile.d/conda.sh
-	conda activate ncl_stable
-	conda install -c conda-forge c-compiler fortran-compiler cxx-compiler -y
 
-	export RIP_ROOT="${WRFHYDRO_FOLDER}"/RIP4
-	export NETCDF=$DIR/NETCDF
-	export NCARG_ROOT="${WRFHYDRO_FOLDER}"/anaconda3/envs/ncl_stable
 
-	sed -i '349s|-L${NETCDF}/lib -lnetcdf $NETCDFF|-L${NETCDF}/lib $NETCDFF -lnetcdff -lnetcdf -lnetcdf -lnetcdff_C -lhdf5 |g' "${WRFHYDRO_FOLDER}"/RIP4/configure
-
-	sed -i '27s|NETCDFLIB	= -L${NETCDF}/lib -lnetcdf CONFIGURE_NETCDFF_LIB|NETCDFLIB	= -L</usr/lib/x86_64-linux-gnu/libm.a> -lm -L${NETCDF}/lib CONFIGURE_NETCDFF_LIB -lnetcdf -lhdf5 -lhdf5_hl -lgfortran -lgcc -lz |g' "${WRFHYDRO_FOLDER}"/RIP4/arch/preamble
-
-	sed -i '31s|-L${NCARG_ROOT}/lib -lncarg -lncarg_gks -lncarg_c -lX11 -lXext -lpng -lz CONFIGURE_NCARG_LIB| -L${NCARG_ROOT}/lib -lncarg -lncarg_gks -lncarg_c -lX11 -lXext -lpng -lz -lcairo -lfontconfig -lpixman-1 -lfreetype -lexpat -lpthread -lbz2 -lXrender -lgfortran -lgcc -L</usr/lib/x86_64-linux-gnu/> -lm -lhdf5 -lhdf5_hl |g' "${WRFHYDRO_FOLDER}"/RIP4/arch/preamble
-
-	sed -i '33s| -O|-fallow-argument-mismatch -O |g' "${WRFHYDRO_FOLDER}"/RIP4/arch/configure.defaults
-
-	sed -i '35s|=|= -L"${WRFHYDRO_FOLDER}"/LIBS/grib2/lib -lhdf5 -lhdf5_hl |g' "${WRFHYDRO_FOLDER}"/RIP4/arch/configure.defaults
-
-	if [ ${auto_config} -eq 1 ]; then
-		echo 3 | ./configure #Option 3 gfortran compiler with distributed memory
-	else
-		./configure #Option 3 gfortran compiler with distributed memory
-	fi
-
-	./compile
-
-	conda deactivate
-	conda deactivate
-	conda deactivate
-
-	echo " "
 	##################### WRF Python           ##################
 	########### WRf-Python compiled via Conda  ##################
 	########### This is the preferred method by NCAR      ##################
@@ -18298,60 +18171,8 @@ echo $PASSWD | sudo -S apt -y install python3-zstandard python3-zstd
 	fi
 
 	echo " "
-	############################## RIP4 #####################################
-	mkdir "${WRFCHEM_FOLDER}"/RIP4
-	cd "${WRFCHEM_FOLDER}"/Downloads
-	wget -c https://www2.mmm.ucar.edu/wrf/src/RIP_47.tar.gz
-	tar -xvzf RIP_47.tar.gz -C "${WRFCHEM_FOLDER}"/RIP4
-	cd "${WRFCHEM_FOLDER}"/RIP4/RIP_47
-	mv * ..
-	cd "${WRFCHEM_FOLDER}"/RIP4
-	rm -rd RIP_47
-	source $Miniconda_Install_DIR/etc/profile.d/conda.sh
-	conda activate ncl_stable
-	conda install -c conda-forge ncl c-compiler fortran-compiler cxx-compiler -y
 
-	export RIP_ROOT="${WRFCHEM_FOLDER}"/RIP4
-	export NETCDF=$DIR/NETCDF
-	export NCARG_ROOT="${WRFCHEM_FOLDER}"/miniconda3/envs/ncl_stable
 
-	sed -i '349s|-L${NETCDF}/lib -lnetcdf $NETCDFF|-L${NETCDF}/lib $NETCDFF -lnetcdff -lnetcdf -lnetcdf -lnetcdff_C -lhdf5 |g' "${WRFCHEM_FOLDER}"/RIP4/configure
-
-	sed -i '27s|NETCDFLIB	= -L${NETCDF}/lib -lnetcdf CONFIGURE_NETCDFF_LIB|NETCDFLIB	= -L</usr/lib/x86_64-linux-gnu/libm.a> -lm -L${NETCDF}/lib CONFIGURE_NETCDFF_LIB -lnetcdf -lhdf5 -lhdf5_hl -lgfortran -lgcc -lz |g' "${WRFCHEM_FOLDER}"/RIP4/arch/preamble
-
-	sed -i '31s|-L${NCARG_ROOT}/lib -lncarg -lncarg_gks -lncarg_c -lX11 -lXext -lpng -lz CONFIGURE_NCARG_LIB| -L${NCARG_ROOT}/lib -lncarg -lncarg_gks -lncarg_c -lX11 -lXext -lpng -lz -lcairo -lfontconfig -lpixman-1 -lfreetype -lexpat -lpthread -lbz2 -lXrender -lgfortran -lgcc -L</usr/lib/x86_64-linux-gnu/> -lm -lhdf5 -lhdf5_hl |g' "${WRFCHEM_FOLDER}"/RIP4/arch/preamble
-
-	sed -i '33s| -O|-fallow-argument-mismatch -O |g' "${WRFCHEM_FOLDER}"/RIP4/arch/configure.defaults
-
-	sed -i '35s|=|= -L"${WRFCHEM_FOLDER}"/LIBS/grib2/lib -lhdf5 -lhdf5_hl |g' "${WRFCHEM_FOLDER}"/RIP4/arch/configure.defaults
-
-	if [ ${auto_config} -eq 1 ]; then
-		echo 3 | ./configure #Option 3 gfortran compiler with distributed memory
-	else
-		./configure #Option 3 gfortran compiler with distributed memory
-	fi
-
-	./compile
-
-	conda deactivate
-	conda deactivate
-	conda deactivate
-
-	# IF statement to check that all files were created.
-	cd "${WRFCHEM_FOLDER}"/RIP4
-	n=$(find . -type l -ls | wc -l)
-	if (($n == 12)); then
-		echo "All expected files created."
-		read -r -t 5 -p "Finished installing RIP4. I am going to wait for 5 seconds only ..."
-	else
-		echo "Missing one or more expected files. Exiting the script."
-		read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
-		exit
-	fi
-
-	echo " "
-
-	echo " "
 	##################### WRF Python           ##################
 	########### WRf-Python compiled via Conda  ##################
 	########### This is the preferred method by NCAR      ##################
@@ -21845,46 +21666,8 @@ echo $PASSWD | sudo -S dnf -y install python3-zstandard python3-zstd
 	fi
 
 	echo " "
-	############################## RIP4 #####################################
-	mkdir "${WRFCHEM_FOLDER}"/RIP4
-	cd "${WRFCHEM_FOLDER}"/Downloads
-	wget -c https://www2.mmm.ucar.edu/wrf/src/RIP_47.tar.gz
-	tar -xvzf RIP_47.tar.gz -C "${WRFCHEM_FOLDER}"/RIP4
-	cd "${WRFCHEM_FOLDER}"/RIP4/RIP_47
-	mv * ..
-	cd "${WRFCHEM_FOLDER}"/RIP4
-	rm -rd RIP_47
-	source $Miniconda_Install_DIR/etc/profile.d/conda.sh
-	conda activate ncl_stable
-	conda install -c conda-forge c-compiler fortran-compiler cxx-compiler -y
 
-	export RIP_ROOT="${WRFCHEM_FOLDER}"/RIP4
-	export NETCDF=$DIR/NETCDF
-	export NCARG_ROOT="${WRFCHEM_FOLDER}"/anaconda3/envs/ncl_stable
 
-	sed -i '349s|-L${NETCDF}/lib -lnetcdf $NETCDFF|-L${NETCDF}/lib $NETCDFF -lnetcdff -lnetcdf -lnetcdf -lnetcdff_C -lhdf5 |g' "${WRFCHEM_FOLDER}"/RIP4/configure
-
-	sed -i '27s|NETCDFLIB	= -L${NETCDF}/lib -lnetcdf CONFIGURE_NETCDFF_LIB|NETCDFLIB	= -L</usr/lib/x86_64-linux-gnu/libm.a> -lm -L${NETCDF}/lib CONFIGURE_NETCDFF_LIB -lnetcdf -lhdf5 -lhdf5_hl -lgfortran -lgcc -lz |g' "${WRFCHEM_FOLDER}"/RIP4/arch/preamble
-
-	sed -i '31s|-L${NCARG_ROOT}/lib -lncarg -lncarg_gks -lncarg_c -lX11 -lXext -lpng -lz CONFIGURE_NCARG_LIB| -L${NCARG_ROOT}/lib -lncarg -lncarg_gks -lncarg_c -lX11 -lXext -lpng -lz -lcairo -lfontconfig -lpixman-1 -lfreetype -lexpat -lpthread -lbz2 -lXrender -lgfortran -lgcc -L</usr/lib/x86_64-linux-gnu/> -lm -lhdf5 -lhdf5_hl |g' "${WRFCHEM_FOLDER}"/RIP4/arch/preamble
-
-	sed -i '33s| -O|-fallow-argument-mismatch -O |g' "${WRFCHEM_FOLDER}"/RIP4/arch/configure.defaults
-
-	sed -i '35s|=|= -L"${WRFCHEM_FOLDER}"/LIBS/grib2/lib -lhdf5 -lhdf5_hl |g' "${WRFCHEM_FOLDER}"/RIP4/arch/configure.defaults
-
-	if [ ${auto_config} -eq 1 ]; then
-		echo 3 | ./configure #Option 3 gfortran compiler with distributed memory
-	else
-		./configure #Option 3 gfortran compiler with distributed memory
-	fi
-
-	./compile
-
-	conda deactivate
-	conda deactivate
-	conda deactivate
-
-	echo " "
 	##################### WRF Python           ##################
 	########### WRf-Python compiled via Conda  ##################
 	########### This is the preferred method by NCAR      ##################
@@ -22858,46 +22641,8 @@ echo $PASSWD | sudo -S dnf -y install python3-zstandard python3-zstd
 	fi
 
 	echo " "
-	############################## RIP4 #####################################
-	mkdir "${WRFCHEM_FOLDER}"/RIP4
-	cd "${WRFCHEM_FOLDER}"/Downloads
-	wget -c https://www2.mmm.ucar.edu/wrf/src/RIP_47.tar.gz
-	tar -xvzf RIP_47.tar.gz -C "${WRFCHEM_FOLDER}"/RIP4
-	cd "${WRFCHEM_FOLDER}"/RIP4/RIP_47
-	mv * ..
-	cd "${WRFCHEM_FOLDER}"/RIP4
-	rm -rd RIP_47
-	source $Miniconda_Install_DIR/etc/profile.d/conda.sh
-	conda activate ncl_stable
-	conda install -c conda-forge c-compiler fortran-compiler cxx-compiler -y
 
-	export RIP_ROOT="${WRFCHEM_FOLDER}"/RIP4
-	export NETCDF=$DIR/NETCDF
-	export NCARG_ROOT="${WRFCHEM_FOLDER}"/anaconda3/envs/ncl_stable
 
-	sed -i '349s|-L${NETCDF}/lib -lnetcdf $NETCDFF|-L${NETCDF}/lib $NETCDFF -lnetcdff -lnetcdf -lnetcdf -lnetcdff_C -lhdf5 |g' "${WRFCHEM_FOLDER}"/RIP4/configure
-
-	sed -i '27s|NETCDFLIB	= -L${NETCDF}/lib -lnetcdf CONFIGURE_NETCDFF_LIB|NETCDFLIB	= -L</usr/lib/x86_64-linux-gnu/libm.a> -lm -L${NETCDF}/lib CONFIGURE_NETCDFF_LIB -lnetcdf -lhdf5 -lhdf5_hl -lgfortran -lgcc -lz |g' "${WRFCHEM_FOLDER}"/RIP4/arch/preamble
-
-	sed -i '31s|-L${NCARG_ROOT}/lib -lncarg -lncarg_gks -lncarg_c -lX11 -lXext -lpng -lz CONFIGURE_NCARG_LIB| -L${NCARG_ROOT}/lib -lncarg -lncarg_gks -lncarg_c -lX11 -lXext -lpng -lz -lcairo -lfontconfig -lpixman-1 -lfreetype -lexpat -lpthread -lbz2 -lXrender -lgfortran -lgcc -L</usr/lib/x86_64-linux-gnu/> -lm -lhdf5 -lhdf5_hl |g' "${WRFCHEM_FOLDER}"/RIP4/arch/preamble
-
-	sed -i '33s| -O|-fallow-argument-mismatch -O |g' "${WRFCHEM_FOLDER}"/RIP4/arch/configure.defaults
-
-	sed -i '35s|=|= -L"${WRFCHEM_FOLDER}"/LIBS/grib2/lib -lhdf5 -lhdf5_hl |g' "${WRFCHEM_FOLDER}"/RIP4/arch/configure.defaults
-
-	if [ ${auto_config} -eq 1 ]; then
-		echo 3 | ./configure #Option 3 gfortran compiler with distributed memory
-	else
-		./configure #Option 3 gfortran compiler with distributed memory
-	fi
-
-	./compile
-
-	conda deactivate
-	conda deactivate
-	conda deactivate
-
-	echo " "
 	##################### WRF Python           ##################
 	########### WRf-Python compiled via Conda  ##################
 	########### This is the preferred method by NCAR      ##################
@@ -23899,46 +23644,8 @@ echo $PASSWD | sudo -S apt -y install python3-zstandard python3-zstd
 	fi
 
 	echo " "
-	############################## RIP4 #####################################
-	mkdir "${WRF_FOLDER}"/RIP4
-	cd "${WRF_FOLDER}"/Downloads
-	wget -c https://www2.mmm.ucar.edu/wrf/src/RIP_47.tar.gz
-	tar -xvzf RIP_47.tar.gz -C "${WRF_FOLDER}"/RIP4
-	cd "${WRF_FOLDER}"/RIP4/RIP_47
-	mv * ..
-	cd "${WRF_FOLDER}"/RIP4
-	rm -rd RIP_47
-	source $Miniconda_Install_DIR/etc/profile.d/conda.sh
-	conda activate ncl_stable
-	conda install -c conda-forge ncl c-compiler fortran-compiler cxx-compiler -y
 
-	export RIP_ROOT="${WRF_FOLDER}"/RIP4
-	export NETCDF=$DIR/NETCDF
-	export NCARG_ROOT="${WRF_FOLDER}"/miniconda3/envs/ncl_stable
 
-	sed -i '349s|-L${NETCDF}/lib -lnetcdf $NETCDFF|-L${NETCDF}/lib $NETCDFF -lnetcdff -lnetcdf -lnetcdf -lnetcdff_C -lhdf5 |g' "${WRF_FOLDER}"/RIP4/configure
-
-	sed -i '27s|NETCDFLIB	= -L${NETCDF}/lib -lnetcdf CONFIGURE_NETCDFF_LIB|NETCDFLIB	= -L</usr/lib/x86_64-linux-gnu/libm.a> -lm -L${NETCDF}/lib CONFIGURE_NETCDFF_LIB -lnetcdf -lhdf5 -lhdf5_hl -lgfortran -lgcc -lz |g' "${WRF_FOLDER}"/RIP4/arch/preamble
-
-	sed -i '31s|-L${NCARG_ROOT}/lib -lncarg -lncarg_gks -lncarg_c -lX11 -lXext -lpng -lz CONFIGURE_NCARG_LIB| -L${NCARG_ROOT}/lib -lncarg -lncarg_gks -lncarg_c -lX11 -lXext -lpng -lz -lcairo -lfontconfig -lpixman-1 -lfreetype -lexpat -lpthread -lbz2 -lXrender -lgfortran -lgcc -L</usr/lib/x86_64-linux-gnu/> -lm -lhdf5 -lhdf5_hl |g' "${WRF_FOLDER}"/RIP4/arch/preamble
-
-	sed -i '33s| -O|-fallow-argument-mismatch -O |g' "${WRF_FOLDER}"/RIP4/arch/configure.defaults
-
-	sed -i '35s|=|= -L"${WRF_FOLDER}"/LIBS/grib2/lib -lhdf5 -lhdf5_hl |g' "${WRF_FOLDER}"/RIP4/arch/configure.defaults
-
-	if [ ${auto_config} -eq 1 ]; then
-		echo 3 | ./configure #Option 3 gfortran compiler with distributed memory
-	else
-		./configure #Option 3 gfortran compiler with distributed memory
-	fi
-
-	./compile
-
-	conda deactivate
-	conda deactivate
-	conda deactivate
-
-	echo " "
 	##################### WRF Python           ##################
 	########### WRf-Python compiled via Conda  ##################
 	########### This is the preferred method by NCAR      ##################
@@ -27576,46 +27283,8 @@ echo $PASSWD | sudo -S dnf -y install python3-zstandard python3-zstd
 	fi
 
 	echo " "
-	############################## RIP4 #####################################
-	mkdir "${WRF_FOLDER}"/RIP4
-	cd "${WRF_FOLDER}"/Downloads
-	wget -c https://www2.mmm.ucar.edu/wrf/src/RIP_47.tar.gz
-	tar -xvzf RIP_47.tar.gz -C "${WRF_FOLDER}"/RIP4
-	cd "${WRF_FOLDER}"/RIP4/RIP_47
-	mv * ..
-	cd "${WRF_FOLDER}"/RIP4
-	rm -rd RIP_47
-	source $Miniconda_Install_DIR/etc/profile.d/conda.sh
-	conda activate ncl_stable
-	conda install -c conda-forge c-compiler fortran-compiler cxx-compiler -y
 
-	export RIP_ROOT="${WRF_FOLDER}"/RIP4
-	export NETCDF=$DIR/NETCDF
-	export NCARG_ROOT="${WRF_FOLDER}"/anaconda3/envs/ncl_stable
 
-	sed -i '349s|-L${NETCDF}/lib -lnetcdf $NETCDFF|-L${NETCDF}/lib $NETCDFF -lnetcdff -lnetcdf -lnetcdf -lnetcdff_C -lhdf5 |g' "${WRF_FOLDER}"/RIP4/configure
-
-	sed -i '27s|NETCDFLIB	= -L${NETCDF}/lib -lnetcdf CONFIGURE_NETCDFF_LIB|NETCDFLIB	= -L</usr/lib/x86_64-linux-gnu/libm.a> -lm -L${NETCDF}/lib CONFIGURE_NETCDFF_LIB -lnetcdf -lhdf5 -lhdf5_hl -lgfortran -lgcc -lz |g' "${WRF_FOLDER}"/RIP4/arch/preamble
-
-	sed -i '31s|-L${NCARG_ROOT}/lib -lncarg -lncarg_gks -lncarg_c -lX11 -lXext -lpng -lz CONFIGURE_NCARG_LIB| -L${NCARG_ROOT}/lib -lncarg -lncarg_gks -lncarg_c -lX11 -lXext -lpng -lz -lcairo -lfontconfig -lpixman-1 -lfreetype -lexpat -lpthread -lbz2 -lXrender -lgfortran -lgcc -L</usr/lib/x86_64-linux-gnu/> -lm -lhdf5 -lhdf5_hl |g' "${WRF_FOLDER}"/RIP4/arch/preamble
-
-	sed -i '33s| -O|-fallow-argument-mismatch -O |g' "${WRF_FOLDER}"/RIP4/arch/configure.defaults
-
-	sed -i '35s|=|= -L"${WRF_FOLDER}"/LIBS/grib2/lib -lhdf5 -lhdf5_hl |g' "${WRF_FOLDER}"/RIP4/arch/configure.defaults
-
-	if [ ${auto_config} -eq 1 ]; then
-		echo 3 | ./configure #Option 3 gfortran compiler with distributed memory
-	else
-		./configure #Option 3 gfortran compiler with distributed memory
-	fi
-
-	./compile
-
-	conda deactivate
-	conda deactivate
-	conda deactivate
-
-	echo " "
 	##################### WRF Python           ##################
 	########### WRf-Python compiled via Conda  ##################
 	########### This is the preferred method by NCAR      ##################
@@ -28634,46 +28303,8 @@ echo $PASSWD | sudo -S dnf -y install python3-zstandard python3-zstd
 	fi
 
 	echo " "
-	############################## RIP4 #####################################
-	mkdir "${WRF_FOLDER}"/RIP4
-	cd "${WRF_FOLDER}"/Downloads
-	wget -c https://www2.mmm.ucar.edu/wrf/src/RIP_47.tar.gz
-	tar -xvzf RIP_47.tar.gz -C "${WRF_FOLDER}"/RIP4
-	cd "${WRF_FOLDER}"/RIP4/RIP_47
-	mv * ..
-	cd "${WRF_FOLDER}"/RIP4
-	rm -rd RIP_47
-	source $Miniconda_Install_DIR/etc/profile.d/conda.sh
-	conda activate ncl_stable
-	conda install -c conda-forge c-compiler fortran-compiler cxx-compiler -y
 
-	export RIP_ROOT="${WRF_FOLDER}"/RIP4
-	export NETCDF=$DIR/NETCDF
-	export NCARG_ROOT="${WRF_FOLDER}"/anaconda3/envs/ncl_stable
 
-	sed -i '349s|-L${NETCDF}/lib -lnetcdf $NETCDFF|-L${NETCDF}/lib $NETCDFF -lnetcdff -lnetcdf -lnetcdf -lnetcdff_C -lhdf5 |g' "${WRF_FOLDER}"/RIP4/configure
-
-	sed -i '27s|NETCDFLIB	= -L${NETCDF}/lib -lnetcdf CONFIGURE_NETCDFF_LIB|NETCDFLIB	= -L</usr/lib/x86_64-linux-gnu/libm.a> -lm -L${NETCDF}/lib CONFIGURE_NETCDFF_LIB -lnetcdf -lhdf5 -lhdf5_hl -lgfortran -lgcc -lz |g' "${WRF_FOLDER}"/RIP4/arch/preamble
-
-	sed -i '31s|-L${NCARG_ROOT}/lib -lncarg -lncarg_gks -lncarg_c -lX11 -lXext -lpng -lz CONFIGURE_NCARG_LIB| -L${NCARG_ROOT}/lib -lncarg -lncarg_gks -lncarg_c -lX11 -lXext -lpng -lz -lcairo -lfontconfig -lpixman-1 -lfreetype -lexpat -lpthread -lbz2 -lXrender -lgfortran -lgcc -L</usr/lib/x86_64-linux-gnu/> -lm -lhdf5 -lhdf5_hl |g' "${WRF_FOLDER}"/RIP4/arch/preamble
-
-	sed -i '33s| -O|-fallow-argument-mismatch -O |g' "${WRF_FOLDER}"/RIP4/arch/configure.defaults
-
-	sed -i '35s|=|= -L"${WRF_FOLDER}"/LIBS/grib2/lib -lhdf5 -lhdf5_hl |g' "${WRF_FOLDER}"/RIP4/arch/configure.defaults
-
-	if [ ${auto_config} -eq 1 ]; then
-		echo 3 | ./configure #Option 3 gfortran compiler with distributed memory
-	else
-		./configure #Option 3 gfortran compiler with distributed memory
-	fi
-
-	./compile
-
-	conda deactivate
-	conda deactivate
-	conda deactivate
-
-	echo " "
 	##################### WRF Python           ##################
 	########### WRf-Python compiled via Conda  ##################
 	########### This is the preferred method by NCAR      ##################
