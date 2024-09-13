@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#Conda environment test
+# Conda environment test
 if [ -n "$CONDA_DEFAULT_ENV" ]; then
     echo "CONDA_DEFAULT_ENV is active: $CONDA_DEFAULT_ENV"
     echo "Turning off $CONDA_DEFAULT_ENV"
@@ -9,12 +9,10 @@ if [ -n "$CONDA_DEFAULT_ENV" ]; then
 else
     echo "CONDA_DEFAULT_ENV is not active."
     echo "Continuing script"
-
 fi
 
 start=$(date)
 START=$(date +"%s")
-
 
 ############################### Version Numbers ##########################
 # For Ease of updating
@@ -34,11 +32,8 @@ export Pnetcdf_Version=1.13.0
 export Netcdf_C_Version=4.9.2
 export Netcdf_Fortran_Version=4.6.1
 
-
-
 export WRF_VERSION=4.6.0
 export WPS_VERSION=4.6.0
-
 
 ############################### Citation Requirement  ####################
 
@@ -55,590 +50,246 @@ echo " "
 read -p "Press enter to continue"
 
 ############################### System Architecture Type #################
-# 32 or 64 bit
+# Determine if the system is 32 or 64-bit based on the architecture
 ##########################################################################
 export SYS_ARCH=$(uname -m)
 
 if [ "$SYS_ARCH" = "x86_64" ] || [ "$SYS_ARCH" = "arm64" ]; then
-	export SYSTEMBIT="64"
+    export SYSTEMBIT="64"
 else
-	export SYSTEMBIT="32"
+    export SYSTEMBIT="32"
 fi
 
+# Determine the chip type if on macOS (ARM or Intel)
 if [ "$SYS_ARCH" = "arm64" ]; then
-	export MAC_CHIP="ARM"
+    export MAC_CHIP="ARM"
 else
-	export MAC_CHIP="Intel"
+    export MAC_CHIP="Intel"
 fi
 
 ############################# System OS Version #############################
-# Macos or linux
-# Make note that this script only works for Debian Linux kernals
+# Detect if the OS is macOS or Linux
 #############################################################################
 export SYS_OS=$(uname -s)
 
 if [ "$SYS_OS" = "Darwin" ]; then
-	export SYSTEMOS="MacOS"
+    export SYSTEMOS="MacOS"
+    # Get the macOS version using sw_vers
+    export MACOS_VERSION=$(sw_vers -productVersion)
+    echo "Operating system detected: MacOS, Version: $MACOS_VERSION"
 elif [ "$SYS_OS" = "Linux" ]; then
-	export SYSTEMOS="Linux"
+    export SYSTEMOS="Linux"
 fi
 
-########## Centos Test #############
+########## CentOS and Linux Distribution Detection #############
+# More accurate Linux distribution detection using /etc/os-release
+#################################################################
 if [ "$SYSTEMOS" = "Linux" ]; then
-	export YUM=$(command -v yum)
-	if [ "$YUM" != "" ]; then
-		echo " yum found"
-		echo "Your system is a CentOS based Kernal"
-		export SYSTEMOS=CentOS
-	fi
+    if [ -f /etc/os-release ]; then
+        # Extract the distribution name and version from /etc/os-release
+        export DISTRO_NAME=$(grep -w "NAME" /etc/os-release | cut -d'=' -f2 | tr -d '"')
+        export DISTRO_VERSION=$(grep -w "VERSION_ID" /etc/os-release | cut -d'=' -f2 | tr -d '"')
+        
+        echo "Operating system detected: $DISTRO_NAME, Version: $DISTRO_VERSION"
+
+        # Check if the system is CentOS
+        if grep -q "CentOS" /etc/os-release; then
+            export SYSTEMOS="CentOS"
+        fi
+    else
+        echo "Unable to detect the Linux distribution version."
+    fi
 fi
+
+# Print the final detected OS
+echo "Final operating system detected: $SYSTEMOS"
 
 ############################### Intel or GNU Compiler Option #############
 
-if [ "$SYSTEMBIT" = "32" ] && [ "$SYSTEMOS" = "CentOS" ]; then
-	echo "Your system is not compatibile with this script."
-	exit
+# Only proceed with CentOS-specific logic if the system is CentOS
+if [ "$SYSTEMOS" = "CentOS" ]; then
+    # Check for 32-bit CentOS system
+    if [ "$SYSTEMBIT" = "32" ]; then
+        echo "Your system is not compatible with this script."
+        exit
+    fi
+
+    # Check for 64-bit CentOS system
+    if [ "$SYSTEMBIT" = "64" ]; then
+        echo "Your system is a 64-bit version of CentOS Linux Kernel."
+        echo "Intel compilers are not compatible with this script."
+        echo "Setting compiler to GNU."
+        export Centos_64bit_GNU=1
+        echo "Centos_64bit_GNU=$Centos_64bit_GNU"
+
+        # Check GNU version
+        export gcc_test_version=$(gcc -dumpversion 2>&1 | awk '{print $1}')
+        export gcc_test_version_major=$(echo $gcc_test_version | awk -F. '{print $1}')
+        export gcc_version_9="9"
+
+        if [[ $gcc_test_version_major -lt $gcc_version_9 ]]; then
+            export Centos_64bit_GNU=2
+            echo " OLD GNU FILES FOUND."
+            echo "Centos_64bit_GNU=$Centos_64bit_GNU"
+        fi
+    fi
 fi
 
-if [ "$SYSTEMBIT" = "64" ] && [ "$SYSTEMOS" = "CentOS" ]; then
-	echo "Your system is a 64bit version of CentOS Linux Kernal"
-	echo " "
-	echo "Intel compilers are not compatibile with this script"
-	echo " "
-	echo "Setting compiler to GNU"
-	export Centos_64bit_GNU=1
-	echo "Centos_64bit_GNU=$Centos_64bit_GNU"
-fi
-
-if [ "$Centos_64bit_GNU" = "1" ]; then
-
-	export gcc_test_version=$(gcc -dumpversion 2>&1 | awk '{print $1}')
-	export gcc_test_version_major=$(echo $gcc_test_version | awk -F. '{print $1}')
-	export gcc_version_9="9"
-
-	if [[ $gcc_test_version_major -lt $gcc_version_9 ]]; then
-		export Centos_64bit_GNU=2
-		echo " OLD GNU FILES FOUND"
-		echo "Centos_64bit_GNU=$Centos_64bit_GNU"
-	fi
-fi
-
-if [ "$SYSTEMBIT" = "32" ] && [ "$SYSTEMOS" = "MacOS" ]; then
-	echo "Your system is not compatibile with this script."
-	exit
-fi
-
-if [ "$SYSTEMBIT" = "64" ] && [ "$SYSTEMOS" = "MacOS" ] && [ "$MAC_CHIP" = "Intel" ]; then
-	echo "Your system is a 64bit version of MacOS"
-	echo " "
-	echo "Intel compilers are not compatibile with this script"
-	echo " "
-	echo "Setting compiler to GNU"
-	export macos_64bit_GNU=1
-	echo " "
-	echo "Xcode Command Line Tools & Homebrew are required for this script."
-	echo " "
-	echo "Installing Homebrew and Xcode Command Line Tools now"
-	echo " "
-	echo "Please enter password when prompted"
-	/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
-
-	(
-		echo
-		echo 'eval "$(/usr/local/bin/brew shellenv)"'
-	) >>~/.profile
-	eval "$(/usr/local/bin/brew shellenv)"
-
-	chsh -s /bin/bash
-
-fi
-
-if [ "$SYSTEMBIT" = "64" ] && [ "$SYSTEMOS" = "MacOS" ] && [ "$MAC_CHIP" = "ARM" ]; then
-	echo "Your system is a 64bit version of MacOS with arm64"
-	echo " "
-	echo "Intel compilers are not compatibile with this script"
-	echo " "
-	echo "Setting compiler to GNU"
-	export macos_64bit_GNU=1
-	echo " "
-	echo "Xcode Command Line Tools & Homebrew are required for this script."
-	echo " "
-	echo "Installing Homebrew and Xcode Command Line Tools now"
-	echo " "
-	echo "Please enter password when prompted"
-	/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
-
-	(
-		echo
-		echo 'eval "$(/opt/homebrew/bin/brew shellenv)"'
-	) >>~/.profile
-	eval "$(/opt/homebrew/bin/brew shellenv)"
-
-	chsh -s /bin/bash
-
-fi
-
+# Check for 64-bit Linux system (Debian/Ubuntu)
 if [ "$SYSTEMBIT" = "64" ] && [ "$SYSTEMOS" = "Linux" ]; then
-	echo "Your system is 64bit version of Debian Linux Kernal"
-	echo " "
-        echo -e "$Intel_MESSAGE"
-	while read -r -p "Which compiler do you want to use?
-  -Intel
-	 --Please note that WRF_CMAQ i sonly compatibile with GNU Compilers
+    echo "Your system is a 64-bit version of Debian Linux Kernel."
+    echo ""
 
-  -GNU
+    # Check if Ubuntu_64bit_Intel or Ubuntu_64bit_GNU environment variables are set
+    if [ -v "$Ubuntu_64bit_Intel" ] || [ -v "$Ubuntu_64bit_GNU" ]; then
+        echo "The environment variable Ubuntu_64bit_Intel/GNU is already set."
+    else
+        echo "The environment variable Ubuntu_64bit_Intel/GNU is not set."
 
-
-
-  Please answer Intel or GNU and press enter (case sensative).
-  " yn; do
-
-		case $yn in
-		Intel)
-			echo "-------------------------------------------------- "
-			echo " "
-			echo "Intel is selected for installation"
-			export Ubuntu_64bit_Intel=1
-			break
-			;;
-		GNU)
-			echo "-------------------------------------------------- "
-			echo " "
-			echo "GNU is selected for installation"
-			export Ubuntu_64bit_GNU=1
-			break
-			;;
-		*)
-			echo " "
-			echo "Please answer Intel or GNU (case sensative)."
-			;;
-
-		esac
-	done
+        # Prompt user to select a compiler (Intel or GNU)
+        while read -r -p "Which compiler do you want to use?
+        - Intel
+          -- Please note that WRF_CMAQ is only compatible with GNU Compilers
+        - GNU
+        Please answer Intel or GNU and press enter (case-sensitive): " yn; do
+            case $yn in
+                Intel)
+                    echo "Intel is selected for installation."
+                    export Ubuntu_64bit_Intel=1
+                    break
+                    ;;
+                GNU)
+                    echo "GNU is selected for installation."
+                    export Ubuntu_64bit_GNU=1
+                    break
+                    ;;
+                *)
+                    echo "Please answer Intel or GNU (case-sensitive)."
+                    ;;
+            esac
+        done
+    fi
 fi
 
+# Check for 32-bit Linux system
 if [ "$SYSTEMBIT" = "32" ] && [ "$SYSTEMOS" = "Linux" ]; then
-	echo "Your system is not compatibile with this script."
-	exit
+    echo "Your system is not compatible with this script."
+    exit
+fi
+
+############################# macOS Handling ##############################
+
+# Check for 32-bit MacOS system
+if [ "$SYSTEMBIT" = "32" ] && [ "$SYSTEMOS" = "MacOS" ]; then
+    echo "Your system is not compatible with this script."
+    exit
+fi
+
+# Check for 64-bit Intel-based MacOS system
+if [ "$SYSTEMBIT" = "64" ] && [ "$SYSTEMOS" = "MacOS" ] && [ "$MAC_CHIP" = "Intel" ]; then
+    echo "Your system is a 64-bit version of macOS with an Intel chip."
+    echo "Intel compilers are not compatible with this script."
+    echo "Setting compiler to GNU."
+    export macos_64bit_GNU=1
+
+    # Ensure Xcode Command Line Tools are installed
+    if ! xcode-select --print-path &>/dev/null; then
+        echo "Installing Xcode Command Line Tools..."
+        xcode-select --install
+    fi
+
+    # Install Homebrew for Intel Macs in /usr/local
+    echo "Installing Homebrew..."
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+    echo 'eval "$(/usr/local/bin/brew shellenv)"' >>~/.profile
+    eval "$(/usr/local/bin/brew shellenv)"
+
+    chsh -s /bin/bash
+fi
+
+# Check for 64-bit ARM-based MacOS system (M1, M2 chips)
+if [ "$SYSTEMBIT" = "64" ] && [ "$SYSTEMOS" = "MacOS" ] && [ "$MAC_CHIP" = "ARM" ]; then
+    echo "Your system is a 64-bit version of macOS with an ARM chip (M1/M2)."
+    echo "Intel compilers are not compatible with this script."
+    echo "Setting compiler to GNU."
+    export macos_64bit_GNU=1
+
+    # Ensure Xcode Command Line Tools are installed
+    if ! xcode-select --print-path &>/dev/null; then
+        echo "Installing Xcode Command Line Tools..."
+        xcode-select --install
+    fi
+
+    # Install Homebrew for ARM Macs in /opt/homebrew
+    echo "Installing Homebrew..."
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+    echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >>~/.profile
+    eval "$(/opt/homebrew/bin/brew shellenv)"
+
+    chsh -s /bin/bash
 fi
 
 ################### System Information Tests ##############################
-if [ "$SYSTEMOS" = "CentOS" ]; then
+# Storage space check (applies to CentOS, Debian/Ubuntu, and macOS)
+echo "-------------------------------------------------- "
+echo " Testing for Storage Space for installation."
+export HOME=$(cd; pwd)
+export Storage_Space_Size=$(df -h --output=avail ${HOME} | awk 'NR==2 {print $1}' | tr -cd '[:digit:]')
+export Storage_Space_Units=$(df -h --output=avail ${HOME} | awk 'NR==2 {print $1}' | tr -cd '[:alpha:]')
+export Storage_Space_Required="350"
 
-	export HOME=$(
-		cd
-		pwd
-	)
-	export Storage_Space_Size=$(df -h --output=avail ${HOME} | awk 'NR==2 {print $1}' | tr -cd '[:digit:]')
-	export Storage_Space_Units=$(df -h --output=avail ${HOME} | awk 'NR==2 {print $1}' | tr -cd '[:alpha:]')
-	export Storage_Space_Required="350"
-	echo "-------------------------------------------------- "
-	echo " "
-	echo " Testing for Storage Space for installation"
-	echo " "
-
-	case $Storage_Space_Units in
-	[Pp]*)
-
-		echo " "
-		echo "Sufficient storage space for installation found"
-		echo "-------------------------------------------------- "
-		;;
-	[Tt]*)
-		echo " "
-		echo "Sufficient storage space for installation found"
-		echo "-------------------------------------------------- "
-		;;
-	[Gg]*)
-		if [[ ${Storage_Space_Size} -lt ${Storage_Space_Required} ]]; then
-			echo " "
-			echo "Not enough storage space for installation. 350GB of free storage space required for WRF-MOSIT."
-			echo "-------------------------------------------------- "
-			exit
-		else
-			echo " "
-			echo "Sufficient storage space for installation found."
-			echo "-------------------------------------------------- "
-		fi
-		;;
-	[MmKk]*)
-		echo " "
-		echo "Not enough storage space for installation. 350GB is required for installation."
-		echo "-------------------------------------------------- "
-		exit
-		;;
-	*)
-		echo " "
-		echo "Not enough storage space for installation. 350GB is required for installation."
-		echo "-------------------------------------------------- "
-		exit
-		;;
-	esac
-
-	echo " "
-fi
-
-if [ "$SYSTEMOS" = "Linux" ]; then
-
-	export HOME=$(
-		cd
-		pwd
-	)
-	export Storage_Space_Size=$(df -h --output=avail ${HOME} | awk 'NR==2 {print $1}' | tr -cd '[:digit:]')
-	export Storage_Space_Units=$(df -h --output=avail ${HOME} | awk 'NR==2 {print $1}' | tr -cd '[:alpha:]')
-	export Storage_Space_Required="350"
-	echo "-------------------------------------------------- "
-	echo " "
-	echo " Testing for Storage Space for installation"
-	echo " "
-
-	case $Storage_Space_Units in
-	[Pp]*)
-
-		echo " "
-		echo "Sufficient storage space for installation found"
-		echo "-------------------------------------------------- "
-		;;
-	[Tt]*)
-		echo " "
-		echo "Sufficient storage space for installation found"
-		echo "-------------------------------------------------- "
-		;;
-	[Gg]*)
-		if [[ ${Storage_Space_Size} -lt ${Storage_Space_Required} ]]; then
-			echo " "
-			echo "Not enough storage space for installation. 350GB is required for installation."
-			echo "-------------------------------------------------- "
-			exit
-		else
-			echo " "
-			echo "Sufficient storage space for installation found."
-			echo "-------------------------------------------------- "
-		fi
-		;;
-	[MmKk]*)
-		echo " "
-		echo "Not enough storage space for installation. 350GB is required for installation."
-		echo "-------------------------------------------------- "
-		exit
-		;;
-	*)
-		echo " "
-		echo "Not enough storage space for installation. 350GB is required for installation."
-		echo "-------------------------------------------------- "
-		exit
-		;;
-	esac
-
-	echo " "
-fi
-
-if [ "$SYSTEMOS" = "MacOS" ]; then
-	export Storage_Space_Size=$(df -h / | awk 'NR==2 {print $2}' | tr -cd '[:digit:]')
-	export Storage_Space_Units=$(df -h / | awk 'NR==2 {print $2}' | tr -cd '[:alpha:]')
-	export Storage_Space_Required="350"
-	echo "-------------------------------------------------- "
-	echo " "
-	echo " Testing for Storage Space for installation"
-	echo " "
-
-	case $Storage_Space_Units in
-	[Pi]*)
-
-		echo " "
-		echo "Sufficient storage space for installation found"
-		echo "-------------------------------------------------- "
-		;;
-	[Ti]*)
-		echo " "
-		echo "Sufficient storage space for installation found"
-		echo "-------------------------------------------------- "
-		;;
-	[Gi]*)
-		if [[ ${Storage_Space_Size} -lt ${Storage_Space_Required} ]]; then
-			echo " "
-			echo "Not enough storage space for installation. 350GB is required for installation."
-			echo "-------------------------------------------------- "
-			exit
-		else
-			echo " "
-			echo "Sufficient storage space for installation found."
-			echo "-------------------------------------------------- "
-		fi
-		;;
-	[MiKi]*)
-		echo " "
-		echo "Not enough storage space for installation. 350GB is required for installation."
-		echo "-------------------------------------------------- "
-		exit
-		;;
-	*)
-		echo " "
-		echo "Not enough storage space for installation. 350GB is required for installation."
-		echo "-------------------------------------------------- "
-		exit
-		;;
-	esac
-
-	echo " "
-fi
-
-############################# Chose GrADS or OpenGrADS #########################
-
-if [ "$SYSTEMOS" != "MacOS" ]; then
-  while read -r -p "Which graphic display software should be installed?
-- OpenGrADS
-- GrADS
-
-Please answer with either OpenGrADS or GrADS and press enter.
-  " yn; do
-    case $yn in
-    OpenGrADS)
-      echo " "
-      echo "OpenGrADS selected for installation"
-      echo "-------------------------------------------------- "
-      export GRADS_PICK=1 # variable set for grads or opengrads choice
-      break
-      ;;
-    GrADS)
-      echo " "
-      echo "GrADS selected for installation"
-      echo "-------------------------------------------------- "
-      export GRADS_PICK=2 # variable set for grads or opengrads choice
-      break
-      ;;
+case $Storage_Space_Units in
+    [Pp]* | [Tt]*)
+        echo "Sufficient storage space for installation found."
+        echo "-------------------------------------------------- "
+        ;;
+    [Gg]*)
+        if [[ ${Storage_Space_Size} -lt ${Storage_Space_Required} ]]; then
+            echo "Not enough storage space for installation. 350GB is required."
+            echo "-------------------------------------------------- "
+            exit
+        else
+            echo "Sufficient storage space for installation found."
+            echo "-------------------------------------------------- "
+        fi
+        ;;
+    [MmKk]*)
+        echo "Not enough storage space for installation. 350GB is required."
+        echo "-------------------------------------------------- "
+        exit
+        ;;
     *)
-      echo " "
-      echo "Please answer OpenGrADS or GrADS (case-sensitive)."
-      ;;
-    esac
-  done
-fi
-
-echo " "
-##################################### Auto Configuration Test ##################
-
-while true; do
-	echo " Auto Configuration Check"
-	read -r -p "
-  Would you like the script to select all the configure options for you?
-  Please note, that you should not have to type anything else in the terminal.
-
-  This will use Basic Nesting for WRF Configuration
-
-  (Y/N)    " yn
-	case $yn in
-	[Yy]*)
-		export auto_config=1 #variable set for one click config and installation
-		break
-		;;
-	[Nn]*)
-		export auto_config=0 #variable set for manual config and installation
-		break
-		;;
-	*) echo "Please answer yes or no." ;;
-	esac
-done
-
-echo " "
-################################# DTC MET Tools Test ##################
-
-while true; do
-	echo " NCAR's DTC MET Tools Install"
-	read -r -p "
-  Would you like the script to install the NCAR's DTC Model Evaluation Tools?
-  ***DTC MET Tools are not available for Intel Compilers at this time***
-
-
-  (Y/N)    " yn
-	case $yn in
-	[Yy]*)
-		export DTC_MET=1
-		break
-		;;
-	[Nn]*)
-		export DTC_MET=0
-		break
-		;;
-	*) echo "Please answer yes or no." ;;
-	esac
-done
-
-echo " "
-
-################################# GEOG WPS Geographical Input Data Mandatory for Specific Applications ##################
-
-while true; do
-	echo "-------------------------------------------------- "
-	echo " "
-	echo "Would you like to download the WPS Geographical Input Data for Specific Applications? (Optional)"
-	echo " "
-	echo "Specific Applicaitons files can be viewed here:  "
-	echo " "
-	printf '\e]8;;https://www2.mmm.ucar.edu/wrf/users/download/get_sources_wps_geog.html\e\\Specific GEOG Applications Website (right click to open link) \e]8;;\e\\\n'
-	echo " "
-	read -r -p "(Y/N)   " yn
-	case $yn in
-	[Yy]*)
-		export WPS_Specific_Applications=1 #variable set for "YES" for specific application data
-		break
-		;;
-	[Nn]*)
-		export WPS_Specific_Applications=0 #variable set for "NO" for specific application data
-		break
-		;;
-	*) echo "Please answer yes or no." ;;
-	esac
-done
-
-echo " "
-################################# GEOG Optional WPS Geographical Input Data ##################
-
-while true; do
-	echo "-------------------------------------------------- "
-	echo " "
-	echo "Would you like to download the GEOG Optional WPS Geographical Input Data? (Optional)"
-	echo " "
-	echo "Optional Geogrpahical files can be viewed here:  "
-	echo " "
-	printf '\e]8;;https://www2.mmm.ucar.edu/wrf/users/download/get_sources_wps_geog.html\e\\Optional GEOG File Applications Website (right click to open link) \e]8;;\e\\\n'
-	echo " "
-	read -r -p "(Y/N)    " yn
-	echo " "
-	case $yn in
-	[Yy]*)
-		export Optional_GEOG=1 #variable set for "YES" for Optional GEOG Data
-		break
-		;;
-	[Nn]*)
-		export Optional_GEOG=0 #variable set for "NO" for Optional GEOG Data
-		break
-		;;
-	*) echo "Please answer yes or no." ;;
-	esac
-done
-
-echo " "
-############################## Choice for which version of WRF to Install ############
-
-# Define the colored messages
-CMAQ_MESSAGE="\e[91m(Not available on MacOS && GNU Only)\e[0m"
-
-echo -e "Which version of WRF would you like to install?
--WRF
--WRFCHEM
--WRFHYDRO_COUPLED
--WRFHYDRO_STANDALONE
--WRF_SFIRE
--WRF_CMAQ $CMAQ_MESSAGE
-
-Please enter one of the above options and press enter (Case Sensitive):"
-
-while read -r yn; do
-	case $yn in
-		WRF_SFIRE)
-			echo " "
-			echo "WRF_SFIRE selected for installation"
-			export SFIRE_PICK=1 #variable set for grads or opengrads choice
-			break
-			;;
-	 	WRF_CMAQ)
-			echo " "
-			echo "WRF_CMAQ selected for installation"
-			echo "WRF_CMAQ is only compatible with GNU Compilers"
-			export CMAQ_PICK=1 #variable set for grads or opengrads choice
-			break
-			;;
-		WRF)
-			echo " "
-			echo "WRF selected for installation"
-			export WRF_PICK=1 #variable set for grads or opengrads choice
-			break
-			;;
-		WRFCHEM)
-			echo " "
-			echo "WRFCHEM selected for installation"
-			export WRFCHEM_PICK=1 #variable set for grads or opengrads choice
-			break
-			;;
-		WRFHYDRO_COUPLED)
-			echo " "
-			echo "WRFHYDRO_COUPLED selected for installation"
-			export WRFHYDRO_COUPLED_PICK=1 #variable set for grads or opengrads choice
-			break
-			;;
-		WRFHYDRO_STANDALONE)
-			echo " "
-			echo "WRFHYDRO_STANDALONE selected for installation"
-			export WRFHYDRO_STANDALONE_PICK=1 #variable set for grads or opengrads choice
-			break
-			;;
-		*)
-			echo " "
-			echo "Please answer WRF, WRFCHEM, WRFHYDRO_COUPLED, WRFHYDRO_STANDALONE, WRF_SFIRE, WRF_CMAQ, or HURRICANE_WRF (All Upper Case)."
-			;;
-	esac
-done
-
-################################# WRF-CHEM Tools Test ##################
-if [ "$WRFCHEM_PICK" = "1" ]; then
-	while true; do
-		echo " NCAR's WRF-CHEM Tools Install"
-		read -r -p "
-  	Would you like the script to install the NCAR's WRF-CHEM Tools?
-
-  	Not availble for MacOS.  Please Select No
-
-
-  	(Y/N)    " yn
-		case $yn in
-		[Yy]*)
-			export WRFCHEM_TOOLS=1
-			break
-			;;
-		[Nn]*)
-			export WRFCHEM_TOOLS=0
-			break
-			;;
-		*) echo "Please answer yes or no." ;;
-		esac
-	done
-fi
-echo " "
+        echo "Not enough storage space for installation. 350GB is required."
+        echo "-------------------------------------------------- "
+        exit
+        ;;
+esac
 
 ############################# Enter sudo users information #############################
 echo "-------------------------------------------------- "
 while true; do
-    echo " "
     # Prompt for the initial password
     read -r -s -p "
     Password is only saved locally and will not be seen when typing.
-    Please enter your sudo password:
-    " password1
+    Please enter your sudo password: " password1
     echo " "
     # Prompt for password verification
-    read -r -s -p "
-    Please re-enter your password to verify:
-    " password2
+    read -r -s -p "Please re-enter your password to verify: " password2
     echo " "
 
     # Check if the passwords match
     if [ "$password1" = "$password2" ]; then
         export PASSWD=$password1
-        echo "-------------------------------------------------- "
         echo "Password verified successfully."
         break
     else
-        echo " "
-        echo "-------------------------------------------------- "
         echo "Passwords do not match. Please enter the passwords again."
-        echo "-------------------------------------------------- "
     fi
 done
 
-echo " "
 echo "Beginning Installation"
-echo " "
 
 ############################ DTC's MET & METPLUS ##################################################
 
