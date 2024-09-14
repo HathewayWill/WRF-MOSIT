@@ -36,7 +36,6 @@ export WRF_VERSION=4.6.0
 export WPS_VERSION=4.6.0
 
 ############################### Citation Requirement  ####################
-
 echo " "
 echo " The GitHub software WRF-MOSIT (Version 2.1.1) by W. Hatheway (2023)"
 echo " "
@@ -89,7 +88,8 @@ if [ "$SYSTEMOS" = "Linux" ]; then
         # Extract the distribution name and version from /etc/os-release
         export DISTRO_NAME=$(grep -w "NAME" /etc/os-release | cut -d'=' -f2 | tr -d '"')
         export DISTRO_VERSION=$(grep -w "VERSION_ID" /etc/os-release | cut -d'=' -f2 | tr -d '"')
-        
+
+        # Print the distribution name and version
         echo "Operating system detected: $DISTRO_NAME, Version: $DISTRO_VERSION"
 
         # Check if the system is CentOS
@@ -290,6 +290,226 @@ while true; do
 done
 
 echo "Beginning Installation"
+
+############################# Chose GrADS or OpenGrADS #########################
+if [ "$SYSTEMOS" != "MacOS" ]; then
+  while read -r -p "Which graphic display software should be installed?
+- OpenGrADS
+- GrADS
+
+Please answer with either OpenGrADS or GrADS and press enter.
+  " yn; do
+    case $yn in
+    OpenGrADS)
+      echo " "
+      echo "OpenGrADS selected for installation"
+      echo "-------------------------------------------------- "
+      export GRADS_PICK=1 # variable set for grads or opengrads choice
+      break
+      ;;
+    GrADS)
+      echo " "
+      echo "GrADS selected for installation"
+      echo "-------------------------------------------------- "
+      export GRADS_PICK=2 # variable set for grads or opengrads choice
+      break
+      ;;
+    *)
+      echo " "
+      echo "Please answer OpenGrADS or GrADS (case-sensitive)."
+      ;;
+    esac
+  done
+fi
+
+echo " "
+
+##################################### Auto Configuration Test ##################
+while true; do
+	echo " Auto Configuration Check"
+	read -r -p "
+  Would you like the script to select all the configure options for you?
+  Please note, that you should not have to type anything else in the terminal.
+
+  This will use Basic Nesting for WRF Configuration
+
+  (Y/N)    " yn
+	case $yn in
+	[Yy]*)
+		export auto_config=1 #variable set for one click config and installation
+		break
+		;;
+	[Nn]*)
+		export auto_config=0 #variable set for manual config and installation
+		break
+		;;
+	*) echo "Please answer yes or no." ;;
+	esac
+done
+
+echo " "
+
+################################# DTC MET Tools Test ##################
+while true; do
+	echo " NCAR's DTC MET Tools Install"
+	read -r -p "
+  Would you like the script to install the NCAR's DTC Model Evaluation Tools?
+  ***DTC MET Tools are not available for Intel Compilers at this time***
+
+  (Y/N)    " yn
+	case $yn in
+	[Yy]*)
+		export DTC_MET=1
+		break
+		;;
+	[Nn]*)
+		export DTC_MET=0
+		break
+		;;
+	*) echo "Please answer yes or no." ;;
+	esac
+done
+
+echo " "
+
+################################# GEOG WPS Geographical Input Data Mandatory for Specific Applications ##################
+while true; do
+	echo "-------------------------------------------------- "
+	echo " "
+	echo "Would you like to download the WPS Geographical Input Data for Specific Applications? (Optional)"
+	echo " "
+	echo "Specific Applications files can be viewed here:  "
+	echo " "
+	printf '\e]8;;https://www2.mmm.ucar.edu/wrf/users/download/get_sources_wps_geog.html\e\\Specific GEOG Applications Website (right click to open link) \e]8;;\e\\\n'
+	echo " "
+	read -r -p "(Y/N)   " yn
+	case $yn in
+	[Yy]*)
+		export WPS_Specific_Applications=1 #variable set for "YES" for specific application data
+		break
+		;;
+	[Nn]*)
+		export WPS_Specific_Applications=0 #variable set for "NO" for specific application data
+		break
+		;;
+	*) echo "Please answer yes or no." ;;
+	esac
+done
+
+echo " "
+
+################################# GEOG Optional WPS Geographical Input Data ##################
+while true; do
+	echo "-------------------------------------------------- "
+	echo " "
+	echo "Would you like to download the GEOG Optional WPS Geographical Input Data? (Optional)"
+	echo " "
+	echo "Optional Geographical files can be viewed here:  "
+	echo " "
+	printf '\e]8;;https://www2.mmm.ucar.edu/wrf/users/download/get_sources_wps_geog.html\e\\Optional GEOG File Applications Website (right click to open link) \e]8;;\e\\\n'
+	echo " "
+	read -r -p "(Y/N)    " yn
+	echo " "
+	case $yn in
+	[Yy]*)
+		export Optional_GEOG=1 #variable set for "YES" for Optional GEOG Data
+		break
+		;;
+	[Nn]*)
+		export Optional_GEOG=0 #variable set for "NO" for Optional GEOG Data
+		break
+		;;
+	*) echo "Please answer yes or no." ;;
+	esac
+done
+
+echo " "
+
+############################## Choice for which version of WRF to Install ############
+# Define the colored messages
+CMAQ_MESSAGE="\e[91m(Not available on MacOS && GNU Only)\e[0m"
+
+echo -e "Which version of WRF would you like to install?
+-WRF
+-WRFCHEM
+-WRFHYDRO_COUPLED
+-WRFHYDRO_STANDALONE
+-WRF_SFIRE
+-WRF_CMAQ $CMAQ_MESSAGE
+
+Please enter one of the above options and press enter (Case Sensitive):"
+
+while read -r yn; do
+	case $yn in
+		WRF_SFIRE)
+			echo " "
+			echo "WRF_SFIRE selected for installation"
+			export SFIRE_PICK=1 #variable set for grads or opengrads choice
+			break
+			;;
+	 	WRF_CMAQ)
+			echo " "
+			echo "WRF_CMAQ selected for installation"
+			echo "WRF_CMAQ is only compatible with GNU Compilers"
+			export CMAQ_PICK=1 #variable set for grads or opengrads choice
+			break
+			;;
+		WRF)
+			echo " "
+			echo "WRF selected for installation"
+			export WRF_PICK=1 #variable set for grads or opengrads choice
+			break
+			;;
+		WRFCHEM)
+			echo " "
+			echo "WRFCHEM selected for installation"
+			export WRFCHEM_PICK=1 #variable set for grads or opengrads choice
+			break
+			;;
+		WRFHYDRO_COUPLED)
+			echo " "
+			echo "WRFHYDRO_COUPLED selected for installation"
+			export WRFHYDRO_COUPLED_PICK=1 #variable set for grads or opengrads choice
+			break
+			;;
+		WRFHYDRO_STANDALONE)
+			echo " "
+			echo "WRFHYDRO_STANDALONE selected for installation"
+			export WRFHYDRO_STANDALONE_PICK=1 #variable set for grads or opengrads choice
+			break
+			;;
+		*)
+			echo " "
+			echo "Please answer WRF, WRFCHEM, WRFHYDRO_COUPLED, WRFHYDRO_STANDALONE, WRF_SFIRE, WRF_CMAQ, or HURRICANE_WRF (All Upper Case)."
+			;;
+	esac
+done
+
+################################# WRF-CHEM Tools Test ##################
+if [ "$WRFCHEM_PICK" = "1" ]; then
+	while true; do
+		echo " NCAR's WRF-CHEM Tools Install"
+		read -r -p "
+  	Would you like the script to install the NCAR's WRF-CHEM Tools?
+
+  	Not available for MacOS.  Please Select No
+
+  	(Y/N)    " yn
+		case $yn in
+		[Yy]*)
+			export WRFCHEM_TOOLS=1
+			break
+			;;
+		[Nn]*)
+			export WRFCHEM_TOOLS=0
+			break
+			;;
+		*) echo "Please answer yes or no." ;;
+		esac
+	done
+fi
+echo " "
+
 
 ############################ DTC's MET & METPLUS ##################################################
 
