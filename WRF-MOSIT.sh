@@ -141,7 +141,7 @@ if [ "$SYSTEMBIT" = "64" ] && [ "$SYSTEMOS" = "Linux" ]; then
     echo ""
     
     # Check if Ubuntu_64bit_Intel or Ubuntu_64bit_GNU environment variables are set
-    if [ -v "$Ubuntu_64bit_Intel" ] || [ -v "$Ubuntu_64bit_GNU" ]; then
+    if [ -n "$Ubuntu_64bit_Intel" ] || [ -n "$Ubuntu_64bit_GNU" ]; then
         echo "The environment variable Ubuntu_64bit_Intel/GNU is already set."
         else
         echo "The environment variable Ubuntu_64bit_Intel/GNU is not set."
