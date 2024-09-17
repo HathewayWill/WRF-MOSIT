@@ -1735,7 +1735,6 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
     export CPU_QUARTER=$(($CPU_CORE / 4))                                   #quarter of availble cores on system
     export CPU_QUARTER_EVEN=$(( $CPU_QUARTER - ($CPU_QUARTER % 2) ))              #Forces CPU cores to even number to avoid partial core export. ie 7 cores would be 3.5 cores.
     
-    if [ $CPU_CORE -le $CPU_6CORE ]                                  #If statement for low core systems.  Forces computers to only use 1 core if there are 4 cores or less on the system. then
         then
         export CPU_QUARTER_EVEN="2"
         else
@@ -1786,7 +1785,6 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
     
     export version_10="10"
     
-    if [ $GCC_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GFORTRAN_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GPLUSPLUS_VERSION_MAJOR_VERSION -ge $version_10 ] then
         then
         export fallow_argument=-fallow-argument-mismatch
         export boz_argument=-fallow-invalid-boz
@@ -1993,7 +1991,6 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
     cd "${WRF_FOLDER}"/Downloads/ioapi/$BIN
     n=$(ls -lrt libioapi.a | wc -l)
     m=$(ls -rlt m3xtract | wc -l)
-    if (( ( $n == 1 ) && ( $m == 1) )) then
         then
         echo "All expected files created."
         
@@ -2032,7 +2029,6 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
     $FC TEST_1_fortran_only_fixed.f
     ./a.out | tee env_test1.txt
     export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test1.txt | awk  '{print$1}')
-    if [ $TEST_PASS -ge 1 ] then
         then
         echo "Enviroment Test 1 Passed"
         else
@@ -2046,7 +2042,6 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
     $FC TEST_2_fortran_only_free.f90
     ./a.out | tee env_test2.txt
     export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test2.txt | awk  '{print$1}')
-    if [ $TEST_PASS -ge 1 ] then
         then
         echo "Enviroment Test 2 Passed"
         else
@@ -2061,7 +2056,6 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
     $CC TEST_3_c_only.c
     ./a.out | tee env_test3.txt
     export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test3.txt | awk  '{print$1}')
-    if [ $TEST_PASS -ge 1 ] then
         then
         echo "Enviroment Test 3 Passed"
         else
@@ -2078,7 +2072,6 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
     $FC -m64 TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
     ./a.out | tee env_test4.txt
     export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test4.txt | awk  '{print$1}')
-    if [ $TEST_PASS -ge 1 ] then
         then
         echo "Enviroment Test 4 Passed"
         else
@@ -2106,7 +2099,6 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
     
     ./a.out | tee comp_test1.txt
     export TEST_PASS=$(grep -w -o -c "SUCCESS" comp_test1.txt | awk  '{print$1}')
-    if [ $TEST_PASS -ge 1 ] then
         then
         echo "Compatibility Test 1 Passed"
         else
@@ -2127,7 +2119,6 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
     
     $DIR/MPICH/bin/mpirun ./a.out | tee comp_test2.txt
     export TEST_PASS=$(grep -w -o -c "SUCCESS" comp_test2.txt | awk  '{print$1}')
-    if [ $TEST_PASS -ge 1 ] then
         then
         echo "Compatibility Test 2 Passed"
         else
@@ -2206,7 +2197,6 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
     # IF statement to check that all files were created.
     cd "${WRF_FOLDER}"/WRFv${WRF_VERSION}_CMAQv5.4/main
     n=$(ls ./*.exe | wc -l)
-    if (($n >= 3)) then
         then
         echo "All expected files created."
         read -r -t 5 -p "Finished installing WRF. I am going to wait for 5 seconds only ..."
@@ -2229,7 +2219,6 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
     cd "${WRF_FOLDER}"/WPS-${WPS_VERSION}
     ./clean -a
     
-    if [ ${auto_config} -eq 1 ] then
         then
         echo 3 | ./configure 2>&1 | tee configure.log #Option 3 for gfortran and distributed memory
         else
@@ -2242,7 +2231,6 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
     # IF statement to check that all files were created.
     cd "${WRF_FOLDER}"/WPS-${WPS_VERSION}
     n=$(ls ./*.exe | wc -l)
-    if (($n == 3)) then
         then
         echo "All expected files created."
         read -r -t 5 -p "Finished installing WPS. I am going to wait for 5 seconds only ..."
@@ -2275,7 +2263,6 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
     mv "${WRF_FOLDER}"/GEOG/WPS_GEOG_LOW_RES/ "${WRF_FOLDER}"/GEOG/WPS_GEOG
     
     
-    if [ ${WPS_Specific_Applications} -eq 1 ] then
         then
         echo " "
         echo " WPS Geographical Input Data Mandatory for Specific Applications"
@@ -2313,7 +2300,6 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
     fi
     
     
-    if [ ${Optional_GEOG} -eq 1 ] then
         then
         echo " "
         echo "Optional WPS Geographical Input Data"
@@ -2380,7 +2366,6 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
     export CPU_QUARTER=$(($CPU_CORE / 4))                                   #quarter of availble cores on system
     export CPU_QUARTER_EVEN=$(( $CPU_QUARTER - ($CPU_QUARTER % 2) ))              #Forces CPU cores to even number to avoid partial core export. ie 7 cores would be 3.5 cores.
     
-    if [ $CPU_CORE -le $CPU_6CORE ]                                  #If statement for low core systems.  Forces computers to only use 1 core if there are 4 cores or less on the system. then
         then
         export CPU_QUARTER_EVEN="2"
         else
@@ -2648,7 +2633,6 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
     cd "${WRF_FOLDER}"/Downloads/ioapi/$BIN
     n=$(ls -lrt libioapi.a | wc -l)
     m=$(ls -rlt m3xtract | wc -l)
-    if (( ( $n == 1 ) && ( $m == 1) )) then
         then
         echo "All expected files created."
         
@@ -2687,7 +2671,6 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
     $FC TEST_1_fortran_only_fixed.f
     ./a.out | tee env_test1.txt
     export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test1.txt | awk  '{print$1}')
-    if [ $TEST_PASS -ge 1 ] then
         then
         echo "Enviroment Test 1 Passed"
         else
@@ -2701,7 +2684,6 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
     $FC TEST_2_fortran_only_free.f90
     ./a.out | tee env_test2.txt
     export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test2.txt | awk  '{print$1}')
-    if [ $TEST_PASS -ge 1 ] then
         then
         echo "Enviroment Test 2 Passed"
         else
@@ -2716,7 +2698,6 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
     $CC TEST_3_c_only.c
     ./a.out | tee env_test3.txt
     export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test3.txt | awk  '{print$1}')
-    if [ $TEST_PASS -ge 1 ] then
         then
         echo "Enviroment Test 3 Passed"
         else
@@ -2733,7 +2714,6 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
     $FC -m64 TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
     ./a.out | tee env_test4.txt
     export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test4.txt | awk  '{print$1}')
-    if [ $TEST_PASS -ge 1 ] then
         then
         echo "Enviroment Test 4 Passed"
         else
@@ -2761,7 +2741,6 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
     
     ./a.out | tee comp_test1.txt
     export TEST_PASS=$(grep -w -o -c "SUCCESS" comp_test1.txt | awk  '{print$1}')
-    if [ $TEST_PASS -ge 1 ] then
         then
         echo "Compatibility Test 1 Passed"
         else
@@ -2782,7 +2761,6 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
     
     $DIR/MPICH/bin/mpirun ./a.out | tee comp_test2.txt
     export TEST_PASS=$(grep -w -o -c "SUCCESS" comp_test2.txt | awk  '{print$1}')
-    if [ $TEST_PASS -ge 1 ] then
         then
         echo "Compatibility Test 2 Passed"
         else
@@ -2861,7 +2839,6 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
     # IF statement to check that all files were created.
     cd "${WRF_FOLDER}"/WRFv${WRF_VERSION}_CMAQv5.4/main
     n=$(ls ./*.exe | wc -l)
-    if (($n >= 3)) then
         then
         echo "All expected files created."
         read -r -t 5 -p "Finished installing WRF. I am going to wait for 5 seconds only ..."
@@ -2885,7 +2862,6 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
     cd "${WRF_FOLDER}"/WPS-${WPS_VERSION}
     ./clean -a
     
-    if [ ${auto_config} -eq 1 ] then
         then
         echo 3 | ./configure 2>&1 | tee configure.log #Option 3 for gfortran and distributed memory
         else
@@ -2898,7 +2874,6 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
     # IF statement to check that all files were created.
     cd "${WRF_FOLDER}"/WPS-${WPS_VERSION}
     n=$(ls ./*.exe | wc -l)
-    if (($n == 3)) then
         then
         echo "All expected files created."
         read -r -t 5 -p "Finished installing WPS. I am going to wait for 5 seconds only ..."
@@ -2931,7 +2906,6 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
     mv "${WRF_FOLDER}"/GEOG/WPS_GEOG_LOW_RES/ "${WRF_FOLDER}"/GEOG/WPS_GEOG
     
     
-    if [ ${WPS_Specific_Applications} -eq 1 ] then
         then
         echo " "
         echo " WPS Geographical Input Data Mandatory for Specific Applications"
@@ -2970,7 +2944,6 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
     fi
     
     
-    if [ ${Optional_GEOG} -eq 1 ] then
         then
         echo " "
         echo "Optional WPS Geographical Input Data"
@@ -3048,7 +3021,6 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$CMAQ_PICK" = "1" ]; then
     export CPU_QUARTER=$(($CPU_CORE / 4))                                   #quarter of availble cores on system
     export CPU_QUARTER_EVEN=$(( $CPU_QUARTER - ($CPU_QUARTER % 2) ))              #Forces CPU cores to even number to avoid partial core export. ie 7 cores would be 3.5 cores.
     
-    if [ $CPU_CORE -le $CPU_6CORE ]                                  #If statement for low core systems.  Forces computers to only use 1 core if there are 4 cores or less on the system. then
         then
         export CPU_QUARTER_EVEN="2"
         else
@@ -3316,7 +3288,6 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$CMAQ_PICK" = "1" ]; then
     cd "${WRF_FOLDER}"/Downloads/ioapi/$BIN
     n=$(ls -lrt libioapi.a | wc -l)
     m=$(ls -rlt m3xtract | wc -l)
-    if (( ( $n == 1 ) && ( $m == 1) )) then
         then
         echo "All expected files created."
         
@@ -3355,7 +3326,6 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$CMAQ_PICK" = "1" ]; then
     $FC TEST_1_fortran_only_fixed.f
     ./a.out | tee env_test1.txt
     export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test1.txt | awk  '{print$1}')
-    if [ $TEST_PASS -ge 1 ] then
         then
         echo "Enviroment Test 1 Passed"
         else
@@ -3369,7 +3339,6 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$CMAQ_PICK" = "1" ]; then
     $FC TEST_2_fortran_only_free.f90
     ./a.out | tee env_test2.txt
     export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test2.txt | awk  '{print$1}')
-    if [ $TEST_PASS -ge 1 ] then
         then
         echo "Enviroment Test 2 Passed"
         else
@@ -3384,7 +3353,6 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$CMAQ_PICK" = "1" ]; then
     $CC TEST_3_c_only.c
     ./a.out | tee env_test3.txt
     export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test3.txt | awk  '{print$1}')
-    if [ $TEST_PASS -ge 1 ] then
         then
         echo "Enviroment Test 3 Passed"
         else
@@ -3401,7 +3369,6 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$CMAQ_PICK" = "1" ]; then
     $FC -m64 TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
     ./a.out | tee env_test4.txt
     export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test4.txt | awk  '{print$1}')
-    if [ $TEST_PASS -ge 1 ] then
         then
         echo "Enviroment Test 4 Passed"
         else
@@ -3429,7 +3396,6 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$CMAQ_PICK" = "1" ]; then
     
     ./a.out | tee comp_test1.txt
     export TEST_PASS=$(grep -w -o -c "SUCCESS" comp_test1.txt | awk  '{print$1}')
-    if [ $TEST_PASS -ge 1 ] then
         then
         echo "Compatibility Test 1 Passed"
         else
@@ -3450,7 +3416,6 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$CMAQ_PICK" = "1" ]; then
     
     $DIR/MPICH/bin/mpirun ./a.out | tee comp_test2.txt
     export TEST_PASS=$(grep -w -o -c "SUCCESS" comp_test2.txt | awk  '{print$1}')
-    if [ $TEST_PASS -ge 1 ] then
         then
         echo "Compatibility Test 2 Passed"
         else
@@ -3529,7 +3494,6 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$CMAQ_PICK" = "1" ]; then
     # IF statement to check that all files were created.
     cd "${WRF_FOLDER}"/WRFv${WRF_VERSION}_CMAQv5.4/main
     n=$(ls ./*.exe | wc -l)
-    if (($n >= 3)) then
         then
         echo "All expected files created."
         read -r -t 5 -p "Finished installing WRF. I am going to wait for 5 seconds only ..."
@@ -3552,7 +3516,6 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$CMAQ_PICK" = "1" ]; then
     cd "${WRF_FOLDER}"/WPS-${WPS_VERSION}
     ./clean -a
     
-    if [ ${auto_config} -eq 1 ] then
         then
         echo 3 | ./configure 2>&1 | tee configure.log #Option 3 for gfortran and distributed memory
         else
@@ -3565,7 +3528,6 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$CMAQ_PICK" = "1" ]; then
     # IF statement to check that all files were created.
     cd "${WRF_FOLDER}"/WPS-${WPS_VERSION}
     n=$(ls ./*.exe | wc -l)
-    if (($n == 3)) then
         then
         echo "All expected files created."
         read -r -t 5 -p "Finished installing WPS. I am going to wait for 5 seconds only ..."
@@ -3598,7 +3560,6 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$CMAQ_PICK" = "1" ]; then
     mv "${WRF_FOLDER}"/GEOG/WPS_GEOG_LOW_RES/ "${WRF_FOLDER}"/GEOG/WPS_GEOG
     
     
-    if [ ${WPS_Specific_Applications} -eq 1 ] then
         then
         echo " "
         echo " WPS Geographical Input Data Mandatory for Specific Applications"
@@ -3636,7 +3597,6 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$CMAQ_PICK" = "1" ]; then
     fi
     
     
-    if [ ${Optional_GEOG} -eq 1 ] then
         then
         echo " "
         echo "Optional WPS Geographical Input Data"
@@ -3715,7 +3675,6 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
     export CPU_QUARTER=$(($CPU_CORE / 4))                                   #quarter of availble cores on system
     export CPU_QUARTER_EVEN=$(( $CPU_QUARTER - ($CPU_QUARTER % 2) ))              #Forces CPU cores to even number to avoid partial core export. ie 7 cores would be 3.5 cores.
     
-    if [ $CPU_CORE -le $CPU_6CORE ]                                  #If statement for low core systems.  Forces computers to only use 1 core if there are 4 cores or less on the system. then
         then
         export CPU_QUARTER_EVEN="2"
         else
@@ -3765,7 +3724,6 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
     
     export version_10="10"
     
-    if [ $GCC_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GFORTRAN_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GPLUSPLUS_VERSION_MAJOR_VERSION -ge $version_10 ] then
         then
         export fallow_argument=-fallow-argument-mismatch
         export boz_argument=-fallow-invalid-boz
@@ -3967,7 +3925,6 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
     $FC TEST_1_fortran_only_fixed.f
     ./a.out | tee env_test1.txt
     export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test1.txt | awk  '{print$1}')
-    if [ $TEST_PASS -ge 1 ] then
         then
         echo "Enviroment Test 1 Passed"
         else
@@ -3981,7 +3938,6 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
     $FC TEST_2_fortran_only_free.f90
     ./a.out | tee env_test2.txt
     export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test2.txt | awk  '{print$1}')
-    if [ $TEST_PASS -ge 1 ] then
         then
         echo "Enviroment Test 2 Passed"
         else
@@ -3996,7 +3952,6 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
     $CC TEST_3_c_only.c
     ./a.out | tee env_test3.txt
     export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test3.txt | awk  '{print$1}')
-    if [ $TEST_PASS -ge 1 ] then
         then
         echo "Enviroment Test 3 Passed"
         else
@@ -4013,7 +3968,6 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
     $FC -m64 TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
     ./a.out | tee env_test4.txt
     export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test4.txt | awk  '{print$1}')
-    if [ $TEST_PASS -ge 1 ] then
         then
         echo "Enviroment Test 4 Passed"
         else
@@ -4041,7 +3995,6 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
     
     ./a.out | tee comp_test1.txt
     export TEST_PASS=$(grep -w -o -c "SUCCESS" comp_test1.txt | awk  '{print$1}')
-    if [ $TEST_PASS -ge 1 ] then
         then
         echo "Compatibility Test 1 Passed"
         else
@@ -4062,7 +4015,6 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
     
     $DIR/MPICH/bin/mpirun ./a.out | tee comp_test2.txt
     export TEST_PASS=$(grep -w -o -c "SUCCESS" comp_test2.txt | awk  '{print$1}')
-    if [ $TEST_PASS -ge 1 ] then
         then
         echo "Compatibility Test 2 Passed"
         else
@@ -4110,7 +4062,6 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
     
     export version_10="10"
     
-    if [ $GCC_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GFORTRAN_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GPLUSPLUS_VERSION_MAJOR_VERSION -ge $version_10 ] then
         then
         y="24 28 32 36 40 45 49 53 56 60 64 68 69 73 74 79"
         for X in $y; do
@@ -4121,7 +4072,6 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
         echo "Loop not needed"
     fi
     
-    if [ ${auto_config} -eq 1 ] then
         then
         echo yes | ./make_ncep_libs.sh -s linux -c gnu -d $DIR/nceplibs -o 0 -m 1 -a upp
         else
@@ -4144,7 +4094,6 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
     export NCEPLIBS_DIR=$DIR/nceplibs
     export NETCDF=$DIR/NETCDF
     
-    if [ ${auto_config} -eq 1 ] then
         then
         echo 8 | ./configure  #Option 8 gfortran compiler with distributed memory
         else
@@ -4163,7 +4112,6 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
     
     export version_10="10"
     
-    if [ $GCC_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GFORTRAN_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GPLUSPLUS_VERSION_MAJOR_VERSION -ge $version_10 ] then
         then
         z="58 63"
         for X in $z; do
@@ -4182,7 +4130,6 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
     # IF statement to check that all files were created.
     cd "${WRF_FOLDER}"/UPPV4.1/exec
     n=$(ls ./*.exe | wc -l)
-    if (( $n == 1 )) then
         then
         echo "All expected files created."
         read -r -t 5 -p "Finished installing UPPV4.1. I am going to wait for 5 seconds only ..."
@@ -4209,7 +4156,6 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
     export NETCDF=$DIR/NETCDF
     
     
-    if [ ${auto_config} -eq 1 ] then
         then
         echo 3 | ./configure  #Option 3 gfortran compiler with distributed memory
         else
@@ -4227,7 +4173,6 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
     
     export version_10="10"
     
-    if [ $GCC_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GFORTRAN_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GPLUSPLUS_VERSION_MAJOR_VERSION -ge $version_10 ] then
         then
         sed -i '32s/-ffree-form -O -fno-second-underscore -fconvert=big-endian -frecord-marker=4/-ffree-form -O -fno-second-underscore -fconvert=big-endian -frecord-marker=4 ${fallow_argument} /g' configure.arwp
     fi
@@ -4370,7 +4315,6 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
     sed -i '35s|=|= -L"${WRF_FOLDER}"/LIBS/grib2/lib -lhdf5 -lhdf5_hl |g' "${WRF_FOLDER}"/RIP4/arch/configure.defaults
     
     
-    if [ ${auto_config} -eq 1 ] then
         then
         echo 3 | ./configure  #Option 3 gfortran compiler with distributed memory
         else
@@ -4436,7 +4380,6 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
     cd "${WRF_FOLDER}"/WRF-SFIRE/
     ./clean -a                      # Clean old configuration files
     
-    if [ ${auto_config} -eq 1 ] then
         then
         sed -i '428s/.*/  $response = "34 \\n";/g' "${WRF_FOLDER}"/WRF-SFIRE/arch/Config.pl # Answer for compiler choice
         sed -i '869s/.*/  $response = "1 \\n";/g' "${WRF_FOLDER}"/WRF-SFIRE/arch/Config.pl  #Answer for basic nesting
@@ -4492,7 +4435,6 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
     ./clean -a
     
     cd "${WRF_FOLDER}"/WPS
-    if [ ${auto_config} -eq 1 ] then
         then
         FFLAGS=$FFLAGS  echo 3 | ./configure 2>&1 | tee configure.log #Option 3 for gfortran and distributed memory
         else
@@ -4501,7 +4443,6 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
     
     #sed statements for issue with GNUv10+
     
-    if [ $GCC_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GFORTRAN_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GPLUSPLUS_VERSION_MAJOR_VERSION -ge $version_10 ] then
         then
         sed -i '70s/-frecord-marker=4/-frecord-marker=4 -m64 -fallow-argument-mismatch/g' "${WRF_FOLDER}"/WPS/configure.wps
         sed -i '71s/-frecord-marker=4/-frecord-marker=4 -m64 -fallow-argument-mismatch/g' "${WRF_FOLDER}"/WPS/configure.wps
@@ -4555,7 +4496,6 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
     mv "${WRF_FOLDER}"/GEOG/WPS_GEOG_LOW_RES/ "${WRF_FOLDER}"/GEOG/WPS_GEOG
     
     
-    if [ ${WPS_Specific_Applications} -eq 1 ] then
         then
         echo " "
         echo " WPS Geographical Input Data Mandatory for Specific Applications"
@@ -4590,7 +4530,6 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
     fi
     
     
-    if [ ${Optional_GEOG} -eq 1 ] then
         then
         echo " "
         echo "Optional WPS Geographical Input Data"
@@ -6942,7 +6881,6 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
     export CPU_QUARTER=$(($CPU_CORE / 4))                                   #quarter of availble cores on system
     export CPU_QUARTER_EVEN=$(( $CPU_QUARTER - ($CPU_QUARTER % 2) ))              #Forces CPU cores to even number to avoid partial core export. ie 7 cores would be 3.5 cores.
     
-    if [ $CPU_CORE -le $CPU_6CORE ]                                  #If statement for low core systems.  Forces computers to only use 1 core if there are 4 cores or less on the system. then
         then
         export CPU_QUARTER_EVEN="2"
         else
@@ -6992,7 +6930,6 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
     
     export version_10="10"
     
-    if [ $GCC_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GFORTRAN_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GPLUSPLUS_VERSION_MAJOR_VERSION -ge $version_10 ] then
         then
         export fallow_argument=-fallow-argument-mismatch
         export boz_argument=-fallow-invalid-boz
@@ -7203,7 +7140,6 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
     $FC TEST_1_fortran_only_fixed.f
     ./a.out | tee env_test1.txt
     export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test1.txt | awk  '{print$1}')
-    if [ $TEST_PASS -ge 1 ] then
         then
         echo "Enviroment Test 1 Passed"
         else
@@ -7217,7 +7153,6 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
     $FC TEST_2_fortran_only_free.f90
     ./a.out | tee env_test2.txt
     export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test2.txt | awk  '{print$1}')
-    if [ $TEST_PASS -ge 1 ] then
         then
         echo "Enviroment Test 2 Passed"
         else
@@ -7232,7 +7167,6 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
     $CC TEST_3_c_only.c
     ./a.out | tee env_test3.txt
     export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test3.txt | awk  '{print$1}')
-    if [ $TEST_PASS -ge 1 ] then
         then
         echo "Enviroment Test 3 Passed"
         else
@@ -7249,7 +7183,6 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
     $FC -m64 TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
     ./a.out | tee env_test4.txt
     export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test4.txt | awk  '{print$1}')
-    if [ $TEST_PASS -ge 1 ] then
         then
         echo "Enviroment Test 4 Passed"
         else
@@ -7277,7 +7210,6 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
     
     ./a.out | tee comp_test1.txt
     export TEST_PASS=$(grep -w -o -c "SUCCESS" comp_test1.txt | awk  '{print$1}')
-    if [ $TEST_PASS -ge 1 ] then
         then
         echo "Compatibility Test 1 Passed"
         else
@@ -7298,7 +7230,6 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
     
     $DIR/MPICH/bin/mpirun ./a.out | tee comp_test2.txt
     export TEST_PASS=$(grep -w -o -c "SUCCESS" comp_test2.txt | awk  '{print$1}')
-    if [ $TEST_PASS -ge 1 ] then
         then
         echo "Compatibility Test 2 Passed"
         else
@@ -7345,7 +7276,6 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
     
     export version_10="10"
     
-    if [ $GCC_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GFORTRAN_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GPLUSPLUS_VERSION_MAJOR_VERSION -ge $version_10 ] then
         then
         y="24 28 32 36 40 45 49 53 56 60 64 68 69 73 74 79"
         for X in $y; do
@@ -7356,7 +7286,6 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
         echo "Loop not needed"
     fi
     
-    if [ ${auto_config} -eq 1 ] then
         then
         echo yes | ./make_ncep_libs.sh -s linux -c gnu -d $DIR/nceplibs -o 0 -m 1 -a upp | tee make.install.log
         else
@@ -7379,7 +7308,6 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
     export NCEPLIBS_DIR=$DIR/nceplibs
     export NETCDF=$DIR/NETCDF
     
-    if [ ${auto_config} -eq 1 ] then
         then
         echo 8 | ./configure  #Option 8 gfortran compiler with distributed memory
         else
@@ -7398,7 +7326,6 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
     
     export version_10="10"
     
-    if [ $GCC_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GFORTRAN_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GPLUSPLUS_VERSION_MAJOR_VERSION -ge $version_10 ] then
         then
         z="58 63"
         for X in $z; do
@@ -7417,7 +7344,6 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
     # IF statement to check that all files were created.
     cd "${WRF_FOLDER}"/UPPV4.1/exec
     n=$(ls ./*.exe | wc -l)
-    if (( $n == 1 )) then
         then
         echo "All expected files created."
         read -r -t 5 -p "Finished installing UPPV4.1. I am going to wait for 5 seconds only ..."
@@ -7444,7 +7370,6 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
     export NETCDF=$DIR/NETCDF
     
     
-    if [ ${auto_config} -eq 1 ] then
         then
         echo 3 | ./configure  #Option 3 gfortran compiler with distributed memory
         else
@@ -7462,7 +7387,6 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
     
     export version_10="10"
     
-    if [ $GCC_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GFORTRAN_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GPLUSPLUS_VERSION_MAJOR_VERSION -ge $version_10 ] then
         then
         sed -i '32s/-ffree-form -O -fno-second-underscore -fconvert=big-endian -frecord-marker=4/-ffree-form -O -fno-second-underscore -fconvert=big-endian -frecord-marker=4 ${fallow_argument} /g' configure.arwp
     fi
@@ -7608,7 +7532,6 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
     sed -i '35s|=|= -L"${WRF_FOLDER}"/LIBS/grib2/lib -lhdf5 -lhdf5_hl |g' "${WRF_FOLDER}"/RIP4/arch/configure.defaults
     
     
-    if [ ${auto_config} -eq 1 ] then
         then
         echo 3 | ./configure  #Option 3 gfortran compiler with distributed memory
         else
@@ -7678,7 +7601,6 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
     cd "${WRF_FOLDER}"/WRF-SFIRE/
     ./clean -a                      # Clean old configuration files
     
-    if [ ${auto_config} -eq 1 ] then
         then
         sed -i '428s/.*/  $response = "34 \\n";/g' "${WRF_FOLDER}"/WRF-SFIRE/arch/Config.pl # Answer for compiler choice
         sed -i '869s/.*/  $response = "1 \\n";/g' "${WRF_FOLDER}"/WRF-SFIRE/arch/Config.pl  #Answer for basic nesting
@@ -7734,7 +7656,6 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
     ./clean -a
     
     cd "${WRF_FOLDER}"/WPS
-    if [ ${auto_config} -eq 1 ] then
         then
         FFLAGS=$FFLAGS  echo 3 | ./configure 2>&1 | tee configure.log #Option 3 for gfortran and distributed memory
         else
@@ -7743,7 +7664,6 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
     
     #sed statements for issue with GNUv10+
     
-    if [ $GCC_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GFORTRAN_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GPLUSPLUS_VERSION_MAJOR_VERSION -ge $version_10 ] then
         then
         sed -i '70s/-frecord-marker=4/-frecord-marker=4 -m64 -fallow-argument-mismatch/g' "${WRF_FOLDER}"/WPS/configure.wps
         sed -i '71s/-frecord-marker=4/-frecord-marker=4 -m64 -fallow-argument-mismatch/g' "${WRF_FOLDER}"/WPS/configure.wps
@@ -7799,7 +7719,6 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
     mv "${WRF_FOLDER}"/GEOG/WPS_GEOG_LOW_RES/ "${WRF_FOLDER}"/GEOG/WPS_GEOG
     
     
-    if [ ${WPS_Specific_Applications} -eq 1 ] then
         then
         echo " "
         echo " WPS Geographical Input Data Mandatory for Specific Applications"
@@ -7834,7 +7753,6 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
     fi
     
     
-    if [ ${Optional_GEOG} -eq 1 ] then
         then
         echo " "
         echo "Optional WPS Geographical Input Data"
@@ -7915,7 +7833,6 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$SFIRE_PICK" = "1" ]; then
     export CPU_QUARTER=$(($CPU_CORE / 4))                                   #quarter of availble cores on system
     export CPU_QUARTER_EVEN=$(( $CPU_QUARTER - ($CPU_QUARTER % 2) ))              #Forces CPU cores to even number to avoid partial core export. ie 7 cores would be 3.5 cores.
     
-    if [ $CPU_CORE -le $CPU_6CORE ]                                  #If statement for low core systems.  Forces computers to only use 1 core if there are 4 cores or less on the system. then
         then
         export CPU_QUARTER_EVEN="2"
         else
@@ -7965,7 +7882,6 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$SFIRE_PICK" = "1" ]; then
     
     export version_10="10"
     
-    if [ $GCC_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GFORTRAN_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GPLUSPLUS_VERSION_MAJOR_VERSION -ge $version_10 ] then
         then
         export fallow_argument=-fallow-argument-mismatch
         export boz_argument=-fallow-invalid-boz
@@ -8176,7 +8092,6 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$SFIRE_PICK" = "1" ]; then
     $FC TEST_1_fortran_only_fixed.f
     ./a.out | tee env_test1.txt
     export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test1.txt | awk  '{print$1}')
-    if [ $TEST_PASS -ge 1 ] then
         then
         echo "Enviroment Test 1 Passed"
         else
@@ -8190,7 +8105,6 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$SFIRE_PICK" = "1" ]; then
     $FC TEST_2_fortran_only_free.f90
     ./a.out | tee env_test2.txt
     export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test2.txt | awk  '{print$1}')
-    if [ $TEST_PASS -ge 1 ] then
         then
         echo "Enviroment Test 2 Passed"
         else
@@ -8205,7 +8119,6 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$SFIRE_PICK" = "1" ]; then
     $CC TEST_3_c_only.c
     ./a.out | tee env_test3.txt
     export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test3.txt | awk  '{print$1}')
-    if [ $TEST_PASS -ge 1 ] then
         then
         echo "Enviroment Test 3 Passed"
         else
@@ -8222,7 +8135,6 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$SFIRE_PICK" = "1" ]; then
     $FC -m64 TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
     ./a.out | tee env_test4.txt
     export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test4.txt | awk  '{print$1}')
-    if [ $TEST_PASS -ge 1 ] then
         then
         echo "Enviroment Test 4 Passed"
         else
@@ -8250,7 +8162,6 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$SFIRE_PICK" = "1" ]; then
     
     ./a.out | tee comp_test1.txt
     export TEST_PASS=$(grep -w -o -c "SUCCESS" comp_test1.txt | awk  '{print$1}')
-    if [ $TEST_PASS -ge 1 ] then
         then
         echo "Compatibility Test 1 Passed"
         else
@@ -8271,7 +8182,6 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$SFIRE_PICK" = "1" ]; then
     
     $DIR/MPICH/bin/mpirun ./a.out | tee comp_test2.txt
     export TEST_PASS=$(grep -w -o -c "SUCCESS" comp_test2.txt | awk  '{print$1}')
-    if [ $TEST_PASS -ge 1 ] then
         then
         echo "Compatibility Test 2 Passed"
         else
@@ -8318,7 +8228,6 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$SFIRE_PICK" = "1" ]; then
     
     export version_10="10"
     
-    if [ $GCC_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GFORTRAN_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GPLUSPLUS_VERSION_MAJOR_VERSION -ge $version_10 ] then
         then
         y="24 28 32 36 40 45 49 53 56 60 64 68 69 73 74 79"
         for X in $y; do
@@ -8329,7 +8238,6 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$SFIRE_PICK" = "1" ]; then
         echo "Loop not needed"
     fi
     
-    if [ ${auto_config} -eq 1 ] then
         then
         echo yes | ./make_ncep_libs.sh -s linux -c gnu -d $DIR/nceplibs -o 0 -m 1 -a upp | tee make.install.log
         else
@@ -8352,7 +8260,6 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$SFIRE_PICK" = "1" ]; then
     export NCEPLIBS_DIR=$DIR/nceplibs
     export NETCDF=$DIR/NETCDF
     
-    if [ ${auto_config} -eq 1 ] then
         then
         echo 8 | ./configure  #Option 8 gfortran compiler with distributed memory
         else
@@ -8371,7 +8278,6 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$SFIRE_PICK" = "1" ]; then
     
     export version_10="10"
     
-    if [ $GCC_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GFORTRAN_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GPLUSPLUS_VERSION_MAJOR_VERSION -ge $version_10 ] then
         then
         z="58 63"
         for X in $z; do
@@ -8390,7 +8296,6 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$SFIRE_PICK" = "1" ]; then
     # IF statement to check that all files were created.
     cd "${WRF_FOLDER}"/UPPV$Mpich_Version/exec
     n=$(ls ./*.exe | wc -l)
-    if (( $n == 1 )) then
         then
         echo "All expected files created."
         read -r -t 5 -p "Finished installing UPPV$Mpich_Version. I am going to wait for 5 seconds only ..."
@@ -8417,7 +8322,6 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$SFIRE_PICK" = "1" ]; then
     export NETCDF=$DIR/NETCDF
     
     
-    if [ ${auto_config} -eq 1 ] then
         then
         echo 3 | ./configure  #Option 3 gfortran compiler with distributed memory
         else
@@ -8435,7 +8339,6 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$SFIRE_PICK" = "1" ]; then
     
     export version_10="10"
     
-    if [ $GCC_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GFORTRAN_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GPLUSPLUS_VERSION_MAJOR_VERSION -ge $version_10 ] then
         then
         sed -i '32s/-ffree-form -O -fno-second-underscore -fconvert=big-endian -frecord-marker=4/-ffree-form -O -fno-second-underscore -fconvert=big-endian -frecord-marker=4 ${fallow_argument} /g' configure.arwp
     fi
@@ -8581,7 +8484,6 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$SFIRE_PICK" = "1" ]; then
     sed -i '35s|=|= -L"${WRF_FOLDER}"/LIBS/grib2/lib -lhdf5 -lhdf5_hl |g' "${WRF_FOLDER}"/RIP4/arch/configure.defaults
     
     
-    if [ ${auto_config} -eq 1 ] then
         then
         echo 3 | ./configure  #Option 3 gfortran compiler with distributed memory
         else
@@ -8651,7 +8553,6 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$SFIRE_PICK" = "1" ]; then
     cd "${WRF_FOLDER}"/WRF-SFIRE/
     ./clean -a                      # Clean old configuration files
     
-    if [ ${auto_config} -eq 1 ] then
         then
         sed -i '428s/.*/  $response = "34 \\n";/g' "${WRF_FOLDER}"/WRF-SFIRE/arch/Config.pl # Answer for compiler choice
         sed -i '869s/.*/  $response = "1 \\n";/g' "${WRF_FOLDER}"/WRF-SFIRE/arch/Config.pl  #Answer for basic nesting
@@ -8707,7 +8608,6 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$SFIRE_PICK" = "1" ]; then
     
     cd "${WRF_FOLDER}"/WPS
     
-    if [ ${auto_config} -eq 1 ] then
         then
         FFLAGS=$FFLAGS  echo 3 | ./configure 2>&1 | tee configure.log #Option 3 for gfortran and distributed memory
         else
@@ -8716,7 +8616,6 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$SFIRE_PICK" = "1" ]; then
     
     #sed statements for issue with GNUv10+
     
-    if [ $GCC_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GFORTRAN_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GPLUSPLUS_VERSION_MAJOR_VERSION -ge $version_10 ] then
         then
         sed -i '70s/-frecord-marker=4/-frecord-marker=4 -m64 -fallow-argument-mismatch/g' "${WRF_FOLDER}"/WPS/configure.wps
         sed -i '71s/-frecord-marker=4/-frecord-marker=4 -m64 -fallow-argument-mismatch/g' "${WRF_FOLDER}"/WPS/configure.wps
@@ -8770,7 +8669,6 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$SFIRE_PICK" = "1" ]; then
     mv "${WRF_FOLDER}"/GEOG/WPS_GEOG_LOW_RES/ "${WRF_FOLDER}"/GEOG/WPS_GEOG
     
     
-    if [ ${WPS_Specific_Applications} -eq 1 ] then
         then
         echo " "
         echo " WPS Geographical Input Data Mandatory for Specific Applications"
@@ -8808,7 +8706,6 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$SFIRE_PICK" = "1" ]; then
     fi
     
     
-    if [ ${Optional_GEOG} -eq 1 ] then
         then
         echo " "
         echo "Optional WPS Geographical Input Data"
