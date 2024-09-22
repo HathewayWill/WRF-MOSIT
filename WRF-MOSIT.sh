@@ -1267,7 +1267,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$DTC_MET" = "1" ] && [ "$MAC_CHIP" = "Inte
 	outdated_packages=$(brew outdated --quiet)
 
 	# List of packages to check/install
-	packages=("automake" "autoconf" "bison" "cmake" "curl" "flex" "gdal" "gedit" "gcc@12" "gnu-sed" "imagemagick" "java" "ksh" "libtool" "make" "m4" "python@3.10" "snapcraft" "tcsh" "wget" "xauth" "xorgproto" "xorgrgb" "xquartz")
+	packages=("automake" "autoconf" "bison" "cmake" "curl" "flex" "gdal" "gedit" "gcc" "gnu-sed" "imagemagick" "java" "ksh" "libtool" "make" "m4" "python@3.10" "snapcraft" "tcsh" "wget" "xauth" "xorgproto" "xorgrgb" "xquartz")
 
 	for pkg in "${packages[@]}"; do
 		if brew list "$pkg" &>/dev/null; then
@@ -1456,7 +1456,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$DTC_MET" = "1" ] && [ "$MAC_CHIP" = "ARM"
 	outdated_packages=$(brew outdated --quiet)
 
 	# List of packages to check/install
-	packages=("automake" "autoconf" "bison" "cmake" "curl" "flex" "gdal" "gedit" "gcc@12" "gnu-sed" "imagemagick" "java" "ksh" "libtool" "make" "m4" "python@3.10" "snapcraft" "tcsh" "wget" "xauth" "xorgproto" "xorgrgb" "xquartz")
+	packages=("automake" "autoconf" "bison" "cmake" "curl" "flex" "gdal" "gedit" "gcc" "gnu-sed" "imagemagick" "java" "ksh" "libtool" "make" "m4" "python@3.10" "snapcraft" "tcsh" "wget" "xauth" "xorgproto" "xorgrgb" "xquartz")
 
 	for pkg in "${packages[@]}"; do
 		if brew list "$pkg" &>/dev/null; then
@@ -5285,55 +5285,30 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$MAC_CHIP" = "I
 
 	#############################basic package managment############################
 
-	brew install autoconf
-	sleep 1
-	brew install automake
-	sleep 1
-	brew install bison
-	sleep 1
-	brew install byacc
-	sleep 1
-	brew install cmake
-	sleep 1
-	brew install curl
-	sleep 1
-	brew install flex
-	sleep 1
-	brew install gcc@12
-	sleep 1
-	brew install gnu-sed
-	sleep 1
-	brew install git
-	sleep 1
-	brew install java
-	sleep 1
-	brew install jpeg
-	sleep 1
-	brew install ksh
-	sleep 1
-	brew install libgeotiff
-	sleep 1
-	brew install libtool
-	sleep 1
-	brew install libtiff
-	sleep 1
-	brew install m4
-	sleep 1
-	brew install make
-	sleep 1
-	brew install python@3.10
-	sleep 1
-	brew install tcsh
-	sleep 1
-	brew install wget
-	sleep 1
-	brew install xauth
-	sleep 1
-	brew install xorgproto
-	sleep 1
-	brew install xquartz
-	sleep 1
-	brew install xorgrgb
+	brew update
+	outdated_packages=$(brew outdated --quiet)
+
+	# List of packages to check/install
+	packages=(
+		"autoconf" "automake" "bison" "byacc" "cmake" "curl" "flex" "gcc"
+		"gdal" "gedit" "git" "gnu-sed" "grads" "imagemagick" "java" "ksh"
+		"libtool" "m4" "make" "python@3.10" "snapcraft" "tcsh" "wget"
+		"xauth" "xorgproto" "xorgrgb" "xquartz"
+	)
+
+	for pkg in "${packages[@]}"; do
+		if brew list "$pkg" &>/dev/null; then
+			echo "$pkg is already installed."
+			if [[ $outdated_packages == *"$pkg"* ]]; then
+				echo "$pkg has a newer version available. Upgrading..."
+				brew upgrade "$pkg"
+			fi
+		else
+			echo "$pkg is not installed. Installing..."
+			brew install "$pkg"
+		fi
+		sleep 1
+	done
 
 	export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
 	export PATH=/usr/local/bin:$PATH
@@ -6047,55 +6022,30 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$MAC_CHIP" = "A
 
 	#############################basic package managment############################
 
-	brew install autoconf
-	sleep 1
-	brew install automake
-	sleep 1
-	brew install bison
-	sleep 1
-	brew install byacc
-	sleep 1
-	brew install cmake
-	sleep 1
-	brew install curl
-	sleep 1
-	brew install flex
-	sleep 1
-	brew install gcc@12
-	sleep 1
-	brew install gnu-sed
-	sleep 1
-	brew install git
-	sleep 1
-	brew install java
-	sleep 1
-	brew install jpeg
-	sleep 1
-	brew install ksh
-	sleep 1
-	brew install libgeotiff
-	sleep 1
-	brew install libtool
-	sleep 1
-	brew install libtiff
-	sleep 1
-	brew install m4
-	sleep 1
-	brew install make
-	sleep 1
-	brew install python@3.10
-	sleep 1
-	brew install tcsh
-	sleep 1
-	brew install wget
-	sleep 1
-	brew install xauth
-	sleep 1
-	brew install xorgproto
-	sleep 1
-	brew install xquartz
-	sleep 1
-	brew install xorgrgb
+	brew update
+	outdated_packages=$(brew outdated --quiet)
+
+	# List of packages to check/install
+	packages=(
+		"autoconf" "automake" "bison" "byacc" "cmake" "curl" "flex" "gcc"
+		"gdal" "gedit" "git" "gnu-sed" "grads" "imagemagick" "java" "ksh"
+		"libtool" "m4" "make" "python@3.10" "snapcraft" "tcsh" "wget"
+		"xauth" "xorgproto" "xorgrgb" "xquartz"
+	)
+
+	for pkg in "${packages[@]}"; do
+		if brew list "$pkg" &>/dev/null; then
+			echo "$pkg is already installed."
+			if [[ $outdated_packages == *"$pkg"* ]]; then
+				echo "$pkg has a newer version available. Upgrading..."
+				brew upgrade "$pkg"
+			fi
+		else
+			echo "$pkg is not installed. Installing..."
+			brew install "$pkg"
+		fi
+		sleep 1
+	done
 
 	export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
 	export PATH=/usr/local/bin:$PATH
@@ -9191,54 +9141,30 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ] && [ "$
 
 	#############################basic package managment############################
 
-	sleep 1
-	brew install autoconf
-	sleep 1
-	brew install bison
-	sleep 1
-	brew install byacc
-	sleep 1
-	brew install cmake
-	sleep 1
-	brew install curl
-	sleep 1
-	brew install flex
-	sleep 1
-	brew install gdal
-	sleep 1
-	brew install gedit
-	sleep 1
-	brew install git
-	sleep 1
-	brew install gnu-sed
-	sleep 1
-	brew install imagemagick
-	sleep 1
-	brew install java
-	sleep 1
-	brew install ksh
-	sleep 1
-	brew install libtool
-	sleep 1
-	brew install m4
-	sleep 1
-	brew install make
-	sleep 1
-	brew install python@3.10
-	sleep 1
-	brew install tcsh
-	sleep 1
-	brew install wget
-	sleep 1
-	brew install xauth
-	sleep 1
-	brew install xorgproto
-	sleep 1
-	brew install xquartz
-	sleep 1
-	brew install xorgrgb
-	sleep 1
-	brew install xquartz
+	brew update
+	outdated_packages=$(brew outdated --quiet)
+
+	# List of packages to check/install
+	packages=(
+		"autoconf" "automake" "bison" "byacc" "cmake" "curl" "flex" "gcc"
+		"gdal" "gedit" "git" "gnu-sed" "grads" "imagemagick" "java" "ksh"
+		"libtool" "m4" "make" "python@3.10" "snapcraft" "tcsh" "wget"
+		"xauth" "xorgproto" "xorgrgb" "xquartz"
+	)
+
+	for pkg in "${packages[@]}"; do
+		if brew list "$pkg" &>/dev/null; then
+			echo "$pkg is already installed."
+			if [[ $outdated_packages == *"$pkg"* ]]; then
+				echo "$pkg has a newer version available. Upgrading..."
+				brew upgrade "$pkg"
+			fi
+		else
+			echo "$pkg is not installed. Installing..."
+			brew install "$pkg"
+		fi
+		sleep 1
+	done
 
 	export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
 	export PATH=/usr/local/bin:$PATH
@@ -9803,54 +9729,30 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ] && [ "$
 	#Special thanks to  Youtube's meteoadriatic and GitHub user jamal919.
 
 	#############################basic package managment############################
-	sleep 1
-	brew install autoconf
-	sleep 1
-	brew install bison
-	sleep 1
-	brew install byacc
-	sleep 1
-	brew install cmake
-	sleep 1
-	brew install curl
-	sleep 1
-	brew install flex
-	sleep 1
-	brew install gdal
-	sleep 1
-	brew install gedit
-	sleep 1
-	brew install git
-	sleep 1
-	brew install gnu-sed
-	sleep 1
-	brew install imagemagick
-	sleep 1
-	brew install java
-	sleep 1
-	brew install ksh
-	sleep 1
-	brew install libtool
-	sleep 1
-	brew install m4
-	sleep 1
-	brew install make
-	sleep 1
-	brew install python@3.10
-	sleep 1
-	brew install tcsh
-	sleep 1
-	brew install wget
-	sleep 1
-	brew install xauth
-	sleep 1
-	brew install xorgproto
-	sleep 1
-	brew install xquartz
-	sleep 1
-	brew install xorgrgb
-	sleep 1
-	brew install xquartz
+	brew update
+	outdated_packages=$(brew outdated --quiet)
+
+	# List of packages to check/install
+	packages=(
+		"autoconf" "automake" "bison" "byacc" "cmake" "curl" "flex" "gcc"
+		"gdal" "gedit" "git" "gnu-sed" "grads" "imagemagick" "java" "ksh"
+		"libtool" "m4" "make" "python@3.10" "snapcraft" "tcsh" "wget"
+		"xauth" "xorgproto" "xorgrgb" "xquartz"
+	)
+
+	for pkg in "${packages[@]}"; do
+		if brew list "$pkg" &>/dev/null; then
+			echo "$pkg is already installed."
+			if [[ $outdated_packages == *"$pkg"* ]]; then
+				echo "$pkg has a newer version available. Upgrading..."
+				brew upgrade "$pkg"
+			fi
+		else
+			echo "$pkg is not installed. Installing..."
+			brew install "$pkg"
+		fi
+		sleep 1
+	done
 
 	export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
 	export PATH=/usr/local/bin:$PATH
@@ -13898,54 +13800,30 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ] && [ "$MAC
 
 	#############################basic package managment############################
 
-	sleep 1
-	brew install autoconf
-	sleep 1
-	brew install bison
-	sleep 1
-	brew install byacc
-	sleep 1
-	brew install cmake
-	sleep 1
-	brew install curl
-	sleep 1
-	brew install flex
-	sleep 1
-	brew install gdal
-	sleep 1
-	brew install gedit
-	sleep 1
-	brew install git
-	sleep 1
-	brew install gnu-sed
-	sleep 1
-	brew install imagemagick
-	sleep 1
-	brew install java
-	sleep 1
-	brew install ksh
-	sleep 1
-	brew install libtool
-	sleep 1
-	brew install m4
-	sleep 1
-	brew install make
-	sleep 1
-	brew install python@3.10
-	sleep 1
-	brew install tcsh
-	sleep 1
-	brew install wget
-	sleep 1
-	brew install xauth
-	sleep 1
-	brew install xorgproto
-	sleep 1
-	brew install xquartz
-	sleep 1
-	brew install xorgrgb
-	sleep 1
-	brew install xquartz
+	brew update
+	outdated_packages=$(brew outdated --quiet)
+
+	# List of packages to check/install
+	packages=(
+		"autoconf" "automake" "bison" "byacc" "cmake" "curl" "flex" "gcc"
+		"gdal" "gedit" "git" "gnu-sed" "grads" "imagemagick" "java" "ksh"
+		"libtool" "m4" "make" "python@3.10" "snapcraft" "tcsh" "wget"
+		"xauth" "xorgproto" "xorgrgb" "xquartz"
+	)
+
+	for pkg in "${packages[@]}"; do
+		if brew list "$pkg" &>/dev/null; then
+			echo "$pkg is already installed."
+			if [[ $outdated_packages == *"$pkg"* ]]; then
+				echo "$pkg has a newer version available. Upgrading..."
+				brew upgrade "$pkg"
+			fi
+		else
+			echo "$pkg is not installed. Installing..."
+			brew install "$pkg"
+		fi
+		sleep 1
+	done
 
 	export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
 	export PATH=/usr/local/bin:$PATH
@@ -14724,54 +14602,30 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ] && [ "$MAC
 
 	#############################basic package managment############################
 
-	sleep 1
-	brew install autoconf
-	sleep 1
-	brew install bison
-	sleep 1
-	brew install byacc
-	sleep 1
-	brew install cmake
-	sleep 1
-	brew install curl
-	sleep 1
-	brew install flex
-	sleep 1
-	brew install gdal
-	sleep 1
-	brew install gedit
-	sleep 1
-	brew install git
-	sleep 1
-	brew install gnu-sed
-	sleep 1
-	brew install imagemagick
-	sleep 1
-	brew install java
-	sleep 1
-	brew install ksh
-	sleep 1
-	brew install libtool
-	sleep 1
-	brew install m4
-	sleep 1
-	brew install make
-	sleep 1
-	brew install python@3.10
-	sleep 1
-	brew install tcsh
-	sleep 1
-	brew install wget
-	sleep 1
-	brew install xauth
-	sleep 1
-	brew install xorgproto
-	sleep 1
-	brew install xquartz
-	sleep 1
-	brew install xorgrgb
-	sleep 1
-	brew install xquartz
+	brew update
+	outdated_packages=$(brew outdated --quiet)
+
+	# List of packages to check/install
+	packages=(
+		"autoconf" "automake" "bison" "byacc" "cmake" "curl" "flex" "gcc"
+		"gdal" "gedit" "git" "gnu-sed" "grads" "imagemagick" "java" "ksh"
+		"libtool" "m4" "make" "python@3.10" "snapcraft" "tcsh" "wget"
+		"xauth" "xorgproto" "xorgrgb" "xquartz"
+	)
+
+	for pkg in "${packages[@]}"; do
+		if brew list "$pkg" &>/dev/null; then
+			echo "$pkg is already installed."
+			if [[ $outdated_packages == *"$pkg"* ]]; then
+				echo "$pkg has a newer version available. Upgrading..."
+				brew upgrade "$pkg"
+			fi
+		else
+			echo "$pkg is not installed. Installing..."
+			brew install "$pkg"
+		fi
+		sleep 1
+	done
 
 	export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
 	export PATH=/usr/local/bin:$PATH
@@ -16546,7 +16400,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 	fi
 fi
 
-if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then                                                                                                                                                                                                                                                                                                                                                                                                                                                            
+if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 
 	#############################basic package managment############################
 	#############################basic package managment############################
@@ -19355,54 +19209,30 @@ fi
 if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$MAC_CHIP" = "Intel" ]; then
 
 	#############################basic package managment############################
-	sleep 1
-	brew install autoconf
-	sleep 1
-	brew install bison
-	sleep 1
-	brew install byacc
-	sleep 1
-	brew install cmake
-	sleep 1
-	brew install curl
-	sleep 1
-	brew install flex
-	sleep 1
-	brew install gdal
-	sleep 1
-	brew install gedit
-	sleep 1
-	brew install git
-	sleep 1
-	brew install gnu-sed
-	sleep 1
-	brew install imagemagick
-	sleep 1
-	brew install java
-	sleep 1
-	brew install ksh
-	sleep 1
-	brew install libtool
-	sleep 1
-	brew install m4
-	sleep 1
-	brew install make
-	sleep 1
-	brew install python@3.10
-	sleep 1
-	brew install tcsh
-	sleep 1
-	brew install wget
-	sleep 1
-	brew install xauth
-	sleep 1
-	brew install xorgproto
-	sleep 1
-	brew install xquartz
-	sleep 1
-	brew install xorgrgb
-	sleep 1
-	brew install xquartz
+	brew update
+	outdated_packages=$(brew outdated --quiet)
+
+	# List of packages to check/install
+	packages=(
+		"autoconf" "automake" "bison" "byacc" "cmake" "curl" "flex" "gcc"
+		"gdal" "gedit" "git" "gnu-sed" "grads" "imagemagick" "java" "ksh"
+		"libtool" "m4" "make" "python@3.10" "snapcraft" "tcsh" "wget"
+		"xauth" "xorgproto" "xorgrgb" "xquartz"
+	)
+
+	for pkg in "${packages[@]}"; do
+		if brew list "$pkg" &>/dev/null; then
+			echo "$pkg is already installed."
+			if [[ $outdated_packages == *"$pkg"* ]]; then
+				echo "$pkg has a newer version available. Upgrading..."
+				brew upgrade "$pkg"
+			fi
+		else
+			echo "$pkg is not installed. Installing..."
+			brew install "$pkg"
+		fi
+		sleep 1
+	done
 
 	export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
 	export PATH=/usr/local/bin:$PATH
@@ -20170,54 +20000,30 @@ fi
 if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$MAC_CHIP" = "ARM" ]; then
 
 	#############################basic package managment############################
-	sleep 1
-	brew install autoconf
-	sleep 1
-	brew install bison
-	sleep 1
-	brew install byacc
-	sleep 1
-	brew install cmake
-	sleep 1
-	brew install curl
-	sleep 1
-	brew install flex
-	sleep 1
-	brew install gdal
-	sleep 1
-	brew install gedit
-	sleep 1
-	brew install git
-	sleep 1
-	brew install gnu-sed
-	sleep 1
-	brew install imagemagick
-	sleep 1
-	brew install java
-	sleep 1
-	brew install ksh
-	sleep 1
-	brew install libtool
-	sleep 1
-	brew install m4
-	sleep 1
-	brew install make
-	sleep 1
-	brew install python@3.10
-	sleep 1
-	brew install tcsh
-	sleep 1
-	brew install wget
-	sleep 1
-	brew install xauth
-	sleep 1
-	brew install xorgproto
-	sleep 1
-	brew install xquartz
-	sleep 1
-	brew install xorgrgb
-	sleep 1
-	brew install xquartz
+	brew update
+	outdated_packages=$(brew outdated --quiet)
+
+	# List of packages to check/install
+	packages=(
+		"autoconf" "automake" "bison" "byacc" "cmake" "curl" "flex" "gcc"
+		"gdal" "gedit" "git" "gnu-sed" "grads" "imagemagick" "java" "ksh"
+		"libtool" "m4" "make" "python@3.10" "snapcraft" "tcsh" "wget"
+		"xauth" "xorgproto" "xorgrgb" "xquartz"
+	)
+
+	for pkg in "${packages[@]}"; do
+		if brew list "$pkg" &>/dev/null; then
+			echo "$pkg is already installed."
+			if [[ $outdated_packages == *"$pkg"* ]]; then
+				echo "$pkg has a newer version available. Upgrading..."
+				brew upgrade "$pkg"
+			fi
+		else
+			echo "$pkg is not installed. Installing..."
+			brew install "$pkg"
+		fi
+		sleep 1
+	done
 
 	export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
 	export PATH=/usr/local/bin:$PATH
@@ -24919,54 +24725,30 @@ fi
 if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "Intel" ]; then
 
 	#############################basic package managment############################
-	sleep 1
-	brew install autoconf
-	sleep 1
-	brew install bison
-	sleep 1
-	brew install byacc
-	sleep 1
-	brew install cmake
-	sleep 1
-	brew install curl
-	sleep 1
-	brew install flex
-	sleep 1
-	brew install gdal
-	sleep 1
-	brew install gedit
-	sleep 1
-	brew install git
-	sleep 1
-	brew install gnu-sed
-	sleep 1
-	brew install imagemagick
-	sleep 1
-	brew install java
-	sleep 1
-	brew install ksh
-	sleep 1
-	brew install libtool
-	sleep 1
-	brew install m4
-	sleep 1
-	brew install make
-	sleep 1
-	brew install python@3.10
-	sleep 1
-	brew install tcsh
-	sleep 1
-	brew install wget
-	sleep 1
-	brew install xauth
-	sleep 1
-	brew install xorgproto
-	sleep 1
-	brew install xquartz
-	sleep 1
-	brew install xorgrgb
-	sleep 1
-	brew install xquartz
+	brew update
+	outdated_packages=$(brew outdated --quiet)
+
+	# List of packages to check/install
+	packages=(
+		"autoconf" "automake" "bison" "byacc" "cmake" "curl" "flex" "gcc"
+		"gdal" "gedit" "git" "gnu-sed" "grads" "imagemagick" "java" "ksh"
+		"libtool" "m4" "make" "python@3.10" "snapcraft" "tcsh" "wget"
+		"xauth" "xorgproto" "xorgrgb" "xquartz"
+	)
+
+	for pkg in "${packages[@]}"; do
+		if brew list "$pkg" &>/dev/null; then
+			echo "$pkg is already installed."
+			if [[ $outdated_packages == *"$pkg"* ]]; then
+				echo "$pkg has a newer version available. Upgrading..."
+				brew upgrade "$pkg"
+			fi
+		else
+			echo "$pkg is not installed. Installing..."
+			brew install "$pkg"
+		fi
+		sleep 1
+	done
 
 	export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
 	export PATH=/usr/local/bin:$PATH
@@ -25767,54 +25549,30 @@ fi
 
 if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "ARM" ]; then
 	#############################basic package managment############################
-	sleep 1
-	brew install autoconf
-	sleep 1
-	brew install bison
-	sleep 1
-	brew install byacc
-	sleep 1
-	brew install cmake
-	sleep 1
-	brew install curl
-	sleep 1
-	brew install flex
-	sleep 1
-	brew install gdal
-	sleep 1
-	brew install gedit
-	sleep 1
-	brew install git
-	sleep 1
-	brew install gnu-sed
-	sleep 1
-	brew install imagemagick
-	sleep 1
-	brew install java
-	sleep 1
-	brew install ksh
-	sleep 1
-	brew install libtool
-	sleep 1
-	brew install m4
-	sleep 1
-	brew install make
-	sleep 1
-	brew install python@3.10
-	sleep 1
-	brew install tcsh
-	sleep 1
-	brew install wget
-	sleep 1
-	brew install xauth
-	sleep 1
-	brew install xorgproto
-	sleep 1
-	brew install xquartz
-	sleep 1
-	brew install xorgrgb
-	sleep 1
-	brew install xquartz
+	brew update
+	outdated_packages=$(brew outdated --quiet)
+
+	# List of packages to check/install
+	packages=(
+		"autoconf" "automake" "bison" "byacc" "cmake" "curl" "flex" "gcc"
+		"gdal" "gedit" "git" "gnu-sed" "grads" "imagemagick" "java" "ksh"
+		"libtool" "m4" "make" "python@3.10" "snapcraft" "tcsh" "wget"
+		"xauth" "xorgproto" "xorgrgb" "xquartz"
+	)
+
+	for pkg in "${packages[@]}"; do
+		if brew list "$pkg" &>/dev/null; then
+			echo "$pkg is already installed."
+			if [[ $outdated_packages == *"$pkg"* ]]; then
+				echo "$pkg has a newer version available. Upgrading..."
+				brew upgrade "$pkg"
+			fi
+		else
+			echo "$pkg is not installed. Installing..."
+			brew install "$pkg"
+		fi
+		sleep 1
+	done
 
 	export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
 	export PATH=/usr/local/bin:$PATH
