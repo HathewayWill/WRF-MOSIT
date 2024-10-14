@@ -23,7 +23,7 @@ export met_VERSION_number=11.1
 export METPLUS_DATA=5.1
 
 export Zlib_Version=1.3.1
-export Mpich_Version=4.2.2
+export Mpich_Version=4.2.3
 export Libpng_Version=1.6.39
 export Jasper_Version=1.900.1
 export HDF5_Version=1.14.4
@@ -28432,3 +28432,5 @@ DIFF=$(($END - $START))
 echo "Install Start Time: ${start}"
 echo "Install End Time: ${end}"
 echo "Install Duration: $(($DIFF / 3600)) hours $((($DIFF % 3600) / 60)) minutes $(($DIFF % 60)) seconds"
+
+
