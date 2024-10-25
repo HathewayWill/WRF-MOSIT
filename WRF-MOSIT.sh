@@ -8107,15 +8107,15 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$SFIRE_PICK" = "1" ]; then
 	export PATH=$DIR/nceplibs:$PATH
 
 	echo " "
-	################################UPPv$Mpich_Version######################################
+	################################UPPv4.1######################################
 	#Previous verison of UPP
-	#WRF Support page recommends UPPV$Mpich_Version due to too many changes to WRF and UPP code
+	#WRF Support page recommends UPPv4.1 due to too many changes to WRF and UPP code
 	#since the WRF was written
 	#Option 8 gfortran compiler with distributed memory
 	#############################################################################
 	cd "${WRF_FOLDER}"/
-	git clone -b dtc_post_v$Mpich_Version.0 --recurse-submodules https://github.com/NOAA-EMC/EMC_post UPPV$Mpich_Version
-	cd UPPV$Mpich_Version
+	git clone -b dtc_post_v4.1.0 --recurse-submodules https://github.com/NOAA-EMC/EMC_post UPPv4.1
+	cd UPPv4.1
 	mkdir postprd
 	export NCEPLIBS_DIR=$DIR/nceplibs
 	export NETCDF=$DIR/NETCDF
@@ -8140,7 +8140,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$SFIRE_PICK" = "1" ]; then
 	if [ $GCC_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GFORTRAN_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GPLUSPLUS_VERSION_MAJOR_VERSION -ge $version_10 ]; then
 		z="58 63"
 		for X in $z; do
-			sed -i "${X}s/(FOPT)/(FOPT) $fallow_argument $boz_argument  /g" "${WRF_FOLDER}"/UPPV$Mpich_Version/configure.upp
+			sed -i "${X}s/(FOPT)/(FOPT) $fallow_argument $boz_argument  /g" "${WRF_FOLDER}"/UPPv4.1/configure.upp
 		done
 	else
 		echo ""
@@ -8148,16 +8148,16 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$SFIRE_PICK" = "1" ]; then
 	fi
 
 	./compile
-	cd "${WRF_FOLDER}"/UPPV$Mpich_Version/scripts
+	cd "${WRF_FOLDER}"/UPPv4.1/scripts
 	echo $PASSWD | sudo -S cpan install XML::LibXML
 	chmod +x run_unipost
 
 	# IF statement to check that all files were created.
-	cd "${WRF_FOLDER}"/UPPV$Mpich_Version/exec
+	cd "${WRF_FOLDER}"/UPPv4.1/exec
 	n=$(ls ./*.exe | wc -l)
 	if (($n == 1)); then
 		echo "All expected files created."
-		read -r -t 5 -p "Finished installing UPPV$Mpich_Version. I am going to wait for 5 seconds only ..."
+		read -r -t 5 -p "Finished installing UPPv4.1. I am going to wait for 5 seconds only ..."
 	else
 		echo "Missing one or more expected files. Exiting the script."
 		read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
@@ -17829,6 +17829,18 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	echo $PASSWD | sudo -S cpan install XML::LibXML
 	chmod +x run_unipost
 
+	# IF statement to check that all files were created.
+	cd "${WRF_FOLDER}"/UPPV4.1/exec
+	n=$(ls ./*.exe | wc -l)
+	if (($n == 1)); then
+		echo "All expected files created."
+		read -r -t 5 -p "Finished installing UPPV4.1. I am going to wait for 5 seconds only ..."
+	else
+		echo "Missing one or more expected files. Exiting the script."
+		read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
+		exit
+	fi
+	
 	echo " "
 	######################## ARWpost V3.1  ############################
 	## ARWpost
