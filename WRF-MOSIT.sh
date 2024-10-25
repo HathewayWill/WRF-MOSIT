@@ -32,7 +32,7 @@ export Pnetcdf_Version=1.13.0
 export Netcdf_C_Version=4.9.2
 export Netcdf_Fortran_Version=4.6.1
 
-export WRF_VERSION=4.6.0
+export WRF_VERSION=4.6.1
 export WPS_VERSION=4.6.0
 
 ############################### Citation Requirement  ####################
