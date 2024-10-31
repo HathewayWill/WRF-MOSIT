@@ -860,8 +860,8 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$DTC_MET" = "1" ]; then
 	export MET_TARBALL=v$met_Version_number.tar.gz
 	export USE_MODULES=FALSE
 	export MET_PYTHON=/usr
-	export MET_PYTHON_CC="$(python3-config --cflags --embed)"
-	export MET_PYTHON_LD="$(python3-config --ldflags --embed) -L${MET_PYTHON}/lib -lpython${PYTHON_VERSION_COMBINED}"
+    export MET_PYTHON_CC="-I${MET_PYTHON}/include/python${PYTHON_VERSION_COMBINED}"
+	export MET_PYTHON_LD="$(python3-config --ldflags) -L${MET_PYTHON}/lib -lpython${PYTHON_VERSION_COMBINED}"
 	export SET_D64BIT=FALSE
 
 	export MAKE_ARGS="-j 4"
@@ -1019,8 +1019,8 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$DTC_MET" = "1" ]; then
 	export MET_TARBALL=v$met_Version_number.tar.gz
 	export USE_MODULES=FALSE
 	export MET_PYTHON=/usr
-	export MET_PYTHON_CC="$(python3-config --cflags --embed)"
-	export MET_PYTHON_LD="$(python3-config --ldflags --embed) -L${MET_PYTHON}/lib -lpython${PYTHON_VERSION_COMBINED}"
+    export MET_PYTHON_CC="-I${MET_PYTHON}/include/python${PYTHON_VERSION_COMBINED}"
+	export MET_PYTHON_LD="$(python3-config --ldflags) -L${MET_PYTHON}/lib -lpython${PYTHON_VERSION_COMBINED}"
 	export SET_D64BIT=FALSE
 
 	export MAKE_ARGS="-j 4"
@@ -1195,8 +1195,8 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$DTC_MET" = "1" ]; then
 	export MET_TARBALL=v$met_Version_number.tar.gz
 	export USE_MODULES=FALSE
 	export MET_PYTHON=/opt/rh/rh-python38/root/usr/
-	export MET_PYTHON_CC="$(python3-config --cflags --embed)"
-	export MET_PYTHON_LD="$(python3-config --ldflags --embed) -L${MET_PYTHON}/lib -lpython${PYTHON_VERSION_COMBINED}"
+    export MET_PYTHON_CC="-I${MET_PYTHON}/include/python${PYTHON_VERSION_COMBINED}"
+	export MET_PYTHON_LD="$(python3-config --ldflags) -L${MET_PYTHON}/lib -lpython${PYTHON_VERSION_COMBINED}"
 	export SET_D64BIT=FALSE
 
 	export MAKE_ARGS="-j 4"
@@ -1394,9 +1394,8 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$DTC_MET" = "1" ] && [ "$MAC_CHIP" = "Inte
 	export MET_TARBALL=v$met_Version_number.tar.gz
 	export USE_MODULES=FALSE
 	export MET_PYTHON=/usr/local
-	export MET_PYTHON_CC="$(python3.10-config --cflags --embed)"
-	export MET_PYTHON_LD="$(python3.10-config --ldflags --embed) -L${MET_PYTHON}/lib -lpython${PYTHON_VERSION_COMBINED}"
-
+    export MET_PYTHON_CC="-I${MET_PYTHON}/include/python${PYTHON_VERSION_COMBINED}"
+	export MET_PYTHON_LD="$(python3.10-config --ldflags) -L${MET_PYTHON}/lib -lpython${PYTHON_VERSION_COMBINED}"
 	export SET_D64BIT=FALSE
 
 	export MAKE_ARGS="-j 4"
@@ -1600,9 +1599,8 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$DTC_MET" = "1" ] && [ "$MAC_CHIP" = "ARM"
 	export MET_TARBALL=v$met_Version_number.tar.gz
 	export USE_MODULES=FALSE
 	export MET_PYTHON=/usr/local
-	export MET_PYTHON_CC="$(python3.10-config --cflags --embed)"
-	export MET_PYTHON_LD="$(python3.10-config --ldflags --embed) -L${MET_PYTHON}/lib -lpython${PYTHON_VERSION_COMBINED}"
-
+    export MET_PYTHON_CC="-I${MET_PYTHON}/include/python${PYTHON_VERSION_COMBINED}"
+	export MET_PYTHON_LD="$(python3.10-config --ldflags) -L${MET_PYTHON}/lib -lpython${PYTHON_VERSION_COMBINED}"
 	export SET_D64BIT=FALSE
 
 	export MAKE_ARGS="-j 4"
