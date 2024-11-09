@@ -666,6 +666,22 @@ echo " "
 # 	export MET_PYTHON_CC="$(python3-config --cflags --embed)"
 # 	export MET_PYTHON_LD="$(python3-config --ldflags --embed) -L${MET_PYTHON}/lib -lpython${PYTHON_VERSION_COMBINED}"
 # 	export SET_D64BIT=FALSE
+	
+	echo "CC=$CC"
+	echo "CXX=$CXX"
+	echo "FC=$FC"
+	echo "F77=$F77"
+	echo "F90=$F90"
+	echo "gcc_version=$gcc_version"
+	echo "TEST_BASE=$TEST_BASE"
+	echo "COMPILER=$COMPILER"
+	echo "MET_SUBDIR=$MET_SUBDIR"
+	echo "MET_TARBALL=$MET_TARBALL"
+	echo "USE_MODULES=$USE_MODULES"
+	echo "MET_PYTHON=$MET_PYTHON"
+	echo "MET_PYTHON_CC=$MET_PYTHON_CC"
+	echo "MET_PYTHON_LD=$MET_PYTHON_LD"
+	echo "SET_D64BIT=$SET_D64BIT"
 # 	export CPU_CORE=$(nproc) # number of available threads on system
 # 	export CPU_6CORE="6"
 # 	export CPU_QUARTER=$(($CPU_CORE / 4))                    #quarter of availble cores on system
@@ -863,6 +879,22 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$DTC_MET" = "1" ]; then
     export MET_PYTHON_CC="-I${MET_PYTHON}/include/python${PYTHON_VERSION_COMBINED}"
 	export MET_PYTHON_LD="$(python3-config --ldflags) -L${MET_PYTHON}/lib -lpython${PYTHON_VERSION_COMBINED}"
 	export SET_D64BIT=FALSE
+	
+	echo "CC=$CC"
+	echo "CXX=$CXX"
+	echo "FC=$FC"
+	echo "F77=$F77"
+	echo "F90=$F90"
+	echo "gcc_version=$gcc_version"
+	echo "TEST_BASE=$TEST_BASE"
+	echo "COMPILER=$COMPILER"
+	echo "MET_SUBDIR=$MET_SUBDIR"
+	echo "MET_TARBALL=$MET_TARBALL"
+	echo "USE_MODULES=$USE_MODULES"
+	echo "MET_PYTHON=$MET_PYTHON"
+	echo "MET_PYTHON_CC=$MET_PYTHON_CC"
+	echo "MET_PYTHON_LD=$MET_PYTHON_LD"
+	echo "SET_D64BIT=$SET_D64BIT"
 
 	export MAKE_ARGS="-j 4"
 
@@ -1022,6 +1054,22 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$DTC_MET" = "1" ]; then
     export MET_PYTHON_CC="-I${MET_PYTHON}/include/python${PYTHON_VERSION_COMBINED}"
 	export MET_PYTHON_LD="$(python3-config --ldflags) -L${MET_PYTHON}/lib -lpython${PYTHON_VERSION_COMBINED}"
 	export SET_D64BIT=FALSE
+	
+	echo "CC=$CC"
+	echo "CXX=$CXX"
+	echo "FC=$FC"
+	echo "F77=$F77"
+	echo "F90=$F90"
+	echo "gcc_version=$gcc_version"
+	echo "TEST_BASE=$TEST_BASE"
+	echo "COMPILER=$COMPILER"
+	echo "MET_SUBDIR=$MET_SUBDIR"
+	echo "MET_TARBALL=$MET_TARBALL"
+	echo "USE_MODULES=$USE_MODULES"
+	echo "MET_PYTHON=$MET_PYTHON"
+	echo "MET_PYTHON_CC=$MET_PYTHON_CC"
+	echo "MET_PYTHON_LD=$MET_PYTHON_LD"
+	echo "SET_D64BIT=$SET_D64BIT"
 
 	export MAKE_ARGS="-j 4"
 
@@ -1198,6 +1246,22 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$DTC_MET" = "1" ]; then
     export MET_PYTHON_CC="-I${MET_PYTHON}/include/python${PYTHON_VERSION_COMBINED}"
 	export MET_PYTHON_LD="$(python3-config --ldflags) -L${MET_PYTHON}/lib -lpython${PYTHON_VERSION_COMBINED}"
 	export SET_D64BIT=FALSE
+	
+	echo "CC=$CC"
+	echo "CXX=$CXX"
+	echo "FC=$FC"
+	echo "F77=$F77"
+	echo "F90=$F90"
+	echo "gcc_version=$gcc_version"
+	echo "TEST_BASE=$TEST_BASE"
+	echo "COMPILER=$COMPILER"
+	echo "MET_SUBDIR=$MET_SUBDIR"
+	echo "MET_TARBALL=$MET_TARBALL"
+	echo "USE_MODULES=$USE_MODULES"
+	echo "MET_PYTHON=$MET_PYTHON"
+	echo "MET_PYTHON_CC=$MET_PYTHON_CC"
+	echo "MET_PYTHON_LD=$MET_PYTHON_LD"
+	echo "SET_D64BIT=$SET_D64BIT"
 
 	export MAKE_ARGS="-j 4"
 
@@ -1267,7 +1331,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$DTC_MET" = "1" ] && [ "$MAC_CHIP" = "Inte
 	outdated_packages=$(brew outdated --quiet)
 
 	# List of packages to check/install
-	packages=("automake" "autoconf" "bison" "cmake" "curl" "flex" "gdal" "gedit" "gcc" "gnu-sed" "imagemagick" "java" "ksh" "libtool" "make" "m4" "python@3.10" "snapcraft" "tcsh" "wget" "xauth" "xorgproto" "xorgrgb" "xquartz")
+	packages=("automake" "autoconf" "bison" "cmake" "curl" "flex" "gdal" "gedit" "gcc" "gnu-sed" "imagemagick" "java" "ksh" "libtool" "make" "m4" "python@3.11" "snapcraft" "tcsh" "wget" "xauth" "xorgproto" "xorgrgb" "xquartz")
 
 	for pkg in "${packages[@]}"; do
 		if brew list "$pkg" &>/dev/null; then
@@ -1354,7 +1418,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$DTC_MET" = "1" ] && [ "$MAC_CHIP" = "Inte
 	fi
 
 	echo "Updated symbolic links for GCC, G++, and GFortran."
-	echo $PASSWD | sudo -S ln -sf /usr/local/bin/python3.10 /usr/local/bin/python3
+	echo $PASSWD | sudo -S ln -sf /usr/local/bin/python3.11 /usr/local/bin/python3
 
 	gcc --version
 	g++ --version
@@ -1395,8 +1459,24 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$DTC_MET" = "1" ] && [ "$MAC_CHIP" = "Inte
 	export USE_MODULES=FALSE
 	export MET_PYTHON=/usr/local
     export MET_PYTHON_CC="-I${MET_PYTHON}/include/python${PYTHON_VERSION_COMBINED}"
-	export MET_PYTHON_LD="$(python3.10-config --ldflags) -L${MET_PYTHON}/lib -lpython${PYTHON_VERSION_COMBINED}"
+	export MET_PYTHON_LD="$(python3.11-config --ldflags) -L${MET_PYTHON}/lib -lpython${PYTHON_VERSION_COMBINED}"
 	export SET_D64BIT=FALSE
+	
+	echo "CC=$CC"
+	echo "CXX=$CXX"
+	echo "FC=$FC"
+	echo "F77=$F77"
+	echo "F90=$F90"
+	echo "gcc_version=$gcc_version"
+	echo "TEST_BASE=$TEST_BASE"
+	echo "COMPILER=$COMPILER"
+	echo "MET_SUBDIR=$MET_SUBDIR"
+	echo "MET_TARBALL=$MET_TARBALL"
+	echo "USE_MODULES=$USE_MODULES"
+	echo "MET_PYTHON=$MET_PYTHON"
+	echo "MET_PYTHON_CC=$MET_PYTHON_CC"
+	echo "MET_PYTHON_LD=$MET_PYTHON_LD"
+	echo "SET_D64BIT=$SET_D64BIT"
 
 	export MAKE_ARGS="-j 4"
 
@@ -1455,7 +1535,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$DTC_MET" = "1" ] && [ "$MAC_CHIP" = "ARM"
 	outdated_packages=$(brew outdated --quiet)
 
 	# List of packages to check/install
-	packages=("automake" "autoconf" "bison" "cmake" "curl" "flex" "gdal" "gedit" "gcc" "gnu-sed" "imagemagick" "java" "ksh" "libtool" "make" "m4" "python@3.10" "snapcraft" "tcsh" "wget" "xauth" "xorgproto" "xorgrgb" "xquartz")
+	packages=("automake" "autoconf" "bison" "cmake" "curl" "flex" "gdal" "gedit" "gcc" "gnu-sed" "imagemagick" "java" "ksh" "libtool" "make" "m4" "python@3.11" "snapcraft" "tcsh" "wget" "xauth" "xorgproto" "xorgrgb" "xquartz")
 
 	for pkg in "${packages[@]}"; do
 		if brew list "$pkg" &>/dev/null; then
@@ -1600,8 +1680,24 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$DTC_MET" = "1" ] && [ "$MAC_CHIP" = "ARM"
 	export USE_MODULES=FALSE
 	export MET_PYTHON=/usr/local
     export MET_PYTHON_CC="-I${MET_PYTHON}/include/python${PYTHON_VERSION_COMBINED}"
-	export MET_PYTHON_LD="$(python3.10-config --ldflags) -L${MET_PYTHON}/lib -lpython${PYTHON_VERSION_COMBINED}"
+	export MET_PYTHON_LD="$(python3.11-config --ldflags) -L${MET_PYTHON}/lib -lpython${PYTHON_VERSION_COMBINED}"
 	export SET_D64BIT=FALSE
+	
+	echo "CC=$CC"
+	echo "CXX=$CXX"
+	echo "FC=$FC"
+	echo "F77=$F77"
+	echo "F90=$F90"
+	echo "gcc_version=$gcc_version"
+	echo "TEST_BASE=$TEST_BASE"
+	echo "COMPILER=$COMPILER"
+	echo "MET_SUBDIR=$MET_SUBDIR"
+	echo "MET_TARBALL=$MET_TARBALL"
+	echo "USE_MODULES=$USE_MODULES"
+	echo "MET_PYTHON=$MET_PYTHON"
+	echo "MET_PYTHON_CC=$MET_PYTHON_CC"
+	echo "MET_PYTHON_LD=$MET_PYTHON_LD"
+	echo "SET_D64BIT=$SET_D64BIT"
 
 	export MAKE_ARGS="-j 4"
 
@@ -5290,7 +5386,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$MAC_CHIP" = "I
 	packages=(
 		"autoconf" "automake" "bison" "byacc" "cmake" "curl" "flex" "gcc"
 		"gdal" "gedit" "git" "gnu-sed" "grads" "imagemagick" "java" "ksh"
-		"libtool" "m4" "make" "python@3.10" "snapcraft" "tcsh" "wget"
+		"libtool" "m4" "make" "python@3.11" "snapcraft" "tcsh" "wget"
 		"xauth" "xorgproto" "xorgrgb" "xquartz"
 	)
 
@@ -5394,7 +5490,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$MAC_CHIP" = "I
 	fi
 
 	echo "Updated symbolic links for GCC, G++, and GFortran."
-	echo $PASSWD | sudo -S ln -sf /usr/local/bin/python3.10 /usr/local/bin/python3
+	echo $PASSWD | sudo -S ln -sf /usr/local/bin/python3.11 /usr/local/bin/python3
 
 	export CC=gcc
 	export CXX=g++
@@ -6027,7 +6123,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$MAC_CHIP" = "A
 	packages=(
 		"autoconf" "automake" "bison" "byacc" "cmake" "curl" "flex" "gcc"
 		"gdal" "gedit" "git" "gnu-sed" "grads" "imagemagick" "java" "ksh"
-		"libtool" "m4" "make" "python@3.10" "snapcraft" "tcsh" "wget"
+		"libtool" "m4" "make" "python@3.11" "snapcraft" "tcsh" "wget"
 		"xauth" "xorgproto" "xorgrgb" "xquartz"
 	)
 
@@ -9146,7 +9242,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ] && [ "$
 	packages=(
 		"autoconf" "automake" "bison" "byacc" "cmake" "curl" "flex" "gcc"
 		"gdal" "gedit" "git" "gnu-sed" "grads" "imagemagick" "java" "ksh"
-		"libtool" "m4" "make" "python@3.10" "snapcraft" "tcsh" "wget"
+		"libtool" "m4" "make" "python@3.11" "snapcraft" "tcsh" "wget"
 		"xauth" "xorgproto" "xorgrgb" "xquartz"
 	)
 
@@ -9225,7 +9321,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ] && [ "$
 	echo $PASSWD | sudo -S ln -sf /usr/local/bin/gcc-12 /usr/local/bin/gcc
 	echo $PASSWD | sudo -S ln -sf /usr/local/bin/g-12 /usr/local/bin/g++
 	echo $PASSWD | sudo -S ln -sf /usr/local/bin/gfortran-12 /usr/local/bin/gfortran
-	echo $PASSWD | sudo -S ln -sf /usr/local/bin/python3.10 /usr/local/bin/python3
+	echo $PASSWD | sudo -S ln -sf /usr/local/bin/python3.11 /usr/local/bin/python3
 
 	export CC=gcc
 	export CXX=g++
@@ -9734,7 +9830,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ] && [ "$
 	packages=(
 		"autoconf" "automake" "bison" "byacc" "cmake" "curl" "flex" "gcc"
 		"gdal" "gedit" "git" "gnu-sed" "grads" "imagemagick" "java" "ksh"
-		"libtool" "m4" "make" "python@3.10" "snapcraft" "tcsh" "wget"
+		"libtool" "m4" "make" "python@3.11" "snapcraft" "tcsh" "wget"
 		"xauth" "xorgproto" "xorgrgb" "xquartz"
 	)
 
@@ -13805,7 +13901,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ] && [ "$MAC
 	packages=(
 		"autoconf" "automake" "bison" "byacc" "cmake" "curl" "flex" "gcc"
 		"gdal" "gedit" "git" "gnu-sed" "grads" "imagemagick" "java" "ksh"
-		"libtool" "m4" "make" "python@3.10" "snapcraft" "tcsh" "wget"
+		"libtool" "m4" "make" "python@3.11" "snapcraft" "tcsh" "wget"
 		"xauth" "xorgproto" "xorgrgb" "xquartz"
 	)
 
@@ -13912,7 +14008,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ] && [ "$MAC
 	fi
 
 	echo "Updated symbolic links for GCC, G++, and GFortran."
-	echo $PASSWD | sudo -S ln -sf /usr/local/bin/python3.10 /usr/local/bin/python3
+	echo $PASSWD | sudo -S ln -sf /usr/local/bin/python3.11 /usr/local/bin/python3
 
 	export CC=gcc
 	export CXX=g++
@@ -14607,7 +14703,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ] && [ "$MAC
 	packages=(
 		"autoconf" "automake" "bison" "byacc" "cmake" "curl" "flex" "gcc"
 		"gdal" "gedit" "git" "gnu-sed" "grads" "imagemagick" "java" "ksh"
-		"libtool" "m4" "make" "python@3.10" "snapcraft" "tcsh" "wget"
+		"libtool" "m4" "make" "python@3.11" "snapcraft" "tcsh" "wget"
 		"xauth" "xorgproto" "xorgrgb" "xquartz"
 	)
 
@@ -19226,7 +19322,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$MAC_CHIP" = 
 	packages=(
 		"autoconf" "automake" "bison" "byacc" "cmake" "curl" "flex" "gcc"
 		"gdal" "gedit" "git" "gnu-sed" "grads" "imagemagick" "java" "ksh"
-		"libtool" "m4" "make" "python@3.10" "snapcraft" "tcsh" "wget"
+		"libtool" "m4" "make" "python@3.11" "snapcraft" "tcsh" "wget"
 		"xauth" "xorgproto" "xorgrgb" "xquartz"
 	)
 
@@ -19330,7 +19426,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$MAC_CHIP" = 
 	fi
 
 	echo "Updated symbolic links for GCC, G++, and GFortran."
-	echo $PASSWD | sudo -S ln -sf /usr/local/bin/python3.10 /usr/local/bin/python3
+	echo $PASSWD | sudo -S ln -sf /usr/local/bin/python3.11 /usr/local/bin/python3
 
 	export CC=gcc
 	export CXX=g++
@@ -20017,7 +20113,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$MAC_CHIP" = 
 	packages=(
 		"autoconf" "automake" "bison" "byacc" "cmake" "curl" "flex" "gcc"
 		"gdal" "gedit" "git" "gnu-sed" "grads" "imagemagick" "java" "ksh"
-		"libtool" "m4" "make" "python@3.10" "snapcraft" "tcsh" "wget"
+		"libtool" "m4" "make" "python@3.11" "snapcraft" "tcsh" "wget"
 		"xauth" "xorgproto" "xorgrgb" "xquartz"
 	)
 
@@ -24742,7 +24838,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "Int
 	packages=(
 		"autoconf" "automake" "bison" "byacc" "cmake" "curl" "flex" "gcc"
 		"gdal" "gedit" "git" "gnu-sed" "grads" "imagemagick" "java" "ksh"
-		"libtool" "m4" "make" "python@3.10" "snapcraft" "tcsh" "wget"
+		"libtool" "m4" "make" "python@3.11" "snapcraft" "tcsh" "wget"
 		"xauth" "xorgproto" "xorgrgb" "xquartz"
 	)
 
@@ -24847,7 +24943,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "Int
 	fi
 
 	echo "Updated symbolic links for GCC, G++, and GFortran."
-	echo $PASSWD | sudo -S ln -sf /usr/local/bin/python3.10 /usr/local/bin/python3
+	echo $PASSWD | sudo -S ln -sf /usr/local/bin/python3.11 /usr/local/bin/python3
 
 	export CC=gcc
 	export CXX=g++
@@ -25566,7 +25662,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "ARM
 	packages=(
 		"autoconf" "automake" "bison" "byacc" "cmake" "curl" "flex" "gcc"
 		"gdal" "gedit" "git" "gnu-sed" "grads" "imagemagick" "java" "ksh"
-		"libtool" "m4" "make" "python@3.10" "snapcraft" "tcsh" "wget"
+		"libtool" "m4" "make" "python@3.11" "snapcraft" "tcsh" "wget"
 		"xauth" "xorgproto" "xorgrgb" "xquartz"
 	)
 
