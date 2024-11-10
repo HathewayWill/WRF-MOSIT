@@ -666,22 +666,7 @@ echo " "
 # 	export MET_PYTHON_CC="$(python3-config --cflags --embed)"
 # 	export MET_PYTHON_LD="$(python3-config --ldflags --embed) -L${MET_PYTHON}/lib -lpython${PYTHON_VERSION_COMBINED}"
 # 	export SET_D64BIT=FALSE
-	
-	echo "CC=$CC"
-	echo "CXX=$CXX"
-	echo "FC=$FC"
-	echo "F77=$F77"
-	echo "F90=$F90"
-	echo "gcc_version=$gcc_version"
-	echo "TEST_BASE=$TEST_BASE"
-	echo "COMPILER=$COMPILER"
-	echo "MET_SUBDIR=$MET_SUBDIR"
-	echo "MET_TARBALL=$MET_TARBALL"
-	echo "USE_MODULES=$USE_MODULES"
-	echo "MET_PYTHON=$MET_PYTHON"
-	echo "MET_PYTHON_CC=$MET_PYTHON_CC"
-	echo "MET_PYTHON_LD=$MET_PYTHON_LD"
-	echo "SET_D64BIT=$SET_D64BIT"
+
 # 	export CPU_CORE=$(nproc) # number of available threads on system
 # 	export CPU_6CORE="6"
 # 	export CPU_QUARTER=$(($CPU_CORE / 4))                    #quarter of availble cores on system
@@ -787,8 +772,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$DTC_MET" = "1" ]; then
 		echo $PASSWD | sudo -S apt install emacs -y
 	fi
 
-	echo $PASSWD | sudo -S apt -y autoconf automake bison build-essential byacc cmake csh curl default-jdk default-jre flex libfl-dev g++ gawk gcc gfortran git ksh libcurl4-openssl-dev libjpeg-dev libncurses6 libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev libxml-libxml-perl m4 make ncview okular openbox pipenv pkg-config python3 python3-dev python3-pip python3-dateutil tcsh unzip xauth xorg time
-
+	echo $PASSWD | sudo -S apt -y install autoconf automake autotools-dev bison build-essential byacc cmake csh curl default-jdk default-jre flex libfl-dev g++ gawk gcc gfortran git ksh libcurl4-openssl-dev libjpeg-dev libncurses6 libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev libxml-libxml-perl m4 make ncview okular openbox pipenv pkg-config python3 python3-dev python3-pip python3-dateutil tcsh unzip xauth xorg time
 
 	#Downloading latest dateutil due to python3.8 running old version.
 	echo $PASSWD | sudo -S apt -y install python3-dateutil
@@ -877,10 +861,10 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$DTC_MET" = "1" ]; then
 	export MET_TARBALL=v$met_Version_number.tar.gz
 	export USE_MODULES=FALSE
 	export MET_PYTHON=/usr
-    export MET_PYTHON_CC="-I${MET_PYTHON}/include/python${PYTHON_VERSION_COMBINED}"
+	export MET_PYTHON_CC="-I${MET_PYTHON}/include/python${PYTHON_VERSION_COMBINED}"
 	export MET_PYTHON_LD="$(python3-config --ldflags) -L${MET_PYTHON}/lib -lpython${PYTHON_VERSION_COMBINED}"
 	export SET_D64BIT=FALSE
-	
+
 	echo "CC=$CC"
 	echo "CXX=$CXX"
 	echo "FC=$FC"
@@ -1052,10 +1036,10 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$DTC_MET" = "1" ]; then
 	export MET_TARBALL=v$met_Version_number.tar.gz
 	export USE_MODULES=FALSE
 	export MET_PYTHON=/usr
-    export MET_PYTHON_CC="-I${MET_PYTHON}/include/python${PYTHON_VERSION_COMBINED}"
+	export MET_PYTHON_CC="-I${MET_PYTHON}/include/python${PYTHON_VERSION_COMBINED}"
 	export MET_PYTHON_LD="$(python3-config --ldflags) -L${MET_PYTHON}/lib -lpython${PYTHON_VERSION_COMBINED}"
 	export SET_D64BIT=FALSE
-	
+
 	echo "CC=$CC"
 	echo "CXX=$CXX"
 	echo "FC=$FC"
@@ -1244,10 +1228,10 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$DTC_MET" = "1" ]; then
 	export MET_TARBALL=v$met_Version_number.tar.gz
 	export USE_MODULES=FALSE
 	export MET_PYTHON=/opt/rh/rh-python38/root/usr/
-    export MET_PYTHON_CC="-I${MET_PYTHON}/include/python${PYTHON_VERSION_COMBINED}"
+	export MET_PYTHON_CC="-I${MET_PYTHON}/include/python${PYTHON_VERSION_COMBINED}"
 	export MET_PYTHON_LD="$(python3-config --ldflags) -L${MET_PYTHON}/lib -lpython${PYTHON_VERSION_COMBINED}"
 	export SET_D64BIT=FALSE
-	
+
 	echo "CC=$CC"
 	echo "CXX=$CXX"
 	echo "FC=$FC"
@@ -1459,10 +1443,10 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$DTC_MET" = "1" ] && [ "$MAC_CHIP" = "Inte
 	export MET_TARBALL=v$met_Version_number.tar.gz
 	export USE_MODULES=FALSE
 	export MET_PYTHON=/usr/local
-    export MET_PYTHON_CC="-I${MET_PYTHON}/include/python${PYTHON_VERSION_COMBINED}"
+	export MET_PYTHON_CC="-I${MET_PYTHON}/include/python${PYTHON_VERSION_COMBINED}"
 	export MET_PYTHON_LD="$(python3.11-config --ldflags) -L${MET_PYTHON}/lib -lpython${PYTHON_VERSION_COMBINED}"
 	export SET_D64BIT=FALSE
-	
+
 	echo "CC=$CC"
 	echo "CXX=$CXX"
 	echo "FC=$FC"
@@ -1680,10 +1664,10 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$DTC_MET" = "1" ] && [ "$MAC_CHIP" = "ARM"
 	export MET_TARBALL=v$met_Version_number.tar.gz
 	export USE_MODULES=FALSE
 	export MET_PYTHON=/usr/local
-    export MET_PYTHON_CC="-I${MET_PYTHON}/include/python${PYTHON_VERSION_COMBINED}"
+	export MET_PYTHON_CC="-I${MET_PYTHON}/include/python${PYTHON_VERSION_COMBINED}"
 	export MET_PYTHON_LD="$(python3.11-config --ldflags) -L${MET_PYTHON}/lib -lpython${PYTHON_VERSION_COMBINED}"
 	export SET_D64BIT=FALSE
-	
+
 	echo "CC=$CC"
 	echo "CXX=$CXX"
 	echo "FC=$FC"
@@ -1861,8 +1845,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
 		echo $PASSWD | sudo -S apt install emacs -y
 	fi
 
-	echo $PASSWD | sudo -S apt -y autoconf automake bison build-essential byacc cmake csh curl default-jdk default-jre flex libfl-dev g++ gawk gcc gfortran git ksh libcurl4-openssl-dev libjpeg-dev libncurses6 libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev libxml-libxml-perl m4 make ncview okular openbox pipenv pkg-config python3 python3-dev python3-pip python3-dateutil tcsh unzip xauth xorg time
-
+	echo $PASSWD | sudo -S apt -y install autoconf automake autotools-dev bison build-essential byacc cmake csh curl default-jdk default-jre flex libfl-dev g++ gawk gcc gfortran git ksh libcurl4-openssl-dev libjpeg-dev libncurses6 libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev libxml-libxml-perl m4 make ncview okular openbox pipenv pkg-config python3 python3-dev python3-pip python3-dateutil tcsh unzip xauth xorg time
 
 	echo " "
 	##############################Directory Listing############################
@@ -4137,13 +4120,23 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
 	export version_10="10"
 
 	if [ $GCC_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GFORTRAN_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GPLUSPLUS_VERSION_MAJOR_VERSION -ge $version_10 ]; then
-		y="24 28 32 36 40 45 49 53 56 60 64 68 69 73 74 79"
-		for X in $y; do
-			sed -i "${X}s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}"/Downloads/NCEPlibs/macros.make.linux.gnu
-		done
-	else
-		echo ""
-		echo "Loop not needed"
+		sed -i "24s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "28s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "32s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "36s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "40s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "45s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "49s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "53s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "56s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "60s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "64s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "68s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "69s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "73s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "74s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "79s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+
 	fi
 
 	if [ ${auto_config} -eq 1 ]; then
@@ -4186,18 +4179,14 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
 	export version_10="10"
 
 	if [ $GCC_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GFORTRAN_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GPLUSPLUS_VERSION_MAJOR_VERSION -ge $version_10 ]; then
-		z="58 63"
-		for X in $z; do
-			sed -i "${X}s/(FOPT)/(FOPT) $fallow_argument $boz_argument  /g" "${WRF_FOLDER}"/UPPV4.1/configure.upp
-		done
-	else
-		echo ""
-		echo "Loop not needed"
+		sed -i "58s/(FOPT)/(FOPT) $fallow_argument $boz_argument  /g" "${WRF_FOLDER}/UPPV4.1/configure.upp"
+		sed -i "63s/(FOPT)/(FOPT) $fallow_argument $boz_argument  /g" "${WRF_FOLDER}/UPPV4.1/configure.upp"
+
 	fi
 
 	./compile
 	cd "${WRF_FOLDER}"/UPPV4.1/scripts
-	
+
 	chmod +x run_unipost
 
 	# IF statement to check that all files were created.
@@ -5033,7 +5022,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
 
 	./compile
 	cd "${WRF_FOLDER}"/UPPV4.1/scripts
-	
+
 	chmod +x run_unipost
 
 	# IF statement to check that all files were created.
@@ -7287,13 +7276,23 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
 	export version_10="10"
 
 	if [ $GCC_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GFORTRAN_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GPLUSPLUS_VERSION_MAJOR_VERSION -ge $version_10 ]; then
-		y="24 28 32 36 40 45 49 53 56 60 64 68 69 73 74 79"
-		for X in $y; do
-			sed -i "${X}s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}"/Downloads/NCEPlibs/macros.make.linux.gnu
-		done
-	else
-		echo ""
-		echo "Loop not needed"
+		sed -i "24s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "28s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "32s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "36s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "40s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "45s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "49s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "53s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "56s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "60s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "64s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "68s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "69s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "73s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "74s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "79s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+
 	fi
 
 	if [ ${auto_config} -eq 1 ]; then
@@ -7336,18 +7335,14 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
 	export version_10="10"
 
 	if [ $GCC_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GFORTRAN_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GPLUSPLUS_VERSION_MAJOR_VERSION -ge $version_10 ]; then
-		z="58 63"
-		for X in $z; do
-			sed -i "${X}s/(FOPT)/(FOPT) $fallow_argument $boz_argument  /g" "${WRF_FOLDER}"/UPPV4.1/configure.upp
-		done
-	else
-		echo ""
-		echo "Loop not needed"
+		sed -i "58s/(FOPT)/(FOPT) $fallow_argument $boz_argument  /g" "${WRF_FOLDER}/UPPV4.1/configure.upp"
+		sed -i "63s/(FOPT)/(FOPT) $fallow_argument $boz_argument  /g" "${WRF_FOLDER}/UPPV4.1/configure.upp"
+
 	fi
 
 	./compile
 	cd "${WRF_FOLDER}"/UPPV4.1/scripts
-	
+
 	chmod +x run_unipost
 
 	# IF statement to check that all files were created.
@@ -8185,13 +8180,23 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$SFIRE_PICK" = "1" ]; then
 	export version_10="10"
 
 	if [ $GCC_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GFORTRAN_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GPLUSPLUS_VERSION_MAJOR_VERSION -ge $version_10 ]; then
-		y="24 28 32 36 40 45 49 53 56 60 64 68 69 73 74 79"
-		for X in $y; do
-			sed -i "${X}s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}"/Downloads/NCEPlibs/macros.make.linux.gnu
-		done
-	else
-		echo ""
-		echo "Loop not needed"
+		sed -i "24s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "28s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "32s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "36s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "40s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "45s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "49s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "53s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "56s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "60s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "64s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "68s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "69s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "73s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "74s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "79s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+
 	fi
 
 	if [ ${auto_config} -eq 1 ]; then
@@ -8234,18 +8239,14 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$SFIRE_PICK" = "1" ]; then
 	export version_10="10"
 
 	if [ $GCC_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GFORTRAN_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GPLUSPLUS_VERSION_MAJOR_VERSION -ge $version_10 ]; then
-		z="58 63"
-		for X in $z; do
-			sed -i "${X}s/(FOPT)/(FOPT) $fallow_argument $boz_argument  /g" "${WRF_FOLDER}"/UPPv4.1/configure.upp
-		done
-	else
-		echo ""
-		echo "Loop not needed"
+		sed -i "58s/(FOPT)/(FOPT) $fallow_argument $boz_argument  /g" "${WRF_FOLDER}/UPPV4.1/configure.upp"
+		sed -i "63s/(FOPT)/(FOPT) $fallow_argument $boz_argument  /g" "${WRF_FOLDER}/UPPV4.1/configure.upp"
+
 	fi
 
 	./compile
 	cd "${WRF_FOLDER}"/UPPv4.1/scripts
-	
+
 	chmod +x run_unipost
 
 	# IF statement to check that all files were created.
@@ -8694,7 +8695,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 		echo $PASSWD | sudo -S apt install emacs -y
 	fi
 
-	echo $PASSWD | sudo -S apt -y autoconf automake bison build-essential byacc cmake csh curl default-jdk default-jre flex libfl-dev g++ gawk gcc gfortran git ksh libcurl4-openssl-dev libjpeg-dev libncurses6 libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev libxml-libxml-perl m4 make ncview okular openbox pipenv pkg-config python3 python3-dev python3-pip python3-dateutil tcsh unzip xauth xorg time
+	echo $PASSWD | sudo -S apt -y install autoconf automake autotools-dev bison build-essential byacc cmake csh curl default-jdk default-jre flex libfl-dev g++ gawk gcc gfortran git ksh libcurl4-openssl-dev libjpeg-dev libncurses6 libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev libxml-libxml-perl m4 make ncview okular openbox pipenv pkg-config python3 python3-dev python3-pip python3-dateutil tcsh unzip xauth xorg time
 
 	echo " "
 	##############################Directory Listing############################
@@ -10480,8 +10481,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; the
 		echo $PASSWD | sudo -S apt install emacs -y
 	fi
 
-	echo $PASSWD | sudo -S apt -y autoconf automake bison build-essential byacc cmake csh curl default-jdk default-jre flex libfl-dev g++ gawk gcc gfortran git ksh libcurl4-openssl-dev libjpeg-dev libncurses6 libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev libxml-libxml-perl m4 make ncview okular openbox pipenv pkg-config python3 python3-dev python3-pip python3-dateutil tcsh unzip xauth xorg time
-
+	echo $PASSWD | sudo -S apt -y install autoconf automake autotools-dev bison build-essential byacc cmake csh curl default-jdk default-jre flex libfl-dev g++ gawk gcc gfortran git ksh libcurl4-openssl-dev libjpeg-dev libncurses6 libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev libxml-libxml-perl m4 make ncview okular openbox pipenv pkg-config python3 python3-dev python3-pip python3-dateutil tcsh unzip xauth xorg time
 
 	# install the Intel compilers
 	echo $PASSWD | sudo -S apt -y install intel-basekit
@@ -12061,7 +12061,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 		echo $PASSWD | sudo -S apt install emacs -y
 	fi
 
-	echo $PASSWD | sudo -S apt -y autoconf automake bison build-essential byacc cmake csh curl default-jdk default-jre flex libfl-dev g++ gawk gcc gfortran git ksh libcurl4-openssl-dev libjpeg-dev libncurses6 libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev libxml-libxml-perl m4 make ncview okular openbox pipenv pkg-config python3 python3-dev python3-pip python3-dateutil tcsh unzip xauth xorg time
+	echo $PASSWD | sudo -S apt -y install autoconf automake autotools-dev bison build-essential byacc cmake csh curl default-jdk default-jre flex libfl-dev g++ gawk gcc gfortran git ksh libcurl4-openssl-dev libjpeg-dev libncurses6 libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev libxml-libxml-perl m4 make ncview okular openbox pipenv pkg-config python3 python3-dev python3-pip python3-dateutil tcsh unzip xauth xorg time
 
 	echo " "
 	##############################Directory Listing############################
@@ -12457,13 +12457,23 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 	export version_10="10"
 
 	if [ $GCC_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GFORTRAN_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GPLUSPLUS_VERSION_MAJOR_VERSION -ge $version_10 ]; then
-		y="24 28 32 36 40 45 49 53 56 60 64 68 69 73 74 79"
-		for X in $y; do
-			sed -i "${X}s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}"/Downloads/NCEPlibs/macros.make.linux.gnu
-		done
-	else
-		echo ""
-		echo "Loop not needed"
+		sed -i "24s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "28s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "32s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "36s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "40s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "45s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "49s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "53s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "56s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "60s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "64s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "68s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "69s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "73s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "74s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "79s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+
 	fi
 
 	if [ ${auto_config} -eq 1 ]; then
@@ -12507,18 +12517,14 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 	export version_10="10"
 
 	if [ $GCC_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GFORTRAN_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GPLUSPLUS_VERSION_MAJOR_VERSION -ge $version_10 ]; then
-		z="58 63"
-		for X in $z; do
-			sed -i "${X}s/(FOPT)/(FOPT) $fallow_argument $boz_argument  /g" "${WRF_FOLDER}"/UPPV4.1/configure.upp
-		done
-	else
-		echo ""
-		echo "Loop not needed"
+		sed -i "58s/(FOPT)/(FOPT) $fallow_argument $boz_argument  /g" "${WRF_FOLDER}/UPPV4.1/configure.upp"
+		sed -i "63s/(FOPT)/(FOPT) $fallow_argument $boz_argument  /g" "${WRF_FOLDER}/UPPV4.1/configure.upp"
+
 	fi
 
 	./compile | tee upp_compile.log
 	cd "${WRF_FOLDER}"/UPPV4.1/scripts
-	
+
 	chmod +x run_unipost
 
 	echo " "
@@ -13033,8 +13039,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 		echo $PASSWD | sudo -S apt install emacs -y
 	fi
 
-	echo $PASSWD | sudo -S apt -y autoconf automake bison build-essential byacc cmake csh curl default-jdk default-jre flex libfl-dev g++ gawk gcc gfortran git ksh libcurl4-openssl-dev libjpeg-dev libncurses6 libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev libxml-libxml-perl m4 make ncview okular openbox pipenv pkg-config python3 python3-dev python3-pip python3-dateutil tcsh unzip xauth xorg time
-
+	echo $PASSWD | sudo -S apt -y install autoconf automake autotools-dev bison build-essential byacc cmake csh curl default-jdk default-jre flex libfl-dev g++ gawk gcc gfortran git ksh libcurl4-openssl-dev libjpeg-dev libncurses6 libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev libxml-libxml-perl m4 make ncview okular openbox pipenv pkg-config python3 python3-dev python3-pip python3-dateutil tcsh unzip xauth xorg time
 
 	# install the Intel compilers
 	echo $PASSWD | sudo -S apt -y install intel-basekit
@@ -13441,7 +13446,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 
 	./compile | tee upp_compile.log
 	cd "${WRF_FOLDER}"/UPPV4.1/scripts
-	
+
 	chmod +x run_unipost
 
 	# IF statement to check that all files were created.
@@ -15941,13 +15946,23 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 	export version_10="10"
 
 	if [ $GCC_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GFORTRAN_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GPLUSPLUS_VERSION_MAJOR_VERSION -ge $version_10 ]; then
-		y="24 28 32 36 40 45 49 53 56 60 64 68 69 73 74 79"
-		for X in $y; do
-			sed -i "${X}s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}"/Downloads/NCEPlibs/macros.make.linux.gnu
-		done
-	else
-		echo ""
-		echo "Loop not needed"
+		sed -i "24s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "28s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "32s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "36s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "40s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "45s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "49s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "53s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "56s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "60s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "64s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "68s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "69s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "73s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "74s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "79s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+
 	fi
 
 	if [ ${auto_config} -eq 1 ]; then
@@ -15990,18 +16005,14 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 	export version_10="10"
 
 	if [ $GCC_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GFORTRAN_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GPLUSPLUS_VERSION_MAJOR_VERSION -ge $version_10 ]; then
-		z="58 63"
-		for X in $z; do
-			sed -i "${X}s/(FOPT)/(FOPT) $fallow_argument $boz_argument  /g" "${WRF_FOLDER}"/UPPV4.1/configure.upp
-		done
-	else
-		echo ""
-		echo "Loop not needed"
+		sed -i "58s/(FOPT)/(FOPT) $fallow_argument $boz_argument  /g" "${WRF_FOLDER}/UPPV4.1/configure.upp"
+		sed -i "63s/(FOPT)/(FOPT) $fallow_argument $boz_argument  /g" "${WRF_FOLDER}/UPPV4.1/configure.upp"
+
 	fi
 
 	./compile
 	cd "${WRF_FOLDER}"/UPPV4.1/scripts
-	
+
 	chmod +x run_unipost
 
 	# IF statement to check that all files were created.
@@ -16928,13 +16939,23 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 	export version_10="10"
 
 	if [ $GCC_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GFORTRAN_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GPLUSPLUS_VERSION_MAJOR_VERSION -ge $version_10 ]; then
-		y="24 28 32 36 40 45 49 53 56 60 64 68 69 73 74 79"
-		for X in $y; do
-			sed -i "${X}s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}"/Downloads/NCEPlibs/macros.make.linux.gnu
-		done
-	else
-		echo ""
-		echo "Loop not needed"
+		sed -i "24s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "28s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "32s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "36s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "40s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "45s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "49s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "53s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "56s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "60s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "64s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "68s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "69s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "73s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "74s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "79s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+
 	fi
 
 	if [ ${auto_config} -eq 1 ]; then
@@ -16977,18 +16998,14 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 	export version_10="10"
 
 	if [ $GCC_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GFORTRAN_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GPLUSPLUS_VERSION_MAJOR_VERSION -ge $version_10 ]; then
-		z="58 63"
-		for X in $z; do
-			sed -i "${X}s/(FOPT)/(FOPT) $fallow_argument $boz_argument  /g" "${WRF_FOLDER}"/UPPV4.1/configure.upp
-		done
-	else
-		echo ""
-		echo "Loop not needed"
+		sed -i "58s/(FOPT)/(FOPT) $fallow_argument $boz_argument  /g" "${WRF_FOLDER}/UPPV4.1/configure.upp"
+		sed -i "63s/(FOPT)/(FOPT) $fallow_argument $boz_argument  /g" "${WRF_FOLDER}/UPPV4.1/configure.upp"
+
 	fi
 
 	./compile
 	cd "${WRF_FOLDER}"/UPPV4.1/scripts
-	
+
 	chmod +x run_unipost
 
 	# IF statement to check that all files were created.
@@ -17474,8 +17491,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 		echo $PASSWD | sudo -S apt install emacs -y
 	fi
 
-	echo $PASSWD | sudo -S apt -y autoconf automake bison build-essential byacc cmake csh curl default-jdk default-jre flex libfl-dev g++ gawk gcc gfortran git ksh libcurl4-openssl-dev libjpeg-dev libncurses6 libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev libxml-libxml-perl m4 make ncview okular openbox pipenv pkg-config python3 python3-dev python3-pip python3-dateutil tcsh unzip xauth xorg time
-
+	echo $PASSWD | sudo -S apt -y install autoconf automake autotools-dev bison build-essential byacc cmake csh curl default-jdk default-jre flex libfl-dev g++ gawk gcc gfortran git ksh libcurl4-openssl-dev libjpeg-dev libncurses6 libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev libxml-libxml-perl m4 make ncview okular openbox pipenv pkg-config python3 python3-dev python3-pip python3-dateutil tcsh unzip xauth xorg time
 
 	echo " "
 	##############################Directory Listing############################
@@ -17866,13 +17882,23 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	export version_10="10"
 
 	if [ $GCC_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GFORTRAN_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GPLUSPLUS_VERSION_MAJOR_VERSION -ge $version_10 ]; then
-		y="24 28 32 36 40 45 49 53 56 60 64 68 69 73 74 79"
-		for X in $y; do
-			sed -i "${X}s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}"/Downloads/NCEPlibs/macros.make.linux.gnu
-		done
-	else
-		echo ""
-		echo "Loop not needed"
+		sed -i "24s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "28s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "32s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "36s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "40s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "45s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "49s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "53s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "56s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "60s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "64s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "68s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "69s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "73s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "74s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "79s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+
 	fi
 
 	if [ ${auto_config} -eq 1 ]; then
@@ -17916,18 +17942,14 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	export version_10="10"
 
 	if [ $GCC_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GFORTRAN_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GPLUSPLUS_VERSION_MAJOR_VERSION -ge $version_10 ]; then
-		z="58 63"
-		for X in $z; do
-			sed -i "${X}s/(FOPT)/(FOPT) $fallow_argument $boz_argument  /g" "${WRF_FOLDER}"/UPPV4.1/configure.upp
-		done
-	else
-		echo ""
-		echo "Loop not needed"
+		sed -i "58s/(FOPT)/(FOPT) $fallow_argument $boz_argument  /g" "${WRF_FOLDER}/UPPV4.1/configure.upp"
+		sed -i "63s/(FOPT)/(FOPT) $fallow_argument $boz_argument  /g" "${WRF_FOLDER}/UPPV4.1/configure.upp"
+
 	fi
 
 	./compile
 	cd "${WRF_FOLDER}"/UPPV4.1/scripts
-	
+
 	chmod +x run_unipost
 
 	# IF statement to check that all files were created.
@@ -17941,7 +17963,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 		read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
 		exit
 	fi
-	
+
 	echo " "
 	######################## ARWpost V3.1  ############################
 	## ARWpost
@@ -18479,8 +18501,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 		echo $PASSWD | sudo -S apt install emacs -y
 	fi
 
-	echo $PASSWD | sudo -S apt -y autoconf automake bison build-essential byacc cmake csh curl default-jdk default-jre flex libfl-dev g++ gawk gcc gfortran git ksh libcurl4-openssl-dev libjpeg-dev libncurses6 libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev libxml-libxml-perl m4 make ncview okular openbox pipenv pkg-config python3 python3-dev python3-pip python3-dateutil tcsh unzip xauth xorg time
-
+	echo $PASSWD | sudo -S apt -y install autoconf automake autotools-dev bison build-essential byacc cmake csh curl default-jdk default-jre flex libfl-dev g++ gawk gcc gfortran git ksh libcurl4-openssl-dev libjpeg-dev libncurses6 libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev libxml-libxml-perl m4 make ncview okular openbox pipenv pkg-config python3 python3-dev python3-pip python3-dateutil tcsh unzip xauth xorg time
 
 	# install the Intel compilers
 	echo $PASSWD | sudo -S apt -y install intel-basekit
@@ -18881,7 +18902,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 
 	./compile
 	cd "${WRF_FOLDER}"/UPPV4.1/scripts
-	
+
 	chmod +x run_unipost
 
 	# IF statement to check that all files were created.
@@ -21344,13 +21365,23 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	export version_10="10"
 
 	if [ $GCC_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GFORTRAN_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GPLUSPLUS_VERSION_MAJOR_VERSION -ge $version_10 ]; then
-		y="24 28 32 36 40 45 49 53 56 60 64 68 69 73 74 79"
-		for X in $y; do
-			sed -i "${X}s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}"/Downloads/NCEPlibs/macros.make.linux.gnu
-		done
-	else
-		echo ""
-		echo "Loop not needed"
+		sed -i "24s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "28s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "32s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "36s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "40s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "45s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "49s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "53s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "56s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "60s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "64s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "68s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "69s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "73s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "74s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "79s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+
 	fi
 
 	if [ ${auto_config} -eq 1 ]; then
@@ -21393,18 +21424,14 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	export version_10="10"
 
 	if [ $GCC_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GFORTRAN_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GPLUSPLUS_VERSION_MAJOR_VERSION -ge $version_10 ]; then
-		z="58 63"
-		for X in $z; do
-			sed -i "${X}s/(FOPT)/(FOPT) $fallow_argument $boz_argument  /g" "${WRF_FOLDER}"/UPPV4.1/configure.upp
-		done
-	else
-		echo ""
-		echo "Loop not needed"
+		sed -i "58s/(FOPT)/(FOPT) $fallow_argument $boz_argument  /g" "${WRF_FOLDER}/UPPV4.1/configure.upp"
+		sed -i "63s/(FOPT)/(FOPT) $fallow_argument $boz_argument  /g" "${WRF_FOLDER}/UPPV4.1/configure.upp"
+
 	fi
 
 	./compile
 	cd "${WRF_FOLDER}"/UPPV4.1/scripts
-	
+
 	chmod +x run_unipost
 
 	# IF statement to check that all files were created.
@@ -22336,13 +22363,23 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	export version_10="10"
 
 	if [ $GCC_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GFORTRAN_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GPLUSPLUS_VERSION_MAJOR_VERSION -ge $version_10 ]; then
-		y="24 28 32 36 40 45 49 53 56 60 64 68 69 73 74 79"
-		for X in $y; do
-			sed -i "${X}s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}"/Downloads/NCEPlibs/macros.make.linux.gnu
-		done
-	else
-		echo ""
-		echo "Loop not needed"
+		sed -i "24s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "28s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "32s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "36s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "40s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "45s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "49s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "53s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "56s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "60s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "64s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "68s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "69s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "73s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "74s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "79s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+
 	fi
 
 	if [ ${auto_config} -eq 1 ]; then
@@ -22385,18 +22422,14 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	export version_10="10"
 
 	if [ $GCC_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GFORTRAN_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GPLUSPLUS_VERSION_MAJOR_VERSION -ge $version_10 ]; then
-		z="58 63"
-		for X in $z; do
-			sed -i "${X}s/(FOPT)/(FOPT) $fallow_argument $boz_argument  /g" "${WRF_FOLDER}"/UPPV4.1/configure.upp
-		done
-	else
-		echo ""
-		echo "Loop not needed"
+		sed -i "58s/(FOPT)/(FOPT) $fallow_argument $boz_argument  /g" "${WRF_FOLDER}/UPPV4.1/configure.upp"
+		sed -i "63s/(FOPT)/(FOPT) $fallow_argument $boz_argument  /g" "${WRF_FOLDER}/UPPV4.1/configure.upp"
+
 	fi
 
 	./compile
 	cd "${WRF_FOLDER}"/UPPV4.1/scripts
-	
+
 	chmod +x run_unipost
 
 	# IF statement to check that all files were created.
@@ -22912,8 +22945,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 		echo $PASSWD | sudo -S apt install emacs -y
 	fi
 
-	echo $PASSWD | sudo -S apt -y autoconf automake bison build-essential byacc cmake csh curl default-jdk default-jre flex libfl-dev g++ gawk gcc gfortran git ksh libcurl4-openssl-dev libjpeg-dev libncurses6 libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev libxml-libxml-perl m4 make ncview okular openbox pipenv pkg-config python3 python3-dev python3-pip python3-dateutil tcsh unzip xauth xorg time
-
+	echo $PASSWD | sudo -S apt -y install autoconf automake autotools-dev bison build-essential byacc cmake csh curl default-jdk default-jre flex libfl-dev g++ gawk gcc gfortran git ksh libcurl4-openssl-dev libjpeg-dev libncurses6 libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev libxml-libxml-perl m4 make ncview okular openbox pipenv pkg-config python3 python3-dev python3-pip python3-dateutil tcsh unzip xauth xorg time
 
 	echo " "
 	##############################Directory Listing############################
@@ -23314,13 +23346,23 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	export version_10="10"
 
 	if [ $GCC_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GFORTRAN_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GPLUSPLUS_VERSION_MAJOR_VERSION -ge $version_10 ]; then
-		y="24 28 32 36 40 45 49 53 56 60 64 68 69 73 74 79"
-		for X in $y; do
-			sed -i "${X}s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}"/Downloads/NCEPlibs/macros.make.linux.gnu
-		done
-	else
-		echo ""
-		echo "Loop not needed"
+		sed -i "24s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "28s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "32s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "36s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "40s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "45s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "49s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "53s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "56s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "60s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "64s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "68s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "69s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "73s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "74s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "79s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+
 	fi
 
 	if [ ${auto_config} -eq 1 ]; then
@@ -23363,18 +23405,14 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	export version_10="10"
 
 	if [ $GCC_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GFORTRAN_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GPLUSPLUS_VERSION_MAJOR_VERSION -ge $version_10 ]; then
-		z="58 63"
-		for X in $z; do
-			sed -i "${X}s/(FOPT)/(FOPT) $fallow_argument $boz_argument  /g" "${WRF_FOLDER}"/UPPV4.1/configure.upp
-		done
-	else
-		echo ""
-		echo "Loop not needed"
+		sed -i "58s/(FOPT)/(FOPT) $fallow_argument $boz_argument  /g" "${WRF_FOLDER}/UPPV4.1/configure.upp"
+		sed -i "63s/(FOPT)/(FOPT) $fallow_argument $boz_argument  /g" "${WRF_FOLDER}/UPPV4.1/configure.upp"
+
 	fi
 
 	./compile
 	cd "${WRF_FOLDER}"/UPPV4.1/scripts
-	
+
 	chmod +x run_unipost
 
 	# IF statement to check that all files were created.
@@ -23946,8 +23984,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 		echo $PASSWD | sudo -S apt install emacs -y
 	fi
 
-	echo $PASSWD | sudo -S apt -y autoconf automake bison build-essential byacc cmake csh curl default-jdk default-jre flex libfl-dev g++ gawk gcc gfortran git ksh libcurl4-openssl-dev libjpeg-dev libncurses6 libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev libxml-libxml-perl m4 make ncview okular openbox pipenv pkg-config python3 python3-dev python3-pip python3-dateutil tcsh unzip xauth xorg time
-
+	echo $PASSWD | sudo -S apt -y install autoconf automake autotools-dev bison build-essential byacc cmake csh curl default-jdk default-jre flex libfl-dev g++ gawk gcc gfortran git ksh libcurl4-openssl-dev libjpeg-dev libncurses6 libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev libxml-libxml-perl m4 make ncview okular openbox pipenv pkg-config python3 python3-dev python3-pip python3-dateutil tcsh unzip xauth xorg time
 
 	# install the Intel compilers
 	echo $PASSWD | sudo -S apt -y install intel-basekit
@@ -24354,7 +24391,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 
 	./compile
 	cd "${WRF_FOLDER}"/UPPV4.1/scripts
-	
+
 	chmod +x run_unipost
 
 	# IF statement to check that all files were created.
@@ -26932,13 +26969,23 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	export version_10="10"
 
 	if [ $GCC_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GFORTRAN_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GPLUSPLUS_VERSION_MAJOR_VERSION -ge $version_10 ]; then
-		y="24 28 32 36 40 45 49 53 56 60 64 68 69 73 74 79"
-		for X in $y; do
-			sed -i "${X}s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}"/Downloads/NCEPlibs/macros.make.linux.gnu
-		done
-	else
-		echo ""
-		echo "Loop not needed"
+		sed -i "24s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "28s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "32s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "36s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "40s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "45s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "49s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "53s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "56s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "60s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "64s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "68s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "69s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "73s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "74s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "79s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+
 	fi
 
 	if [ ${auto_config} -eq 1 ]; then
@@ -26981,18 +27028,14 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	export version_10="10"
 
 	if [ $GCC_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GFORTRAN_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GPLUSPLUS_VERSION_MAJOR_VERSION -ge $version_10 ]; then
-		z="58 63"
-		for X in $z; do
-			sed -i "${X}s/(FOPT)/(FOPT) $fallow_argument $boz_argument  /g" "${WRF_FOLDER}"/UPPV4.1/configure.upp
-		done
-	else
-		echo ""
-		echo "Loop not needed"
+		sed -i "58s/(FOPT)/(FOPT) $fallow_argument $boz_argument  /g" "${WRF_FOLDER}/UPPV4.1/configure.upp"
+		sed -i "63s/(FOPT)/(FOPT) $fallow_argument $boz_argument  /g" "${WRF_FOLDER}/UPPV4.1/configure.upp"
+
 	fi
 
 	./compile
 	cd "${WRF_FOLDER}"/UPPV4.1/scripts
-	
+
 	chmod +x run_unipost
 
 	# IF statement to check that all files were created.
@@ -27949,13 +27992,23 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRF_PICK" = "1" ]; then
 	export version_10="10"
 
 	if [ $GCC_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GFORTRAN_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GPLUSPLUS_VERSION_MAJOR_VERSION -ge $version_10 ]; then
-		y="24 28 32 36 40 45 49 53 56 60 64 68 69 73 74 79"
-		for X in $y; do
-			sed -i "${X}s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}"/Downloads/NCEPlibs/macros.make.linux.gnu
-		done
-	else
-		echo ""
-		echo "Loop not needed"
+		sed -i "24s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "28s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "32s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "36s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "40s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "45s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "49s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "53s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "56s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "60s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "64s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "68s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "69s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "73s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "74s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+		sed -i "79s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+
 	fi
 
 	if [ ${auto_config} -eq 1 ]; then
@@ -27998,18 +28051,14 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRF_PICK" = "1" ]; then
 	export version_10="10"
 
 	if [ $GCC_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GFORTRAN_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GPLUSPLUS_VERSION_MAJOR_VERSION -ge $version_10 ]; then
-		z="58 63"
-		for X in $z; do
-			sed -i "${X}s/(FOPT)/(FOPT) $fallow_argument $boz_argument  /g" "${WRF_FOLDER}"/UPPV4.1/configure.upp
-		done
-	else
-		echo ""
-		echo "Loop not needed"
+		sed -i "58s/(FOPT)/(FOPT) $fallow_argument $boz_argument  /g" "${WRF_FOLDER}/UPPV4.1/configure.upp"
+		sed -i "63s/(FOPT)/(FOPT) $fallow_argument $boz_argument  /g" "${WRF_FOLDER}/UPPV4.1/configure.upp"
+
 	fi
 
 	./compile
 	cd "${WRF_FOLDER}"/UPPV4.1/scripts
-	
+
 	chmod +x run_unipost
 
 	# IF statement to check that all files were created.
@@ -28548,5 +28597,3 @@ DIFF=$(($END - $START))
 echo "Install Start Time: ${start}"
 echo "Install End Time: ${end}"
 echo "Install Duration: $(($DIFF / 3600)) hours $((($DIFF % 3600) / 60)) minutes $(($DIFF % 60)) seconds"
-
-
