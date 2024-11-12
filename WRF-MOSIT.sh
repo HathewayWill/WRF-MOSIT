@@ -1309,430 +1309,430 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$DTC_MET" = "1" ]; then
 	fi
 fi
 
-if [ "$macos_64bit_GNU" = "1" ] && [ "$DTC_MET" = "1" ] && [ "$MAC_CHIP" = "Intel" ]; then
-	echo "MET INSTALLING"
-	# Update Homebrew and get list of outdated packages
-	brew update
-	outdated_packages=$(brew outdated --quiet)
-
-	# List of packages to check/install
-	packages=("automake" "autoconf" "bison" "cmake" "curl" "flex" "gdal" "gedit" "gcc" "gnu-sed" "imagemagick" "java" "ksh" "libtool" "make" "m4" "python@3.11" "snapcraft" "tcsh" "wget" "xauth" "xorgproto" "xorgrgb" "xquartz")
-
-	for pkg in "${packages[@]}"; do
-		if brew list "$pkg" &>/dev/null; then
-			echo "$pkg is already installed."
-			if [[ $outdated_packages == *"$pkg"* ]]; then
-				echo "$pkg has a newer version available. Upgrading..."
-				brew upgrade "$pkg"
-			fi
-		else
-			echo "$pkg is not installed. Installing..."
-			brew install "$pkg"
-		fi
-		sleep 1
-	done
-
-	# Install python-dateutil using pip
-	pip3.10 install python-dateutil --break-system-packages
-	pip3.10 install python-dateutil==2.8 --break-system-packages
-	#Directory Listings
-	if [ "$WRFCHEM_PICK" = "1" ]; then
-		mkdir $HOME/WRFCHEM
-		export WRF_FOLDER=$HOME/WRFCHEM
-	fi
-
-	if [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
-		mkdir $HOME/WRFHYDRO_COUPLED
-		export WRF_FOLDER=$HOME/WRFHYDRO_COUPLED
-	fi
-
-	if [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
-		mkdir $HOME/WRFHYDRO_STANDALONE
-		export WRF_FOLDER=$HOME/WRFHYDRO_STANDALONE
-	fi
-
-	if [ "$WRF_PICK" = "1" ]; then
-		mkdir $HOME/WRF
-		export WRF_FOLDER=$HOME/WRF
-	fi
-
-	if [ "$CMAQ_PICK" = "1" ]; then
-		mkdir $HOME/WRF_CMAQ
-		export WRF_FOLDER=$HOME/WRF_CMAQ
-	fi
-
-	if [ "$SFIRE_PICK" = "1" ]; then
-		mkdir $HOME/WRF_SFIRE_Intel
-		export WRF_FOLDER=$HOME/WRF_SFIRE
-	fi
-
-	mkdir "${WRF_FOLDER}"/MET-$met_Version_number
-	mkdir "${WRF_FOLDER}"/MET-$met_Version_number/Downloads
-	mkdir "${WRF_FOLDER}"/METplus-$METPLUS_Version
-	mkdir "${WRF_FOLDER}"/METplus-$METPLUS_Version/Downloads
-
-	#Symlink to avoid clang conflicts with compilers
-	#default gcc path /usr/bin/gcc
-	#default homebrew path /usr/local/bin
-
-	echo "Please enter password for linking GNU libraries"
-
-	# Find the highest version of GCC in /usr/local/bin
-	latest_gcc=$(ls /usr/local/bin/gcc-* 2>/dev/null | grep -o 'gcc-[0-9]*' | sort -V | tail -n 1)
-	latest_gpp=$(ls /usr/local/bin/g++-* 2>/dev/null | grep -o 'g++-[0-9]*' | sort -V | tail -n 1)
-	latest_gfortran=$(ls /usr/local/bin/gfortran-* 2>/dev/null | grep -o 'gfortran-[0-9]*' | sort -V | tail -n 1)
-
-	# Check if GCC, G++, and GFortran were found
-	if [ -z "$latest_gcc" ]; then
-		echo "No GCC version found in /usr/local/bin."
-		exit 1
-	fi
-
-	# Create or update the symbolic links for GCC, G++, and GFortran
-	echo "Linking the latest GCC version: $latest_gcc"
-	echo $PASSWD | sudo -S ln -sf /usr/local/bin/$latest_gcc /usr/local/bin/gcc
-
-	if [ ! -z "$latest_gpp" ]; then
-		echo "Linking the latest G++ version: $latest_gpp"
-		echo $PASSWD | sudo -S ln -sf /usr/local/bin/$latest_gpp /usr/local/bin/g++
-	fi
-
-	if [ ! -z "$latest_gfortran" ]; then
-		echo "Linking the latest GFortran version: $latest_gfortran"
-		echo $PASSWD | sudo -S ln -sf /usr/local/bin/$latest_gfortran /usr/local/bin/gfortran
-	fi
-
-	echo "Updated symbolic links for GCC, G++, and GFortran."
-	echo $PASSWD | sudo -S ln -sf /usr/local/bin/python3.11 /usr/local/bin/python3
-
-	gcc --version
-	g++ --version
-	gfortran --version
-	python3 --version
-
-	cd "${WRF_FOLDER}"/MET-$met_Version_number/Downloads
-
-	wget -c https://raw.githubusercontent.com/dtcenter/MET/main_v$met_VERSION_number/internal/scripts/installation/compile_MET_all.sh
-
-	wget -c https://dtcenter.ucar.edu/dfiles/code/METplus/MET/installation/tar_files.tgz
-
-	wget -c https://github.com/dtcenter/MET/archive/refs/tags/v$met_Version_number.tar.gz
-
-	cp compile_MET_all.sh "${WRF_FOLDER}"/MET-$met_Version_number
-	tar -xvzf tar_files.tgz -C "${WRF_FOLDER}"/MET-$met_Version_number
-	cp v$met_Version_number.tar.gz "${WRF_FOLDER}"/MET-$met_Version_number/tar_files
-	cd "${WRF_FOLDER}"/MET-$met_Version_number
-
-	cd "${WRF_FOLDER}"/MET-$met_Version_number
-
-	export PYTHON_VERSION=$(python3 -V 2>1 | awk '{print $2}')
-	export PYTHON_VERSION_MAJOR_VERSION=$(echo $PYTHON_VERSION | awk -F. '{print $1}')
-	export PYTHON_VERSION_MINOR_VERSION=$(echo $PYTHON_VERSION | awk -F. '{print $2}')
-	export PYTHON_VERSION_COMBINED=$PYTHON_VERSION_MAJOR_VERSION.$PYTHON_VERSION_MINOR_VERSION
-
-	export CC=/usr/local/bin/gcc
-	export CXX=/usr/local/bin/g++
-	export CFLAGS="-fPIC -fPIE -O3 -Wno-implicit-function-declaration"
-	export FC=/usr/local/bin/gfortran
-	export F77=/usr/local/bin/gfortran
-	export F90=/usr/local/bin/gfortran
-	export gcc_version=$(gcc -dumpfullversion)
-	export TEST_BASE="${WRF_FOLDER}"/MET-$met_Version_number
-	export COMPILER=gnu_$gcc_version
-	export MET_SUBDIR=${TEST_BASE}
-	export MET_TARBALL=v$met_Version_number.tar.gz
-	export USE_MODULES=FALSE
-	export MET_PYTHON=/usr/local
-	export MET_PYTHON_CC="-I${MET_PYTHON}/include/python${PYTHON_VERSION_COMBINED}"
-	export MET_PYTHON_LD="$(python3.11-config --ldflags) -L${MET_PYTHON}/lib -lpython${PYTHON_VERSION_COMBINED}"
-	export SET_D64BIT=FALSE
-
-	echo "CC=$CC"
-	echo "CXX=$CXX"
-	echo "FC=$FC"
-	echo "F77=$F77"
-	echo "F90=$F90"
-	echo "gcc_version=$gcc_version"
-	echo "TEST_BASE=$TEST_BASE"
-	echo "COMPILER=$COMPILER"
-	echo "MET_SUBDIR=$MET_SUBDIR"
-	echo "MET_TARBALL=$MET_TARBALL"
-	echo "USE_MODULES=$USE_MODULES"
-	echo "MET_PYTHON=$MET_PYTHON"
-	echo "MET_PYTHON_CC=$MET_PYTHON_CC"
-	echo "MET_PYTHON_LD=$MET_PYTHON_LD"
-	echo "SET_D64BIT=$SET_D64BIT"
-
-	export MAKE_ARGS="-j 4"
-
-	chmod 775 compile_MET_all.sh
-
-	time ./compile_MET_all.sh 2>&1 | tee compile_MET_all.log
-
-	export PATH="${WRF_FOLDER}"/MET-$met_Version_number/bin:$PATH
-
-	mkdir "${WRF_FOLDER}"/METplus-$METPLUS_Version
-	mkdir "${WRF_FOLDER}"/METplus-$METPLUS_Version/Sample_Data
-	mkdir "${WRF_FOLDER}"/METplus-$METPLUS_Version/Output
-	mkdir "${WRF_FOLDER}"/METplus-$METPLUS_Version/Downloads
-
-	#Downloading METplus and untarring files
-
-	cd "${WRF_FOLDER}"/METplus-$METPLUS_Version/Downloads
-	wget -c https://github.com/dtcenter/METplus/archive/refs/tags/v$METPLUS_Version.tar.gz
-	tar -xvzf v$METPLUS_Version.tar.gz -C "${WRF_FOLDER}"
-
-	# Insatlllation of Model Evaluation Tools Plus
-	cd "${WRF_FOLDER}"/METplus-$METPLUS_Version/parm/metplus_config
-
-	sed -i'' -e "s|MET_INSTALL_DIR = /path/to|MET_INSTALL_DIR = "${WRF_FOLDER}"/MET-$met_Version_number|" defaults.conf
-	sed -i'' -e "s|INPUT_BASE = /path/to|INPUT_BASE = "${WRF_FOLDER}"/METplus-$METPLUS_Version/Sample_Data|" defaults.conf
-	sed -i'' -e "s|OUTPUT_BASE = /path/to|OUTPUT_BASE = "${WRF_FOLDER}"/METplus-$METPLUS_Version/Output|" defaults.conf
-
-	# Downloading Sample Data
-
-	cd "${WRF_FOLDER}"/METplus-$METPLUS_Version/Downloads
-	wget -c https://dtcenter.ucar.edu/dfiles/code/METplus/METplus_Data/v$METPLUS_DATA/sample_data-met_tool_wrapper-$METPLUS_DATA.tgz
-	tar -xvzf sample_data-met_tool_wrapper-$METPLUS_DATA.tgz -C "${WRF_FOLDER}"/METplus-$METPLUS_Version/Sample_Data
-
-	# Testing if installation of MET & METPlus was sucessfull
-	# If you see in terminal "METplus has successfully finished running."
-	# Then MET & METPLUS is sucessfully installed
-
-	echo 'Testing MET & METPLUS Installation.'
-	$WRF_FOLDER/METplus-$METPLUS_Version/ush/run_metplus.py -c $WRF_FOLDER/METplus-$METPLUS_Version/parm/use_cases/met_tool_wrapper/GridStat/GridStat.conf
-
-	# Check if the previous command was successful
-	if [ $? -eq 0 ]; then
-		echo "MET and METPLUS successfully installed with GNU compilers."
-		export PATH=$WRF_FOLDER/METplus-$METPLUS_Version/ush:$PATH
-	else
-		echo "Error: MET and METPLUS installation failed."
-		# Handle the error case, e.g., exit the script or retry installation
-		exit 1
-	fi
-fi
-
-if [ "$macos_64bit_GNU" = "1" ] && [ "$DTC_MET" = "1" ] && [ "$MAC_CHIP" = "ARM" ]; then
-	echo "MET INSTALLING"
-	# Update Homebrew and get list of outdated packages
-	brew update
-	outdated_packages=$(brew outdated --quiet)
-
-	# List of packages to check/install
-	packages=("automake" "autoconf" "bison" "cmake" "curl" "flex" "gdal" "gedit" "gcc" "gnu-sed" "imagemagick" "java" "ksh" "libtool" "make" "m4" "python@3.11" "snapcraft" "tcsh" "wget" "xauth" "xorgproto" "xorgrgb" "xquartz")
-
-	for pkg in "${packages[@]}"; do
-		if brew list "$pkg" &>/dev/null; then
-			echo "$pkg is already installed."
-			if [[ $outdated_packages == *"$pkg"* ]]; then
-				echo "$pkg has a newer version available. Upgrading..."
-				brew upgrade "$pkg"
-			fi
-		else
-			echo "$pkg is not installed. Installing..."
-			brew install "$pkg"
-		fi
-		sleep 1
-	done
-
-	# Install python-dateutil using pip
-	pip3.10 install python-dateutil --break-system-packages
-	pip3.10 install python-dateutil==2.8 --break-system-packages
-	#Directory Listings
-	if [ "$WRFCHEM_PICK" = "1" ]; then
-		mkdir $HOME/WRFCHEM
-		export WRF_FOLDER=$HOME/WRFCHEM
-	fi
-
-	if [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
-		mkdir $HOME/WRFHYDRO_COUPLED
-		export WRF_FOLDER=$HOME/WRFHYDRO_COUPLED
-	fi
-
-	if [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
-		mkdir $HOME/WRFHYDRO_STANDALONE
-		export WRF_FOLDER=$HOME/WRFHYDRO_STANDALONE
-	fi
-
-	if [ "$WRF_PICK" = "1" ]; then
-		mkdir $HOME/WRF
-		export WRF_FOLDER=$HOME/WRF
-	fi
-
-	if [ "$CMAQ_PICK" = "1" ]; then
-		mkdir $HOME/WRF_CMAQ
-		export WRF_FOLDER=$HOME/WRF_CMAQ
-	fi
-
-	if [ "$SFIRE_PICK" = "1" ]; then
-		mkdir $HOME/WRF_SFIRE_Intel
-		export WRF_FOLDER=$HOME/WRF_SFIRE
-	fi
-
-	mkdir "${WRF_FOLDER}"/MET-$met_Version_number
-	mkdir "${WRF_FOLDER}"/MET-$met_Version_number/Downloads
-	mkdir "${WRF_FOLDER}"/METplus-$METPLUS_Version
-	mkdir "${WRF_FOLDER}"/METplus-$METPLUS_Version/Downloads
-
-	# Unlink previous GCC, G++, and GFortran symlinks in Homebrew path to avoid conflicts
-	echo $PASSWD | sudo -S unlink /opt/homebrew/bin/gfortran
-	echo $PASSWD | sudo -S unlink /opt/homebrew/bin/gcc
-	echo $PASSWD | sudo -S unlink /opt/homebrew/bin/g++
-
-	# Source the bashrc to ensure environment variables are loaded
-	source ~/.bashrc
-
-	# Check current versions of gcc, g++, and gfortran (this should show no version if unlinked)
-	gcc --version
-	g++ --version
-	gfortran --version
-
-	# Navigate to the Homebrew binaries directory
-	cd /opt/homebrew/bin
-
-	# Find the latest version of GCC, G++, and GFortran
-	latest_gcc=$(ls gcc-* 2>/dev/null | grep -o 'gcc-[0-9]*' | sort -V | tail -n 1)
-	latest_gpp=$(ls g++-* 2>/dev/null | grep -o 'g++-[0-9]*' | sort -V | tail -n 1)
-	latest_gfortran=$(ls gfortran-* 2>/dev/null | grep -o 'gfortran-[0-9]*' | sort -V | tail -n 1)
-
-	# Check if the latest versions were found, and link them
-	if [ -n "$latest_gcc" ]; then
-		echo "Linking the latest GCC version: $latest_gcc"
-		echo $PASSWD | sudo -S ln -sf $latest_gcc gcc
-	else
-		echo "No GCC version found."
-	fi
-
-	if [ -n "$latest_gpp" ]; then
-		echo "Linking the latest G++ version: $latest_gpp"
-		echo $PASSWD | sudo -S ln -sf $latest_gpp g++
-	else
-		echo "No G++ version found."
-	fi
-
-	if [ -n "$latest_gfortran" ]; then
-		echo "Linking the latest GFortran version: $latest_gfortran"
-		echo $PASSWD | sudo -S ln -sf $latest_gfortran gfortran
-	else
-		echo "No GFortran version found."
-	fi
-
-	# Return to the home directory
-	cd
-
-	# Source bashrc and bash_profile to reload the environment settings
-	source ~/.bashrc
-	source ~/.bash_profile
-
-	# Check if the versions were successfully updated
-	gcc --version
-	g++ --version
-	gfortran --version
-	python3 --version
-
-	cd "${WRF_FOLDER}"/MET-$met_Version_number/Downloads
-
-	wget -c https://raw.githubusercontent.com/dtcenter/MET/main_v$met_VERSION_number/internal/scripts/installation/compile_MET_all.sh
-
-	wget -c https://dtcenter.ucar.edu/dfiles/code/METplus/MET/installation/tar_files.tgz
-
-	wget -c https://github.com/dtcenter/MET/archive/refs/tags/v$met_Version_number.tar.gz
-
-	cp compile_MET_all.sh "${WRF_FOLDER}"/MET-$met_Version_number
-	tar -xvzf tar_files.tgz -C "${WRF_FOLDER}"/MET-$met_Version_number
-	cp v$met_Version_number.tar.gz "${WRF_FOLDER}"/MET-$met_Version_number/tar_files
-	cd "${WRF_FOLDER}"/MET-$met_Version_number
-
-	cd "${WRF_FOLDER}"/MET-$met_Version_number
-
-	export PYTHON_VERSION=$(python3 -V 2>1 | awk '{print $2}')
-	export PYTHON_VERSION_MAJOR_VERSION=$(echo $PYTHON_VERSION | awk -F. '{print $1}')
-	export PYTHON_VERSION_MINOR_VERSION=$(echo $PYTHON_VERSION | awk -F. '{print $2}')
-	export PYTHON_VERSION_COMBINED=$PYTHON_VERSION_MAJOR_VERSION.$PYTHON_VERSION_MINOR_VERSION
-
-	export CC=/usr/local/bin/gcc
-	export CXX=/usr/local/bin/g++
-	export CFLAGS="-fPIC -fPIE -O3 -Wno-implicit-function-declaration"
-	export FC=/usr/local/bin/gfortran
-	export F77=/usr/local/bin/gfortran
-	export F90=/usr/local/bin/gfortran
-	export gcc_version=$(gcc -dumpfullversion)
-	export TEST_BASE="${WRF_FOLDER}"/MET-$met_Version_number
-	export COMPILER=gnu_$gcc_version
-	export MET_SUBDIR=${TEST_BASE}
-	export MET_TARBALL=v$met_Version_number.tar.gz
-	export USE_MODULES=FALSE
-	export MET_PYTHON=/usr/local
-	export MET_PYTHON_CC="-I${MET_PYTHON}/include/python${PYTHON_VERSION_COMBINED}"
-	export MET_PYTHON_LD="$(python3.11-config --ldflags) -L${MET_PYTHON}/lib -lpython${PYTHON_VERSION_COMBINED}"
-	export SET_D64BIT=FALSE
-
-	echo "CC=$CC"
-	echo "CXX=$CXX"
-	echo "FC=$FC"
-	echo "F77=$F77"
-	echo "F90=$F90"
-	echo "gcc_version=$gcc_version"
-	echo "TEST_BASE=$TEST_BASE"
-	echo "COMPILER=$COMPILER"
-	echo "MET_SUBDIR=$MET_SUBDIR"
-	echo "MET_TARBALL=$MET_TARBALL"
-	echo "USE_MODULES=$USE_MODULES"
-	echo "MET_PYTHON=$MET_PYTHON"
-	echo "MET_PYTHON_CC=$MET_PYTHON_CC"
-	echo "MET_PYTHON_LD=$MET_PYTHON_LD"
-	echo "SET_D64BIT=$SET_D64BIT"
-
-	export MAKE_ARGS="-j 4"
-
-	chmod 775 compile_MET_all.sh
-
-	time ./compile_MET_all.sh 2>&1 | tee compile_MET_all.log
-
-	export PATH="${WRF_FOLDER}"/MET-$met_Version_number/bin:$PATH
-
-	mkdir "${WRF_FOLDER}"/METplus-$METPLUS_Version
-	mkdir "${WRF_FOLDER}"/METplus-$METPLUS_Version/Sample_Data
-	mkdir "${WRF_FOLDER}"/METplus-$METPLUS_Version/Output
-	mkdir "${WRF_FOLDER}"/METplus-$METPLUS_Version/Downloads
-
-	#Downloading METplus and untarring files
-
-	cd "${WRF_FOLDER}"/METplus-$METPLUS_Version/Downloads
-	wget -c https://github.com/dtcenter/METplus/archive/refs/tags/v$METPLUS_Version.tar.gz
-	tar -xvzf v$METPLUS_Version.tar.gz -C "${WRF_FOLDER}"
-
-	# Insatlllation of Model Evaluation Tools Plus
-	cd "${WRF_FOLDER}"/METplus-$METPLUS_Version/parm/metplus_config
-
-	sed -i'' -e "s|MET_INSTALL_DIR = /path/to|MET_INSTALL_DIR = "${WRF_FOLDER}"/MET-$met_Version_number|" defaults.conf
-	sed -i'' -e "s|INPUT_BASE = /path/to|INPUT_BASE = "${WRF_FOLDER}"/METplus-$METPLUS_Version/Sample_Data|" defaults.conf
-	sed -i'' -e "s|OUTPUT_BASE = /path/to|OUTPUT_BASE = "${WRF_FOLDER}"/METplus-$METPLUS_Version/Output|" defaults.conf
-
-	# Downloading Sample Data
-
-	cd "${WRF_FOLDER}"/METplus-$METPLUS_Version/Downloads
-	wget -c https://dtcenter.ucar.edu/dfiles/code/METplus/METplus_Data/v$METPLUS_DATA/sample_data-met_tool_wrapper-$METPLUS_DATA.tgz
-	tar -xvzf sample_data-met_tool_wrapper-$METPLUS_DATA.tgz -C "${WRF_FOLDER}"/METplus-$METPLUS_Version/Sample_Data
-
-	# Testing if installation of MET & METPlus was sucessfull
-	# If you see in terminal "METplus has successfully finished running."
-	# Then MET & METPLUS is sucessfully installed
-
-	echo 'Testing MET & METPLUS Installation.'
-	$WRF_FOLDER/METplus-$METPLUS_Version/ush/run_metplus.py -c $WRF_FOLDER/METplus-$METPLUS_Version/parm/use_cases/met_tool_wrapper/GridStat/GridStat.conf
-
-	# Check if the previous command was successful
-	if [ $? -eq 0 ]; then
-		echo "MET and METPLUS successfully installed with GNU compilers."
-		export PATH=$WRF_FOLDER/METplus-$METPLUS_Version/ush:$PATH
-	else
-		echo "Error: MET and METPLUS installation failed."
-		# Handle the error case, e.g., exit the script or retry installation
-		exit 1
-	fi
-fi
+# if [ "$macos_64bit_GNU" = "1" ] && [ "$DTC_MET" = "1" ] && [ "$MAC_CHIP" = "Intel" ]; then
+# 	echo "MET INSTALLING"
+# 	# Update Homebrew and get list of outdated packages
+# 	brew update
+# 	outdated_packages=$(brew outdated --quiet)
+
+# 	# List of packages to check/install
+# 	packages=("automake" "autoconf" "bison" "cmake" "curl" "flex" "gdal" "gedit" "gcc" "gnu-sed" "imagemagick" "java" "ksh" "libtool" "make" "m4" "python@3.10" "snapcraft" "tcsh" "wget" "xauth" "xorgproto" "xorgrgb" "xquartz")
+
+# 	for pkg in "${packages[@]}"; do
+# 		if brew list "$pkg" &>/dev/null; then
+# 			echo "$pkg is already installed."
+# 			if [[ $outdated_packages == *"$pkg"* ]]; then
+# 				echo "$pkg has a newer version available. Upgrading..."
+# 				brew upgrade "$pkg"
+# 			fi
+# 		else
+# 			echo "$pkg is not installed. Installing..."
+# 			brew install "$pkg"
+# 		fi
+# 		sleep 1
+# 	done
+
+# 	# Install python-dateutil using pip
+# 	pip3.10 install python-dateutil --break-system-packages
+# 	pip3.10 install python-dateutil==2.8 --break-system-packages
+# 	#Directory Listings
+# 	if [ "$WRFCHEM_PICK" = "1" ]; then
+# 		mkdir $HOME/WRFCHEM
+# 		export WRF_FOLDER=$HOME/WRFCHEM
+# 	fi
+
+# 	if [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
+# 		mkdir $HOME/WRFHYDRO_COUPLED
+# 		export WRF_FOLDER=$HOME/WRFHYDRO_COUPLED
+# 	fi
+
+# 	if [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
+# 		mkdir $HOME/WRFHYDRO_STANDALONE
+# 		export WRF_FOLDER=$HOME/WRFHYDRO_STANDALONE
+# 	fi
+
+# 	if [ "$WRF_PICK" = "1" ]; then
+# 		mkdir $HOME/WRF
+# 		export WRF_FOLDER=$HOME/WRF
+# 	fi
+
+# 	if [ "$CMAQ_PICK" = "1" ]; then
+# 		mkdir $HOME/WRF_CMAQ
+# 		export WRF_FOLDER=$HOME/WRF_CMAQ
+# 	fi
+
+# 	if [ "$SFIRE_PICK" = "1" ]; then
+# 		mkdir $HOME/WRF_SFIRE_Intel
+# 		export WRF_FOLDER=$HOME/WRF_SFIRE
+# 	fi
+
+# 	mkdir "${WRF_FOLDER}"/MET-$met_Version_number
+# 	mkdir "${WRF_FOLDER}"/MET-$met_Version_number/Downloads
+# 	mkdir "${WRF_FOLDER}"/METplus-$METPLUS_Version
+# 	mkdir "${WRF_FOLDER}"/METplus-$METPLUS_Version/Downloads
+
+# 	#Symlink to avoid clang conflicts with compilers
+# 	#default gcc path /usr/bin/gcc
+# 	#default homebrew path /usr/local/bin
+
+# 	echo "Please enter password for linking GNU libraries"
+
+# 	# Find the highest version of GCC in /usr/local/bin
+# 	latest_gcc=$(ls /usr/local/bin/gcc-* 2>/dev/null | grep -o 'gcc-[0-9]*' | sort -V | tail -n 1)
+# 	latest_gpp=$(ls /usr/local/bin/g++-* 2>/dev/null | grep -o 'g++-[0-9]*' | sort -V | tail -n 1)
+# 	latest_gfortran=$(ls /usr/local/bin/gfortran-* 2>/dev/null | grep -o 'gfortran-[0-9]*' | sort -V | tail -n 1)
+
+# 	# Check if GCC, G++, and GFortran were found
+# 	if [ -z "$latest_gcc" ]; then
+# 		echo "No GCC version found in /usr/local/bin."
+# 		exit 1
+# 	fi
+
+# 	# Create or update the symbolic links for GCC, G++, and GFortran
+# 	echo "Linking the latest GCC version: $latest_gcc"
+# 	echo $PASSWD | sudo -S ln -sf /usr/local/bin/$latest_gcc /usr/local/bin/gcc
+
+# 	if [ ! -z "$latest_gpp" ]; then
+# 		echo "Linking the latest G++ version: $latest_gpp"
+# 		echo $PASSWD | sudo -S ln -sf /usr/local/bin/$latest_gpp /usr/local/bin/g++
+# 	fi
+
+# 	if [ ! -z "$latest_gfortran" ]; then
+# 		echo "Linking the latest GFortran version: $latest_gfortran"
+# 		echo $PASSWD | sudo -S ln -sf /usr/local/bin/$latest_gfortran /usr/local/bin/gfortran
+# 	fi
+
+# 	echo "Updated symbolic links for GCC, G++, and GFortran."
+# 	echo $PASSWD | sudo -S ln -sf /usr/local/bin/python3.10 /usr/local/bin/python3
+
+# 	gcc --version
+# 	g++ --version
+# 	gfortran --version
+# 	python3 --version
+
+# 	cd "${WRF_FOLDER}"/MET-$met_Version_number/Downloads
+
+# 	wget -c https://raw.githubusercontent.com/dtcenter/MET/main_v$met_VERSION_number/internal/scripts/installation/compile_MET_all.sh
+
+# 	wget -c https://dtcenter.ucar.edu/dfiles/code/METplus/MET/installation/tar_files.tgz
+
+# 	wget -c https://github.com/dtcenter/MET/archive/refs/tags/v$met_Version_number.tar.gz
+
+# 	cp compile_MET_all.sh "${WRF_FOLDER}"/MET-$met_Version_number
+# 	tar -xvzf tar_files.tgz -C "${WRF_FOLDER}"/MET-$met_Version_number
+# 	cp v$met_Version_number.tar.gz "${WRF_FOLDER}"/MET-$met_Version_number/tar_files
+# 	cd "${WRF_FOLDER}"/MET-$met_Version_number
+
+# 	cd "${WRF_FOLDER}"/MET-$met_Version_number
+
+# 	export PYTHON_VERSION=$(python3 -V 2>1 | awk '{print $2}')
+# 	export PYTHON_VERSION_MAJOR_VERSION=$(echo $PYTHON_VERSION | awk -F. '{print $1}')
+# 	export PYTHON_VERSION_MINOR_VERSION=$(echo $PYTHON_VERSION | awk -F. '{print $2}')
+# 	export PYTHON_VERSION_COMBINED=$PYTHON_VERSION_MAJOR_VERSION.$PYTHON_VERSION_MINOR_VERSION
+
+# 	export CC=/usr/local/bin/gcc
+# 	export CXX=/usr/local/bin/g++
+# 	export CFLAGS="-fPIC -fPIE -O3 -Wno-implicit-function-declaration"
+# 	export FC=/usr/local/bin/gfortran
+# 	export F77=/usr/local/bin/gfortran
+# 	export F90=/usr/local/bin/gfortran
+# 	export gcc_version=$(gcc -dumpfullversion)
+# 	export TEST_BASE="${WRF_FOLDER}"/MET-$met_Version_number
+# 	export COMPILER=gnu_$gcc_version
+# 	export MET_SUBDIR=${TEST_BASE}
+# 	export MET_TARBALL=v$met_Version_number.tar.gz
+# 	export USE_MODULES=FALSE
+# 	export MET_PYTHON=/usr/local
+# 	export MET_PYTHON_CC="-I${MET_PYTHON}/include/python${PYTHON_VERSION_COMBINED}"
+# 	export MET_PYTHON_LD="$(python3.10-config --ldflags) -L${MET_PYTHON}/lib -lpython${PYTHON_VERSION_COMBINED}"
+# 	export SET_D64BIT=FALSE
+
+# 	echo "CC=$CC"
+# 	echo "CXX=$CXX"
+# 	echo "FC=$FC"
+# 	echo "F77=$F77"
+# 	echo "F90=$F90"
+# 	echo "gcc_version=$gcc_version"
+# 	echo "TEST_BASE=$TEST_BASE"
+# 	echo "COMPILER=$COMPILER"
+# 	echo "MET_SUBDIR=$MET_SUBDIR"
+# 	echo "MET_TARBALL=$MET_TARBALL"
+# 	echo "USE_MODULES=$USE_MODULES"
+# 	echo "MET_PYTHON=$MET_PYTHON"
+# 	echo "MET_PYTHON_CC=$MET_PYTHON_CC"
+# 	echo "MET_PYTHON_LD=$MET_PYTHON_LD"
+# 	echo "SET_D64BIT=$SET_D64BIT"
+
+# 	export MAKE_ARGS="-j 4"
+
+# 	chmod 775 compile_MET_all.sh
+
+# 	time ./compile_MET_all.sh 2>&1 | tee compile_MET_all.log
+
+# 	export PATH="${WRF_FOLDER}"/MET-$met_Version_number/bin:$PATH
+
+# 	mkdir "${WRF_FOLDER}"/METplus-$METPLUS_Version
+# 	mkdir "${WRF_FOLDER}"/METplus-$METPLUS_Version/Sample_Data
+# 	mkdir "${WRF_FOLDER}"/METplus-$METPLUS_Version/Output
+# 	mkdir "${WRF_FOLDER}"/METplus-$METPLUS_Version/Downloads
+
+# 	#Downloading METplus and untarring files
+
+# 	cd "${WRF_FOLDER}"/METplus-$METPLUS_Version/Downloads
+# 	wget -c https://github.com/dtcenter/METplus/archive/refs/tags/v$METPLUS_Version.tar.gz
+# 	tar -xvzf v$METPLUS_Version.tar.gz -C "${WRF_FOLDER}"
+
+# 	# Insatlllation of Model Evaluation Tools Plus
+# 	cd "${WRF_FOLDER}"/METplus-$METPLUS_Version/parm/metplus_config
+
+# 	sed -i'' -e "s|MET_INSTALL_DIR = /path/to|MET_INSTALL_DIR = "${WRF_FOLDER}"/MET-$met_Version_number|" defaults.conf
+# 	sed -i'' -e "s|INPUT_BASE = /path/to|INPUT_BASE = "${WRF_FOLDER}"/METplus-$METPLUS_Version/Sample_Data|" defaults.conf
+# 	sed -i'' -e "s|OUTPUT_BASE = /path/to|OUTPUT_BASE = "${WRF_FOLDER}"/METplus-$METPLUS_Version/Output|" defaults.conf
+
+# 	# Downloading Sample Data
+
+# 	cd "${WRF_FOLDER}"/METplus-$METPLUS_Version/Downloads
+# 	wget -c https://dtcenter.ucar.edu/dfiles/code/METplus/METplus_Data/v$METPLUS_DATA/sample_data-met_tool_wrapper-$METPLUS_DATA.tgz
+# 	tar -xvzf sample_data-met_tool_wrapper-$METPLUS_DATA.tgz -C "${WRF_FOLDER}"/METplus-$METPLUS_Version/Sample_Data
+
+# 	# Testing if installation of MET & METPlus was sucessfull
+# 	# If you see in terminal "METplus has successfully finished running."
+# 	# Then MET & METPLUS is sucessfully installed
+
+# 	echo 'Testing MET & METPLUS Installation.'
+# 	$WRF_FOLDER/METplus-$METPLUS_Version/ush/run_metplus.py -c $WRF_FOLDER/METplus-$METPLUS_Version/parm/use_cases/met_tool_wrapper/GridStat/GridStat.conf
+
+# 	# Check if the previous command was successful
+# 	if [ $? -eq 0 ]; then
+# 		echo "MET and METPLUS successfully installed with GNU compilers."
+# 		export PATH=$WRF_FOLDER/METplus-$METPLUS_Version/ush:$PATH
+# 	else
+# 		echo "Error: MET and METPLUS installation failed."
+# 		# Handle the error case, e.g., exit the script or retry installation
+# 		exit 1
+# 	fi
+# fi
+
+# if [ "$macos_64bit_GNU" = "1" ] && [ "$DTC_MET" = "1" ] && [ "$MAC_CHIP" = "ARM" ]; then
+# 	echo "MET INSTALLING"
+# 	# Update Homebrew and get list of outdated packages
+# 	brew update
+# 	outdated_packages=$(brew outdated --quiet)
+
+# 	# List of packages to check/install
+# 	packages=("automake" "autoconf" "bison" "cmake" "curl" "flex" "gdal" "gedit" "gcc" "gnu-sed" "imagemagick" "java" "ksh" "libtool" "make" "m4" "python@3.10" "snapcraft" "tcsh" "wget" "xauth" "xorgproto" "xorgrgb" "xquartz")
+
+# 	for pkg in "${packages[@]}"; do
+# 		if brew list "$pkg" &>/dev/null; then
+# 			echo "$pkg is already installed."
+# 			if [[ $outdated_packages == *"$pkg"* ]]; then
+# 				echo "$pkg has a newer version available. Upgrading..."
+# 				brew upgrade "$pkg"
+# 			fi
+# 		else
+# 			echo "$pkg is not installed. Installing..."
+# 			brew install "$pkg"
+# 		fi
+# 		sleep 1
+# 	done
+
+# 	# Install python-dateutil using pip
+# 	pip3.10 install python-dateutil --break-system-packages
+# 	pip3.10 install python-dateutil==2.8 --break-system-packages
+# 	#Directory Listings
+# 	if [ "$WRFCHEM_PICK" = "1" ]; then
+# 		mkdir $HOME/WRFCHEM
+# 		export WRF_FOLDER=$HOME/WRFCHEM
+# 	fi
+
+# 	if [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
+# 		mkdir $HOME/WRFHYDRO_COUPLED
+# 		export WRF_FOLDER=$HOME/WRFHYDRO_COUPLED
+# 	fi
+
+# 	if [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
+# 		mkdir $HOME/WRFHYDRO_STANDALONE
+# 		export WRF_FOLDER=$HOME/WRFHYDRO_STANDALONE
+# 	fi
+
+# 	if [ "$WRF_PICK" = "1" ]; then
+# 		mkdir $HOME/WRF
+# 		export WRF_FOLDER=$HOME/WRF
+# 	fi
+
+# 	if [ "$CMAQ_PICK" = "1" ]; then
+# 		mkdir $HOME/WRF_CMAQ
+# 		export WRF_FOLDER=$HOME/WRF_CMAQ
+# 	fi
+
+# 	if [ "$SFIRE_PICK" = "1" ]; then
+# 		mkdir $HOME/WRF_SFIRE_Intel
+# 		export WRF_FOLDER=$HOME/WRF_SFIRE
+# 	fi
+
+# 	mkdir "${WRF_FOLDER}"/MET-$met_Version_number
+# 	mkdir "${WRF_FOLDER}"/MET-$met_Version_number/Downloads
+# 	mkdir "${WRF_FOLDER}"/METplus-$METPLUS_Version
+# 	mkdir "${WRF_FOLDER}"/METplus-$METPLUS_Version/Downloads
+
+# 	# Unlink previous GCC, G++, and GFortran symlinks in Homebrew path to avoid conflicts
+# 	echo $PASSWD | sudo -S unlink /opt/homebrew/bin/gfortran
+# 	echo $PASSWD | sudo -S unlink /opt/homebrew/bin/gcc
+# 	echo $PASSWD | sudo -S unlink /opt/homebrew/bin/g++
+
+# 	# Source the bashrc to ensure environment variables are loaded
+# 	source ~/.bashrc
+
+# 	# Check current versions of gcc, g++, and gfortran (this should show no version if unlinked)
+# 	gcc --version
+# 	g++ --version
+# 	gfortran --version
+
+# 	# Navigate to the Homebrew binaries directory
+# 	cd /opt/homebrew/bin
+
+# 	# Find the latest version of GCC, G++, and GFortran
+# 	latest_gcc=$(ls gcc-* 2>/dev/null | grep -o 'gcc-[0-9]*' | sort -V | tail -n 1)
+# 	latest_gpp=$(ls g++-* 2>/dev/null | grep -o 'g++-[0-9]*' | sort -V | tail -n 1)
+# 	latest_gfortran=$(ls gfortran-* 2>/dev/null | grep -o 'gfortran-[0-9]*' | sort -V | tail -n 1)
+
+# 	# Check if the latest versions were found, and link them
+# 	if [ -n "$latest_gcc" ]; then
+# 		echo "Linking the latest GCC version: $latest_gcc"
+# 		echo $PASSWD | sudo -S ln -sf $latest_gcc gcc
+# 	else
+# 		echo "No GCC version found."
+# 	fi
+
+# 	if [ -n "$latest_gpp" ]; then
+# 		echo "Linking the latest G++ version: $latest_gpp"
+# 		echo $PASSWD | sudo -S ln -sf $latest_gpp g++
+# 	else
+# 		echo "No G++ version found."
+# 	fi
+
+# 	if [ -n "$latest_gfortran" ]; then
+# 		echo "Linking the latest GFortran version: $latest_gfortran"
+# 		echo $PASSWD | sudo -S ln -sf $latest_gfortran gfortran
+# 	else
+# 		echo "No GFortran version found."
+# 	fi
+
+# 	# Return to the home directory
+# 	cd
+
+# 	# Source bashrc and bash_profile to reload the environment settings
+# 	source ~/.bashrc
+# 	source ~/.bash_profile
+
+# 	# Check if the versions were successfully updated
+# 	gcc --version
+# 	g++ --version
+# 	gfortran --version
+# 	python3 --version
+
+# 	cd "${WRF_FOLDER}"/MET-$met_Version_number/Downloads
+
+# 	wget -c https://raw.githubusercontent.com/dtcenter/MET/main_v$met_VERSION_number/internal/scripts/installation/compile_MET_all.sh
+
+# 	wget -c https://dtcenter.ucar.edu/dfiles/code/METplus/MET/installation/tar_files.tgz
+
+# 	wget -c https://github.com/dtcenter/MET/archive/refs/tags/v$met_Version_number.tar.gz
+
+# 	cp compile_MET_all.sh "${WRF_FOLDER}"/MET-$met_Version_number
+# 	tar -xvzf tar_files.tgz -C "${WRF_FOLDER}"/MET-$met_Version_number
+# 	cp v$met_Version_number.tar.gz "${WRF_FOLDER}"/MET-$met_Version_number/tar_files
+# 	cd "${WRF_FOLDER}"/MET-$met_Version_number
+
+# 	cd "${WRF_FOLDER}"/MET-$met_Version_number
+
+# 	export PYTHON_VERSION=$(python3 -V 2>1 | awk '{print $2}')
+# 	export PYTHON_VERSION_MAJOR_VERSION=$(echo $PYTHON_VERSION | awk -F. '{print $1}')
+# 	export PYTHON_VERSION_MINOR_VERSION=$(echo $PYTHON_VERSION | awk -F. '{print $2}')
+# 	export PYTHON_VERSION_COMBINED=$PYTHON_VERSION_MAJOR_VERSION.$PYTHON_VERSION_MINOR_VERSION
+
+# 	export CC=/usr/local/bin/gcc
+# 	export CXX=/usr/local/bin/g++
+# 	export CFLAGS="-fPIC -fPIE -O3 -Wno-implicit-function-declaration"
+# 	export FC=/usr/local/bin/gfortran
+# 	export F77=/usr/local/bin/gfortran
+# 	export F90=/usr/local/bin/gfortran
+# 	export gcc_version=$(gcc -dumpfullversion)
+# 	export TEST_BASE="${WRF_FOLDER}"/MET-$met_Version_number
+# 	export COMPILER=gnu_$gcc_version
+# 	export MET_SUBDIR=${TEST_BASE}
+# 	export MET_TARBALL=v$met_Version_number.tar.gz
+# 	export USE_MODULES=FALSE
+# 	export MET_PYTHON=/usr/local
+# 	export MET_PYTHON_CC="-I${MET_PYTHON}/include/python${PYTHON_VERSION_COMBINED}"
+# 	export MET_PYTHON_LD="$(python3.10-config --ldflags) -L${MET_PYTHON}/lib -lpython${PYTHON_VERSION_COMBINED}"
+# 	export SET_D64BIT=FALSE
+
+# 	echo "CC=$CC"
+# 	echo "CXX=$CXX"
+# 	echo "FC=$FC"
+# 	echo "F77=$F77"
+# 	echo "F90=$F90"
+# 	echo "gcc_version=$gcc_version"
+# 	echo "TEST_BASE=$TEST_BASE"
+# 	echo "COMPILER=$COMPILER"
+# 	echo "MET_SUBDIR=$MET_SUBDIR"
+# 	echo "MET_TARBALL=$MET_TARBALL"
+# 	echo "USE_MODULES=$USE_MODULES"
+# 	echo "MET_PYTHON=$MET_PYTHON"
+# 	echo "MET_PYTHON_CC=$MET_PYTHON_CC"
+# 	echo "MET_PYTHON_LD=$MET_PYTHON_LD"
+# 	echo "SET_D64BIT=$SET_D64BIT"
+
+# 	export MAKE_ARGS="-j 4"
+
+# 	chmod 775 compile_MET_all.sh
+
+# 	time ./compile_MET_all.sh 2>&1 | tee compile_MET_all.log
+
+# 	export PATH="${WRF_FOLDER}"/MET-$met_Version_number/bin:$PATH
+
+# 	mkdir "${WRF_FOLDER}"/METplus-$METPLUS_Version
+# 	mkdir "${WRF_FOLDER}"/METplus-$METPLUS_Version/Sample_Data
+# 	mkdir "${WRF_FOLDER}"/METplus-$METPLUS_Version/Output
+# 	mkdir "${WRF_FOLDER}"/METplus-$METPLUS_Version/Downloads
+
+# 	#Downloading METplus and untarring files
+
+# 	cd "${WRF_FOLDER}"/METplus-$METPLUS_Version/Downloads
+# 	wget -c https://github.com/dtcenter/METplus/archive/refs/tags/v$METPLUS_Version.tar.gz
+# 	tar -xvzf v$METPLUS_Version.tar.gz -C "${WRF_FOLDER}"
+
+# 	# Insatlllation of Model Evaluation Tools Plus
+# 	cd "${WRF_FOLDER}"/METplus-$METPLUS_Version/parm/metplus_config
+
+# 	sed -i'' -e "s|MET_INSTALL_DIR = /path/to|MET_INSTALL_DIR = "${WRF_FOLDER}"/MET-$met_Version_number|" defaults.conf
+# 	sed -i'' -e "s|INPUT_BASE = /path/to|INPUT_BASE = "${WRF_FOLDER}"/METplus-$METPLUS_Version/Sample_Data|" defaults.conf
+# 	sed -i'' -e "s|OUTPUT_BASE = /path/to|OUTPUT_BASE = "${WRF_FOLDER}"/METplus-$METPLUS_Version/Output|" defaults.conf
+
+# 	# Downloading Sample Data
+
+# 	cd "${WRF_FOLDER}"/METplus-$METPLUS_Version/Downloads
+# 	wget -c https://dtcenter.ucar.edu/dfiles/code/METplus/METplus_Data/v$METPLUS_DATA/sample_data-met_tool_wrapper-$METPLUS_DATA.tgz
+# 	tar -xvzf sample_data-met_tool_wrapper-$METPLUS_DATA.tgz -C "${WRF_FOLDER}"/METplus-$METPLUS_Version/Sample_Data
+
+# 	# Testing if installation of MET & METPlus was sucessfull
+# 	# If you see in terminal "METplus has successfully finished running."
+# 	# Then MET & METPLUS is sucessfully installed
+
+# 	echo 'Testing MET & METPLUS Installation.'
+# 	$WRF_FOLDER/METplus-$METPLUS_Version/ush/run_metplus.py -c $WRF_FOLDER/METplus-$METPLUS_Version/parm/use_cases/met_tool_wrapper/GridStat/GridStat.conf
+
+# 	# Check if the previous command was successful
+# 	if [ $? -eq 0 ]; then
+# 		echo "MET and METPLUS successfully installed with GNU compilers."
+# 		export PATH=$WRF_FOLDER/METplus-$METPLUS_Version/ush:$PATH
+# 	else
+# 		echo "Error: MET and METPLUS installation failed."
+# 		# Handle the error case, e.g., exit the script or retry installation
+# 		exit 1
+# 	fi
+# fi
 
 ##################################### WRFCHEM Tools ###############################################
 # This script will install the WRFCHEM pre-processor tools.
@@ -5377,7 +5377,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$MAC_CHIP" = "I
 	packages=(
 		"autoconf" "automake" "bison" "byacc" "cmake" "curl" "flex" "gcc"
 		"gdal" "gedit" "git" "gnu-sed" "grads" "imagemagick" "java" "ksh"
-		"libtool" "libxml2" "m4" "make" "python@3.11" "snapcraft" "tcsh" "wget"
+		"libtool" "libxml2" "m4" "make" "python@3.10" "snapcraft" "tcsh" "wget"
 		"xauth" "xorgproto" "xorgrgb" "xquartz"
 	)
 
@@ -5481,7 +5481,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$MAC_CHIP" = "I
 	fi
 
 	echo "Updated symbolic links for GCC, G++, and GFortran."
-	echo $PASSWD | sudo -S ln -sf /usr/local/bin/python3.11 /usr/local/bin/python3
+	echo $PASSWD | sudo -S ln -sf /usr/local/bin/python3.10 /usr/local/bin/python3
 
 	export CC=gcc
 	export CXX=g++
@@ -6114,7 +6114,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$MAC_CHIP" = "A
 	packages=(
 		"autoconf" "automake" "bison" "byacc" "cmake" "curl" "flex" "gcc"
 		"gdal" "gedit" "git" "gnu-sed" "grads" "imagemagick" "java" "ksh"
-		"libtool" "libxml2" "m4" "make" "python@3.11" "snapcraft" "tcsh" "wget"
+		"libtool" "libxml2" "m4" "make" "python@3.10" "snapcraft" "tcsh" "wget"
 		"xauth" "xorgproto" "xorgrgb" "xquartz"
 	)
 
@@ -9246,7 +9246,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ] && [ "$
 	packages=(
 		"autoconf" "automake" "bison" "byacc" "cmake" "curl" "flex" "gcc"
 		"gdal" "gedit" "git" "gnu-sed" "grads" "imagemagick" "java" "ksh"
-		"libtool" "libxml2" "m4" "make" "python@3.11" "snapcraft" "tcsh" "wget"
+		"libtool" "libxml2" "m4" "make" "python@3.10" "snapcraft" "tcsh" "wget"
 		"xauth" "xorgproto" "xorgrgb" "xquartz"
 	)
 
@@ -9325,7 +9325,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ] && [ "$
 	echo $PASSWD | sudo -S ln -sf /usr/local/bin/gcc-12 /usr/local/bin/gcc
 	echo $PASSWD | sudo -S ln -sf /usr/local/bin/g-12 /usr/local/bin/g++
 	echo $PASSWD | sudo -S ln -sf /usr/local/bin/gfortran-12 /usr/local/bin/gfortran
-	echo $PASSWD | sudo -S ln -sf /usr/local/bin/python3.11 /usr/local/bin/python3
+	echo $PASSWD | sudo -S ln -sf /usr/local/bin/python3.10 /usr/local/bin/python3
 
 	export CC=gcc
 	export CXX=g++
@@ -9834,7 +9834,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ] && [ "$
 	packages=(
 		"autoconf" "automake" "bison" "byacc" "cmake" "curl" "flex" "gcc"
 		"gdal" "gedit" "git" "gnu-sed" "grads" "imagemagick" "java" "ksh"
-		"libtool" "libxml2" "m4" "make" "python@3.11" "snapcraft" "tcsh" "wget"
+		"libtool" "libxml2" "m4" "make" "python@3.10" "snapcraft" "tcsh" "wget"
 		"xauth" "xorgproto" "xorgrgb" "xquartz"
 	)
 
@@ -13912,7 +13912,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ] && [ "$MAC
 	packages=(
 		"autoconf" "automake" "bison" "byacc" "cmake" "curl" "flex" "gcc"
 		"gdal" "gedit" "git" "gnu-sed" "grads" "imagemagick" "java" "ksh"
-		"libtool" "libxml2" "m4" "make" "python@3.11" "snapcraft" "tcsh" "wget"
+		"libtool" "libxml2" "m4" "make" "python@3.10" "snapcraft" "tcsh" "wget"
 		"xauth" "xorgproto" "xorgrgb" "xquartz"
 	)
 
@@ -14019,7 +14019,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ] && [ "$MAC
 	fi
 
 	echo "Updated symbolic links for GCC, G++, and GFortran."
-	echo $PASSWD | sudo -S ln -sf /usr/local/bin/python3.11 /usr/local/bin/python3
+	echo $PASSWD | sudo -S ln -sf /usr/local/bin/python3.10 /usr/local/bin/python3
 
 	export CC=gcc
 	export CXX=g++
@@ -14714,7 +14714,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ] && [ "$MAC
 	packages=(
 		"autoconf" "automake" "bison" "byacc" "cmake" "curl" "flex" "gcc"
 		"gdal" "gedit" "git" "gnu-sed" "grads" "imagemagick" "java" "ksh"
-		"libtool" "libxml2" "m4" "make" "python@3.11" "snapcraft" "tcsh" "wget"
+		"libtool" "libxml2" "m4" "make" "python@3.10" "snapcraft" "tcsh" "wget"
 		"xauth" "xorgproto" "xorgrgb" "xquartz"
 	)
 
@@ -19351,7 +19351,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$MAC_CHIP" = 
 	packages=(
 		"autoconf" "automake" "bison" "byacc" "cmake" "curl" "flex" "gcc"
 		"gdal" "gedit" "git" "gnu-sed" "grads" "imagemagick" "java" "ksh"
-		"libtool" "libxml2" "m4" "make" "python@3.11" "snapcraft" "tcsh" "wget"
+		"libtool" "libxml2" "m4" "make" "python@3.10" "snapcraft" "tcsh" "wget"
 		"xauth" "xorgproto" "xorgrgb" "xquartz"
 	)
 
@@ -19455,7 +19455,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$MAC_CHIP" = 
 	fi
 
 	echo "Updated symbolic links for GCC, G++, and GFortran."
-	echo $PASSWD | sudo -S ln -sf /usr/local/bin/python3.11 /usr/local/bin/python3
+	echo $PASSWD | sudo -S ln -sf /usr/local/bin/python3.10 /usr/local/bin/python3
 
 	export CC=gcc
 	export CXX=g++
@@ -20142,7 +20142,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$MAC_CHIP" = 
 	packages=(
 		"autoconf" "automake" "bison" "byacc" "cmake" "curl" "flex" "gcc"
 		"gdal" "gedit" "git" "gnu-sed" "grads" "imagemagick" "java" "ksh"
-		"libtool" "libxml2" "m4" "make" "python@3.11" "snapcraft" "tcsh" "wget"
+		"libtool" "libxml2" "m4" "make" "python@3.10" "snapcraft" "tcsh" "wget"
 		"xauth" "xorgproto" "xorgrgb" "xquartz"
 	)
 
@@ -24885,7 +24885,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "Int
 	packages=(
 		"autoconf" "automake" "bison" "byacc" "cmake" "curl" "flex" "gcc"
 		"gdal" "gedit" "git" "gnu-sed" "grads" "imagemagick" "java" "ksh"
-		"libtool" "libxml2" "m4" "make" "python@3.11" "snapcraft" "tcsh" "wget"
+		"libtool" "libxml2" "m4" "make" "python@3.10" "snapcraft" "tcsh" "wget"
 		"xauth" "xorgproto" "xorgrgb" "xquartz"
 	)
 
@@ -24990,7 +24990,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "Int
 	fi
 
 	echo "Updated symbolic links for GCC, G++, and GFortran."
-	echo $PASSWD | sudo -S ln -sf /usr/local/bin/python3.11 /usr/local/bin/python3
+	echo $PASSWD | sudo -S ln -sf /usr/local/bin/python3.10 /usr/local/bin/python3
 
 	export CC=gcc
 	export CXX=g++
@@ -25709,7 +25709,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "ARM
 	packages=(
 		"autoconf" "automake" "bison" "byacc" "cmake" "curl" "flex" "gcc"
 		"gdal" "gedit" "git" "gnu-sed" "grads" "imagemagick" "java" "ksh"
-		"libtool" "libxml2" "m4" "make" "python@3.11" "snapcraft" "tcsh" "wget"
+		"libtool" "libxml2" "m4" "make" "python@3.10" "snapcraft" "tcsh" "wget"
 		"xauth" "xorgproto" "xorgrgb" "xquartz"
 	)
 
