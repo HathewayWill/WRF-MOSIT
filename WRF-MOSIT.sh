@@ -538,51 +538,51 @@ echo " "
 ###################################################################################################
 
 # if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$DTC_MET" = "1" ]; then
-#
+
 # 	echo $PASSWD | sudo -S sudo apt install git
 # 	echo "MET INSTALLING"
 # 	echo $PASSWD | sudo -S apt -y update
 # 	echo $PASSWD | sudo -S apt -y upgrade
-#
+
 # 	# download the key to system keyring; this and the following echo command are
 # 	# needed in order to install the Intel compilers
 # 	wget -O- https://apt.repos.intel.com/intel-gpg-keys/GPG-PUB-KEY-INTEL-SW-PRODUCTS.PUB |
 # 		gpg --dearmor | sudo tee /usr/share/keyrings/oneapi-archive-keyring.gpg >/dev/null
-#
+
 # 	# add signed entry to apt sources and configure the APT client to use Intel repository:
 # 	echo "deb [signed-by=/usr/share/keyrings/oneapi-archive-keyring.gpg] https://apt.repos.intel.com/oneapi all main" | sudo tee /etc/apt/sources.list.d/oneAPI.list
-#
+
 # 	# this update should get the Intel package info from the Intel repository
 # 	echo $PASSWD | sudo -S apt -y update
 # 	echo $PASSWD | sudo -S apt -y upgrade
-#
-# release_version=$(lsb_release -r -s)
-#
-# # Compare the release version
-# if [ "$release_version" = "24.04" ]; then
+
+# 	release_version=$(lsb_release -r -s)
+
+# 	# Compare the release version
+# 	if [ "$release_version" = "24.04" ]; then
 #     # Install Emacs without recommended packages
 #     echo $PASSWD | sudo -S apt install emacs --no-install-recommends -y
-# else
+# 	else
 #     # Attempt to install Emacs if the release version is not 24.04
 #     echo "The release version is not 24.04, attempting to install Emacs."
 #     echo $PASSWD | sudo -S apt install emacs -y
-# fi
-#
-# echo $PASSWD | sudo -S apt -y install autoconf automake bison build-essential byacc cmake csh curl default-jdk default-jre flex libfl-dev g++ gawk gcc gfortran git ksh libcurl4-openssl-dev libjpeg-dev libncurses6 libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev m4 make  ncview okular openbox pipenv pkg-config  python3 python3-dev python3-pip python3-dateutil tcsh unzip xauth xorg time
-# #
+# 	fi
+
+# 	echo $PASSWD | sudo -S apt -y install autoconf automake bison build-essential byacc cmake csh curl default-jdk default-jre flex libfl-dev g++ gawk gcc gfortran git ksh libcurl4-openssl-dev libjpeg-dev libncurses6 libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev m4 make  ncview okular openbox pipenv pkg-config  python3 python3-dev python3-pip python3-dateutil tcsh unzip xauth xorg time
+# 	#
 # 	# install the Intel compilers
 # 	echo $PASSWD | sudo -S apt -y install intel-basekit
 # 	echo $PASSWD | sudo -S apt -y install intel-hpckit
 # 	echo $PASSWD | sudo -S apt -y install intel-oneapi-python
-#
+
 # 	echo $PASSWD | sudo -S apt -y update
-#
+
 # 	# make sure some critical packages have been installed
 # 	which cmake pkg-config make gcc g++ gfortran
-#
+
 # 	# add the Intel compiler file paths to various environment variables
 # 	source /opt/intel/oneapi/setvars.sh --force
-#
+
 # 	# some of the libraries we install below need one or more of these variables
 # 	export CC=icx
 # 	export CXX=icpx
@@ -598,59 +598,59 @@ echo " "
 # 	export FFLAGS="-m64"
 # 	export FCFLAGS="-m64"
 # 	#########################
-#
+
 # 	#Downloading latest dateutil due to python3.8 running old version.
 # 	pip3 install python-dateutil==2.8 --break-system-packages
 # 	pip3 install python-dateutil
-#
+
 # 	#Directory Listings
 # 	if [ "$WRFCHEM_PICK" = "1" ]; then
 # 		mkdir $HOME/WRFCHEM_Intel
 # 		export WRF_FOLDER=$HOME/WRFCHEM_Intel
 # 	fi
-#
+
 # 	if [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 # 		mkdir $HOME/WRFHYDRO_COUPLED_Intel
 # 		export WRF_FOLDER=$HOME/WRFHYDRO_COUPLED_Intel
 # 	fi
-#
+
 # 	if [ "$WRF_PICK" = "1" ]; then
 # 		mkdir $HOME/WRF_Intel
 # 		export WRF_FOLDER=$HOME/WRF_Intel
 # 	fi
-#
+
 # 	#
 # 	if [ "$SFIRE_PICK" = "1" ]; then
 # 		mkdir $HOME/WRF_SFIRE_Intel
 # 		export WRF_FOLDER=$HOME/WRF_SFIRE_Intel
 # 	fi
-#
+
 # 	mkdir "${WRF_FOLDER}"/MET-$met_Version_number
 # 	mkdir "${WRF_FOLDER}"/MET-$met_Version_number/Downloads
 # 	mkdir "${WRF_FOLDER}"/METplus-$METPLUS_Version
 # 	mkdir "${WRF_FOLDER}"/METplus-$METPLUS_Version/Downloads
-#
+
 # 	#Downloading MET and untarring files
 # 	#Note weblinks change often update as needed.
 # 	cd "${WRF_FOLDER}"/MET-$met_Version_number/Downloads
 # 	wget -c https://raw.githubusercontent.com/dtcenter/MET/main_v$met_VERSION_number/internal/scripts/installation/compile_MET_all.sh
-#
+
 # 	wget -c https://dtcenter.ucar.edu/dfiles/code/METplus/MET/installation/tar_files.tgz
-#
+
 # 	wget -c https://github.com/dtcenter/MET/archive/refs/tags/v$met_Version_number.tar.gz
-#
+
 # 	cp compile_MET_all.sh "${WRF_FOLDER}"/MET-$met_Version_number
 # 	tar -xvzf tar_files.tgz -C "${WRF_FOLDER}"/MET-$met_Version_number
 # 	cp v$met_Version_number.tar.gz "${WRF_FOLDER}"/MET-$met_Version_number/tar_files
 # 	cd "${WRF_FOLDER}"/MET-$met_Version_number
-#
+
 # 	cd "${WRF_FOLDER}"/MET-$met_Version_number
-#
+
 # 	export PYTHON_VERSION=$(/opt/intel/oneapi/intelpython/latest/bin/python3 -V 2>&1 | awk '{print $2}')
 # 	export PYTHON_VERSION_MAJOR_VERSION=$(echo $PYTHON_VERSION | awk -F. '{print $1}')
 # 	export PYTHON_VERSION_MINOR_VERSION=$(echo $PYTHON_VERSION | awk -F. '{print $2}')
 # 	export PYTHON_VERSION_COMBINED=$PYTHON_VERSION_MAJOR_VERSION.$PYTHON_VERSION_MINOR_VERSION
-#
+
 # 	export CC=icx
 # 	export CXX=icpx
 # 	export FC=ifx
@@ -671,66 +671,66 @@ echo " "
 # 	export CPU_6CORE="6"
 # 	export CPU_QUARTER=$(($CPU_CORE / 4))                    #quarter of availble cores on system
 # 	export CPU_QUARTER_EVEN=$(($CPU_QUARTER - ($CPU_QUARTER % 2))) #Forces CPU cores to even number to avoid partial core export. ie 7 cores would be 3.5 cores.
-#
+
 # 	if [ $CPU_CORE -le $CPU_6CORE ]; then #If statement for low core systems.  Forces computers to only use 1 core if there are 4 cores or less on the system.
 # 		export CPU_QUARTER_EVEN="2"
 # 	else
 # 		export CPU_QUARTER_EVEN=$(($CPU_QUARTER - ($CPU_QUARTER % 2)))
 # 	fi
-#
+
 # 	echo "##########################################"
 # 	echo "Number of Threads being used $CPU_QUARTER_EVEN"
 # 	echo "##########################################"
-#
+
 # 	echo " "
-#
+
 # 	export MAKE_ARGS="-j 4"
-#
-#
+
+
 # 	chmod 775 compile_MET_all.sh
-#
+
 # 	time ./compile_MET_all.sh 2>&1 | tee compile_MET_all.log
-#
+
 # 	export PATH="${WRF_FOLDER}"/MET-$met_Version_number/bin:$PATH #Add MET executables to path
-#
+
 # 	#Basic Package Management for Model Evaluation Tools (METplus)
-#
+
 # 	echo $PASSWD | sudo -S apt -y update
 # 	echo $PASSWD | sudo -S apt -y upgrade
-#
+
 # 	#Directory Listings for Model Evaluation Tools (METplus
-#
+
 # 	mkdir "${WRF_FOLDER}"/METplus-$METPLUS_Version
 # 	mkdir "${WRF_FOLDER}"/METplus-$METPLUS_Version/Sample_Data
 # 	mkdir "${WRF_FOLDER}"/METplus-$METPLUS_Version/Output
 # 	mkdir "${WRF_FOLDER}"/METplus-$METPLUS_Version/Downloads
-#
+
 # 	#Downloading METplus and untarring files
-#
+
 # 	cd "${WRF_FOLDER}"/METplus-$METPLUS_Version/Downloads
 # 	wget -c https://github.com/dtcenter/METplus/archive/refs/tags/v$METPLUS_Version.tar.gz
 # 	tar -xvzf v$METPLUS_Version.tar.gz -C "${WRF_FOLDER}"
-#
+
 # 	# Insatlllation of Model Evaluation Tools Plus
 # 	cd "${WRF_FOLDER}"/METplus-$METPLUS_Version/parm/metplus_config
-#
+
 # 	sed -i "s|MET_INSTALL_DIR = /path/to|MET_INSTALL_DIR = "${WRF_FOLDER}"/MET-$met_Version_number|" defaults.conf
 # 	sed -i "s|INPUT_BASE = /path/to|INPUT_BASE = "${WRF_FOLDER}"/METplus-$METPLUS_Version/Sample_Data|" defaults.conf
 # 	sed -i "s|OUTPUT_BASE = /path/to|OUTPUT_BASE = "${WRF_FOLDER}"/METplus-$METPLUS_Version/Output|" defaults.conf
-#
+
 # 	# Downloading Sample Data
-#
+
 # 	cd "${WRF_FOLDER}"/METplus-$METPLUS_Version/Downloads
 # 	wget -c https://dtcenter.ucar.edu/dfiles/code/METplus/METplus_Data/v$METPLUS_DATA/sample_data-met_tool_wrapper-$METPLUS_DATA.tgz
 # 	tar -xvzf sample_data-met_tool_wrapper-$METPLUS_DATA.tgz -C "${WRF_FOLDER}"/METplus-$METPLUS_Version/Sample_Data
-#
+
 # 	# Testing if installation of MET & METPlus was sucessfull
 # 	# If you see in terminal "METplus has successfully finished running."
 # 	# Then MET & METPLUS is sucessfully installed
-#
+
 # 	echo 'Testing MET & METPLUS Installation.'
 # 	$WRF_FOLDER/METplus-$METPLUS_Version/ush/run_metplus.py -c $WRF_FOLDER/METplus-$METPLUS_Version/parm/use_cases/met_tool_wrapper/GridStat/GridStat.conf
-#
+
 # 	# Check if the previous command was successful
 # 	if [ $? -eq 0 ]; then
 # 			echo " "
@@ -1316,7 +1316,7 @@ fi
 # 	outdated_packages=$(brew outdated --quiet)
 
 # 	# List of packages to check/install
-# 	packages=("automake" "autoconf" "bison" "cmake" "curl" "flex" "gdal" "gedit" "gcc" "gnu-sed" "imagemagick" "java" "ksh" "libtool" "make" "m4" "python@3.10" "snapcraft" "tcsh" "wget" "xauth" "xorgproto" "xorgrgb" "xquartz")
+# 	packages=("automake" "autoconf" "bison" "cmake" "curl" "flex" "gdal" "gedit" "gcc" "gnu-sed" "imagemagick" "java" "ksh" "libtool" "make" "m4" "python@3.12" "snapcraft" "tcsh" "wget" "xauth" "xorgproto" "xorgrgb" "xquartz")
 
 # 	for pkg in "${packages[@]}"; do
 # 		if brew list "$pkg" &>/dev/null; then
@@ -1333,8 +1333,8 @@ fi
 # 	done
 
 # 	# Install python-dateutil using pip
-# 	pip3.10 install python-dateutil --break-system-packages
-# 	pip3.10 install python-dateutil==2.8 --break-system-packages
+# 	pip3.12 install python-dateutil --break-system-packages
+# 	pip3.12 install python-dateutil==2.8 --break-system-packages
 # 	#Directory Listings
 # 	if [ "$WRFCHEM_PICK" = "1" ]; then
 # 		mkdir $HOME/WRFCHEM
@@ -1378,9 +1378,15 @@ fi
 # 	echo "Please enter password for linking GNU libraries"
 
 # 	# Find the highest version of GCC in /usr/local/bin
-# 	latest_gcc=$(ls /usr/local/bin/gcc-* 2>/dev/null | grep -o 'gcc-[0-9]*' | sort -V | tail -n 1)
+
+# 		latest_gcc=$(ls /usr/local/bin/gcc-* 2>/dev/null | grep -o 'gcc-[0-9]*' | sort -V | tail -n 1)
 # 	latest_gpp=$(ls /usr/local/bin/g++-* 2>/dev/null | grep -o 'g++-[0-9]*' | sort -V | tail -n 1)
 # 	latest_gfortran=$(ls /usr/local/bin/gfortran-* 2>/dev/null | grep -o 'gfortran-[0-9]*' | sort -V | tail -n 1)
+
+# 	# Display the chosen versions
+# 	echo "Selected gcc version: $latest_gcc"
+# 	echo "Selected g++ version: $latest_gpp"
+# 	echo "Selected gfortran version: $latest_gfortran"
 
 # 	# Check if GCC, G++, and GFortran were found
 # 	if [ -z "$latest_gcc" ]; then
@@ -1403,7 +1409,13 @@ fi
 # 	fi
 
 # 	echo "Updated symbolic links for GCC, G++, and GFortran."
-# 	echo $PASSWD | sudo -S ln -sf /usr/local/bin/python3.10 /usr/local/bin/python3
+# 	echo $PASSWD | sudo -S ln -sf /usr/local/bin/python3.12 /usr/local/bin/python3
+
+
+# 	# Source bashrc and bash_profile to reload the environment settings
+# 	source ~/.bashrc
+# 	source ~/.bash_profile
+
 
 # 	gcc --version
 # 	g++ --version
@@ -1432,7 +1444,7 @@ fi
 
 # 	export CC=/usr/local/bin/gcc
 # 	export CXX=/usr/local/bin/g++
-# 	export CFLAGS="-fPIC -fPIE -O3 -Wno-implicit-function-declaration"
+# 	export CFLAGS="-fPIC -fPIE -O3"
 # 	export FC=/usr/local/bin/gfortran
 # 	export F77=/usr/local/bin/gfortran
 # 	export F90=/usr/local/bin/gfortran
@@ -1444,7 +1456,7 @@ fi
 # 	export USE_MODULES=FALSE
 # 	export MET_PYTHON=/usr/local
 # 	export MET_PYTHON_CC="-I${MET_PYTHON}/include/python${PYTHON_VERSION_COMBINED}"
-# 	export MET_PYTHON_LD="$(python3.10-config --ldflags) -L${MET_PYTHON}/lib -lpython${PYTHON_VERSION_COMBINED}"
+# 	export MET_PYTHON_LD="$(python3.12-config --ldflags) -L${MET_PYTHON}/lib -lpython${PYTHON_VERSION_COMBINED}"
 # 	export SET_D64BIT=FALSE
 
 # 	echo "CC=$CC"
@@ -1520,7 +1532,7 @@ fi
 # 	outdated_packages=$(brew outdated --quiet)
 
 # 	# List of packages to check/install
-# 	packages=("automake" "autoconf" "bison" "cmake" "curl" "flex" "gdal" "gedit" "gcc" "gnu-sed" "imagemagick" "java" "ksh" "libtool" "make" "m4" "python@3.10" "snapcraft" "tcsh" "wget" "xauth" "xorgproto" "xorgrgb" "xquartz")
+# 	packages=("automake" "autoconf" "bison" "cmake" "curl" "flex" "gdal" "gedit" "gcc" "gnu-sed" "imagemagick" "java" "ksh" "libtool" "make" "m4" "python@3.12" "snapcraft" "tcsh" "wget" "xauth" "xorgproto" "xorgrgb" "xquartz")
 
 # 	for pkg in "${packages[@]}"; do
 # 		if brew list "$pkg" &>/dev/null; then
@@ -1537,8 +1549,8 @@ fi
 # 	done
 
 # 	# Install python-dateutil using pip
-# 	pip3.10 install python-dateutil --break-system-packages
-# 	pip3.10 install python-dateutil==2.8 --break-system-packages
+# 	pip3.12 install python-dateutil --break-system-packages
+# 	pip3.12 install python-dateutil==2.8 --break-system-packages
 # 	#Directory Listings
 # 	if [ "$WRFCHEM_PICK" = "1" ]; then
 # 		mkdir $HOME/WRFCHEM
@@ -1591,10 +1603,14 @@ fi
 # 	# Navigate to the Homebrew binaries directory
 # 	cd /opt/homebrew/bin
 
-# 	# Find the latest version of GCC, G++, and GFortran
-# 	latest_gcc=$(ls gcc-* 2>/dev/null | grep -o 'gcc-[0-9]*' | sort -V | tail -n 1)
-# 	latest_gpp=$(ls g++-* 2>/dev/null | grep -o 'g++-[0-9]*' | sort -V | tail -n 1)
-# 	latest_gfortran=$(ls gfortran-* 2>/dev/null | grep -o 'gfortran-[0-9]*' | sort -V | tail -n 1)
+# 	latest_gcc=$(ls /usr/local/bin/gcc-* 2>/dev/null | grep -o 'gcc-[0-9]*' | sort -V | tail -n 1)
+# 	latest_gpp=$(ls /usr/local/bin/g++-* 2>/dev/null | grep -o 'g++-[0-9]*' | sort -V | tail -n 1)
+# 	latest_gfortran=$(ls /usr/local/bin/gfortran-* 2>/dev/null | grep -o 'gfortran-[0-9]*' | sort -V | tail -n 1)
+
+# 	# Display the chosen versions
+# 	echo "Selected gcc version: $latest_gcc"
+# 	echo "Selected g++ version: $latest_gpp"
+# 	echo "Selected gfortran version: $latest_gfortran"
 
 # 	# Check if the latest versions were found, and link them
 # 	if [ -n "$latest_gcc" ]; then
@@ -1653,7 +1669,7 @@ fi
 
 # 	export CC=/usr/local/bin/gcc
 # 	export CXX=/usr/local/bin/g++
-# 	export CFLAGS="-fPIC -fPIE -O3 -Wno-implicit-function-declaration"
+# 	export CFLAGS="-fPIC -fPIE -O3"
 # 	export FC=/usr/local/bin/gfortran
 # 	export F77=/usr/local/bin/gfortran
 # 	export F90=/usr/local/bin/gfortran
@@ -1665,7 +1681,7 @@ fi
 # 	export USE_MODULES=FALSE
 # 	export MET_PYTHON=/usr/local
 # 	export MET_PYTHON_CC="-I${MET_PYTHON}/include/python${PYTHON_VERSION_COMBINED}"
-# 	export MET_PYTHON_LD="$(python3.10-config --ldflags) -L${MET_PYTHON}/lib -lpython${PYTHON_VERSION_COMBINED}"
+# 	export MET_PYTHON_LD="$(python3.12-config --ldflags) -L${MET_PYTHON}/lib -lpython${PYTHON_VERSION_COMBINED}"
 # 	export SET_D64BIT=FALSE
 
 # 	echo "CC=$CC"
@@ -5377,7 +5393,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$MAC_CHIP" = "I
 	packages=(
 		"autoconf" "automake" "bison" "byacc" "cmake" "curl" "flex" "gcc"
 		"gdal" "gedit" "git" "gnu-sed" "grads" "imagemagick" "java" "ksh"
-		"libtool" "libxml2" "m4" "make" "python@3.10" "snapcraft" "tcsh" "wget"
+		"libtool" "libxml2" "m4" "make" "python@3.12" "snapcraft" "tcsh" "wget"
 		"xauth" "xorgproto" "xorgrgb" "xquartz"
 	)
 
@@ -5456,9 +5472,14 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$MAC_CHIP" = "I
 	#default homebrew path /usr/local/bin
 
 	# Find the highest version of GCC in /usr/local/bin
-	latest_gcc=$(ls /usr/local/bin/gcc-* 2>/dev/null | grep -o 'gcc-[0-9]*' | sort -V | tail -n 1)
+		latest_gcc=$(ls /usr/local/bin/gcc-* 2>/dev/null | grep -o 'gcc-[0-9]*' | sort -V | tail -n 1)
 	latest_gpp=$(ls /usr/local/bin/g++-* 2>/dev/null | grep -o 'g++-[0-9]*' | sort -V | tail -n 1)
 	latest_gfortran=$(ls /usr/local/bin/gfortran-* 2>/dev/null | grep -o 'gfortran-[0-9]*' | sort -V | tail -n 1)
+
+	# Display the chosen versions
+	echo "Selected gcc version: $latest_gcc"
+	echo "Selected g++ version: $latest_gpp"
+	echo "Selected gfortran version: $latest_gfortran"
 
 	# Check if GCC, G++, and GFortran were found
 	if [ -z "$latest_gcc" ]; then
@@ -5481,7 +5502,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$MAC_CHIP" = "I
 	fi
 
 	echo "Updated symbolic links for GCC, G++, and GFortran."
-	echo $PASSWD | sudo -S ln -sf /usr/local/bin/python3.10 /usr/local/bin/python3
+	echo $PASSWD | sudo -S ln -sf /usr/local/bin/python3.12 /usr/local/bin/python3
 
 	export CC=gcc
 	export CXX=g++
@@ -6114,7 +6135,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$MAC_CHIP" = "A
 	packages=(
 		"autoconf" "automake" "bison" "byacc" "cmake" "curl" "flex" "gcc"
 		"gdal" "gedit" "git" "gnu-sed" "grads" "imagemagick" "java" "ksh"
-		"libtool" "libxml2" "m4" "make" "python@3.10" "snapcraft" "tcsh" "wget"
+		"libtool" "libxml2" "m4" "make" "python@3.12" "snapcraft" "tcsh" "wget"
 		"xauth" "xorgproto" "xorgrgb" "xquartz"
 	)
 
@@ -9246,7 +9267,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ] && [ "$
 	packages=(
 		"autoconf" "automake" "bison" "byacc" "cmake" "curl" "flex" "gcc"
 		"gdal" "gedit" "git" "gnu-sed" "grads" "imagemagick" "java" "ksh"
-		"libtool" "libxml2" "m4" "make" "python@3.10" "snapcraft" "tcsh" "wget"
+		"libtool" "libxml2" "m4" "make" "python@3.12" "snapcraft" "tcsh" "wget"
 		"xauth" "xorgproto" "xorgrgb" "xquartz"
 	)
 
@@ -9325,7 +9346,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ] && [ "$
 	echo $PASSWD | sudo -S ln -sf /usr/local/bin/gcc-12 /usr/local/bin/gcc
 	echo $PASSWD | sudo -S ln -sf /usr/local/bin/g-12 /usr/local/bin/g++
 	echo $PASSWD | sudo -S ln -sf /usr/local/bin/gfortran-12 /usr/local/bin/gfortran
-	echo $PASSWD | sudo -S ln -sf /usr/local/bin/python3.10 /usr/local/bin/python3
+	echo $PASSWD | sudo -S ln -sf /usr/local/bin/python3.12 /usr/local/bin/python3
 
 	export CC=gcc
 	export CXX=g++
@@ -9834,7 +9855,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ] && [ "$
 	packages=(
 		"autoconf" "automake" "bison" "byacc" "cmake" "curl" "flex" "gcc"
 		"gdal" "gedit" "git" "gnu-sed" "grads" "imagemagick" "java" "ksh"
-		"libtool" "libxml2" "m4" "make" "python@3.10" "snapcraft" "tcsh" "wget"
+		"libtool" "libxml2" "m4" "make" "python@3.12" "snapcraft" "tcsh" "wget"
 		"xauth" "xorgproto" "xorgrgb" "xquartz"
 	)
 
@@ -12739,7 +12760,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 	conda init bash
 	conda activate base
 	conda config --add channels conda-forge
-	conda create -n wrfh_gis_env -c conda-forge python=3.10 gdal netCDF4 numpy pyproj whitebox=2.2.0 packaging shapely -y
+	conda create -n wrfh_gis_env -c conda-forge python=3.12 gdal netCDF4 numpy pyproj whitebox=2.2.0 packaging shapely -y
 	conda activate wrfh_gis_env
 	conda update -n wrfh_gis_env --all -y
 	conda deactivate
@@ -13614,7 +13635,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 
 	conda init bash
 	conda activate base
-	conda create -n wrfh_gis_env -c conda-forge python=3.10 gdal netCDF4 numpy pyproj whitebox=2.2.0 packaging shapely -y
+	conda create -n wrfh_gis_env -c conda-forge python=3.12 gdal netCDF4 numpy pyproj whitebox=2.2.0 packaging shapely -y
 	conda activate wrfh_gis_env
 	conda update -n wrfh_gis_env --all -y
 	conda deactivate
@@ -13912,7 +13933,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ] && [ "$MAC
 	packages=(
 		"autoconf" "automake" "bison" "byacc" "cmake" "curl" "flex" "gcc"
 		"gdal" "gedit" "git" "gnu-sed" "grads" "imagemagick" "java" "ksh"
-		"libtool" "libxml2" "m4" "make" "python@3.10" "snapcraft" "tcsh" "wget"
+		"libtool" "libxml2" "m4" "make" "python@3.12" "snapcraft" "tcsh" "wget"
 		"xauth" "xorgproto" "xorgrgb" "xquartz"
 	)
 
@@ -13994,9 +14015,14 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ] && [ "$MAC
 	#default homebrew path /usr/local/bin
 
 	# Find the highest version of GCC in /usr/local/bin
-	latest_gcc=$(ls /usr/local/bin/gcc-* 2>/dev/null | grep -o 'gcc-[0-9]*' | sort -V | tail -n 1)
+		latest_gcc=$(ls /usr/local/bin/gcc-* 2>/dev/null | grep -o 'gcc-[0-9]*' | sort -V | tail -n 1)
 	latest_gpp=$(ls /usr/local/bin/g++-* 2>/dev/null | grep -o 'g++-[0-9]*' | sort -V | tail -n 1)
 	latest_gfortran=$(ls /usr/local/bin/gfortran-* 2>/dev/null | grep -o 'gfortran-[0-9]*' | sort -V | tail -n 1)
+
+	# Display the chosen versions
+	echo "Selected gcc version: $latest_gcc"
+	echo "Selected g++ version: $latest_gpp"
+	echo "Selected gfortran version: $latest_gfortran"
 
 	# Check if GCC, G++, and GFortran were found
 	if [ -z "$latest_gcc" ]; then
@@ -14019,7 +14045,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ] && [ "$MAC
 	fi
 
 	echo "Updated symbolic links for GCC, G++, and GFortran."
-	echo $PASSWD | sudo -S ln -sf /usr/local/bin/python3.10 /usr/local/bin/python3
+	echo $PASSWD | sudo -S ln -sf /usr/local/bin/python3.12 /usr/local/bin/python3
 
 	export CC=gcc
 	export CXX=g++
@@ -14441,7 +14467,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ] && [ "$MAC
 	conda init bash
 	conda activate base
 	conda config --add channels conda-forge
-	conda create -n wrfh_gis_env -c conda-forge python=3.10 gdal netCDF4 numpy pyproj whitebox=2.2.0 packaging shapely -y
+	conda create -n wrfh_gis_env -c conda-forge python=3.12 gdal netCDF4 numpy pyproj whitebox=2.2.0 packaging shapely -y
 	conda activate wrfh_gis_env
 	conda update -n wrfh_gis_env --all -y
 	conda deactivate
@@ -14714,7 +14740,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ] && [ "$MAC
 	packages=(
 		"autoconf" "automake" "bison" "byacc" "cmake" "curl" "flex" "gcc"
 		"gdal" "gedit" "git" "gnu-sed" "grads" "imagemagick" "java" "ksh"
-		"libtool" "libxml2" "m4" "make" "python@3.10" "snapcraft" "tcsh" "wget"
+		"libtool" "libxml2" "m4" "make" "python@3.12" "snapcraft" "tcsh" "wget"
 		"xauth" "xorgproto" "xorgrgb" "xquartz"
 	)
 
@@ -15265,7 +15291,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ] && [ "$MAC
 	conda init bash
 	conda activate base
 	conda config --add channels conda-forge
-	conda create -n wrfh_gis_env -c conda-forge python=3.10 gdal netCDF4 numpy pyproj whitebox=2.2.0 packaging shapely -y
+	conda create -n wrfh_gis_env -c conda-forge python=3.12 gdal netCDF4 numpy pyproj whitebox=2.2.0 packaging shapely -y
 	conda activate wrfh_gis_env
 	conda update -n wrfh_gis_env --all -y
 	conda deactivate
@@ -16242,7 +16268,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 	conda init bash
 	conda activate base
 	conda config --add channels conda-forge
-	conda create -n wrfh_gis_env -c conda-forge python=3.10 gdal netCDF4 numpy pyproj whitebox=2.2.0 packaging shapely -y
+	conda create -n wrfh_gis_env -c conda-forge python=3.12 gdal netCDF4 numpy pyproj whitebox=2.2.0 packaging shapely -y
 	conda activate wrfh_gis_env
 	conda update -n wrfh_gis_env --all -y
 	conda deactivate
@@ -17175,7 +17201,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 	conda init bash
 	conda activate base
 	conda config --add channels conda-forge
-	conda create -n wrfh_gis_env -c conda-forge python=3.10 gdal netCDF4 numpy pyproj whitebox=2.2.0 packaging shapely -y
+	conda create -n wrfh_gis_env -c conda-forge python=3.12 gdal netCDF4 numpy pyproj whitebox=2.2.0 packaging shapely -y
 	conda activate wrfh_gis_env
 	conda update -n wrfh_gis_env --all -y
 	conda deactivate
@@ -19351,7 +19377,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$MAC_CHIP" = 
 	packages=(
 		"autoconf" "automake" "bison" "byacc" "cmake" "curl" "flex" "gcc"
 		"gdal" "gedit" "git" "gnu-sed" "grads" "imagemagick" "java" "ksh"
-		"libtool" "libxml2" "m4" "make" "python@3.10" "snapcraft" "tcsh" "wget"
+		"libtool" "libxml2" "m4" "make" "python@3.12" "snapcraft" "tcsh" "wget"
 		"xauth" "xorgproto" "xorgrgb" "xquartz"
 	)
 
@@ -19430,9 +19456,14 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$MAC_CHIP" = 
 	#default homebrew path /usr/local/bin
 
 	# Find the highest version of GCC in /usr/local/bin
-	latest_gcc=$(ls /usr/local/bin/gcc-* 2>/dev/null | grep -o 'gcc-[0-9]*' | sort -V | tail -n 1)
+		latest_gcc=$(ls /usr/local/bin/gcc-* 2>/dev/null | grep -o 'gcc-[0-9]*' | sort -V | tail -n 1)
 	latest_gpp=$(ls /usr/local/bin/g++-* 2>/dev/null | grep -o 'g++-[0-9]*' | sort -V | tail -n 1)
 	latest_gfortran=$(ls /usr/local/bin/gfortran-* 2>/dev/null | grep -o 'gfortran-[0-9]*' | sort -V | tail -n 1)
+
+	# Display the chosen versions
+	echo "Selected gcc version: $latest_gcc"
+	echo "Selected g++ version: $latest_gpp"
+	echo "Selected gfortran version: $latest_gfortran"
 
 	# Check if GCC, G++, and GFortran were found
 	if [ -z "$latest_gcc" ]; then
@@ -19455,7 +19486,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$MAC_CHIP" = 
 	fi
 
 	echo "Updated symbolic links for GCC, G++, and GFortran."
-	echo $PASSWD | sudo -S ln -sf /usr/local/bin/python3.10 /usr/local/bin/python3
+	echo $PASSWD | sudo -S ln -sf /usr/local/bin/python3.12 /usr/local/bin/python3
 
 	export CC=gcc
 	export CXX=g++
@@ -20142,7 +20173,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$MAC_CHIP" = 
 	packages=(
 		"autoconf" "automake" "bison" "byacc" "cmake" "curl" "flex" "gcc"
 		"gdal" "gedit" "git" "gnu-sed" "grads" "imagemagick" "java" "ksh"
-		"libtool" "libxml2" "m4" "make" "python@3.10" "snapcraft" "tcsh" "wget"
+		"libtool" "libxml2" "m4" "make" "python@3.12" "snapcraft" "tcsh" "wget"
 		"xauth" "xorgproto" "xorgrgb" "xquartz"
 	)
 
@@ -24885,7 +24916,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "Int
 	packages=(
 		"autoconf" "automake" "bison" "byacc" "cmake" "curl" "flex" "gcc"
 		"gdal" "gedit" "git" "gnu-sed" "grads" "imagemagick" "java" "ksh"
-		"libtool" "libxml2" "m4" "make" "python@3.10" "snapcraft" "tcsh" "wget"
+		"libtool" "libxml2" "m4" "make" "python@3.12" "snapcraft" "tcsh" "wget"
 		"xauth" "xorgproto" "xorgrgb" "xquartz"
 	)
 
@@ -24965,9 +24996,14 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "Int
 	#default homebrew path /usr/local/bin
 
 	# Find the highest version of GCC in /usr/local/bin
-	latest_gcc=$(ls /usr/local/bin/gcc-* 2>/dev/null | grep -o 'gcc-[0-9]*' | sort -V | tail -n 1)
+		latest_gcc=$(ls /usr/local/bin/gcc-* 2>/dev/null | grep -o 'gcc-[0-9]*' | sort -V | tail -n 1)
 	latest_gpp=$(ls /usr/local/bin/g++-* 2>/dev/null | grep -o 'g++-[0-9]*' | sort -V | tail -n 1)
 	latest_gfortran=$(ls /usr/local/bin/gfortran-* 2>/dev/null | grep -o 'gfortran-[0-9]*' | sort -V | tail -n 1)
+
+	# Display the chosen versions
+	echo "Selected gcc version: $latest_gcc"
+	echo "Selected g++ version: $latest_gpp"
+	echo "Selected gfortran version: $latest_gfortran"
 
 	# Check if GCC, G++, and GFortran were found
 	if [ -z "$latest_gcc" ]; then
@@ -24990,7 +25026,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "Int
 	fi
 
 	echo "Updated symbolic links for GCC, G++, and GFortran."
-	echo $PASSWD | sudo -S ln -sf /usr/local/bin/python3.10 /usr/local/bin/python3
+	echo $PASSWD | sudo -S ln -sf /usr/local/bin/python3.12 /usr/local/bin/python3
 
 	export CC=gcc
 	export CXX=g++
@@ -25709,7 +25745,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "ARM
 	packages=(
 		"autoconf" "automake" "bison" "byacc" "cmake" "curl" "flex" "gcc"
 		"gdal" "gedit" "git" "gnu-sed" "grads" "imagemagick" "java" "ksh"
-		"libtool" "libxml2" "m4" "make" "python@3.10" "snapcraft" "tcsh" "wget"
+		"libtool" "libxml2" "m4" "make" "python@3.12" "snapcraft" "tcsh" "wget"
 		"xauth" "xorgproto" "xorgrgb" "xquartz"
 	)
 
