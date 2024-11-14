@@ -234,6 +234,9 @@ This is a BASH script that provides options to install the following Weather Res
 
     > export PATH=$HOME/WRF_Intel/Libs/grib2/lib:$PATH
 
+- Make sure to change the name of the WRF Folder to whichever version you are using, WRF_CHEM, WRFHYDRO, etc.
+
+
 
 ---
 
