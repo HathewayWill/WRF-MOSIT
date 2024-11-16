@@ -153,6 +153,8 @@ This is a BASH script that provides options to install the following Weather Res
 ---
 ### MacOS Installation
 - Make sure to download and Homebrew before moving to installation.
+> cd $HOME
+
 > /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
 
 > brew install git
