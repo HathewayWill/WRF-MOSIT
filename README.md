@@ -251,7 +251,7 @@ This is a BASH script that provides options to install the following Weather Res
 - Intel compilers take slightly more time to install packages.
 ---
 ### Special thanks to:
-- Youtube's meteoadriatic
+- University of Zadar's Ivan T. - Youtube's meteoadriatic
 - GitHub user jamal919
 - University of Manchester's  Doug L
 - University of Tunis El Manar's Hosni S.
