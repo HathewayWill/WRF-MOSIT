@@ -264,23 +264,49 @@ This is a BASH script that provides options to install the following Weather Res
 #### Hatheway, W., Snoun, H., ur Rehman, H. et al. WRF-MOSIT: a modular and cross-platform tool for configuring and installing the WRF model. Earth Sci Inform (2023). https://doi.org/10.1007/s12145-023-01136-y
 ---
 #### References:
-- Skamarock, W. C., J. B. Klemp, J. Dudhia, D. O. Gill, Z. Liu, J. Berner, W. Wang, J. G. Powers, M. G. Duda, D. M. Barker, and X.-Y. Huang, 2019: A Description of the Advanced Research WRF Version 4. NCAR Tech. Note NCAR/TN-556+STR, 145 pp. doi:10.5065/1dfh-6p97
-- Biswas, M. K., Bernardet, L., Abarca, S., Ginis, I., Grell, E., Kalina, E., … Zhang, Z. (2018). Hurricane Weather Research and Forecasting (HWRF) Model: 2017 Scientific Documentation (No. NCAR/TN-544+STR). doi:10.5065/D6MK6BPR
-- Peckham, S., G. A. Grell, S. A. McKeen, M. Barth, G. Pfister, C. Wiedinmyer, J. D. Fast, W. I. Gustafson, R. Zaveri, R. C. Easter, J. Barnard, E. Chapman, M. Hewson, R. Schmitz, M. Salzmann, S. Freitas, 2011: WRF-Chem Version 3.3 User's Guide. NOAA Technical Memo., 98 pp.
+Appel KW, Gilliam RC, Davis N, Zubrow A, Howard SC (2011) Overview of the atmospheric model evaluation tool (AMET) v1.1 for evaluating meteorological and air quality models. Environ Model Softw 26:434–443. https://doi.org/10.1016/J.ENVSOFT.2010.09.007
+Article Google Scholar 
 
-- "We acknowledge use of the WRF-Chem preprocessor tool {name of tool} provided by the Atmospheric Chemistry Observations and Modeling Lab (ACOM) of NCAR."
+Brousse O, Martilli A, Foley M, Mills G, Bechtel B (2016) WUDAPT, an efficient land use producing data tool for mesoscale models? Integration of urban LCZ in WRF over Madrid. Urban Clim 17:116–134. https://doi.org/10.1016/J.UCLIM.2016.04.001
+Article Google Scholar 
 
-- Gochis, D.J., M. Barlage, R. Cabell, M. Casali, A. Dugger, K. FitzGerald,
-M. McAllister, J. McCreight, A. RafieeiNasab, L. Read, K. Sampson, D.
-Yates, Y. Zhang (2020).  The WRF-Hydro® modeling system technical
-description, (Version 5.2.0).  NCAR Technical Note. 108 pages. Available
-online at:
-https://ral.ucar.edu/sites/default/files/public/projects/wrf-hydro/technical-description-user-guide/wrf-hydrov5.2technicaldescription.pdf
-- Freitas, S. R. ; Longo, K. M. ; Alonso, M. F. ; Pirre, M. ; Marecal, V. ; Grell, G. ; Stockler,
-R. ; Mello, R. F. ; Sánchez Gácita, M. . PREP-CHEM-SRC 1.0: a preprocessor of trace
-gas and aerosol emission fields for regional and global atmospheric chemistry
-models. Geoscientific Model Development, v. 4, p. 419-433, 2011
-- Shamsaei, K., Juliano, T., Igrashkina, N., Ebrahimian, H., Kosovic, B., Taciroglu, E. (2022) WRF-Fire Wikipage. doi: 10.5281/zenodo.6667633 [access date]
+Brown B, Jensen T, Gotway JH, Bullock R, Gilleland E, Fowler T, Newman K, Adriaansen D, Blank L, Burek T, Harrold M, Hertneky T, Kalb C, Kucera P, Nance L, Opatz J, Vigh J, Wolff J (2021) The model evaluation tools (MET): more than a decade of community-supported forecast verification. Bull Am Meteorol Soc 102:E782–E807. https://doi.org/10.1175/BAMS-D-19-0093.1
+Article Google Scholar 
+
+Carslaw DC, Ropkins K (2012) Openair — an R package for air quality data analysis. Environ Model Softw 27–28. https://doi.org/10.1016/J.ENVSOFT.2011.09.008
+Chang V (2017) Towards data analysis for weather cloud computing. Knowl-Based Syst 127:29–45. https://doi.org/10.1016/J.KNOSYS.2017.03.003
+Article Google Scholar 
+
+Coen JL, Cameron M, Michalakes J, Patton EG, Riggan PJ, Yedinak KM (2013) WRF-Fire: coupled Weather–Wildland Fire modeling with the weather research and forecasting model. J Appl Meteorol Climatol 52:16–38. https://doi.org/10.1175/JAMC-D-12-023.1
+Article Google Scholar 
+
+Fast JD, Gustafson WI, Easter RC, Zaveri RA, Barnard JC, Chapman EG, Grell GA, Peckham SE (2006) Evolution of ozone, particulates, and aerosol direct radiative forcing in the vicinity of Houston using a fully coupled meteorology-chemistry-aerosol model. J Geophys Res Atmos 111. https://doi.org/10.1029/2005JD006721
+Grell GA, Peckham SE, Schmitz R, McKeen SA, Frost G, Skamarock WC, Eder B (2005) Fully coupled online chemistry within the WRF model. Atmos Environ 39:6957–6975. https://doi.org/10.1016/J.ATMOSENV.2005.04.027
+Article Google Scholar 
+
+Hluchy L (2016) Software support for the execution of WRF (Weather Research and Forecasting) simulations on HPC infrastructures. https://doi.org/10.1109/eScience.2016.7870932
+Hoste K, Timmerman J, Georges A, Weirdt S, D (2012) Easybuild: building software with ease. Proc – 2012 SC Companion High Perform. Comput Netw Storage Anal SCC 2012:572–582. https://doi.org/10.1109/SC.COMPANION.2012.81
+Maharjan A, Shakya A (2022) Enhancement of WRF Model using CUDA. Interdiscip J Innov Nepal Acad 1:16–22. https://doi.org/10.3126/IDJINA.V1I1.51963
+Article Google Scholar 
+
+McCaslin et al (2004) 14.4 A Graphical User Interface to Prepare the Standard Initialization for WRF (2004–84Annual_20waf16nw) [WWW Document]. https://ams.confex.com/ams/84Annual/techprogram/paper_69852.htm. Accessed 3.7.23
+Meyer D, Riechert M (2019) Open source QGIS toolkit for the advanced research WRF modeling system. Environ Model Softw 112:166–178. https://doi.org/10.1016/J.ENVSOFT.2018.10.018
+Article Google Scholar 
+
+Muñoz-Esparza D, Kosović B, Jiménez PA, Coen JL (2018) An accurate fire-spread algorithm in the weather research and forecasting model using the level-set method. J Adv Model Earth Syst 10:908–926. https://doi.org/10.1002/2017MS001108
+Article Google Scholar 
+
+National Oceanic and Atmospheric Administration (NOAA) (2021) WRF User’s Guide. Retrieved from https://www2.mmm.ucar.edu/wrf/users/docs/user_guide_V4/user_guide_V4.3.pdf. Accessed 2021
+Nikfal A (2023) PostWRF: interactive tools for the visualization of the WRF and ERA5 model outputs. Environ Model Softw 160:105591. https://doi.org/10.1016/J.ENVSOFT.2022.105591
+Article Google Scholar 
+
+Sanyal J, Zhang S, Dyer J, Mercer A, Amburn P, Moorhead R (2010) Noodles: a tool for visualization of numerical weather model ensemble uncertainty. IEEE Trans Vis Comput Graph 16:1421–1430. https://doi.org/10.1109/TVCG.2010.181
+Article Google Scholar 
+
+Shi J, Wu Z, Lu G, Li Y (2013) Design and application of WRF computing platform based on B/S structure. Proc – 2013 Int Conf Mechatron Sci Electr Eng Comput MEC 2013:1804–1807. https://doi.org/10.1109/MEC.2013.6885345
+Skamarock WC, Klemp JB, Dudhia J, Gill DO, Barker DM, Wang W, Powers JG (2008) A description of the advanced research WRF version 3. NCAR/TN. https://doi.org/10.5065/D68S4MVH
+Skamarock C, Klemp B, Dudhia J, Gill O, Liu Z, Berner J, Wang W, Powers G, Duda G, Barker D, Huang X (2021) A Description of the Advanced Research WRF Model Version 4.3. https://doi.org/10.5065/1DFH-6P97
+Wang YQ (2014) MeteoInfo: GIS software for meteorological data visualization and analysis. Meteorol Appl 21:360–368. https://doi.org/10.1002/MET.1345
 
 
 ---
