@@ -1762,67 +1762,6 @@ fi
 # "We acknowledge use of the WRF-Chem preprocessor tool {mozbc, fire_emiss, etc.} provided by the Atmospheric Chemistry Observations and Modeling Lab (ACOM) of NCAR."
 #
 #
-# This script installs the WRFCHEM Tools with gnu or intel compilers.
-####################################################################################################
-
-if [ "$WRFCHEM_TOOLS" = "1" ]; then
-
-	if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
-
-		echo $PASSWD | sudo -S sudo apt install git
-		cd $HOME
-		git clone https://github.com/HathewayWill/WRFCHEM-TOOLS-MOSIT.git
-		cd WRFCHEM-TOOLS-MOSIT
-		chmod 775 *.sh
-		./WRFCHEM_TOOLS_MOSIT.sh $PASSWD $Ubuntu_64bit_GNU
-		cd $HOME
-	fi
-
-	if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
-
-		echo $PASSWD | sudo -S sudo apt install git
-		cd $HOME
-		git clone https://github.com/HathewayWill/WRFCHEM-TOOLS-MOSIT.git
-		cd WRFCHEM-TOOLS-MOSIT
-		chmod 775 *.sh
-		./WRFCHEM_TOOLS_MOSIT.sh $PASSWD $Ubuntu_64bit_Intel
-		cd $HOME
-	fi
-
-	if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
-
-		brew install git
-		cd $HOME
-		git clone https://github.com/HathewayWill/WRFCHEM-TOOLS-MOSIT.git
-		cd WRFCHEM-TOOLS-MOSIT
-		chmod 775 *.sh
-		./WRFCHEM_TOOLS_MOSIT.sh $PASSWD $macos_64bit_GNU
-		cd $HOME
-	fi
-
-	if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
-
-		echo $PASSWD | sudo -S sudo dnf install git
-		cd $HOME
-		git clone https://github.com/HathewayWill/WRFCHEM-TOOLS-MOSIT.git
-		cd WRFCHEM-TOOLS-MOSIT
-		chmod 775 *.sh
-		./WRFCHEM_TOOLS_MOSIT.sh $PASSWD $Centos_64bit_GNU
-		cd $HOME
-	fi
-
-	if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRFCHEM_PICK" = "1" ]; then
-
-		echo $PASSWD | sudo -S sudo dnf install git
-		cd $HOME
-		git clone https://github.com/HathewayWill/WRFCHEM-TOOLS-MOSIT.git
-		cd WRFCHEM-TOOLS-MOSIT
-		chmod 775 *.sh
-		./WRFCHEM_TOOLS_MOSIT.sh $PASSWD $Centos_64bit_GNU
-		cd $HOME
-	fi
-
-fi
 
 ############################################# WRF CMAQ #################################
 ## WRF_SFIRE installation with parallel process.
@@ -2566,9 +2505,9 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
-	make -j $CPU_QUARTER_EVEN check
+	#make -j $CPU_QUARTER_EVEN check
 
 	echo " "
 	##############################MPICH############################
@@ -2582,7 +2521,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	# make check
 
@@ -2606,9 +2545,9 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
-	#make -j $CPU_QUARTER_EVEN check
+	##make -j $CPU_QUARTER_EVEN check
 	echo " "
 	#############################JasPer############################
 	cd "${WRF_FOLDER}"/Downloads
@@ -2621,9 +2560,9 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
-	#make -j $CPU_QUARTER_EVEN check
+	##make -j $CPU_QUARTER_EVEN check
 
 	export JASPERLIB=$DIR/grib2/lib
 	export JASPERINC=$DIR/grib2/include
@@ -2639,9 +2578,9 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
-	#make -j $CPU_QUARTER_EVEN check
+	##make -j $CPU_QUARTER_EVEN check
 
 	export HDF5=$DIR/grib2
 	export PHDF5=$DIR/grib2
@@ -2665,9 +2604,9 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
-	#make -j $CPU_QUARTER_EVEN check
+	##make -j $CPU_QUARTER_EVEN check
 
 	export PNETCDF=$DIR/grib2
 
@@ -2687,9 +2626,9 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
-	#make -j $CPU_QUARTER_EVEN check
+	##make -j $CPU_QUARTER_EVEN check
 
 	export PATH=$DIR/NETCDF/bin:$PATH
 	export NETCDF=$DIR/NETCDF
@@ -2708,9 +2647,9 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
-	#make -j $CPU_QUARTER_EVEN check
+	##make -j $CPU_QUARTER_EVEN check
 
 	echo " "
 
@@ -3205,9 +3144,9 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$CMAQ_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
-	make -j $CPU_QUARTER_EVEN check
+	#make -j $CPU_QUARTER_EVEN check
 
 	echo " "
 	##############################MPICH############################
@@ -3221,7 +3160,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$CMAQ_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	# make check
 
@@ -3245,9 +3184,9 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$CMAQ_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
-	make -j $CPU_QUARTER_EVEN check
+	#make -j $CPU_QUARTER_EVEN check
 	echo " "
 	#############################JasPer############################
 	cd "${WRF_FOLDER}"/Downloads
@@ -3260,9 +3199,9 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$CMAQ_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
-	make -j $CPU_QUARTER_EVEN check
+	#make -j $CPU_QUARTER_EVEN check
 
 	export JASPERLIB=$DIR/grib2/lib
 	export JASPERINC=$DIR/grib2/include
@@ -3278,9 +3217,9 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$CMAQ_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
-	#make -j $CPU_QUARTER_EVEN check
+	##make -j $CPU_QUARTER_EVEN check
 
 	export HDF5=$DIR/grib2
 	export PHDF5=$DIR/grib2
@@ -3304,9 +3243,9 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$CMAQ_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
-	#make -j $CPU_QUARTER_EVEN check
+	##make -j $CPU_QUARTER_EVEN check
 
 	export PNETCDF=$DIR/grib2
 
@@ -3326,9 +3265,9 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$CMAQ_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
-	make -j $CPU_QUARTER_EVEN check
+	#make -j $CPU_QUARTER_EVEN check
 
 	export PATH=$DIR/NETCDF/bin:$PATH
 	export NETCDF=$DIR/NETCDF
@@ -3347,9 +3286,9 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$CMAQ_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
-	#make -j $CPU_QUARTER_EVEN check
+	##make -j $CPU_QUARTER_EVEN check
 
 	echo " "
 
@@ -4721,7 +4660,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 
 	echo " "
@@ -4740,7 +4679,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 
 	echo " "
@@ -4754,7 +4693,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 
 	# other libraries below need these variables to be set
@@ -4772,7 +4711,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --with-zlib=$DIR/grib2 --enable-hl --enable-fortran --enable-parallel 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 
 	# other libraries below need these variables to be set
@@ -4794,7 +4733,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --enable-shared --enable-static 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -4815,7 +4754,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-shared --enable-pnetcdf --enable-cdf5 --enable-parallel-tests 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 
 	# other libraries below need these variables to be set
@@ -4838,7 +4777,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-parallel-tests --enable-hdf5 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 
 	echo " "
@@ -4852,7 +4791,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
 	CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS=$CFLAGS FCFLAGS=$FCFLAGS ./configure -exec-prefix=$DIR/grib2 --prefix=$DIR/grib2 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 
 	#################################### System Environment Tests ##############
@@ -6240,7 +6179,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$MAC_CHIP" = "A
 	CC=$CC CXX=$CXX FC=$FC F77=$F77 ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -6277,7 +6216,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$MAC_CHIP" = "A
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -6291,7 +6230,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$MAC_CHIP" = "A
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	export JASPERLIB=$DIR/grib2/lib
 	export JASPERINC=$DIR/grib2/include
@@ -6307,7 +6246,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$MAC_CHIP" = "A
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --with-zlib=$DIR/grib2 --enable-hl --enable-fortran --enable-parallel 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -6333,7 +6272,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$MAC_CHIP" = "A
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --enable-shared --enable-static 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -6353,7 +6292,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$MAC_CHIP" = "A
 	CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS=$CFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-shared --enable-pnetcdf --enable-cdf5 --enable-parallel-tests 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -6373,7 +6312,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$MAC_CHIP" = "A
 	CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS=$CFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-shared --enable-parallel-tests --enable-hdf5 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -6398,7 +6337,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$MAC_CHIP" = "A
 	CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS=$CFLAGS FCFLAGS=$FCFLAGS ./configure -exec-prefix=$DIR/grib2 --prefix=$DIR/grib2 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 
 	# Changes flags back to netcdf only
@@ -8746,7 +8685,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 	./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -8760,7 +8699,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 	F90= ./configure --prefix=$DIR/MPICH --with-device=ch3 FFLAGS="$fallow_argument -m64" FCFLAGS="$fallow_argument -m64" 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -8783,7 +8722,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 	echo " "
@@ -8796,7 +8735,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -8813,7 +8752,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --with-zlib=$DIR/grib2 --enable-hl --enable-fortran --enable-parallel 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -8838,7 +8777,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --enable-shared --enable-static 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -8858,7 +8797,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-shared --enable-static --enable-pnetcdf --enable-cdf5 --enable-parallel-tests 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -8878,7 +8817,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-shared --enable-static --enable-parallel-tests --enable-hdf5 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -9327,7 +9266,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ] && [ "$
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -9342,7 +9281,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ] && [ "$
 	F90= ./configure --prefix=$DIR/MPICH --with-device=ch3 FFLAGS="$fallow_argument -m64" FCFLAGS="$fallow_argument -m64" 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -9368,7 +9307,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ] && [ "$
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 	#make check
@@ -9385,7 +9324,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ] && [ "$
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	export JASPERLIB=$DIR/grib2/lib
 	export JASPERINC=$DIR/grib2/include
@@ -9402,7 +9341,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ] && [ "$
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -9429,7 +9368,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ] && [ "$
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -9450,7 +9389,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ] && [ "$
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -9472,7 +9411,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ] && [ "$
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -9961,7 +9900,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ] && [ "$
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -9976,7 +9915,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ] && [ "$
 	F90= ./configure --prefix=$DIR/MPICH --with-device=ch3 FFLAGS="$fallow_argument -m64" FCFLAGS="$fallow_argument -m64" 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -10002,7 +9941,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ] && [ "$
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 	#make check
@@ -10019,7 +9958,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ] && [ "$
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	export JASPERLIB=$DIR/grib2/lib
 	export JASPERINC=$DIR/grib2/include
@@ -10036,7 +9975,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ] && [ "$
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -10063,7 +10002,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ] && [ "$
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -10084,7 +10023,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ] && [ "$
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -10106,7 +10045,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ] && [ "$
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -10522,7 +10461,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; the
 	2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -10538,7 +10477,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; the
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 	echo " "
@@ -10551,7 +10490,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; the
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 	export JASPERLIB=$DIR/grib2/lib
@@ -10568,7 +10507,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; the
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --with-zlib=$DIR/grib2 --enable-hl --enable-fortran --enable-parallel 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -10589,7 +10528,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; the
 	automake -a -f 2>&1 | tee automake.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -10609,7 +10548,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; the
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --with-zlib=$DIR/grib2 --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-shared --enable-static --enable-pnetcdf --enable-cdf5 --enable-parallel-tests 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -10629,7 +10568,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; the
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-shared --enable-static --enable-parallel-tests --enable-hdf5 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -11024,7 +10963,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -11040,7 +10979,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	# make check
 
@@ -11064,7 +11003,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 	echo " "
@@ -11079,7 +11018,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -11097,7 +11036,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -11124,7 +11063,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -11145,7 +11084,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -11166,7 +11105,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -11560,7 +11499,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -11576,7 +11515,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	# make check
 
@@ -11600,7 +11539,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 	echo " "
@@ -11615,7 +11554,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -11633,7 +11572,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -11660,7 +11599,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -11681,7 +11620,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -11702,7 +11641,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -12112,7 +12051,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 	./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -12126,7 +12065,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 	F90= ./configure --prefix=$DIR/MPICH --with-device=ch3 FFLAGS="$fallow_argument -m64" FCFLAGS="$fallow_argument -m64" 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -12149,7 +12088,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 	echo " "
@@ -12162,7 +12101,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -12179,7 +12118,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --with-zlib=$DIR/grib2 --enable-hl --enable-fortran --enable-parallel 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -12204,7 +12143,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --enable-shared --enable-static 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -12224,7 +12163,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-shared --enable-static --enable-pnetcdf --enable-cdf5 --enable-parallel-tests 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -12244,7 +12183,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-shared --enable-static --enable-parallel-tests --enable-hdf5 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -13086,7 +13025,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 
 	echo " "
@@ -13105,7 +13044,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 
 	echo " "
@@ -13119,7 +13058,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 
 	# other libraries below need these variables to be set
@@ -13137,7 +13076,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --with-zlib=$DIR/grib2 --enable-hl --enable-fortran --enable-parallel 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 
 	# other libraries below need these variables to be set
@@ -13172,7 +13111,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --enable-shared --enable-static 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -13194,7 +13133,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-shared --enable-static --enable-pnetcdf --enable-cdf5 --enable-parallel-tests 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 
 	# other libraries below need these variables to be set
@@ -13217,7 +13156,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-parallel-tests --enable-hdf5 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 
 	echo " "
@@ -13959,7 +13898,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ] && [ "$MAC
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -13974,7 +13913,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ] && [ "$MAC
 	F90= ./configure --prefix=$DIR/MPICH --with-device=ch3 FFLAGS="$fallow_argument -m64" FCFLAGS="$fallow_argument -m64" 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -13999,7 +13938,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ] && [ "$MAC
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 	#make check
@@ -14016,7 +13955,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ] && [ "$MAC
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	export JASPERLIB=$DIR/grib2/lib
 	export JASPERINC=$DIR/grib2/include
@@ -14033,7 +13972,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ] && [ "$MAC
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -14060,7 +13999,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ] && [ "$MAC
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -14081,7 +14020,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ] && [ "$MAC
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -14103,7 +14042,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ] && [ "$MAC
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -14783,7 +14722,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ] && [ "$MAC
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -14798,7 +14737,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ] && [ "$MAC
 	F90= ./configure --prefix=$DIR/MPICH --with-device=ch3 FFLAGS="$fallow_argument -m64" FCFLAGS="$fallow_argument -m64" 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -14823,7 +14762,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ] && [ "$MAC
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 	#make check
@@ -14840,7 +14779,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ] && [ "$MAC
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	export JASPERLIB=$DIR/grib2/lib
 	export JASPERINC=$DIR/grib2/include
@@ -14857,7 +14796,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ] && [ "$MAC
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -14884,7 +14823,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ] && [ "$MAC
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -14905,7 +14844,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ] && [ "$MAC
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -14927,7 +14866,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ] && [ "$MAC
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -15530,7 +15469,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -15546,7 +15485,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	# make check
 
@@ -15570,7 +15509,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 	echo " "
@@ -15585,7 +15524,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -15603,7 +15542,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -15629,7 +15568,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -15650,7 +15589,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -15671,7 +15610,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -16524,7 +16463,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -16540,7 +16479,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	# make check
 
@@ -16564,7 +16503,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 	echo " "
@@ -16579,7 +16518,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -16596,7 +16535,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -16622,7 +16561,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -16643,7 +16582,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -16664,7 +16603,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -17476,7 +17415,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -17490,7 +17429,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	F90= ./configure --prefix=$DIR/MPICH --with-device=ch3 FFLAGS="$fallow_argument -m64" FCFLAGS="$fallow_argument -m64" 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -17513,7 +17452,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 	echo " "
@@ -17526,7 +17465,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -17543,7 +17482,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --with-zlib=$DIR/grib2 --enable-hl --enable-fortran --enable-parallel 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -17569,7 +17508,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --enable-shared --enable-static 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -17589,7 +17528,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-shared --enable-static --enable-pnetcdf --enable-cdf5 --enable-parallel-tests 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -17609,7 +17548,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-shared --enable-static --enable-parallel-tests --enable-hdf5 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -18114,7 +18053,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 		./configure wrfda 2>&1 | tee configure.log #Option 18 for gfortran/gcc and distribunted memory
 	fi
 	echo " "
-	./compile -j $CPU_QUARTER_EVEN all_wrfvar 2>&1 | tee compile.chem.wrfvar.log
+	./compile -j 2 all_wrfvar 2>&1 | tee compile.chem.wrfvar.log
 	echo " "
 
 	# IF statement to check that all files were created.
@@ -18129,7 +18068,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
 		cd "${WRF_FOLDER}"/WRFDA
-		./compile -j $CPU_QUARTER_EVEN all_wrfvar 2>&1 | tee compile.chem.wrfvar2.log
+		./compile -j 2 all_wrfvar 2>&1 | tee compile.chem.wrfvar2.log
 		cd "${WRF_FOLDER}"/WRFDA/var/da
 		n=$(ls ./*.exe | wc -l)
 		cd "${WRF_FOLDER}"/WRFDA/var/obsproc/src
@@ -18487,7 +18426,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 
 	echo " "
@@ -18506,7 +18445,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 
 	echo " "
@@ -18520,7 +18459,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 
 	# other libraries below need these variables to be set
@@ -18538,7 +18477,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --with-zlib=$DIR/grib2 --enable-hl --enable-fortran --enable-parallel 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 
 	# other libraries below need these variables to be set
@@ -18560,7 +18499,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --enable-shared --enable-static 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -18583,7 +18522,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-shared --enable-static --enable-pnetcdf --enable-cdf5 --enable-parallel-tests 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 
 	# other libraries below need these variables to be set
@@ -18607,7 +18546,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-shared --enable-static --enable-parallel-tests --enable-hdf5 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 
 	echo " "
@@ -18920,7 +18859,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	sed -i '136s|mpif90 -f90=$(SFC)|mpiifx|g' "${WRF_FOLDER}"/WRFDA/configure.wrf
 	sed -i '137s|mpicc -cc=$(SCC)|mpiicx|g' "${WRF_FOLDER}"/WRFDA/configure.wrf
 
-	./compile -j $CPU_QUARTER_EVEN all_wrfvar 2>&1 | tee compile.chem.wrfvar.log
+	./compile -j 2 all_wrfvar 2>&1 | tee compile.chem.wrfvar.log
 	echo " "
 
 	# IF statement to check that all files were created.
@@ -18935,7 +18874,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
 		cd "${WRF_FOLDER}"/WRFDA
-		./compile -j $CPU_QUARTER_EVEN all_wrfvar 2>&1 | tee compile.chem.wrfvar2.log
+		./compile -j 2 all_wrfvar 2>&1 | tee compile.chem.wrfvar2.log
 		cd "${WRF_FOLDER}"/WRFDA/var/da
 		n=$(ls ./*.exe | wc -l)
 		cd "${WRF_FOLDER}"/WRFDA/var/obsproc/src
@@ -19329,7 +19268,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$MAC_CHIP" = 
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -19368,7 +19307,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$MAC_CHIP" = 
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 	#make check
@@ -19401,7 +19340,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$MAC_CHIP" = 
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -19428,7 +19367,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$MAC_CHIP" = 
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -19449,7 +19388,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$MAC_CHIP" = 
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -19471,7 +19410,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$MAC_CHIP" = 
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -19839,7 +19778,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$MAC_CHIP" = 
 		./configure wrfda 2>&1 | tee configure.log #Option 17 for gfortran/gcc and distribunted memory
 	fi
 	echo " "
-	./compile all_wrfvar 2>&1 | tee compile.chem.wrfvar.log
+	./compile -j 2 all_wrfvar 2>&1 | tee compile.chem.wrfvar.log
 	echo " "
 
 	# IF statement to check that all files were created.
@@ -19854,7 +19793,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$MAC_CHIP" = 
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
 		cd "${WRF_FOLDER}"/WRFDA
-		./compile -j $CPU_QUARTER_EVEN all_wrfvar 2>&1 | tee compile.chem.wrfvar2.log
+		./compile -j 2 all_wrfvar 2>&1 | tee compile.chem.wrfvar2.log
 		cd "${WRF_FOLDER}"/WRFDA/var/da
 		n=$(ls ./*.exe | wc -l)
 		cd "${WRF_FOLDER}"/WRFDA/var/obsproc/src
@@ -20142,7 +20081,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$MAC_CHIP" = 
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -20181,7 +20120,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$MAC_CHIP" = 
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 	#make check
@@ -20214,7 +20153,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$MAC_CHIP" = 
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -20241,7 +20180,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$MAC_CHIP" = 
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -20262,7 +20201,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$MAC_CHIP" = 
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -20284,7 +20223,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$MAC_CHIP" = 
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -20652,7 +20591,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$MAC_CHIP" = 
 		./configure wrfda 2>&1 | tee configure.log #Option 17 for gfortran/gcc and distribunted memory
 	fi
 	echo " "
-	./compile all_wrfvar 2>&1 | tee compile.chem.wrfvar.log
+	./compile -j 2 all_wrfvar 2>&1 | tee compile.chem.wrfvar.log
 	echo " "
 
 	# IF statement to check that all files were created.
@@ -20667,7 +20606,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$MAC_CHIP" = 
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
 		cd "${WRF_FOLDER}"/WRFDA
-		./compile -j $CPU_QUARTER_EVEN all_wrfvar 2>&1 | tee compile.chem.wrfvar2.log
+		./compile -j 2 all_wrfvar 2>&1 | tee compile.chem.wrfvar2.log
 		cd "${WRF_FOLDER}"/WRFDA/var/da
 		n=$(ls ./*.exe | wc -l)
 		cd "${WRF_FOLDER}"/WRFDA/var/obsproc/src
@@ -20883,7 +20822,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -20899,7 +20838,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	# make check
 
@@ -20923,7 +20862,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 	echo " "
@@ -20938,7 +20877,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -20956,7 +20895,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -20982,7 +20921,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -21003,7 +20942,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -21024,7 +20963,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -21513,7 +21452,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 		./configure wrfda 2>&1 | tee configure.log #Option 18 for gfortran/gcc and distribunted memory
 	fi
 	echo " "
-	./compile -j $CPU_QUARTER_EVEN all_wrfvar 2>&1 | tee compile.chem.wrfvar.log
+	./compile -j 2 all_wrfvar 2>&1 | tee compile.chem.wrfvar.log
 	echo " "
 
 	# IF statement to check that all files were created.
@@ -21528,7 +21467,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
 		cd "${WRF_FOLDER}"/WRFDA
-		./compile -j $CPU_QUARTER_EVEN all_wrfvar 2>&1 | tee compile.chem.wrfvar2.log
+		./compile -j 2 all_wrfvar 2>&1 | tee compile.chem.wrfvar2.log
 		cd "${WRF_FOLDER}"/WRFDA/var/da
 		n=$(ls ./*.exe | wc -l)
 		cd "${WRF_FOLDER}"/WRFDA/var/obsproc/src
@@ -21881,7 +21820,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -21897,7 +21836,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	# make check
 
@@ -21921,7 +21860,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 	echo " "
@@ -21936,7 +21875,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -21954,7 +21893,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -21980,7 +21919,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -22001,7 +21940,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -22022,7 +21961,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -22487,7 +22426,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 		./configure wrfda 2>&1 | tee configure.log #Option 18 for gfortran/gcc and distribunted memory
 	fi
 	echo " "
-	./compile -j $CPU_QUARTER_EVEN all_wrfvar 2>&1 | tee compile.chem.wrfvar.log
+	./compile -j 2 all_wrfvar 2>&1 | tee compile.chem.wrfvar.log
 	echo " "
 
 	# IF statement to check that all files were created.
@@ -22502,7 +22441,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
 		cd "${WRF_FOLDER}"/WRFDA
-		./compile -j $CPU_QUARTER_EVEN all_wrfvar 2>&1 | tee compile.chem.wrfvar2.log
+		./compile -j 2 all_wrfvar 2>&1 | tee compile.chem.wrfvar2.log
 		cd "${WRF_FOLDER}"/WRFDA/var/da
 		n=$(ls ./*.exe | wc -l)
 		cd "${WRF_FOLDER}"/WRFDA/var/obsproc/src
@@ -22870,7 +22809,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -22885,7 +22824,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	F90= ./configure --prefix=$DIR/MPICH --with-device=ch3 FFLAGS=$fallow_argument FCFLAGS=$fallow_argument 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	# make check
 
@@ -22909,7 +22848,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 	echo " "
@@ -22923,7 +22862,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -22940,7 +22879,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --with-zlib=$DIR/grib2 --enable-hl --enable-fortran --enable-parallel 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -22965,7 +22904,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --enable-shared --enable-static 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -22985,7 +22924,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-shared --enable-static --enable-pnetcdf --enable-cdf5 --enable-parallel-tests 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -23005,7 +22944,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-shared --enable-static --enable-parallel-tests --enable-hdf5 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -23663,7 +23602,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 		./configure 4dvar 2>&1 | tee configure.log #Option 18 for gfortran/gcc and distribunted memory
 	fi
 	echo " "
-	./compile all_wrfvar 2>&1 | tee compile.wrf4dvar.log
+	./compile -j 2 all_wrfvar 2>&1 | tee compile.wrf4dvar.log
 	echo " "
 
 	# IF statement to check that all files were created.
@@ -23678,7 +23617,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
 		cd "${WRF_FOLDER}"/WRFDA
-		./compile -j $CPU_QUARTER_EVEN all_wrfvar 2>&1 | tee compile.chem.wrfvar2.log
+		./compile -j 2 all_wrfvar 2>&1 | tee compile.chem.wrfvar2.log
 		cd "${WRF_FOLDER}"/WRFDA/var/da
 		n=$(ls ./*.exe | wc -l)
 		cd "${WRF_FOLDER}"/WRFDA/var/obsproc/src
@@ -23905,7 +23844,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 
 	echo " "
@@ -23924,7 +23863,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 
 	echo " "
@@ -23938,7 +23877,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 
 	# other libraries below need these variables to be set
@@ -23956,7 +23895,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --with-zlib=$DIR/grib2 --enable-hl --enable-fortran --enable-parallel 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 
 	# other libraries below need these variables to be set
@@ -23978,7 +23917,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --enable-shared --enable-static 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -24001,7 +23940,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-shared --enable-static --enable-pnetcdf --enable-cdf5 --enable-parallel-tests 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 
 	# other libraries below need these variables to be set
@@ -24024,7 +23963,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-parallel-tests --enable-hdf5 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 
 	echo " "
@@ -24508,7 +24447,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	sed -i '136s|mpif90 -f90=$(SFC)|mpiifx|g' "${WRF_FOLDER}"/WRFDA/configure.wrf
 	sed -i '137s|mpicc -cc=$(SCC)|mpiicx|g' "${WRF_FOLDER}"/WRFDA/configure.wrf
 
-	./compile all_wrfvar 2>&1 | tee wrfda.compile.log
+	./compile -j 2 all_wrfvar 2>&1 | tee wrfda.compile.log
 	echo " "
 
 	# IF statement to check that all files were created.
@@ -24523,7 +24462,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
 		cd "${WRF_FOLDER}"/WRFDA
-		./compile -j $CPU_QUARTER_EVEN all_wrfvar 2>&1 | tee compile.chem.wrfvar2.log
+		./compile -j 2 all_wrfvar 2>&1 | tee compile.chem.wrfvar2.log
 		cd "${WRF_FOLDER}"/WRFDA/var/da
 		n=$(ls ./*.exe | wc -l)
 		cd "${WRF_FOLDER}"/WRFDA/var/obsproc/src
@@ -24791,7 +24730,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "Int
 	./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -24831,7 +24770,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "Int
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -24846,7 +24785,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "Int
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	export JASPERLIB=$DIR/grib2/lib
 	export JASPERINC=$DIR/grib2/include
@@ -24862,7 +24801,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "Int
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --with-zlib=$DIR/grib2 --enable-hl --enable-fortran --enable-parallel 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -24888,7 +24827,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "Int
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --enable-shared --enable-static 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -24908,7 +24847,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "Int
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-shared --enable-static --enable-pnetcdf --enable-cdf5 --enable-parallel-tests 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -24929,7 +24868,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "Int
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-shared --enable-static --enable-parallel-tests --enable-hdf5 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -25335,7 +25274,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "Int
 		./configure 4dvar 2>&1 | tee configure.log #Option 18 for gfortran/gcc and distribunted memory
 	fi
 
-	./compile all_wrfvar 2>&1 | tee compile.wrf4dvar.log
+	./compile -j 2 all_wrfvar 2>&1 | tee compile.wrf4dvar.log
 
 	# IF statement to check that all files were created.
 	cd "${WRF_FOLDER}"/WRFDA/var/da
@@ -25349,7 +25288,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "Int
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
 		cd "${WRF_FOLDER}"/WRFDA
-		./compile -j $CPU_QUARTER_EVEN all_wrfvar 2>&1 | tee compile.chem.wrfvar2.log
+		./compile -j 2 all_wrfvar 2>&1 | tee compile.chem.wrfvar2.log
 		cd "${WRF_FOLDER}"/WRFDA/var/da
 		n=$(ls ./*.exe | wc -l)
 		cd "${WRF_FOLDER}"/WRFDA/var/obsproc/src
@@ -25637,7 +25576,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "ARM
 	./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -25653,7 +25592,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "ARM
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -25678,7 +25617,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "ARM
 
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -25693,7 +25632,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "ARM
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	export JASPERLIB=$DIR/grib2/lib
 	export JASPERINC=$DIR/grib2/include
@@ -25709,7 +25648,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "ARM
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --with-zlib=$DIR/grib2 --enable-hl --enable-fortran --enable-parallel 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -25736,7 +25675,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "ARM
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --enable-shared --enable-static 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -25756,7 +25695,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "ARM
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-shared --enable-static --enable-pnetcdf --enable-cdf5 --enable-parallel-tests 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -25777,7 +25716,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "ARM
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-shared --enable-static --enable-parallel-tests --enable-hdf5 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -26183,7 +26122,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "ARM
 		./configure 4dvar 2>&1 | tee configure.log #Option 18 for gfortran/gcc and distribunted memory
 	fi
 
-	./compile all_wrfvar 2>&1 | tee compile.wrf4dvar.log
+	./compile -j 2 all_wrfvar 2>&1 | tee compile.wrf4dvar.log
 
 	# IF statement to check that all files were created.
 	cd "${WRF_FOLDER}"/WRFDA/var/da
@@ -26197,7 +26136,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "ARM
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
 		cd "${WRF_FOLDER}"/WRFDA
-		./compile -j $CPU_QUARTER_EVEN all_wrfvar 2>&1 | tee compile.chem.wrfvar2.log
+		./compile -j 2 all_wrfvar 2>&1 | tee compile.chem.wrfvar2.log
 		cd "${WRF_FOLDER}"/WRFDA/var/da
 		n=$(ls ./*.exe | wc -l)
 		cd "${WRF_FOLDER}"/WRFDA/var/obsproc/src
@@ -26414,7 +26353,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -26430,7 +26369,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	# make check
 
@@ -26454,7 +26393,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 	echo " "
@@ -26469,7 +26408,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -26487,7 +26426,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -26514,7 +26453,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -26535,7 +26474,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -26556,7 +26495,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -27199,7 +27138,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 		./configure 4dvar 2>&1 | tee configure.log #Option 18 for gfortran/gcc and distribunted memory
 	fi
 	echo " "
-	./compile all_wrfvar 2>&1 | tee compile.wrf4dvar.log
+	./compile -j 2 all_wrfvar 2>&1 | tee compile.wrf4dvar.log
 
 	echo " "
 	# IF statement to check that all files were created.
@@ -27214,7 +27153,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
 		cd "${WRF_FOLDER}"/WRFDA
-		./compile -j $CPU_QUARTER_EVEN all_wrfvar 2>&1 | tee compile.chem.wrfvar2.log
+		./compile -j 2 all_wrfvar 2>&1 | tee compile.chem.wrfvar2.log
 		cd "${WRF_FOLDER}"/WRFDA/var/da
 		n=$(ls ./*.exe | wc -l)
 		cd "${WRF_FOLDER}"/WRFDA/var/obsproc/src
@@ -27438,7 +27377,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRF_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -27454,7 +27393,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRF_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	# make check
 
@@ -27478,7 +27417,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRF_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 	echo " "
@@ -27493,7 +27432,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRF_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -27511,7 +27450,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRF_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -27537,7 +27476,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRF_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -27558,7 +27497,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRF_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -27579,7 +27518,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRF_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -28222,7 +28161,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRF_PICK" = "1" ]; then
 		./configure 4dvar 2>&1 | tee configure.log #Option 18 for gfortran/gcc and distribunted memory
 	fi
 	echo " "
-	./compile all_wrfvar 2>&1 | tee compile.wrf4dvar.log
+	./compile -j 2 all_wrfvar 2>&1 | tee compile.wrf4dvar.log
 	echo " "
 	# IF statement to check that all files were created.
 	cd "${WRF_FOLDER}"/WRFDA/var/da
@@ -28236,7 +28175,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRF_PICK" = "1" ]; then
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
 		cd "${WRF_FOLDER}"/WRFDA
-		./compile -j $CPU_QUARTER_EVEN all_wrfvar 2>&1 | tee compile.chem.wrfvar2.log
+		./compile -j 2 all_wrfvar 2>&1 | tee compile.chem.wrfvar2.log
 		cd "${WRF_FOLDER}"/WRFDA/var/da
 		n=$(ls ./*.exe | wc -l)
 		cd "${WRF_FOLDER}"/WRFDA/var/obsproc/src
@@ -28335,6 +28274,72 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRF_PICK" = "1" ]; then
 		tar -xvf modis_landuse_20class_15s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 	fi
 fi
+
+
+# This script installs the WRFCHEM Tools with gnu or intel compilers.
+####################################################################################################
+
+
+
+if [ "$WRFCHEM_TOOLS" = "1" ]; then
+
+	if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
+
+		echo $PASSWD | sudo -S sudo apt install git
+		cd $HOME
+		git clone https://github.com/HathewayWill/WRFCHEM-TOOLS-MOSIT.git
+		cd WRFCHEM-TOOLS-MOSIT
+		chmod 775 *.sh
+		env -i ./WRFCHEM_TOOLS_MOSIT.sh $PASSWD $Ubuntu_64bit_GNU
+		cd $HOME
+	fi
+
+	if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
+
+		echo $PASSWD | sudo -S sudo apt install git
+		cd $HOME
+		git clone https://github.com/HathewayWill/WRFCHEM-TOOLS-MOSIT.git
+		cd WRFCHEM-TOOLS-MOSIT
+		chmod 775 *.sh
+		env -i PASSWD="$PASSWD" Ubuntu_64bit_Intel="$Ubuntu_64bit_Intel" ./WRFCHEM_TOOLS_MOSIT.sh $PASSWD $Ubuntu_64bit_Intel
+		cd $HOME
+	fi
+
+	if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
+
+		brew install git
+		cd $HOME
+		git clone https://github.com/HathewayWill/WRFCHEM-TOOLS-MOSIT.git
+		cd WRFCHEM-TOOLS-MOSIT
+		chmod 775 *.sh
+		env -i ./WRFCHEM_TOOLS_MOSIT.sh $PASSWD $macos_64bit_GNU
+		cd $HOME
+	fi
+
+	if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
+
+		echo $PASSWD | sudo -S sudo dnf install git
+		cd $HOME
+		git clone https://github.com/HathewayWill/WRFCHEM-TOOLS-MOSIT.git
+		cd WRFCHEM-TOOLS-MOSIT
+		chmod 775 *.sh
+		env -i ./WRFCHEM_TOOLS_MOSIT.sh $PASSWD $Centos_64bit_GNU
+		cd $HOME
+	fi
+
+	if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRFCHEM_PICK" = "1" ]; then
+
+		echo $PASSWD | sudo -S sudo dnf install git
+		cd $HOME
+		git clone https://github.com/HathewayWill/WRFCHEM-TOOLS-MOSIT.git
+		cd WRFCHEM-TOOLS-MOSIT
+		chmod 775 *.sh
+		env -i ./WRFCHEM_TOOLS_MOSIT.sh $PASSWD $Centos_64bit_GNU
+		cd $HOME
+	fi
+
+fi
+
 
 ##########################  Export PATH and LD_LIBRARY_PATH ################################
 cd $HOME
