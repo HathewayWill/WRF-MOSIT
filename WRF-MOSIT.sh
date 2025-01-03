@@ -28290,7 +28290,7 @@ if [ "$WRFCHEM_TOOLS" = "1" ]; then
 		git clone https://github.com/HathewayWill/WRFCHEM-TOOLS-MOSIT.git
 		cd WRFCHEM-TOOLS-MOSIT
 		chmod 775 *.sh
-		env -i ./WRFCHEM_TOOLS_MOSIT.sh $PASSWD $Ubuntu_64bit_GNU
+		env -i PASSWD="$PASSWD" Ubuntu_64bit_GNU="$Ubuntu_64bit_GNU" ./WRFCHEM_TOOLS_MOSIT.sh $PASSWD $Ubuntu_64bit_GNU
 		cd $HOME
 	fi
 
@@ -28312,7 +28312,7 @@ if [ "$WRFCHEM_TOOLS" = "1" ]; then
 		git clone https://github.com/HathewayWill/WRFCHEM-TOOLS-MOSIT.git
 		cd WRFCHEM-TOOLS-MOSIT
 		chmod 775 *.sh
-		env -i ./WRFCHEM_TOOLS_MOSIT.sh $PASSWD $macos_64bit_GNU
+		env -i PASSWD="$PASSWD" macos_64bit_GNU="$macos_64bit_GNU" ./WRFCHEM_TOOLS_MOSIT.sh $PASSWD $macos_64bit_GNU
 		cd $HOME
 	fi
 
@@ -28323,7 +28323,7 @@ if [ "$WRFCHEM_TOOLS" = "1" ]; then
 		git clone https://github.com/HathewayWill/WRFCHEM-TOOLS-MOSIT.git
 		cd WRFCHEM-TOOLS-MOSIT
 		chmod 775 *.sh
-		env -i ./WRFCHEM_TOOLS_MOSIT.sh $PASSWD $Centos_64bit_GNU
+		env -i PASSWD="$PASSWD" Centos_64bit_GNU="$Centos_64bit_GNU" ./WRFCHEM_TOOLS_MOSIT.sh $PASSWD $Centos_64bit_GNU
 		cd $HOME
 	fi
 
@@ -28334,7 +28334,7 @@ if [ "$WRFCHEM_TOOLS" = "1" ]; then
 		git clone https://github.com/HathewayWill/WRFCHEM-TOOLS-MOSIT.git
 		cd WRFCHEM-TOOLS-MOSIT
 		chmod 775 *.sh
-		env -i ./WRFCHEM_TOOLS_MOSIT.sh $PASSWD $Centos_64bit_GNU
+		env -i PASSWD="$PASSWD" Centos_64bit_GNU="$Centos_64bit_GNU" ./WRFCHEM_TOOLS_MOSIT.sh $PASSWD $Centos_64bit_GNU
 		cd $HOME
 	fi
 
