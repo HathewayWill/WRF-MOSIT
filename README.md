@@ -20,7 +20,7 @@ This is a BASH script that provides options to install the following Weather Res
     - Darwin (MacOS)
     - Linux Debian Distro (Ubuntu, Mint, etc)
     - Windows Subsystem for Linux (Debian Distro, Ubuntu, Mint, etc)
-    - CentOS based systems not supported
+    - RHL Systems (AlmaLinux, Fedora, RedHat, CentOS) currently being tested
 - 350 Gigabyte (GB) of free storage space
 
 ---
