@@ -1,4 +1,4 @@
-### WRF-Hydro Coupled offline for the time being due to compiliation issues.
+### Having to turn off WRF-Hydro Coupled due to compilation issues that are being resolved slowly.
 
 
 
