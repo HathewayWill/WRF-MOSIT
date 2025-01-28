@@ -2505,9 +2505,9 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
-	#make -j $CPU_QUARTER_EVEN check
+	make -j $CPU_QUARTER_EVEN check
 
 	echo " "
 	##############################MPICH############################
@@ -2521,7 +2521,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	# make check
 
@@ -2545,9 +2545,9 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
-	##make -j $CPU_QUARTER_EVEN check
+	#make -j $CPU_QUARTER_EVEN check
 	echo " "
 	#############################JasPer############################
 	cd "${WRF_FOLDER}"/Downloads
@@ -2560,9 +2560,9 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
-	##make -j $CPU_QUARTER_EVEN check
+	#make -j $CPU_QUARTER_EVEN check
 
 	export JASPERLIB=$DIR/grib2/lib
 	export JASPERINC=$DIR/grib2/include
@@ -2578,9 +2578,9 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
-	##make -j $CPU_QUARTER_EVEN check
+	#make -j $CPU_QUARTER_EVEN check
 
 	export HDF5=$DIR/grib2
 	export PHDF5=$DIR/grib2
@@ -2604,9 +2604,9 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
-	##make -j $CPU_QUARTER_EVEN check
+	#make -j $CPU_QUARTER_EVEN check
 
 	export PNETCDF=$DIR/grib2
 
@@ -2626,9 +2626,9 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
-	##make -j $CPU_QUARTER_EVEN check
+	#make -j $CPU_QUARTER_EVEN check
 
 	export PATH=$DIR/NETCDF/bin:$PATH
 	export NETCDF=$DIR/NETCDF
@@ -2647,9 +2647,9 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
-	##make -j $CPU_QUARTER_EVEN check
+	#make -j $CPU_QUARTER_EVEN check
 
 	echo " "
 
@@ -3144,9 +3144,9 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$CMAQ_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
-	#make -j $CPU_QUARTER_EVEN check
+	make -j $CPU_QUARTER_EVEN check
 
 	echo " "
 	##############################MPICH############################
@@ -3160,7 +3160,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$CMAQ_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	# make check
 
@@ -3184,9 +3184,9 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$CMAQ_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
-	#make -j $CPU_QUARTER_EVEN check
+	make -j $CPU_QUARTER_EVEN check
 	echo " "
 	#############################JasPer############################
 	cd "${WRF_FOLDER}"/Downloads
@@ -3199,9 +3199,9 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$CMAQ_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
-	#make -j $CPU_QUARTER_EVEN check
+	make -j $CPU_QUARTER_EVEN check
 
 	export JASPERLIB=$DIR/grib2/lib
 	export JASPERINC=$DIR/grib2/include
@@ -3217,9 +3217,9 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$CMAQ_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
-	##make -j $CPU_QUARTER_EVEN check
+	#make -j $CPU_QUARTER_EVEN check
 
 	export HDF5=$DIR/grib2
 	export PHDF5=$DIR/grib2
@@ -3243,9 +3243,9 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$CMAQ_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
-	##make -j $CPU_QUARTER_EVEN check
+	#make -j $CPU_QUARTER_EVEN check
 
 	export PNETCDF=$DIR/grib2
 
@@ -3265,9 +3265,9 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$CMAQ_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
-	#make -j $CPU_QUARTER_EVEN check
+	make -j $CPU_QUARTER_EVEN check
 
 	export PATH=$DIR/NETCDF/bin:$PATH
 	export NETCDF=$DIR/NETCDF
@@ -3286,9 +3286,9 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$CMAQ_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
-	##make -j $CPU_QUARTER_EVEN check
+	#make -j $CPU_QUARTER_EVEN check
 
 	echo " "
 
@@ -4660,7 +4660,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 
 	echo " "
@@ -4679,7 +4679,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 
 	echo " "
@@ -4693,7 +4693,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 
 	# other libraries below need these variables to be set
@@ -4711,7 +4711,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --with-zlib=$DIR/grib2 --enable-hl --enable-fortran --enable-parallel 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 
 	# other libraries below need these variables to be set
@@ -4733,7 +4733,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --enable-shared --enable-static 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -4754,7 +4754,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-shared --enable-pnetcdf --enable-cdf5 --enable-parallel-tests 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 
 	# other libraries below need these variables to be set
@@ -4777,7 +4777,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-parallel-tests --enable-hdf5 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 
 	echo " "
@@ -4791,7 +4791,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
 	CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS=$CFLAGS FCFLAGS=$FCFLAGS ./configure -exec-prefix=$DIR/grib2 --prefix=$DIR/grib2 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 
 	#################################### System Environment Tests ##############
@@ -6179,7 +6179,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$MAC_CHIP" = "A
 	CC=$CC CXX=$CXX FC=$FC F77=$F77 ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -6216,7 +6216,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$MAC_CHIP" = "A
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -6230,7 +6230,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$MAC_CHIP" = "A
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	export JASPERLIB=$DIR/grib2/lib
 	export JASPERINC=$DIR/grib2/include
@@ -6246,7 +6246,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$MAC_CHIP" = "A
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --with-zlib=$DIR/grib2 --enable-hl --enable-fortran --enable-parallel 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -6272,7 +6272,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$MAC_CHIP" = "A
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --enable-shared --enable-static 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -6292,7 +6292,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$MAC_CHIP" = "A
 	CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS=$CFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-shared --enable-pnetcdf --enable-cdf5 --enable-parallel-tests 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -6312,7 +6312,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$MAC_CHIP" = "A
 	CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS=$CFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-shared --enable-parallel-tests --enable-hdf5 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -6337,7 +6337,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$MAC_CHIP" = "A
 	CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS=$CFLAGS FCFLAGS=$FCFLAGS ./configure -exec-prefix=$DIR/grib2 --prefix=$DIR/grib2 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 
 	# Changes flags back to netcdf only
@@ -8685,7 +8685,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 	./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -8699,7 +8699,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 	F90= ./configure --prefix=$DIR/MPICH --with-device=ch3 FFLAGS="$fallow_argument -m64" FCFLAGS="$fallow_argument -m64" 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -8722,7 +8722,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 	echo " "
@@ -8735,7 +8735,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -8752,7 +8752,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --with-zlib=$DIR/grib2 --enable-hl --enable-fortran --enable-parallel 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -8777,7 +8777,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --enable-shared --enable-static 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -8797,7 +8797,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-shared --enable-static --enable-pnetcdf --enable-cdf5 --enable-parallel-tests 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -8817,7 +8817,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-shared --enable-static --enable-parallel-tests --enable-hdf5 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -9266,7 +9266,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ] && [ "$
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -9281,7 +9281,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ] && [ "$
 	F90= ./configure --prefix=$DIR/MPICH --with-device=ch3 FFLAGS="$fallow_argument -m64" FCFLAGS="$fallow_argument -m64" 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -9307,7 +9307,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ] && [ "$
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 	#make check
@@ -9324,7 +9324,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ] && [ "$
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	export JASPERLIB=$DIR/grib2/lib
 	export JASPERINC=$DIR/grib2/include
@@ -9341,7 +9341,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ] && [ "$
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -9368,7 +9368,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ] && [ "$
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -9389,7 +9389,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ] && [ "$
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -9411,7 +9411,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ] && [ "$
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -9900,7 +9900,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ] && [ "$
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -9915,7 +9915,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ] && [ "$
 	F90= ./configure --prefix=$DIR/MPICH --with-device=ch3 FFLAGS="$fallow_argument -m64" FCFLAGS="$fallow_argument -m64" 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -9941,7 +9941,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ] && [ "$
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 	#make check
@@ -9958,7 +9958,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ] && [ "$
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	export JASPERLIB=$DIR/grib2/lib
 	export JASPERINC=$DIR/grib2/include
@@ -9975,7 +9975,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ] && [ "$
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -10002,7 +10002,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ] && [ "$
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -10023,7 +10023,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ] && [ "$
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -10045,7 +10045,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ] && [ "$
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -10461,7 +10461,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; the
 	2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -10477,7 +10477,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; the
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 	echo " "
@@ -10490,7 +10490,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; the
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 	export JASPERLIB=$DIR/grib2/lib
@@ -10507,7 +10507,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; the
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --with-zlib=$DIR/grib2 --enable-hl --enable-fortran --enable-parallel 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -10528,7 +10528,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; the
 	automake -a -f 2>&1 | tee automake.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -10548,7 +10548,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; the
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --with-zlib=$DIR/grib2 --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-shared --enable-static --enable-pnetcdf --enable-cdf5 --enable-parallel-tests 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -10568,7 +10568,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; the
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-shared --enable-static --enable-parallel-tests --enable-hdf5 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -10963,7 +10963,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -10979,7 +10979,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	# make check
 
@@ -11003,7 +11003,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 	echo " "
@@ -11018,7 +11018,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -11036,7 +11036,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -11063,7 +11063,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -11084,7 +11084,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -11105,7 +11105,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -11499,7 +11499,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -11515,7 +11515,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	# make check
 
@@ -11539,7 +11539,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 	echo " "
@@ -11554,7 +11554,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -11572,7 +11572,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -11599,7 +11599,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -11620,7 +11620,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -11641,7 +11641,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -11932,5354 +11932,5354 @@ fi
 # UCAR's Katelyn F., Jim B., Jordan P., Kevin M.,
 ##############################################################
 
-if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
-
-	############################basic package managment############################
-	echo $PASSWD | sudo -S apt -y update
-	echo $PASSWD | sudo -S apt -y upgrade
-
-	release_version=$(lsb_release -r -s)
-
-	# Compare the release version
-	if [ "$release_version" = "24.04" ]; then
-		# Install Emacs without recommended packages
-		echo $PASSWD | sudo -S apt install emacs --no-install-recommends -y
-	else
-		# Attempt to install Emacs if the release version is not 24.04
-		echo "The release version is not 24.04, attempting to install Emacs."
-		echo $PASSWD | sudo -S apt install emacs -y
-	fi
-
-	echo $PASSWD | sudo -S apt -y install autoconf automake autotools-dev bison build-essential byacc cmake csh curl default-jdk default-jre flex libfl-dev g++ gawk gcc gfortran git ksh libcurl4-openssl-dev libjpeg-dev libncurses6 libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev libxml-libxml-perl m4 make ncview okular openbox pipenv pkg-config python3 python3-dev python3-pip python3-dateutil tcsh unzip xauth xorg time
-
-	echo " "
-	##############################Directory Listing############################
-	export HOME=$(
-		cd
-		pwd
-	)
-	mkdir $HOME/WRFHYDRO_COUPLED
-	export WRF_FOLDER=$HOME/WRFHYDRO_COUPLED
-	export DIR="${WRF_FOLDER}"/Libs
-	cd "${WRF_FOLDER}"/
-	mkdir Downloads
-	mkdir "${WRF_FOLDER}"/Hydro-Basecode
-	mkdir Libs
-	export DIR="${WRF_FOLDER}"/Libs
-	mkdir# Libs/grib2
-	mkdir Libs/NETCDF
-	mkdir Libs/MPICH
-	mkdir -p Tests/Environment
-	mkdir -p Tests/Compatibility
-
-	echo " "
-	#############################Core Management####################################
-
-	export CPU_CORE=$(nproc) # number of available threads on system
-	export CPU_6CORE="6"
-	export CPU_QUARTER=$(($CPU_CORE / 4))                          #quarter of availble cores on system
-	export CPU_QUARTER_EVEN=$(($CPU_QUARTER - ($CPU_QUARTER % 2))) #Forces CPU cores to even number to avoid partial core export. ie 7 cores would be 3.5 cores.
-
-	if [ $CPU_CORE -le $CPU_6CORE ]; then #If statement for low core systems.  Forces computers to only use 1 core if there are 4 cores or less on the system. then
-		export CPU_QUARTER_EVEN="2"
-	else
-		export CPU_QUARTER_EVEN=$(($CPU_QUARTER - ($CPU_QUARTER % 2)))
-	fi
-
-	echo "##########################################"
-	echo "Number of Threads being used $CPU_QUARTER_EVEN"
-	echo "##########################################"
-
-	echo " "
-	##############################Downloading Libraries############################
-	cd Downloads
-	wget -c https://github.com/madler/zlib/releases/download/v$Zlib_Version/zlib-$Zlib_Version.tar.gz
-	wget -c https://github.com/HDFGroup/hdf5/releases/download/hdf5_$HDF5_Version.$HDF5_Sub_Version/hdf5-$HDF5_Version-$HDF5_Sub_Version.tar.gz
-	wget -c https://github.com/Unidata/netcdf-c/archive/refs/tags/v$Netcdf_C_Version.tar.gz
-	wget -c https://github.com/Unidata/netcdf-fortran/archive/refs/tags/v$Netcdf_Fortran_Version.tar.gz
-	wget -c https://download.sourceforge.net/libpng/libpng-$Libpng_Version.tar.gz
-	wget -c https://www.ece.uvic.ca/~frodo/jasper/software/jasper-$Jasper_Version.zip
-	wget -c https://github.com/pmodels/mpich/releases/download/v$Mpich_Version/mpich-$Mpich_Version.tar.gz
-	wget -c https://parallel-netcdf.github.io/Release/pnetcdf-$Pnetcdf_Version.tar.gz
-	wget -c https://sourceforge.net/projects/opengrads/files/grads2/2.2.1.oga.1/Linux%20%2864%20Bits%29/opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz
-
-	echo " "
-	#############################Compilers############################
-	export CC=gcc
-	export CXX=g++
-	export FC=gfortran
-	export F77=gfortran
-	export CFLAGS="-fPIC -fPIE -O3"
-
-	#IF statement for GNU compiler issue
-	export GCC_VERSION=$(/usr/bin/gcc -dumpfullversion | awk '{print$1}')
-	export GFORTRAN_VERSION=$(/usr/bin/gfortran -dumpfullversion | awk '{print$1}')
-	export GPLUSPLUS_VERSION=$(/usr/bin/g++ -dumpfullversion | awk '{print$1}')
-
-	export GCC_VERSION_MAJOR_VERSION=$(echo $GCC_VERSION | awk -F. '{print $1}')
-	export GFORTRAN_VERSION_MAJOR_VERSION=$(echo $GFORTRAN_VERSION | awk -F. '{print $1}')
-	export GPLUSPLUS_VERSION_MAJOR_VERSION=$(echo $GPLUSPLUS_VERSION | awk -F. '{print $1}')
-
-	export version_10="10"
-
-	if [ $GCC_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GFORTRAN_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GPLUSPLUS_VERSION_MAJOR_VERSION -ge $version_10 ]; then
-		export fallow_argument=-fallow-argument-mismatch
-		export boz_argument=-fallow-invalid-boz
-	else
-		export fallow_argument=
-		export boz_argument=
-	fi
-
-	export FFLAGS="$fallow_argument -m64"
-	export FCFLAGS="$fallow_argument -m64"
-
-	echo "##########################################"
-	echo "FFLAGS = $FFLAGS"
-	echo "FCFLAGS = $FCFLAGS"
-	echo "CFLAGS = $CFLAGS"
-	echo "##########################################"
-
-	echo " "
-	#############################zlib############################
-	#Uncalling compilers due to comfigure issue with zlib$Zlib_Version
-	#With CC & CXX definied ./configure uses different compiler Flags
-
-	cd "${WRF_FOLDER}"/Downloads
-	tar -xvzf zlib-$Zlib_Version.tar.gz
-	cd zlib-$Zlib_Version/
-	autoreconf -i -f 2>&1 | tee autoreconf.log
-	./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
-	automake -a -f 2>&1 | tee automake.log
-	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
-	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
-	#make check
-
-	echo " "
-	##############################MPICH############################
-	cd "${WRF_FOLDER}"/Downloads
-	tar -xvzf mpich-$Mpich_Version.tar.gz
-	cd mpich-$Mpich_Version/
-	autoreconf -i -f 2>&1 | tee autoreconf.log
-
-	F90= ./configure --prefix=$DIR/MPICH --with-device=ch3 FFLAGS="$fallow_argument -m64" FCFLAGS="$fallow_argument -m64" 2>&1 | tee configure.log
-	automake -a -f 2>&1 | tee automake.log
-	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
-	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
-	#make check
-
-	export PATH=$DIR/MPICH/bin:$PATH
-	export MPIFC=$DIR/MPICH/bin/mpifort
-	export MPIF77=$DIR/MPICH/bin/mpifort
-	export MPIF90=$DIR/MPICH/bin/mpifort
-	export MPICC=$DIR/MPICH/bin/mpicc
-	export MPICXX=$DIR/MPICH/bin/mpicxx
-
-	echo " "
-	#############################libpng############################
-	cd "${WRF_FOLDER}"/Downloads
-	export LDFLAGS=-L$DIR/grib2/lib
-	export CPPFLAGS=-I$DIR/grib2/include
-	tar -xvzf libpng-$Libpng_Version.tar.gz
-	cd libpng-$Libpng_Version/
-	autoreconf -i -f 2>&1 | tee autoreconf.log
-
-	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
-	automake -a -f 2>&1 | tee automake.log
-	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
-	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
-	#make check
-	echo " "
-	#############################JasPer############################
-	cd "${WRF_FOLDER}"/Downloads
-	unzip jasper-$Jasper_Version.zip
-	cd jasper-$Jasper_Version/
-	autoreconf -i -f 2>&1 | tee autoreconf.log
-
-	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
-	automake -a -f 2>&1 | tee automake.log
-	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
-	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
-	#make check
-
-	export JASPERLIB=$DIR/grib2/lib
-	export JASPERINC=$DIR/grib2/include
-
-	echo " "
-	#############################hdf5 library for netcdf4 functionality############################
-	cd "${WRF_FOLDER}"/Downloads
-	tar -xvzf hdf5-$HDF5_Version-$HDF5_Sub_Version.tar.gz
-	cd hdf5-$HDF5_Version-$HDF5_Sub_Version
-	autoreconf -i -f 2>&1 | tee autoreconf.log
-
-	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --with-zlib=$DIR/grib2 --enable-hl --enable-fortran --enable-parallel 2>&1 | tee configure.log
-	automake -a -f 2>&1 | tee automake.log
-	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
-	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
-	#make check
-
-	export HDF5=$DIR/grib2
-	export PHDF5=$DIR/grib2
-	export LD_LIBRARY_PATH=$DIR/grib2/lib:$LD_LIBRARY_PATH
-
-	#############################Install Parallel-netCDF##############################
-	#Make file created with half of available cpu cores
-	#Hard path for MPI added
-	##################################################################################
-	cd "${WRF_FOLDER}"/Downloads
-	tar -xvzf pnetcdf-$Pnetcdf_Version.tar.gz
-	cd pnetcdf-$Pnetcdf_Version
-
-	export MPIFC=$DIR/MPICH/bin/mpifort
-	export MPIF77=$DIR/MPICH/bin/mpifort
-	export MPIF90=$DIR/MPICH/bin/mpifort
-	export MPICC=$DIR/MPICH/bin/mpicc
-	export MPICXX=$DIR/MPICH/bin/mpicxx
-	autoreconf -i -f 2>&1 | tee autoreconf.log
-	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --enable-shared --enable-static 2>&1 | tee configure.log
-	automake -a -f 2>&1 | tee automake.log
-	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
-	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
-	#make check
-
-	export PNETCDF=$DIR/grib2
-
-	echo " "
-
-	##############################Install NETCDF C Library############################
-	cd "${WRF_FOLDER}"/Downloads
-	tar -xzvf v$Netcdf_C_Version.tar.gz
-	cd netcdf-c-$Netcdf_C_Version/
-	export CPPFLAGS=-I$DIR/grib2/include
-	export LDFLAGS=-L$DIR/grib2/lib
-	export LIBS="-lhdf5_hl -lhdf5 -lz -lcurl -lgfortran -lgcc -lm -ldl -lpnetcdf"
-	autoreconf -i -f 2>&1 | tee autoreconf.log
-
-	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-shared --enable-static --enable-pnetcdf --enable-cdf5 --enable-parallel-tests 2>&1 | tee configure.log
-	automake -a -f 2>&1 | tee automake.log
-	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
-	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
-	#make check
-
-	export PATH=$DIR/NETCDF/bin:$PATH
-	export NETCDF=$DIR/NETCDF
-	echo " "
-	##############################NetCDF fortran library############################
-	cd "${WRF_FOLDER}"/Downloads
-	tar -xvzf v$Netcdf_Fortran_Version.tar.gz
-	cd netcdf-fortran-$Netcdf_Fortran_Version/
-	export LD_LIBRARY_PATH=$DIR/NETCDF/lib:$LD_LIBRARY_PATH
-	export CPPFLAGS="-I$DIR/NETCDF/include -I$DIR/grib2/include"
-	export LDFLAGS="-L$DIR/NETCDF/lib -L$DIR/grib2/lib"
-	export LIBS="-lnetcdf -lpnetcdf -lcurl -lhdf5_hl -lhdf5 -lz -lm -ldl -lgcc -lgfortran"
-	autoreconf -i -f 2>&1 | tee autoreconf.log
-
-	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-shared --enable-static --enable-parallel-tests --enable-hdf5 2>&1 | tee configure.log
-	automake -a -f 2>&1 | tee automake.log
-	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
-	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
-	#make check
-
-	echo " "
-
-	#################################### System Environment Tests ##############
-
-	cd "${WRF_FOLDER}"/Downloads
-	wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_NETCDF_MPI_tests.tar
-	wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_tests.tar
-
-	tar -xvf Fortran_C_tests.tar -C "${WRF_FOLDER}"/Tests/Environment
-	tar -xvf Fortran_C_NETCDF_MPI_tests.tar -C "${WRF_FOLDER}"/Tests/Compatibility
-	export one="1"
-	echo " "
-	############## Testing Environment #####
-
-	cd "${WRF_FOLDER}"/Tests/Environment
-
-	cp ${NETCDF}/include/netcdf.inc .
-
-	echo " "
-	echo " "
-	echo "Environment Testing "
-	echo "Test 1"
-	$FC TEST_1_fortran_only_fixed.f
-	./a.out | tee env_test1.txt
-	export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test1.txt | awk '{print$1}')
-	if [ $TEST_PASS -ge 1 ]; then
-		echo "Enviroment Test 1 Passed"
-	else
-		echo "Environment Compiler Test 1 Failed"
-		exit
-	fi
-	read -r -t 3 -p "I am going to wait for 3 seconds only ..."
-
-	echo " "
-	echo "Test 2"
-	$FC TEST_2_fortran_only_free.f90
-	./a.out | tee env_test2.txt
-	export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test2.txt | awk '{print$1}')
-	if [ $TEST_PASS -ge 1 ]; then
-		echo "Enviroment Test 2 Passed"
-	else
-		echo "Environment Compiler Test 2 Failed"
-		exit
-	fi
-	echo " "
-	read -r -t 3 -p "I am going to wait for 3 seconds only ..."
-
-	echo " "
-	echo "Test 3"
-	$CC TEST_3_c_only.c
-	./a.out | tee env_test3.txt
-	export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test3.txt | awk '{print$1}')
-	if [ $TEST_PASS -ge 1 ]; then
-		echo "Enviroment Test 3 Passed"
-	else
-		echo "Environment Compiler Test 3 Failed"
-		exit
-	fi
-	echo " "
-	read -r -t 3 -p "I am going to wait for 3 seconds only ..."
-
-	echo " "
-	echo "Test 4"
-	$CC -c -m64 TEST_4_fortran+c_c.c
-	$FC -c -m64 TEST_4_fortran+c_f.f90
-	$FC -m64 TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
-	./a.out | tee env_test4.txt
-	export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test4.txt | awk '{print$1}')
-	if [ $TEST_PASS -ge 1 ]; then
-		echo "Enviroment Test 4 Passed"
-	else
-		echo "Environment Compiler Test 4 Failed"
-		exit
-	fi
-	echo " "
-	read -r -t 3 -p "I am going to wait for 3 seconds only ..."
-
-	echo " "
-	############## Testing Environment #####
-
-	cd "${WRF_FOLDER}"/Tests/Compatibility
-
-	cp ${NETCDF}/include/netcdf.inc .
-
-	echo " "
-	echo " "
-	echo "Library Compatibility Tests "
-	echo "Test 1"
-	$FC -c 01_fortran+c+netcdf_f.f
-	$CC -c 01_fortran+c+netcdf_c.c
-	$FC 01_fortran+c+netcdf_f.o 01_fortran+c+netcdf_c.o \
-		-L${NETCDF}/lib -lnetcdff -lnetcdf
-
-	./a.out | tee comp_test1.txt
-	export TEST_PASS=$(grep -w -o -c "SUCCESS" comp_test1.txt | awk '{print$1}')
-	if [ $TEST_PASS -ge 1 ]; then
-		echo "Compatibility Test 1 Passed"
-	else
-		echo "Compatibility Compiler Test 1 Failed"
-		exit
-	fi
-	echo " "
-	read -r -t 3 -p "I am going to wait for 3 seconds only ..."
-
-	echo " "
-
-	echo "Test 2"
-	$MPIFC -c 02_fortran+c+netcdf+mpi_f.f
-	$MPICC -c 02_fortran+c+netcdf+mpi_c.c
-	$MPIFC 02_fortran+c+netcdf+mpi_f.o \
-		02_fortran+c+netcdf+mpi_c.o \
-		-L${NETCDF}/lib -lnetcdff -lnetcdf
-
-	$DIR/MPICH/bin/mpirun ./a.out | tee comp_test2.txt
-	export TEST_PASS=$(grep -w -o -c "SUCCESS" comp_test2.txt | awk '{print$1}')
-	if [ $TEST_PASS -ge 1 ]; then
-		echo "Compatibility Test 2 Passed"
-	else
-		echo "Compatibility Compiler Test 2 Failed"
-		exit
-	fi
-	echo " "
-	read -r -t 3 -p "I am going to wait for 3 seconds only ..."
-	echo " "
-
-	echo " All tests completed and passed"
-	echo " "
-
-	###############################NCEPlibs#####################################
-	#The libraries are built and installed with
-	# ./make_ncep_libs.sh -s MACHINE -c COMPILER -d NCEPLIBS_DIR -o OPENMP [-m mpi] [-a APPLICATION]
-	#It is recommended to install the NCEPlibs into their own directory, which must be created before running the installer. Further information on the command line arguments can be obtained with
-	# ./make_ncep_libs.sh -h
-
-	#If iand error occurs go to https://github.com/NCAR/NCEPlibs/pull/16/files make adjustment and re-run ./make_ncep_libs.sh
-	############################################################################
-
-	cd "${WRF_FOLDER}"/Downloads
-	git clone https://github.com/NCAR/NCEPlibs.git
-	cd NCEPlibs
-	mkdir $DIR/nceplibs
-
-	export JASPER_INC=$DIR/grib2/include
-	export PNG_INC=$DIR/grib2/include
-	export NETCDF=$DIR/NETCDF
-
-	#for loop to edit linux.gnu for nceplibs to install
-	#make if statement for gcc-9 or older
-	export GCC_VERSION=$(/usr/bin/gcc -dumpfullversion | awk '{print$1}')
-	export GFORTRAN_VERSION=$(/usr/bin/gfortran -dumpfullversion | awk '{print$1}')
-	export GPLUSPLUS_VERSION=$(/usr/bin/g++ -dumpfullversion | awk '{print$1}')
-
-	export GCC_VERSION_MAJOR_VERSION=$(echo $GCC_VERSION | awk -F. '{print $1}')
-	export GFORTRAN_VERSION_MAJOR_VERSION=$(echo $GFORTRAN_VERSION | awk -F. '{print $1}')
-	export GPLUSPLUS_VERSION_MAJOR_VERSION=$(echo $GPLUSPLUS_VERSION | awk -F. '{print $1}')
-
-	export version_10="10"
-
-	if [ $GCC_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GFORTRAN_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GPLUSPLUS_VERSION_MAJOR_VERSION -ge $version_10 ]; then
-		sed -i "24s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
-		sed -i "28s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
-		sed -i "32s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
-		sed -i "36s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
-		sed -i "40s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
-		sed -i "45s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
-		sed -i "49s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
-		sed -i "53s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
-		sed -i "56s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
-		sed -i "60s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
-		sed -i "64s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
-		sed -i "68s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
-		sed -i "69s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
-		sed -i "73s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
-		sed -i "74s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
-		sed -i "79s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
-
-	fi
-
-	if [ ${auto_config} -eq 1 ]; then
-		echo yes | ./make_ncep_libs.sh -s linux -c gnu -d $DIR/nceplibs -o 0 -m 1 -a upp
-	else
-		./make_ncep_libs.sh -s linux -c gnu -d $DIR/nceplibs -o 0 -m 1 -a upp
-	fi
-
-	export PATH=$DIR/nceplibs:$PATH
-
-	echo " "
-	################################UPPv4.1######################################
-	#Previous verison of UPP
-	#WRF Support page recommends UPPV4.1 due to too many changes to WRF and UPP code
-	#since the WRF was written
-	#Option 8 gfortran compiler with distributed memory
-	#############################################################################
-	cd "${WRF_FOLDER}"/
-	git clone -b dtc_post_v4.1.0 --recurse-submodules https://github.com/NOAA-EMC/EMC_post UPPV4.1
-	cd UPPV4.1
-	mkdir postprd
-	export NCEPLIBS_DIR=$DIR/nceplibs
-	export NETCDF=$DIR/NETCDF
-
-	if [ ${auto_config} -eq 1 ]; then
-		echo 8 | ./configure #Option 8 gfortran compiler with distributed memory
-	else
-		./configure #Option 8 gfortran compiler with distributed memory
-	fi
-
-	echo " "
-	#make if statement for gcc-9 or older
-	export GCC_VERSION=$(/usr/bin/gcc -dumpfullversion | awk '{print$1}')
-	export GFORTRAN_VERSION=$(/usr/bin/gfortran -dumpfullversion | awk '{print$1}')
-	export GPLUSPLUS_VERSION=$(/usr/bin/g++ -dumpfullversion | awk '{print$1}')
-
-	export GCC_VERSION_MAJOR_VERSION=$(echo $GCC_VERSION | awk -F. '{print $1}')
-	export GFORTRAN_VERSION_MAJOR_VERSION=$(echo $GFORTRAN_VERSION | awk -F. '{print $1}')
-	export GPLUSPLUS_VERSION_MAJOR_VERSION=$(echo $GPLUSPLUS_VERSION | awk -F. '{print $1}')
-
-	export version_10="10"
-
-	if [ $GCC_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GFORTRAN_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GPLUSPLUS_VERSION_MAJOR_VERSION -ge $version_10 ]; then
-		sed -i "58s/(FOPT)/(FOPT) $fallow_argument $boz_argument  /g" "${WRF_FOLDER}/UPPV4.1/configure.upp"
-		sed -i "63s/(FOPT)/(FOPT) $fallow_argument $boz_argument  /g" "${WRF_FOLDER}/UPPV4.1/configure.upp"
-
-	fi
-
-	./compile | tee upp_compile.log
-	cd "${WRF_FOLDER}"/UPPV4.1/scripts
-
-	chmod +x run_unipost
-
-	echo " "
-	######################## ARWpost V3.1  ############################
-	## ARWpost
-	##Configure #3
-	###################################################################
-	cd "${WRF_FOLDER}"/Downloads
-	wget -c http://www2.mmm.ucar.edu/wrf/src/ARWpost_V3.tar.gz
-	tar -xvzf ARWpost_V3.tar.gz -C "${WRF_FOLDER}"/
-	cd "${WRF_FOLDER}"/ARWpost
-	./clean -a
-	sed -i -e 's/-lnetcdf/-lnetcdff -lnetcdf/g' "${WRF_FOLDER}"/ARWpost/src/Makefile
-	export NETCDF=$DIR/NETCDF
-
-	if [ ${auto_config} -eq 1 ]; then
-		echo 3 | ./configure #Option 3 gfortran compiler with distributed memory
-	else
-		./configure #Option 3 gfortran compiler with distributed memory
-	fi
-
-	export GCC_VERSION=$(/usr/bin/gcc -dumpfullversion | awk '{print$1}')
-	export GFORTRAN_VERSION=$(/usr/bin/gfortran -dumpfullversion | awk '{print$1}')
-	export GPLUSPLUS_VERSION=$(/usr/bin/g++ -dumpfullversion | awk '{print$1}')
-
-	export GCC_VERSION_MAJOR_VERSION=$(echo $GCC_VERSION | awk -F. '{print $1}')
-	export GFORTRAN_VERSION_MAJOR_VERSION=$(echo $GFORTRAN_VERSION | awk -F. '{print $1}')
-	export GPLUSPLUS_VERSION_MAJOR_VERSION=$(echo $GPLUSPLUS_VERSION | awk -F. '{print $1}')
-
-	export version_10="10"
-
-	if [ $GCC_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GFORTRAN_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GPLUSPLUS_VERSION_MAJOR_VERSION -ge $version_10 ]; then
-		sed -i '32s/-ffree-form -O -fno-second-underscore -fconvert=big-endian -frecord-marker=4/-ffree-form -O -fno-second-underscore -fconvert=big-endian -frecord-marker=4 ${fallow_argument} /g' configure.arwp
-	fi
-
-	sed -i -e 's/-C -P -traditional/-P -traditional/g' "${WRF_FOLDER}"/ARWpost/configure.arwp
-	./compile
-
-	#IF statement to check that all files were created.
-	cd "${WRF_FOLDER}"/ARWpost
-	n=$(ls ./*.exe | wc -l)
-	if (($n == 1)); then
-		echo "All expected files created."
-		read -r -t 5 -p "Finished installing ARWpost. I am going to wait for 5 seconds only ..."
-	else
-		echo "Missing one or more expected files. Exiting the script."
-		read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
-		exit
-	fi
-
-	echo " "
-
-	export PATH="${WRF_FOLDER}"/ARWpost/ARWpost.exe:$PATH
-
-	echo " "
-	################################OpenGrADS######################################
-	#Verison 2.2.1 64bit of Linux
-	#############################################################################
-	cd "${WRF_FOLDER}"/Downloads
-	tar -xzvf opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz -C "${WRF_FOLDER}"/
-	cd "${WRF_FOLDER}"/
-	mv "${WRF_FOLDER}"/opengrads-2.2.1.oga.1 "${WRF_FOLDER}"/GrADS
-	cd GrADS/Contents
-	wget -c https://github.com/regisgrundig/SIMOP/blob/master/g2ctl.pl
-	chmod +x g2ctl.pl
-	wget -c https://sourceforge.net/projects/opengrads/files/wgrib2/0.1.9.4/wgrib2-v0.1.9.4-bin-x86_64-glibc2.5-linux-gnu.tar.gz
-	tar -xzvf wgrib2-v0.1.9.4-bin-x86_64-glibc2.5-linux-gnu.tar.gz
-	cd wgrib2-v0.1.9.4/bin
-	mv wgrib2 "${WRF_FOLDER}"/GrADS/Contents
-	cd "${WRF_FOLDER}"/GrADS/Contents
-	rm wgrib2-v0.1.9.4-bin-x86_64-glibc2.5-linux-gnu.tar.gz
-	rm -r wgrib2-v0.1.9.4
-
-	export PATH="${WRF_FOLDER}"/GrADS/Contents:$PATH
-
-	echo " "
-	##################### NCAR COMMAND LANGUAGE           ##################
-	########### NCL compiled via Conda                    ##################
-	########### This is the preferred method by NCAR      ##################
-	########### https://www.ncl.ucar.edu/index.shtml      ##################
-
-	#Installing Miniconda3 to WRF-Hydro dire
-	echo $PASSWD | sudo -S apt -y install python3-zstandard python3-zstd
-
-	export Miniconda_Install_DIR="${WRF_FOLDER}"/miniconda3
-
-	mkdir -p $Miniconda_Install_DIR
-
-	wget -c https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O $Miniconda_Install_DIR/miniconda.sh
-	bash $Miniconda_Install_DIR/miniconda.sh -b -u -p $Miniconda_Install_DIR
-
-	rm -rf $Miniconda_Install_DIR/miniconda.sh
-
-	export PATH="${WRF_FOLDER}"/miniconda3/bin:$PATH
-
-	source $Miniconda_Install_DIR/etc/profile.d/conda.sh
-
-	$Miniconda_Install_DIR/bin/conda init bash
-	$Miniconda_Install_DIR/bin/conda init zsh
-	$Miniconda_Install_DIR/bin/conda init tcsh
-	$Miniconda_Install_DIR/bin/conda init xonsh
-	$Miniconda_Install_DIR/bin/conda init powershell
-
-	conda config --add channels conda-forge
-	conda config --set auto_activate_base false
-	conda update -n root --all -y
-
-	echo " "
-
-	echo " "
-	#Installing NCL via Conda
-	source $Miniconda_Install_DIR/etc/profile.d/conda.sh
-	conda init bash
-	conda activate base
-	conda create -n ncl_stable -c conda-forge ncl -y
-	conda activate ncl_stable
-
-	conda deactivate
-	conda deactivate
-	conda deactivate
-
-	echo " "
-
-	############################OBSGRID###############################
-	## OBSGRID
-	## Downloaded from git tagged releases
-	## Option #2
-	########################################################################
-	cd "${WRF_FOLDER}"/
-	git clone https://github.com/wrf-model/OBSGRID.git
-	cd "${WRF_FOLDER}"/OBSGRID
-
-	./clean -a
-	source $Miniconda_Install_DIR/etc/profile.d/conda.sh
-	conda init bash
-	conda activate ncl_stable
-
-	export HOME=$(
-		cd
-		pwd
-	)
-	export DIR="${WRF_FOLDER}"/Libs
-	export NETCDF=$DIR/NETCDF
-
-	if [ ${auto_config} -eq 1 ]; then
-		echo 2 | ./configure 2>&1 | tee configure.log #Option 2 for gfortran/gcc and distribunted memory
-	else
-		./configure 2>&1 | tee configure.log #Option 2 for gfortran/gcc and distribunted memory
-	fi
-
-	sed -i '27s/-lnetcdf -lnetcdff/ -lnetcdff -lnetcdf/g' configure.oa
-
-	sed -i '31s/-lncarg -lncarg_gks -lncarg_c -lX11 -lm -lcairo/-lncarg -lncarg_gks -lncarg_c -lX11 -lm -lcairo -lfontconfig -lpixman-1 -lfreetype -lhdf5 -lhdf5_hl /g' configure.oa
-
-	sed -i '39s/-frecord-marker=4/-frecord-marker=4 ${fallow_argument} /g' configure.oa
-
-	sed -i '44s/=	/=	${fallow_argument} /g' configure.oa
-
-	sed -i '45s/-C -P -traditional/-P -traditional/g' configure.oa
-
-	echo " "
-
-	./compile 2>&1 | tee compile.obsgrid.log
-
-	conda deactivate
-	conda deactivate
-	conda deactivate
-	# IF statement to check that all files were created.
-	cd "${WRF_FOLDER}"/OBSGRID
-	n=$(ls ./*.exe | wc -l)
-	if (($n == 3)); then
-		echo "All expected files created."
-		read -r -t 5 -p "Finished installing OBSGRID. I am going to wait for 5 seconds only ..."
-	else
-		echo "Missing one or more expected files. Exiting the script."
-		read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
-		exit
-	fi
-
-	echo " "
-
-	##################### WRF Python           ##################
-	########### WRf-Python compiled via Conda  ##################
-	########### This is the preferred method by NCAR      ##################
-	##### https://wrf-python.readthedocs.io/en/latest/installation.html  ##################
-	source $Miniconda_Install_DIR/etc/profile.d/conda.sh
-	conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
-
-	######################### Climate Data Operators ############
-	######################### CDO compiled via Conda ###########
-	####################### This is the preferred method #######
-	################### https://bairdlangenbrunner.github.io/python-for-climate-scientists/conda/setting-up-conda-environments.html #######################
-
-	source $Miniconda_Install_DIR/etc/profile.d/conda.sh
-	conda init bash
-	conda activate base
-	conda create --name cdo_stable -y
-	conda activate cdo_stable
-	conda install -c conda-forge cdo -y
-	conda update --all -y
-	conda deactivate
-	conda deactivate
-	conda deactivate
-
-	echo " "
-
-	########################## WRF Hydro GIS PreProcessor ##############################
-	#  Compiled with Conda
-	#  https://github.com/NCAR/wrf_hydro_gis_preprocessor
-	####################################################################################
-
-	conda init bash
-	conda activate base
-	conda config --add channels conda-forge
-	conda create -n wrfh_gis_env -c conda-forge python=3.12 gdal netCDF4 numpy pyproj whitebox=2.2.0 packaging shapely -y
-	conda activate wrfh_gis_env
-	conda update -n wrfh_gis_env --all -y
-	conda deactivate
-	conda deactivate
-	conda deactivate
-	cd "${WRF_FOLDER}"/
-	git clone https://github.com/NCAR/wrf_hydro_gis_preprocessor.git "${WRF_FOLDER}"/WRF-Hydro-GIS-PreProcessor
-
-	echo " "
-	############################# WRF HYDRO V5.3.0 #################################
-	# Version 5.3.0
-	# Standalone mode
-	################################################################################
-	# Set up NETCDF environment variables
-	export NETCDF_INC="$DIR/NETCDF/include"
-	export NETCDF_LIB="$DIR/NETCDF/lib"
-
-	# Create directories for Hydro Basecode and navigate to it
-	mkdir -p "${WRF_FOLDER}/Hydro-Basecode"
-	cd "${WRF_FOLDER}/Hydro-Basecode"
-
-	# Clone the WRF-Hydro repository and set up the build
-	git clone https://github.com/NCAR/wrf_hydro_nwm_public.git
-	cd wrf_hydro_nwm_public
-	mkdir -p build
-	cd build
-
-	# Run CMake configuration for WRF-Hydro with specified options
-	cmake .. \
-		-DSPATIAL_SOIL=1 \
-		-DWRF_HYDRO=1 \
-		-DWRF_HYDRO_NUDGING=1 \
-		-DWRFIO_NCD_LARGE_FILE_SUPPORT=1 \
-		-DCMAKE_Fortran_COMPILER=gfortran
-
-	# Compile using specified CPU settings
-	make -j "$CPU_QUARTER_EVEN" 2>&1 | tee make.log
-
-	# Check if the necessary executable files were created
-	cd "${WRF_FOLDER}/Hydro-Basecode/wrf_hydro_nwm_public/build/Run"
-	n=$(ls ./*.exe 2>/dev/null | wc -l)
-
-	# Function to rerun compilation if files are missing
-	rebuild_and_check() {
-		echo "Missing one or more expected files. Running compiler again..."
-		cd "${WRF_FOLDER}/Hydro-Basecode/wrf_hydro_nwm_public/build"
-		make -j "$CPU_QUARTER_EVEN" 2>&1 | tee make2.log
-		cd "${WRF_FOLDER}/Hydro-Basecode/wrf_hydro_nwm_public/build/Run"
-		n=$(ls ./*.exe 2>/dev/null | wc -l)
-	}
-
-	# IF statement to check that all expected files were created
-	if ((n == 2)); then
-		echo "All expected files created."
-	else
-		rebuild_and_check
-		if ((n != 2)); then
-			echo "Missing one or more expected files. Exiting the script."
-			read -r -p "Please contact script authors for assistance. Press 'Enter' to exit the script."
-			exit 1
-		else
-			echo "All expected files created after re-compiling."
-		fi
-	fi
-
-	# Finish the script with a pause
-	read -r -t 5 -p "Finished installing WRF Hydro Basecode. Waiting for 5 seconds..."
-	############################ WRF #################################
-	## WRF v${WPS_VERSION}
-	## Downloaded from git tagged releases
-	# option 34, option 1 for gfortran and distributed memory w/basic nesting
-	# large file support enable with WRFiO_NCD_LARGE_FILE_SUPPORT=1
-	# In the namelist.input, the following settings support pNetCDF by setting value to 11:
-	# io_form_boundary
-	# io_form_history
-	# io_form_auxinput2
-	# io_form_auxhist2
-	# Note that you need set nocolons = .true. in the section &time_control of namelist.input
-	########################################################################
-	cd "${WRF_FOLDER}"/Downloads
-	wget -c https://github.com/wrf-model/WRF/releases/download/v${WRF_VERSION}/v${WRF_VERSION}.tar.gz -O WRF-${WRF_VERSION}.tar.gz
-	tar -xvzf WRF-${WRF_VERSION}.tar.gz -C "${WRF_FOLDER}"/
-
-	# If statment for changing folder name
-	if [ -d ""${WRF_FOLDER}"/WRF" ]; then
-		mv -f "${WRF_FOLDER}"/WRF "${WRF_FOLDER}"/WRFV${WRF_VERSION}
-	fi
-
-	cd "${WRF_FOLDER}"/WRFV${WRF_VERSION}
-	export WRFIO_NCD_LARGE_FILE_SUPPORT=1
-
-	#Replace old version of WRF-Hydro distributed with WRF with updated WRF-Hydro source code
-	rm -r "${WRF_FOLDER}"/WRFV${WRF_VERSION}/hydro/
-	cp -r "${WRF_FOLDER}"/Hydro-Basecode/wrf_hydro_nwm_public/src "${WRF_FOLDER}"/WRFV${WRF_VERSION}/hydro
-
-	cd "${WRF_FOLDER}"/WRFV${WRF_VERSION}/hydro/template
-	source setEnvar.sh
-	cd "${WRF_FOLDER}"/WRFV${WRF_VERSION}
-
-	./clean
-
-	# SED statements to fix configure error
-	sed -i '186s/==/=/g' "${WRF_FOLDER}"/WRFV${WRF_VERSION}/configure
-	sed -i '318s/==/=/g' "${WRF_FOLDER}"/WRFV${WRF_VERSION}/configure
-	sed -i '919s/==/=/g' "${WRF_FOLDER}"/WRFV${WRF_VERSION}/configure
-
-	if [ ${auto_config} -eq 1 ]; then
-		sed -i '443s/.*/  $response = "34 \\n";/g' "${WRF_FOLDER}"/WRFV${WRF_VERSION}/arch/Config.pl # Answer for compiler choice
-		sed -i '909s/.*/  $response = "1 \\n";/g' "${WRF_FOLDER}"/WRFV${WRF_VERSION}/arch/Config.pl  #Answer for basic nesting
-		./configure 2>&1 | tee configure.log
-	else
-		./configure 2>&1 | tee configure.log #Option 34 gfortran compiler with distributed memory option 1 for basic nesting
-	fi
-
-	./compile -j $CPU_QUARTER_EVEN em_real 2>&1 | tee compile.wrf1.log
-
-	export WRF_DIR="${WRF_FOLDER}"/WRFV${WRF_VERSION}
-
-	# IF statement to check that all files were created.
-	cd "${WRF_FOLDER}"/WRFV${WRF_VERSION}/main
-	n=$(ls ./*.exe | wc -l)
-	if (($n >= 3)); then
-		echo "All expected files created."
-		read -r -t 5 -p "Finished installing WRF. I am going to wait for 5 seconds only ..."
-	else
-		echo "Missing one or more expected files."
-		echo "Running compiler again"
-		cd "${WRF_FOLDER}"/WRFV${WRF_VERSION}
-		./compile -j $CPU_QUARTER_EVEN em_real 2>&1 | tee compile.wrf2.log
-		cd "${WRF_FOLDER}"/WRFV${WRF_VERSION}/main
-		n=$(ls ./*.exe | wc -l)
-		if (($n >= 3)); then
-			echo "All expected files created."
-			read -r -t 5 -p "Finished installing WRF. I am going to wait for 5 seconds only ..."
-		else
-			read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
-			exit
-		fi
-	fi
-
-	echo " "
-
-	echo " "
-	############################WPS#####################################
-	## WPS v${WPS_VERSION}
-	## Downloaded from git tagged releases
-	#Option 3 for gfortran and distributed memory
-	########################################################################
-
-	cd "${WRF_FOLDER}"/Downloads
-	wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v${WPS_VERSION}.tar.gz -O WPS-${WPS_VERSION}.tar.gz
-	tar -xvzf WPS-${WPS_VERSION}.tar.gz -C "${WRF_FOLDER}"/
-	cd "${WRF_FOLDER}"/WPS-${WPS_VERSION}
-	./clean -a
-
-	if [ ${auto_config} -eq 1 ]; then
-		echo 3 | ./configure 2>&1 | tee configure.log #Option 3 for gfortran and distributed memory
-	else
-		./configure 2>&1 | tee configure.log #Option 3 gfortran compiler with distributed memory
-	fi
-	./compile 2>&1 | tee compile.wps.log
-
-	echo " "
-	# IF statement to check that all files were created.
-	cd "${WRF_FOLDER}"/WPS-${WPS_VERSION}
-	n=$(ls ./*.exe | wc -l)
-	if (($n == 3)); then
-		echo "All expected files created."
-		read -r -t 5 -p "Finished installing WPS. I am going to wait for 5 seconds only ..."
-	else
-		echo "Missing one or more expected files."
-		echo "Running compiler again"
-		./compile 2>&1 | tee compile.wps2.log
-		cd "${WRF_FOLDER}"/WPS-${WPS_VERSION}
-		n=$(ls ./*.exe | wc -l)
-		if (($n == 3)); then
-			echo "All expected files created."
-			read -r -t 5 -p "Finished installing WPS. I am going to wait for 5 seconds only ..."
-		else
-			read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
-			exit
-		fi
-	fi
-
-	echo " "
-
-	echo " "
-	######################## Static Geography Data inc/ Optional ####################
-	# http://www2.mmm.ucar.edu/wrf/users/download/get_sources_wps_geog.html
-	# These files are large so if you only need certain ones comment the others off
-	# All files downloaded and untarred is 200GB
-	# https://www2.mmm.ucar.edu/wrf/users/download/get_sources_wps_geog.html
-	#################################################################################
-	cd "${WRF_FOLDER}"/Downloads
-	mkdir "${WRF_FOLDER}"/GEOG
-	mkdir "${WRF_FOLDER}"/GEOG/WPS_GEOG
-
-	echo " "
-	echo "Mandatory WRF Preprocessing System (WPS) Geographical Input Data Mandatory Fields Downloads"
-	echo " "
-	wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_high_res_mandatory.tar.gz
-	tar -xvzf geog_high_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
-
-	wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_low_res_mandatory.tar.gz
-	tar -xvzf geog_low_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
-	mv "${WRF_FOLDER}"/GEOG/WPS_GEOG_LOW_RES/ "${WRF_FOLDER}"/GEOG/WPS_GEOG
-
-	if [ ${WPS_Specific_Applications} -eq 1 ]; then
-		echo " "
-		echo " WPS Geographical Input Data Mandatory for Specific Applications"
-		echo " "
-		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_thompson28_chem.tar.gz
-		tar -xvzf geog_thompson28_chem.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
-
-		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_noahmp.tar.gz
-		tar -xvzf geog_noahmp.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
-
-		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/irrigation.tar.gz
-		tar -xvzf irrigation.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
-
-		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_px.tar.gz
-		tar -xvzf geog_px.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
-
-		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_urban.tar.gz
-		tar -xvzf geog_urban.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
-
-		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_ssib.tar.gz
-		tar -xvzf geog_ssib.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
-
-		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/lake_depth.tar.bz2
-		tar -xvf lake_depth.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
-
-		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/topobath_30s.tar.bz2
-		tar -xvf topobath_30s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
-
-		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/gsl_gwd.tar.bz2
-		tar -xvf gsl_gwd.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
-
-		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/cglc_modis_lcz_global.tar.gz
-		tar -xvf cglc_modis_lcz_global.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
-	fi
-
-	if [ ${Optional_GEOG} -eq 1 ]; then
-		echo " "
-		echo "Optional WPS Geographical Input Data"
-		echo " "
-
-		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_older_than_2000.tar.gz
-		tar -xvzf geog_older_than_2000.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
-
-		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s_with_lakes.tar.gz
-		tar -xvzf modis_landuse_20class_15s_with_lakes.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
-
-		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_alt_lsm.tar.gz
-		tar -xvzf geog_alt_lsm.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
-
-		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/nlcd2006_ll_9s.tar.bz2
-		tar -xvf nlcd2006_ll_9s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
-
-		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/updated_Iceland_LU.tar.gz
-		tar -xvf updated_Iceland_LU.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
-
-		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s.tar.bz2
-		tar -xvf modis_landuse_20class_15s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
-
-	fi
-
-fi
-
-if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
-
-	############################# Basic package managment ############################
-
-	echo $PASSWD | sudo -S apt -y update
-	echo $PASSWD | sudo -S apt -y upgrade
-
-	# download the key to system keyring; this and the following echo command are
-	# needed in order to install the Intel compilers
-	wget -O- https://apt.repos.intel.com/intel-gpg-keys/GPG-PUB-KEY-INTEL-SW-PRODUCTS.PUB |
-		gpg --dearmor | sudo tee /usr/share/keyrings/oneapi-archive-keyring.gpg >/dev/null
-
-	# add signed entry to apt sources and configure the APT client to use Intel repository:
-	echo "deb [signed-by=/usr/share/keyrings/oneapi-archive-keyring.gpg] https://apt.repos.intel.com/oneapi all main" | sudo tee /etc/apt/sources.list.d/oneAPI.list
-
-	# this update should get the Intel package info from the Intel repository
-	echo $PASSWD | sudo -S apt -y update
-
-	release_version=$(lsb_release -r -s)
-
-	# Compare the release version
-	if [ "$release_version" = "24.04" ]; then
-		# Install Emacs without recommended packages
-		echo $PASSWD | sudo -S apt install emacs --no-install-recommends -y
-	else
-		# Attempt to install Emacs if the release version is not 24.04
-		echo "The release version is not 24.04, attempting to install Emacs."
-		echo $PASSWD | sudo -S apt install emacs -y
-	fi
-
-	echo $PASSWD | sudo -S apt -y install autoconf automake autotools-dev bison build-essential byacc cmake csh curl default-jdk default-jre flex libfl-dev g++ gawk gcc gfortran git ksh libcurl4-openssl-dev libjpeg-dev libncurses6 libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev libxml-libxml-perl m4 make ncview okular openbox pipenv pkg-config python3 python3-dev python3-pip python3-dateutil tcsh unzip xauth xorg time
-
-	# install the Intel compilers
-	echo $PASSWD | sudo -S apt -y install intel-basekit
-	echo $PASSWD | sudo -S apt -y install intel-hpckit
-	echo $PASSWD | sudo -S apt -y install intel-oneapi-python
-
-	echo $PASSWD | sudo -S apt -y update
-
-	#Fix any broken installations
-	echo $PASSWD | sudo -S apt --fix-broken install
-
-	# make sure some critical packages have been installed
-	which cmake pkg-config make gcc g++ gfortran
-
-	# add the Intel compiler file paths to various environment variables
-	source /opt/intel/oneapi/setvars.sh --force
-
-	# some of the libraries we install below need one or more of these variables
-	export CC=icx
-	export CXX=icpx
-	export FC=ifx
-	export F77=ifx
-	export F90=ifx
-	export MPIFC=mpiifx
-	export MPIF77=mpiifx
-	export MPIF90=mpiifx
-	export MPICC=mpiicx
-	export MPICXX=mpiicpc
-	export CFLAGS="-fPIC -fPIE -O3 -Wno-implicit-function-declaration -Wno-incompatible-function-pointer-types -Wno-unused-command-line-argument"
-	export FFLAGS="-m64"
-	export FCFLAGS="-m64"
-	############################# CPU Core Management ####################################
-
-	export CPU_CORE=$(nproc) # number of available threads on system
-	export CPU_6CORE="6"
-	export CPU_QUARTER=$(($CPU_CORE / 4)) # quarter of availble cores on system
-	# Forces CPU cores to even number to avoid partial core export. ie 7 cores would be 3.5 cores.
-	export CPU_QUARTER_EVEN=$(($CPU_QUARTER - ($CPU_QUARTER % 2)))
-
-	# If statement for low core systems.  Forces computers to only use 1 core if there are 4 cores or less on the system.
-	if [ $CPU_CORE -le $CPU_6CORE ]; then
-		export CPU_QUARTER_EVEN="2"
-	else
-		export CPU_QUARTER_EVEN=$(($CPU_QUARTER - ($CPU_QUARTER % 2)))
-	fi
-
-	echo "##########################################"
-	echo "Number of Threads being used $CPU_QUARTER_EVEN"
-	echo "##########################################"
-
-	############################## Directory Listing ############################
-	# makes necessary directories
-	#
-	############################################################################
-
-	export HOME=$(
-		cd
-		pwd
-	)
-	export WRF_FOLDER=$HOME/WRFHYDRO_COUPLED_Intel
-	export DIR="${WRF_FOLDER}"/Libs
-	mkdir "${WRF_FOLDER}"
-	cd "${WRF_FOLDER}"
-	mkdir Downloads
-	mkdir Libs
-	mkdir Libs/grib2
-	mkdir Libs/NETCDF
-	mkdir Libs/MPICH
-
-	mkdir -p Tests/Environment
-	mkdir -p Tests/Compatibility
-
-	echo " "
-	############################## Downloading Libraries ############################
-
-	cd "${WRF_FOLDER}"/Downloads
-	wget -c https://github.com/madler/zlib/releases/download/v$Zlib_Version/zlib-$Zlib_Version.tar.gz
-	wget -c https://github.com/HDFGroup/hdf5/releases/download/hdf5_$HDF5_Version.$HDF5_Sub_Version/hdf5-$HDF5_Version-$HDF5_Sub_Version.tar.gz
-	wget -c https://github.com/Unidata/netcdf-c/archive/refs/tags/v$Netcdf_C_Version.tar.gz
-	wget -c https://github.com/Unidata/netcdf-fortran/archive/refs/tags/v$Netcdf_Fortran_Version.tar.gz
-	wget -c https://download.sourceforge.net/libpng/libpng-$Libpng_Version.tar.gz
-	wget -c https://www.ece.uvic.ca/~frodo/jasper/software/jasper-$Jasper_Version.zip
-	wget -c https://parallel-netcdf.github.io/Release/pnetcdf-$Pnetcdf_Version.tar.gz
-	wget -c https://sourceforge.net/projects/opengrads/files/grads2/2.2.1.oga.1/Linux%20%2864%20Bits%29/opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz
-
-	echo " "
-	############################# ZLib ############################
-
-	cd "${WRF_FOLDER}"/Downloads
-	tar -xvzf zlib-$Zlib_Version.tar.gz
-	cd zlib-$Zlib_Version/
-	autoreconf -i -f 2>&1 | tee autoreconf.log
-
-	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
-	automake -a -f 2>&1 | tee automake.log
-	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
-	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
-
-	echo " "
-	############################# LibPNG ############################
-
-	cd "${WRF_FOLDER}"/Downloads
-
-	# other libraries below need these variables to be set
-	export LDFLAGS=-L$DIR/grib2/lib
-	export CPPFLAGS=-I$DIR/grib2/include
-
-	tar -xvzf libpng-$Libpng_Version.tar.gz
-	cd libpng-$Libpng_Version/
-	autoreconf -i -f 2>&1 | tee autoreconf.log
-
-	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
-	automake -a -f 2>&1 | tee automake.log
-	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
-	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
-
-	echo " "
-	############################# JasPer ############################
-
-	cd "${WRF_FOLDER}"/Downloads
-	unzip jasper-$Jasper_Version.zip
-	cd jasper-$Jasper_Version/
-	autoreconf -i -f 2>&1 | tee autoreconf.log
-
-	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
-	automake -a -f 2>&1 | tee automake.log
-	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
-	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
-
-	# other libraries below need these variables to be set
-	export JASPERLIB=$DIR/grib2/lib
-	export JASPERINC=$DIR/grib2/include
-
-	echo " "
-	############################# HDF5 library for NetCDF4 & parallel functionality ############################
-
-	cd "${WRF_FOLDER}"/Downloads
-	tar -xvzf hdf5-$HDF5_Version-$HDF5_Sub_Version.tar.gz
-	cd hdf5-$HDF5_Version-$HDF5_Sub_Version
-	autoreconf -i -f 2>&1 | tee autoreconf.log
-
-	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --with-zlib=$DIR/grib2 --enable-hl --enable-fortran --enable-parallel 2>&1 | tee configure.log
-	automake -a -f 2>&1 | tee automake.log
-	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
-	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
-
-	# other libraries below need these variables to be set
-	export HDF5=$DIR/grib2
-	export LD_LIBRARY_PATH=$DIR/grib2/lib:$LD_LIBRARY_PATH
-	export PATH=$HDF5/bin:$PATH
-	export PHDF5=$DIR/grib2
-
-	echo " "
-
-	#############################Install Parallel-netCDF##############################
-	#Make file created with half of available cpu cores
-	#Hard path for MPI added
-	##################################################################################
-	cd "${WRF_FOLDER}"/Downloads
-	tar -xvzf pnetcdf-$Pnetcdf_Version.tar.gz
-	cd pnetcdf-$Pnetcdf_Version
-	export CC=icx
-	export CXX=icpx
-	export FC=ifx
-	export F77=ifx
-	export F90=ifx
-	export MPIFC=mpiifx
-	export MPIF77=mpiifx
-	export MPIF90=mpiifx
-	export MPICC=mpiicx
-	export MPICXX=mpiicpc
-	export CFLAGS="-fPIC -fPIE -O3 -Wno-implicit-function-declaration -Wno-incompatible-function-pointer-types -Wno-unused-command-line-argument"
-	export FFLAGS="-m64"
-	export FCFLAGS="-m64"
-	autoreconf -i -f 2>&1 | tee autoreconf.log
-	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --enable-shared --enable-static 2>&1 | tee configure.log
-	automake -a -f 2>&1 | tee automake.log
-	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
-	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
-	#make check
-
-	export PNETCDF=$DIR/grib2
-
-	echo " "
-
-	############################## Install NETCDF-C Library ############################
-
-	cd "${WRF_FOLDER}"/Downloads
-	tar -xzvf v$Netcdf_C_Version.tar.gz
-	cd netcdf-c-$Netcdf_C_Version/
-
-	# these variables need to be set for the NetCDF-C install to work
-	export CPPFLAGS=-I$DIR/grib2/include
-	export LDFLAGS=-L$DIR/grib2/lib
-	export LIBS="-lhdf5_hl -lhdf5 -lz -lcurl -lm -ldl"
-
-	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-shared --enable-static --enable-pnetcdf --enable-cdf5 --enable-parallel-tests 2>&1 | tee configure.log
-	automake -a -f 2>&1 | tee automake.log
-	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
-	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
-
-	# other libraries below need these variables to be set
-	export PATH=$DIR/NETCDF/bin:$PATH
-	export NETCDF=$DIR/NETCDF
-
-	echo " "
-	############################## NetCDF-Fortran library ############################
-
-	cd "${WRF_FOLDER}"/Downloads
-	tar -xvzf v$Netcdf_Fortran_Version.tar.gz
-	cd netcdf-fortran-$Netcdf_Fortran_Version/
-
-	# these variables need to be set for the NetCDF-Fortran install to work
-	export LD_LIBRARY_PATH=$DIR/NETCDF/lib:$LD_LIBRARY_PATH
-	export CPPFLAGS="-I$DIR/NETCDF/include -I$DIR/grib2/include"
-	export LDFLAGS="-L$DIR/NETCDF/lib -L$DIR/grib2/lib"
-	export LIBS="-lnetcdf -lpnetcdf -lcurl -lm -lcurl -lhdf5_hl -lhdf5 -lz -ldl"
-
-	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-parallel-tests --enable-hdf5 2>&1 | tee configure.log
-	automake -a -f 2>&1 | tee automake.log
-	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
-	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
-
-	echo " "
-	#################################### System Environment Tests ##############
-
-	cd "${WRF_FOLDER}"/Downloads
-	wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_NETCDF_MPI_tests.tar
-	wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_tests.tar
-
-	tar -xvf Fortran_C_tests.tar -C "${WRF_FOLDER}"/Tests/Environment
-	tar -xvf Fortran_C_NETCDF_MPI_tests.tar -C "${WRF_FOLDER}"/Tests/Compatibility
-
-	export one="1"
-	echo " "
-	############## Testing Environment #####
-
-	cd "${WRF_FOLDER}"/Tests/Environment
-
-	echo " "
-	echo " "
-	echo "Environment Testing "
-	echo "Test 1"
-	$FC TEST_1_fortran_only_fixed.f
-	./a.out | tee env_test1.txt
-	export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test1.txt | awk '{print$1}')
-	if [ $TEST_PASS -ge 1 ]; then
-		echo "Enviroment Test 1 Passed"
-	else
-		echo "Environment Compiler Test 1 Failed"
-		exit
-	fi
-	read -r -t 3 -p "I am going to wait for 3 seconds only ..."
-
-	echo " "
-	echo "Test 2"
-	$FC TEST_2_fortran_only_free.f90
-	./a.out | tee env_test2.txt
-	export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test2.txt | awk '{print$1}')
-	if [ $TEST_PASS -ge 1 ]; then
-		echo "Enviroment Test 2 Passed"
-	else
-		echo "Environment Compiler Test 2 Failed"
-		exit
-	fi
-	echo " "
-	read -r -t 3 -p "I am going to wait for 3 seconds only ..."
-
-	echo " "
-	echo "Test 3"
-	$CC TEST_3_c_only.c
-	./a.out | tee env_test3.txt
-	export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test3.txt | awk '{print$1}')
-	if [ $TEST_PASS -ge 1 ]; then
-		echo "Enviroment Test 3 Passed"
-	else
-		echo "Environment Compiler Test 3 Failed"
-		exit
-	fi
-	echo " "
-	read -r -t 3 -p "I am going to wait for 3 seconds only ..."
-
-	echo " "
-	echo "Test 4"
-	$CC -c -m64 TEST_4_fortran+c_c.c
-	$FC -c -m64 TEST_4_fortran+c_f.f90
-	$FC -m64 TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
-	./a.out | tee env_test4.txt
-	export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test4.txt | awk '{print$1}')
-	if [ $TEST_PASS -ge 1 ]; then
-		echo "Enviroment Test 4 Passed"
-	else
-		echo "Environment Compiler Test 4 Failed"
-		exit
-	fi
-	echo " "
-	read -r -t 3 -p "I am going to wait for 3 seconds only ..."
-
-	echo " "
-	############## Testing Environment #####
-
-	cd "${WRF_FOLDER}"/Tests/Compatibility
-
-	cp ${NETCDF}/include/netcdf.inc .
-
-	echo " "
-	echo " "
-	echo "Library Compatibility Tests "
-	echo "Test 1"
-	$FC -c 01_fortran+c+netcdf_f.f
-	$CC -c 01_fortran+c+netcdf_c.c
-	$FC 01_fortran+c+netcdf_f.o 01_fortran+c+netcdf_c.o \
-		-L${NETCDF}/lib -lnetcdff -lnetcdf
-
-	./a.out | tee comp_test1.txt
-	export TEST_PASS=$(grep -w -o -c "SUCCESS" comp_test1.txt | awk '{print$1}')
-	if [ $TEST_PASS -ge 1 ]; then
-		echo "Compatibility Test 1 Passed"
-	else
-		echo "Compatibility Compiler Test 1 Failed"
-		exit
-	fi
-	echo " "
-	read -r -t 3 -p "I am going to wait for 3 seconds only ..."
-
-	echo " "
-
-	echo "Test 2"
-	$MPIFC -c 02_fortran+c+netcdf+mpi_f.f
-	$MPICC -c 02_fortran+c+netcdf+mpi_c.c
-	$MPIFC 02_fortran+c+netcdf+mpi_f.o \
-		02_fortran+c+netcdf+mpi_c.o \
-		-L${NETCDF}/lib -lnetcdff -lnetcdf
-
-	mpirun ./a.out | tee comp_test2.txt
-	export TEST_PASS=$(grep -w -o -c "SUCCESS" comp_test2.txt | awk '{print$1}')
-	if [ $TEST_PASS -ge 1 ]; then
-		echo "Compatibility Test 2 Passed"
-	else
-		echo "Compatibility Compiler Test 2 Failed"
-		exit
-	fi
-	echo " "
-	read -r -t 3 -p "I am going to wait for 3 seconds only ..."
-	echo " "
-
-	echo " All tests completed and passed"
-	echo " "
+# if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
+
+# 	############################basic package managment############################
+# 	echo $PASSWD | sudo -S apt -y update
+# 	echo $PASSWD | sudo -S apt -y upgrade
+
+# 	release_version=$(lsb_release -r -s)
+
+# 	# Compare the release version
+# 	if [ "$release_version" = "24.04" ]; then
+# 		# Install Emacs without recommended packages
+# 		echo $PASSWD | sudo -S apt install emacs --no-install-recommends -y
+# 	else
+# 		# Attempt to install Emacs if the release version is not 24.04
+# 		echo "The release version is not 24.04, attempting to install Emacs."
+# 		echo $PASSWD | sudo -S apt install emacs -y
+# 	fi
+
+# 	echo $PASSWD | sudo -S apt -y install autoconf automake autotools-dev bison build-essential byacc cmake csh curl default-jdk default-jre flex libfl-dev g++ gawk gcc gfortran git ksh libcurl4-openssl-dev libjpeg-dev libncurses6 libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev libxml-libxml-perl m4 make ncview okular openbox pipenv pkg-config python3 python3-dev python3-pip python3-dateutil tcsh unzip xauth xorg time
+
+# 	echo " "
+# 	##############################Directory Listing############################
+# 	export HOME=$(
+# 		cd
+# 		pwd
+# 	)
+# 	mkdir $HOME/WRFHYDRO_COUPLED
+# 	export WRF_FOLDER=$HOME/WRFHYDRO_COUPLED
+# 	export DIR="${WRF_FOLDER}"/Libs
+# 	cd "${WRF_FOLDER}"/
+# 	mkdir Downloads
+# 	mkdir "${WRF_FOLDER}"/Hydro-Basecode
+# 	mkdir Libs
+# 	export DIR="${WRF_FOLDER}"/Libs
+# 	mkdir# Libs/grib2
+# 	mkdir Libs/NETCDF
+# 	mkdir Libs/MPICH
+# 	mkdir -p Tests/Environment
+# 	mkdir -p Tests/Compatibility
+
+# 	echo " "
+# 	#############################Core Management####################################
+
+# 	export CPU_CORE=$(nproc) # number of available threads on system
+# 	export CPU_6CORE="6"
+# 	export CPU_QUARTER=$(($CPU_CORE / 4))                          #quarter of availble cores on system
+# 	export CPU_QUARTER_EVEN=$(($CPU_QUARTER - ($CPU_QUARTER % 2))) #Forces CPU cores to even number to avoid partial core export. ie 7 cores would be 3.5 cores.
+
+# 	if [ $CPU_CORE -le $CPU_6CORE ]; then #If statement for low core systems.  Forces computers to only use 1 core if there are 4 cores or less on the system. then
+# 		export CPU_QUARTER_EVEN="2"
+# 	else
+# 		export CPU_QUARTER_EVEN=$(($CPU_QUARTER - ($CPU_QUARTER % 2)))
+# 	fi
+
+# 	echo "##########################################"
+# 	echo "Number of Threads being used $CPU_QUARTER_EVEN"
+# 	echo "##########################################"
+
+# 	echo " "
+# 	##############################Downloading Libraries############################
+# 	cd Downloads
+# 	wget -c https://github.com/madler/zlib/releases/download/v$Zlib_Version/zlib-$Zlib_Version.tar.gz
+# 	wget -c https://github.com/HDFGroup/hdf5/releases/download/hdf5_$HDF5_Version.$HDF5_Sub_Version/hdf5-$HDF5_Version-$HDF5_Sub_Version.tar.gz
+# 	wget -c https://github.com/Unidata/netcdf-c/archive/refs/tags/v$Netcdf_C_Version.tar.gz
+# 	wget -c https://github.com/Unidata/netcdf-fortran/archive/refs/tags/v$Netcdf_Fortran_Version.tar.gz
+# 	wget -c https://download.sourceforge.net/libpng/libpng-$Libpng_Version.tar.gz
+# 	wget -c https://www.ece.uvic.ca/~frodo/jasper/software/jasper-$Jasper_Version.zip
+# 	wget -c https://github.com/pmodels/mpich/releases/download/v$Mpich_Version/mpich-$Mpich_Version.tar.gz
+# 	wget -c https://parallel-netcdf.github.io/Release/pnetcdf-$Pnetcdf_Version.tar.gz
+# 	wget -c https://sourceforge.net/projects/opengrads/files/grads2/2.2.1.oga.1/Linux%20%2864%20Bits%29/opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz
+
+# 	echo " "
+# 	#############################Compilers############################
+# 	export CC=gcc
+# 	export CXX=g++
+# 	export FC=gfortran
+# 	export F77=gfortran
+# 	export CFLAGS="-fPIC -fPIE -O3"
+
+# 	#IF statement for GNU compiler issue
+# 	export GCC_VERSION=$(/usr/bin/gcc -dumpfullversion | awk '{print$1}')
+# 	export GFORTRAN_VERSION=$(/usr/bin/gfortran -dumpfullversion | awk '{print$1}')
+# 	export GPLUSPLUS_VERSION=$(/usr/bin/g++ -dumpfullversion | awk '{print$1}')
+
+# 	export GCC_VERSION_MAJOR_VERSION=$(echo $GCC_VERSION | awk -F. '{print $1}')
+# 	export GFORTRAN_VERSION_MAJOR_VERSION=$(echo $GFORTRAN_VERSION | awk -F. '{print $1}')
+# 	export GPLUSPLUS_VERSION_MAJOR_VERSION=$(echo $GPLUSPLUS_VERSION | awk -F. '{print $1}')
+
+# 	export version_10="10"
+
+# 	if [ $GCC_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GFORTRAN_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GPLUSPLUS_VERSION_MAJOR_VERSION -ge $version_10 ]; then
+# 		export fallow_argument=-fallow-argument-mismatch
+# 		export boz_argument=-fallow-invalid-boz
+# 	else
+# 		export fallow_argument=
+# 		export boz_argument=
+# 	fi
+
+# 	export FFLAGS="$fallow_argument -m64"
+# 	export FCFLAGS="$fallow_argument -m64"
+
+# 	echo "##########################################"
+# 	echo "FFLAGS = $FFLAGS"
+# 	echo "FCFLAGS = $FCFLAGS"
+# 	echo "CFLAGS = $CFLAGS"
+# 	echo "##########################################"
+
+# 	echo " "
+# 	#############################zlib############################
+# 	#Uncalling compilers due to comfigure issue with zlib$Zlib_Version
+# 	#With CC & CXX definied ./configure uses different compiler Flags
+
+# 	cd "${WRF_FOLDER}"/Downloads
+# 	tar -xvzf zlib-$Zlib_Version.tar.gz
+# 	cd zlib-$Zlib_Version/
+# 	autoreconf -i -f 2>&1 | tee autoreconf.log
+# 	./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
+# 	automake -a -f 2>&1 | tee automake.log
+# 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
+# 	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+# 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
+# 	#make check
+
+# 	echo " "
+# 	##############################MPICH############################
+# 	cd "${WRF_FOLDER}"/Downloads
+# 	tar -xvzf mpich-$Mpich_Version.tar.gz
+# 	cd mpich-$Mpich_Version/
+# 	autoreconf -i -f 2>&1 | tee autoreconf.log
+
+# 	F90= ./configure --prefix=$DIR/MPICH --with-device=ch3 FFLAGS="$fallow_argument -m64" FCFLAGS="$fallow_argument -m64" 2>&1 | tee configure.log
+# 	automake -a -f 2>&1 | tee automake.log
+# 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
+# 	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+# 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
+# 	#make check
+
+# 	export PATH=$DIR/MPICH/bin:$PATH
+# 	export MPIFC=$DIR/MPICH/bin/mpifort
+# 	export MPIF77=$DIR/MPICH/bin/mpifort
+# 	export MPIF90=$DIR/MPICH/bin/mpifort
+# 	export MPICC=$DIR/MPICH/bin/mpicc
+# 	export MPICXX=$DIR/MPICH/bin/mpicxx
+
+# 	echo " "
+# 	#############################libpng############################
+# 	cd "${WRF_FOLDER}"/Downloads
+# 	export LDFLAGS=-L$DIR/grib2/lib
+# 	export CPPFLAGS=-I$DIR/grib2/include
+# 	tar -xvzf libpng-$Libpng_Version.tar.gz
+# 	cd libpng-$Libpng_Version/
+# 	autoreconf -i -f 2>&1 | tee autoreconf.log
+
+# 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
+# 	automake -a -f 2>&1 | tee automake.log
+# 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
+# 	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+# 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
+# 	#make check
+# 	echo " "
+# 	#############################JasPer############################
+# 	cd "${WRF_FOLDER}"/Downloads
+# 	unzip jasper-$Jasper_Version.zip
+# 	cd jasper-$Jasper_Version/
+# 	autoreconf -i -f 2>&1 | tee autoreconf.log
+
+# 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
+# 	automake -a -f 2>&1 | tee automake.log
+# 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
+# 	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+# 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
+# 	#make check
+
+# 	export JASPERLIB=$DIR/grib2/lib
+# 	export JASPERINC=$DIR/grib2/include
+
+# 	echo " "
+# 	#############################hdf5 library for netcdf4 functionality############################
+# 	cd "${WRF_FOLDER}"/Downloads
+# 	tar -xvzf hdf5-$HDF5_Version-$HDF5_Sub_Version.tar.gz
+# 	cd hdf5-$HDF5_Version-$HDF5_Sub_Version
+# 	autoreconf -i -f 2>&1 | tee autoreconf.log
+
+# 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --with-zlib=$DIR/grib2 --enable-hl --enable-fortran --enable-parallel 2>&1 | tee configure.log
+# 	automake -a -f 2>&1 | tee automake.log
+# 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
+# 	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+# 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
+# 	#make check
+
+# 	export HDF5=$DIR/grib2
+# 	export PHDF5=$DIR/grib2
+# 	export LD_LIBRARY_PATH=$DIR/grib2/lib:$LD_LIBRARY_PATH
+
+# 	#############################Install Parallel-netCDF##############################
+# 	#Make file created with half of available cpu cores
+# 	#Hard path for MPI added
+# 	##################################################################################
+# 	cd "${WRF_FOLDER}"/Downloads
+# 	tar -xvzf pnetcdf-$Pnetcdf_Version.tar.gz
+# 	cd pnetcdf-$Pnetcdf_Version
+
+# 	export MPIFC=$DIR/MPICH/bin/mpifort
+# 	export MPIF77=$DIR/MPICH/bin/mpifort
+# 	export MPIF90=$DIR/MPICH/bin/mpifort
+# 	export MPICC=$DIR/MPICH/bin/mpicc
+# 	export MPICXX=$DIR/MPICH/bin/mpicxx
+# 	autoreconf -i -f 2>&1 | tee autoreconf.log
+# 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --enable-shared --enable-static 2>&1 | tee configure.log
+# 	automake -a -f 2>&1 | tee automake.log
+# 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
+# 	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+# 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
+# 	#make check
+
+# 	export PNETCDF=$DIR/grib2
+
+# 	echo " "
+
+# 	##############################Install NETCDF C Library############################
+# 	cd "${WRF_FOLDER}"/Downloads
+# 	tar -xzvf v$Netcdf_C_Version.tar.gz
+# 	cd netcdf-c-$Netcdf_C_Version/
+# 	export CPPFLAGS=-I$DIR/grib2/include
+# 	export LDFLAGS=-L$DIR/grib2/lib
+# 	export LIBS="-lhdf5_hl -lhdf5 -lz -lcurl -lgfortran -lgcc -lm -ldl -lpnetcdf"
+# 	autoreconf -i -f 2>&1 | tee autoreconf.log
+
+# 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-shared --enable-static --enable-pnetcdf --enable-cdf5 --enable-parallel-tests 2>&1 | tee configure.log
+# 	automake -a -f 2>&1 | tee automake.log
+# 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
+# 	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+# 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
+# 	#make check
+
+# 	export PATH=$DIR/NETCDF/bin:$PATH
+# 	export NETCDF=$DIR/NETCDF
+# 	echo " "
+# 	##############################NetCDF fortran library############################
+# 	cd "${WRF_FOLDER}"/Downloads
+# 	tar -xvzf v$Netcdf_Fortran_Version.tar.gz
+# 	cd netcdf-fortran-$Netcdf_Fortran_Version/
+# 	export LD_LIBRARY_PATH=$DIR/NETCDF/lib:$LD_LIBRARY_PATH
+# 	export CPPFLAGS="-I$DIR/NETCDF/include -I$DIR/grib2/include"
+# 	export LDFLAGS="-L$DIR/NETCDF/lib -L$DIR/grib2/lib"
+# 	export LIBS="-lnetcdf -lpnetcdf -lcurl -lhdf5_hl -lhdf5 -lz -lm -ldl -lgcc -lgfortran"
+# 	autoreconf -i -f 2>&1 | tee autoreconf.log
+
+# 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-shared --enable-static --enable-parallel-tests --enable-hdf5 2>&1 | tee configure.log
+# 	automake -a -f 2>&1 | tee automake.log
+# 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
+# 	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+# 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
+# 	#make check
+
+# 	echo " "
+
+# 	#################################### System Environment Tests ##############
+
+# 	cd "${WRF_FOLDER}"/Downloads
+# 	wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_NETCDF_MPI_tests.tar
+# 	wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_tests.tar
+
+# 	tar -xvf Fortran_C_tests.tar -C "${WRF_FOLDER}"/Tests/Environment
+# 	tar -xvf Fortran_C_NETCDF_MPI_tests.tar -C "${WRF_FOLDER}"/Tests/Compatibility
+# 	export one="1"
+# 	echo " "
+# 	############## Testing Environment #####
+
+# 	cd "${WRF_FOLDER}"/Tests/Environment
+
+# 	cp ${NETCDF}/include/netcdf.inc .
+
+# 	echo " "
+# 	echo " "
+# 	echo "Environment Testing "
+# 	echo "Test 1"
+# 	$FC TEST_1_fortran_only_fixed.f
+# 	./a.out | tee env_test1.txt
+# 	export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test1.txt | awk '{print$1}')
+# 	if [ $TEST_PASS -ge 1 ]; then
+# 		echo "Enviroment Test 1 Passed"
+# 	else
+# 		echo "Environment Compiler Test 1 Failed"
+# 		exit
+# 	fi
+# 	read -r -t 3 -p "I am going to wait for 3 seconds only ..."
+
+# 	echo " "
+# 	echo "Test 2"
+# 	$FC TEST_2_fortran_only_free.f90
+# 	./a.out | tee env_test2.txt
+# 	export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test2.txt | awk '{print$1}')
+# 	if [ $TEST_PASS -ge 1 ]; then
+# 		echo "Enviroment Test 2 Passed"
+# 	else
+# 		echo "Environment Compiler Test 2 Failed"
+# 		exit
+# 	fi
+# 	echo " "
+# 	read -r -t 3 -p "I am going to wait for 3 seconds only ..."
+
+# 	echo " "
+# 	echo "Test 3"
+# 	$CC TEST_3_c_only.c
+# 	./a.out | tee env_test3.txt
+# 	export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test3.txt | awk '{print$1}')
+# 	if [ $TEST_PASS -ge 1 ]; then
+# 		echo "Enviroment Test 3 Passed"
+# 	else
+# 		echo "Environment Compiler Test 3 Failed"
+# 		exit
+# 	fi
+# 	echo " "
+# 	read -r -t 3 -p "I am going to wait for 3 seconds only ..."
+
+# 	echo " "
+# 	echo "Test 4"
+# 	$CC -c -m64 TEST_4_fortran+c_c.c
+# 	$FC -c -m64 TEST_4_fortran+c_f.f90
+# 	$FC -m64 TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
+# 	./a.out | tee env_test4.txt
+# 	export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test4.txt | awk '{print$1}')
+# 	if [ $TEST_PASS -ge 1 ]; then
+# 		echo "Enviroment Test 4 Passed"
+# 	else
+# 		echo "Environment Compiler Test 4 Failed"
+# 		exit
+# 	fi
+# 	echo " "
+# 	read -r -t 3 -p "I am going to wait for 3 seconds only ..."
+
+# 	echo " "
+# 	############## Testing Environment #####
+
+# 	cd "${WRF_FOLDER}"/Tests/Compatibility
+
+# 	cp ${NETCDF}/include/netcdf.inc .
+
+# 	echo " "
+# 	echo " "
+# 	echo "Library Compatibility Tests "
+# 	echo "Test 1"
+# 	$FC -c 01_fortran+c+netcdf_f.f
+# 	$CC -c 01_fortran+c+netcdf_c.c
+# 	$FC 01_fortran+c+netcdf_f.o 01_fortran+c+netcdf_c.o \
+# 		-L${NETCDF}/lib -lnetcdff -lnetcdf
+
+# 	./a.out | tee comp_test1.txt
+# 	export TEST_PASS=$(grep -w -o -c "SUCCESS" comp_test1.txt | awk '{print$1}')
+# 	if [ $TEST_PASS -ge 1 ]; then
+# 		echo "Compatibility Test 1 Passed"
+# 	else
+# 		echo "Compatibility Compiler Test 1 Failed"
+# 		exit
+# 	fi
+# 	echo " "
+# 	read -r -t 3 -p "I am going to wait for 3 seconds only ..."
+
+# 	echo " "
+
+# 	echo "Test 2"
+# 	$MPIFC -c 02_fortran+c+netcdf+mpi_f.f
+# 	$MPICC -c 02_fortran+c+netcdf+mpi_c.c
+# 	$MPIFC 02_fortran+c+netcdf+mpi_f.o \
+# 		02_fortran+c+netcdf+mpi_c.o \
+# 		-L${NETCDF}/lib -lnetcdff -lnetcdf
+
+# 	$DIR/MPICH/bin/mpirun ./a.out | tee comp_test2.txt
+# 	export TEST_PASS=$(grep -w -o -c "SUCCESS" comp_test2.txt | awk '{print$1}')
+# 	if [ $TEST_PASS -ge 1 ]; then
+# 		echo "Compatibility Test 2 Passed"
+# 	else
+# 		echo "Compatibility Compiler Test 2 Failed"
+# 		exit
+# 	fi
+# 	echo " "
+# 	read -r -t 3 -p "I am going to wait for 3 seconds only ..."
+# 	echo " "
+
+# 	echo " All tests completed and passed"
+# 	echo " "
+
+# 	###############################NCEPlibs#####################################
+# 	#The libraries are built and installed with
+# 	# ./make_ncep_libs.sh -s MACHINE -c COMPILER -d NCEPLIBS_DIR -o OPENMP [-m mpi] [-a APPLICATION]
+# 	#It is recommended to install the NCEPlibs into their own directory, which must be created before running the installer. Further information on the command line arguments can be obtained with
+# 	# ./make_ncep_libs.sh -h
+
+# 	#If iand error occurs go to https://github.com/NCAR/NCEPlibs/pull/16/files make adjustment and re-run ./make_ncep_libs.sh
+# 	############################################################################
+
+# 	cd "${WRF_FOLDER}"/Downloads
+# 	git clone https://github.com/NCAR/NCEPlibs.git
+# 	cd NCEPlibs
+# 	mkdir $DIR/nceplibs
+
+# 	export JASPER_INC=$DIR/grib2/include
+# 	export PNG_INC=$DIR/grib2/include
+# 	export NETCDF=$DIR/NETCDF
+
+# 	#for loop to edit linux.gnu for nceplibs to install
+# 	#make if statement for gcc-9 or older
+# 	export GCC_VERSION=$(/usr/bin/gcc -dumpfullversion | awk '{print$1}')
+# 	export GFORTRAN_VERSION=$(/usr/bin/gfortran -dumpfullversion | awk '{print$1}')
+# 	export GPLUSPLUS_VERSION=$(/usr/bin/g++ -dumpfullversion | awk '{print$1}')
+
+# 	export GCC_VERSION_MAJOR_VERSION=$(echo $GCC_VERSION | awk -F. '{print $1}')
+# 	export GFORTRAN_VERSION_MAJOR_VERSION=$(echo $GFORTRAN_VERSION | awk -F. '{print $1}')
+# 	export GPLUSPLUS_VERSION_MAJOR_VERSION=$(echo $GPLUSPLUS_VERSION | awk -F. '{print $1}')
+
+# 	export version_10="10"
+
+# 	if [ $GCC_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GFORTRAN_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GPLUSPLUS_VERSION_MAJOR_VERSION -ge $version_10 ]; then
+# 		sed -i "24s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+# 		sed -i "28s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+# 		sed -i "32s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+# 		sed -i "36s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+# 		sed -i "40s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+# 		sed -i "45s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+# 		sed -i "49s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+# 		sed -i "53s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+# 		sed -i "56s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+# 		sed -i "60s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+# 		sed -i "64s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+# 		sed -i "68s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+# 		sed -i "69s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+# 		sed -i "73s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+# 		sed -i "74s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+# 		sed -i "79s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+
+# 	fi
+
+# 	if [ ${auto_config} -eq 1 ]; then
+# 		echo yes | ./make_ncep_libs.sh -s linux -c gnu -d $DIR/nceplibs -o 0 -m 1 -a upp
+# 	else
+# 		./make_ncep_libs.sh -s linux -c gnu -d $DIR/nceplibs -o 0 -m 1 -a upp
+# 	fi
+
+# 	export PATH=$DIR/nceplibs:$PATH
+
+# 	echo " "
+# 	################################UPPv4.1######################################
+# 	#Previous verison of UPP
+# 	#WRF Support page recommends UPPV4.1 due to too many changes to WRF and UPP code
+# 	#since the WRF was written
+# 	#Option 8 gfortran compiler with distributed memory
+# 	#############################################################################
+# 	cd "${WRF_FOLDER}"/
+# 	git clone -b dtc_post_v4.1.0 --recurse-submodules https://github.com/NOAA-EMC/EMC_post UPPV4.1
+# 	cd UPPV4.1
+# 	mkdir postprd
+# 	export NCEPLIBS_DIR=$DIR/nceplibs
+# 	export NETCDF=$DIR/NETCDF
+
+# 	if [ ${auto_config} -eq 1 ]; then
+# 		echo 8 | ./configure #Option 8 gfortran compiler with distributed memory
+# 	else
+# 		./configure #Option 8 gfortran compiler with distributed memory
+# 	fi
+
+# 	echo " "
+# 	#make if statement for gcc-9 or older
+# 	export GCC_VERSION=$(/usr/bin/gcc -dumpfullversion | awk '{print$1}')
+# 	export GFORTRAN_VERSION=$(/usr/bin/gfortran -dumpfullversion | awk '{print$1}')
+# 	export GPLUSPLUS_VERSION=$(/usr/bin/g++ -dumpfullversion | awk '{print$1}')
+
+# 	export GCC_VERSION_MAJOR_VERSION=$(echo $GCC_VERSION | awk -F. '{print $1}')
+# 	export GFORTRAN_VERSION_MAJOR_VERSION=$(echo $GFORTRAN_VERSION | awk -F. '{print $1}')
+# 	export GPLUSPLUS_VERSION_MAJOR_VERSION=$(echo $GPLUSPLUS_VERSION | awk -F. '{print $1}')
+
+# 	export version_10="10"
+
+# 	if [ $GCC_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GFORTRAN_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GPLUSPLUS_VERSION_MAJOR_VERSION -ge $version_10 ]; then
+# 		sed -i "58s/(FOPT)/(FOPT) $fallow_argument $boz_argument  /g" "${WRF_FOLDER}/UPPV4.1/configure.upp"
+# 		sed -i "63s/(FOPT)/(FOPT) $fallow_argument $boz_argument  /g" "${WRF_FOLDER}/UPPV4.1/configure.upp"
+
+# 	fi
+
+# 	./compile | tee upp_compile.log
+# 	cd "${WRF_FOLDER}"/UPPV4.1/scripts
+
+# 	chmod +x run_unipost
+
+# 	echo " "
+# 	######################## ARWpost V3.1  ############################
+# 	## ARWpost
+# 	##Configure #3
+# 	###################################################################
+# 	cd "${WRF_FOLDER}"/Downloads
+# 	wget -c http://www2.mmm.ucar.edu/wrf/src/ARWpost_V3.tar.gz
+# 	tar -xvzf ARWpost_V3.tar.gz -C "${WRF_FOLDER}"/
+# 	cd "${WRF_FOLDER}"/ARWpost
+# 	./clean -a
+# 	sed -i -e 's/-lnetcdf/-lnetcdff -lnetcdf/g' "${WRF_FOLDER}"/ARWpost/src/Makefile
+# 	export NETCDF=$DIR/NETCDF
+
+# 	if [ ${auto_config} -eq 1 ]; then
+# 		echo 3 | ./configure #Option 3 gfortran compiler with distributed memory
+# 	else
+# 		./configure #Option 3 gfortran compiler with distributed memory
+# 	fi
+
+# 	export GCC_VERSION=$(/usr/bin/gcc -dumpfullversion | awk '{print$1}')
+# 	export GFORTRAN_VERSION=$(/usr/bin/gfortran -dumpfullversion | awk '{print$1}')
+# 	export GPLUSPLUS_VERSION=$(/usr/bin/g++ -dumpfullversion | awk '{print$1}')
+
+# 	export GCC_VERSION_MAJOR_VERSION=$(echo $GCC_VERSION | awk -F. '{print $1}')
+# 	export GFORTRAN_VERSION_MAJOR_VERSION=$(echo $GFORTRAN_VERSION | awk -F. '{print $1}')
+# 	export GPLUSPLUS_VERSION_MAJOR_VERSION=$(echo $GPLUSPLUS_VERSION | awk -F. '{print $1}')
+
+# 	export version_10="10"
+
+# 	if [ $GCC_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GFORTRAN_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GPLUSPLUS_VERSION_MAJOR_VERSION -ge $version_10 ]; then
+# 		sed -i '32s/-ffree-form -O -fno-second-underscore -fconvert=big-endian -frecord-marker=4/-ffree-form -O -fno-second-underscore -fconvert=big-endian -frecord-marker=4 ${fallow_argument} /g' configure.arwp
+# 	fi
+
+# 	sed -i -e 's/-C -P -traditional/-P -traditional/g' "${WRF_FOLDER}"/ARWpost/configure.arwp
+# 	./compile
+
+# 	#IF statement to check that all files were created.
+# 	cd "${WRF_FOLDER}"/ARWpost
+# 	n=$(ls ./*.exe | wc -l)
+# 	if (($n == 1)); then
+# 		echo "All expected files created."
+# 		read -r -t 5 -p "Finished installing ARWpost. I am going to wait for 5 seconds only ..."
+# 	else
+# 		echo "Missing one or more expected files. Exiting the script."
+# 		read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
+# 		exit
+# 	fi
+
+# 	echo " "
+
+# 	export PATH="${WRF_FOLDER}"/ARWpost/ARWpost.exe:$PATH
+
+# 	echo " "
+# 	################################OpenGrADS######################################
+# 	#Verison 2.2.1 64bit of Linux
+# 	#############################################################################
+# 	cd "${WRF_FOLDER}"/Downloads
+# 	tar -xzvf opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz -C "${WRF_FOLDER}"/
+# 	cd "${WRF_FOLDER}"/
+# 	mv "${WRF_FOLDER}"/opengrads-2.2.1.oga.1 "${WRF_FOLDER}"/GrADS
+# 	cd GrADS/Contents
+# 	wget -c https://github.com/regisgrundig/SIMOP/blob/master/g2ctl.pl
+# 	chmod +x g2ctl.pl
+# 	wget -c https://sourceforge.net/projects/opengrads/files/wgrib2/0.1.9.4/wgrib2-v0.1.9.4-bin-x86_64-glibc2.5-linux-gnu.tar.gz
+# 	tar -xzvf wgrib2-v0.1.9.4-bin-x86_64-glibc2.5-linux-gnu.tar.gz
+# 	cd wgrib2-v0.1.9.4/bin
+# 	mv wgrib2 "${WRF_FOLDER}"/GrADS/Contents
+# 	cd "${WRF_FOLDER}"/GrADS/Contents
+# 	rm wgrib2-v0.1.9.4-bin-x86_64-glibc2.5-linux-gnu.tar.gz
+# 	rm -r wgrib2-v0.1.9.4
+
+# 	export PATH="${WRF_FOLDER}"/GrADS/Contents:$PATH
+
+# 	echo " "
+# 	##################### NCAR COMMAND LANGUAGE           ##################
+# 	########### NCL compiled via Conda                    ##################
+# 	########### This is the preferred method by NCAR      ##################
+# 	########### https://www.ncl.ucar.edu/index.shtml      ##################
+
+# 	#Installing Miniconda3 to WRF-Hydro dire
+# 	echo $PASSWD | sudo -S apt -y install python3-zstandard python3-zstd
+
+# 	export Miniconda_Install_DIR="${WRF_FOLDER}"/miniconda3
+
+# 	mkdir -p $Miniconda_Install_DIR
+
+# 	wget -c https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O $Miniconda_Install_DIR/miniconda.sh
+# 	bash $Miniconda_Install_DIR/miniconda.sh -b -u -p $Miniconda_Install_DIR
+
+# 	rm -rf $Miniconda_Install_DIR/miniconda.sh
+
+# 	export PATH="${WRF_FOLDER}"/miniconda3/bin:$PATH
+
+# 	source $Miniconda_Install_DIR/etc/profile.d/conda.sh
+
+# 	$Miniconda_Install_DIR/bin/conda init bash
+# 	$Miniconda_Install_DIR/bin/conda init zsh
+# 	$Miniconda_Install_DIR/bin/conda init tcsh
+# 	$Miniconda_Install_DIR/bin/conda init xonsh
+# 	$Miniconda_Install_DIR/bin/conda init powershell
+
+# 	conda config --add channels conda-forge
+# 	conda config --set auto_activate_base false
+# 	conda update -n root --all -y
+
+# 	echo " "
+
+# 	echo " "
+# 	#Installing NCL via Conda
+# 	source $Miniconda_Install_DIR/etc/profile.d/conda.sh
+# 	conda init bash
+# 	conda activate base
+# 	conda create -n ncl_stable -c conda-forge ncl -y
+# 	conda activate ncl_stable
+
+# 	conda deactivate
+# 	conda deactivate
+# 	conda deactivate
+
+# 	echo " "
+
+# 	############################OBSGRID###############################
+# 	## OBSGRID
+# 	## Downloaded from git tagged releases
+# 	## Option #2
+# 	########################################################################
+# 	cd "${WRF_FOLDER}"/
+# 	git clone https://github.com/wrf-model/OBSGRID.git
+# 	cd "${WRF_FOLDER}"/OBSGRID
+
+# 	./clean -a
+# 	source $Miniconda_Install_DIR/etc/profile.d/conda.sh
+# 	conda init bash
+# 	conda activate ncl_stable
+
+# 	export HOME=$(
+# 		cd
+# 		pwd
+# 	)
+# 	export DIR="${WRF_FOLDER}"/Libs
+# 	export NETCDF=$DIR/NETCDF
+
+# 	if [ ${auto_config} -eq 1 ]; then
+# 		echo 2 | ./configure 2>&1 | tee configure.log #Option 2 for gfortran/gcc and distribunted memory
+# 	else
+# 		./configure 2>&1 | tee configure.log #Option 2 for gfortran/gcc and distribunted memory
+# 	fi
+
+# 	sed -i '27s/-lnetcdf -lnetcdff/ -lnetcdff -lnetcdf/g' configure.oa
+
+# 	sed -i '31s/-lncarg -lncarg_gks -lncarg_c -lX11 -lm -lcairo/-lncarg -lncarg_gks -lncarg_c -lX11 -lm -lcairo -lfontconfig -lpixman-1 -lfreetype -lhdf5 -lhdf5_hl /g' configure.oa
+
+# 	sed -i '39s/-frecord-marker=4/-frecord-marker=4 ${fallow_argument} /g' configure.oa
+
+# 	sed -i '44s/=	/=	${fallow_argument} /g' configure.oa
+
+# 	sed -i '45s/-C -P -traditional/-P -traditional/g' configure.oa
+
+# 	echo " "
+
+# 	./compile 2>&1 | tee compile.obsgrid.log
+
+# 	conda deactivate
+# 	conda deactivate
+# 	conda deactivate
+# 	# IF statement to check that all files were created.
+# 	cd "${WRF_FOLDER}"/OBSGRID
+# 	n=$(ls ./*.exe | wc -l)
+# 	if (($n == 3)); then
+# 		echo "All expected files created."
+# 		read -r -t 5 -p "Finished installing OBSGRID. I am going to wait for 5 seconds only ..."
+# 	else
+# 		echo "Missing one or more expected files. Exiting the script."
+# 		read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
+# 		exit
+# 	fi
+
+# 	echo " "
+
+# 	##################### WRF Python           ##################
+# 	########### WRf-Python compiled via Conda  ##################
+# 	########### This is the preferred method by NCAR      ##################
+# 	##### https://wrf-python.readthedocs.io/en/latest/installation.html  ##################
+# 	source $Miniconda_Install_DIR/etc/profile.d/conda.sh
+# 	conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
+
+# 	######################### Climate Data Operators ############
+# 	######################### CDO compiled via Conda ###########
+# 	####################### This is the preferred method #######
+# 	################### https://bairdlangenbrunner.github.io/python-for-climate-scientists/conda/setting-up-conda-environments.html #######################
+
+# 	source $Miniconda_Install_DIR/etc/profile.d/conda.sh
+# 	conda init bash
+# 	conda activate base
+# 	conda create --name cdo_stable -y
+# 	conda activate cdo_stable
+# 	conda install -c conda-forge cdo -y
+# 	conda update --all -y
+# 	conda deactivate
+# 	conda deactivate
+# 	conda deactivate
+
+# 	echo " "
+
+# 	########################## WRF Hydro GIS PreProcessor ##############################
+# 	#  Compiled with Conda
+# 	#  https://github.com/NCAR/wrf_hydro_gis_preprocessor
+# 	####################################################################################
+
+# 	conda init bash
+# 	conda activate base
+# 	conda config --add channels conda-forge
+# 	conda create -n wrfh_gis_env -c conda-forge python=3.12 gdal netCDF4 numpy pyproj whitebox=2.2.0 packaging shapely -y
+# 	conda activate wrfh_gis_env
+# 	conda update -n wrfh_gis_env --all -y
+# 	conda deactivate
+# 	conda deactivate
+# 	conda deactivate
+# 	cd "${WRF_FOLDER}"/
+# 	git clone https://github.com/NCAR/wrf_hydro_gis_preprocessor.git "${WRF_FOLDER}"/WRF-Hydro-GIS-PreProcessor
+
+# 	echo " "
+# 	############################# WRF HYDRO V5.3.0 #################################
+# 	# Version 5.3.0
+# 	# Standalone mode
+# 	################################################################################
+# 	# Set up NETCDF environment variables
+# 	export NETCDF_INC="$DIR/NETCDF/include"
+# 	export NETCDF_LIB="$DIR/NETCDF/lib"
+
+# 	# Create directories for Hydro Basecode and navigate to it
+# 	mkdir -p "${WRF_FOLDER}/Hydro-Basecode"
+# 	cd "${WRF_FOLDER}/Hydro-Basecode"
+
+# 	# Clone the WRF-Hydro repository and set up the build
+# 	git clone https://github.com/NCAR/wrf_hydro_nwm_public.git
+# 	cd wrf_hydro_nwm_public
+# 	mkdir -p build
+# 	cd build
+
+# 	# Run CMake configuration for WRF-Hydro with specified options
+# 	cmake .. \
+# 		-DSPATIAL_SOIL=1 \
+# 		-DWRF_HYDRO=1 \
+# 		-DWRF_HYDRO_NUDGING=1 \
+# 		-DWRFIO_NCD_LARGE_FILE_SUPPORT=1 \
+# 		-DCMAKE_Fortran_COMPILER=gfortran
+
+# 	# Compile using specified CPU settings
+# 	make -j "$CPU_QUARTER_EVEN" 2>&1 | tee make.log
+
+# 	# Check if the necessary executable files were created
+# 	cd "${WRF_FOLDER}/Hydro-Basecode/wrf_hydro_nwm_public/build/Run"
+# 	n=$(ls ./*.exe 2>/dev/null | wc -l)
+
+# 	# Function to rerun compilation if files are missing
+# 	rebuild_and_check() {
+# 		echo "Missing one or more expected files. Running compiler again..."
+# 		cd "${WRF_FOLDER}/Hydro-Basecode/wrf_hydro_nwm_public/build"
+# 		make -j "$CPU_QUARTER_EVEN" 2>&1 | tee make2.log
+# 		cd "${WRF_FOLDER}/Hydro-Basecode/wrf_hydro_nwm_public/build/Run"
+# 		n=$(ls ./*.exe 2>/dev/null | wc -l)
+# 	}
+
+# 	# IF statement to check that all expected files were created
+# 	if ((n == 2)); then
+# 		echo "All expected files created."
+# 	else
+# 		rebuild_and_check
+# 		if ((n != 2)); then
+# 			echo "Missing one or more expected files. Exiting the script."
+# 			read -r -p "Please contact script authors for assistance. Press 'Enter' to exit the script."
+# 			exit 1
+# 		else
+# 			echo "All expected files created after re-compiling."
+# 		fi
+# 	fi
+
+# 	# Finish the script with a pause
+# 	read -r -t 5 -p "Finished installing WRF Hydro Basecode. Waiting for 5 seconds..."
+# 	############################ WRF #################################
+# 	## WRF v${WPS_VERSION}
+# 	## Downloaded from git tagged releases
+# 	# option 34, option 1 for gfortran and distributed memory w/basic nesting
+# 	# large file support enable with WRFiO_NCD_LARGE_FILE_SUPPORT=1
+# 	# In the namelist.input, the following settings support pNetCDF by setting value to 11:
+# 	# io_form_boundary
+# 	# io_form_history
+# 	# io_form_auxinput2
+# 	# io_form_auxhist2
+# 	# Note that you need set nocolons = .true. in the section &time_control of namelist.input
+# 	########################################################################
+# 	cd "${WRF_FOLDER}"/Downloads
+# 	wget -c https://github.com/wrf-model/WRF/releases/download/v${WRF_VERSION}/v${WRF_VERSION}.tar.gz -O WRF-${WRF_VERSION}.tar.gz
+# 	tar -xvzf WRF-${WRF_VERSION}.tar.gz -C "${WRF_FOLDER}"/
+
+# 	# If statment for changing folder name
+# 	if [ -d ""${WRF_FOLDER}"/WRF" ]; then
+# 		mv -f "${WRF_FOLDER}"/WRF "${WRF_FOLDER}"/WRFV${WRF_VERSION}
+# 	fi
+
+# 	cd "${WRF_FOLDER}"/WRFV${WRF_VERSION}
+# 	export WRFIO_NCD_LARGE_FILE_SUPPORT=1
+
+# 	#Replace old version of WRF-Hydro distributed with WRF with updated WRF-Hydro source code
+# 	rm -r "${WRF_FOLDER}"/WRFV${WRF_VERSION}/hydro/
+# 	cp -r "${WRF_FOLDER}"/Hydro-Basecode/wrf_hydro_nwm_public/src "${WRF_FOLDER}"/WRFV${WRF_VERSION}/hydro
+
+# 	cd "${WRF_FOLDER}"/WRFV${WRF_VERSION}/hydro/template
+# 	source setEnvar.sh
+# 	cd "${WRF_FOLDER}"/WRFV${WRF_VERSION}
+
+# 	./clean
+
+# 	# SED statements to fix configure error
+# 	sed -i '186s/==/=/g' "${WRF_FOLDER}"/WRFV${WRF_VERSION}/configure
+# 	sed -i '318s/==/=/g' "${WRF_FOLDER}"/WRFV${WRF_VERSION}/configure
+# 	sed -i '919s/==/=/g' "${WRF_FOLDER}"/WRFV${WRF_VERSION}/configure
+
+# 	if [ ${auto_config} -eq 1 ]; then
+# 		sed -i '443s/.*/  $response = "34 \\n";/g' "${WRF_FOLDER}"/WRFV${WRF_VERSION}/arch/Config.pl # Answer for compiler choice
+# 		sed -i '909s/.*/  $response = "1 \\n";/g' "${WRF_FOLDER}"/WRFV${WRF_VERSION}/arch/Config.pl  #Answer for basic nesting
+# 		./configure 2>&1 | tee configure.log
+# 	else
+# 		./configure 2>&1 | tee configure.log #Option 34 gfortran compiler with distributed memory option 1 for basic nesting
+# 	fi
+
+# 	./compile -j $CPU_QUARTER_EVEN em_real 2>&1 | tee compile.wrf1.log
+
+# 	export WRF_DIR="${WRF_FOLDER}"/WRFV${WRF_VERSION}
+
+# 	# IF statement to check that all files were created.
+# 	cd "${WRF_FOLDER}"/WRFV${WRF_VERSION}/main
+# 	n=$(ls ./*.exe | wc -l)
+# 	if (($n >= 3)); then
+# 		echo "All expected files created."
+# 		read -r -t 5 -p "Finished installing WRF. I am going to wait for 5 seconds only ..."
+# 	else
+# 		echo "Missing one or more expected files."
+# 		echo "Running compiler again"
+# 		cd "${WRF_FOLDER}"/WRFV${WRF_VERSION}
+# 		./compile -j $CPU_QUARTER_EVEN em_real 2>&1 | tee compile.wrf2.log
+# 		cd "${WRF_FOLDER}"/WRFV${WRF_VERSION}/main
+# 		n=$(ls ./*.exe | wc -l)
+# 		if (($n >= 3)); then
+# 			echo "All expected files created."
+# 			read -r -t 5 -p "Finished installing WRF. I am going to wait for 5 seconds only ..."
+# 		else
+# 			read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
+# 			exit
+# 		fi
+# 	fi
+
+# 	echo " "
+
+# 	echo " "
+# 	############################WPS#####################################
+# 	## WPS v${WPS_VERSION}
+# 	## Downloaded from git tagged releases
+# 	#Option 3 for gfortran and distributed memory
+# 	########################################################################
+
+# 	cd "${WRF_FOLDER}"/Downloads
+# 	wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v${WPS_VERSION}.tar.gz -O WPS-${WPS_VERSION}.tar.gz
+# 	tar -xvzf WPS-${WPS_VERSION}.tar.gz -C "${WRF_FOLDER}"/
+# 	cd "${WRF_FOLDER}"/WPS-${WPS_VERSION}
+# 	./clean -a
+
+# 	if [ ${auto_config} -eq 1 ]; then
+# 		echo 3 | ./configure 2>&1 | tee configure.log #Option 3 for gfortran and distributed memory
+# 	else
+# 		./configure 2>&1 | tee configure.log #Option 3 gfortran compiler with distributed memory
+# 	fi
+# 	./compile 2>&1 | tee compile.wps.log
+
+# 	echo " "
+# 	# IF statement to check that all files were created.
+# 	cd "${WRF_FOLDER}"/WPS-${WPS_VERSION}
+# 	n=$(ls ./*.exe | wc -l)
+# 	if (($n == 3)); then
+# 		echo "All expected files created."
+# 		read -r -t 5 -p "Finished installing WPS. I am going to wait for 5 seconds only ..."
+# 	else
+# 		echo "Missing one or more expected files."
+# 		echo "Running compiler again"
+# 		./compile 2>&1 | tee compile.wps2.log
+# 		cd "${WRF_FOLDER}"/WPS-${WPS_VERSION}
+# 		n=$(ls ./*.exe | wc -l)
+# 		if (($n == 3)); then
+# 			echo "All expected files created."
+# 			read -r -t 5 -p "Finished installing WPS. I am going to wait for 5 seconds only ..."
+# 		else
+# 			read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
+# 			exit
+# 		fi
+# 	fi
+
+# 	echo " "
+
+# 	echo " "
+# 	######################## Static Geography Data inc/ Optional ####################
+# 	# http://www2.mmm.ucar.edu/wrf/users/download/get_sources_wps_geog.html
+# 	# These files are large so if you only need certain ones comment the others off
+# 	# All files downloaded and untarred is 200GB
+# 	# https://www2.mmm.ucar.edu/wrf/users/download/get_sources_wps_geog.html
+# 	#################################################################################
+# 	cd "${WRF_FOLDER}"/Downloads
+# 	mkdir "${WRF_FOLDER}"/GEOG
+# 	mkdir "${WRF_FOLDER}"/GEOG/WPS_GEOG
+
+# 	echo " "
+# 	echo "Mandatory WRF Preprocessing System (WPS) Geographical Input Data Mandatory Fields Downloads"
+# 	echo " "
+# 	wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_high_res_mandatory.tar.gz
+# 	tar -xvzf geog_high_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
+
+# 	wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_low_res_mandatory.tar.gz
+# 	tar -xvzf geog_low_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
+# 	mv "${WRF_FOLDER}"/GEOG/WPS_GEOG_LOW_RES/ "${WRF_FOLDER}"/GEOG/WPS_GEOG
+
+# 	if [ ${WPS_Specific_Applications} -eq 1 ]; then
+# 		echo " "
+# 		echo " WPS Geographical Input Data Mandatory for Specific Applications"
+# 		echo " "
+# 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_thompson28_chem.tar.gz
+# 		tar -xvzf geog_thompson28_chem.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+
+# 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_noahmp.tar.gz
+# 		tar -xvzf geog_noahmp.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+
+# 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/irrigation.tar.gz
+# 		tar -xvzf irrigation.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+
+# 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_px.tar.gz
+# 		tar -xvzf geog_px.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+
+# 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_urban.tar.gz
+# 		tar -xvzf geog_urban.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+
+# 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_ssib.tar.gz
+# 		tar -xvzf geog_ssib.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+
+# 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/lake_depth.tar.bz2
+# 		tar -xvf lake_depth.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+
+# 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/topobath_30s.tar.bz2
+# 		tar -xvf topobath_30s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+
+# 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/gsl_gwd.tar.bz2
+# 		tar -xvf gsl_gwd.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+
+# 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/cglc_modis_lcz_global.tar.gz
+# 		tar -xvf cglc_modis_lcz_global.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+# 	fi
+
+# 	if [ ${Optional_GEOG} -eq 1 ]; then
+# 		echo " "
+# 		echo "Optional WPS Geographical Input Data"
+# 		echo " "
+
+# 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_older_than_2000.tar.gz
+# 		tar -xvzf geog_older_than_2000.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+
+# 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s_with_lakes.tar.gz
+# 		tar -xvzf modis_landuse_20class_15s_with_lakes.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+
+# 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_alt_lsm.tar.gz
+# 		tar -xvzf geog_alt_lsm.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+
+# 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/nlcd2006_ll_9s.tar.bz2
+# 		tar -xvf nlcd2006_ll_9s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+
+# 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/updated_Iceland_LU.tar.gz
+# 		tar -xvf updated_Iceland_LU.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+
+# 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s.tar.bz2
+# 		tar -xvf modis_landuse_20class_15s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+
+# 	fi
+
+# fi
+
+# if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
+
+# 	############################# Basic package managment ############################
+
+# 	echo $PASSWD | sudo -S apt -y update
+# 	echo $PASSWD | sudo -S apt -y upgrade
+
+# 	# download the key to system keyring; this and the following echo command are
+# 	# needed in order to install the Intel compilers
+# 	wget -O- https://apt.repos.intel.com/intel-gpg-keys/GPG-PUB-KEY-INTEL-SW-PRODUCTS.PUB |
+# 		gpg --dearmor | sudo tee /usr/share/keyrings/oneapi-archive-keyring.gpg >/dev/null
+
+# 	# add signed entry to apt sources and configure the APT client to use Intel repository:
+# 	echo "deb [signed-by=/usr/share/keyrings/oneapi-archive-keyring.gpg] https://apt.repos.intel.com/oneapi all main" | sudo tee /etc/apt/sources.list.d/oneAPI.list
+
+# 	# this update should get the Intel package info from the Intel repository
+# 	echo $PASSWD | sudo -S apt -y update
+
+# 	release_version=$(lsb_release -r -s)
+
+# 	# Compare the release version
+# 	if [ "$release_version" = "24.04" ]; then
+# 		# Install Emacs without recommended packages
+# 		echo $PASSWD | sudo -S apt install emacs --no-install-recommends -y
+# 	else
+# 		# Attempt to install Emacs if the release version is not 24.04
+# 		echo "The release version is not 24.04, attempting to install Emacs."
+# 		echo $PASSWD | sudo -S apt install emacs -y
+# 	fi
+
+# 	echo $PASSWD | sudo -S apt -y install autoconf automake autotools-dev bison build-essential byacc cmake csh curl default-jdk default-jre flex libfl-dev g++ gawk gcc gfortran git ksh libcurl4-openssl-dev libjpeg-dev libncurses6 libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev libxml-libxml-perl m4 make ncview okular openbox pipenv pkg-config python3 python3-dev python3-pip python3-dateutil tcsh unzip xauth xorg time
+
+# 	# install the Intel compilers
+# 	echo $PASSWD | sudo -S apt -y install intel-basekit
+# 	echo $PASSWD | sudo -S apt -y install intel-hpckit
+# 	echo $PASSWD | sudo -S apt -y install intel-oneapi-python
+
+# 	echo $PASSWD | sudo -S apt -y update
+
+# 	#Fix any broken installations
+# 	echo $PASSWD | sudo -S apt --fix-broken install
+
+# 	# make sure some critical packages have been installed
+# 	which cmake pkg-config make gcc g++ gfortran
+
+# 	# add the Intel compiler file paths to various environment variables
+# 	source /opt/intel/oneapi/setvars.sh --force
+
+# 	# some of the libraries we install below need one or more of these variables
+# 	export CC=icx
+# 	export CXX=icpx
+# 	export FC=ifx
+# 	export F77=ifx
+# 	export F90=ifx
+# 	export MPIFC=mpiifx
+# 	export MPIF77=mpiifx
+# 	export MPIF90=mpiifx
+# 	export MPICC=mpiicx
+# 	export MPICXX=mpiicpc
+# 	export CFLAGS="-fPIC -fPIE -O3 -Wno-implicit-function-declaration -Wno-incompatible-function-pointer-types -Wno-unused-command-line-argument"
+# 	export FFLAGS="-m64"
+# 	export FCFLAGS="-m64"
+# 	############################# CPU Core Management ####################################
+
+# 	export CPU_CORE=$(nproc) # number of available threads on system
+# 	export CPU_6CORE="6"
+# 	export CPU_QUARTER=$(($CPU_CORE / 4)) # quarter of availble cores on system
+# 	# Forces CPU cores to even number to avoid partial core export. ie 7 cores would be 3.5 cores.
+# 	export CPU_QUARTER_EVEN=$(($CPU_QUARTER - ($CPU_QUARTER % 2)))
+
+# 	# If statement for low core systems.  Forces computers to only use 1 core if there are 4 cores or less on the system.
+# 	if [ $CPU_CORE -le $CPU_6CORE ]; then
+# 		export CPU_QUARTER_EVEN="2"
+# 	else
+# 		export CPU_QUARTER_EVEN=$(($CPU_QUARTER - ($CPU_QUARTER % 2)))
+# 	fi
+
+# 	echo "##########################################"
+# 	echo "Number of Threads being used $CPU_QUARTER_EVEN"
+# 	echo "##########################################"
+
+# 	############################## Directory Listing ############################
+# 	# makes necessary directories
+# 	#
+# 	############################################################################
+
+# 	export HOME=$(
+# 		cd
+# 		pwd
+# 	)
+# 	export WRF_FOLDER=$HOME/WRFHYDRO_COUPLED_Intel
+# 	export DIR="${WRF_FOLDER}"/Libs
+# 	mkdir "${WRF_FOLDER}"
+# 	cd "${WRF_FOLDER}"
+# 	mkdir Downloads
+# 	mkdir Libs
+# 	mkdir Libs/grib2
+# 	mkdir Libs/NETCDF
+# 	mkdir Libs/MPICH
+
+# 	mkdir -p Tests/Environment
+# 	mkdir -p Tests/Compatibility
+
+# 	echo " "
+# 	############################## Downloading Libraries ############################
+
+# 	cd "${WRF_FOLDER}"/Downloads
+# 	wget -c https://github.com/madler/zlib/releases/download/v$Zlib_Version/zlib-$Zlib_Version.tar.gz
+# 	wget -c https://github.com/HDFGroup/hdf5/releases/download/hdf5_$HDF5_Version.$HDF5_Sub_Version/hdf5-$HDF5_Version-$HDF5_Sub_Version.tar.gz
+# 	wget -c https://github.com/Unidata/netcdf-c/archive/refs/tags/v$Netcdf_C_Version.tar.gz
+# 	wget -c https://github.com/Unidata/netcdf-fortran/archive/refs/tags/v$Netcdf_Fortran_Version.tar.gz
+# 	wget -c https://download.sourceforge.net/libpng/libpng-$Libpng_Version.tar.gz
+# 	wget -c https://www.ece.uvic.ca/~frodo/jasper/software/jasper-$Jasper_Version.zip
+# 	wget -c https://parallel-netcdf.github.io/Release/pnetcdf-$Pnetcdf_Version.tar.gz
+# 	wget -c https://sourceforge.net/projects/opengrads/files/grads2/2.2.1.oga.1/Linux%20%2864%20Bits%29/opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz
+
+# 	echo " "
+# 	############################# ZLib ############################
+
+# 	cd "${WRF_FOLDER}"/Downloads
+# 	tar -xvzf zlib-$Zlib_Version.tar.gz
+# 	cd zlib-$Zlib_Version/
+# 	autoreconf -i -f 2>&1 | tee autoreconf.log
+
+# 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
+# 	automake -a -f 2>&1 | tee automake.log
+# 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
+# 	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+# 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
+
+# 	echo " "
+# 	############################# LibPNG ############################
+
+# 	cd "${WRF_FOLDER}"/Downloads
+
+# 	# other libraries below need these variables to be set
+# 	export LDFLAGS=-L$DIR/grib2/lib
+# 	export CPPFLAGS=-I$DIR/grib2/include
+
+# 	tar -xvzf libpng-$Libpng_Version.tar.gz
+# 	cd libpng-$Libpng_Version/
+# 	autoreconf -i -f 2>&1 | tee autoreconf.log
+
+# 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
+# 	automake -a -f 2>&1 | tee automake.log
+# 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
+# 	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+# 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
+
+# 	echo " "
+# 	############################# JasPer ############################
+
+# 	cd "${WRF_FOLDER}"/Downloads
+# 	unzip jasper-$Jasper_Version.zip
+# 	cd jasper-$Jasper_Version/
+# 	autoreconf -i -f 2>&1 | tee autoreconf.log
+
+# 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
+# 	automake -a -f 2>&1 | tee automake.log
+# 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
+# 	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+# 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
+
+# 	# other libraries below need these variables to be set
+# 	export JASPERLIB=$DIR/grib2/lib
+# 	export JASPERINC=$DIR/grib2/include
+
+# 	echo " "
+# 	############################# HDF5 library for NetCDF4 & parallel functionality ############################
+
+# 	cd "${WRF_FOLDER}"/Downloads
+# 	tar -xvzf hdf5-$HDF5_Version-$HDF5_Sub_Version.tar.gz
+# 	cd hdf5-$HDF5_Version-$HDF5_Sub_Version
+# 	autoreconf -i -f 2>&1 | tee autoreconf.log
+
+# 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --with-zlib=$DIR/grib2 --enable-hl --enable-fortran --enable-parallel 2>&1 | tee configure.log
+# 	automake -a -f 2>&1 | tee automake.log
+# 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
+# 	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+# 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
+
+# 	# other libraries below need these variables to be set
+# 	export HDF5=$DIR/grib2
+# 	export LD_LIBRARY_PATH=$DIR/grib2/lib:$LD_LIBRARY_PATH
+# 	export PATH=$HDF5/bin:$PATH
+# 	export PHDF5=$DIR/grib2
+
+# 	echo " "
+
+# 	#############################Install Parallel-netCDF##############################
+# 	#Make file created with half of available cpu cores
+# 	#Hard path for MPI added
+# 	##################################################################################
+# 	cd "${WRF_FOLDER}"/Downloads
+# 	tar -xvzf pnetcdf-$Pnetcdf_Version.tar.gz
+# 	cd pnetcdf-$Pnetcdf_Version
+# 	export CC=icx
+# 	export CXX=icpx
+# 	export FC=ifx
+# 	export F77=ifx
+# 	export F90=ifx
+# 	export MPIFC=mpiifx
+# 	export MPIF77=mpiifx
+# 	export MPIF90=mpiifx
+# 	export MPICC=mpiicx
+# 	export MPICXX=mpiicpc
+# 	export CFLAGS="-fPIC -fPIE -O3 -Wno-implicit-function-declaration -Wno-incompatible-function-pointer-types -Wno-unused-command-line-argument"
+# 	export FFLAGS="-m64"
+# 	export FCFLAGS="-m64"
+# 	autoreconf -i -f 2>&1 | tee autoreconf.log
+# 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --enable-shared --enable-static 2>&1 | tee configure.log
+# 	automake -a -f 2>&1 | tee automake.log
+# 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
+# 	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+# 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
+# 	#make check
+
+# 	export PNETCDF=$DIR/grib2
+
+# 	echo " "
+
+# 	############################## Install NETCDF-C Library ############################
+
+# 	cd "${WRF_FOLDER}"/Downloads
+# 	tar -xzvf v$Netcdf_C_Version.tar.gz
+# 	cd netcdf-c-$Netcdf_C_Version/
+
+# 	# these variables need to be set for the NetCDF-C install to work
+# 	export CPPFLAGS=-I$DIR/grib2/include
+# 	export LDFLAGS=-L$DIR/grib2/lib
+# 	export LIBS="-lhdf5_hl -lhdf5 -lz -lcurl -lm -ldl"
+
+# 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-shared --enable-static --enable-pnetcdf --enable-cdf5 --enable-parallel-tests 2>&1 | tee configure.log
+# 	automake -a -f 2>&1 | tee automake.log
+# 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
+# 	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+# 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
+
+# 	# other libraries below need these variables to be set
+# 	export PATH=$DIR/NETCDF/bin:$PATH
+# 	export NETCDF=$DIR/NETCDF
+
+# 	echo " "
+# 	############################## NetCDF-Fortran library ############################
+
+# 	cd "${WRF_FOLDER}"/Downloads
+# 	tar -xvzf v$Netcdf_Fortran_Version.tar.gz
+# 	cd netcdf-fortran-$Netcdf_Fortran_Version/
+
+# 	# these variables need to be set for the NetCDF-Fortran install to work
+# 	export LD_LIBRARY_PATH=$DIR/NETCDF/lib:$LD_LIBRARY_PATH
+# 	export CPPFLAGS="-I$DIR/NETCDF/include -I$DIR/grib2/include"
+# 	export LDFLAGS="-L$DIR/NETCDF/lib -L$DIR/grib2/lib"
+# 	export LIBS="-lnetcdf -lpnetcdf -lcurl -lm -lcurl -lhdf5_hl -lhdf5 -lz -ldl"
+
+# 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-parallel-tests --enable-hdf5 2>&1 | tee configure.log
+# 	automake -a -f 2>&1 | tee automake.log
+# 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
+# 	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+# 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
+
+# 	echo " "
+# 	#################################### System Environment Tests ##############
+
+# 	cd "${WRF_FOLDER}"/Downloads
+# 	wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_NETCDF_MPI_tests.tar
+# 	wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_tests.tar
+
+# 	tar -xvf Fortran_C_tests.tar -C "${WRF_FOLDER}"/Tests/Environment
+# 	tar -xvf Fortran_C_NETCDF_MPI_tests.tar -C "${WRF_FOLDER}"/Tests/Compatibility
+
+# 	export one="1"
+# 	echo " "
+# 	############## Testing Environment #####
+
+# 	cd "${WRF_FOLDER}"/Tests/Environment
+
+# 	echo " "
+# 	echo " "
+# 	echo "Environment Testing "
+# 	echo "Test 1"
+# 	$FC TEST_1_fortran_only_fixed.f
+# 	./a.out | tee env_test1.txt
+# 	export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test1.txt | awk '{print$1}')
+# 	if [ $TEST_PASS -ge 1 ]; then
+# 		echo "Enviroment Test 1 Passed"
+# 	else
+# 		echo "Environment Compiler Test 1 Failed"
+# 		exit
+# 	fi
+# 	read -r -t 3 -p "I am going to wait for 3 seconds only ..."
+
+# 	echo " "
+# 	echo "Test 2"
+# 	$FC TEST_2_fortran_only_free.f90
+# 	./a.out | tee env_test2.txt
+# 	export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test2.txt | awk '{print$1}')
+# 	if [ $TEST_PASS -ge 1 ]; then
+# 		echo "Enviroment Test 2 Passed"
+# 	else
+# 		echo "Environment Compiler Test 2 Failed"
+# 		exit
+# 	fi
+# 	echo " "
+# 	read -r -t 3 -p "I am going to wait for 3 seconds only ..."
+
+# 	echo " "
+# 	echo "Test 3"
+# 	$CC TEST_3_c_only.c
+# 	./a.out | tee env_test3.txt
+# 	export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test3.txt | awk '{print$1}')
+# 	if [ $TEST_PASS -ge 1 ]; then
+# 		echo "Enviroment Test 3 Passed"
+# 	else
+# 		echo "Environment Compiler Test 3 Failed"
+# 		exit
+# 	fi
+# 	echo " "
+# 	read -r -t 3 -p "I am going to wait for 3 seconds only ..."
+
+# 	echo " "
+# 	echo "Test 4"
+# 	$CC -c -m64 TEST_4_fortran+c_c.c
+# 	$FC -c -m64 TEST_4_fortran+c_f.f90
+# 	$FC -m64 TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
+# 	./a.out | tee env_test4.txt
+# 	export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test4.txt | awk '{print$1}')
+# 	if [ $TEST_PASS -ge 1 ]; then
+# 		echo "Enviroment Test 4 Passed"
+# 	else
+# 		echo "Environment Compiler Test 4 Failed"
+# 		exit
+# 	fi
+# 	echo " "
+# 	read -r -t 3 -p "I am going to wait for 3 seconds only ..."
+
+# 	echo " "
+# 	############## Testing Environment #####
+
+# 	cd "${WRF_FOLDER}"/Tests/Compatibility
+
+# 	cp ${NETCDF}/include/netcdf.inc .
+
+# 	echo " "
+# 	echo " "
+# 	echo "Library Compatibility Tests "
+# 	echo "Test 1"
+# 	$FC -c 01_fortran+c+netcdf_f.f
+# 	$CC -c 01_fortran+c+netcdf_c.c
+# 	$FC 01_fortran+c+netcdf_f.o 01_fortran+c+netcdf_c.o \
+# 		-L${NETCDF}/lib -lnetcdff -lnetcdf
+
+# 	./a.out | tee comp_test1.txt
+# 	export TEST_PASS=$(grep -w -o -c "SUCCESS" comp_test1.txt | awk '{print$1}')
+# 	if [ $TEST_PASS -ge 1 ]; then
+# 		echo "Compatibility Test 1 Passed"
+# 	else
+# 		echo "Compatibility Compiler Test 1 Failed"
+# 		exit
+# 	fi
+# 	echo " "
+# 	read -r -t 3 -p "I am going to wait for 3 seconds only ..."
+
+# 	echo " "
+
+# 	echo "Test 2"
+# 	$MPIFC -c 02_fortran+c+netcdf+mpi_f.f
+# 	$MPICC -c 02_fortran+c+netcdf+mpi_c.c
+# 	$MPIFC 02_fortran+c+netcdf+mpi_f.o \
+# 		02_fortran+c+netcdf+mpi_c.o \
+# 		-L${NETCDF}/lib -lnetcdff -lnetcdf
+
+# 	mpirun ./a.out | tee comp_test2.txt
+# 	export TEST_PASS=$(grep -w -o -c "SUCCESS" comp_test2.txt | awk '{print$1}')
+# 	if [ $TEST_PASS -ge 1 ]; then
+# 		echo "Compatibility Test 2 Passed"
+# 	else
+# 		echo "Compatibility Compiler Test 2 Failed"
+# 		exit
+# 	fi
+# 	echo " "
+# 	read -r -t 3 -p "I am going to wait for 3 seconds only ..."
+# 	echo " "
+
+# 	echo " All tests completed and passed"
+# 	echo " "
 	
-	######################## ARWpost V3.1  ############################
-	## ARWpost
-	##Configure #3
-	###################################################################
-	cd "${WRF_FOLDER}"/Downloads
-	wget -c http://www2.mmm.ucar.edu/wrf/src/ARWpost_V3.tar.gz
-	tar -xvzf ARWpost_V3.tar.gz -C "${WRF_FOLDER}"
-	cd "${WRF_FOLDER}"/ARWpost
-	./clean -a
-	sed -i -e 's/-lnetcdf/-lnetcdff -lnetcdf/g' "${WRF_FOLDER}"/ARWpost/src/Makefile
-	export NETCDF=$DIR/NETCDF
-
-	if [ ${auto_config} -eq 1 ]; then
-		echo 2 | ./configure #Option 2 intel compiler with distributed memory
-	else
-		./configure #Option 2 intel compiler with distributed memory
-	fi
-
-	sed -i -e 's/-C -P -traditional/-P -traditional/g' "${WRF_FOLDER}"/ARWpost/configure.arwp
-	./compile
-
-	#IF statement to check that all files were created.
-	cd "${WRF_FOLDER}"/ARWpost
-	n=$(ls ./*.exe | wc -l)
-	if (($n == 1)); then
-		echo "All expected files created."
-		read -r -t 5 -p "Finished installing ARWpost. I am going to wait for 5 seconds only ..."
-	else
-		echo "Missing one or more expected files. Exiting the script."
-		read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
-		exit
-	fi
-
-	echo " "
-
-	export PATH="${WRF_FOLDER}"/ARWpost/ARWpost.exe:$PATH
-
-	echo " "
-	################################OpenGrADS######################################
-	#Verison 2.2.1 64bit of Linux
-	#############################################################################
-	if [[ $GRADS_PICK -eq 1 ]]; then
-
-		cd "${WRF_FOLDER}"/Downloads
-		tar -xzvf opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz -C "${WRF_FOLDER}"/
-		cd "${WRF_FOLDER}"/
-		mv "${WRF_FOLDER}"/opengrads-2.2.1.oga.1 "${WRF_FOLDER}"/GrADS
-		cd GrADS/Contents
-		wget -c https://github.com/regisgrundig/SIMOP/blob/master/g2ctl.pl
-		chmod +x g2ctl.pl
-		wget -c https://sourceforge.net/projects/opengrads/files/wgrib2/0.1.9.4/wgrib2-v0.1.9.4-bin-x86_64-glibc2.5-linux-gnu.tar.gz
-		tar -xzvf wgrib2-v0.1.9.4-bin-x86_64-glibc2.5-linux-gnu.tar.gz
-		cd wgrib2-v0.1.9.4/bin
-		mv wgrib2 "${WRF_FOLDER}"/GrADS/Contents
-		cd "${WRF_FOLDER}"/GrADS/Contents
-		rm wgrib2-v0.1.9.4-bin-x86_64-glibc2.5-linux-gnu.tar.gz
-		rm -r wgrib2-v0.1.9.4
-
-		export PATH="${WRF_FOLDER}"/GrADS/Contents:$PATH
-
-	fi
-
-	################################## GrADS ###############################
-	# Version  2.2.1
-	# Sublibs library instructions: http://cola.gmu.edu/grads/gadoc/supplibs2.html
-	# GrADS instructions: http://cola.gmu.edu/grads/downloads.php
-	########################################################################
-	if [[ $GRADS_PICK -eq 2 ]]; then
-
-		echo $PASSWD | sudo -S apt -y install grads
-
-	fi
-
-	##################### NCAR COMMAND LANGUAGE           ##################
-	########### NCL compiled via Conda                    ##################
-	########### This is the preferred method by NCAR      ##################
-	########### https://www.ncl.ucar.edu/index.shtml      ##################
-	echo " "
-	#Installing Miniconda3 to WRF directory and updating libraries
-	echo $PASSWD | sudo -S apt -y install python3-zstandard python3-zstd
-
-	export Miniconda_Install_DIR="${WRF_FOLDER}"/miniconda3
-
-	mkdir -p $Miniconda_Install_DIR
-
-	wget -c https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O $Miniconda_Install_DIR/miniconda.sh
-	bash $Miniconda_Install_DIR/miniconda.sh -b -u -p $Miniconda_Install_DIR
-
-	rm -rf $Miniconda_Install_DIR/miniconda.sh
-
-	export PATH="${WRF_FOLDER}"/miniconda3/bin:$PATH
-
-	source $Miniconda_Install_DIR/etc/profile.d/conda.sh
-
-	$Miniconda_Install_DIR/bin/conda init bash
-	$Miniconda_Install_DIR/bin/conda init zsh
-	$Miniconda_Install_DIR/bin/conda init tcsh
-	$Miniconda_Install_DIR/bin/conda init xonsh
-	$Miniconda_Install_DIR/bin/conda init powershell
-
-	conda config --add channels conda-forge
-	conda config --set auto_activate_base false
-	conda update -n root --all -y
-
-	#Special Thanks to @_WaylonWalker for code development
-
-	echo " "
-	#Installing NCL via Conda
-	source $Miniconda_Install_DIR/etc/profile.d/conda.sh
-	conda init bash
-	conda activate base
-	conda create -n ncl_stable -c conda-forge ncl -y
-	conda activate ncl_stable
-
-	conda deactivate
-	conda deactivate
-	conda deactivate
-	echo " "
-
-	##################### WRF Python           ##################
-	########### WRf-Python compiled via Conda  ##################
-	########### This is the preferred method by NCAR      ##################
-	##### https://wrf-python.readthedocs.io/en/latest/installation.html  ##################
-	source $Miniconda_Install_DIR/etc/profile.d/conda.sh
-	conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
-
-	######################### Climate Data Operators ############
-	######################### CDO compiled via Conda ###########
-	####################### This is the preferred method #######
-	################### https://bairdlangenbrunner.github.io/python-for-climate-scientists/conda/setting-up-conda-environments.html #######################
-
-	source $Miniconda_Install_DIR/etc/profile.d/conda.sh
-	conda init bash
-	conda activate base
-	conda create --name cdo_stable -y
-	conda activate cdo_stable
-	conda install -c conda-forge cdo -y
-	conda update --all -y
-	conda deactivate
-	conda deactivate
-	conda deactivate
-
-	echo " "
-
-	########################## WRF Hydro GIS PreProcessor ##############################
-	#  Compiled with Conda
-	#  https://github.com/NCAR/wrf_hydro_gis_preprocessor
-	####################################################################################
-
-	conda init bash
-	conda activate base
-	conda create -n wrfh_gis_env -c conda-forge python=3.12 gdal netCDF4 numpy pyproj whitebox=2.2.0 packaging shapely -y
-	conda activate wrfh_gis_env
-	conda update -n wrfh_gis_env --all -y
-	conda deactivate
-	conda deactivate
-	conda deactivate
-	cd "${WRF_FOLDER}"
-	git clone https://github.com/NCAR/wrf_hydro_gis_preprocessor.git "${WRF_FOLDER}"/WRF-Hydro-GIS-PreProcessor
-
-	echo " "
-
-	############################# WRF HYDRO V5.3.0 #################################
-	# Version 5.3.0
-	# Standalone mode
-	################################################################################
-
-	# Source Intel oneAPI environment
-	source /opt/intel/oneapi/setvars.sh --force
-
-	# Set up NETCDF environment variables
-	export NETCDF_INC="$DIR/NETCDF/include"
-	export NETCDF_LIB="$DIR/NETCDF/lib"
-
-	# Create directories for Hydro Basecode and navigate to it
-	mkdir -p "${WRF_FOLDER}/Hydro-Basecode"
-	cd "${WRF_FOLDER}/Hydro-Basecode"
-
-	# Clone the WRF-Hydro repository and set up the build
-	git clone https://github.com/NCAR/wrf_hydro_nwm_public.git
-	cd wrf_hydro_nwm_public
-	mkdir -p build
-	cd build
-
-	# Run CMake configuration for WRF-Hydro with specified options
-	cmake .. \
-		-DSPATIAL_SOIL=1 \
-		-DWRF_HYDRO=1 \
-		-DWRF_HYDRO_NUDGING=1 \
-		-DWRFIO_NCD_LARGE_FILE_SUPPORT=1 \
-		-DCMAKE_Fortran_COMPILER=ifx
-
-	# Compile using specified CPU settings
-	make -j "$CPU_QUARTER_EVEN" 2>&1 | tee make.log
-
-	# Check if the necessary executable files were created
-	cd "${WRF_FOLDER}/Hydro-Basecode/wrf_hydro_nwm_public/build/Run"
-	n=$(ls ./*.exe 2>/dev/null | wc -l)
-
-	# Function to rerun compilation if files are missing
-	rebuild_and_check() {
-		echo "Missing one or more expected files. Running compiler again..."
-		cd "${WRF_FOLDER}/Hydro-Basecode/wrf_hydro_nwm_public/build"
-		make -j "$CPU_QUARTER_EVEN" 2>&1 | tee make2.log
-		cd "${WRF_FOLDER}/Hydro-Basecode/wrf_hydro_nwm_public/build/Run"
-		n=$(ls ./*.exe 2>/dev/null | wc -l)
-	}
-
-	# IF statement to check that all expected files were created
-	if ((n == 2)); then
-		echo "All expected files created."
-	else
-		rebuild_and_check
-		if ((n != 2)); then
-			echo "Missing one or more expected files. Exiting the script."
-			read -r -p "Please contact script authors for assistance. Press 'Enter' to exit the script."
-			exit 1
-		else
-			echo "All expected files created after re-compiling."
-		fi
-	fi
-
-	# Finish the script with a pause
-	read -r -t 5 -p "Finished installing WRF Hydro Basecode. Waiting for 5 seconds..."
-	############################ WRF #################################
-	## WRF v${WPS_VERSION}
-	## Downloaded from git tagged releases
-	# option 78, option 1 for intel and distributed memory w/basic nesting
-	# large file support enable with WRFiO_NCD_LARGE_FILE_SUPPORT=1
-	# In the namelist.input, the following settings support pNetCDF by setting  value to 11:
-	# io_form_boundary
-	# io_form_history
-	# io_form_auxinput2
-	# io_form_auxhist2
-	# Note that you need set nocolons = .true. in the section &time_control of namelist.input
-	########################################################################
-
-	cd "${WRF_FOLDER}"/Downloads
-
-	wget -c https://github.com/wrf-model/WRF/releases/download/v${WRF_VERSION}/v${WRF_VERSION}.tar.gz -O WRF-${WRF_VERSION}.tar.gz
-	tar -xvzf WRF-${WRF_VERSION}.tar.gz -C "${WRF_FOLDER}"/
-
-	# If statment for changing folder name
-	if [ -d ""${WRF_FOLDER}"/WRF" ]; then
-		mv -f "${WRF_FOLDER}"/WRF "${WRF_FOLDER}"/WRFV${WRF_VERSION}
-	fi
-
-	cd "${WRF_FOLDER}"/WRFV${WRF_VERSION}
-
-	export WRFIO_NCD_LARGE_FILE_SUPPORT=1
-
-	#Replace old version of WRF-Hydro distributed with WRF with updated WRF-Hydro source code
-	rm -r "${WRF_FOLDER}"/WRFV${WRF_VERSION}/hydro/
-	cp -r "${WRF_FOLDER}"/Hydro-Basecode/wrf_hydro_nwm_public/src "${WRF_FOLDER}"/WRFV${WRF_VERSION}/hydro
-
-	cd "${WRF_FOLDER}"/WRFV${WRF_VERSION}/hydro/template
-	source setEnvar.sh
-	cd "${WRF_FOLDER}"/WRFV${WRF_VERSION}
-
-	./clean
-
-	# SED statements to fix configure error
-	sed -i '186s/==/=/g' "${WRF_FOLDER}"/WRFV${WRF_VERSION}/configure
-	sed -i '318s/==/=/g' "${WRF_FOLDER}"/WRFV${WRF_VERSION}/configure
-	sed -i '919s/==/=/g' "${WRF_FOLDER}"/WRFV${WRF_VERSION}/configure
-
-	if [ ${auto_config} -eq 1 ]; then
-		sed -i '443s/.*/  $response = "78 \\n";/g' "${WRF_FOLDER}"/WRFV${WRF_VERSION}/arch/Config.pl # Answer for compiler choice
-		sed -i '909s/.*/  $response = "1 \\n";/g' "${WRF_FOLDER}"/WRFV${WRF_VERSION}/arch/Config.pl  #Answer for basic nesting
-		./configure 2>&1 | tee configure.log
-	else
-		./configure 2>&1 | tee configure.log #option 78 intel compiler with distributed memory option 1 for basic nesting
-	fi
-
-	sed -i '63s/mpif90/mpiifort/g' "${WRF_FOLDER}"/WRFV${WRF_VERSION}/hydro/macros
-	#Need to remove mpich/GNU config calls to Intel config calls
-	sed -i '136s|mpif90 -f90=$(SFC)|mpiifx|g' "${WRF_FOLDER}"/WRFV${WRF_VERSION}/configure.wrf
-	sed -i '137s|mpicc -cc=$(SCC)|mpiicx|g' "${WRF_FOLDER}"/WRFV${WRF_VERSION}/configure.wrf
-
-	./compile -j $CPU_QUARTER_EVEN em_real 2>&1 | tee compile.wrf1.log
-
-	export WRF_DIR="${WRF_FOLDER}"/WRFV${WRF_VERSION}
-
-	# IF statement to check that all files were created.
-	cd "${WRF_FOLDER}"/WRFV${WRF_VERSION}/main
-	n=$(ls ./*.exe | wc -l)
-	if (($n >= 3)); then
-		echo "All expected files created."
-		read -r -t 5 -p "Finished installing WRF. I am going to wait for 5 seconds only ..."
-	else
-		echo "Missing one or more expected files."
-		echo "Running compiler again"
-		cd "${WRF_FOLDER}"/WRFV${WRF_VERSION}
-		./compile -j $CPU_QUARTER_EVEN em_real 2>&1 | tee compile.wrf2.log
-		cd "${WRF_FOLDER}"/WRFV${WRF_VERSION}/main
-		n=$(ls ./*.exe | wc -l)
-		if (($n >= 3)); then
-			echo "All expected files created."
-			read -r -t 5 -p "Finished installing WRF. I am going to wait for 5 seconds only ..."
-		else
-			read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
-			exit
-		fi
-	fi
-
-	echo " "
-
-	echo " "
-
-	############################WPS#####################################
-	## WPS v${WPS_VERSION}
-	## Downloaded from git tagged releases
-	#Option 3 for gfortran and distributed memory
-	########################################################################
-
-	cd "${WRF_FOLDER}"/Downloads
-	wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v${WPS_VERSION}.tar.gz -O WPS-${WPS_VERSION}.tar.gz
-	tar -xvzf WPS-${WPS_VERSION}.tar.gz -C "${WRF_FOLDER}"/
-	cd "${WRF_FOLDER}"/WPS-${WPS_VERSION}
-	./clean -a
-
-	if [ ${auto_config} -eq 1 ]; then
-		echo 19 | ./configure 2>&1 | tee configure.log #Option 19 for intel and distributed memory
-	else
-		./configure 2>&1 | tee configure.log #Option 19 intel compiler with distributed memory
-	fi
-
-	sed -i '67s|mpif90|mpiifx|g' "${WRF_FOLDER}"/WPS-${WPS_VERSION}/configure.wps
-	sed -i '68s|mpicc|mpiicx|g' "${WRF_FOLDER}"/WPS-${WPS_VERSION}/configure.wps
-
-	./compile 2>&1 | tee compile.wps.log
-
-	echo " "
-	# IF statement to check that all files were created.
-	cd "${WRF_FOLDER}"/WPS-${WPS_VERSION}
-	n=$(ls ./*.exe | wc -l)
-	if (($n == 3)); then
-		echo "All expected files created."
-		read -r -t 5 -p "Finished installing WPS. I am going to wait for 5 seconds only ..."
-	else
-		echo "Missing one or more expected files."
-		echo "Running compiler again"
-		./compile 2>&1 | tee compile.wps2.log
-		cd "${WRF_FOLDER}"/WPS-${WPS_VERSION}
-		n=$(ls ./*.exe | wc -l)
-		if (($n == 3)); then
-			echo "All expected files created."
-			read -r -t 5 -p "Finished installing WPS. I am going to wait for 5 seconds only ..."
-		else
-			read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
-			exit
-		fi
-	fi
-
-	echo " "
-
-	######################## Static Geography Data inc/ Optional ####################
-	# http://www2.mmm.ucar.edu/wrf/users/download/get_sources_wps_geog.html
-	# These files are large so if you only need certain ones comment the others off
-	# All files downloaded and untarred is 200GB
-	# https://www2.mmm.ucar.edu/wrf/users/download/get_sources_wps_geog.html
-	#################################################################################
-	cd "${WRF_FOLDER}"/Downloads
-	mkdir "${WRF_FOLDER}"/GEOG
-	mkdir "${WRF_FOLDER}"/GEOG/WPS_GEOG
-
-	echo " "
-	echo "Mandatory WRF Preprocessing System (WPS) Geographical Input Data Mandatory Fields Downloads"
-	echo " "
-	wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_high_res_mandatory.tar.gz
-	tar -xvzf geog_high_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
-
-	wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_low_res_mandatory.tar.gz
-	tar -xvzf geog_low_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
-	mv "${WRF_FOLDER}"/GEOG/WPS_GEOG_LOW_RES/ "${WRF_FOLDER}"/GEOG/WPS_GEOG
-
-	if [ ${WPS_Specific_Applications} -eq 1 ]; then
-		echo " "
-		echo " WPS Geographical Input Data Mandatory for Specific Applications"
-		echo " "
-
-		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_thompson28_chem.tar.gz
-		tar -xvzf geog_thompson28_chem.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
-
-		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_noahmp.tar.gz
-		tar -xvzf geog_noahmp.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
-
-		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/irrigation.tar.gz
-		tar -xvzf irrigation.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
-
-		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_px.tar.gz
-		tar -xvzf geog_px.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
-
-		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_urban.tar.gz
-		tar -xvzf geog_urban.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
-
-		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_ssib.tar.gz
-		tar -xvzf geog_ssib.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
-
-		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/lake_depth.tar.bz2
-		tar -xvf lake_depth.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
-
-		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/topobath_30s.tar.bz2
-		tar -xvf topobath_30s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
-
-		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/gsl_gwd.tar.bz2
-		tar -xvf gsl_gwd.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
-
-		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/cglc_modis_lcz_global.tar.gz
-		tar -xvf cglc_modis_lcz_global.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
-	fi
-
-	if [ ${Optional_GEOG} -eq 1 ]; then
-		echo " "
-		echo "Optional WPS Geographical Input Data"
-		echo " "
-
-		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_older_than_2000.tar.gz
-		tar -xvzf geog_older_than_2000.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
-
-		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s_with_lakes.tar.gz
-		tar -xvzf modis_landuse_20class_15s_with_lakes.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
-
-		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_alt_lsm.tar.gz
-		tar -xvzf geog_alt_lsm.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
-
-		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/nlcd2006_ll_9s.tar.bz2
-		tar -xvf nlcd2006_ll_9s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
-
-		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/updated_Iceland_LU.tar.gz
-		tar -xvf updated_Iceland_LU.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
-
-		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s.tar.bz2
-		tar -xvf modis_landuse_20class_15s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
-	fi
-
-fi
-
-if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ] && [ "$MAC_CHIP" = "Intel" ]; then
-
-	#############################basic package managment############################
-
-	brew update
-	outdated_packages=$(brew outdated --quiet)
-
-	# List of packages to check/install
-	packages=(
-		"autoconf" "automake" "bison" "byacc" "cmake" "curl" "flex" "gcc"
-		"gdal" "gedit" "git" "gnu-sed" "grads" "imagemagick" "java" "ksh"
-		"libtool" "libxml2" "m4" "make" "python@3.12" "snapcraft" "tcsh" "wget"
-		"xauth" "xorgproto" "xorgrgb" "xquartz"
-	)
-
-	for pkg in "${packages[@]}"; do
-		if brew list "$pkg" &>/dev/null; then
-			echo "$pkg is already installed."
-			if [[ $outdated_packages == *"$pkg"* ]]; then
-				echo "$pkg has a newer version available. Upgrading..."
-				brew upgrade "$pkg"
-			fi
-		else
-			echo "$pkg is not installed. Installing..."
-			brew install "$pkg"
-		fi
-		sleep 1
-	done
-
-	export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
-	export PATH=/usr/local/bin:$PATH
-
-	##############################Directory Listing############################
-
-	export HOME=$(
-		cd
-		pwd
-	)
-	mkdir $HOME/WRFHYDRO_COUPLED
-	export WRF_FOLDER=$HOME/WRFHYDRO_COUPLED
-	cd "${WRF_FOLDER}"/
-	mkdir Downloads
-	mkdir "${WRF_FOLDER}"/Hydro-Basecode
-	mkdir Libs
-	export DIR="${WRF_FOLDER}"/Libs
-	mkdir Libs/grib2
-	mkdir Libs/NETCDF
-	mkdir Libs/MPICH
-	mkdir -p Tests/Environment
-	mkdir -p Tests/Compatibility
-
-	echo " "
-
-	#############################Core Management####################################
-	export CPU_CORE=$(sysctl -n hw.ncpu) # number of available threads on system
-	export CPU_6CORE="6"
-	export CPU_QUARTER=$(($CPU_CORE / 4))
-	#1/2 of availble cores on system
-	export CPU_QUARTER_EVEN=$(($CPU_QUARTER - ($CPU_QUARTER % 2)))
-	#Forces CPU cores to even number to avoid partial core export. ie 7 cores would be 3.5 cores.
-
-	if [ $CPU_CORE -le $CPU_6CORE ]; then #If statement for low core systems.  Forces computers to only use 1 core if there are 4 cores or less on the system. then
-		export CPU_QUARTER_EVEN="2"
-	else
-		export CPU_QUARTER_EVEN=$(($CPU_QUARTER - ($CPU_QUARTER % 2)))
-	fi
-
-	echo "##########################################"
-	echo "Number of Threads being used $CPU_QUARTER_EVEN"
-	echo "##########################################"
-	echo " "
-
-	##############################Downloading Libraries############################
-
-	cd "${WRF_FOLDER}"/Downloads
-	wget -c https://github.com/madler/zlib/releases/download/v$Zlib_Version/zlib-$Zlib_Version.tar.gz
-	wget -c https://github.com/HDFGroup/hdf5/releases/download/hdf5_$HDF5_Version.$HDF5_Sub_Version/hdf5-$HDF5_Version-$HDF5_Sub_Version.tar.gz
-	wget -c https://github.com/Unidata/netcdf-c/archive/refs/tags/v$Netcdf_C_Version.tar.gz
-	wget -c https://github.com/Unidata/netcdf-fortran/archive/refs/tags/v$Netcdf_Fortran_Version.tar.gz
-	wget -c https://download.sourceforge.net/libpng/libpng-$Libpng_Version.tar.gz
-	wget -c https://www.ece.uvic.ca/~frodo/jasper/software/jasper-$Jasper_Version.zip
-	wget -c https://github.com/pmodels/mpich/releases/download/v$Mpich_Version/mpich-$Mpich_Version.tar.gz
-	wget -c https://parallel-netcdf.github.io/Release/pnetcdf-$Pnetcdf_Version.tar.gz
-
-	echo " "
-
-	#############################Compilers############################
-
-	#Symlink to avoid clang conflicts with compilers
-	#default gcc path /usr/bin/gcc
-	#default homebrew path /usr/local/bin
-
-	# Find the highest version of GCC in /usr/local/bin
-		latest_gcc=$(ls /usr/local/bin/gcc-* 2>/dev/null | grep -o 'gcc-[0-9]*' | sort -V | tail -n 1)
-	latest_gpp=$(ls /usr/local/bin/g++-* 2>/dev/null | grep -o 'g++-[0-9]*' | sort -V | tail -n 1)
-	latest_gfortran=$(ls /usr/local/bin/gfortran-* 2>/dev/null | grep -o 'gfortran-[0-9]*' | sort -V | tail -n 1)
-
-	# Display the chosen versions
-	echo "Selected gcc version: $latest_gcc"
-	echo "Selected g++ version: $latest_gpp"
-	echo "Selected gfortran version: $latest_gfortran"
-
-	# Check if GCC, G++, and GFortran were found
-	if [ -z "$latest_gcc" ]; then
-		echo "No GCC version found in /usr/local/bin."
-		exit 1
-	fi
-
-	# Create or update the symbolic links for GCC, G++, and GFortran
-	echo "Linking the latest GCC version: $latest_gcc"
-	echo $PASSWD | sudo -S ln -sf /usr/local/bin/$latest_gcc /usr/local/bin/gcc
-
-	if [ ! -z "$latest_gpp" ]; then
-		echo "Linking the latest G++ version: $latest_gpp"
-		echo $PASSWD | sudo -S ln -sf /usr/local/bin/$latest_gpp /usr/local/bin/g++
-	fi
-
-	if [ ! -z "$latest_gfortran" ]; then
-		echo "Linking the latest GFortran version: $latest_gfortran"
-		echo $PASSWD | sudo -S ln -sf /usr/local/bin/$latest_gfortran /usr/local/bin/gfortran
-	fi
-
-	echo "Updated symbolic links for GCC, G++, and GFortran."
-	echo $PASSWD | sudo -S ln -sf /usr/local/bin/python3.12 /usr/local/bin/python3
-
-	export CC=gcc
-	export CXX=g++
-	export FC=gfortran
-	export F77=gfortran
-	export CFLAGS="-fPIC -fPIE -Wno-implicit-function-declaration -Wno-incompatible-pointer-types -Wall"
-
-	echo " "
-
-	#IF statement for GNU compiler issue
-	export GCC_VERSION=$(gcc -dumpfullversion | awk '{print$1}')
-	export GFORTRAN_VERSION=$(gfortran -dumpfullversion | awk '{print$1}')
-	export GPLUSPLUS_VERSION=$(g++ -dumpfullversion | awk '{print$1}')
-
-	export GCC_VERSION_MAJOR_VERSION=$(echo $GCC_VERSION | awk -F. '{print $1}')
-	export GFORTRAN_VERSION_MAJOR_VERSION=$(echo $GFORTRAN_VERSION | awk -F. '{print $1}')
-	export GPLUSPLUS_VERSION_MAJOR_VERSION=$(echo $GPLUSPLUS_VERSION | awk -F. '{print $1}')
-
-	export version_10="10"
-
-	if [ $GCC_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GFORTRAN_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GPLUSPLUS_VERSION_MAJOR_VERSION -ge $version_10 ]; then
-		export fallow_argument=-fallow-argument-mismatch
-		export boz_argument=-fallow-invalid-boz
-	else
-		export fallow_argument=
-		export boz_argument=
-	fi
-
-	export FFLAGS="$fallow_argument -m64"
-	export FCFLAGS="$fallow_argument -m64"
-
-	echo "##########################################"
-	echo "FFLAGS = $FFLAGS"
-	echo "FCFLAGS = $FCFLAGS"
-	echo "CFLAGS = $CFLAGS"
-	echo "##########################################"
-
-	echo " "
-
-	#############################zlib############################
-	#Uncalling compilers due to comfigure issue with zlib1.2.12
-	#With CC & CXX definied ./configure uses different compiler Flags
-
-	cd "${WRF_FOLDER}"/Downloads
-	tar -xvzf zlib-$Zlib_Version.tar.gz
-	cd zlib-$Zlib_Version/
-	autoreconf -i -f 2>&1 | tee autoreconf.log
-	./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
-
-	automake -a -f 2>&1 | tee automake.log
-	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
-	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
-	#make check
-
-	echo " "
-
-	##############################MPICH############################
-	cd "${WRF_FOLDER}"/Downloads
-	tar -xvzf mpich-$Mpich_Version.tar.gz
-	cd mpich-$Mpich_Version/
-	autoreconf -i -f 2>&1 | tee autoreconf.log
-
-	F90= ./configure --prefix=$DIR/MPICH --with-device=ch3 FFLAGS="$fallow_argument -m64" FCFLAGS="$fallow_argument -m64" 2>&1 | tee configure.log
-	automake -a -f 2>&1 | tee automake.log
-	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
-	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
-	#make check
-
-	export PATH=$DIR/MPICH/bin:$PATH
-	export MPIFC=$DIR/MPICH/bin/mpifort
-	export MPIF77=$DIR/MPICH/bin/mpifort
-	export MPIF90=$DIR/MPICH/bin/mpifort
-	export MPICC=$DIR/MPICH/bin/mpicc
-	export MPICXX=$DIR/MPICH/bin/mpicxx
-
-	echo " "
-
-	#############################libpng############################
-	cd "${WRF_FOLDER}"/Downloads
-	export LDFLAGS=-L$DIR/grib2/lib
-	export CPPFLAGS=-I$DIR/grib2/include
-	tar -xvzf libpng-$Libpng_Version.tar.gz
-	cd libpng-$Libpng_Version/
-	autoreconf -i -f 2>&1 | tee autoreconf.log
-
-	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
-
-	automake -a -f 2>&1 | tee automake.log
-	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
-	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
-	#make check
-	#make check
-
-	echo " "
-	#############################JasPer############################
-
-	cd "${WRF_FOLDER}"/Downloads
-	unzip jasper-$Jasper_Version.zip
-	cd jasper-$Jasper_Version/
-	autoreconf -i -f 2>&1 | tee autoreconf.log
-
-	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
-
-	automake -a -f 2>&1 | tee automake.log
-	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
-	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
-	export JASPERLIB=$DIR/grib2/lib
-	export JASPERINC=$DIR/grib2/include
-
-	echo " "
-	#############################hdf5 library for netcdf4 functionality############################
-
-	cd "${WRF_FOLDER}"/Downloads
-	tar -xvzf hdf5-$HDF5_Version-$HDF5_Sub_Version.tar.gz
-	cd hdf5-$HDF5_Version-$HDF5_Sub_Version
-	autoreconf -i -f 2>&1 | tee autoreconf.log
-
-	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --with-zlib=$DIR/grib2 --enable-hl --enable-fortran --enable-parallel 2>&1 | tee configure.log
-
-	automake -a -f 2>&1 | tee automake.log
-	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
-	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
-	#make check
-
-	export HDF5=$DIR/grib2
-	export PHDF5=$DIR/grib2
-	export LD_LIBRARY_PATH=$DIR/grib2/lib:$LD_LIBRARY_PATH
-
-	echo " "
-
-	#############################Install Parallel-netCDF##############################
-	#Make file created with half of available cpu cores
-	#Hard path for MPI added
-	##################################################################################
-	cd "${WRF_FOLDER}"/Downloads
-	tar -xvzf pnetcdf-$Pnetcdf_Version.tar.gz
-	cd pnetcdf-$Pnetcdf_Version
-	export MPIFC=$DIR/MPICH/bin/mpifort
-	export MPIF77=$DIR/MPICH/bin/mpifort
-	export MPIF90=$DIR/MPICH/bin/mpifort
-	export MPICC=$DIR/MPICH/bin/mpicc
-	export MPICXX=$DIR/MPICH/bin/mpicxx
-	autoreconf -i -f 2>&1 | tee autoreconf.log
-	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --enable-shared --enable-static 2>&1 | tee configure.log
-
-	automake -a -f 2>&1 | tee automake.log
-	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
-	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
-	#make check
-
-	export PNETCDF=$DIR/grib2
-
-	echo " "
-
-	##############################Install NETCDF C Library############################
-	cd "${WRF_FOLDER}"/Downloads
-	tar -xzvf v$Netcdf_C_Version.tar.gz
-	cd netcdf-c-$Netcdf_C_Version/
-	export CPPFLAGS=-I$DIR/grib2/include
-	export LDFLAGS=-L$DIR/grib2/lib
-	export LIBS="-lhdf5_hl -lhdf5 -lz -lcurl -lgcc -lm -ldl -lpnetcdf"
-	autoreconf -i -f 2>&1 | tee autoreconf.log
-
-	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-shared --enable-static --enable-pnetcdf --enable-cdf5 --enable-parallel-tests 2>&1 | tee configure.log
-
-	automake -a -f 2>&1 | tee automake.log
-	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
-	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
-	#make check
-
-	export PATH=$DIR/NETCDF/bin:$PATH
-	export NETCDF=$DIR/NETCDF
-	echo " "
-
-	##############################NetCDF fortran library############################
-	cd "${WRF_FOLDER}"/Downloads
-	tar -xvzf v$Netcdf_Fortran_Version.tar.gz
-	cd netcdf-fortran-$Netcdf_Fortran_Version/
-	export LD_LIBRARY_PATH=$DIR/NETCDF/lib:$LD_LIBRARY_PATH
-	export CPPFLAGS="-I$DIR/NETCDF/include -I$DIR/grib2/include"
-	export LDFLAGS="-L$DIR/NETCDF/lib -L$DIR/grib2/lib"
-	export LIBS="-lnetcdf -lpnetcdf -lcurl -lhdf5_hl -lhdf5 -lz -lm -ldl -lgcc"
-	autoreconf -i -f 2>&1 | tee autoreconf.log
-
-	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-shared --enable-static --enable-parallel-tests --enable-hdf5 2>&1 | tee configure.log
-
-	automake -a -f 2>&1 | tee automake.log
-	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
-	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
-	#make check
-
-	echo " "
-	#################################### System Environment Tests ##############
-	mkdir -p "${WRF_FOLDER}"/Tests/Environment
-	mkdir -p "${WRF_FOLDER}"/Tests/Compatibility
-
-	cd "${WRF_FOLDER}"/Downloads
-	wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_NETCDF_MPI_tests.tar
-	wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_tests.tar
-
-	tar -xvf Fortran_C_tests.tar -C "${WRF_FOLDER}"/Tests/Environment
-	tar -xvf Fortran_C_NETCDF_MPI_tests.tar -C "${WRF_FOLDER}"/Tests/Compatibility
-	export one="1"
-	echo " "
-	############## Testing Environment #####
-
-	cd "${WRF_FOLDER}"/Tests/Environment
-
-	echo " "
-	echo " "
-	echo "Environment Testing "
-	echo "Test 1"
-	$FC TEST_1_fortran_only_fixed.f
-	./a.out | tee env_test1.txt
-	export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test1.txt | awk '{print$1}')
-	if [ $TEST_PASS -ge 1 ]; then
-		echo "Enviroment Test 1 Passed"
-	else
-		echo "Environment Compiler Test 1 Failed"
-		exit
-	fi
-	read -r -t 3 -p "I am going to wait for 3 seconds only ..."
-
-	echo " "
-	echo "Test 2"
-	$FC TEST_2_fortran_only_free.f90
-	./a.out | tee env_test2.txt
-	export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test2.txt | awk '{print$1}')
-	if [ $TEST_PASS -ge 1 ]; then
-		echo "Enviroment Test 2 Passed"
-	else
-		echo "Environment Compiler Test 2 Failed"
-		exit
-	fi
-	echo " "
-	read -r -t 3 -p "I am going to wait for 3 seconds only ..."
-
-	echo " "
-	echo "Test 3"
-	$CC TEST_3_c_only.c
-	./a.out | tee env_test3.txt
-	export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test3.txt | awk '{print$1}')
-	if [ $TEST_PASS -ge 1 ]; then
-		echo "Enviroment Test 3 Passed"
-	else
-		echo "Environment Compiler Test 3 Failed"
-		exit
-	fi
-	echo " "
-	read -r -t 3 -p "I am going to wait for 3 seconds only ..."
-
-	echo " "
-	echo "Test 4"
-	$CC -c -m64 TEST_4_fortran+c_c.c
-	$FC -c -m64 TEST_4_fortran+c_f.f90
-	$FC -m64 TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
-	./a.out | tee env_test4.txt
-	export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test4.txt | awk '{print$1}')
-	if [ $TEST_PASS -ge 1 ]; then
-		echo "Enviroment Test 4 Passed"
-	else
-		echo "Environment Compiler Test 4 Failed"
-		exit
-	fi
-	echo " "
-	read -r -t 3 -p "I am going to wait for 3 seconds only ..."
-
-	echo " "
-	############## Testing Environment #####
-
-	cd "${WRF_FOLDER}"/Tests/Compatibility
-
-	cp ${NETCDF}/include/netcdf.inc .
-
-	echo " "
-	echo " "
-	echo "Library Compatibility Tests "
-	echo "Test 1"
-	$FC -c 01_fortran+c+netcdf_f.f
-	$CC -c 01_fortran+c+netcdf_c.c
-	$FC 01_fortran+c+netcdf_f.o 01_fortran+c+netcdf_c.o \
-		-L${NETCDF}/lib -lnetcdff -lnetcdf
-
-	./a.out | tee comp_test1.txt
-	export TEST_PASS=$(grep -w -o -c "SUCCESS" comp_test1.txt | awk '{print$1}')
-	if [ $TEST_PASS -ge 1 ]; then
-		echo "Compatibility Test 1 Passed"
-	else
-		echo "Compatibility Compiler Test 1 Failed"
-		exit
-	fi
-	echo " "
-	read -r -t 3 -p "I am going to wait for 3 seconds only ..."
-
-	echo " "
-
-	echo "Test 2"
-	$MPIFC -c 02_fortran+c+netcdf+mpi_f.f
-	$MPICC -c 02_fortran+c+netcdf+mpi_c.c
-	$MPIFC 02_fortran+c+netcdf+mpi_f.o \
-		02_fortran+c+netcdf+mpi_c.o \
-		-L${NETCDF}/lib -lnetcdff -lnetcdf
-
-	$DIR/MPICH/bin/mpirun ./a.out | tee comp_test2.txt
-	export TEST_PASS=$(grep -w -o -c "SUCCESS" comp_test2.txt | awk '{print$1}')
-	if [ $TEST_PASS -ge 1 ]; then
-		echo "Compatibility Test 2 Passed"
-	else
-		echo "Compatibility Compiler Test 2 Failed"
-		exit
-	fi
-	echo " "
-	read -r -t 3 -p "I am going to wait for 3 seconds only ..."
-	echo " "
-
-	echo " All tests completed and passed"
-	echo " "
-
-	################################OpenGrADS######################################
-	#Verison 2.2.1 64bit of Linux
-	#############################################################################
-	if [[ $GRADS_PICK -eq 1 ]]; then
-		cd "${WRF_FOLDER}"/Downloads
-		wget -c -4 https://sourceforge.net/projects/opengrads/files/grads2/2.2.1.oga.1/macOS/opengrads-2.2.1.oga.1-bundle-x86_64-apple-darwin20.5.0.pkg
-		sudo -S installer -pkg opengrads-2.2.1.oga.1-bundle-x86_64-apple-darwin20.5.0.pkg -target /Applications/OpenGrads <<<"$PASSWD"
-
-	fi
-	################################## GrADS ###############################
-	# Version  2.2.1
-	# Sublibs library instructions: http://cola.gmu.edu/grads/gadoc/supplibs2.html
-	# GrADS instructions: http://cola.gmu.edu/grads/downloads.php
-	########################################################################
-	if [[ $GRADS_PICK -eq 2 ]]; then
-
-		brew install grads
-
-	fi
-
-	######################################################################
-	#Installing Miniconda3 to WRF directory and updating libraries
-	######################################################################
-	echo $PASSWD | sudo -S apt -y install python3-zstandard python3-zstd
-
-	export Miniconda_Install_DIR="${WRF_FOLDER}"/miniconda3
-
-	mkdir -p $Miniconda_Install_DIR
-
-	wget -c https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh -O $Miniconda_Install_DIR/miniconda.sh
-	bash $Miniconda_Install_DIR/miniconda.sh -b -u -p $Miniconda_Install_DIR
-
-	rm -rf $Miniconda_Install_DIR/miniconda.sh
-
-	export PATH="${WRF_FOLDER}"/miniconda3/bin:$PATH
-
-	source $Miniconda_Install_DIR/etc/profile.d/conda.sh
-
-	$Miniconda_Install_DIR/bin/conda init bash
-	$Miniconda_Install_DIR/bin/conda init zsh
-	$Miniconda_Install_DIR/bin/conda init tcsh
-	$Miniconda_Install_DIR/bin/conda init xonsh
-	$Miniconda_Install_DIR/bin/conda init powershell
-
-	conda config --add channels conda-forge
-	conda config --set auto_activate_base false
-	conda update -n root --all -y
-
-	echo " "
-
-	#Installing NCL via Conda
-	source $Miniconda_Install_DIR/etc/profile.d/conda.sh
-	conda init bash
-	conda activate base
-	conda create -n ncl_stable -c conda-forge ncl -y
-	conda activate ncl_stable
-
-	conda deactivate
-	conda deactivate
-	conda deactivate
-	echo " "
-
-	##################### WRF Python           ##################
-	########### WRf-Python compiled via Conda  ##################
-	########### This is the preferred method by NCAR      ##################
-	##### https://wrf-python.readthedocs.io/en/latest/installation.html  ##################
-	source $Miniconda_Install_DIR/etc/profile.d/conda.sh
-	conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
-
-	######################### Climate Data Operators ############
-	######################### CDO compiled via Conda ###########
-	####################### This is the preferred method #######
-	################### https://bairdlangenbrunner.github.io/python-for-climate-scientists/conda/setting-up-conda-environments.html #######################
-
-	source $Miniconda_Install_DIR/etc/profile.d/conda.sh
-	conda init bash
-	conda activate base
-	conda create --name cdo_stable -y
-	conda activate cdo_stable
-	conda install -c conda-forge cdo -y
-	conda update --all -y
-	conda deactivate
-	conda deactivate
-	conda deactivate
-
-	echo " "
-
-	########################## WRF Hydro GIS PreProcessor ##############################
-	#  Compiled with Conda
-	#  https://github.com/NCAR/wrf_hydro_gis_preprocessor
-	####################################################################################
-
-	conda init bash
-	conda activate base
-	conda config --add channels conda-forge
-	conda create -n wrfh_gis_env -c conda-forge python=3.12 gdal netCDF4 numpy pyproj whitebox=2.2.0 packaging shapely -y
-	conda activate wrfh_gis_env
-	conda update -n wrfh_gis_env --all -y
-	conda deactivate
-	conda deactivate
-	conda deactivate
-
-	cd "${WRF_FOLDER}"/
-	git clone https://github.com/NCAR/wrf_hydro_gis_preprocessor.git "${WRF_FOLDER}"/WRF-Hydro-GIS-PreProcessor
-	echo " "
-
-	############################# WRF HYDRO V5.3.0 #################################
-	# Version 5.3.0
-	# Standalone mode
-	################################################################################
-	# Set up NETCDF environment variables
-	export NETCDF_INC="$DIR/NETCDF/include"
-	export NETCDF_LIB="$DIR/NETCDF/lib"
-
-	# Create directories for Hydro Basecode and navigate to it
-	mkdir -p "${WRF_FOLDER}/Hydro-Basecode"
-	cd "${WRF_FOLDER}/Hydro-Basecode"
-
-	# Clone the WRF-Hydro repository and set up the build
-	git clone https://github.com/NCAR/wrf_hydro_nwm_public.git
-	cd wrf_hydro_nwm_public
-	mkdir -p build
-	cd build
-
-	# Run CMake configuration for WRF-Hydro with specified options
-	cmake .. \
-		-DSPATIAL_SOIL=1 \
-		-DWRF_HYDRO=1 \
-		-DWRF_HYDRO_NUDGING=1 \
-		-DWRFIO_NCD_LARGE_FILE_SUPPORT=1 \
-		-DCMAKE_Fortran_COMPILER=gfortran
-
-	# Compile using specified CPU settings
-	make -j "$CPU_QUARTER_EVEN" 2>&1 | tee make.log
-
-	# Check if the necessary executable files were created
-	cd "${WRF_FOLDER}/Hydro-Basecode/wrf_hydro_nwm_public/build/Run"
-	n=$(ls ./*.exe 2>/dev/null | wc -l)
-
-	# Function to rerun compilation if files are missing
-	rebuild_and_check() {
-		echo "Missing one or more expected files. Running compiler again..."
-		cd "${WRF_FOLDER}/Hydro-Basecode/wrf_hydro_nwm_public/build"
-		make -j "$CPU_QUARTER_EVEN" 2>&1 | tee make2.log
-		cd "${WRF_FOLDER}/Hydro-Basecode/wrf_hydro_nwm_public/build/Run"
-		n=$(ls ./*.exe 2>/dev/null | wc -l)
-	}
-
-	# IF statement to check that all expected files were created
-	if ((n == 2)); then
-		echo "All expected files created."
-	else
-		rebuild_and_check
-		if ((n != 2)); then
-			echo "Missing one or more expected files. Exiting the script."
-			read -r -p "Please contact script authors for assistance. Press 'Enter' to exit the script."
-			exit 1
-		else
-			echo "All expected files created after re-compiling."
-		fi
-	fi
-
-	# Finish the script with a pause
-	read -r -t 5 -p "Finished installing WRF Hydro Basecode. Waiting for 5 seconds..."
-	############################ WRF #################################
-	## WRF v${WPS_VERSION}
-	## Downloaded from git tagged releases
-	# option 21, option 1 for gfortran and distributed memory w/basic nesting
-	# large file support enable with WRFiO_NCD_LARGE_FILE_SUPPORT=1
-	########################################################################
-
-	cd "${WRF_FOLDER}"/Downloads
-	wget -c https://github.com/wrf-model/WRF/releases/download/v${WRF_VERSION}/v${WRF_VERSION}.tar.gz -O WRF-${WRF_VERSION}.tar.gz
-	tar -xvzf WRF-${WRF_VERSION}.tar.gz -C "${WRF_FOLDER}"/
-
-	# If statment for changing folder name
-	if [ -d ""${WRF_FOLDER}"/WRF" ]; then
-		mv -f "${WRF_FOLDER}"/WRF "${WRF_FOLDER}"/WRFV${WRF_VERSION}
-	fi
-
-	cd "${WRF_FOLDER}"/WRFV${WRF_VERSION}
-	export WRFIO_NCD_LARGE_FILE_SUPPORT=1
-
-	#Replace old version of WRF-Hydro distributed with WRF with updated WRF-Hydro source code
-	rm -r "${WRF_FOLDER}"/WRFV${WRF_VERSION}/hydro/
-	cp -r "${WRF_FOLDER}"/Hydro-Basecode/wrf_hydro_nwm_public/src "${WRF_FOLDER}"/WRFV${WRF_VERSION}/hydro
-
-	cd "${WRF_FOLDER}"/WRFV${WRF_VERSION}/hydro/template
-	source setEnvar.sh
-	cd "${WRF_FOLDER}"/WRFV${WRF_VERSION}
-
-	./clean
-
-	if [ ${auto_config} -eq 1 ]; then
-		sed -i'' -e '443s/.*/  $response = "17 \\n";/g' "${WRF_FOLDER}"/WRFV${WRF_VERSION}/arch/Config.pl # Answer for compiler choice
-		sed -i'' -e '909s/.*/  $response = "1 \\n";/g' "${WRF_FOLDER}"/WRFV${WRF_VERSION}/arch/Config.pl  #Answer for basic nesting
-		./configure 2>&1 | tee configure.log
-	else
-		./configure 2>&1 | tee configure.log #Option 17 gfortran compiler with distributed memory option 1 for basic nesting
-	fi
-
-	sed -i'' -e '145s/-c/-c -fPIC -fPIE -O3  -Wno-error=implicit-function-declaration/g' configure.wrf
-
-	./compile em_real 2>&1 | tee compile.wrf.log
-
-	export WRF_DIR="${WRF_FOLDER}"/WRFV${WRF_VERSION}
-
-	# IF statement to check that all files were created.
-	cd "${WRF_FOLDER}"/WRFV${WRF_VERSION}/main
-	n=$(ls ./*.exe | wc -l)
-	if (($n >= 3)); then
-		echo "All expected files created."
-		read -r -t 5 -p "Finished installing WRF. I am going to wait for 5 seconds only ..."
-	else
-		echo "Missing one or more expected files."
-		echo "Running compiler again"
-		cd "${WRF_FOLDER}"/WRFV${WRF_VERSION}
-		./compile -j $CPU_QUARTER_EVEN em_real 2>&1 | tee compile.wrf2.log
-		cd "${WRF_FOLDER}"/WRFV${WRF_VERSION}/main
-		n=$(ls ./*.exe | wc -l)
-		if (($n >= 3)); then
-			echo "All expected files created."
-			read -r -t 5 -p "Finished installing WRF. I am going to wait for 5 seconds only ..."
-		else
-			read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
-			exit
-		fi
-	fi
-
-	echo " "
-
-	echo " "
-
-	############################WPS#####################################
-	## WPS v${WPS_VERSION}
-	## Downloaded from git tagged releases
-	#Option 3 for gfortran and distributed memory
-	########################################################################
-
-	cd "${WRF_FOLDER}"/Downloads
-	wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v${WPS_VERSION}.tar.gz -O WPS-${WPS_VERSION}.tar.gz
-	tar -xvzf WPS-${WPS_VERSION}.tar.gz -C "${WRF_FOLDER}"/
-	cd "${WRF_FOLDER}"/WPS-${WPS_VERSION}
-	./clean -a
-
-	if [ ${auto_config} -eq 1 ]; then
-		echo 19 | ./configure 2>&1 | tee configure.log #Option 19 for gfortran and distributed memory
-	else
-		./configure 2>&1 | tee configure.log #Option 19 gfortran compiler with distributed memory
-	fi
-	./compile 2>&1 | tee compile.wps.log
-
-	# IF statement to check that all files were created.
-	cd "${WRF_FOLDER}"/WPS-${WPS_VERSION}
-	n=$(ls ./*.exe | wc -l)
-	if (($n == 3)); then
-		echo "All expected files created."
-		read -r -t 5 -p "Finished installing WPS. I am going to wait for 5 seconds only ..."
-	else
-		echo "Missing one or more expected files."
-		echo "Running compiler again"
-		./compile 2>&1 | tee compile.wps2.log
-		cd "${WRF_FOLDER}"/WPS-${WPS_VERSION}
-		n=$(ls ./*.exe | wc -l)
-		if (($n == 3)); then
-			echo "All expected files created."
-			read -r -t 5 -p "Finished installing WPS. I am going to wait for 5 seconds only ..."
-		else
-			read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
-			exit
-		fi
-	fi
-
-	echo " "
-
-	######################## Static Geography Data inc/ Optional ####################
-	# http://www2.mmm.ucar.edu/wrf/users/download/get_sources_wps_geog.html
-	# These files are large so if you only need certain ones comment the others off
-	# All files downloaded and untarred is 200GB
-	# https://www2.mmm.ucar.edu/wrf/users/download/get_sources_wps_geog.html
-	#################################################################################
-	cd "${WRF_FOLDER}"/Downloads
-	mkdir "${WRF_FOLDER}"/GEOG
-	mkdir "${WRF_FOLDER}"/GEOG/WPS_GEOG
-
-	echo " "
-	echo "Mandatory WRF Preprocessing System (WPS) Geographical Input Data Mandatory Fields Downloads"
-	echo " "
-	wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_high_res_mandatory.tar.gz
-	tar -xvzf geog_high_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
-
-	wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_low_res_mandatory.tar.gz
-	tar -xvzf geog_low_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
-	mv "${WRF_FOLDER}"/GEOG/WPS_GEOG_LOW_RES/ "${WRF_FOLDER}"/GEOG/WPS_GEOG
-
-	if [ ${WPS_Specific_Applications} -eq 1 ]; then
-		echo " "
-		echo " WPS Geographical Input Data Mandatory for Specific Applications"
-		echo " "
-
-		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_thompson28_chem.tar.gz
-		tar -xvzf geog_thompson28_chem.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
-
-		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_noahmp.tar.gz
-		tar -xvzf geog_noahmp.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
-
-		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/irrigation.tar.gz
-		tar -xvzf irrigation.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
-
-		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_px.tar.gz
-		tar -xvzf geog_px.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
-
-		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_urban.tar.gz
-		tar -xvzf geog_urban.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
-
-		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_ssib.tar.gz
-		tar -xvzf geog_ssib.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
-
-		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/lake_depth.tar.bz2
-		tar -xvf lake_depth.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
-
-		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/topobath_30s.tar.bz2
-		tar -xvf topobath_30s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
-
-		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/gsl_gwd.tar.bz2
-		tar -xvf gsl_gwd.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
-
-		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/cglc_modis_lcz_global.tar.gz
-		tar -xvf cglc_modis_lcz_global.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
-	fi
-
-	if [ ${Optional_GEOG} -eq 1 ]; then
-		echo " "
-		echo "Optional WPS Geographical Input Data"
-		echo " "
-
-		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_older_than_2000.tar.gz
-		tar -xvzf geog_older_than_2000.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
-
-		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s_with_lakes.tar.gz
-		tar -xvzf modis_landuse_20class_15s_with_lakes.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
-
-		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_alt_lsm.tar.gz
-		tar -xvzf geog_alt_lsm.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
-
-		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/nlcd2006_ll_9s.tar.bz2
-		tar -xvf nlcd2006_ll_9s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
-
-		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/updated_Iceland_LU.tar.gz
-		tar -xvf updated_Iceland_LU.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
-
-		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s.tar.bz2
-		tar -xvf modis_landuse_20class_15s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
-	fi
-
-fi
-
-if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ] && [ "$MAC_CHIP" = "ARM" ]; then
-
-	#############################basic package managment############################
-
-	brew update
-	outdated_packages=$(brew outdated --quiet)
-
-	# List of packages to check/install
-	packages=(
-		"autoconf" "automake" "bison" "byacc" "cmake" "curl" "flex" "gcc"
-		"gdal" "gedit" "git" "gnu-sed" "grads" "imagemagick" "java" "ksh"
-		"libtool" "libxml2" "m4" "make" "python@3.12" "snapcraft" "tcsh" "wget"
-		"xauth" "xorgproto" "xorgrgb" "xquartz"
-	)
-
-	for pkg in "${packages[@]}"; do
-		if brew list "$pkg" &>/dev/null; then
-			echo "$pkg is already installed."
-			if [[ $outdated_packages == *"$pkg"* ]]; then
-				echo "$pkg has a newer version available. Upgrading..."
-				brew upgrade "$pkg"
-			fi
-		else
-			echo "$pkg is not installed. Installing..."
-			brew install "$pkg"
-		fi
-		sleep 1
-	done
-
-	export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
-	export PATH=/usr/local/bin:$PATH
-
-	##############################Directory Listing############################
-
-	export HOME=$(
-		cd
-		pwd
-	)
-	mkdir $HOME/WRFHYDRO_COUPLED
-	export WRF_FOLDER=$HOME/WRFHYDRO_COUPLED
-	cd "${WRF_FOLDER}"/
-	mkdir Downloads
-	mkdir "${WRF_FOLDER}"/Hydro-Basecode
-	mkdir Libs
-	export DIR="${WRF_FOLDER}"/Libs
-	mkdir Libs/grib2
-	mkdir Libs/NETCDF
-	mkdir Libs/MPICH
-	mkdir -p Tests/Environment
-	mkdir -p Tests/Compatibility
-
-	echo " "
-
-	#############################Core Management####################################
-	export CPU_CORE=$(sysctl -n hw.ncpu) # number of available threads on system
-	export CPU_6CORE="6"
-	export CPU_QUARTER=$(($CPU_CORE / 4))
-	#1/2 of availble cores on system
-	export CPU_QUARTER_EVEN=$(($CPU_QUARTER - ($CPU_QUARTER % 2)))
-	#Forces CPU cores to even number to avoid partial core export. ie 7 cores would be 3.5 cores.
-
-	if [ $CPU_CORE -le $CPU_6CORE ]; then #If statement for low core systems.  Forces computers to only use 1 core if there are 4 cores or less on the system. then
-		export CPU_QUARTER_EVEN="2"
-	else
-		export CPU_QUARTER_EVEN=$(($CPU_QUARTER - ($CPU_QUARTER % 2)))
-	fi
-
-	echo "##########################################"
-	echo "Number of Threads being used $CPU_QUARTER_EVEN"
-	echo "##########################################"
-	echo " "
-
-	##############################Downloading Libraries############################
-
-	cd "${WRF_FOLDER}"/Downloads
-	wget -c https://github.com/madler/zlib/releases/download/v$Zlib_Version/zlib-$Zlib_Version.tar.gz
-	wget -c https://github.com/HDFGroup/hdf5/releases/download/hdf5_$HDF5_Version.$HDF5_Sub_Version/hdf5-$HDF5_Version-$HDF5_Sub_Version.tar.gz
-	wget -c https://github.com/Unidata/netcdf-c/archive/refs/tags/v$Netcdf_C_Version.tar.gz
-	wget -c https://github.com/Unidata/netcdf-fortran/archive/refs/tags/v$Netcdf_Fortran_Version.tar.gz
-	wget -c https://download.sourceforge.net/libpng/libpng-$Libpng_Version.tar.gz
-	wget -c https://www.ece.uvic.ca/~frodo/jasper/software/jasper-$Jasper_Version.zip
-	wget -c https://github.com/pmodels/mpich/releases/download/v$Mpich_Version/mpich-$Mpich_Version.tar.gz
-	wget -c https://parallel-netcdf.github.io/Release/pnetcdf-$Pnetcdf_Version.tar.gz
-
-	echo " "
-
-	#############################Compilers############################
-
-	echo $PASSWD | sudo -S unlink /opt/homebrew/bin/gfortran
-	echo $PASSWD | sudo -S unlink /opt/homebrew/bin/gcc
-	echo $PASSWD | sudo -S unlink /opt/homebrew/bin/g++
-
-	# Source the bashrc to ensure environment variables are loaded
-	source ~/.bashrc
-
-	# Check current versions of gcc, g++, and gfortran (this should show no version if unlinked)
-	gcc --version
-	g++ --version
-	gfortran --version
-
-	# Navigate to the Homebrew binaries directory
-	cd /opt/homebrew/bin
-
-	# Find the latest version of GCC, G++, and GFortran
-	latest_gcc=$(ls gcc-* 2>/dev/null | grep -o 'gcc-[0-9]*' | sort -V | tail -n 1)
-	latest_gpp=$(ls g++-* 2>/dev/null | grep -o 'g++-[0-9]*' | sort -V | tail -n 1)
-	latest_gfortran=$(ls gfortran-* 2>/dev/null | grep -o 'gfortran-[0-9]*' | sort -V | tail -n 1)
-
-	# Check if the latest versions were found, and link them
-	if [ -n "$latest_gcc" ]; then
-		echo "Linking the latest GCC version: $latest_gcc"
-		echo $PASSWD | sudo -S ln -sf $latest_gcc gcc
-	else
-		echo "No GCC version found."
-	fi
-
-	if [ -n "$latest_gpp" ]; then
-		echo "Linking the latest G++ version: $latest_gpp"
-		echo $PASSWD | sudo -S ln -sf $latest_gpp g++
-	else
-		echo "No G++ version found."
-	fi
-
-	if [ -n "$latest_gfortran" ]; then
-		echo "Linking the latest GFortran version: $latest_gfortran"
-		echo $PASSWD | sudo -S ln -sf $latest_gfortran gfortran
-	else
-		echo "No GFortran version found."
-	fi
-
-	# Return to the home directory
-	cd
-
-	# Source bashrc and bash_profile to reload the environment settings
-	source ~/.bashrc
-	source ~/.bash_profile
-
-	# Check if the versions were successfully updated
-	gcc --version
-	g++ --version
-	gfortran --version
-
-	export CC=gcc
-	export CXX=g++
-	export FC=gfortran
-	export F77=gfortran
-	export CFLAGS="-fPIC -fPIE -Wno-implicit-function-declaration -Wno-incompatible-pointer-types -Wall"
-
-	echo " "
-
-	#IF statement for GNU compiler issue
-	export GCC_VERSION=$(gcc -dumpfullversion | awk '{print$1}')
-	export GFORTRAN_VERSION=$(gfortran -dumpfullversion | awk '{print$1}')
-	export GPLUSPLUS_VERSION=$(g++ -dumpfullversion | awk '{print$1}')
-
-	export GCC_VERSION_MAJOR_VERSION=$(echo $GCC_VERSION | awk -F. '{print $1}')
-	export GFORTRAN_VERSION_MAJOR_VERSION=$(echo $GFORTRAN_VERSION | awk -F. '{print $1}')
-	export GPLUSPLUS_VERSION_MAJOR_VERSION=$(echo $GPLUSPLUS_VERSION | awk -F. '{print $1}')
-
-	export version_10="10"
-
-	if [ $GCC_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GFORTRAN_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GPLUSPLUS_VERSION_MAJOR_VERSION -ge $version_10 ]; then
-		export fallow_argument=-fallow-argument-mismatch
-		export boz_argument=-fallow-invalid-boz
-	else
-		export fallow_argument=
-		export boz_argument=
-	fi
-
-	export FFLAGS="$fallow_argument -m64"
-	export FCFLAGS="$fallow_argument -m64"
-
-	echo "##########################################"
-	echo "FFLAGS = $FFLAGS"
-	echo "FCFLAGS = $FCFLAGS"
-	echo "CFLAGS = $CFLAGS"
-	echo "##########################################"
-
-	echo " "
-
-	#############################zlib############################
-	#Uncalling compilers due to comfigure issue with zlib1.2.12
-	#With CC & CXX definied ./configure uses different compiler Flags
-
-	cd "${WRF_FOLDER}"/Downloads
-	tar -xvzf zlib-$Zlib_Version.tar.gz
-	cd zlib-$Zlib_Version/
-	autoreconf -i -f 2>&1 | tee autoreconf.log
-	./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
-
-	automake -a -f 2>&1 | tee automake.log
-	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
-	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
-	#make check
-
-	echo " "
-
-	##############################MPICH############################
-	cd "${WRF_FOLDER}"/Downloads
-	tar -xvzf mpich-$Mpich_Version.tar.gz
-	cd mpich-$Mpich_Version/
-	autoreconf -i -f 2>&1 | tee autoreconf.log
-
-	F90= ./configure --prefix=$DIR/MPICH --with-device=ch3 FFLAGS="$fallow_argument -m64" FCFLAGS="$fallow_argument -m64" 2>&1 | tee configure.log
-	automake -a -f 2>&1 | tee automake.log
-	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
-	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
-	#make check
-
-	export PATH=$DIR/MPICH/bin:$PATH
-	export MPIFC=$DIR/MPICH/bin/mpifort
-	export MPIF77=$DIR/MPICH/bin/mpifort
-	export MPIF90=$DIR/MPICH/bin/mpifort
-	export MPICC=$DIR/MPICH/bin/mpicc
-	export MPICXX=$DIR/MPICH/bin/mpicxx
-
-	echo " "
-
-	#############################libpng############################
-	cd "${WRF_FOLDER}"/Downloads
-	export LDFLAGS=-L$DIR/grib2/lib
-	export CPPFLAGS=-I$DIR/grib2/include
-	tar -xvzf libpng-$Libpng_Version.tar.gz
-	cd libpng-$Libpng_Version/
-	autoreconf -i -f 2>&1 | tee autoreconf.log
-
-	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
-
-	automake -a -f 2>&1 | tee automake.log
-	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
-	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
-	#make check
-	#make check
-
-	echo " "
-	#############################JasPer############################
-
-	cd "${WRF_FOLDER}"/Downloads
-	unzip jasper-$Jasper_Version.zip
-	cd jasper-$Jasper_Version/
-	autoreconf -i -f 2>&1 | tee autoreconf.log
-
-	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
-
-	automake -a -f 2>&1 | tee automake.log
-	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
-	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
-	export JASPERLIB=$DIR/grib2/lib
-	export JASPERINC=$DIR/grib2/include
-
-	echo " "
-	#############################hdf5 library for netcdf4 functionality############################
-
-	cd "${WRF_FOLDER}"/Downloads
-	tar -xvzf hdf5-$HDF5_Version-$HDF5_Sub_Version.tar.gz
-	cd hdf5-$HDF5_Version-$HDF5_Sub_Version
-	autoreconf -i -f 2>&1 | tee autoreconf.log
-
-	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --with-zlib=$DIR/grib2 --enable-hl --enable-fortran --enable-parallel 2>&1 | tee configure.log
-
-	automake -a -f 2>&1 | tee automake.log
-	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
-	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
-	#make check
-
-	export HDF5=$DIR/grib2
-	export PHDF5=$DIR/grib2
-	export LD_LIBRARY_PATH=$DIR/grib2/lib:$LD_LIBRARY_PATH
-
-	echo " "
-
-	#############################Install Parallel-netCDF##############################
-	#Make file created with half of available cpu cores
-	#Hard path for MPI added
-	##################################################################################
-	cd "${WRF_FOLDER}"/Downloads
-	tar -xvzf pnetcdf-$Pnetcdf_Version.tar.gz
-	cd pnetcdf-$Pnetcdf_Version
-	export MPIFC=$DIR/MPICH/bin/mpifort
-	export MPIF77=$DIR/MPICH/bin/mpifort
-	export MPIF90=$DIR/MPICH/bin/mpifort
-	export MPICC=$DIR/MPICH/bin/mpicc
-	export MPICXX=$DIR/MPICH/bin/mpicxx
-	autoreconf -i -f 2>&1 | tee autoreconf.log
-	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --enable-shared --enable-static 2>&1 | tee configure.log
-
-	automake -a -f 2>&1 | tee automake.log
-	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
-	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
-	#make check
-
-	export PNETCDF=$DIR/grib2
-
-	echo " "
-
-	##############################Install NETCDF C Library############################
-	cd "${WRF_FOLDER}"/Downloads
-	tar -xzvf v$Netcdf_C_Version.tar.gz
-	cd netcdf-c-$Netcdf_C_Version/
-	export CPPFLAGS=-I$DIR/grib2/include
-	export LDFLAGS=-L$DIR/grib2/lib
-	export LIBS="-lhdf5_hl -lhdf5 -lz -lcurl -lgfortran -lgcc -lm -ldl -lpnetcdf"
-	autoreconf -i -f 2>&1 | tee autoreconf.log
-
-	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-shared --enable-static --enable-pnetcdf --enable-cdf5 --enable-parallel-tests 2>&1 | tee configure.log
-
-	automake -a -f 2>&1 | tee automake.log
-	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
-	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
-	#make check
-
-	export PATH=$DIR/NETCDF/bin:$PATH
-	export NETCDF=$DIR/NETCDF
-	echo " "
-
-	##############################NetCDF fortran library############################
-	cd "${WRF_FOLDER}"/Downloads
-	tar -xvzf v$Netcdf_Fortran_Version.tar.gz
-	cd netcdf-fortran-$Netcdf_Fortran_Version/
-	export LD_LIBRARY_PATH=$DIR/NETCDF/lib:$LD_LIBRARY_PATH
-	export CPPFLAGS="-I$DIR/NETCDF/include -I$DIR/grib2/include"
-	export LDFLAGS="-L$DIR/NETCDF/lib -L$DIR/grib2/lib"
-	export LIBS="-lnetcdf -lpnetcdf -lcurl -lhdf5_hl -lhdf5 -lz -lm -ldl -lgcc -lgfortran"
-	autoreconf -i -f 2>&1 | tee autoreconf.log
-
-	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-shared --enable-static --enable-parallel-tests --enable-hdf5 2>&1 | tee configure.log
-
-	automake -a -f 2>&1 | tee automake.log
-	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
-	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
-	#make check
-
-	echo " "
-	#################################### System Environment Tests ##############
-	mkdir -p "${WRF_FOLDER}"/Tests/Environment
-	mkdir -p "${WRF_FOLDER}"/Tests/Compatibility
-
-	cd "${WRF_FOLDER}"/Downloads
-	wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_NETCDF_MPI_tests.tar
-	wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_tests.tar
-
-	tar -xvf Fortran_C_tests.tar -C "${WRF_FOLDER}"/Tests/Environment
-	tar -xvf Fortran_C_NETCDF_MPI_tests.tar -C "${WRF_FOLDER}"/Tests/Compatibility
-	export one="1"
-	echo " "
-	############## Testing Environment #####
-
-	cd "${WRF_FOLDER}"/Tests/Environment
-
-	echo " "
-	echo " "
-	echo "Environment Testing "
-	echo "Test 1"
-	$FC TEST_1_fortran_only_fixed.f
-	./a.out | tee env_test1.txt
-	export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test1.txt | awk '{print$1}')
-	if [ $TEST_PASS -ge 1 ]; then
-		echo "Enviroment Test 1 Passed"
-	else
-		echo "Environment Compiler Test 1 Failed"
-		exit
-	fi
-	read -r -t 3 -p "I am going to wait for 3 seconds only ..."
-
-	echo " "
-	echo "Test 2"
-	$FC TEST_2_fortran_only_free.f90
-	./a.out | tee env_test2.txt
-	export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test2.txt | awk '{print$1}')
-	if [ $TEST_PASS -ge 1 ]; then
-		echo "Enviroment Test 2 Passed"
-	else
-		echo "Environment Compiler Test 2 Failed"
-		exit
-	fi
-	echo " "
-	read -r -t 3 -p "I am going to wait for 3 seconds only ..."
-
-	echo " "
-	echo "Test 3"
-	$CC TEST_3_c_only.c
-	./a.out | tee env_test3.txt
-	export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test3.txt | awk '{print$1}')
-	if [ $TEST_PASS -ge 1 ]; then
-		echo "Enviroment Test 3 Passed"
-	else
-		echo "Environment Compiler Test 3 Failed"
-		exit
-	fi
-	echo " "
-	read -r -t 3 -p "I am going to wait for 3 seconds only ..."
-
-	echo " "
-	echo "Test 4"
-	$CC -c -m64 TEST_4_fortran+c_c.c
-	$FC -c -m64 TEST_4_fortran+c_f.f90
-	$FC -m64 TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
-	./a.out | tee env_test4.txt
-	export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test4.txt | awk '{print$1}')
-	if [ $TEST_PASS -ge 1 ]; then
-		echo "Enviroment Test 4 Passed"
-	else
-		echo "Environment Compiler Test 4 Failed"
-		exit
-	fi
-	echo " "
-	read -r -t 3 -p "I am going to wait for 3 seconds only ..."
-
-	echo " "
-	############## Testing Environment #####
-
-	cd "${WRF_FOLDER}"/Tests/Compatibility
-
-	cp ${NETCDF}/include/netcdf.inc .
-
-	echo " "
-	echo " "
-	echo "Library Compatibility Tests "
-	echo "Test 1"
-	$FC -c 01_fortran+c+netcdf_f.f
-	$CC -c 01_fortran+c+netcdf_c.c
-	$FC 01_fortran+c+netcdf_f.o 01_fortran+c+netcdf_c.o \
-		-L${NETCDF}/lib -lnetcdff -lnetcdf
-
-	./a.out | tee comp_test1.txt
-	export TEST_PASS=$(grep -w -o -c "SUCCESS" comp_test1.txt | awk '{print$1}')
-	if [ $TEST_PASS -ge 1 ]; then
-		echo "Compatibility Test 1 Passed"
-	else
-		echo "Compatibility Compiler Test 1 Failed"
-		exit
-	fi
-	echo " "
-	read -r -t 3 -p "I am going to wait for 3 seconds only ..."
-
-	echo " "
-
-	echo "Test 2"
-	$MPIFC -c 02_fortran+c+netcdf+mpi_f.f
-	$MPICC -c 02_fortran+c+netcdf+mpi_c.c
-	$MPIFC 02_fortran+c+netcdf+mpi_f.o \
-		02_fortran+c+netcdf+mpi_c.o \
-		-L${NETCDF}/lib -lnetcdff -lnetcdf
-
-	$DIR/MPICH/bin/mpirun ./a.out | tee comp_test2.txt
-	export TEST_PASS=$(grep -w -o -c "SUCCESS" comp_test2.txt | awk '{print$1}')
-	if [ $TEST_PASS -ge 1 ]; then
-		echo "Compatibility Test 2 Passed"
-	else
-		echo "Compatibility Compiler Test 2 Failed"
-		exit
-	fi
-	echo " "
-	read -r -t 3 -p "I am going to wait for 3 seconds only ..."
-	echo " "
-
-	echo " All tests completed and passed"
-	echo " "
-
-	################################OpenGrADS######################################
-	#Verison 2.2.1 64bit of Linux
-	#############################################################################
-	if [[ $GRADS_PICK -eq 1 ]]; then
-		cd "${WRF_FOLDER}"/Downloads
-		wget -c -4 https://sourceforge.net/projects/opengrads/files/grads2/2.2.1.oga.1/macOS/opengrads-2.2.1.oga.1-bundle-x86_64-apple-darwin20.5.0.pkg
-		sudo -S installer -pkg opengrads-2.2.1.oga.1-bundle-x86_64-apple-darwin20.5.0.pkg -target /Applications/OpenGrads <<<"$PASSWD"
-		export PATH="${WRF_FOLDER}"/GrADS/Contents:$PATH
-	fi
-	################################## GrADS ###############################
-	# Version  2.2.1
-	# Sublibs library instructions: http://cola.gmu.edu/grads/gadoc/supplibs2.html
-	# GrADS instructions: http://cola.gmu.edu/grads/downloads.php
-	########################################################################
-	if [[ $GRADS_PICK -eq 2 ]]; then
-
-		brew install grads
-
-	fi
-
-	##################################################################
-	#Installing Miniconda3 to WRF directory and updating libraries
-	##################################################################
-	echo $PASSWD | sudo -S apt -y install python3-zstandard python3-zstd
-
-	export Miniconda_Install_DIR="${WRF_FOLDER}"/miniconda3
-
-	mkdir -p $Miniconda_Install_DIR
-
-	wget -c https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh -O $Miniconda_Install_DIR/miniconda.sh
-	bash $Miniconda_Install_DIR/miniconda.sh -b -u -p $Miniconda_Install_DIR
-
-	rm -rf $Miniconda_Install_DIR/miniconda.sh
-
-	export PATH="${WRF_FOLDER}"/miniconda3/bin:$PATH
-
-	source $Miniconda_Install_DIR/etc/profile.d/conda.sh
-
-	$Miniconda_Install_DIR/bin/conda init bash
-	$Miniconda_Install_DIR/bin/conda init zsh
-	$Miniconda_Install_DIR/bin/conda init tcsh
-	$Miniconda_Install_DIR/bin/conda init xonsh
-	$Miniconda_Install_DIR/bin/conda init powershell
-
-	conda config --add channels conda-forge
-	conda config --set auto_activate_base false
-	conda update -n root --all -y
-
-	echo " "
-
-	#Installing NCL via Conda
-	source $Miniconda_Install_DIR/etc/profile.d/conda.sh
-	conda init bash
-	conda activate base
-	conda create -n ncl_stable -c conda-forge ncl -y
-	conda activate ncl_stable
-
-	conda deactivate
-	conda deactivate
-	conda deactivate
-	echo " "
-
-	##################### WRF Python           ##################
-	########### WRf-Python compiled via Conda  ##################
-	########### This is the preferred method by NCAR      ##################
-	##### https://wrf-python.readthedocs.io/en/latest/installation.html  ##################
-	source $Miniconda_Install_DIR/etc/profile.d/conda.sh
-	conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
-
-	######################### Climate Data Operators ############
-	######################### CDO compiled via Conda ###########
-	####################### This is the preferred method #######
-	################### https://bairdlangenbrunner.github.io/python-for-climate-scientists/conda/setting-up-conda-environments.html #######################
-
-	source $Miniconda_Install_DIR/etc/profile.d/conda.sh
-	conda init bash
-	conda activate base
-	conda create --name cdo_stable -y
-	conda activate cdo_stable
-	conda install -c conda-forge cdo -y
-	conda update --all -y
-	conda deactivate
-	conda deactivate
-	conda deactivate
-
-	echo " "
-
-	########################## WRF Hydro GIS PreProcessor ##############################
-	#  Compiled with Conda
-	#  https://github.com/NCAR/wrf_hydro_gis_preprocessor
-	####################################################################################
-
-	conda init bash
-	conda activate base
-	conda config --add channels conda-forge
-	conda create -n wrfh_gis_env -c conda-forge python=3.12 gdal netCDF4 numpy pyproj whitebox=2.2.0 packaging shapely -y
-	conda activate wrfh_gis_env
-	conda update -n wrfh_gis_env --all -y
-	conda deactivate
-	conda deactivate
-	conda deactivate
-
-	cd "${WRF_FOLDER}"/
-	git clone https://github.com/NCAR/wrf_hydro_gis_preprocessor.git "${WRF_FOLDER}"/WRF-Hydro-GIS-PreProcessor
-	echo " "
-
-	############################# WRF HYDRO V5.3.0 #################################
-	# Version 5.3.0
-	# Standalone mode
-	################################################################################
-	# Set up NETCDF environment variables
-	export NETCDF_INC="$DIR/NETCDF/include"
-	export NETCDF_LIB="$DIR/NETCDF/lib"
-
-	# Create directories for Hydro Basecode and navigate to it
-	mkdir -p "${WRF_FOLDER}/Hydro-Basecode"
-	cd "${WRF_FOLDER}/Hydro-Basecode"
-
-	# Clone the WRF-Hydro repository and set up the build
-	git clone https://github.com/NCAR/wrf_hydro_nwm_public.git
-	cd wrf_hydro_nwm_public
-	mkdir -p build
-	cd build
-
-	# Run CMake configuration for WRF-Hydro with specified options
-	cmake .. \
-		-DSPATIAL_SOIL=1 \
-		-DWRF_HYDRO=1 \
-		-DWRF_HYDRO_NUDGING=1 \
-		-DWRFIO_NCD_LARGE_FILE_SUPPORT=1 \
-		-DCMAKE_Fortran_COMPILER=gfortran
-
-	# Compile using specified CPU settings
-	make -j "$CPU_QUARTER_EVEN" 2>&1 | tee make.log
-
-	# Check if the necessary executable files were created
-	cd "${WRF_FOLDER}/Hydro-Basecode/wrf_hydro_nwm_public/build/Run"
-	n=$(ls ./*.exe 2>/dev/null | wc -l)
-
-	# Function to rerun compilation if files are missing
-	rebuild_and_check() {
-		echo "Missing one or more expected files. Running compiler again..."
-		cd "${WRF_FOLDER}/Hydro-Basecode/wrf_hydro_nwm_public/build"
-		make -j "$CPU_QUARTER_EVEN" 2>&1 | tee make2.log
-		cd "${WRF_FOLDER}/Hydro-Basecode/wrf_hydro_nwm_public/build/Run"
-		n=$(ls ./*.exe 2>/dev/null | wc -l)
-	}
-
-	# IF statement to check that all expected files were created
-	if ((n == 2)); then
-		echo "All expected files created."
-	else
-		rebuild_and_check
-		if ((n != 2)); then
-			echo "Missing one or more expected files. Exiting the script."
-			read -r -p "Please contact script authors for assistance. Press 'Enter' to exit the script."
-			exit 1
-		else
-			echo "All expected files created after re-compiling."
-		fi
-	fi
-
-	# Finish the script with a pause
-	read -r -t 5 -p "Finished installing WRF Hydro Basecode. Waiting for 5 seconds..."
-	############################ WRF #################################
-	## WRF v${WPS_VERSION}
-	## Downloaded from git tagged releases
-	# option 21, option 1 for gfortran and distributed memory w/basic nesting
-	# large file support enable with WRFiO_NCD_LARGE_FILE_SUPPORT=1
-	########################################################################
-
-	cd "${WRF_FOLDER}"/Downloads
-	wget -c https://github.com/wrf-model/WRF/releases/download/v${WRF_VERSION}/v${WRF_VERSION}.tar.gz -O WRF-${WRF_VERSION}.tar.gz
-	tar -xvzf WRF-${WRF_VERSION}.tar.gz -C "${WRF_FOLDER}"/
-
-	# If statment for changing folder name
-	if [ -d ""${WRF_FOLDER}"/WRF" ]; then
-		mv -f "${WRF_FOLDER}"/WRF "${WRF_FOLDER}"/WRFV${WRF_VERSION}
-	fi
-
-	cd "${WRF_FOLDER}"/WRFV${WRF_VERSION}
-	export WRFIO_NCD_LARGE_FILE_SUPPORT=1
-
-	#Replace old version of WRF-Hydro distributed with WRF with updated WRF-Hydro source code
-	rm -r "${WRF_FOLDER}"/WRFV${WRF_VERSION}/hydro/
-	cp -r "${WRF_FOLDER}"/Hydro-Basecode/wrf_hydro_nwm_public/src "${WRF_FOLDER}"/WRFV${WRF_VERSION}/hydro
-
-	cd "${WRF_FOLDER}"/WRFV${WRF_VERSION}/hydro/template
-	source setEnvar.sh
-	cd "${WRF_FOLDER}"/WRFV${WRF_VERSION}
-
-	./clean
-
-	if [ ${auto_config} -eq 1 ]; then
-		sed -i'' -e '443s/.*/  $response = "17 \\n";/g' "${WRF_FOLDER}"/WRFV${WRF_VERSION}/arch/Config.pl # Answer for compiler choice
-		sed -i'' -e '909s/.*/  $response = "1 \\n";/g' "${WRF_FOLDER}"/WRFV${WRF_VERSION}/arch/Config.pl  #Answer for basic nesting
-		./configure 2>&1 | tee configure.log
-	else
-		./configure 2>&1 | tee configure.log #Option 17 gfortran compiler with distributed memory option 1 for basic nesting
-	fi
-
-	sed -i'' -e '145s/-c/-c -fPIC -fPIE -O3  -Wno-error=implicit-function-declaration/g' configure.wrf
-
-	./compile em_real 2>&1 | tee compile.wrf.log
-
-	export WRF_DIR="${WRF_FOLDER}"/WRFV${WRF_VERSION}
-
-	# IF statement to check that all files were created.
-	cd "${WRF_FOLDER}"/WRFV${WRF_VERSION}/main
-	n=$(ls ./*.exe | wc -l)
-	if (($n >= 3)); then
-		echo "All expected files created."
-		read -r -t 5 -p "Finished installing WRF. I am going to wait for 5 seconds only ..."
-	else
-		echo "Missing one or more expected files."
-		echo "Running compiler again"
-		cd "${WRF_FOLDER}"/WRFV${WRF_VERSION}
-		./compile -j $CPU_QUARTER_EVEN em_real 2>&1 | tee compile.wrf2.log
-		cd "${WRF_FOLDER}"/WRFV${WRF_VERSION}/main
-		n=$(ls ./*.exe | wc -l)
-		if (($n >= 3)); then
-			echo "All expected files created."
-			read -r -t 5 -p "Finished installing WRF. I am going to wait for 5 seconds only ..."
-		else
-			read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
-			exit
-		fi
-	fi
-
-	echo " "
-	############################WPS#####################################
-	## WPS v${WPS_VERSION}
-	## Downloaded from git tagged releases
-	#Option 3 for gfortran and distributed memory
-	########################################################################
-
-	cd "${WRF_FOLDER}"/Downloads
-	wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v${WPS_VERSION}.tar.gz -O WPS-${WPS_VERSION}.tar.gz
-	tar -xvzf WPS-${WPS_VERSION}.tar.gz -C "${WRF_FOLDER}"/
-	cd "${WRF_FOLDER}"/WPS-${WPS_VERSION}
-	./clean -a
-
-	if [ ${auto_config} -eq 1 ]; then
-		echo 19 | ./configure 2>&1 | tee configure.log #Option 19 for gfortran and distributed memory
-	else
-		./configure 2>&1 | tee configure.log #Option 19 gfortran compiler with distributed memory
-	fi
-	./compile 2>&1 | tee compile.wps.log
-
-	# IF statement to check that all files were created.
-	cd "${WRF_FOLDER}"/WPS-${WPS_VERSION}
-	n=$(ls ./*.exe | wc -l)
-	if (($n == 3)); then
-		echo "All expected files created."
-		read -r -t 5 -p "Finished installing WPS. I am going to wait for 5 seconds only ..."
-	else
-		echo "Missing one or more expected files."
-		echo "Running compiler again"
-		./compile 2>&1 | tee compile.wps2.log
-		cd "${WRF_FOLDER}"/WPS-${WPS_VERSION}
-		n=$(ls ./*.exe | wc -l)
-		if (($n == 3)); then
-			echo "All expected files created."
-			read -r -t 5 -p "Finished installing WPS. I am going to wait for 5 seconds only ..."
-		else
-			read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
-			exit
-		fi
-	fi
-
-	echo " "
-
-	######################## Static Geography Data inc/ Optional ####################
-	# http://www2.mmm.ucar.edu/wrf/users/download/get_sources_wps_geog.html
-	# These files are large so if you only need certain ones comment the others off
-	# All files downloaded and untarred is 200GB
-	# https://www2.mmm.ucar.edu/wrf/users/download/get_sources_wps_geog.html
-	#################################################################################
-	cd "${WRF_FOLDER}"/Downloads
-	mkdir "${WRF_FOLDER}"/GEOG
-	mkdir "${WRF_FOLDER}"/GEOG/WPS_GEOG
-
-	echo " "
-	echo "Mandatory WRF Preprocessing System (WPS) Geographical Input Data Mandatory Fields Downloads"
-	echo " "
-	wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_high_res_mandatory.tar.gz
-	tar -xvzf geog_high_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
-
-	wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_low_res_mandatory.tar.gz
-	tar -xvzf geog_low_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
-	mv "${WRF_FOLDER}"/GEOG/WPS_GEOG_LOW_RES/ "${WRF_FOLDER}"/GEOG/WPS_GEOG
-
-	if [ ${WPS_Specific_Applications} -eq 1 ]; then
-		echo " "
-		echo " WPS Geographical Input Data Mandatory for Specific Applications"
-		echo " "
-
-		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_thompson28_chem.tar.gz
-		tar -xvzf geog_thompson28_chem.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
-
-		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_noahmp.tar.gz
-		tar -xvzf geog_noahmp.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
-
-		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/irrigation.tar.gz
-		tar -xvzf irrigation.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
-
-		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_px.tar.gz
-		tar -xvzf geog_px.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
-
-		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_urban.tar.gz
-		tar -xvzf geog_urban.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
-
-		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_ssib.tar.gz
-		tar -xvzf geog_ssib.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
-
-		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/lake_depth.tar.bz2
-		tar -xvf lake_depth.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
-
-		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/topobath_30s.tar.bz2
-		tar -xvf topobath_30s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
-
-		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/gsl_gwd.tar.bz2
-		tar -xvf gsl_gwd.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
-
-		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/cglc_modis_lcz_global.tar.gz
-		tar -xvf cglc_modis_lcz_global.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
-	fi
-
-	if [ ${Optional_GEOG} -eq 1 ]; then
-		echo " "
-		echo "Optional WPS Geographical Input Data"
-		echo " "
-
-		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_older_than_2000.tar.gz
-		tar -xvzf geog_older_than_2000.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
-
-		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s_with_lakes.tar.gz
-		tar -xvzf modis_landuse_20class_15s_with_lakes.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
-
-		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_alt_lsm.tar.gz
-		tar -xvzf geog_alt_lsm.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
-
-		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/nlcd2006_ll_9s.tar.bz2
-		tar -xvf nlcd2006_ll_9s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
-
-		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/updated_Iceland_LU.tar.gz
-		tar -xvf updated_Iceland_LU.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
-
-		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s.tar.bz2
-		tar -xvf modis_landuse_20class_15s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
-	fi
-
-fi
-
-if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
-
-	#############################basic package managment############################
-	echo $PASSWD | sudo -S yum install epel-release -y
-	echo $PASSWD | sudo -S yum install dnf -y
-	echo $PASSWD | sudo -S dnf install epel-release -y
-	echo $PASSWD | sudo -S dnf install dnf -y
-	echo $PASSWD | sudo -S dnf -y update
-	echo $PASSWD | sudo -S dnf -y upgrade
-	echo $PASSWD | sudo -S dnf -y install autoconf automake bzip2 bzip2-devel byacc cairo-devel cmake cpp curl curl-devel flex fontconfig-devel fontconfig-devel.x86_64 gcc gcc-c++ gcc-gfortran git java-11-openjdk java-11-openjdk-devel ksh libX11-devel libX11-devel.x86_64 libXaw libXaw-devel libXext-devel libXext-devel.x86_64 libXmu-devel libXrender-devel libXrender-devel.x86_64 libstdc++ libstdc++-devel libxml2 libxml2-devel m4 .x86_64 nfs-utils perl "perl(XML::LibXML)" pkgconfig pixman-devel python3 python3-devel tcsh time unzip wget
-	echo $PASSWD | sudo -S dnf -y groupinstall "Development Tools"
-	echo $PASSWD | sudo -S dnf -y update
-	echo $PASSWD | sudo -S dnf -y upgrade
-
-	echo " "
-
-	echo " "
-	##############################Directory Listing############################
-	export HOME=$(
-		cd
-		pwd
-	)
-
-	mkdir $HOME/WRFHYDRO_COUPLED
-	export WRF_FOLDER=$HOME/WRFHYDRO_COUPLED
-	cd "${WRF_FOLDER}"/
-	mkdir Downloads
-	mkdir WRFPLUS
-	mkdir WRFDA
-	mkdir Libs
-	export DIR="${WRF_FOLDER}"/Libs
-	mkdir Libs/grib2
-	mkdir Libs/NETCDF
-	mkdir Libs/MPICH
-	mkdir -p Tests/Environment
-	mkdir -p Tests/Compatibility
-
-	echo " "
-	#############################Core Management####################################
-
-	export CPU_CORE=$(nproc) # number of available threads on system
-	export CPU_6CORE="6"
-	export CPU_QUARTER=$(($CPU_CORE / 4))                          #quarter of availble cores on system
-	export CPU_QUARTER_EVEN=$(($CPU_QUARTER - ($CPU_QUARTER % 2))) #Forces CPU cores to even number to avoid partial core export. ie 7 cores would be 3.5 cores.
-
-	if [ $CPU_CORE -le $CPU_6CORE ]; then #If statement for low core systems.  Forces computers to only use 1 core if there are 4 cores or less on the system. then
-		export CPU_QUARTER_EVEN="2"
-	else
-		export CPU_QUARTER_EVEN=$(($CPU_QUARTER - ($CPU_QUARTER % 2)))
-	fi
-
-	echo "##########################################"
-	echo "Number of Threads being used $CPU_QUARTER_EVEN"
-	echo "##########################################"
-
-	echo " "
-	##############################Downloading Libraries############################
-	#Force use of ipv4 with -4
-	cd Downloads
-	wget -c https://github.com/madler/zlib/releases/download/v$Zlib_Version/zlib-$Zlib_Version.tar.gz
-	wget -c https://github.com/HDFGroup/hdf5/releases/download/hdf5_$HDF5_Version.$HDF5_Sub_Version/hdf5-$HDF5_Version-$HDF5_Sub_Version.tar.gz
-	wget -c https://github.com/Unidata/netcdf-c/archive/refs/tags/v$Netcdf_C_Version.tar.gz
-	wget -c https://github.com/Unidata/netcdf-fortran/archive/refs/tags/v$Netcdf_Fortran_Version.tar.gz
-	wget -c https://github.com/pmodels/mpich/releases/download/v$Mpich_Version/mpich-$Mpich_Version.tar.gz
-	wget -c https://download.sourceforge.net/libpng/libpng-$Libpng_Version.tar.gz
-	wget -c https://www.ece.uvic.ca/~frodo/jasper/software/jasper-$Jasper_Version.zip
-	wget -c https://parallel-netcdf.github.io/Release/pnetcdf-$Pnetcdf_Version.tar.gz
-	wget -c https://sourceforge.net/projects/opengrads/files/grads2/2.2.1.oga.1/Linux%20%2864%20Bits%29/opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz
-
-	echo " "
-	####################################Compilers#####################################
-	export CC=gcc
-	export CXX=g++
-	export FC=gfortran
-	export F77=gfortran
-	export CFLAGS="-fPIC -fPIE -O3"
-
-	#IF statement for GNU compiler issue
-	export GCC_VERSION=$(gcc -dumpfullversion | awk '{print$1}')
-	export GFORTRAN_VERSION=$(gfortran -dumpfullversion | awk '{print$1}')
-	export GPLUSPLUS_VERSION=$(g++ -dumpfullversion | awk '{print$1}')
-
-	export GCC_VERSION_MAJOR_VERSION=$(echo $GCC_VERSION | awk -F. '{print $1}')
-	export GFORTRAN_VERSION_MAJOR_VERSION=$(echo $GFORTRAN_VERSION | awk -F. '{print $1}')
-	export GPLUSPLUS_VERSION_MAJOR_VERSION=$(echo $GPLUSPLUS_VERSION | awk -F. '{print $1}')
-
-	export version_10="10"
-
-	if [ $GCC_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GFORTRAN_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GPLUSPLUS_VERSION_MAJOR_VERSION -ge $version_10 ]; then
-		export fallow_argument=-fallow-argument-mismatch
-		export boz_argument=-fallow-invalid-boz
-	else
-		export fallow_argument=
-		export boz_argument=
-	fi
-
-	export FFLAGS="$fallow_argument -m64"
-	export FCFLAGS="$fallow_argument -m64"
-
-	echo "##########################################"
-	echo "FFLAGS = $FFLAGS"
-	echo "FCFLAGS = $FCFLAGS"
-	echo "CFLAGS = $CFLAGS"
-	echo "##########################################"
-
-	echo " "
-	#############################zlib############################
-	#Uncalling compilers due to comfigure issue with zlib$Zlib_Version
-	#With CC & CXX definied ./configure uses different compiler Flags
-
-	cd "${WRF_FOLDER}"/Downloads
-	tar -xvzf zlib-$Zlib_Version.tar.gz
-	cd zlib-$Zlib_Version/
-	autoreconf -i -f 2>&1 | tee autoreconf.log
-	./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
-
-	automake -a -f 2>&1 | tee automake.log
-	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
-	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
-	#make check
-
-	echo " "
-	##############################MPICH############################
-	#F90= due to compiler issues with mpich install
-	cd "${WRF_FOLDER}"/Downloads
-	tar -xvzf mpich-$Mpich_Version.tar.gz
-	cd mpich-$Mpich_Version/
-	autoreconf -i -f 2>&1 | tee autoreconf.log
-
-	F90= ./configure --prefix=$DIR/MPICH --with-device=ch3 FFLAGS=$fallow_argument FCFLAGS=$fallow_argument 2>&1 | tee configure.log
-
-	automake -a -f 2>&1 | tee automake.log
-	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
-	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
-	# make check
-
-	export PATH=$DIR/MPICH/bin:$PATH
-	export MPIFC=$DIR/MPICH/bin/mpifort
-	export MPIF77=$DIR/MPICH/bin/mpifort
-	export MPIF90=$DIR/MPICH/bin/mpifort
-	export MPICC=$DIR/MPICH/bin/mpicc
-	export MPICXX=$DIR/MPICH/bin/mpicxx
-
-	echo " "
-	#############################libpng############################
-	cd "${WRF_FOLDER}"/Downloads
-	export LDFLAGS=-L$DIR/grib2/lib
-	export CPPFLAGS=-I$DIR/grib2/include
-	tar -xvzf libpng-$Libpng_Version.tar.gz
-	cd libpng-$Libpng_Version/
-	autoreconf -i -f 2>&1 | tee autoreconf.log
-
-	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
-
-	automake -a -f 2>&1 | tee automake.log
-	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
-	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
-	#make check
-	echo " "
-	#############################JasPer############################
-	cd "${WRF_FOLDER}"/Downloads
-	unzip jasper-$Jasper_Version.zip
-	cd jasper-$Jasper_Version/
-	autoreconf -i -f 2>&1 | tee autoreconf.log
-
-	./configure --prefix=$DIR/grib2
-	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
-
-	automake -a -f 2>&1 | tee automake.log
-	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
-	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
-	#make check
-
-	export JASPERLIB=$DIR/grib2/lib
-	export JASPERINC=$DIR/grib2/include
-
-	echo " "
-	#############################hdf5 library for netcdf4 functionality############################
-	cd "${WRF_FOLDER}"/Downloads
-	tar -xvzf hdf5-$HDF5_Version-$HDF5_Sub_Version.tar.gz
-	cd hdf5-$HDF5_Version-$HDF5_Sub_Version
-	autoreconf -i -f 2>&1 | tee autoreconf.log
-
-	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --with-zlib=$DIR/grib2 --enable-hl --enable-fortran --enable-parallel 2>&1 | tee configure.log
-
-	automake -a -f 2>&1 | tee automake.log
-	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
-	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
-	#make check
-
-	export HDF5=$DIR/grib2
-	export PHDF5=$DIR/grib2
-	export LD_LIBRARY_PATH=$DIR/grib2/lib:$LD_LIBRARY_PATH
-
-	echo " "
-	#############################Install Parallel-netCDF##############################
-	#Make file created with half of available cpu cores
-	#Hard path for MPI added
-	##################################################################################
-	cd "${WRF_FOLDER}"/Downloads
-	tar -xvzf pnetcdf-$Pnetcdf_Version.tar.gz
-	cd pnetcdf-$Pnetcdf_Version
-	export MPIFC=$DIR/MPICH/bin/mpifort
-	export MPIF77=$DIR/MPICH/bin/mpifort
-	export MPIF90=$DIR/MPICH/bin/mpifort
-	export MPICC=$DIR/MPICH/bin/mpicc
-	export MPICXX=$DIR/MPICH/bin/mpicxx
-	autoreconf -i -f 2>&1 | tee autoreconf.log
-	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --enable-shared --enable-static 2>&1 | tee configure.log
-
-	automake -a -f 2>&1 | tee automake.log
-	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
-	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
-	#make check
-
-	export PNETCDF=$DIR/grib2
-
-	echo " "
-
-	##############################Install NETCDF C Library############################
-	cd "${WRF_FOLDER}"/Downloads
-	tar -xzvf v$Netcdf_C_Version.tar.gz
-	cd netcdf-c-$Netcdf_C_Version/
-	export CPPFLAGS=-I$DIR/grib2/include
-	export LDFLAGS=-L$DIR/grib2/lib
-	export LIBS="-lhdf5_hl -lhdf5 -lz -lcurl -lgfortran -lgcc -lm -ldl -lpnetcdf"
-	autoreconf -i -f 2>&1 | tee autoreconf.log
-
-	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-shared --enable-static --enable-pnetcdf --enable-cdf5 --enable-parallel-tests 2>&1 | tee configure.log
-
-	automake -a -f 2>&1 | tee automake.log
-	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
-	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
-	#make check
-
-	export PATH=$DIR/NETCDF/bin:$PATH
-	export NETCDF=$DIR/NETCDF
-	echo " "
-	##############################NetCDF fortran library############################
-	cd "${WRF_FOLDER}"/Downloads
-	tar -xvzf v$Netcdf_Fortran_Version.tar.gz
-	cd netcdf-fortran-$Netcdf_Fortran_Version/
-	export LD_LIBRARY_PATH=$DIR/NETCDF/lib:$LD_LIBRARY_PATH
-	export CPPFLAGS="-I$DIR/NETCDF/include -I$DIR/grib2/include"
-	export LDFLAGS="-L$DIR/NETCDF/lib -L$DIR/grib2/lib"
-	export LIBS="-lnetcdf -lpnetcdf -lcurl -lhdf5_hl -lhdf5 -lz -lm -ldl -lgcc -lgfortran"
-	autoreconf -i -f 2>&1 | tee autoreconf.log
-
-	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-shared --enable-static --enable-parallel-tests --enable-hdf5 2>&1 | tee configure.log
-
-	automake -a -f 2>&1 | tee automake.log
-	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
-	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
-	#make check
-
-	echo " "
-	#################################### System Environment Tests ##############
-
-	cd "${WRF_FOLDER}"/Downloads
-	wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_NETCDF_MPI_tests.tar
-	wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_tests.tar
-
-	tar -xvf Fortran_C_tests.tar -C "${WRF_FOLDER}"/Tests/Environment
-	tar -xvf Fortran_C_NETCDF_MPI_tests.tar -C "${WRF_FOLDER}"/Tests/Compatibility
-
-	export one="1"
-	echo " "
-	############## Testing Environment #####
-
-	cd "${WRF_FOLDER}"/Tests/Environment
-
-	cp ${NETCDF}/include/netcdf.inc .
-
-	echo " "
-	echo " "
-	echo "Environment Testing "
-	echo "Test 1"
-	$FC TEST_1_fortran_only_fixed.f
-	./a.out | tee env_test1.txt
-	export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test1.txt | awk '{print$1}')
-	if [ $TEST_PASS -ge 1 ]; then
-		echo "Enviroment Test 1 Passed"
-	else
-		echo "Environment Compiler Test 1 Failed"
-		exit
-	fi
-	read -r -t 3 -p "I am going to wait for 3 seconds only ..."
-
-	echo " "
-	echo "Test 2"
-	$FC TEST_2_fortran_only_free.f90
-	./a.out | tee env_test2.txt
-	export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test2.txt | awk '{print$1}')
-	if [ $TEST_PASS -ge 1 ]; then
-		echo "Enviroment Test 2 Passed"
-	else
-		echo "Environment Compiler Test 2 Failed"
-		exit
-	fi
-	echo " "
-	read -r -t 3 -p "I am going to wait for 3 seconds only ..."
-
-	echo " "
-	echo "Test 3"
-	$CC TEST_3_c_only.c
-	./a.out | tee env_test3.txt
-	export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test3.txt | awk '{print$1}')
-	if [ $TEST_PASS -ge 1 ]; then
-		echo "Enviroment Test 3 Passed"
-	else
-		echo "Environment Compiler Test 3 Failed"
-		exit
-	fi
-	echo " "
-	read -r -t 3 -p "I am going to wait for 3 seconds only ..."
-
-	echo " "
-	echo "Test 4"
-	$CC -c -m64 TEST_4_fortran+c_c.c
-	$FC -c -m64 TEST_4_fortran+c_f.f90
-	$FC -m64 TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
-	./a.out | tee env_test4.txt
-	export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test4.txt | awk '{print$1}')
-	if [ $TEST_PASS -ge 1 ]; then
-		echo "Enviroment Test 4 Passed"
-	else
-		echo "Environment Compiler Test 4 Failed"
-		exit
-	fi
-	echo " "
-	read -r -t 3 -p "I am going to wait for 3 seconds only ..."
-
-	echo " "
-	############## Testing Environment #####
-
-	cd "${WRF_FOLDER}"/Tests/Compatibility
-
-	cp ${NETCDF}/include/netcdf.inc .
-
-	echo " "
-	echo " "
-	echo "Library Compatibility Tests "
-	echo "Test 1"
-	$FC -c 01_fortran+c+netcdf_f.f
-	$CC -c 01_fortran+c+netcdf_c.c
-	$FC 01_fortran+c+netcdf_f.o 01_fortran+c+netcdf_c.o \
-		-L${NETCDF}/lib -lnetcdff -lnetcdf
-
-	./a.out | tee comp_test1.txt
-	export TEST_PASS=$(grep -w -o -c "SUCCESS" comp_test1.txt | awk '{print$1}')
-	if [ $TEST_PASS -ge 1 ]; then
-		echo "Compatibility Test 1 Passed"
-	else
-		echo "Compatibility Compiler Test 1 Failed"
-		exit
-	fi
-	echo " "
-	read -r -t 3 -p "I am going to wait for 3 seconds only ..."
-
-	echo " "
-
-	echo "Test 2"
-	$MPIFC -c 02_fortran+c+netcdf+mpi_f.f
-	$MPICC -c 02_fortran+c+netcdf+mpi_c.c
-	$MPIFC 02_fortran+c+netcdf+mpi_f.o \
-		02_fortran+c+netcdf+mpi_c.o \
-		-L${NETCDF}/lib -lnetcdff -lnetcdf
-
-	$DIR/MPICH/bin/mpirun ./a.out | tee comp_test2.txt
-	export TEST_PASS=$(grep -w -o -c "SUCCESS" comp_test2.txt | awk '{print$1}')
-	if [ $TEST_PASS -ge 1 ]; then
-		echo "Compatibility Test 2 Passed"
-	else
-		echo "Compatibility Compiler Test 2 Failed"
-		exit
-	fi
-	echo " "
-	read -r -t 3 -p "I am going to wait for 3 seconds only ..."
-	echo " "
-
-	echo " All tests completed and passed"
-	echo " "
-
-	###############################NCEPlibs#####################################
-	#The libraries are built and installed with
-	# ./make_ncep_libs.sh -s MACHINE -c COMPILER -d NCEPLIBS_DIR -o OPENMP [-m mpi] [-a APPLICATION]
-	#It is recommended to install the NCEPlibs into their own directory, which must be created before running the installer. Further information on the command line arguments can be obtained with
-	# ./make_ncep_libs.sh -h
-
-	#If iand error occurs go to https://github.com/NCAR/NCEPlibs/pull/16/files make adjustment and re-run ./make_ncep_libs.sh
-	############################################################################
-
-	cd "${WRF_FOLDER}"/Downloads
-	git clone https://github.com/NCAR/NCEPlibs.git
-	cd NCEPlibs
-	mkdir $DIR/nceplibs
-
-	export JASPER_INC=$DIR/grib2/include
-	export PNG_INC=$DIR/grib2/include
-	export NETCDF=$DIR/NETCDF
-
-	#for loop to edit linux.gnu for nceplibs to install
-	#make if statement for gcc-9 or older
-	export GCC_VERSION=$(gcc -dumpfullversion | awk '{print$1}')
-	export GFORTRAN_VERSION=$(gfortran -dumpfullversion | awk '{print$1}')
-	export GPLUSPLUS_VERSION=$(g++ -dumpfullversion | awk '{print$1}')
-
-	export GCC_VERSION_MAJOR_VERSION=$(echo $GCC_VERSION | awk -F. '{print $1}')
-	export GFORTRAN_VERSION_MAJOR_VERSION=$(echo $GFORTRAN_VERSION | awk -F. '{print $1}')
-	export GPLUSPLUS_VERSION_MAJOR_VERSION=$(echo $GPLUSPLUS_VERSION | awk -F. '{print $1}')
-
-	export version_10="10"
-
-	if [ $GCC_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GFORTRAN_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GPLUSPLUS_VERSION_MAJOR_VERSION -ge $version_10 ]; then
-		sed -i "24s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
-		sed -i "28s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
-		sed -i "32s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
-		sed -i "36s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
-		sed -i "40s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
-		sed -i "45s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
-		sed -i "49s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
-		sed -i "53s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
-		sed -i "56s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
-		sed -i "60s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
-		sed -i "64s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
-		sed -i "68s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
-		sed -i "69s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
-		sed -i "73s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
-		sed -i "74s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
-		sed -i "79s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
-
-	fi
-
-	if [ ${auto_config} -eq 1 ]; then
-		echo yes | ./make_ncep_libs.sh -s linux -c gnu -d $DIR/nceplibs -o 0 -m 1 -a upp | tee make.install.log
-	else
-		./make_ncep_libs.sh -s linux -c gnu -d $DIR/nceplibs -o 0 -m 1 -a upp | tee make.install.log
-	fi
-
-	export PATH=$DIR/nceplibs:$PATH
-
-	echo " "
-	################################UPPv4.1######################################
-	#Previous verison of UPP
-	#WRF Support page recommends UPPV4.1 due to too many changes to WRF and UPP code
-	#since the WRF was written
-	#Option 8 gfortran compiler with distributed memory
-	#############################################################################
-	cd "${WRF_FOLDER}"/
-	git clone -b dtc_post_v4.1.0 --recurse-submodules https://github.com/NOAA-EMC/EMC_post UPPV4.1
-	cd UPPV4.1
-	mkdir postprd
-	export NCEPLIBS_DIR=$DIR/nceplibs
-	export NETCDF=$DIR/NETCDF
-
-	if [ ${auto_config} -eq 1 ]; then
-		echo 8 | ./configure #Option 8 gfortran compiler with distributed memory
-	else
-		./configure #Option 8 gfortran compiler with distributed memory
-	fi
-
-	#make if statement for gcc-9 or older
-	export GCC_VERSION=$(gcc -dumpfullversion | awk '{print$1}')
-	export GFORTRAN_VERSION=$(gfortran -dumpfullversion | awk '{print$1}')
-	export GPLUSPLUS_VERSION=$(g++ -dumpfullversion | awk '{print$1}')
-
-	export GCC_VERSION_MAJOR_VERSION=$(echo $GCC_VERSION | awk -F. '{print $1}')
-	export GFORTRAN_VERSION_MAJOR_VERSION=$(echo $GFORTRAN_VERSION | awk -F. '{print $1}')
-	export GPLUSPLUS_VERSION_MAJOR_VERSION=$(echo $GPLUSPLUS_VERSION | awk -F. '{print $1}')
-
-	export version_10="10"
-
-	if [ $GCC_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GFORTRAN_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GPLUSPLUS_VERSION_MAJOR_VERSION -ge $version_10 ]; then
-		sed -i "58s/(FOPT)/(FOPT) $fallow_argument $boz_argument  /g" "${WRF_FOLDER}/UPPV4.1/configure.upp"
-		sed -i "63s/(FOPT)/(FOPT) $fallow_argument $boz_argument  /g" "${WRF_FOLDER}/UPPV4.1/configure.upp"
-
-	fi
-
-	./compile
-	cd "${WRF_FOLDER}"/UPPV4.1/scripts
-
-	chmod +x run_unipost
-
-	# IF statement to check that all files were created.
-	cd "${WRF_FOLDER}"/UPPV4.1/exec
-	n=$(ls ./*.exe | wc -l)
-	if (($n == 1)); then
-		echo "All expected files created."
-		read -r -t 5 -p "Finished installing UPPV4.1. I am going to wait for 5 seconds only ..."
-	else
-		echo "Missing one or more expected files. Exiting the script."
-		read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
-		exit
-	fi
-
-	echo " "
-
-	######################## ARWpost V3.1  ############################
-	## ARWpost
-	##Configure #3
-	###################################################################
-	cd "${WRF_FOLDER}"/Downloads
-	wget -c http://www2.mmm.ucar.edu/wrf/src/ARWpost_V3.tar.gz
-	tar -xvzf ARWpost_V3.tar.gz -C "${WRF_FOLDER}"/
-	cd "${WRF_FOLDER}"/ARWpost
-	./clean -a
-	sed -i -e 's/-lnetcdf/-lnetcdff -lnetcdf/g' "${WRF_FOLDER}"/ARWpost/src/Makefile
-	export NETCDF=$DIR/NETCDF
-
-	if [ ${auto_config} -eq 1 ]; then
-		echo 3 | ./configure #Option 3 gfortran compiler with distributed memory
-	else
-		./configure #Option 3 gfortran compiler with distributed memory
-	fi
-
-	export GCC_VERSION=$(gcc -dumpfullversion | awk '{print$1}')
-	export GFORTRAN_VERSION=$(gfortran -dumpfullversion | awk '{print$1}')
-	export GPLUSPLUS_VERSION=$(g++ -dumpfullversion | awk '{print$1}')
-
-	export GCC_VERSION_MAJOR_VERSION=$(echo $GCC_VERSION | awk -F. '{print $1}')
-	export GFORTRAN_VERSION_MAJOR_VERSION=$(echo $GFORTRAN_VERSION | awk -F. '{print $1}')
-	export GPLUSPLUS_VERSION_MAJOR_VERSION=$(echo $GPLUSPLUS_VERSION | awk -F. '{print $1}')
-
-	export version_10="10"
-
-	if [ $GCC_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GFORTRAN_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GPLUSPLUS_VERSION_MAJOR_VERSION -ge $version_10 ]; then
-		sed -i '32s/-ffree-form -O -fno-second-underscore -fconvert=big-endian -frecord-marker=4/-ffree-form -O -fno-second-underscore -fconvert=big-endian -frecord-marker=4 ${fallow_argument} /g' configure.arwp
-	fi
-
-	sed -i -e 's/-C -P -traditional/-P -traditional/g' "${WRF_FOLDER}"/ARWpost/configure.arwp
-	./compile
-
-	#IF statement to check that all files were created.
-	cd "${WRF_FOLDER}"/ARWpost
-	n=$(ls ./*.exe | wc -l)
-	if (($n == 1)); then
-		echo "All expected files created."
-		read -r -t 5 -p "Finished installing ARWpost. I am going to wait for 5 seconds only ..."
-	else
-		echo "Missing one or more expected files. Exiting the script."
-		read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
-		exit
-	fi
-
-	echo " "
-
-	export PATH="${WRF_FOLDER}"/ARWpost/ARWpost.exe:$PATH
-
-	echo " "
-	################################ OpenGrADS ##################################
-	#Verison 2.2.1 32bit of Linux
-	#############################################################################
-	if [[ $GRADS_PICK -eq 1 ]]; then
-		cd "${WRF_FOLDER}"/Downloads
-		tar -xzvf opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz -C "${WRF_FOLDER}"/
-		cd "${WRF_FOLDER}"/
-		mv "${WRF_FOLDER}"/opengrads-2.2.1.oga.1 "${WRF_FOLDER}"/GrADS
-		cd GrADS/Contents
-		wget -c https://github.com/regisgrundig/SIMOP/blob/master/g2ctl.pl
-		chmod +x g2ctl.pl
-		wget -c https://sourceforge.net/projects/opengrads/files/wgrib2/0.1.9.4/wgrib2-v0.1.9.4-bin-i686-glib2.5-linux-gnu.tar.gz
-		tar -xzvf wgrib2-v0.1.9.4-bin-i686-glib2.5-linux-gnu.tar.gz
-		cd wgrib2-v0.1.9.4/bin
-		mv wgrib2 "${WRF_FOLDER}"/GrADS/Contents
-		cd "${WRF_FOLDER}"/GrADS/Contents
-		rm wgrib2-v0.1.9.4-bin-i686-glib2.5-linux-gnu.tar.gz
-		rm -r wgrib2-v0.1.9.4
-
-		export PATH="${WRF_FOLDER}"/GrADS/Contents:$PATH
-
-		echo " "
-	fi
-	################################## GrADS ###############################
-	# Version  2.2.1
-	# Sublibs library instructions: http://cola.gmu.edu/grads/gadoc/supplibs2.html
-	# GrADS instructions: http://cola.gmu.edu/grads/downloads.php
-	########################################################################
-	if [[ $GRADS_PICK -eq 2 ]]; then
-		cd "${WRF_FOLDER}"/Downloads
-		wget -c ftp://cola.gmu.edu/grads/2.2/grads-2.2.1-bin-centos7.4-x86_64.tar.gz
-		tar -xzvf grads-2.2.1-bin-centos7.4-x86_64.tar.gz -C "${WRF_FOLDER}"
-		cd "${WRF_FOLDER}"/grads-2.2.1/bin
-		chmod 775 *
-
-	fi
-
-	echo " "
-	##################### NCAR COMMAND LANGUAGE           ##################
-	########### NCL compiled via Conda                    ##################
-	########### This is the preferred method by NCAR      ##################
-	########### https://www.ncl.ucar.edu/index.shtml      ##################
-
-	#Installing Miniconda3 to WRF-Hydro directory and updating libraries
-	echo $PASSWD | sudo -S apt -y install python3-zstandard python3-zstd
-
-	export Miniconda_Install_DIR="${WRF_FOLDER}"/miniconda3
-
-	mkdir -p $Miniconda_Install_DIR
-
-	wget -c https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O $Miniconda_Install_DIR/miniconda.sh
-	bash $Miniconda_Install_DIR/miniconda.sh -b -u -p $Miniconda_Install_DIR
-
-	rm -rf $Miniconda_Install_DIR/miniconda.sh
-
-	export PATH="${WRF_FOLDER}"/miniconda3/bin:$PATH
-
-	source $Miniconda_Install_DIR/etc/profile.d/conda.sh
-
-	$Miniconda_Install_DIR/bin/conda init bash
-	$Miniconda_Install_DIR/bin/conda init zsh
-	$Miniconda_Install_DIR/bin/conda init tcsh
-	$Miniconda_Install_DIR/bin/conda init xonsh
-	$Miniconda_Install_DIR/bin/conda init powershell
-
-	conda config --add channels conda-forge
-	conda config --set auto_activate_base false
-	conda update -n root --all -y
-
-	echo " "
-
-	echo " "
-	#Installing NCL via Conda
-	source $Miniconda_Install_DIR/etc/profile.d/conda.sh
-	conda init bash
-	conda activate base
-	conda create -n ncl_stable -c conda-forge ncl -y
-	conda activate ncl_stable
-
-	conda deactivate
-	conda deactivate
-	conda deactivate
-
-	echo " "
-
-	############################OBSGRID###############################
-	## OBSGRID
-	## Downloaded from git tagged releases
-	## Option #2
-	########################################################################
-	cd "${WRF_FOLDER}"/
-	git clone https://github.com/wrf-model/OBSGRID.git
-	cd "${WRF_FOLDER}"/OBSGRID
-
-	./clean -a
-	source $Miniconda_Install_DIR/etc/profile.d/conda.sh
-	conda init bash
-	conda activate ncl_stable
-
-	export HOME=$(
-		cd
-		pwd
-	)
-	export DIR="${WRF_FOLDER}"/Libs
-	export NETCDF=$DIR/NETCDF
-
-	if [ ${auto_config} -eq 1 ]; then
-		echo 2 | ./configure 2>&1 | tee configure.log #Option 2 for gfortran/gcc and distribunted memory
-	else
-		./configure 2>&1 | tee configure.log #Option 2 for gfortran/gcc and distribunted memory
-	fi
-
-	sed -i '27s/-lnetcdf -lnetcdff/ -lnetcdff -lnetcdf/g' configure.oa
-
-	sed -i '31s/-lncarg -lncarg_gks -lncarg_c -lX11 -lm -lcairo/-lncarg -lncarg_gks -lncarg_c -lX11 -lm -lcairo -lfontconfig -lpixman-1 -lfreetype -lhdf5 -lhdf5_hl /g' configure.oa
-
-	sed -i '39s/-frecord-marker=4/-frecord-marker=4 ${fallow_argument} /g' configure.oa
-
-	sed -i '44s/=	/=	${fallow_argument} /g' configure.oa
-
-	sed -i '45s/-C -P -traditional/-P -traditional/g' configure.oa
-
-	echo " "
-	./compile 2>&1 | tee compile.obsgrid.log
-
-	conda deactivate
-	conda deactivate
-	conda deactivate
-
-	echo " "
-	# IF statement to check that all files were created.
-	cd "${WRF_FOLDER}"/OBSGRID
-	n=$(ls ./*.exe | wc -l)
-	if (($n == 3)); then
-		echo "All expected files created."
-		read -r -t 5 -p "Finished installing OBSGRID. I am going to wait for 5 seconds only ..."
-	else
-		echo "Missing one or more expected files. Exiting the script."
-		read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
-		exit
-	fi
-
-	echo " "
-
-	##################### WRF Python           ##################
-	########### WRf-Python compiled via Conda  ##################
-	########### This is the preferred method by NCAR      ##################
-	##### https://wrf-python.readthedocs.io/en/latest/installation.html  ##################
-	source $Miniconda_Install_DIR/etc/profile.d/conda.sh
-	conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
-
-	echo " "
-
-	########################## WRF Hydro GIS PreProcessor ##############################
-	#  Compiled with Conda
-	#  https://github.com/NCAR/wrf_hydro_gis_preprocessor
-	####################################################################################
-
-	conda init bash
-	conda activate base
-	conda config --add channels conda-forge
-	conda create -n wrfh_gis_env -c conda-forge python=3.12 gdal netCDF4 numpy pyproj whitebox=2.2.0 packaging shapely -y
-	conda activate wrfh_gis_env
-	conda update -n wrfh_gis_env --all -y
-	conda deactivate
-	conda deactivate
-	conda deactivate
-	cd "${WRF_FOLDER}"/
-	git clone https://github.com/NCAR/wrf_hydro_gis_preprocessor.git "${WRF_FOLDER}"/WRF-Hydro-GIS-PreProcessor
-
-	echo " "
-
-	############################# WRF HYDRO V5.3.0 #################################
-	# Version 5.3.0
-	# Standalone mode
-	################################################################################
-	# Set up NETCDF environment variables
-	export NETCDF_INC="$DIR/NETCDF/include"
-	export NETCDF_LIB="$DIR/NETCDF/lib"
-
-	# Create directories for Hydro Basecode and navigate to it
-	mkdir -p "${WRF_FOLDER}/Hydro-Basecode"
-	cd "${WRF_FOLDER}/Hydro-Basecode"
-
-	# Clone the WRF-Hydro repository and set up the build
-	git clone https://github.com/NCAR/wrf_hydro_nwm_public.git
-	cd wrf_hydro_nwm_public
-	mkdir -p build
-	cd build
-
-	# Run CMake configuration for WRF-Hydro with specified options
-	cmake .. \
-		-DSPATIAL_SOIL=1 \
-		-DWRF_HYDRO=1 \
-		-DWRF_HYDRO_NUDGING=1 \
-		-DWRFIO_NCD_LARGE_FILE_SUPPORT=1 \
-		-DCMAKE_Fortran_COMPILER=gfortran
-
-	# Compile using specified CPU settings
-	make -j "$CPU_QUARTER_EVEN" 2>&1 | tee make.log
-
-	# Check if the necessary executable files were created
-	cd "${WRF_FOLDER}/Hydro-Basecode/wrf_hydro_nwm_public/build/Run"
-	n=$(ls ./*.exe 2>/dev/null | wc -l)
-
-	# Function to rerun compilation if files are missing
-	rebuild_and_check() {
-		echo "Missing one or more expected files. Running compiler again..."
-		cd "${WRF_FOLDER}/Hydro-Basecode/wrf_hydro_nwm_public/build"
-		make -j "$CPU_QUARTER_EVEN" 2>&1 | tee make2.log
-		cd "${WRF_FOLDER}/Hydro-Basecode/wrf_hydro_nwm_public/build/Run"
-		n=$(ls ./*.exe 2>/dev/null | wc -l)
-	}
-
-	# IF statement to check that all expected files were created
-	if ((n == 2)); then
-		echo "All expected files created."
-	else
-		rebuild_and_check
-		if ((n != 2)); then
-			echo "Missing one or more expected files. Exiting the script."
-			read -r -p "Please contact script authors for assistance. Press 'Enter' to exit the script."
-			exit 1
-		else
-			echo "All expected files created after re-compiling."
-		fi
-	fi
-
-	# Finish the script with a pause
-	read -r -t 5 -p "Finished installing WRF Hydro Basecode. Waiting for 5 seconds..."
-	############################ WRF #################################
-	## WRF v${WPS_VERSION}
-	## Downloaded from git tagged releases
-	# option 34, option 1 for gfortran and distributed memory w/basic nesting
-	# large file support enable with WRFiO_NCD_LARGE_FILE_SUPPORT=1
-	# In the namelist.input, the following settings support pNetCDF by setting value to 11:
-	# io_form_boundary
-	# io_form_history
-	# io_form_auxinput2
-	# io_form_auxhist2
-	# Note that you need set nocolons = .true. in the section &time_control of namelist.input
-	########################################################################
-	cd "${WRF_FOLDER}"/Downloads
-	wget -c https://github.com/wrf-model/WRF/releases/download/v${WRF_VERSION}/v${WRF_VERSION}.tar.gz -O WRF-${WRF_VERSION}.tar.gz
-	tar -xvzf WRF-${WRF_VERSION}.tar.gz -C "${WRF_FOLDER}"/
-
-	# If statment for changing folder name
-	if [ -d ""${WRF_FOLDER}"/WRF" ]; then
-		mv -f "${WRF_FOLDER}"/WRF "${WRF_FOLDER}"/WRFV${WRF_VERSION}
-	fi
-
-	cd "${WRF_FOLDER}"/WRFV${WRF_VERSION}
-	export WRFIO_NCD_LARGE_FILE_SUPPORT=1
-
-	#Replace old version of WRF-Hydro distributed with WRF with updated WRF-Hydro source code
-	rm -r "${WRF_FOLDER}"/WRFV${WRF_VERSION}/hydro/
-	cp -r "${WRF_FOLDER}"/Hydro-Basecode/wrf_hydro_nwm_public/src "${WRF_FOLDER}"/WRFV${WRF_VERSION}/hydro
-
-	cd "${WRF_FOLDER}"/WRFV${WRF_VERSION}/hydro/template
-	source setEnvar.sh
-	cd "${WRF_FOLDER}"/WRFV${WRF_VERSION}
-
-	./clean
-
-	# SED statements to fix configure error
-	sed -i '186s/==/=/g' "${WRF_FOLDER}"/WRFV${WRF_VERSION}/configure
-	sed -i '318s/==/=/g' "${WRF_FOLDER}"/WRFV${WRF_VERSION}/configure
-	sed -i '919s/==/=/g' "${WRF_FOLDER}"/WRFV${WRF_VERSION}/configure
-
-	if [ ${auto_config} -eq 1 ]; then
-		sed -i '443s/.*/  $response = "34 \\n";/g' "${WRF_FOLDER}"/WRFV${WRF_VERSION}/arch/Config.pl # Answer for compiler choice
-		sed -i '909s/.*/  $response = "1 \\n";/g' "${WRF_FOLDER}"/WRFV${WRF_VERSION}/arch/Config.pl  #Answer for basic nesting
-		./configure 2>&1 | tee configure.log
-	else
-		./configure 2>&1 | tee configure.log #Option 34 gfortran compiler with distributed memory option 1 for basic nesting
-	fi
-
-	./compile -j $CPU_QUARTER_EVEN em_real 2>&1 | tee compile.wrf1.log
-
-	export WRF_DIR="${WRF_FOLDER}"/WRFV${WRF_VERSION}
-
-	# IF statement to check that all files were created.
-	cd "${WRF_FOLDER}"/WRFV${WRF_VERSION}/main
-	n=$(ls ./*.exe | wc -l)
-	if (($n >= 3)); then
-		echo "All expected files created."
-		read -r -t 5 -p "Finished installing WRF. I am going to wait for 5 seconds only ..."
-	else
-		echo "Missing one or more expected files."
-		echo "Running compiler again"
-		cd "${WRF_FOLDER}"/WRFV${WRF_VERSION}
-		./compile -j $CPU_QUARTER_EVEN em_real 2>&1 | tee compile.wrf2.log
-		cd "${WRF_FOLDER}"/WRFV${WRF_VERSION}/main
-		n=$(ls ./*.exe | wc -l)
-		if (($n >= 3)); then
-			echo "All expected files created."
-			read -r -t 5 -p "Finished installing WRF. I am going to wait for 5 seconds only ..."
-		else
-			read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
-			exit
-		fi
-	fi
-
-	echo " "
-	############################WPS#####################################
-	## WPS v${WPS_VERSION}
-	## Downloaded from git tagged releases
-	#Option 3 for gfortran and distributed memory
-	########################################################################
-
-	cd "${WRF_FOLDER}"/Downloads
-	wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v${WPS_VERSION}.tar.gz -O WPS-${WPS_VERSION}.tar.gz
-	tar -xvzf WPS-${WPS_VERSION}.tar.gz -C "${WRF_FOLDER}"/
-	cd "${WRF_FOLDER}"/WPS-${WPS_VERSION}
-	./clean -a
-
-	if [ ${auto_config} -eq 1 ]; then
-		echo 3 | ./configure 2>&1 | tee configure.log #Option 3 for gfortran and distributed memory
-	else
-		./configure 2>&1 | tee configure.log #Option 3 gfortran compiler with distributed memory
-	fi
-	./compile 2>&1 | tee compile.wps.log
-
-	echo " "
-	# IF statement to check that all files were created.
-	cd "${WRF_FOLDER}"/WPS-${WPS_VERSION}
-	n=$(ls ./*.exe | wc -l)
-	if (($n == 3)); then
-		echo "All expected files created."
-		read -r -t 5 -p "Finished installing WPS. I am going to wait for 5 seconds only ..."
-	else
-		echo "Missing one or more expected files."
-		echo "Running compiler again"
-		./compile 2>&1 | tee compile.wps2.log
-		cd "${WRF_FOLDER}"/WPS-${WPS_VERSION}
-		n=$(ls ./*.exe | wc -l)
-		if (($n == 3)); then
-			echo "All expected files created."
-			read -r -t 5 -p "Finished installing WPS. I am going to wait for 5 seconds only ..."
-		else
-			read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
-			exit
-		fi
-	fi
-
-	echo " "
-
-	######################## Static Geography Data inc/ Optional ####################
-	# http://www2.mmm.ucar.edu/wrf/users/download/get_sources_wps_geog.html
-	# These files are large so if you only need certain ones comment the others off
-	# All files downloaded and untarred is 200GB
-	# https://www2.mmm.ucar.edu/wrf/users/download/get_sources_wps_geog.html
-	#################################################################################
-	cd "${WRF_FOLDER}"/Downloads
-	mkdir "${WRF_FOLDER}"/GEOG
-	mkdir "${WRF_FOLDER}"/GEOG/WPS_GEOG
-
-	echo " "
-	echo "Mandatory WRF Preprocessing System (WPS) Geographical Input Data Mandatory Fields Downloads"
-	echo " "
-	wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_high_res_mandatory.tar.gz
-	tar -xvzf geog_high_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
-
-	wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_low_res_mandatory.tar.gz
-	tar -xvzf geog_low_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
-	mv "${WRF_FOLDER}"/GEOG/WPS_GEOG_LOW_RES/ "${WRF_FOLDER}"/GEOG/WPS_GEOG
-
-	if [ ${WPS_Specific_Applications} -eq 1 ]; then
-		echo " "
-		echo " WPS Geographical Input Data Mandatory for Specific Applications"
-		echo " "
-
-		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_thompson28_chem.tar.gz
-		tar -xvzf geog_thompson28_chem.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
-
-		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_noahmp.tar.gz
-		tar -xvzf geog_noahmp.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
-
-		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/irrigation.tar.gz
-		tar -xvzf irrigation.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
-		mkdir "${WRF_FOLDER}"/GEOG/WPS_GEOG/irrigation
-		mv $WRFHYDRDO_FOLDER/GEOG/WPS_GEOG/fao "${WRF_FOLDER}"/GEOG/WPS_GEOG/irrigation
-
-		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_px.tar.gz
-		tar -xvzf geog_px.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
-
-		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_urban.tar.gz
-		tar -xvzf geog_urban.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
-
-		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_ssib.tar.gz
-		tar -xvzf geog_ssib.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
-
-		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/lake_depth.tar.bz2
-		tar -xvf lake_depth.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
-
-		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/topobath_30s.tar.bz2
-		tar -xvf topobath_30s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
-
-		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/gsl_gwd.tar.bz2
-		tar -xvf gsl_gwd.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
-
-		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/cglc_modis_lcz_global.tar.gz
-		tar -xvf cglc_modis_lcz_global.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
-	fi
-
-	if [ ${Optional_GEOG} -eq 1 ]; then
-		echo " "
-		echo "Optional WPS Geographical Input Data"
-		echo " "
-
-		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_older_than_2000.tar.gz
-		tar -xvzf geog_older_than_2000.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
-
-		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s_with_lakes.tar.gz
-		tar -xvzf modis_landuse_20class_15s_with_lakes.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
-
-		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_alt_lsm.tar.gz
-		tar -xvzf geog_alt_lsm.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
-
-		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/nlcd2006_ll_9s.tar.bz2
-		tar -xvf nlcd2006_ll_9s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
-
-		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/updated_Iceland_LU.tar.gz
-		tar -xvf updated_Iceland_LU.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
-
-		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s.tar.bz2
-		tar -xvf modis_landuse_20class_15s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
-	fi
-fi
-
-if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
-
-	#############################basic package managment############################
-	#############################basic package managment############################
-	echo "old version of GNU detected"
-	echo $PASSWD | sudo -S yum install centos-release-scl -y
-	echo $PASSWD | sudo -S yum clean all
-	echo $PASSWD | sudo -S yum remove devtoolset-11*
-	echo $PASSWD | sudo -S yum install devtoolset-11
-	echo $PASSWD | sudo -S yum install devtoolset-11-\* -y
-	source /opt/rh/devtoolset-11/enable
-	gcc --version
-	echo $PASSWD | sudo -S yum install epel-release -y
-	echo $PASSWD | sudo -S yum install dnf -y
-	echo $PASSWD | sudo -S dnf install epel-release -y
-	echo $PASSWD | sudo -S dnf install dnf -y
-	echo $PASSWD | sudo -S dnf -y update
-	echo $PASSWD | sudo -S dnf -y upgrade
-	echo $PASSWD | sudo -S dnf -y install autoconf automake bzip2 bzip2-devel byacc cairo-devel cmake cpp curl curl-devel flex fontconfig-devel fontconfig-devel.x86_64 gcc gcc-c++ gcc-gfortran git java-11-openjdk java-11-openjdk-devel ksh libX11-devel libX11-devel.x86_64 libXaw libXaw-devel libXext-devel libXext-devel.x86_64 libXmu-devel libXrender-devel libXrender-devel.x86_64 libstdc++ libstdc++-devel libxml2 libxml2-devel m4 .x86_64 nfs-utils perl "perl(XML::LibXML)" pkgconfig pixman-devel python3 python3-devel tcsh time unzip wget
-	echo $PASSWD | sudo -S dnf -y groupinstall "Development Tools"
-	echo $PASSWD | sudo -S dnf -y update
-	echo $PASSWD | sudo -S dnf -y upgrade
-
-	echo " "
-	##############################Directory Listing############################
-	export HOME=$(
-		cd
-		pwd
-	)
-
-	mkdir $HOME/WRFHYDRO_COUPLED
-	export WRF_FOLDER=$HOME/WRFHYDRO_COUPLED
-	cd "${WRF_FOLDER}"/
-	mkdir Downloads
-	mkdir WRFPLUS
-	mkdir WRFDA
-	mkdir Libs
-	export DIR="${WRF_FOLDER}"/Libs
-	mkdir Libs/grib2
-	mkdir Libs/NETCDF
-	mkdir Libs/MPICH
-	mkdir -p Tests/Environment
-	mkdir -p Tests/Compatibility
-
-	echo " "
-	#############################Core Management####################################
-
-	export CPU_CORE=$(nproc) # number of available threads on system
-	export CPU_6CORE="6"
-	export CPU_QUARTER=$(($CPU_CORE / 4))                          #quarter of availble cores on system
-	export CPU_QUARTER_EVEN=$(($CPU_QUARTER - ($CPU_QUARTER % 2))) #Forces CPU cores to even number to avoid partial core export. ie 7 cores would be 3.5 cores.
-
-	if [ $CPU_CORE -le $CPU_6CORE ]; then #If statement for low core systems.  Forces computers to only use 1 core if there are 4 cores or less on the system. then
-		export CPU_QUARTER_EVEN="2"
-	else
-		export CPU_QUARTER_EVEN=$(($CPU_QUARTER - ($CPU_QUARTER % 2)))
-	fi
-
-	echo "##########################################"
-	echo "Number of Threads being used $CPU_QUARTER_EVEN"
-	echo "##########################################"
-
-	echo " "
-	##############################Downloading Libraries############################
-	#Force use of ipv4 with -4
-	cd Downloads
-	wget -c https://github.com/madler/zlib/releases/download/v$Zlib_Version/zlib-$Zlib_Version.tar.gz
-	wget -c https://github.com/HDFGroup/hdf5/releases/download/hdf5_$HDF5_Version.$HDF5_Sub_Version/hdf5-$HDF5_Version-$HDF5_Sub_Version.tar.gz
-	wget -c https://github.com/Unidata/netcdf-c/archive/refs/tags/v$Netcdf_C_Version.tar.gz
-	wget -c https://github.com/Unidata/netcdf-fortran/archive/refs/tags/v$Netcdf_Fortran_Version.tar.gz
-	wget -c https://github.com/pmodels/mpich/releases/download/v$Mpich_Version/mpich-$Mpich_Version.tar.gz
-	wget -c https://download.sourceforge.net/libpng/libpng-$Libpng_Version.tar.gz
-	wget -c https://www.ece.uvic.ca/~frodo/jasper/software/jasper-$Jasper_Version.zip
-	wget -c https://parallel-netcdf.github.io/Release/pnetcdf-$Pnetcdf_Version.tar.gz
-	wget -c https://sourceforge.net/projects/opengrads/files/grads2/2.2.1.oga.1/Linux%20%2864%20Bits%29/opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz
-
-	echo " "
-	####################################Compilers#####################################
-	export CC=gcc
-	export CXX=g++
-	export FC=gfortran
-	export F77=gfortran
-	export CFLAGS="-fPIC -fPIE -O3"
-
-	#IF statement for GNU compiler issue
-	export GCC_VERSION=$(gcc -dumpfullversion | awk '{print$1}')
-	export GFORTRAN_VERSION=$(gfortran -dumpfullversion | awk '{print$1}')
-	export GPLUSPLUS_VERSION=$(g++ -dumpfullversion | awk '{print$1}')
-
-	export GCC_VERSION_MAJOR_VERSION=$(echo $GCC_VERSION | awk -F. '{print $1}')
-	export GFORTRAN_VERSION_MAJOR_VERSION=$(echo $GFORTRAN_VERSION | awk -F. '{print $1}')
-	export GPLUSPLUS_VERSION_MAJOR_VERSION=$(echo $GPLUSPLUS_VERSION | awk -F. '{print $1}')
-
-	export version_10="10"
-
-	if [ $GCC_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GFORTRAN_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GPLUSPLUS_VERSION_MAJOR_VERSION -ge $version_10 ]; then
-		export fallow_argument=-fallow-argument-mismatch
-		export boz_argument=-fallow-invalid-boz
-	else
-		export fallow_argument=
-		export boz_argument=
-	fi
-
-	export FFLAGS="$fallow_argument -m64"
-	export FCFLAGS="$fallow_argument -m64"
-
-	echo "##########################################"
-	echo "FFLAGS = $FFLAGS"
-	echo "FCFLAGS = $FCFLAGS"
-	echo "CFLAGS = $CFLAGS"
-	echo "##########################################"
-
-	echo " "
-	#############################zlib############################
-	#Uncalling compilers due to comfigure issue with zlib$Zlib_Version
-	#With CC & CXX definied ./configure uses different compiler Flags
-
-	cd "${WRF_FOLDER}"/Downloads
-	tar -xvzf zlib-$Zlib_Version.tar.gz
-	cd zlib-$Zlib_Version/
-	autoreconf -i -f 2>&1 | tee autoreconf.log
-	./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
-
-	automake -a -f 2>&1 | tee automake.log
-	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
-	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
-	#make check
-
-	echo " "
-	##############################MPICH############################
-	#F90= due to compiler issues with mpich install
-	cd "${WRF_FOLDER}"/Downloads
-	tar -xvzf mpich-$Mpich_Version.tar.gz
-	cd mpich-$Mpich_Version/
-	autoreconf -i -f 2>&1 | tee autoreconf.log
-
-	F90= ./configure --prefix=$DIR/MPICH --with-device=ch3 FFLAGS=$fallow_argument FCFLAGS=$fallow_argument 2>&1 | tee configure.log
-
-	automake -a -f 2>&1 | tee automake.log
-	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
-	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
-	# make check
-
-	export PATH=$DIR/MPICH/bin:$PATH
-	export MPIFC=$DIR/MPICH/bin/mpifort
-	export MPIF77=$DIR/MPICH/bin/mpifort
-	export MPIF90=$DIR/MPICH/bin/mpifort
-	export MPICC=$DIR/MPICH/bin/mpicc
-	export MPICXX=$DIR/MPICH/bin/mpicxx
-
-	echo " "
-	#############################libpng############################
-	cd "${WRF_FOLDER}"/Downloads
-	export LDFLAGS=-L$DIR/grib2/lib
-	export CPPFLAGS=-I$DIR/grib2/include
-	tar -xvzf libpng-$Libpng_Version.tar.gz
-	cd libpng-$Libpng_Version/
-	autoreconf -i -f 2>&1 | tee autoreconf.log
-
-	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
-
-	automake -a -f 2>&1 | tee automake.log
-	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
-	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
-	#make check
-	echo " "
-	#############################JasPer############################
-	cd "${WRF_FOLDER}"/Downloads
-	unzip jasper-$Jasper_Version.zip
-	cd jasper-$Jasper_Version/
-	autoreconf -i -f 2>&1 | tee autoreconf.log
-
-	./configure --prefix=$DIR/grib2
-	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
-
-	automake -a -f 2>&1 | tee automake.log
-	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
-	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
-	#make check
-
-	export JASPERLIB=$DIR/grib2/lib
-	export JASPERINC=$DIR/grib2/include
-
-	echo " "
-	#############################hdf5 library for netcdf4 functionality############################
-	cd "${WRF_FOLDER}"/Downloads
-	tar -xvzf hdf5-$HDF5_Version-$HDF5_Sub_Version.tar.gz
-	cd hdf5-$HDF5_Version-$HDF5_Sub_Version
-	autoreconf -i -f 2>&1 | tee autoreconf.log
-	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --with-zlib=$DIR/grib2 --enable-hl --enable-fortran --enable-parallel 2>&1 | tee configure.log
-
-	automake -a -f 2>&1 | tee automake.log
-	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
-	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
-	#make check
-
-	export HDF5=$DIR/grib2
-	export PHDF5=$DIR/grib2
-	export LD_LIBRARY_PATH=$DIR/grib2/lib:$LD_LIBRARY_PATH
-
-	echo " "
-	#############################Install Parallel-netCDF##############################
-	#Make file created with half of available cpu cores
-	#Hard path for MPI added
-	##################################################################################
-	cd "${WRF_FOLDER}"/Downloads
-	tar -xvzf pnetcdf-$Pnetcdf_Version.tar.gz
-	cd pnetcdf-$Pnetcdf_Version
-	export MPIFC=$DIR/MPICH/bin/mpifort
-	export MPIF77=$DIR/MPICH/bin/mpifort
-	export MPIF90=$DIR/MPICH/bin/mpifort
-	export MPICC=$DIR/MPICH/bin/mpicc
-	export MPICXX=$DIR/MPICH/bin/mpicxx
-	autoreconf -i -f 2>&1 | tee autoreconf.log
-	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --enable-shared --enable-static 2>&1 | tee configure.log
-
-	automake -a -f 2>&1 | tee automake.log
-	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
-	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
-	#make check
-
-	export PNETCDF=$DIR/grib2
-
-	echo " "
-
-	##############################Install NETCDF C Library############################
-	cd "${WRF_FOLDER}"/Downloads
-	tar -xzvf v$Netcdf_C_Version.tar.gz
-	cd netcdf-c-$Netcdf_C_Version/
-	export CPPFLAGS=-I$DIR/grib2/include
-	export LDFLAGS=-L$DIR/grib2/lib
-	export LIBS="-lhdf5_hl -lhdf5 -lz -lcurl -lgfortran -lgcc -lm -ldl -lpnetcdf"
-	autoreconf -i -f 2>&1 | tee autoreconf.log
-
-	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-shared --enable-static --enable-pnetcdf --enable-cdf5 --enable-parallel-tests 2>&1 | tee configure.log
-
-	automake -a -f 2>&1 | tee automake.log
-	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
-	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
-	#make check
-
-	export PATH=$DIR/NETCDF/bin:$PATH
-	export NETCDF=$DIR/NETCDF
-	echo " "
-	##############################NetCDF fortran library############################
-	cd "${WRF_FOLDER}"/Downloads
-	tar -xvzf v$Netcdf_Fortran_Version.tar.gz
-	cd netcdf-fortran-$Netcdf_Fortran_Version/
-	export LD_LIBRARY_PATH=$DIR/NETCDF/lib:$LD_LIBRARY_PATH
-	export CPPFLAGS="-I$DIR/NETCDF/include -I$DIR/grib2/include"
-	export LDFLAGS="-L$DIR/NETCDF/lib -L$DIR/grib2/lib"
-	export LIBS="-lnetcdf -lpnetcdf -lcurl -lhdf5_hl -lhdf5 -lz -lm -ldl -lgcc -lgfortran"
-	autoreconf -i -f 2>&1 | tee autoreconf.log
-
-	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-shared --enable-static --enable-parallel-tests --enable-hdf5 2>&1 | tee configure.log
-
-	automake -a -f 2>&1 | tee automake.log
-	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
-	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
-	#make check
-
-	echo " "
-	#################################### System Environment Tests ##############
-
-	cd "${WRF_FOLDER}"/Downloads
-	wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_NETCDF_MPI_tests.tar
-	wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_tests.tar
-
-	tar -xvf Fortran_C_tests.tar -C "${WRF_FOLDER}"/Tests/Environment
-	tar -xvf Fortran_C_NETCDF_MPI_tests.tar -C "${WRF_FOLDER}"/Tests/Compatibility
-
-	export one="1"
-	echo " "
-	############## Testing Environment #####
-
-	cd "${WRF_FOLDER}"/Tests/Environment
-
-	cp ${NETCDF}/include/netcdf.inc .
-
-	echo " "
-	echo " "
-	echo "Environment Testing "
-	echo "Test 1"
-	$FC TEST_1_fortran_only_fixed.f
-	./a.out | tee env_test1.txt
-	export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test1.txt | awk '{print$1}')
-	if [ $TEST_PASS -ge 1 ]; then
-		echo "Enviroment Test 1 Passed"
-	else
-		echo "Environment Compiler Test 1 Failed"
-		exit
-	fi
-	read -r -t 3 -p "I am going to wait for 3 seconds only ..."
-
-	echo " "
-	echo "Test 2"
-	$FC TEST_2_fortran_only_free.f90
-	./a.out | tee env_test2.txt
-	export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test2.txt | awk '{print$1}')
-	if [ $TEST_PASS -ge 1 ]; then
-		echo "Enviroment Test 2 Passed"
-	else
-		echo "Environment Compiler Test 2 Failed"
-		exit
-	fi
-	echo " "
-	read -r -t 3 -p "I am going to wait for 3 seconds only ..."
-
-	echo " "
-	echo "Test 3"
-	$CC TEST_3_c_only.c
-	./a.out | tee env_test3.txt
-	export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test3.txt | awk '{print$1}')
-	if [ $TEST_PASS -ge 1 ]; then
-		echo "Enviroment Test 3 Passed"
-	else
-		echo "Environment Compiler Test 3 Failed"
-		exit
-	fi
-	echo " "
-	read -r -t 3 -p "I am going to wait for 3 seconds only ..."
-
-	echo " "
-	echo "Test 4"
-	$CC -c -m64 TEST_4_fortran+c_c.c
-	$FC -c -m64 TEST_4_fortran+c_f.f90
-	$FC -m64 TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
-	./a.out | tee env_test4.txt
-	export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test4.txt | awk '{print$1}')
-	if [ $TEST_PASS -ge 1 ]; then
-		echo "Enviroment Test 4 Passed"
-	else
-		echo "Environment Compiler Test 4 Failed"
-		exit
-	fi
-	echo " "
-	read -r -t 3 -p "I am going to wait for 3 seconds only ..."
-
-	echo " "
-	############## Testing Environment #####
-
-	cd "${WRF_FOLDER}"/Tests/Compatibility
-
-	cp ${NETCDF}/include/netcdf.inc .
-
-	echo " "
-	echo " "
-	echo "Library Compatibility Tests "
-	echo "Test 1"
-	$FC -c 01_fortran+c+netcdf_f.f
-	$CC -c 01_fortran+c+netcdf_c.c
-	$FC 01_fortran+c+netcdf_f.o 01_fortran+c+netcdf_c.o \
-		-L${NETCDF}/lib -lnetcdff -lnetcdf
-
-	./a.out | tee comp_test1.txt
-	export TEST_PASS=$(grep -w -o -c "SUCCESS" comp_test1.txt | awk '{print$1}')
-	if [ $TEST_PASS -ge 1 ]; then
-		echo "Compatibility Test 1 Passed"
-	else
-		echo "Compatibility Compiler Test 1 Failed"
-		exit
-	fi
-	echo " "
-	read -r -t 3 -p "I am going to wait for 3 seconds only ..."
-
-	echo " "
-
-	echo "Test 2"
-	$MPIFC -c 02_fortran+c+netcdf+mpi_f.f
-	$MPICC -c 02_fortran+c+netcdf+mpi_c.c
-	$MPIFC 02_fortran+c+netcdf+mpi_f.o \
-		02_fortran+c+netcdf+mpi_c.o \
-		-L${NETCDF}/lib -lnetcdff -lnetcdf
-
-	$DIR/MPICH/bin/mpirun ./a.out | tee comp_test2.txt
-	export TEST_PASS=$(grep -w -o -c "SUCCESS" comp_test2.txt | awk '{print$1}')
-	if [ $TEST_PASS -ge 1 ]; then
-		echo "Compatibility Test 2 Passed"
-	else
-		echo "Compatibility Compiler Test 2 Failed"
-		exit
-	fi
-	echo " "
-	read -r -t 3 -p "I am going to wait for 3 seconds only ..."
-	echo " "
-
-	echo " All tests completed and passed"
-	echo " "
-
-	###############################NCEPlibs#####################################
-	#The libraries are built and installed with
-	# ./make_ncep_libs.sh -s MACHINE -c COMPILER -d NCEPLIBS_DIR -o OPENMP [-m mpi] [-a APPLICATION]
-	#It is recommended to install the NCEPlibs into their own directory, which must be created before running the installer. Further information on the command line arguments can be obtained with
-	# ./make_ncep_libs.sh -h
-
-	#If iand error occurs go to https://github.com/NCAR/NCEPlibs/pull/16/files make adjustment and re-run ./make_ncep_libs.sh
-	############################################################################
-
-	cd "${WRF_FOLDER}"/Downloads
-	git clone https://github.com/NCAR/NCEPlibs.git
-	cd NCEPlibs
-	mkdir $DIR/nceplibs
-
-	export JASPER_INC=$DIR/grib2/include
-	export PNG_INC=$DIR/grib2/include
-	export NETCDF=$DIR/NETCDF
-
-	#for loop to edit linux.gnu for nceplibs to install
-	#make if statement for gcc-9 or older
-	export GCC_VERSION=$(gcc -dumpfullversion | awk '{print$1}')
-	export GFORTRAN_VERSION=$(gfortran -dumpfullversion | awk '{print$1}')
-	export GPLUSPLUS_VERSION=$(g++ -dumpfullversion | awk '{print$1}')
-
-	export GCC_VERSION_MAJOR_VERSION=$(echo $GCC_VERSION | awk -F. '{print $1}')
-	export GFORTRAN_VERSION_MAJOR_VERSION=$(echo $GFORTRAN_VERSION | awk -F. '{print $1}')
-	export GPLUSPLUS_VERSION_MAJOR_VERSION=$(echo $GPLUSPLUS_VERSION | awk -F. '{print $1}')
-
-	export version_10="10"
-
-	if [ $GCC_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GFORTRAN_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GPLUSPLUS_VERSION_MAJOR_VERSION -ge $version_10 ]; then
-		sed -i "24s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
-		sed -i "28s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
-		sed -i "32s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
-		sed -i "36s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
-		sed -i "40s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
-		sed -i "45s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
-		sed -i "49s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
-		sed -i "53s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
-		sed -i "56s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
-		sed -i "60s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
-		sed -i "64s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
-		sed -i "68s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
-		sed -i "69s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
-		sed -i "73s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
-		sed -i "74s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
-		sed -i "79s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
-
-	fi
-
-	if [ ${auto_config} -eq 1 ]; then
-		echo yes | ./make_ncep_libs.sh -s linux -c gnu -d $DIR/nceplibs -o 0 -m 1 -a upp | tee make.install.log
-	else
-		./make_ncep_libs.sh -s linux -c gnu -d $DIR/nceplibs -o 0 -m 1 -a upp | tee make.install.log
-	fi
-
-	export PATH=$DIR/nceplibs:$PATH
-
-	echo " "
-	################################UPPv4.1######################################
-	#Previous verison of UPP
-	#WRF Support page recommends UPPV4.1 due to too many changes to WRF and UPP code
-	#since the WRF was written
-	#Option 8 gfortran compiler with distributed memory
-	#############################################################################
-	cd "${WRF_FOLDER}"/
-	git clone -b dtc_post_v4.1.0 --recurse-submodules https://github.com/NOAA-EMC/EMC_post UPPV4.1
-	cd UPPV4.1
-	mkdir postprd
-	export NCEPLIBS_DIR=$DIR/nceplibs
-	export NETCDF=$DIR/NETCDF
-
-	if [ ${auto_config} -eq 1 ]; then
-		echo 8 | ./configure #Option 8 gfortran compiler with distributed memory
-	else
-		./configure #Option 8 gfortran compiler with distributed memory
-	fi
-
-	#make if statement for gcc-9 or older
-	export GCC_VERSION=$(gcc -dumpfullversion | awk '{print$1}')
-	export GFORTRAN_VERSION=$(gfortran -dumpfullversion | awk '{print$1}')
-	export GPLUSPLUS_VERSION=$(g++ -dumpfullversion | awk '{print$1}')
-
-	export GCC_VERSION_MAJOR_VERSION=$(echo $GCC_VERSION | awk -F. '{print $1}')
-	export GFORTRAN_VERSION_MAJOR_VERSION=$(echo $GFORTRAN_VERSION | awk -F. '{print $1}')
-	export GPLUSPLUS_VERSION_MAJOR_VERSION=$(echo $GPLUSPLUS_VERSION | awk -F. '{print $1}')
-
-	export version_10="10"
-
-	if [ $GCC_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GFORTRAN_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GPLUSPLUS_VERSION_MAJOR_VERSION -ge $version_10 ]; then
-		sed -i "58s/(FOPT)/(FOPT) $fallow_argument $boz_argument  /g" "${WRF_FOLDER}/UPPV4.1/configure.upp"
-		sed -i "63s/(FOPT)/(FOPT) $fallow_argument $boz_argument  /g" "${WRF_FOLDER}/UPPV4.1/configure.upp"
-
-	fi
-
-	./compile
-	cd "${WRF_FOLDER}"/UPPV4.1/scripts
-
-	chmod +x run_unipost
-
-	# IF statement to check that all files were created.
-	cd "${WRF_FOLDER}"/UPPV4.1/exec
-	n=$(ls ./*.exe | wc -l)
-	if (($n == 1)); then
-		echo "All expected files created."
-		read -r -t 5 -p "Finished installing UPPV4.1. I am going to wait for 5 seconds only ..."
-	else
-		echo "Missing one or more expected files. Exiting the script."
-		read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
-		exit
-	fi
-
-	echo " "
-
-	######################## ARWpost V3.1  ############################
-	## ARWpost
-	##Configure #3
-	###################################################################
-	cd "${WRF_FOLDER}"/Downloads
-	wget -c http://www2.mmm.ucar.edu/wrf/src/ARWpost_V3.tar.gz
-	tar -xvzf ARWpost_V3.tar.gz -C "${WRF_FOLDER}"/
-	cd "${WRF_FOLDER}"/ARWpost
-	./clean -a
-	sed -i -e 's/-lnetcdf/-lnetcdff -lnetcdf/g' "${WRF_FOLDER}"/ARWpost/src/Makefile
-	export NETCDF=$DIR/NETCDF
-
-	if [ ${auto_config} -eq 1 ]; then
-		echo 3 | ./configure #Option 3 gfortran compiler with distributed memory
-	else
-		./configure #Option 3 gfortran compiler with distributed memory
-	fi
-
-	export GCC_VERSION=$(gcc -dumpfullversion | awk '{print$1}')
-	export GFORTRAN_VERSION=$(gfortran -dumpfullversion | awk '{print$1}')
-	export GPLUSPLUS_VERSION=$(g++ -dumpfullversion | awk '{print$1}')
-
-	export GCC_VERSION_MAJOR_VERSION=$(echo $GCC_VERSION | awk -F. '{print $1}')
-	export GFORTRAN_VERSION_MAJOR_VERSION=$(echo $GFORTRAN_VERSION | awk -F. '{print $1}')
-	export GPLUSPLUS_VERSION_MAJOR_VERSION=$(echo $GPLUSPLUS_VERSION | awk -F. '{print $1}')
-
-	export version_10="10"
-
-	if [ $GCC_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GFORTRAN_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GPLUSPLUS_VERSION_MAJOR_VERSION -ge $version_10 ]; then
-		sed -i '32s/-ffree-form -O -fno-second-underscore -fconvert=big-endian -frecord-marker=4/-ffree-form -O -fno-second-underscore -fconvert=big-endian -frecord-marker=4 ${fallow_argument} /g' configure.arwp
-	fi
-
-	sed -i -e 's/-C -P -traditional/-P -traditional/g' "${WRF_FOLDER}"/ARWpost/configure.arwp
-	./compile
-
-	#IF statement to check that all files were created.
-	cd "${WRF_FOLDER}"/ARWpost
-	n=$(ls ./*.exe | wc -l)
-	if (($n == 1)); then
-		echo "All expected files created."
-		read -r -t 5 -p "Finished installing ARWpost. I am going to wait for 5 seconds only ..."
-	else
-		echo "Missing one or more expected files. Exiting the script."
-		read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
-		exit
-	fi
-
-	echo " "
-
-	export PATH="${WRF_FOLDER}"/ARWpost/ARWpost.exe:$PATH
-
-	echo " "
-	################################ OpenGrADS ##################################
-	#Verison 2.2.1 32bit of Linux
-	#############################################################################
-	if [[ $GRADS_PICK -eq 1 ]]; then
-		cd "${WRF_FOLDER}"/Downloads
-		tar -xzvf opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz -C "${WRF_FOLDER}"/
-		cd "${WRF_FOLDER}"/
-		mv "${WRF_FOLDER}"/opengrads-2.2.1.oga.1 "${WRF_FOLDER}"/GrADS
-		cd GrADS/Contents
-		wget -c https://github.com/regisgrundig/SIMOP/blob/master/g2ctl.pl
-		chmod +x g2ctl.pl
-		wget -c https://sourceforge.net/projects/opengrads/files/wgrib2/0.1.9.4/wgrib2-v0.1.9.4-bin-i686-glib2.5-linux-gnu.tar.gz
-		tar -xzvf wgrib2-v0.1.9.4-bin-i686-glib2.5-linux-gnu.tar.gz
-		cd wgrib2-v0.1.9.4/bin
-		mv wgrib2 "${WRF_FOLDER}"/GrADS/Contents
-		cd "${WRF_FOLDER}"/GrADS/Contents
-		rm wgrib2-v0.1.9.4-bin-i686-glib2.5-linux-gnu.tar.gz
-		rm -r wgrib2-v0.1.9.4
-
-		export PATH="${WRF_FOLDER}"/GrADS/Contents:$PATH
-
-		echo " "
-	fi
-	################################## GrADS ###############################
-	# Version  2.2.1
-	# Sublibs library instructions: http://cola.gmu.edu/grads/gadoc/supplibs2.html
-	# GrADS instructions: http://cola.gmu.edu/grads/downloads.php
-	########################################################################
-	if [[ $GRADS_PICK -eq 2 ]]; then
-		cd "${WRF_FOLDER}"/Downloads
-		wget -c ftp://cola.gmu.edu/grads/2.2/grads-2.2.1-bin-centos7.4-x86_64.tar.gz
-		tar -xzvf grads-2.2.1-bin-centos7.4-x86_64.tar.gz -C "${WRF_FOLDER}"
-		cd "${WRF_FOLDER}"/grads-2.2.1/bin
-		chmod 775 *
-
-	fi
-
-	echo " "
-	##################### NCAR COMMAND LANGUAGE           ##################
-	########### NCL compiled via Conda                    ##################
-	########### This is the preferred method by NCAR      ##################
-	########### https://www.ncl.ucar.edu/index.shtml      ##################
-
-	#Installing Miniconda3 to WRF-Hydro directory and updating libraries
-	echo $PASSWD | sudo -S apt -y install python3-zstandard python3-zstd
-
-	export Miniconda_Install_DIR="${WRF_FOLDER}"/miniconda3
-
-	mkdir -p $Miniconda_Install_DIR
-
-	wget -c https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O $Miniconda_Install_DIR/miniconda.sh
-	bash $Miniconda_Install_DIR/miniconda.sh -b -u -p $Miniconda_Install_DIR
-
-	rm -rf $Miniconda_Install_DIR/miniconda.sh
-
-	export PATH="${WRF_FOLDER}"/miniconda3/bin:$PATH
-
-	source $Miniconda_Install_DIR/etc/profile.d/conda.sh
-
-	$Miniconda_Install_DIR/bin/conda init bash
-	$Miniconda_Install_DIR/bin/conda init zsh
-	$Miniconda_Install_DIR/bin/conda init tcsh
-	$Miniconda_Install_DIR/bin/conda init xonsh
-	$Miniconda_Install_DIR/bin/conda init powershell
-
-	conda config --add channels conda-forge
-	conda config --set auto_activate_base false
-	conda update -n root --all -y
-
-	echo " "
-
-	echo " "
-	#Installing NCL via Conda
-	source $Miniconda_Install_DIR/etc/profile.d/conda.sh
-	conda init bash
-	conda activate base
-	conda create -n ncl_stable -c conda-forge ncl -y
-	conda activate ncl_stable
-
-	conda deactivate
-	conda deactivate
-	conda deactivate
-
-	echo " "
-
-	##################### WRF Python           ##################
-	########### WRf-Python compiled via Conda  ##################
-	########### This is the preferred method by NCAR      ##################
-	##### https://wrf-python.readthedocs.io/en/latest/installation.html  ##################
-	source $Miniconda_Install_DIR/etc/profile.d/conda.sh
-	conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
-	echo " "
-
-	########################## WRF Hydro GIS PreProcessor ##############################
-	#  Compiled with Conda
-	#  https://github.com/NCAR/wrf_hydro_gis_preprocessor
-	####################################################################################
-
-	conda init bash
-	conda activate base
-	conda config --add channels conda-forge
-	conda create -n wrfh_gis_env -c conda-forge python=3.12 gdal netCDF4 numpy pyproj whitebox=2.2.0 packaging shapely -y
-	conda activate wrfh_gis_env
-	conda update -n wrfh_gis_env --all -y
-	conda deactivate
-	conda deactivate
-	conda deactivate
-	cd "${WRF_FOLDER}"/
-	git clone https://github.com/NCAR/wrf_hydro_gis_preprocessor.git "${WRF_FOLDER}"/WRF-Hydro-GIS-PreProcessor
-
-	echo " "
-
-	#reexporting compilers after conda installed to fix conda leak
-	export CC=gcc
-	export CXX=g++
-	export FC=gfortran
-	export F77=gfortran
-	export CFLAGS="-fPIC -fPIE -O3"
-	export MPIFC=$DIR/MPICH/bin/mpifort
-	export MPIF77=$DIR/MPICH/bin/mpifort
-	export MPIF90=$DIR/MPICH/bin/mpifort
-	export MPICC=$DIR/MPICH/bin/mpicc
-	export MPICXX=$DIR/MPICH/bin/mpicxx
-
-	############################# WRF HYDRO V5.3.0 #################################
-	# Version 5.3.0
-	# Standalone mode
-	################################################################################
-	# Set up NETCDF environment variables
-	export NETCDF_INC="$DIR/NETCDF/include"
-	export NETCDF_LIB="$DIR/NETCDF/lib"
-
-	# Create directories for Hydro Basecode and navigate to it
-	mkdir -p "${WRF_FOLDER}/Hydro-Basecode"
-	cd "${WRF_FOLDER}/Hydro-Basecode"
-
-	# Clone the WRF-Hydro repository and set up the build
-	git clone https://github.com/NCAR/wrf_hydro_nwm_public.git
-	cd wrf_hydro_nwm_public
-	mkdir -p build
-	cd build
-
-	# Run CMake configuration for WRF-Hydro with specified options
-	cmake .. \
-		-DSPATIAL_SOIL=1 \
-		-DWRF_HYDRO=1 \
-		-DWRF_HYDRO_NUDGING=1 \
-		-DWRFIO_NCD_LARGE_FILE_SUPPORT=1 \
-		-DCMAKE_Fortran_COMPILER=gfortran
-
-	# Compile using specified CPU settings
-	make -j "$CPU_QUARTER_EVEN" 2>&1 | tee make.log
-
-	# Check if the necessary executable files were created
-	cd "${WRF_FOLDER}/Hydro-Basecode/wrf_hydro_nwm_public/build/Run"
-	n=$(ls ./*.exe 2>/dev/null | wc -l)
-
-	# Function to rerun compilation if files are missing
-	rebuild_and_check() {
-		echo "Missing one or more expected files. Running compiler again..."
-		cd "${WRF_FOLDER}/Hydro-Basecode/wrf_hydro_nwm_public/build"
-		make -j "$CPU_QUARTER_EVEN" 2>&1 | tee make2.log
-		cd "${WRF_FOLDER}/Hydro-Basecode/wrf_hydro_nwm_public/build/Run"
-		n=$(ls ./*.exe 2>/dev/null | wc -l)
-	}
-
-	# IF statement to check that all expected files were created
-	if ((n == 2)); then
-		echo "All expected files created."
-	else
-		rebuild_and_check
-		if ((n != 2)); then
-			echo "Missing one or more expected files. Exiting the script."
-			read -r -p "Please contact script authors for assistance. Press 'Enter' to exit the script."
-			exit 1
-		else
-			echo "All expected files created after re-compiling."
-		fi
-	fi
-
-	# Finish the script with a pause
-	read -r -t 5 -p "Finished installing WRF Hydro Basecode. Waiting for 5 seconds..."
-	############################ WRF #################################
-	## WRF v${WPS_VERSION}
-	## Downloaded from git tagged releases
-	# option 34, option 1 for gfortran and distributed memory w/basic nesting
-	# large file support enable with WRFiO_NCD_LARGE_FILE_SUPPORT=1
-	# In the namelist.input, the following settings support pNetCDF by setting value to 11:
-	# io_form_boundary
-	# io_form_history
-	# io_form_auxinput2
-	# io_form_auxhist2
-	# Note that you need set nocolons = .true. in the section &time_control of namelist.input
-	########################################################################
-	cd "${WRF_FOLDER}"/Downloads
-	wget -c https://github.com/wrf-model/WRF/releases/download/v${WRF_VERSION}/v${WRF_VERSION}.tar.gz -O WRF-${WRF_VERSION}.tar.gz
-	tar -xvzf WRF-${WRF_VERSION}.tar.gz -C "${WRF_FOLDER}"/
-
-	# If statment for changing folder name
-	if [ -d ""${WRF_FOLDER}"/WRF" ]; then
-		mv -f "${WRF_FOLDER}"/WRF "${WRF_FOLDER}"/WRFV${WRF_VERSION}
-	fi
-
-	cd "${WRF_FOLDER}"/WRFV${WRF_VERSION}
-	export WRFIO_NCD_LARGE_FILE_SUPPORT=1
-
-	#Replace old version of WRF-Hydro distributed with WRF with updated WRF-Hydro source code
-	rm -r "${WRF_FOLDER}"/WRFV${WRF_VERSION}/hydro/
-	cp -r "${WRF_FOLDER}"/Hydro-Basecode/wrf_hydro_nwm_public/src "${WRF_FOLDER}"/WRFV${WRF_VERSION}/hydro
-
-	cd "${WRF_FOLDER}"/WRFV${WRF_VERSION}/hydro/template
-	source setEnvar.sh
-	cd "${WRF_FOLDER}"/WRFV${WRF_VERSION}
-
-	./clean
-
-	# SED statements to fix configure error
-	sed -i '186s/==/=/g' "${WRF_FOLDER}"/WRFV${WRF_VERSION}/configure
-	sed -i '318s/==/=/g' "${WRF_FOLDER}"/WRFV${WRF_VERSION}/configure
-	sed -i '919s/==/=/g' "${WRF_FOLDER}"/WRFV${WRF_VERSION}/configure
-
-	if [ ${auto_config} -eq 1 ]; then
-		sed -i '443s/.*/  $response = "34 \\n";/g' "${WRF_FOLDER}"/WRFV${WRF_VERSION}/arch/Config.pl # Answer for compiler choice
-		sed -i '909s/.*/  $response = "1 \\n";/g' "${WRF_FOLDER}"/WRFV${WRF_VERSION}/arch/Config.pl  #Answer for basic nesting
-		./configure 2>&1 | tee configure.log
-	else
-		./configure 2>&1 | tee configure.log #Option 34 gfortran compiler with distributed memory option 1 for basic nesting
-	fi
-
-	./compile -j $CPU_QUARTER_EVEN em_real 2>&1 | tee compile.wrf1.log
-
-	# IF statement to check that all files were created.
-	cd "${WRF_FOLDER}"/WRFV${WRF_VERSION}/main
-	n=$(ls ./*.exe | wc -l)
-	if (($n >= 3)); then
-		echo "All expected files created."
-		read -r -t 5 -p "Finished installing WRF. I am going to wait for 5 seconds only ..."
-	else
-		echo "Missing one or more expected files."
-		echo "Running compiler again"
-		cd "${WRF_FOLDER}"/WRFV${WRF_VERSION}
-		./compile -j $CPU_QUARTER_EVEN em_real 2>&1 | tee compile.wrf2.log
-		cd "${WRF_FOLDER}"/WRFV${WRF_VERSION}/main
-		n=$(ls ./*.exe | wc -l)
-		if (($n >= 3)); then
-			echo "All expected files created."
-			read -r -t 5 -p "Finished installing WRF. I am going to wait for 5 seconds only ..."
-		else
-			read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
-			exit
-		fi
-	fi
-
-	echo " "
-	############################WPS#####################################
-	## WPS v${WPS_VERSION}
-	## Downloaded from git tagged releases
-	#Option 3 for gfortran and distributed memory
-	########################################################################
-
-	cd "${WRF_FOLDER}"/Downloads
-	wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v${WPS_VERSION}.tar.gz -O WPS-${WPS_VERSION}.tar.gz
-	tar -xvzf WPS-${WPS_VERSION}.tar.gz -C "${WRF_FOLDER}"/
-	cd "${WRF_FOLDER}"/WPS-${WPS_VERSION}
-	./clean -a
-
-	if [ ${auto_config} -eq 1 ]; then
-		echo 3 | ./configure 2>&1 | tee configure.log #Option 3 for gfortran and distributed memory
-	else
-		./configure 2>&1 | tee configure.log #Option 3 gfortran compiler with distributed memory
-	fi
-	./compile 2>&1 | tee compile.wps.log
-
-	echo " "
-	# IF statement to check that all files were created.
-	cd "${WRF_FOLDER}"/WPS-${WPS_VERSION}
-	n=$(ls ./*.exe | wc -l)
-	if (($n == 3)); then
-		echo "All expected files created."
-		read -r -t 5 -p "Finished installing WPS. I am going to wait for 5 seconds only ..."
-	else
-		echo "Missing one or more expected files."
-		echo "Running compiler again"
-		./compile 2>&1 | tee compile.wps2.log
-		cd "${WRF_FOLDER}"/WPS-${WPS_VERSION}
-		n=$(ls ./*.exe | wc -l)
-		if (($n == 3)); then
-			echo "All expected files created."
-			read -r -t 5 -p "Finished installing WPS. I am going to wait for 5 seconds only ..."
-		else
-			read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
-			exit
-		fi
-	fi
-
-	echo " "
-
-	######################## Static Geography Data inc/ Optional ####################
-	# http://www2.mmm.ucar.edu/wrf/users/download/get_sources_wps_geog.html
-	# These files are large so if you only need certain ones comment the others off
-	# All files downloaded and untarred is 200GB
-	# https://www2.mmm.ucar.edu/wrf/users/download/get_sources_wps_geog.html
-	#################################################################################
-	cd "${WRF_FOLDER}"/Downloads
-	mkdir "${WRF_FOLDER}"/GEOG
-	mkdir "${WRF_FOLDER}"/GEOG/WPS_GEOG
-
-	echo " "
-	echo "Mandatory WRF Preprocessing System (WPS) Geographical Input Data Mandatory Fields Downloads"
-	echo " "
-	wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_high_res_mandatory.tar.gz
-	tar -xvzf geog_high_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
-
-	wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_low_res_mandatory.tar.gz
-	tar -xvzf geog_low_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
-	mv "${WRF_FOLDER}"/GEOG/WPS_GEOG_LOW_RES/ "${WRF_FOLDER}"/GEOG/WPS_GEOG
-
-	if [ ${WPS_Specific_Applications} -eq 1 ]; then
-		echo " "
-		echo " WPS Geographical Input Data Mandatory for Specific Applications"
-		echo " "
-
-		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_thompson28_chem.tar.gz
-		tar -xvzf geog_thompson28_chem.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
-
-		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_noahmp.tar.gz
-		tar -xvzf geog_noahmp.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
-
-		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/irrigation.tar.gz
-		tar -xvzf irrigation.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
-		mkdir "${WRF_FOLDER}"/GEOG/WPS_GEOG/irrigation
-		mv $WRFHYDRDO_FOLDER/GEOG/WPS_GEOG/fao "${WRF_FOLDER}"/GEOG/WPS_GEOG/irrigation
-
-		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_px.tar.gz
-		tar -xvzf geog_px.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
-
-		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_urban.tar.gz
-		tar -xvzf geog_urban.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
-
-		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_ssib.tar.gz
-		tar -xvzf geog_ssib.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
-
-		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/lake_depth.tar.bz2
-		tar -xvf lake_depth.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
-
-		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/topobath_30s.tar.bz2
-		tar -xvf topobath_30s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
-
-		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/gsl_gwd.tar.bz2
-		tar -xvf gsl_gwd.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
-
-		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/cglc_modis_lcz_global.tar.gz
-		tar -xvf cglc_modis_lcz_global.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
-	fi
-
-	if [ ${Optional_GEOG} -eq 1 ]; then
-		echo " "
-		echo "Optional WPS Geographical Input Data"
-		echo " "
-
-		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_older_than_2000.tar.gz
-		tar -xvzf geog_older_than_2000.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
-
-		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s_with_lakes.tar.gz
-		tar -xvzf modis_landuse_20class_15s_with_lakes.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
-
-		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_alt_lsm.tar.gz
-		tar -xvzf geog_alt_lsm.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
-
-		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/nlcd2006_ll_9s.tar.bz2
-		tar -xvf nlcd2006_ll_9s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
-
-		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/updated_Iceland_LU.tar.gz
-		tar -xvf updated_Iceland_LU.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
-
-		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s.tar.bz2
-		tar -xvf modis_landuse_20class_15s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
-	fi
-fi
+# 	######################## ARWpost V3.1  ############################
+# 	## ARWpost
+# 	##Configure #3
+# 	###################################################################
+# 	cd "${WRF_FOLDER}"/Downloads
+# 	wget -c http://www2.mmm.ucar.edu/wrf/src/ARWpost_V3.tar.gz
+# 	tar -xvzf ARWpost_V3.tar.gz -C "${WRF_FOLDER}"
+# 	cd "${WRF_FOLDER}"/ARWpost
+# 	./clean -a
+# 	sed -i -e 's/-lnetcdf/-lnetcdff -lnetcdf/g' "${WRF_FOLDER}"/ARWpost/src/Makefile
+# 	export NETCDF=$DIR/NETCDF
+
+# 	if [ ${auto_config} -eq 1 ]; then
+# 		echo 2 | ./configure #Option 2 intel compiler with distributed memory
+# 	else
+# 		./configure #Option 2 intel compiler with distributed memory
+# 	fi
+
+# 	sed -i -e 's/-C -P -traditional/-P -traditional/g' "${WRF_FOLDER}"/ARWpost/configure.arwp
+# 	./compile
+
+# 	#IF statement to check that all files were created.
+# 	cd "${WRF_FOLDER}"/ARWpost
+# 	n=$(ls ./*.exe | wc -l)
+# 	if (($n == 1)); then
+# 		echo "All expected files created."
+# 		read -r -t 5 -p "Finished installing ARWpost. I am going to wait for 5 seconds only ..."
+# 	else
+# 		echo "Missing one or more expected files. Exiting the script."
+# 		read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
+# 		exit
+# 	fi
+
+# 	echo " "
+
+# 	export PATH="${WRF_FOLDER}"/ARWpost/ARWpost.exe:$PATH
+
+# 	echo " "
+# 	################################OpenGrADS######################################
+# 	#Verison 2.2.1 64bit of Linux
+# 	#############################################################################
+# 	if [[ $GRADS_PICK -eq 1 ]]; then
+
+# 		cd "${WRF_FOLDER}"/Downloads
+# 		tar -xzvf opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz -C "${WRF_FOLDER}"/
+# 		cd "${WRF_FOLDER}"/
+# 		mv "${WRF_FOLDER}"/opengrads-2.2.1.oga.1 "${WRF_FOLDER}"/GrADS
+# 		cd GrADS/Contents
+# 		wget -c https://github.com/regisgrundig/SIMOP/blob/master/g2ctl.pl
+# 		chmod +x g2ctl.pl
+# 		wget -c https://sourceforge.net/projects/opengrads/files/wgrib2/0.1.9.4/wgrib2-v0.1.9.4-bin-x86_64-glibc2.5-linux-gnu.tar.gz
+# 		tar -xzvf wgrib2-v0.1.9.4-bin-x86_64-glibc2.5-linux-gnu.tar.gz
+# 		cd wgrib2-v0.1.9.4/bin
+# 		mv wgrib2 "${WRF_FOLDER}"/GrADS/Contents
+# 		cd "${WRF_FOLDER}"/GrADS/Contents
+# 		rm wgrib2-v0.1.9.4-bin-x86_64-glibc2.5-linux-gnu.tar.gz
+# 		rm -r wgrib2-v0.1.9.4
+
+# 		export PATH="${WRF_FOLDER}"/GrADS/Contents:$PATH
+
+# 	fi
+
+# 	################################## GrADS ###############################
+# 	# Version  2.2.1
+# 	# Sublibs library instructions: http://cola.gmu.edu/grads/gadoc/supplibs2.html
+# 	# GrADS instructions: http://cola.gmu.edu/grads/downloads.php
+# 	########################################################################
+# 	if [[ $GRADS_PICK -eq 2 ]]; then
+
+# 		echo $PASSWD | sudo -S apt -y install grads
+
+# 	fi
+
+# 	##################### NCAR COMMAND LANGUAGE           ##################
+# 	########### NCL compiled via Conda                    ##################
+# 	########### This is the preferred method by NCAR      ##################
+# 	########### https://www.ncl.ucar.edu/index.shtml      ##################
+# 	echo " "
+# 	#Installing Miniconda3 to WRF directory and updating libraries
+# 	echo $PASSWD | sudo -S apt -y install python3-zstandard python3-zstd
+
+# 	export Miniconda_Install_DIR="${WRF_FOLDER}"/miniconda3
+
+# 	mkdir -p $Miniconda_Install_DIR
+
+# 	wget -c https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O $Miniconda_Install_DIR/miniconda.sh
+# 	bash $Miniconda_Install_DIR/miniconda.sh -b -u -p $Miniconda_Install_DIR
+
+# 	rm -rf $Miniconda_Install_DIR/miniconda.sh
+
+# 	export PATH="${WRF_FOLDER}"/miniconda3/bin:$PATH
+
+# 	source $Miniconda_Install_DIR/etc/profile.d/conda.sh
+
+# 	$Miniconda_Install_DIR/bin/conda init bash
+# 	$Miniconda_Install_DIR/bin/conda init zsh
+# 	$Miniconda_Install_DIR/bin/conda init tcsh
+# 	$Miniconda_Install_DIR/bin/conda init xonsh
+# 	$Miniconda_Install_DIR/bin/conda init powershell
+
+# 	conda config --add channels conda-forge
+# 	conda config --set auto_activate_base false
+# 	conda update -n root --all -y
+
+# 	#Special Thanks to @_WaylonWalker for code development
+
+# 	echo " "
+# 	#Installing NCL via Conda
+# 	source $Miniconda_Install_DIR/etc/profile.d/conda.sh
+# 	conda init bash
+# 	conda activate base
+# 	conda create -n ncl_stable -c conda-forge ncl -y
+# 	conda activate ncl_stable
+
+# 	conda deactivate
+# 	conda deactivate
+# 	conda deactivate
+# 	echo " "
+
+# 	##################### WRF Python           ##################
+# 	########### WRf-Python compiled via Conda  ##################
+# 	########### This is the preferred method by NCAR      ##################
+# 	##### https://wrf-python.readthedocs.io/en/latest/installation.html  ##################
+# 	source $Miniconda_Install_DIR/etc/profile.d/conda.sh
+# 	conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
+
+# 	######################### Climate Data Operators ############
+# 	######################### CDO compiled via Conda ###########
+# 	####################### This is the preferred method #######
+# 	################### https://bairdlangenbrunner.github.io/python-for-climate-scientists/conda/setting-up-conda-environments.html #######################
+
+# 	source $Miniconda_Install_DIR/etc/profile.d/conda.sh
+# 	conda init bash
+# 	conda activate base
+# 	conda create --name cdo_stable -y
+# 	conda activate cdo_stable
+# 	conda install -c conda-forge cdo -y
+# 	conda update --all -y
+# 	conda deactivate
+# 	conda deactivate
+# 	conda deactivate
+
+# 	echo " "
+
+# 	########################## WRF Hydro GIS PreProcessor ##############################
+# 	#  Compiled with Conda
+# 	#  https://github.com/NCAR/wrf_hydro_gis_preprocessor
+# 	####################################################################################
+
+# 	conda init bash
+# 	conda activate base
+# 	conda create -n wrfh_gis_env -c conda-forge python=3.12 gdal netCDF4 numpy pyproj whitebox=2.2.0 packaging shapely -y
+# 	conda activate wrfh_gis_env
+# 	conda update -n wrfh_gis_env --all -y
+# 	conda deactivate
+# 	conda deactivate
+# 	conda deactivate
+# 	cd "${WRF_FOLDER}"
+# 	git clone https://github.com/NCAR/wrf_hydro_gis_preprocessor.git "${WRF_FOLDER}"/WRF-Hydro-GIS-PreProcessor
+
+# 	echo " "
+
+# 	############################# WRF HYDRO V5.3.0 #################################
+# 	# Version 5.3.0
+# 	# Standalone mode
+# 	################################################################################
+
+# 	# Source Intel oneAPI environment
+# 	source /opt/intel/oneapi/setvars.sh --force
+
+# 	# Set up NETCDF environment variables
+# 	export NETCDF_INC="$DIR/NETCDF/include"
+# 	export NETCDF_LIB="$DIR/NETCDF/lib"
+
+# 	# Create directories for Hydro Basecode and navigate to it
+# 	mkdir -p "${WRF_FOLDER}/Hydro-Basecode"
+# 	cd "${WRF_FOLDER}/Hydro-Basecode"
+
+# 	# Clone the WRF-Hydro repository and set up the build
+# 	git clone https://github.com/NCAR/wrf_hydro_nwm_public.git
+# 	cd wrf_hydro_nwm_public
+# 	mkdir -p build
+# 	cd build
+
+# 	# Run CMake configuration for WRF-Hydro with specified options
+# 	cmake .. \
+# 		-DSPATIAL_SOIL=1 \
+# 		-DWRF_HYDRO=1 \
+# 		-DWRF_HYDRO_NUDGING=1 \
+# 		-DWRFIO_NCD_LARGE_FILE_SUPPORT=1 \
+# 		-DCMAKE_Fortran_COMPILER=ifx
+
+# 	# Compile using specified CPU settings
+# 	make -j "$CPU_QUARTER_EVEN" 2>&1 | tee make.log
+
+# 	# Check if the necessary executable files were created
+# 	cd "${WRF_FOLDER}/Hydro-Basecode/wrf_hydro_nwm_public/build/Run"
+# 	n=$(ls ./*.exe 2>/dev/null | wc -l)
+
+# 	# Function to rerun compilation if files are missing
+# 	rebuild_and_check() {
+# 		echo "Missing one or more expected files. Running compiler again..."
+# 		cd "${WRF_FOLDER}/Hydro-Basecode/wrf_hydro_nwm_public/build"
+# 		make -j "$CPU_QUARTER_EVEN" 2>&1 | tee make2.log
+# 		cd "${WRF_FOLDER}/Hydro-Basecode/wrf_hydro_nwm_public/build/Run"
+# 		n=$(ls ./*.exe 2>/dev/null | wc -l)
+# 	}
+
+# 	# IF statement to check that all expected files were created
+# 	if ((n == 2)); then
+# 		echo "All expected files created."
+# 	else
+# 		rebuild_and_check
+# 		if ((n != 2)); then
+# 			echo "Missing one or more expected files. Exiting the script."
+# 			read -r -p "Please contact script authors for assistance. Press 'Enter' to exit the script."
+# 			exit 1
+# 		else
+# 			echo "All expected files created after re-compiling."
+# 		fi
+# 	fi
+
+# 	# Finish the script with a pause
+# 	read -r -t 5 -p "Finished installing WRF Hydro Basecode. Waiting for 5 seconds..."
+# 	############################ WRF #################################
+# 	## WRF v${WPS_VERSION}
+# 	## Downloaded from git tagged releases
+# 	# option 78, option 1 for intel and distributed memory w/basic nesting
+# 	# large file support enable with WRFiO_NCD_LARGE_FILE_SUPPORT=1
+# 	# In the namelist.input, the following settings support pNetCDF by setting  value to 11:
+# 	# io_form_boundary
+# 	# io_form_history
+# 	# io_form_auxinput2
+# 	# io_form_auxhist2
+# 	# Note that you need set nocolons = .true. in the section &time_control of namelist.input
+# 	########################################################################
+
+# 	cd "${WRF_FOLDER}"/Downloads
+
+# 	wget -c https://github.com/wrf-model/WRF/releases/download/v${WRF_VERSION}/v${WRF_VERSION}.tar.gz -O WRF-${WRF_VERSION}.tar.gz
+# 	tar -xvzf WRF-${WRF_VERSION}.tar.gz -C "${WRF_FOLDER}"/
+
+# 	# If statment for changing folder name
+# 	if [ -d ""${WRF_FOLDER}"/WRF" ]; then
+# 		mv -f "${WRF_FOLDER}"/WRF "${WRF_FOLDER}"/WRFV${WRF_VERSION}
+# 	fi
+
+# 	cd "${WRF_FOLDER}"/WRFV${WRF_VERSION}
+
+# 	export WRFIO_NCD_LARGE_FILE_SUPPORT=1
+
+# 	#Replace old version of WRF-Hydro distributed with WRF with updated WRF-Hydro source code
+# 	rm -r "${WRF_FOLDER}"/WRFV${WRF_VERSION}/hydro/
+# 	cp -r "${WRF_FOLDER}"/Hydro-Basecode/wrf_hydro_nwm_public/src "${WRF_FOLDER}"/WRFV${WRF_VERSION}/hydro
+
+# 	cd "${WRF_FOLDER}"/WRFV${WRF_VERSION}/hydro/template
+# 	source setEnvar.sh
+# 	cd "${WRF_FOLDER}"/WRFV${WRF_VERSION}
+
+# 	./clean
+
+# 	# SED statements to fix configure error
+# 	sed -i '186s/==/=/g' "${WRF_FOLDER}"/WRFV${WRF_VERSION}/configure
+# 	sed -i '318s/==/=/g' "${WRF_FOLDER}"/WRFV${WRF_VERSION}/configure
+# 	sed -i '919s/==/=/g' "${WRF_FOLDER}"/WRFV${WRF_VERSION}/configure
+
+# 	if [ ${auto_config} -eq 1 ]; then
+# 		sed -i '443s/.*/  $response = "78 \\n";/g' "${WRF_FOLDER}"/WRFV${WRF_VERSION}/arch/Config.pl # Answer for compiler choice
+# 		sed -i '909s/.*/  $response = "1 \\n";/g' "${WRF_FOLDER}"/WRFV${WRF_VERSION}/arch/Config.pl  #Answer for basic nesting
+# 		./configure 2>&1 | tee configure.log
+# 	else
+# 		./configure 2>&1 | tee configure.log #option 78 intel compiler with distributed memory option 1 for basic nesting
+# 	fi
+
+# 	sed -i '63s/mpif90/mpiifort/g' "${WRF_FOLDER}"/WRFV${WRF_VERSION}/hydro/macros
+# 	#Need to remove mpich/GNU config calls to Intel config calls
+# 	sed -i '136s|mpif90 -f90=$(SFC)|mpiifx|g' "${WRF_FOLDER}"/WRFV${WRF_VERSION}/configure.wrf
+# 	sed -i '137s|mpicc -cc=$(SCC)|mpiicx|g' "${WRF_FOLDER}"/WRFV${WRF_VERSION}/configure.wrf
+
+# 	./compile -j $CPU_QUARTER_EVEN em_real 2>&1 | tee compile.wrf1.log
+
+# 	export WRF_DIR="${WRF_FOLDER}"/WRFV${WRF_VERSION}
+
+# 	# IF statement to check that all files were created.
+# 	cd "${WRF_FOLDER}"/WRFV${WRF_VERSION}/main
+# 	n=$(ls ./*.exe | wc -l)
+# 	if (($n >= 3)); then
+# 		echo "All expected files created."
+# 		read -r -t 5 -p "Finished installing WRF. I am going to wait for 5 seconds only ..."
+# 	else
+# 		echo "Missing one or more expected files."
+# 		echo "Running compiler again"
+# 		cd "${WRF_FOLDER}"/WRFV${WRF_VERSION}
+# 		./compile -j $CPU_QUARTER_EVEN em_real 2>&1 | tee compile.wrf2.log
+# 		cd "${WRF_FOLDER}"/WRFV${WRF_VERSION}/main
+# 		n=$(ls ./*.exe | wc -l)
+# 		if (($n >= 3)); then
+# 			echo "All expected files created."
+# 			read -r -t 5 -p "Finished installing WRF. I am going to wait for 5 seconds only ..."
+# 		else
+# 			read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
+# 			exit
+# 		fi
+# 	fi
+
+# 	echo " "
+
+# 	echo " "
+
+# 	############################WPS#####################################
+# 	## WPS v${WPS_VERSION}
+# 	## Downloaded from git tagged releases
+# 	#Option 3 for gfortran and distributed memory
+# 	########################################################################
+
+# 	cd "${WRF_FOLDER}"/Downloads
+# 	wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v${WPS_VERSION}.tar.gz -O WPS-${WPS_VERSION}.tar.gz
+# 	tar -xvzf WPS-${WPS_VERSION}.tar.gz -C "${WRF_FOLDER}"/
+# 	cd "${WRF_FOLDER}"/WPS-${WPS_VERSION}
+# 	./clean -a
+
+# 	if [ ${auto_config} -eq 1 ]; then
+# 		echo 19 | ./configure 2>&1 | tee configure.log #Option 19 for intel and distributed memory
+# 	else
+# 		./configure 2>&1 | tee configure.log #Option 19 intel compiler with distributed memory
+# 	fi
+
+# 	sed -i '67s|mpif90|mpiifx|g' "${WRF_FOLDER}"/WPS-${WPS_VERSION}/configure.wps
+# 	sed -i '68s|mpicc|mpiicx|g' "${WRF_FOLDER}"/WPS-${WPS_VERSION}/configure.wps
+
+# 	./compile 2>&1 | tee compile.wps.log
+
+# 	echo " "
+# 	# IF statement to check that all files were created.
+# 	cd "${WRF_FOLDER}"/WPS-${WPS_VERSION}
+# 	n=$(ls ./*.exe | wc -l)
+# 	if (($n == 3)); then
+# 		echo "All expected files created."
+# 		read -r -t 5 -p "Finished installing WPS. I am going to wait for 5 seconds only ..."
+# 	else
+# 		echo "Missing one or more expected files."
+# 		echo "Running compiler again"
+# 		./compile 2>&1 | tee compile.wps2.log
+# 		cd "${WRF_FOLDER}"/WPS-${WPS_VERSION}
+# 		n=$(ls ./*.exe | wc -l)
+# 		if (($n == 3)); then
+# 			echo "All expected files created."
+# 			read -r -t 5 -p "Finished installing WPS. I am going to wait for 5 seconds only ..."
+# 		else
+# 			read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
+# 			exit
+# 		fi
+# 	fi
+
+# 	echo " "
+
+# 	######################## Static Geography Data inc/ Optional ####################
+# 	# http://www2.mmm.ucar.edu/wrf/users/download/get_sources_wps_geog.html
+# 	# These files are large so if you only need certain ones comment the others off
+# 	# All files downloaded and untarred is 200GB
+# 	# https://www2.mmm.ucar.edu/wrf/users/download/get_sources_wps_geog.html
+# 	#################################################################################
+# 	cd "${WRF_FOLDER}"/Downloads
+# 	mkdir "${WRF_FOLDER}"/GEOG
+# 	mkdir "${WRF_FOLDER}"/GEOG/WPS_GEOG
+
+# 	echo " "
+# 	echo "Mandatory WRF Preprocessing System (WPS) Geographical Input Data Mandatory Fields Downloads"
+# 	echo " "
+# 	wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_high_res_mandatory.tar.gz
+# 	tar -xvzf geog_high_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
+
+# 	wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_low_res_mandatory.tar.gz
+# 	tar -xvzf geog_low_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
+# 	mv "${WRF_FOLDER}"/GEOG/WPS_GEOG_LOW_RES/ "${WRF_FOLDER}"/GEOG/WPS_GEOG
+
+# 	if [ ${WPS_Specific_Applications} -eq 1 ]; then
+# 		echo " "
+# 		echo " WPS Geographical Input Data Mandatory for Specific Applications"
+# 		echo " "
+
+# 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_thompson28_chem.tar.gz
+# 		tar -xvzf geog_thompson28_chem.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+
+# 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_noahmp.tar.gz
+# 		tar -xvzf geog_noahmp.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+
+# 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/irrigation.tar.gz
+# 		tar -xvzf irrigation.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+
+# 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_px.tar.gz
+# 		tar -xvzf geog_px.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+
+# 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_urban.tar.gz
+# 		tar -xvzf geog_urban.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+
+# 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_ssib.tar.gz
+# 		tar -xvzf geog_ssib.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+
+# 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/lake_depth.tar.bz2
+# 		tar -xvf lake_depth.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+
+# 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/topobath_30s.tar.bz2
+# 		tar -xvf topobath_30s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+
+# 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/gsl_gwd.tar.bz2
+# 		tar -xvf gsl_gwd.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+
+# 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/cglc_modis_lcz_global.tar.gz
+# 		tar -xvf cglc_modis_lcz_global.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+# 	fi
+
+# 	if [ ${Optional_GEOG} -eq 1 ]; then
+# 		echo " "
+# 		echo "Optional WPS Geographical Input Data"
+# 		echo " "
+
+# 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_older_than_2000.tar.gz
+# 		tar -xvzf geog_older_than_2000.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+
+# 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s_with_lakes.tar.gz
+# 		tar -xvzf modis_landuse_20class_15s_with_lakes.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+
+# 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_alt_lsm.tar.gz
+# 		tar -xvzf geog_alt_lsm.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+
+# 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/nlcd2006_ll_9s.tar.bz2
+# 		tar -xvf nlcd2006_ll_9s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+
+# 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/updated_Iceland_LU.tar.gz
+# 		tar -xvf updated_Iceland_LU.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+
+# 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s.tar.bz2
+# 		tar -xvf modis_landuse_20class_15s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+# 	fi
+
+# fi
+
+# if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ] && [ "$MAC_CHIP" = "Intel" ]; then
+
+# 	#############################basic package managment############################
+
+# 	brew update
+# 	outdated_packages=$(brew outdated --quiet)
+
+# 	# List of packages to check/install
+# 	packages=(
+# 		"autoconf" "automake" "bison" "byacc" "cmake" "curl" "flex" "gcc"
+# 		"gdal" "gedit" "git" "gnu-sed" "grads" "imagemagick" "java" "ksh"
+# 		"libtool" "libxml2" "m4" "make" "python@3.12" "snapcraft" "tcsh" "wget"
+# 		"xauth" "xorgproto" "xorgrgb" "xquartz"
+# 	)
+
+# 	for pkg in "${packages[@]}"; do
+# 		if brew list "$pkg" &>/dev/null; then
+# 			echo "$pkg is already installed."
+# 			if [[ $outdated_packages == *"$pkg"* ]]; then
+# 				echo "$pkg has a newer version available. Upgrading..."
+# 				brew upgrade "$pkg"
+# 			fi
+# 		else
+# 			echo "$pkg is not installed. Installing..."
+# 			brew install "$pkg"
+# 		fi
+# 		sleep 1
+# 	done
+
+# 	export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
+# 	export PATH=/usr/local/bin:$PATH
+
+# 	##############################Directory Listing############################
+
+# 	export HOME=$(
+# 		cd
+# 		pwd
+# 	)
+# 	mkdir $HOME/WRFHYDRO_COUPLED
+# 	export WRF_FOLDER=$HOME/WRFHYDRO_COUPLED
+# 	cd "${WRF_FOLDER}"/
+# 	mkdir Downloads
+# 	mkdir "${WRF_FOLDER}"/Hydro-Basecode
+# 	mkdir Libs
+# 	export DIR="${WRF_FOLDER}"/Libs
+# 	mkdir Libs/grib2
+# 	mkdir Libs/NETCDF
+# 	mkdir Libs/MPICH
+# 	mkdir -p Tests/Environment
+# 	mkdir -p Tests/Compatibility
+
+# 	echo " "
+
+# 	#############################Core Management####################################
+# 	export CPU_CORE=$(sysctl -n hw.ncpu) # number of available threads on system
+# 	export CPU_6CORE="6"
+# 	export CPU_QUARTER=$(($CPU_CORE / 4))
+# 	#1/2 of availble cores on system
+# 	export CPU_QUARTER_EVEN=$(($CPU_QUARTER - ($CPU_QUARTER % 2)))
+# 	#Forces CPU cores to even number to avoid partial core export. ie 7 cores would be 3.5 cores.
+
+# 	if [ $CPU_CORE -le $CPU_6CORE ]; then #If statement for low core systems.  Forces computers to only use 1 core if there are 4 cores or less on the system. then
+# 		export CPU_QUARTER_EVEN="2"
+# 	else
+# 		export CPU_QUARTER_EVEN=$(($CPU_QUARTER - ($CPU_QUARTER % 2)))
+# 	fi
+
+# 	echo "##########################################"
+# 	echo "Number of Threads being used $CPU_QUARTER_EVEN"
+# 	echo "##########################################"
+# 	echo " "
+
+# 	##############################Downloading Libraries############################
+
+# 	cd "${WRF_FOLDER}"/Downloads
+# 	wget -c https://github.com/madler/zlib/releases/download/v$Zlib_Version/zlib-$Zlib_Version.tar.gz
+# 	wget -c https://github.com/HDFGroup/hdf5/releases/download/hdf5_$HDF5_Version.$HDF5_Sub_Version/hdf5-$HDF5_Version-$HDF5_Sub_Version.tar.gz
+# 	wget -c https://github.com/Unidata/netcdf-c/archive/refs/tags/v$Netcdf_C_Version.tar.gz
+# 	wget -c https://github.com/Unidata/netcdf-fortran/archive/refs/tags/v$Netcdf_Fortran_Version.tar.gz
+# 	wget -c https://download.sourceforge.net/libpng/libpng-$Libpng_Version.tar.gz
+# 	wget -c https://www.ece.uvic.ca/~frodo/jasper/software/jasper-$Jasper_Version.zip
+# 	wget -c https://github.com/pmodels/mpich/releases/download/v$Mpich_Version/mpich-$Mpich_Version.tar.gz
+# 	wget -c https://parallel-netcdf.github.io/Release/pnetcdf-$Pnetcdf_Version.tar.gz
+
+# 	echo " "
+
+# 	#############################Compilers############################
+
+# 	#Symlink to avoid clang conflicts with compilers
+# 	#default gcc path /usr/bin/gcc
+# 	#default homebrew path /usr/local/bin
+
+# 	# Find the highest version of GCC in /usr/local/bin
+# 		latest_gcc=$(ls /usr/local/bin/gcc-* 2>/dev/null | grep -o 'gcc-[0-9]*' | sort -V | tail -n 1)
+# 	latest_gpp=$(ls /usr/local/bin/g++-* 2>/dev/null | grep -o 'g++-[0-9]*' | sort -V | tail -n 1)
+# 	latest_gfortran=$(ls /usr/local/bin/gfortran-* 2>/dev/null | grep -o 'gfortran-[0-9]*' | sort -V | tail -n 1)
+
+# 	# Display the chosen versions
+# 	echo "Selected gcc version: $latest_gcc"
+# 	echo "Selected g++ version: $latest_gpp"
+# 	echo "Selected gfortran version: $latest_gfortran"
+
+# 	# Check if GCC, G++, and GFortran were found
+# 	if [ -z "$latest_gcc" ]; then
+# 		echo "No GCC version found in /usr/local/bin."
+# 		exit 1
+# 	fi
+
+# 	# Create or update the symbolic links for GCC, G++, and GFortran
+# 	echo "Linking the latest GCC version: $latest_gcc"
+# 	echo $PASSWD | sudo -S ln -sf /usr/local/bin/$latest_gcc /usr/local/bin/gcc
+
+# 	if [ ! -z "$latest_gpp" ]; then
+# 		echo "Linking the latest G++ version: $latest_gpp"
+# 		echo $PASSWD | sudo -S ln -sf /usr/local/bin/$latest_gpp /usr/local/bin/g++
+# 	fi
+
+# 	if [ ! -z "$latest_gfortran" ]; then
+# 		echo "Linking the latest GFortran version: $latest_gfortran"
+# 		echo $PASSWD | sudo -S ln -sf /usr/local/bin/$latest_gfortran /usr/local/bin/gfortran
+# 	fi
+
+# 	echo "Updated symbolic links for GCC, G++, and GFortran."
+# 	echo $PASSWD | sudo -S ln -sf /usr/local/bin/python3.12 /usr/local/bin/python3
+
+# 	export CC=gcc
+# 	export CXX=g++
+# 	export FC=gfortran
+# 	export F77=gfortran
+# 	export CFLAGS="-fPIC -fPIE -Wno-implicit-function-declaration -Wno-incompatible-pointer-types -Wall"
+
+# 	echo " "
+
+# 	#IF statement for GNU compiler issue
+# 	export GCC_VERSION=$(gcc -dumpfullversion | awk '{print$1}')
+# 	export GFORTRAN_VERSION=$(gfortran -dumpfullversion | awk '{print$1}')
+# 	export GPLUSPLUS_VERSION=$(g++ -dumpfullversion | awk '{print$1}')
+
+# 	export GCC_VERSION_MAJOR_VERSION=$(echo $GCC_VERSION | awk -F. '{print $1}')
+# 	export GFORTRAN_VERSION_MAJOR_VERSION=$(echo $GFORTRAN_VERSION | awk -F. '{print $1}')
+# 	export GPLUSPLUS_VERSION_MAJOR_VERSION=$(echo $GPLUSPLUS_VERSION | awk -F. '{print $1}')
+
+# 	export version_10="10"
+
+# 	if [ $GCC_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GFORTRAN_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GPLUSPLUS_VERSION_MAJOR_VERSION -ge $version_10 ]; then
+# 		export fallow_argument=-fallow-argument-mismatch
+# 		export boz_argument=-fallow-invalid-boz
+# 	else
+# 		export fallow_argument=
+# 		export boz_argument=
+# 	fi
+
+# 	export FFLAGS="$fallow_argument -m64"
+# 	export FCFLAGS="$fallow_argument -m64"
+
+# 	echo "##########################################"
+# 	echo "FFLAGS = $FFLAGS"
+# 	echo "FCFLAGS = $FCFLAGS"
+# 	echo "CFLAGS = $CFLAGS"
+# 	echo "##########################################"
+
+# 	echo " "
+
+# 	#############################zlib############################
+# 	#Uncalling compilers due to comfigure issue with zlib1.2.12
+# 	#With CC & CXX definied ./configure uses different compiler Flags
+
+# 	cd "${WRF_FOLDER}"/Downloads
+# 	tar -xvzf zlib-$Zlib_Version.tar.gz
+# 	cd zlib-$Zlib_Version/
+# 	autoreconf -i -f 2>&1 | tee autoreconf.log
+# 	./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
+
+# 	automake -a -f 2>&1 | tee automake.log
+# 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
+# 	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+# 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
+# 	#make check
+
+# 	echo " "
+
+# 	##############################MPICH############################
+# 	cd "${WRF_FOLDER}"/Downloads
+# 	tar -xvzf mpich-$Mpich_Version.tar.gz
+# 	cd mpich-$Mpich_Version/
+# 	autoreconf -i -f 2>&1 | tee autoreconf.log
+
+# 	F90= ./configure --prefix=$DIR/MPICH --with-device=ch3 FFLAGS="$fallow_argument -m64" FCFLAGS="$fallow_argument -m64" 2>&1 | tee configure.log
+# 	automake -a -f 2>&1 | tee automake.log
+# 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
+# 	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+# 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
+# 	#make check
+
+# 	export PATH=$DIR/MPICH/bin:$PATH
+# 	export MPIFC=$DIR/MPICH/bin/mpifort
+# 	export MPIF77=$DIR/MPICH/bin/mpifort
+# 	export MPIF90=$DIR/MPICH/bin/mpifort
+# 	export MPICC=$DIR/MPICH/bin/mpicc
+# 	export MPICXX=$DIR/MPICH/bin/mpicxx
+
+# 	echo " "
+
+# 	#############################libpng############################
+# 	cd "${WRF_FOLDER}"/Downloads
+# 	export LDFLAGS=-L$DIR/grib2/lib
+# 	export CPPFLAGS=-I$DIR/grib2/include
+# 	tar -xvzf libpng-$Libpng_Version.tar.gz
+# 	cd libpng-$Libpng_Version/
+# 	autoreconf -i -f 2>&1 | tee autoreconf.log
+
+# 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
+
+# 	automake -a -f 2>&1 | tee automake.log
+# 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
+# 	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+# 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
+# 	#make check
+# 	#make check
+
+# 	echo " "
+# 	#############################JasPer############################
+
+# 	cd "${WRF_FOLDER}"/Downloads
+# 	unzip jasper-$Jasper_Version.zip
+# 	cd jasper-$Jasper_Version/
+# 	autoreconf -i -f 2>&1 | tee autoreconf.log
+
+# 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
+
+# 	automake -a -f 2>&1 | tee automake.log
+# 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
+# 	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+# 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
+# 	export JASPERLIB=$DIR/grib2/lib
+# 	export JASPERINC=$DIR/grib2/include
+
+# 	echo " "
+# 	#############################hdf5 library for netcdf4 functionality############################
+
+# 	cd "${WRF_FOLDER}"/Downloads
+# 	tar -xvzf hdf5-$HDF5_Version-$HDF5_Sub_Version.tar.gz
+# 	cd hdf5-$HDF5_Version-$HDF5_Sub_Version
+# 	autoreconf -i -f 2>&1 | tee autoreconf.log
+
+# 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --with-zlib=$DIR/grib2 --enable-hl --enable-fortran --enable-parallel 2>&1 | tee configure.log
+
+# 	automake -a -f 2>&1 | tee automake.log
+# 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
+# 	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+# 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
+# 	#make check
+
+# 	export HDF5=$DIR/grib2
+# 	export PHDF5=$DIR/grib2
+# 	export LD_LIBRARY_PATH=$DIR/grib2/lib:$LD_LIBRARY_PATH
+
+# 	echo " "
+
+# 	#############################Install Parallel-netCDF##############################
+# 	#Make file created with half of available cpu cores
+# 	#Hard path for MPI added
+# 	##################################################################################
+# 	cd "${WRF_FOLDER}"/Downloads
+# 	tar -xvzf pnetcdf-$Pnetcdf_Version.tar.gz
+# 	cd pnetcdf-$Pnetcdf_Version
+# 	export MPIFC=$DIR/MPICH/bin/mpifort
+# 	export MPIF77=$DIR/MPICH/bin/mpifort
+# 	export MPIF90=$DIR/MPICH/bin/mpifort
+# 	export MPICC=$DIR/MPICH/bin/mpicc
+# 	export MPICXX=$DIR/MPICH/bin/mpicxx
+# 	autoreconf -i -f 2>&1 | tee autoreconf.log
+# 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --enable-shared --enable-static 2>&1 | tee configure.log
+
+# 	automake -a -f 2>&1 | tee automake.log
+# 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
+# 	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+# 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
+# 	#make check
+
+# 	export PNETCDF=$DIR/grib2
+
+# 	echo " "
+
+# 	##############################Install NETCDF C Library############################
+# 	cd "${WRF_FOLDER}"/Downloads
+# 	tar -xzvf v$Netcdf_C_Version.tar.gz
+# 	cd netcdf-c-$Netcdf_C_Version/
+# 	export CPPFLAGS=-I$DIR/grib2/include
+# 	export LDFLAGS=-L$DIR/grib2/lib
+# 	export LIBS="-lhdf5_hl -lhdf5 -lz -lcurl -lgcc -lm -ldl -lpnetcdf"
+# 	autoreconf -i -f 2>&1 | tee autoreconf.log
+
+# 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-shared --enable-static --enable-pnetcdf --enable-cdf5 --enable-parallel-tests 2>&1 | tee configure.log
+
+# 	automake -a -f 2>&1 | tee automake.log
+# 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
+# 	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+# 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
+# 	#make check
+
+# 	export PATH=$DIR/NETCDF/bin:$PATH
+# 	export NETCDF=$DIR/NETCDF
+# 	echo " "
+
+# 	##############################NetCDF fortran library############################
+# 	cd "${WRF_FOLDER}"/Downloads
+# 	tar -xvzf v$Netcdf_Fortran_Version.tar.gz
+# 	cd netcdf-fortran-$Netcdf_Fortran_Version/
+# 	export LD_LIBRARY_PATH=$DIR/NETCDF/lib:$LD_LIBRARY_PATH
+# 	export CPPFLAGS="-I$DIR/NETCDF/include -I$DIR/grib2/include"
+# 	export LDFLAGS="-L$DIR/NETCDF/lib -L$DIR/grib2/lib"
+# 	export LIBS="-lnetcdf -lpnetcdf -lcurl -lhdf5_hl -lhdf5 -lz -lm -ldl -lgcc"
+# 	autoreconf -i -f 2>&1 | tee autoreconf.log
+
+# 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-shared --enable-static --enable-parallel-tests --enable-hdf5 2>&1 | tee configure.log
+
+# 	automake -a -f 2>&1 | tee automake.log
+# 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
+# 	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+# 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
+# 	#make check
+
+# 	echo " "
+# 	#################################### System Environment Tests ##############
+# 	mkdir -p "${WRF_FOLDER}"/Tests/Environment
+# 	mkdir -p "${WRF_FOLDER}"/Tests/Compatibility
+
+# 	cd "${WRF_FOLDER}"/Downloads
+# 	wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_NETCDF_MPI_tests.tar
+# 	wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_tests.tar
+
+# 	tar -xvf Fortran_C_tests.tar -C "${WRF_FOLDER}"/Tests/Environment
+# 	tar -xvf Fortran_C_NETCDF_MPI_tests.tar -C "${WRF_FOLDER}"/Tests/Compatibility
+# 	export one="1"
+# 	echo " "
+# 	############## Testing Environment #####
+
+# 	cd "${WRF_FOLDER}"/Tests/Environment
+
+# 	echo " "
+# 	echo " "
+# 	echo "Environment Testing "
+# 	echo "Test 1"
+# 	$FC TEST_1_fortran_only_fixed.f
+# 	./a.out | tee env_test1.txt
+# 	export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test1.txt | awk '{print$1}')
+# 	if [ $TEST_PASS -ge 1 ]; then
+# 		echo "Enviroment Test 1 Passed"
+# 	else
+# 		echo "Environment Compiler Test 1 Failed"
+# 		exit
+# 	fi
+# 	read -r -t 3 -p "I am going to wait for 3 seconds only ..."
+
+# 	echo " "
+# 	echo "Test 2"
+# 	$FC TEST_2_fortran_only_free.f90
+# 	./a.out | tee env_test2.txt
+# 	export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test2.txt | awk '{print$1}')
+# 	if [ $TEST_PASS -ge 1 ]; then
+# 		echo "Enviroment Test 2 Passed"
+# 	else
+# 		echo "Environment Compiler Test 2 Failed"
+# 		exit
+# 	fi
+# 	echo " "
+# 	read -r -t 3 -p "I am going to wait for 3 seconds only ..."
+
+# 	echo " "
+# 	echo "Test 3"
+# 	$CC TEST_3_c_only.c
+# 	./a.out | tee env_test3.txt
+# 	export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test3.txt | awk '{print$1}')
+# 	if [ $TEST_PASS -ge 1 ]; then
+# 		echo "Enviroment Test 3 Passed"
+# 	else
+# 		echo "Environment Compiler Test 3 Failed"
+# 		exit
+# 	fi
+# 	echo " "
+# 	read -r -t 3 -p "I am going to wait for 3 seconds only ..."
+
+# 	echo " "
+# 	echo "Test 4"
+# 	$CC -c -m64 TEST_4_fortran+c_c.c
+# 	$FC -c -m64 TEST_4_fortran+c_f.f90
+# 	$FC -m64 TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
+# 	./a.out | tee env_test4.txt
+# 	export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test4.txt | awk '{print$1}')
+# 	if [ $TEST_PASS -ge 1 ]; then
+# 		echo "Enviroment Test 4 Passed"
+# 	else
+# 		echo "Environment Compiler Test 4 Failed"
+# 		exit
+# 	fi
+# 	echo " "
+# 	read -r -t 3 -p "I am going to wait for 3 seconds only ..."
+
+# 	echo " "
+# 	############## Testing Environment #####
+
+# 	cd "${WRF_FOLDER}"/Tests/Compatibility
+
+# 	cp ${NETCDF}/include/netcdf.inc .
+
+# 	echo " "
+# 	echo " "
+# 	echo "Library Compatibility Tests "
+# 	echo "Test 1"
+# 	$FC -c 01_fortran+c+netcdf_f.f
+# 	$CC -c 01_fortran+c+netcdf_c.c
+# 	$FC 01_fortran+c+netcdf_f.o 01_fortran+c+netcdf_c.o \
+# 		-L${NETCDF}/lib -lnetcdff -lnetcdf
+
+# 	./a.out | tee comp_test1.txt
+# 	export TEST_PASS=$(grep -w -o -c "SUCCESS" comp_test1.txt | awk '{print$1}')
+# 	if [ $TEST_PASS -ge 1 ]; then
+# 		echo "Compatibility Test 1 Passed"
+# 	else
+# 		echo "Compatibility Compiler Test 1 Failed"
+# 		exit
+# 	fi
+# 	echo " "
+# 	read -r -t 3 -p "I am going to wait for 3 seconds only ..."
+
+# 	echo " "
+
+# 	echo "Test 2"
+# 	$MPIFC -c 02_fortran+c+netcdf+mpi_f.f
+# 	$MPICC -c 02_fortran+c+netcdf+mpi_c.c
+# 	$MPIFC 02_fortran+c+netcdf+mpi_f.o \
+# 		02_fortran+c+netcdf+mpi_c.o \
+# 		-L${NETCDF}/lib -lnetcdff -lnetcdf
+
+# 	$DIR/MPICH/bin/mpirun ./a.out | tee comp_test2.txt
+# 	export TEST_PASS=$(grep -w -o -c "SUCCESS" comp_test2.txt | awk '{print$1}')
+# 	if [ $TEST_PASS -ge 1 ]; then
+# 		echo "Compatibility Test 2 Passed"
+# 	else
+# 		echo "Compatibility Compiler Test 2 Failed"
+# 		exit
+# 	fi
+# 	echo " "
+# 	read -r -t 3 -p "I am going to wait for 3 seconds only ..."
+# 	echo " "
+
+# 	echo " All tests completed and passed"
+# 	echo " "
+
+# 	################################OpenGrADS######################################
+# 	#Verison 2.2.1 64bit of Linux
+# 	#############################################################################
+# 	if [[ $GRADS_PICK -eq 1 ]]; then
+# 		cd "${WRF_FOLDER}"/Downloads
+# 		wget -c -4 https://sourceforge.net/projects/opengrads/files/grads2/2.2.1.oga.1/macOS/opengrads-2.2.1.oga.1-bundle-x86_64-apple-darwin20.5.0.pkg
+# 		sudo -S installer -pkg opengrads-2.2.1.oga.1-bundle-x86_64-apple-darwin20.5.0.pkg -target /Applications/OpenGrads <<<"$PASSWD"
+
+# 	fi
+# 	################################## GrADS ###############################
+# 	# Version  2.2.1
+# 	# Sublibs library instructions: http://cola.gmu.edu/grads/gadoc/supplibs2.html
+# 	# GrADS instructions: http://cola.gmu.edu/grads/downloads.php
+# 	########################################################################
+# 	if [[ $GRADS_PICK -eq 2 ]]; then
+
+# 		brew install grads
+
+# 	fi
+
+# 	######################################################################
+# 	#Installing Miniconda3 to WRF directory and updating libraries
+# 	######################################################################
+# 	echo $PASSWD | sudo -S apt -y install python3-zstandard python3-zstd
+
+# 	export Miniconda_Install_DIR="${WRF_FOLDER}"/miniconda3
+
+# 	mkdir -p $Miniconda_Install_DIR
+
+# 	wget -c https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh -O $Miniconda_Install_DIR/miniconda.sh
+# 	bash $Miniconda_Install_DIR/miniconda.sh -b -u -p $Miniconda_Install_DIR
+
+# 	rm -rf $Miniconda_Install_DIR/miniconda.sh
+
+# 	export PATH="${WRF_FOLDER}"/miniconda3/bin:$PATH
+
+# 	source $Miniconda_Install_DIR/etc/profile.d/conda.sh
+
+# 	$Miniconda_Install_DIR/bin/conda init bash
+# 	$Miniconda_Install_DIR/bin/conda init zsh
+# 	$Miniconda_Install_DIR/bin/conda init tcsh
+# 	$Miniconda_Install_DIR/bin/conda init xonsh
+# 	$Miniconda_Install_DIR/bin/conda init powershell
+
+# 	conda config --add channels conda-forge
+# 	conda config --set auto_activate_base false
+# 	conda update -n root --all -y
+
+# 	echo " "
+
+# 	#Installing NCL via Conda
+# 	source $Miniconda_Install_DIR/etc/profile.d/conda.sh
+# 	conda init bash
+# 	conda activate base
+# 	conda create -n ncl_stable -c conda-forge ncl -y
+# 	conda activate ncl_stable
+
+# 	conda deactivate
+# 	conda deactivate
+# 	conda deactivate
+# 	echo " "
+
+# 	##################### WRF Python           ##################
+# 	########### WRf-Python compiled via Conda  ##################
+# 	########### This is the preferred method by NCAR      ##################
+# 	##### https://wrf-python.readthedocs.io/en/latest/installation.html  ##################
+# 	source $Miniconda_Install_DIR/etc/profile.d/conda.sh
+# 	conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
+
+# 	######################### Climate Data Operators ############
+# 	######################### CDO compiled via Conda ###########
+# 	####################### This is the preferred method #######
+# 	################### https://bairdlangenbrunner.github.io/python-for-climate-scientists/conda/setting-up-conda-environments.html #######################
+
+# 	source $Miniconda_Install_DIR/etc/profile.d/conda.sh
+# 	conda init bash
+# 	conda activate base
+# 	conda create --name cdo_stable -y
+# 	conda activate cdo_stable
+# 	conda install -c conda-forge cdo -y
+# 	conda update --all -y
+# 	conda deactivate
+# 	conda deactivate
+# 	conda deactivate
+
+# 	echo " "
+
+# 	########################## WRF Hydro GIS PreProcessor ##############################
+# 	#  Compiled with Conda
+# 	#  https://github.com/NCAR/wrf_hydro_gis_preprocessor
+# 	####################################################################################
+
+# 	conda init bash
+# 	conda activate base
+# 	conda config --add channels conda-forge
+# 	conda create -n wrfh_gis_env -c conda-forge python=3.12 gdal netCDF4 numpy pyproj whitebox=2.2.0 packaging shapely -y
+# 	conda activate wrfh_gis_env
+# 	conda update -n wrfh_gis_env --all -y
+# 	conda deactivate
+# 	conda deactivate
+# 	conda deactivate
+
+# 	cd "${WRF_FOLDER}"/
+# 	git clone https://github.com/NCAR/wrf_hydro_gis_preprocessor.git "${WRF_FOLDER}"/WRF-Hydro-GIS-PreProcessor
+# 	echo " "
+
+# 	############################# WRF HYDRO V5.3.0 #################################
+# 	# Version 5.3.0
+# 	# Standalone mode
+# 	################################################################################
+# 	# Set up NETCDF environment variables
+# 	export NETCDF_INC="$DIR/NETCDF/include"
+# 	export NETCDF_LIB="$DIR/NETCDF/lib"
+
+# 	# Create directories for Hydro Basecode and navigate to it
+# 	mkdir -p "${WRF_FOLDER}/Hydro-Basecode"
+# 	cd "${WRF_FOLDER}/Hydro-Basecode"
+
+# 	# Clone the WRF-Hydro repository and set up the build
+# 	git clone https://github.com/NCAR/wrf_hydro_nwm_public.git
+# 	cd wrf_hydro_nwm_public
+# 	mkdir -p build
+# 	cd build
+
+# 	# Run CMake configuration for WRF-Hydro with specified options
+# 	cmake .. \
+# 		-DSPATIAL_SOIL=1 \
+# 		-DWRF_HYDRO=1 \
+# 		-DWRF_HYDRO_NUDGING=1 \
+# 		-DWRFIO_NCD_LARGE_FILE_SUPPORT=1 \
+# 		-DCMAKE_Fortran_COMPILER=gfortran
+
+# 	# Compile using specified CPU settings
+# 	make -j "$CPU_QUARTER_EVEN" 2>&1 | tee make.log
+
+# 	# Check if the necessary executable files were created
+# 	cd "${WRF_FOLDER}/Hydro-Basecode/wrf_hydro_nwm_public/build/Run"
+# 	n=$(ls ./*.exe 2>/dev/null | wc -l)
+
+# 	# Function to rerun compilation if files are missing
+# 	rebuild_and_check() {
+# 		echo "Missing one or more expected files. Running compiler again..."
+# 		cd "${WRF_FOLDER}/Hydro-Basecode/wrf_hydro_nwm_public/build"
+# 		make -j "$CPU_QUARTER_EVEN" 2>&1 | tee make2.log
+# 		cd "${WRF_FOLDER}/Hydro-Basecode/wrf_hydro_nwm_public/build/Run"
+# 		n=$(ls ./*.exe 2>/dev/null | wc -l)
+# 	}
+
+# 	# IF statement to check that all expected files were created
+# 	if ((n == 2)); then
+# 		echo "All expected files created."
+# 	else
+# 		rebuild_and_check
+# 		if ((n != 2)); then
+# 			echo "Missing one or more expected files. Exiting the script."
+# 			read -r -p "Please contact script authors for assistance. Press 'Enter' to exit the script."
+# 			exit 1
+# 		else
+# 			echo "All expected files created after re-compiling."
+# 		fi
+# 	fi
+
+# 	# Finish the script with a pause
+# 	read -r -t 5 -p "Finished installing WRF Hydro Basecode. Waiting for 5 seconds..."
+# 	############################ WRF #################################
+# 	## WRF v${WPS_VERSION}
+# 	## Downloaded from git tagged releases
+# 	# option 21, option 1 for gfortran and distributed memory w/basic nesting
+# 	# large file support enable with WRFiO_NCD_LARGE_FILE_SUPPORT=1
+# 	########################################################################
+
+# 	cd "${WRF_FOLDER}"/Downloads
+# 	wget -c https://github.com/wrf-model/WRF/releases/download/v${WRF_VERSION}/v${WRF_VERSION}.tar.gz -O WRF-${WRF_VERSION}.tar.gz
+# 	tar -xvzf WRF-${WRF_VERSION}.tar.gz -C "${WRF_FOLDER}"/
+
+# 	# If statment for changing folder name
+# 	if [ -d ""${WRF_FOLDER}"/WRF" ]; then
+# 		mv -f "${WRF_FOLDER}"/WRF "${WRF_FOLDER}"/WRFV${WRF_VERSION}
+# 	fi
+
+# 	cd "${WRF_FOLDER}"/WRFV${WRF_VERSION}
+# 	export WRFIO_NCD_LARGE_FILE_SUPPORT=1
+
+# 	#Replace old version of WRF-Hydro distributed with WRF with updated WRF-Hydro source code
+# 	rm -r "${WRF_FOLDER}"/WRFV${WRF_VERSION}/hydro/
+# 	cp -r "${WRF_FOLDER}"/Hydro-Basecode/wrf_hydro_nwm_public/src "${WRF_FOLDER}"/WRFV${WRF_VERSION}/hydro
+
+# 	cd "${WRF_FOLDER}"/WRFV${WRF_VERSION}/hydro/template
+# 	source setEnvar.sh
+# 	cd "${WRF_FOLDER}"/WRFV${WRF_VERSION}
+
+# 	./clean
+
+# 	if [ ${auto_config} -eq 1 ]; then
+# 		sed -i'' -e '443s/.*/  $response = "17 \\n";/g' "${WRF_FOLDER}"/WRFV${WRF_VERSION}/arch/Config.pl # Answer for compiler choice
+# 		sed -i'' -e '909s/.*/  $response = "1 \\n";/g' "${WRF_FOLDER}"/WRFV${WRF_VERSION}/arch/Config.pl  #Answer for basic nesting
+# 		./configure 2>&1 | tee configure.log
+# 	else
+# 		./configure 2>&1 | tee configure.log #Option 17 gfortran compiler with distributed memory option 1 for basic nesting
+# 	fi
+
+# 	sed -i'' -e '145s/-c/-c -fPIC -fPIE -O3  -Wno-error=implicit-function-declaration/g' configure.wrf
+
+# 	./compile em_real 2>&1 | tee compile.wrf.log
+
+# 	export WRF_DIR="${WRF_FOLDER}"/WRFV${WRF_VERSION}
+
+# 	# IF statement to check that all files were created.
+# 	cd "${WRF_FOLDER}"/WRFV${WRF_VERSION}/main
+# 	n=$(ls ./*.exe | wc -l)
+# 	if (($n >= 3)); then
+# 		echo "All expected files created."
+# 		read -r -t 5 -p "Finished installing WRF. I am going to wait for 5 seconds only ..."
+# 	else
+# 		echo "Missing one or more expected files."
+# 		echo "Running compiler again"
+# 		cd "${WRF_FOLDER}"/WRFV${WRF_VERSION}
+# 		./compile -j $CPU_QUARTER_EVEN em_real 2>&1 | tee compile.wrf2.log
+# 		cd "${WRF_FOLDER}"/WRFV${WRF_VERSION}/main
+# 		n=$(ls ./*.exe | wc -l)
+# 		if (($n >= 3)); then
+# 			echo "All expected files created."
+# 			read -r -t 5 -p "Finished installing WRF. I am going to wait for 5 seconds only ..."
+# 		else
+# 			read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
+# 			exit
+# 		fi
+# 	fi
+
+# 	echo " "
+
+# 	echo " "
+
+# 	############################WPS#####################################
+# 	## WPS v${WPS_VERSION}
+# 	## Downloaded from git tagged releases
+# 	#Option 3 for gfortran and distributed memory
+# 	########################################################################
+
+# 	cd "${WRF_FOLDER}"/Downloads
+# 	wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v${WPS_VERSION}.tar.gz -O WPS-${WPS_VERSION}.tar.gz
+# 	tar -xvzf WPS-${WPS_VERSION}.tar.gz -C "${WRF_FOLDER}"/
+# 	cd "${WRF_FOLDER}"/WPS-${WPS_VERSION}
+# 	./clean -a
+
+# 	if [ ${auto_config} -eq 1 ]; then
+# 		echo 19 | ./configure 2>&1 | tee configure.log #Option 19 for gfortran and distributed memory
+# 	else
+# 		./configure 2>&1 | tee configure.log #Option 19 gfortran compiler with distributed memory
+# 	fi
+# 	./compile 2>&1 | tee compile.wps.log
+
+# 	# IF statement to check that all files were created.
+# 	cd "${WRF_FOLDER}"/WPS-${WPS_VERSION}
+# 	n=$(ls ./*.exe | wc -l)
+# 	if (($n == 3)); then
+# 		echo "All expected files created."
+# 		read -r -t 5 -p "Finished installing WPS. I am going to wait for 5 seconds only ..."
+# 	else
+# 		echo "Missing one or more expected files."
+# 		echo "Running compiler again"
+# 		./compile 2>&1 | tee compile.wps2.log
+# 		cd "${WRF_FOLDER}"/WPS-${WPS_VERSION}
+# 		n=$(ls ./*.exe | wc -l)
+# 		if (($n == 3)); then
+# 			echo "All expected files created."
+# 			read -r -t 5 -p "Finished installing WPS. I am going to wait for 5 seconds only ..."
+# 		else
+# 			read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
+# 			exit
+# 		fi
+# 	fi
+
+# 	echo " "
+
+# 	######################## Static Geography Data inc/ Optional ####################
+# 	# http://www2.mmm.ucar.edu/wrf/users/download/get_sources_wps_geog.html
+# 	# These files are large so if you only need certain ones comment the others off
+# 	# All files downloaded and untarred is 200GB
+# 	# https://www2.mmm.ucar.edu/wrf/users/download/get_sources_wps_geog.html
+# 	#################################################################################
+# 	cd "${WRF_FOLDER}"/Downloads
+# 	mkdir "${WRF_FOLDER}"/GEOG
+# 	mkdir "${WRF_FOLDER}"/GEOG/WPS_GEOG
+
+# 	echo " "
+# 	echo "Mandatory WRF Preprocessing System (WPS) Geographical Input Data Mandatory Fields Downloads"
+# 	echo " "
+# 	wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_high_res_mandatory.tar.gz
+# 	tar -xvzf geog_high_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
+
+# 	wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_low_res_mandatory.tar.gz
+# 	tar -xvzf geog_low_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
+# 	mv "${WRF_FOLDER}"/GEOG/WPS_GEOG_LOW_RES/ "${WRF_FOLDER}"/GEOG/WPS_GEOG
+
+# 	if [ ${WPS_Specific_Applications} -eq 1 ]; then
+# 		echo " "
+# 		echo " WPS Geographical Input Data Mandatory for Specific Applications"
+# 		echo " "
+
+# 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_thompson28_chem.tar.gz
+# 		tar -xvzf geog_thompson28_chem.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+
+# 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_noahmp.tar.gz
+# 		tar -xvzf geog_noahmp.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+
+# 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/irrigation.tar.gz
+# 		tar -xvzf irrigation.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+
+# 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_px.tar.gz
+# 		tar -xvzf geog_px.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+
+# 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_urban.tar.gz
+# 		tar -xvzf geog_urban.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+
+# 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_ssib.tar.gz
+# 		tar -xvzf geog_ssib.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+
+# 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/lake_depth.tar.bz2
+# 		tar -xvf lake_depth.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+
+# 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/topobath_30s.tar.bz2
+# 		tar -xvf topobath_30s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+
+# 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/gsl_gwd.tar.bz2
+# 		tar -xvf gsl_gwd.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+
+# 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/cglc_modis_lcz_global.tar.gz
+# 		tar -xvf cglc_modis_lcz_global.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+# 	fi
+
+# 	if [ ${Optional_GEOG} -eq 1 ]; then
+# 		echo " "
+# 		echo "Optional WPS Geographical Input Data"
+# 		echo " "
+
+# 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_older_than_2000.tar.gz
+# 		tar -xvzf geog_older_than_2000.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+
+# 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s_with_lakes.tar.gz
+# 		tar -xvzf modis_landuse_20class_15s_with_lakes.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+
+# 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_alt_lsm.tar.gz
+# 		tar -xvzf geog_alt_lsm.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+
+# 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/nlcd2006_ll_9s.tar.bz2
+# 		tar -xvf nlcd2006_ll_9s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+
+# 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/updated_Iceland_LU.tar.gz
+# 		tar -xvf updated_Iceland_LU.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+
+# 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s.tar.bz2
+# 		tar -xvf modis_landuse_20class_15s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+# 	fi
+
+# fi
+
+# if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ] && [ "$MAC_CHIP" = "ARM" ]; then
+
+# 	#############################basic package managment############################
+
+# 	brew update
+# 	outdated_packages=$(brew outdated --quiet)
+
+# 	# List of packages to check/install
+# 	packages=(
+# 		"autoconf" "automake" "bison" "byacc" "cmake" "curl" "flex" "gcc"
+# 		"gdal" "gedit" "git" "gnu-sed" "grads" "imagemagick" "java" "ksh"
+# 		"libtool" "libxml2" "m4" "make" "python@3.12" "snapcraft" "tcsh" "wget"
+# 		"xauth" "xorgproto" "xorgrgb" "xquartz"
+# 	)
+
+# 	for pkg in "${packages[@]}"; do
+# 		if brew list "$pkg" &>/dev/null; then
+# 			echo "$pkg is already installed."
+# 			if [[ $outdated_packages == *"$pkg"* ]]; then
+# 				echo "$pkg has a newer version available. Upgrading..."
+# 				brew upgrade "$pkg"
+# 			fi
+# 		else
+# 			echo "$pkg is not installed. Installing..."
+# 			brew install "$pkg"
+# 		fi
+# 		sleep 1
+# 	done
+
+# 	export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
+# 	export PATH=/usr/local/bin:$PATH
+
+# 	##############################Directory Listing############################
+
+# 	export HOME=$(
+# 		cd
+# 		pwd
+# 	)
+# 	mkdir $HOME/WRFHYDRO_COUPLED
+# 	export WRF_FOLDER=$HOME/WRFHYDRO_COUPLED
+# 	cd "${WRF_FOLDER}"/
+# 	mkdir Downloads
+# 	mkdir "${WRF_FOLDER}"/Hydro-Basecode
+# 	mkdir Libs
+# 	export DIR="${WRF_FOLDER}"/Libs
+# 	mkdir Libs/grib2
+# 	mkdir Libs/NETCDF
+# 	mkdir Libs/MPICH
+# 	mkdir -p Tests/Environment
+# 	mkdir -p Tests/Compatibility
+
+# 	echo " "
+
+# 	#############################Core Management####################################
+# 	export CPU_CORE=$(sysctl -n hw.ncpu) # number of available threads on system
+# 	export CPU_6CORE="6"
+# 	export CPU_QUARTER=$(($CPU_CORE / 4))
+# 	#1/2 of availble cores on system
+# 	export CPU_QUARTER_EVEN=$(($CPU_QUARTER - ($CPU_QUARTER % 2)))
+# 	#Forces CPU cores to even number to avoid partial core export. ie 7 cores would be 3.5 cores.
+
+# 	if [ $CPU_CORE -le $CPU_6CORE ]; then #If statement for low core systems.  Forces computers to only use 1 core if there are 4 cores or less on the system. then
+# 		export CPU_QUARTER_EVEN="2"
+# 	else
+# 		export CPU_QUARTER_EVEN=$(($CPU_QUARTER - ($CPU_QUARTER % 2)))
+# 	fi
+
+# 	echo "##########################################"
+# 	echo "Number of Threads being used $CPU_QUARTER_EVEN"
+# 	echo "##########################################"
+# 	echo " "
+
+# 	##############################Downloading Libraries############################
+
+# 	cd "${WRF_FOLDER}"/Downloads
+# 	wget -c https://github.com/madler/zlib/releases/download/v$Zlib_Version/zlib-$Zlib_Version.tar.gz
+# 	wget -c https://github.com/HDFGroup/hdf5/releases/download/hdf5_$HDF5_Version.$HDF5_Sub_Version/hdf5-$HDF5_Version-$HDF5_Sub_Version.tar.gz
+# 	wget -c https://github.com/Unidata/netcdf-c/archive/refs/tags/v$Netcdf_C_Version.tar.gz
+# 	wget -c https://github.com/Unidata/netcdf-fortran/archive/refs/tags/v$Netcdf_Fortran_Version.tar.gz
+# 	wget -c https://download.sourceforge.net/libpng/libpng-$Libpng_Version.tar.gz
+# 	wget -c https://www.ece.uvic.ca/~frodo/jasper/software/jasper-$Jasper_Version.zip
+# 	wget -c https://github.com/pmodels/mpich/releases/download/v$Mpich_Version/mpich-$Mpich_Version.tar.gz
+# 	wget -c https://parallel-netcdf.github.io/Release/pnetcdf-$Pnetcdf_Version.tar.gz
+
+# 	echo " "
+
+# 	#############################Compilers############################
+
+# 	echo $PASSWD | sudo -S unlink /opt/homebrew/bin/gfortran
+# 	echo $PASSWD | sudo -S unlink /opt/homebrew/bin/gcc
+# 	echo $PASSWD | sudo -S unlink /opt/homebrew/bin/g++
+
+# 	# Source the bashrc to ensure environment variables are loaded
+# 	source ~/.bashrc
+
+# 	# Check current versions of gcc, g++, and gfortran (this should show no version if unlinked)
+# 	gcc --version
+# 	g++ --version
+# 	gfortran --version
+
+# 	# Navigate to the Homebrew binaries directory
+# 	cd /opt/homebrew/bin
+
+# 	# Find the latest version of GCC, G++, and GFortran
+# 	latest_gcc=$(ls gcc-* 2>/dev/null | grep -o 'gcc-[0-9]*' | sort -V | tail -n 1)
+# 	latest_gpp=$(ls g++-* 2>/dev/null | grep -o 'g++-[0-9]*' | sort -V | tail -n 1)
+# 	latest_gfortran=$(ls gfortran-* 2>/dev/null | grep -o 'gfortran-[0-9]*' | sort -V | tail -n 1)
+
+# 	# Check if the latest versions were found, and link them
+# 	if [ -n "$latest_gcc" ]; then
+# 		echo "Linking the latest GCC version: $latest_gcc"
+# 		echo $PASSWD | sudo -S ln -sf $latest_gcc gcc
+# 	else
+# 		echo "No GCC version found."
+# 	fi
+
+# 	if [ -n "$latest_gpp" ]; then
+# 		echo "Linking the latest G++ version: $latest_gpp"
+# 		echo $PASSWD | sudo -S ln -sf $latest_gpp g++
+# 	else
+# 		echo "No G++ version found."
+# 	fi
+
+# 	if [ -n "$latest_gfortran" ]; then
+# 		echo "Linking the latest GFortran version: $latest_gfortran"
+# 		echo $PASSWD | sudo -S ln -sf $latest_gfortran gfortran
+# 	else
+# 		echo "No GFortran version found."
+# 	fi
+
+# 	# Return to the home directory
+# 	cd
+
+# 	# Source bashrc and bash_profile to reload the environment settings
+# 	source ~/.bashrc
+# 	source ~/.bash_profile
+
+# 	# Check if the versions were successfully updated
+# 	gcc --version
+# 	g++ --version
+# 	gfortran --version
+
+# 	export CC=gcc
+# 	export CXX=g++
+# 	export FC=gfortran
+# 	export F77=gfortran
+# 	export CFLAGS="-fPIC -fPIE -Wno-implicit-function-declaration -Wno-incompatible-pointer-types -Wall"
+
+# 	echo " "
+
+# 	#IF statement for GNU compiler issue
+# 	export GCC_VERSION=$(gcc -dumpfullversion | awk '{print$1}')
+# 	export GFORTRAN_VERSION=$(gfortran -dumpfullversion | awk '{print$1}')
+# 	export GPLUSPLUS_VERSION=$(g++ -dumpfullversion | awk '{print$1}')
+
+# 	export GCC_VERSION_MAJOR_VERSION=$(echo $GCC_VERSION | awk -F. '{print $1}')
+# 	export GFORTRAN_VERSION_MAJOR_VERSION=$(echo $GFORTRAN_VERSION | awk -F. '{print $1}')
+# 	export GPLUSPLUS_VERSION_MAJOR_VERSION=$(echo $GPLUSPLUS_VERSION | awk -F. '{print $1}')
+
+# 	export version_10="10"
+
+# 	if [ $GCC_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GFORTRAN_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GPLUSPLUS_VERSION_MAJOR_VERSION -ge $version_10 ]; then
+# 		export fallow_argument=-fallow-argument-mismatch
+# 		export boz_argument=-fallow-invalid-boz
+# 	else
+# 		export fallow_argument=
+# 		export boz_argument=
+# 	fi
+
+# 	export FFLAGS="$fallow_argument -m64"
+# 	export FCFLAGS="$fallow_argument -m64"
+
+# 	echo "##########################################"
+# 	echo "FFLAGS = $FFLAGS"
+# 	echo "FCFLAGS = $FCFLAGS"
+# 	echo "CFLAGS = $CFLAGS"
+# 	echo "##########################################"
+
+# 	echo " "
+
+# 	#############################zlib############################
+# 	#Uncalling compilers due to comfigure issue with zlib1.2.12
+# 	#With CC & CXX definied ./configure uses different compiler Flags
+
+# 	cd "${WRF_FOLDER}"/Downloads
+# 	tar -xvzf zlib-$Zlib_Version.tar.gz
+# 	cd zlib-$Zlib_Version/
+# 	autoreconf -i -f 2>&1 | tee autoreconf.log
+# 	./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
+
+# 	automake -a -f 2>&1 | tee automake.log
+# 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
+# 	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+# 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
+# 	#make check
+
+# 	echo " "
+
+# 	##############################MPICH############################
+# 	cd "${WRF_FOLDER}"/Downloads
+# 	tar -xvzf mpich-$Mpich_Version.tar.gz
+# 	cd mpich-$Mpich_Version/
+# 	autoreconf -i -f 2>&1 | tee autoreconf.log
+
+# 	F90= ./configure --prefix=$DIR/MPICH --with-device=ch3 FFLAGS="$fallow_argument -m64" FCFLAGS="$fallow_argument -m64" 2>&1 | tee configure.log
+# 	automake -a -f 2>&1 | tee automake.log
+# 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
+# 	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+# 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
+# 	#make check
+
+# 	export PATH=$DIR/MPICH/bin:$PATH
+# 	export MPIFC=$DIR/MPICH/bin/mpifort
+# 	export MPIF77=$DIR/MPICH/bin/mpifort
+# 	export MPIF90=$DIR/MPICH/bin/mpifort
+# 	export MPICC=$DIR/MPICH/bin/mpicc
+# 	export MPICXX=$DIR/MPICH/bin/mpicxx
+
+# 	echo " "
+
+# 	#############################libpng############################
+# 	cd "${WRF_FOLDER}"/Downloads
+# 	export LDFLAGS=-L$DIR/grib2/lib
+# 	export CPPFLAGS=-I$DIR/grib2/include
+# 	tar -xvzf libpng-$Libpng_Version.tar.gz
+# 	cd libpng-$Libpng_Version/
+# 	autoreconf -i -f 2>&1 | tee autoreconf.log
+
+# 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
+
+# 	automake -a -f 2>&1 | tee automake.log
+# 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
+# 	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+# 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
+# 	#make check
+# 	#make check
+
+# 	echo " "
+# 	#############################JasPer############################
+
+# 	cd "${WRF_FOLDER}"/Downloads
+# 	unzip jasper-$Jasper_Version.zip
+# 	cd jasper-$Jasper_Version/
+# 	autoreconf -i -f 2>&1 | tee autoreconf.log
+
+# 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
+
+# 	automake -a -f 2>&1 | tee automake.log
+# 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
+# 	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+# 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
+# 	export JASPERLIB=$DIR/grib2/lib
+# 	export JASPERINC=$DIR/grib2/include
+
+# 	echo " "
+# 	#############################hdf5 library for netcdf4 functionality############################
+
+# 	cd "${WRF_FOLDER}"/Downloads
+# 	tar -xvzf hdf5-$HDF5_Version-$HDF5_Sub_Version.tar.gz
+# 	cd hdf5-$HDF5_Version-$HDF5_Sub_Version
+# 	autoreconf -i -f 2>&1 | tee autoreconf.log
+
+# 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --with-zlib=$DIR/grib2 --enable-hl --enable-fortran --enable-parallel 2>&1 | tee configure.log
+
+# 	automake -a -f 2>&1 | tee automake.log
+# 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
+# 	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+# 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
+# 	#make check
+
+# 	export HDF5=$DIR/grib2
+# 	export PHDF5=$DIR/grib2
+# 	export LD_LIBRARY_PATH=$DIR/grib2/lib:$LD_LIBRARY_PATH
+
+# 	echo " "
+
+# 	#############################Install Parallel-netCDF##############################
+# 	#Make file created with half of available cpu cores
+# 	#Hard path for MPI added
+# 	##################################################################################
+# 	cd "${WRF_FOLDER}"/Downloads
+# 	tar -xvzf pnetcdf-$Pnetcdf_Version.tar.gz
+# 	cd pnetcdf-$Pnetcdf_Version
+# 	export MPIFC=$DIR/MPICH/bin/mpifort
+# 	export MPIF77=$DIR/MPICH/bin/mpifort
+# 	export MPIF90=$DIR/MPICH/bin/mpifort
+# 	export MPICC=$DIR/MPICH/bin/mpicc
+# 	export MPICXX=$DIR/MPICH/bin/mpicxx
+# 	autoreconf -i -f 2>&1 | tee autoreconf.log
+# 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --enable-shared --enable-static 2>&1 | tee configure.log
+
+# 	automake -a -f 2>&1 | tee automake.log
+# 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
+# 	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+# 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
+# 	#make check
+
+# 	export PNETCDF=$DIR/grib2
+
+# 	echo " "
+
+# 	##############################Install NETCDF C Library############################
+# 	cd "${WRF_FOLDER}"/Downloads
+# 	tar -xzvf v$Netcdf_C_Version.tar.gz
+# 	cd netcdf-c-$Netcdf_C_Version/
+# 	export CPPFLAGS=-I$DIR/grib2/include
+# 	export LDFLAGS=-L$DIR/grib2/lib
+# 	export LIBS="-lhdf5_hl -lhdf5 -lz -lcurl -lgfortran -lgcc -lm -ldl -lpnetcdf"
+# 	autoreconf -i -f 2>&1 | tee autoreconf.log
+
+# 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-shared --enable-static --enable-pnetcdf --enable-cdf5 --enable-parallel-tests 2>&1 | tee configure.log
+
+# 	automake -a -f 2>&1 | tee automake.log
+# 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
+# 	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+# 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
+# 	#make check
+
+# 	export PATH=$DIR/NETCDF/bin:$PATH
+# 	export NETCDF=$DIR/NETCDF
+# 	echo " "
+
+# 	##############################NetCDF fortran library############################
+# 	cd "${WRF_FOLDER}"/Downloads
+# 	tar -xvzf v$Netcdf_Fortran_Version.tar.gz
+# 	cd netcdf-fortran-$Netcdf_Fortran_Version/
+# 	export LD_LIBRARY_PATH=$DIR/NETCDF/lib:$LD_LIBRARY_PATH
+# 	export CPPFLAGS="-I$DIR/NETCDF/include -I$DIR/grib2/include"
+# 	export LDFLAGS="-L$DIR/NETCDF/lib -L$DIR/grib2/lib"
+# 	export LIBS="-lnetcdf -lpnetcdf -lcurl -lhdf5_hl -lhdf5 -lz -lm -ldl -lgcc -lgfortran"
+# 	autoreconf -i -f 2>&1 | tee autoreconf.log
+
+# 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-shared --enable-static --enable-parallel-tests --enable-hdf5 2>&1 | tee configure.log
+
+# 	automake -a -f 2>&1 | tee automake.log
+# 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
+# 	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+# 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
+# 	#make check
+
+# 	echo " "
+# 	#################################### System Environment Tests ##############
+# 	mkdir -p "${WRF_FOLDER}"/Tests/Environment
+# 	mkdir -p "${WRF_FOLDER}"/Tests/Compatibility
+
+# 	cd "${WRF_FOLDER}"/Downloads
+# 	wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_NETCDF_MPI_tests.tar
+# 	wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_tests.tar
+
+# 	tar -xvf Fortran_C_tests.tar -C "${WRF_FOLDER}"/Tests/Environment
+# 	tar -xvf Fortran_C_NETCDF_MPI_tests.tar -C "${WRF_FOLDER}"/Tests/Compatibility
+# 	export one="1"
+# 	echo " "
+# 	############## Testing Environment #####
+
+# 	cd "${WRF_FOLDER}"/Tests/Environment
+
+# 	echo " "
+# 	echo " "
+# 	echo "Environment Testing "
+# 	echo "Test 1"
+# 	$FC TEST_1_fortran_only_fixed.f
+# 	./a.out | tee env_test1.txt
+# 	export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test1.txt | awk '{print$1}')
+# 	if [ $TEST_PASS -ge 1 ]; then
+# 		echo "Enviroment Test 1 Passed"
+# 	else
+# 		echo "Environment Compiler Test 1 Failed"
+# 		exit
+# 	fi
+# 	read -r -t 3 -p "I am going to wait for 3 seconds only ..."
+
+# 	echo " "
+# 	echo "Test 2"
+# 	$FC TEST_2_fortran_only_free.f90
+# 	./a.out | tee env_test2.txt
+# 	export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test2.txt | awk '{print$1}')
+# 	if [ $TEST_PASS -ge 1 ]; then
+# 		echo "Enviroment Test 2 Passed"
+# 	else
+# 		echo "Environment Compiler Test 2 Failed"
+# 		exit
+# 	fi
+# 	echo " "
+# 	read -r -t 3 -p "I am going to wait for 3 seconds only ..."
+
+# 	echo " "
+# 	echo "Test 3"
+# 	$CC TEST_3_c_only.c
+# 	./a.out | tee env_test3.txt
+# 	export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test3.txt | awk '{print$1}')
+# 	if [ $TEST_PASS -ge 1 ]; then
+# 		echo "Enviroment Test 3 Passed"
+# 	else
+# 		echo "Environment Compiler Test 3 Failed"
+# 		exit
+# 	fi
+# 	echo " "
+# 	read -r -t 3 -p "I am going to wait for 3 seconds only ..."
+
+# 	echo " "
+# 	echo "Test 4"
+# 	$CC -c -m64 TEST_4_fortran+c_c.c
+# 	$FC -c -m64 TEST_4_fortran+c_f.f90
+# 	$FC -m64 TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
+# 	./a.out | tee env_test4.txt
+# 	export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test4.txt | awk '{print$1}')
+# 	if [ $TEST_PASS -ge 1 ]; then
+# 		echo "Enviroment Test 4 Passed"
+# 	else
+# 		echo "Environment Compiler Test 4 Failed"
+# 		exit
+# 	fi
+# 	echo " "
+# 	read -r -t 3 -p "I am going to wait for 3 seconds only ..."
+
+# 	echo " "
+# 	############## Testing Environment #####
+
+# 	cd "${WRF_FOLDER}"/Tests/Compatibility
+
+# 	cp ${NETCDF}/include/netcdf.inc .
+
+# 	echo " "
+# 	echo " "
+# 	echo "Library Compatibility Tests "
+# 	echo "Test 1"
+# 	$FC -c 01_fortran+c+netcdf_f.f
+# 	$CC -c 01_fortran+c+netcdf_c.c
+# 	$FC 01_fortran+c+netcdf_f.o 01_fortran+c+netcdf_c.o \
+# 		-L${NETCDF}/lib -lnetcdff -lnetcdf
+
+# 	./a.out | tee comp_test1.txt
+# 	export TEST_PASS=$(grep -w -o -c "SUCCESS" comp_test1.txt | awk '{print$1}')
+# 	if [ $TEST_PASS -ge 1 ]; then
+# 		echo "Compatibility Test 1 Passed"
+# 	else
+# 		echo "Compatibility Compiler Test 1 Failed"
+# 		exit
+# 	fi
+# 	echo " "
+# 	read -r -t 3 -p "I am going to wait for 3 seconds only ..."
+
+# 	echo " "
+
+# 	echo "Test 2"
+# 	$MPIFC -c 02_fortran+c+netcdf+mpi_f.f
+# 	$MPICC -c 02_fortran+c+netcdf+mpi_c.c
+# 	$MPIFC 02_fortran+c+netcdf+mpi_f.o \
+# 		02_fortran+c+netcdf+mpi_c.o \
+# 		-L${NETCDF}/lib -lnetcdff -lnetcdf
+
+# 	$DIR/MPICH/bin/mpirun ./a.out | tee comp_test2.txt
+# 	export TEST_PASS=$(grep -w -o -c "SUCCESS" comp_test2.txt | awk '{print$1}')
+# 	if [ $TEST_PASS -ge 1 ]; then
+# 		echo "Compatibility Test 2 Passed"
+# 	else
+# 		echo "Compatibility Compiler Test 2 Failed"
+# 		exit
+# 	fi
+# 	echo " "
+# 	read -r -t 3 -p "I am going to wait for 3 seconds only ..."
+# 	echo " "
+
+# 	echo " All tests completed and passed"
+# 	echo " "
+
+# 	################################OpenGrADS######################################
+# 	#Verison 2.2.1 64bit of Linux
+# 	#############################################################################
+# 	if [[ $GRADS_PICK -eq 1 ]]; then
+# 		cd "${WRF_FOLDER}"/Downloads
+# 		wget -c -4 https://sourceforge.net/projects/opengrads/files/grads2/2.2.1.oga.1/macOS/opengrads-2.2.1.oga.1-bundle-x86_64-apple-darwin20.5.0.pkg
+# 		sudo -S installer -pkg opengrads-2.2.1.oga.1-bundle-x86_64-apple-darwin20.5.0.pkg -target /Applications/OpenGrads <<<"$PASSWD"
+# 		export PATH="${WRF_FOLDER}"/GrADS/Contents:$PATH
+# 	fi
+# 	################################## GrADS ###############################
+# 	# Version  2.2.1
+# 	# Sublibs library instructions: http://cola.gmu.edu/grads/gadoc/supplibs2.html
+# 	# GrADS instructions: http://cola.gmu.edu/grads/downloads.php
+# 	########################################################################
+# 	if [[ $GRADS_PICK -eq 2 ]]; then
+
+# 		brew install grads
+
+# 	fi
+
+# 	##################################################################
+# 	#Installing Miniconda3 to WRF directory and updating libraries
+# 	##################################################################
+# 	echo $PASSWD | sudo -S apt -y install python3-zstandard python3-zstd
+
+# 	export Miniconda_Install_DIR="${WRF_FOLDER}"/miniconda3
+
+# 	mkdir -p $Miniconda_Install_DIR
+
+# 	wget -c https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh -O $Miniconda_Install_DIR/miniconda.sh
+# 	bash $Miniconda_Install_DIR/miniconda.sh -b -u -p $Miniconda_Install_DIR
+
+# 	rm -rf $Miniconda_Install_DIR/miniconda.sh
+
+# 	export PATH="${WRF_FOLDER}"/miniconda3/bin:$PATH
+
+# 	source $Miniconda_Install_DIR/etc/profile.d/conda.sh
+
+# 	$Miniconda_Install_DIR/bin/conda init bash
+# 	$Miniconda_Install_DIR/bin/conda init zsh
+# 	$Miniconda_Install_DIR/bin/conda init tcsh
+# 	$Miniconda_Install_DIR/bin/conda init xonsh
+# 	$Miniconda_Install_DIR/bin/conda init powershell
+
+# 	conda config --add channels conda-forge
+# 	conda config --set auto_activate_base false
+# 	conda update -n root --all -y
+
+# 	echo " "
+
+# 	#Installing NCL via Conda
+# 	source $Miniconda_Install_DIR/etc/profile.d/conda.sh
+# 	conda init bash
+# 	conda activate base
+# 	conda create -n ncl_stable -c conda-forge ncl -y
+# 	conda activate ncl_stable
+
+# 	conda deactivate
+# 	conda deactivate
+# 	conda deactivate
+# 	echo " "
+
+# 	##################### WRF Python           ##################
+# 	########### WRf-Python compiled via Conda  ##################
+# 	########### This is the preferred method by NCAR      ##################
+# 	##### https://wrf-python.readthedocs.io/en/latest/installation.html  ##################
+# 	source $Miniconda_Install_DIR/etc/profile.d/conda.sh
+# 	conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
+
+# 	######################### Climate Data Operators ############
+# 	######################### CDO compiled via Conda ###########
+# 	####################### This is the preferred method #######
+# 	################### https://bairdlangenbrunner.github.io/python-for-climate-scientists/conda/setting-up-conda-environments.html #######################
+
+# 	source $Miniconda_Install_DIR/etc/profile.d/conda.sh
+# 	conda init bash
+# 	conda activate base
+# 	conda create --name cdo_stable -y
+# 	conda activate cdo_stable
+# 	conda install -c conda-forge cdo -y
+# 	conda update --all -y
+# 	conda deactivate
+# 	conda deactivate
+# 	conda deactivate
+
+# 	echo " "
+
+# 	########################## WRF Hydro GIS PreProcessor ##############################
+# 	#  Compiled with Conda
+# 	#  https://github.com/NCAR/wrf_hydro_gis_preprocessor
+# 	####################################################################################
+
+# 	conda init bash
+# 	conda activate base
+# 	conda config --add channels conda-forge
+# 	conda create -n wrfh_gis_env -c conda-forge python=3.12 gdal netCDF4 numpy pyproj whitebox=2.2.0 packaging shapely -y
+# 	conda activate wrfh_gis_env
+# 	conda update -n wrfh_gis_env --all -y
+# 	conda deactivate
+# 	conda deactivate
+# 	conda deactivate
+
+# 	cd "${WRF_FOLDER}"/
+# 	git clone https://github.com/NCAR/wrf_hydro_gis_preprocessor.git "${WRF_FOLDER}"/WRF-Hydro-GIS-PreProcessor
+# 	echo " "
+
+# 	############################# WRF HYDRO V5.3.0 #################################
+# 	# Version 5.3.0
+# 	# Standalone mode
+# 	################################################################################
+# 	# Set up NETCDF environment variables
+# 	export NETCDF_INC="$DIR/NETCDF/include"
+# 	export NETCDF_LIB="$DIR/NETCDF/lib"
+
+# 	# Create directories for Hydro Basecode and navigate to it
+# 	mkdir -p "${WRF_FOLDER}/Hydro-Basecode"
+# 	cd "${WRF_FOLDER}/Hydro-Basecode"
+
+# 	# Clone the WRF-Hydro repository and set up the build
+# 	git clone https://github.com/NCAR/wrf_hydro_nwm_public.git
+# 	cd wrf_hydro_nwm_public
+# 	mkdir -p build
+# 	cd build
+
+# 	# Run CMake configuration for WRF-Hydro with specified options
+# 	cmake .. \
+# 		-DSPATIAL_SOIL=1 \
+# 		-DWRF_HYDRO=1 \
+# 		-DWRF_HYDRO_NUDGING=1 \
+# 		-DWRFIO_NCD_LARGE_FILE_SUPPORT=1 \
+# 		-DCMAKE_Fortran_COMPILER=gfortran
+
+# 	# Compile using specified CPU settings
+# 	make -j "$CPU_QUARTER_EVEN" 2>&1 | tee make.log
+
+# 	# Check if the necessary executable files were created
+# 	cd "${WRF_FOLDER}/Hydro-Basecode/wrf_hydro_nwm_public/build/Run"
+# 	n=$(ls ./*.exe 2>/dev/null | wc -l)
+
+# 	# Function to rerun compilation if files are missing
+# 	rebuild_and_check() {
+# 		echo "Missing one or more expected files. Running compiler again..."
+# 		cd "${WRF_FOLDER}/Hydro-Basecode/wrf_hydro_nwm_public/build"
+# 		make -j "$CPU_QUARTER_EVEN" 2>&1 | tee make2.log
+# 		cd "${WRF_FOLDER}/Hydro-Basecode/wrf_hydro_nwm_public/build/Run"
+# 		n=$(ls ./*.exe 2>/dev/null | wc -l)
+# 	}
+
+# 	# IF statement to check that all expected files were created
+# 	if ((n == 2)); then
+# 		echo "All expected files created."
+# 	else
+# 		rebuild_and_check
+# 		if ((n != 2)); then
+# 			echo "Missing one or more expected files. Exiting the script."
+# 			read -r -p "Please contact script authors for assistance. Press 'Enter' to exit the script."
+# 			exit 1
+# 		else
+# 			echo "All expected files created after re-compiling."
+# 		fi
+# 	fi
+
+# 	# Finish the script with a pause
+# 	read -r -t 5 -p "Finished installing WRF Hydro Basecode. Waiting for 5 seconds..."
+# 	############################ WRF #################################
+# 	## WRF v${WPS_VERSION}
+# 	## Downloaded from git tagged releases
+# 	# option 21, option 1 for gfortran and distributed memory w/basic nesting
+# 	# large file support enable with WRFiO_NCD_LARGE_FILE_SUPPORT=1
+# 	########################################################################
+
+# 	cd "${WRF_FOLDER}"/Downloads
+# 	wget -c https://github.com/wrf-model/WRF/releases/download/v${WRF_VERSION}/v${WRF_VERSION}.tar.gz -O WRF-${WRF_VERSION}.tar.gz
+# 	tar -xvzf WRF-${WRF_VERSION}.tar.gz -C "${WRF_FOLDER}"/
+
+# 	# If statment for changing folder name
+# 	if [ -d ""${WRF_FOLDER}"/WRF" ]; then
+# 		mv -f "${WRF_FOLDER}"/WRF "${WRF_FOLDER}"/WRFV${WRF_VERSION}
+# 	fi
+
+# 	cd "${WRF_FOLDER}"/WRFV${WRF_VERSION}
+# 	export WRFIO_NCD_LARGE_FILE_SUPPORT=1
+
+# 	#Replace old version of WRF-Hydro distributed with WRF with updated WRF-Hydro source code
+# 	rm -r "${WRF_FOLDER}"/WRFV${WRF_VERSION}/hydro/
+# 	cp -r "${WRF_FOLDER}"/Hydro-Basecode/wrf_hydro_nwm_public/src "${WRF_FOLDER}"/WRFV${WRF_VERSION}/hydro
+
+# 	cd "${WRF_FOLDER}"/WRFV${WRF_VERSION}/hydro/template
+# 	source setEnvar.sh
+# 	cd "${WRF_FOLDER}"/WRFV${WRF_VERSION}
+
+# 	./clean
+
+# 	if [ ${auto_config} -eq 1 ]; then
+# 		sed -i'' -e '443s/.*/  $response = "17 \\n";/g' "${WRF_FOLDER}"/WRFV${WRF_VERSION}/arch/Config.pl # Answer for compiler choice
+# 		sed -i'' -e '909s/.*/  $response = "1 \\n";/g' "${WRF_FOLDER}"/WRFV${WRF_VERSION}/arch/Config.pl  #Answer for basic nesting
+# 		./configure 2>&1 | tee configure.log
+# 	else
+# 		./configure 2>&1 | tee configure.log #Option 17 gfortran compiler with distributed memory option 1 for basic nesting
+# 	fi
+
+# 	sed -i'' -e '145s/-c/-c -fPIC -fPIE -O3  -Wno-error=implicit-function-declaration/g' configure.wrf
+
+# 	./compile em_real 2>&1 | tee compile.wrf.log
+
+# 	export WRF_DIR="${WRF_FOLDER}"/WRFV${WRF_VERSION}
+
+# 	# IF statement to check that all files were created.
+# 	cd "${WRF_FOLDER}"/WRFV${WRF_VERSION}/main
+# 	n=$(ls ./*.exe | wc -l)
+# 	if (($n >= 3)); then
+# 		echo "All expected files created."
+# 		read -r -t 5 -p "Finished installing WRF. I am going to wait for 5 seconds only ..."
+# 	else
+# 		echo "Missing one or more expected files."
+# 		echo "Running compiler again"
+# 		cd "${WRF_FOLDER}"/WRFV${WRF_VERSION}
+# 		./compile -j $CPU_QUARTER_EVEN em_real 2>&1 | tee compile.wrf2.log
+# 		cd "${WRF_FOLDER}"/WRFV${WRF_VERSION}/main
+# 		n=$(ls ./*.exe | wc -l)
+# 		if (($n >= 3)); then
+# 			echo "All expected files created."
+# 			read -r -t 5 -p "Finished installing WRF. I am going to wait for 5 seconds only ..."
+# 		else
+# 			read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
+# 			exit
+# 		fi
+# 	fi
+
+# 	echo " "
+# 	############################WPS#####################################
+# 	## WPS v${WPS_VERSION}
+# 	## Downloaded from git tagged releases
+# 	#Option 3 for gfortran and distributed memory
+# 	########################################################################
+
+# 	cd "${WRF_FOLDER}"/Downloads
+# 	wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v${WPS_VERSION}.tar.gz -O WPS-${WPS_VERSION}.tar.gz
+# 	tar -xvzf WPS-${WPS_VERSION}.tar.gz -C "${WRF_FOLDER}"/
+# 	cd "${WRF_FOLDER}"/WPS-${WPS_VERSION}
+# 	./clean -a
+
+# 	if [ ${auto_config} -eq 1 ]; then
+# 		echo 19 | ./configure 2>&1 | tee configure.log #Option 19 for gfortran and distributed memory
+# 	else
+# 		./configure 2>&1 | tee configure.log #Option 19 gfortran compiler with distributed memory
+# 	fi
+# 	./compile 2>&1 | tee compile.wps.log
+
+# 	# IF statement to check that all files were created.
+# 	cd "${WRF_FOLDER}"/WPS-${WPS_VERSION}
+# 	n=$(ls ./*.exe | wc -l)
+# 	if (($n == 3)); then
+# 		echo "All expected files created."
+# 		read -r -t 5 -p "Finished installing WPS. I am going to wait for 5 seconds only ..."
+# 	else
+# 		echo "Missing one or more expected files."
+# 		echo "Running compiler again"
+# 		./compile 2>&1 | tee compile.wps2.log
+# 		cd "${WRF_FOLDER}"/WPS-${WPS_VERSION}
+# 		n=$(ls ./*.exe | wc -l)
+# 		if (($n == 3)); then
+# 			echo "All expected files created."
+# 			read -r -t 5 -p "Finished installing WPS. I am going to wait for 5 seconds only ..."
+# 		else
+# 			read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
+# 			exit
+# 		fi
+# 	fi
+
+# 	echo " "
+
+# 	######################## Static Geography Data inc/ Optional ####################
+# 	# http://www2.mmm.ucar.edu/wrf/users/download/get_sources_wps_geog.html
+# 	# These files are large so if you only need certain ones comment the others off
+# 	# All files downloaded and untarred is 200GB
+# 	# https://www2.mmm.ucar.edu/wrf/users/download/get_sources_wps_geog.html
+# 	#################################################################################
+# 	cd "${WRF_FOLDER}"/Downloads
+# 	mkdir "${WRF_FOLDER}"/GEOG
+# 	mkdir "${WRF_FOLDER}"/GEOG/WPS_GEOG
+
+# 	echo " "
+# 	echo "Mandatory WRF Preprocessing System (WPS) Geographical Input Data Mandatory Fields Downloads"
+# 	echo " "
+# 	wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_high_res_mandatory.tar.gz
+# 	tar -xvzf geog_high_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
+
+# 	wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_low_res_mandatory.tar.gz
+# 	tar -xvzf geog_low_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
+# 	mv "${WRF_FOLDER}"/GEOG/WPS_GEOG_LOW_RES/ "${WRF_FOLDER}"/GEOG/WPS_GEOG
+
+# 	if [ ${WPS_Specific_Applications} -eq 1 ]; then
+# 		echo " "
+# 		echo " WPS Geographical Input Data Mandatory for Specific Applications"
+# 		echo " "
+
+# 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_thompson28_chem.tar.gz
+# 		tar -xvzf geog_thompson28_chem.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+
+# 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_noahmp.tar.gz
+# 		tar -xvzf geog_noahmp.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+
+# 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/irrigation.tar.gz
+# 		tar -xvzf irrigation.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+
+# 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_px.tar.gz
+# 		tar -xvzf geog_px.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+
+# 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_urban.tar.gz
+# 		tar -xvzf geog_urban.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+
+# 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_ssib.tar.gz
+# 		tar -xvzf geog_ssib.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+
+# 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/lake_depth.tar.bz2
+# 		tar -xvf lake_depth.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+
+# 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/topobath_30s.tar.bz2
+# 		tar -xvf topobath_30s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+
+# 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/gsl_gwd.tar.bz2
+# 		tar -xvf gsl_gwd.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+
+# 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/cglc_modis_lcz_global.tar.gz
+# 		tar -xvf cglc_modis_lcz_global.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+# 	fi
+
+# 	if [ ${Optional_GEOG} -eq 1 ]; then
+# 		echo " "
+# 		echo "Optional WPS Geographical Input Data"
+# 		echo " "
+
+# 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_older_than_2000.tar.gz
+# 		tar -xvzf geog_older_than_2000.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+
+# 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s_with_lakes.tar.gz
+# 		tar -xvzf modis_landuse_20class_15s_with_lakes.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+
+# 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_alt_lsm.tar.gz
+# 		tar -xvzf geog_alt_lsm.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+
+# 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/nlcd2006_ll_9s.tar.bz2
+# 		tar -xvf nlcd2006_ll_9s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+
+# 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/updated_Iceland_LU.tar.gz
+# 		tar -xvf updated_Iceland_LU.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+
+# 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s.tar.bz2
+# 		tar -xvf modis_landuse_20class_15s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+# 	fi
+
+# fi
+
+# if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
+
+# 	#############################basic package managment############################
+# 	echo $PASSWD | sudo -S yum install epel-release -y
+# 	echo $PASSWD | sudo -S yum install dnf -y
+# 	echo $PASSWD | sudo -S dnf install epel-release -y
+# 	echo $PASSWD | sudo -S dnf install dnf -y
+# 	echo $PASSWD | sudo -S dnf -y update
+# 	echo $PASSWD | sudo -S dnf -y upgrade
+# 	echo $PASSWD | sudo -S dnf -y install autoconf automake bzip2 bzip2-devel byacc cairo-devel cmake cpp curl curl-devel flex fontconfig-devel fontconfig-devel.x86_64 gcc gcc-c++ gcc-gfortran git java-11-openjdk java-11-openjdk-devel ksh libX11-devel libX11-devel.x86_64 libXaw libXaw-devel libXext-devel libXext-devel.x86_64 libXmu-devel libXrender-devel libXrender-devel.x86_64 libstdc++ libstdc++-devel libxml2 libxml2-devel m4 .x86_64 nfs-utils perl "perl(XML::LibXML)" pkgconfig pixman-devel python3 python3-devel tcsh time unzip wget
+# 	echo $PASSWD | sudo -S dnf -y groupinstall "Development Tools"
+# 	echo $PASSWD | sudo -S dnf -y update
+# 	echo $PASSWD | sudo -S dnf -y upgrade
+
+# 	echo " "
+
+# 	echo " "
+# 	##############################Directory Listing############################
+# 	export HOME=$(
+# 		cd
+# 		pwd
+# 	)
+
+# 	mkdir $HOME/WRFHYDRO_COUPLED
+# 	export WRF_FOLDER=$HOME/WRFHYDRO_COUPLED
+# 	cd "${WRF_FOLDER}"/
+# 	mkdir Downloads
+# 	mkdir WRFPLUS
+# 	mkdir WRFDA
+# 	mkdir Libs
+# 	export DIR="${WRF_FOLDER}"/Libs
+# 	mkdir Libs/grib2
+# 	mkdir Libs/NETCDF
+# 	mkdir Libs/MPICH
+# 	mkdir -p Tests/Environment
+# 	mkdir -p Tests/Compatibility
+
+# 	echo " "
+# 	#############################Core Management####################################
+
+# 	export CPU_CORE=$(nproc) # number of available threads on system
+# 	export CPU_6CORE="6"
+# 	export CPU_QUARTER=$(($CPU_CORE / 4))                          #quarter of availble cores on system
+# 	export CPU_QUARTER_EVEN=$(($CPU_QUARTER - ($CPU_QUARTER % 2))) #Forces CPU cores to even number to avoid partial core export. ie 7 cores would be 3.5 cores.
+
+# 	if [ $CPU_CORE -le $CPU_6CORE ]; then #If statement for low core systems.  Forces computers to only use 1 core if there are 4 cores or less on the system. then
+# 		export CPU_QUARTER_EVEN="2"
+# 	else
+# 		export CPU_QUARTER_EVEN=$(($CPU_QUARTER - ($CPU_QUARTER % 2)))
+# 	fi
+
+# 	echo "##########################################"
+# 	echo "Number of Threads being used $CPU_QUARTER_EVEN"
+# 	echo "##########################################"
+
+# 	echo " "
+# 	##############################Downloading Libraries############################
+# 	#Force use of ipv4 with -4
+# 	cd Downloads
+# 	wget -c https://github.com/madler/zlib/releases/download/v$Zlib_Version/zlib-$Zlib_Version.tar.gz
+# 	wget -c https://github.com/HDFGroup/hdf5/releases/download/hdf5_$HDF5_Version.$HDF5_Sub_Version/hdf5-$HDF5_Version-$HDF5_Sub_Version.tar.gz
+# 	wget -c https://github.com/Unidata/netcdf-c/archive/refs/tags/v$Netcdf_C_Version.tar.gz
+# 	wget -c https://github.com/Unidata/netcdf-fortran/archive/refs/tags/v$Netcdf_Fortran_Version.tar.gz
+# 	wget -c https://github.com/pmodels/mpich/releases/download/v$Mpich_Version/mpich-$Mpich_Version.tar.gz
+# 	wget -c https://download.sourceforge.net/libpng/libpng-$Libpng_Version.tar.gz
+# 	wget -c https://www.ece.uvic.ca/~frodo/jasper/software/jasper-$Jasper_Version.zip
+# 	wget -c https://parallel-netcdf.github.io/Release/pnetcdf-$Pnetcdf_Version.tar.gz
+# 	wget -c https://sourceforge.net/projects/opengrads/files/grads2/2.2.1.oga.1/Linux%20%2864%20Bits%29/opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz
+
+# 	echo " "
+# 	####################################Compilers#####################################
+# 	export CC=gcc
+# 	export CXX=g++
+# 	export FC=gfortran
+# 	export F77=gfortran
+# 	export CFLAGS="-fPIC -fPIE -O3"
+
+# 	#IF statement for GNU compiler issue
+# 	export GCC_VERSION=$(gcc -dumpfullversion | awk '{print$1}')
+# 	export GFORTRAN_VERSION=$(gfortran -dumpfullversion | awk '{print$1}')
+# 	export GPLUSPLUS_VERSION=$(g++ -dumpfullversion | awk '{print$1}')
+
+# 	export GCC_VERSION_MAJOR_VERSION=$(echo $GCC_VERSION | awk -F. '{print $1}')
+# 	export GFORTRAN_VERSION_MAJOR_VERSION=$(echo $GFORTRAN_VERSION | awk -F. '{print $1}')
+# 	export GPLUSPLUS_VERSION_MAJOR_VERSION=$(echo $GPLUSPLUS_VERSION | awk -F. '{print $1}')
+
+# 	export version_10="10"
+
+# 	if [ $GCC_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GFORTRAN_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GPLUSPLUS_VERSION_MAJOR_VERSION -ge $version_10 ]; then
+# 		export fallow_argument=-fallow-argument-mismatch
+# 		export boz_argument=-fallow-invalid-boz
+# 	else
+# 		export fallow_argument=
+# 		export boz_argument=
+# 	fi
+
+# 	export FFLAGS="$fallow_argument -m64"
+# 	export FCFLAGS="$fallow_argument -m64"
+
+# 	echo "##########################################"
+# 	echo "FFLAGS = $FFLAGS"
+# 	echo "FCFLAGS = $FCFLAGS"
+# 	echo "CFLAGS = $CFLAGS"
+# 	echo "##########################################"
+
+# 	echo " "
+# 	#############################zlib############################
+# 	#Uncalling compilers due to comfigure issue with zlib$Zlib_Version
+# 	#With CC & CXX definied ./configure uses different compiler Flags
+
+# 	cd "${WRF_FOLDER}"/Downloads
+# 	tar -xvzf zlib-$Zlib_Version.tar.gz
+# 	cd zlib-$Zlib_Version/
+# 	autoreconf -i -f 2>&1 | tee autoreconf.log
+# 	./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
+
+# 	automake -a -f 2>&1 | tee automake.log
+# 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
+# 	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+# 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
+# 	#make check
+
+# 	echo " "
+# 	##############################MPICH############################
+# 	#F90= due to compiler issues with mpich install
+# 	cd "${WRF_FOLDER}"/Downloads
+# 	tar -xvzf mpich-$Mpich_Version.tar.gz
+# 	cd mpich-$Mpich_Version/
+# 	autoreconf -i -f 2>&1 | tee autoreconf.log
+
+# 	F90= ./configure --prefix=$DIR/MPICH --with-device=ch3 FFLAGS=$fallow_argument FCFLAGS=$fallow_argument 2>&1 | tee configure.log
+
+# 	automake -a -f 2>&1 | tee automake.log
+# 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
+# 	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+# 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
+# 	# make check
+
+# 	export PATH=$DIR/MPICH/bin:$PATH
+# 	export MPIFC=$DIR/MPICH/bin/mpifort
+# 	export MPIF77=$DIR/MPICH/bin/mpifort
+# 	export MPIF90=$DIR/MPICH/bin/mpifort
+# 	export MPICC=$DIR/MPICH/bin/mpicc
+# 	export MPICXX=$DIR/MPICH/bin/mpicxx
+
+# 	echo " "
+# 	#############################libpng############################
+# 	cd "${WRF_FOLDER}"/Downloads
+# 	export LDFLAGS=-L$DIR/grib2/lib
+# 	export CPPFLAGS=-I$DIR/grib2/include
+# 	tar -xvzf libpng-$Libpng_Version.tar.gz
+# 	cd libpng-$Libpng_Version/
+# 	autoreconf -i -f 2>&1 | tee autoreconf.log
+
+# 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
+
+# 	automake -a -f 2>&1 | tee automake.log
+# 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
+# 	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+# 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
+# 	#make check
+# 	echo " "
+# 	#############################JasPer############################
+# 	cd "${WRF_FOLDER}"/Downloads
+# 	unzip jasper-$Jasper_Version.zip
+# 	cd jasper-$Jasper_Version/
+# 	autoreconf -i -f 2>&1 | tee autoreconf.log
+
+# 	./configure --prefix=$DIR/grib2
+# 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
+
+# 	automake -a -f 2>&1 | tee automake.log
+# 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
+# 	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+# 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
+# 	#make check
+
+# 	export JASPERLIB=$DIR/grib2/lib
+# 	export JASPERINC=$DIR/grib2/include
+
+# 	echo " "
+# 	#############################hdf5 library for netcdf4 functionality############################
+# 	cd "${WRF_FOLDER}"/Downloads
+# 	tar -xvzf hdf5-$HDF5_Version-$HDF5_Sub_Version.tar.gz
+# 	cd hdf5-$HDF5_Version-$HDF5_Sub_Version
+# 	autoreconf -i -f 2>&1 | tee autoreconf.log
+
+# 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --with-zlib=$DIR/grib2 --enable-hl --enable-fortran --enable-parallel 2>&1 | tee configure.log
+
+# 	automake -a -f 2>&1 | tee automake.log
+# 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
+# 	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+# 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
+# 	#make check
+
+# 	export HDF5=$DIR/grib2
+# 	export PHDF5=$DIR/grib2
+# 	export LD_LIBRARY_PATH=$DIR/grib2/lib:$LD_LIBRARY_PATH
+
+# 	echo " "
+# 	#############################Install Parallel-netCDF##############################
+# 	#Make file created with half of available cpu cores
+# 	#Hard path for MPI added
+# 	##################################################################################
+# 	cd "${WRF_FOLDER}"/Downloads
+# 	tar -xvzf pnetcdf-$Pnetcdf_Version.tar.gz
+# 	cd pnetcdf-$Pnetcdf_Version
+# 	export MPIFC=$DIR/MPICH/bin/mpifort
+# 	export MPIF77=$DIR/MPICH/bin/mpifort
+# 	export MPIF90=$DIR/MPICH/bin/mpifort
+# 	export MPICC=$DIR/MPICH/bin/mpicc
+# 	export MPICXX=$DIR/MPICH/bin/mpicxx
+# 	autoreconf -i -f 2>&1 | tee autoreconf.log
+# 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --enable-shared --enable-static 2>&1 | tee configure.log
+
+# 	automake -a -f 2>&1 | tee automake.log
+# 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
+# 	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+# 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
+# 	#make check
+
+# 	export PNETCDF=$DIR/grib2
+
+# 	echo " "
+
+# 	##############################Install NETCDF C Library############################
+# 	cd "${WRF_FOLDER}"/Downloads
+# 	tar -xzvf v$Netcdf_C_Version.tar.gz
+# 	cd netcdf-c-$Netcdf_C_Version/
+# 	export CPPFLAGS=-I$DIR/grib2/include
+# 	export LDFLAGS=-L$DIR/grib2/lib
+# 	export LIBS="-lhdf5_hl -lhdf5 -lz -lcurl -lgfortran -lgcc -lm -ldl -lpnetcdf"
+# 	autoreconf -i -f 2>&1 | tee autoreconf.log
+
+# 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-shared --enable-static --enable-pnetcdf --enable-cdf5 --enable-parallel-tests 2>&1 | tee configure.log
+
+# 	automake -a -f 2>&1 | tee automake.log
+# 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
+# 	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+# 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
+# 	#make check
+
+# 	export PATH=$DIR/NETCDF/bin:$PATH
+# 	export NETCDF=$DIR/NETCDF
+# 	echo " "
+# 	##############################NetCDF fortran library############################
+# 	cd "${WRF_FOLDER}"/Downloads
+# 	tar -xvzf v$Netcdf_Fortran_Version.tar.gz
+# 	cd netcdf-fortran-$Netcdf_Fortran_Version/
+# 	export LD_LIBRARY_PATH=$DIR/NETCDF/lib:$LD_LIBRARY_PATH
+# 	export CPPFLAGS="-I$DIR/NETCDF/include -I$DIR/grib2/include"
+# 	export LDFLAGS="-L$DIR/NETCDF/lib -L$DIR/grib2/lib"
+# 	export LIBS="-lnetcdf -lpnetcdf -lcurl -lhdf5_hl -lhdf5 -lz -lm -ldl -lgcc -lgfortran"
+# 	autoreconf -i -f 2>&1 | tee autoreconf.log
+
+# 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-shared --enable-static --enable-parallel-tests --enable-hdf5 2>&1 | tee configure.log
+
+# 	automake -a -f 2>&1 | tee automake.log
+# 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
+# 	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+# 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
+# 	#make check
+
+# 	echo " "
+# 	#################################### System Environment Tests ##############
+
+# 	cd "${WRF_FOLDER}"/Downloads
+# 	wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_NETCDF_MPI_tests.tar
+# 	wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_tests.tar
+
+# 	tar -xvf Fortran_C_tests.tar -C "${WRF_FOLDER}"/Tests/Environment
+# 	tar -xvf Fortran_C_NETCDF_MPI_tests.tar -C "${WRF_FOLDER}"/Tests/Compatibility
+
+# 	export one="1"
+# 	echo " "
+# 	############## Testing Environment #####
+
+# 	cd "${WRF_FOLDER}"/Tests/Environment
+
+# 	cp ${NETCDF}/include/netcdf.inc .
+
+# 	echo " "
+# 	echo " "
+# 	echo "Environment Testing "
+# 	echo "Test 1"
+# 	$FC TEST_1_fortran_only_fixed.f
+# 	./a.out | tee env_test1.txt
+# 	export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test1.txt | awk '{print$1}')
+# 	if [ $TEST_PASS -ge 1 ]; then
+# 		echo "Enviroment Test 1 Passed"
+# 	else
+# 		echo "Environment Compiler Test 1 Failed"
+# 		exit
+# 	fi
+# 	read -r -t 3 -p "I am going to wait for 3 seconds only ..."
+
+# 	echo " "
+# 	echo "Test 2"
+# 	$FC TEST_2_fortran_only_free.f90
+# 	./a.out | tee env_test2.txt
+# 	export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test2.txt | awk '{print$1}')
+# 	if [ $TEST_PASS -ge 1 ]; then
+# 		echo "Enviroment Test 2 Passed"
+# 	else
+# 		echo "Environment Compiler Test 2 Failed"
+# 		exit
+# 	fi
+# 	echo " "
+# 	read -r -t 3 -p "I am going to wait for 3 seconds only ..."
+
+# 	echo " "
+# 	echo "Test 3"
+# 	$CC TEST_3_c_only.c
+# 	./a.out | tee env_test3.txt
+# 	export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test3.txt | awk '{print$1}')
+# 	if [ $TEST_PASS -ge 1 ]; then
+# 		echo "Enviroment Test 3 Passed"
+# 	else
+# 		echo "Environment Compiler Test 3 Failed"
+# 		exit
+# 	fi
+# 	echo " "
+# 	read -r -t 3 -p "I am going to wait for 3 seconds only ..."
+
+# 	echo " "
+# 	echo "Test 4"
+# 	$CC -c -m64 TEST_4_fortran+c_c.c
+# 	$FC -c -m64 TEST_4_fortran+c_f.f90
+# 	$FC -m64 TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
+# 	./a.out | tee env_test4.txt
+# 	export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test4.txt | awk '{print$1}')
+# 	if [ $TEST_PASS -ge 1 ]; then
+# 		echo "Enviroment Test 4 Passed"
+# 	else
+# 		echo "Environment Compiler Test 4 Failed"
+# 		exit
+# 	fi
+# 	echo " "
+# 	read -r -t 3 -p "I am going to wait for 3 seconds only ..."
+
+# 	echo " "
+# 	############## Testing Environment #####
+
+# 	cd "${WRF_FOLDER}"/Tests/Compatibility
+
+# 	cp ${NETCDF}/include/netcdf.inc .
+
+# 	echo " "
+# 	echo " "
+# 	echo "Library Compatibility Tests "
+# 	echo "Test 1"
+# 	$FC -c 01_fortran+c+netcdf_f.f
+# 	$CC -c 01_fortran+c+netcdf_c.c
+# 	$FC 01_fortran+c+netcdf_f.o 01_fortran+c+netcdf_c.o \
+# 		-L${NETCDF}/lib -lnetcdff -lnetcdf
+
+# 	./a.out | tee comp_test1.txt
+# 	export TEST_PASS=$(grep -w -o -c "SUCCESS" comp_test1.txt | awk '{print$1}')
+# 	if [ $TEST_PASS -ge 1 ]; then
+# 		echo "Compatibility Test 1 Passed"
+# 	else
+# 		echo "Compatibility Compiler Test 1 Failed"
+# 		exit
+# 	fi
+# 	echo " "
+# 	read -r -t 3 -p "I am going to wait for 3 seconds only ..."
+
+# 	echo " "
+
+# 	echo "Test 2"
+# 	$MPIFC -c 02_fortran+c+netcdf+mpi_f.f
+# 	$MPICC -c 02_fortran+c+netcdf+mpi_c.c
+# 	$MPIFC 02_fortran+c+netcdf+mpi_f.o \
+# 		02_fortran+c+netcdf+mpi_c.o \
+# 		-L${NETCDF}/lib -lnetcdff -lnetcdf
+
+# 	$DIR/MPICH/bin/mpirun ./a.out | tee comp_test2.txt
+# 	export TEST_PASS=$(grep -w -o -c "SUCCESS" comp_test2.txt | awk '{print$1}')
+# 	if [ $TEST_PASS -ge 1 ]; then
+# 		echo "Compatibility Test 2 Passed"
+# 	else
+# 		echo "Compatibility Compiler Test 2 Failed"
+# 		exit
+# 	fi
+# 	echo " "
+# 	read -r -t 3 -p "I am going to wait for 3 seconds only ..."
+# 	echo " "
+
+# 	echo " All tests completed and passed"
+# 	echo " "
+
+# 	###############################NCEPlibs#####################################
+# 	#The libraries are built and installed with
+# 	# ./make_ncep_libs.sh -s MACHINE -c COMPILER -d NCEPLIBS_DIR -o OPENMP [-m mpi] [-a APPLICATION]
+# 	#It is recommended to install the NCEPlibs into their own directory, which must be created before running the installer. Further information on the command line arguments can be obtained with
+# 	# ./make_ncep_libs.sh -h
+
+# 	#If iand error occurs go to https://github.com/NCAR/NCEPlibs/pull/16/files make adjustment and re-run ./make_ncep_libs.sh
+# 	############################################################################
+
+# 	cd "${WRF_FOLDER}"/Downloads
+# 	git clone https://github.com/NCAR/NCEPlibs.git
+# 	cd NCEPlibs
+# 	mkdir $DIR/nceplibs
+
+# 	export JASPER_INC=$DIR/grib2/include
+# 	export PNG_INC=$DIR/grib2/include
+# 	export NETCDF=$DIR/NETCDF
+
+# 	#for loop to edit linux.gnu for nceplibs to install
+# 	#make if statement for gcc-9 or older
+# 	export GCC_VERSION=$(gcc -dumpfullversion | awk '{print$1}')
+# 	export GFORTRAN_VERSION=$(gfortran -dumpfullversion | awk '{print$1}')
+# 	export GPLUSPLUS_VERSION=$(g++ -dumpfullversion | awk '{print$1}')
+
+# 	export GCC_VERSION_MAJOR_VERSION=$(echo $GCC_VERSION | awk -F. '{print $1}')
+# 	export GFORTRAN_VERSION_MAJOR_VERSION=$(echo $GFORTRAN_VERSION | awk -F. '{print $1}')
+# 	export GPLUSPLUS_VERSION_MAJOR_VERSION=$(echo $GPLUSPLUS_VERSION | awk -F. '{print $1}')
+
+# 	export version_10="10"
+
+# 	if [ $GCC_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GFORTRAN_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GPLUSPLUS_VERSION_MAJOR_VERSION -ge $version_10 ]; then
+# 		sed -i "24s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+# 		sed -i "28s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+# 		sed -i "32s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+# 		sed -i "36s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+# 		sed -i "40s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+# 		sed -i "45s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+# 		sed -i "49s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+# 		sed -i "53s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+# 		sed -i "56s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+# 		sed -i "60s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+# 		sed -i "64s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+# 		sed -i "68s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+# 		sed -i "69s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+# 		sed -i "73s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+# 		sed -i "74s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+# 		sed -i "79s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+
+# 	fi
+
+# 	if [ ${auto_config} -eq 1 ]; then
+# 		echo yes | ./make_ncep_libs.sh -s linux -c gnu -d $DIR/nceplibs -o 0 -m 1 -a upp | tee make.install.log
+# 	else
+# 		./make_ncep_libs.sh -s linux -c gnu -d $DIR/nceplibs -o 0 -m 1 -a upp | tee make.install.log
+# 	fi
+
+# 	export PATH=$DIR/nceplibs:$PATH
+
+# 	echo " "
+# 	################################UPPv4.1######################################
+# 	#Previous verison of UPP
+# 	#WRF Support page recommends UPPV4.1 due to too many changes to WRF and UPP code
+# 	#since the WRF was written
+# 	#Option 8 gfortran compiler with distributed memory
+# 	#############################################################################
+# 	cd "${WRF_FOLDER}"/
+# 	git clone -b dtc_post_v4.1.0 --recurse-submodules https://github.com/NOAA-EMC/EMC_post UPPV4.1
+# 	cd UPPV4.1
+# 	mkdir postprd
+# 	export NCEPLIBS_DIR=$DIR/nceplibs
+# 	export NETCDF=$DIR/NETCDF
+
+# 	if [ ${auto_config} -eq 1 ]; then
+# 		echo 8 | ./configure #Option 8 gfortran compiler with distributed memory
+# 	else
+# 		./configure #Option 8 gfortran compiler with distributed memory
+# 	fi
+
+# 	#make if statement for gcc-9 or older
+# 	export GCC_VERSION=$(gcc -dumpfullversion | awk '{print$1}')
+# 	export GFORTRAN_VERSION=$(gfortran -dumpfullversion | awk '{print$1}')
+# 	export GPLUSPLUS_VERSION=$(g++ -dumpfullversion | awk '{print$1}')
+
+# 	export GCC_VERSION_MAJOR_VERSION=$(echo $GCC_VERSION | awk -F. '{print $1}')
+# 	export GFORTRAN_VERSION_MAJOR_VERSION=$(echo $GFORTRAN_VERSION | awk -F. '{print $1}')
+# 	export GPLUSPLUS_VERSION_MAJOR_VERSION=$(echo $GPLUSPLUS_VERSION | awk -F. '{print $1}')
+
+# 	export version_10="10"
+
+# 	if [ $GCC_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GFORTRAN_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GPLUSPLUS_VERSION_MAJOR_VERSION -ge $version_10 ]; then
+# 		sed -i "58s/(FOPT)/(FOPT) $fallow_argument $boz_argument  /g" "${WRF_FOLDER}/UPPV4.1/configure.upp"
+# 		sed -i "63s/(FOPT)/(FOPT) $fallow_argument $boz_argument  /g" "${WRF_FOLDER}/UPPV4.1/configure.upp"
+
+# 	fi
+
+# 	./compile
+# 	cd "${WRF_FOLDER}"/UPPV4.1/scripts
+
+# 	chmod +x run_unipost
+
+# 	# IF statement to check that all files were created.
+# 	cd "${WRF_FOLDER}"/UPPV4.1/exec
+# 	n=$(ls ./*.exe | wc -l)
+# 	if (($n == 1)); then
+# 		echo "All expected files created."
+# 		read -r -t 5 -p "Finished installing UPPV4.1. I am going to wait for 5 seconds only ..."
+# 	else
+# 		echo "Missing one or more expected files. Exiting the script."
+# 		read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
+# 		exit
+# 	fi
+
+# 	echo " "
+
+# 	######################## ARWpost V3.1  ############################
+# 	## ARWpost
+# 	##Configure #3
+# 	###################################################################
+# 	cd "${WRF_FOLDER}"/Downloads
+# 	wget -c http://www2.mmm.ucar.edu/wrf/src/ARWpost_V3.tar.gz
+# 	tar -xvzf ARWpost_V3.tar.gz -C "${WRF_FOLDER}"/
+# 	cd "${WRF_FOLDER}"/ARWpost
+# 	./clean -a
+# 	sed -i -e 's/-lnetcdf/-lnetcdff -lnetcdf/g' "${WRF_FOLDER}"/ARWpost/src/Makefile
+# 	export NETCDF=$DIR/NETCDF
+
+# 	if [ ${auto_config} -eq 1 ]; then
+# 		echo 3 | ./configure #Option 3 gfortran compiler with distributed memory
+# 	else
+# 		./configure #Option 3 gfortran compiler with distributed memory
+# 	fi
+
+# 	export GCC_VERSION=$(gcc -dumpfullversion | awk '{print$1}')
+# 	export GFORTRAN_VERSION=$(gfortran -dumpfullversion | awk '{print$1}')
+# 	export GPLUSPLUS_VERSION=$(g++ -dumpfullversion | awk '{print$1}')
+
+# 	export GCC_VERSION_MAJOR_VERSION=$(echo $GCC_VERSION | awk -F. '{print $1}')
+# 	export GFORTRAN_VERSION_MAJOR_VERSION=$(echo $GFORTRAN_VERSION | awk -F. '{print $1}')
+# 	export GPLUSPLUS_VERSION_MAJOR_VERSION=$(echo $GPLUSPLUS_VERSION | awk -F. '{print $1}')
+
+# 	export version_10="10"
+
+# 	if [ $GCC_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GFORTRAN_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GPLUSPLUS_VERSION_MAJOR_VERSION -ge $version_10 ]; then
+# 		sed -i '32s/-ffree-form -O -fno-second-underscore -fconvert=big-endian -frecord-marker=4/-ffree-form -O -fno-second-underscore -fconvert=big-endian -frecord-marker=4 ${fallow_argument} /g' configure.arwp
+# 	fi
+
+# 	sed -i -e 's/-C -P -traditional/-P -traditional/g' "${WRF_FOLDER}"/ARWpost/configure.arwp
+# 	./compile
+
+# 	#IF statement to check that all files were created.
+# 	cd "${WRF_FOLDER}"/ARWpost
+# 	n=$(ls ./*.exe | wc -l)
+# 	if (($n == 1)); then
+# 		echo "All expected files created."
+# 		read -r -t 5 -p "Finished installing ARWpost. I am going to wait for 5 seconds only ..."
+# 	else
+# 		echo "Missing one or more expected files. Exiting the script."
+# 		read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
+# 		exit
+# 	fi
+
+# 	echo " "
+
+# 	export PATH="${WRF_FOLDER}"/ARWpost/ARWpost.exe:$PATH
+
+# 	echo " "
+# 	################################ OpenGrADS ##################################
+# 	#Verison 2.2.1 32bit of Linux
+# 	#############################################################################
+# 	if [[ $GRADS_PICK -eq 1 ]]; then
+# 		cd "${WRF_FOLDER}"/Downloads
+# 		tar -xzvf opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz -C "${WRF_FOLDER}"/
+# 		cd "${WRF_FOLDER}"/
+# 		mv "${WRF_FOLDER}"/opengrads-2.2.1.oga.1 "${WRF_FOLDER}"/GrADS
+# 		cd GrADS/Contents
+# 		wget -c https://github.com/regisgrundig/SIMOP/blob/master/g2ctl.pl
+# 		chmod +x g2ctl.pl
+# 		wget -c https://sourceforge.net/projects/opengrads/files/wgrib2/0.1.9.4/wgrib2-v0.1.9.4-bin-i686-glib2.5-linux-gnu.tar.gz
+# 		tar -xzvf wgrib2-v0.1.9.4-bin-i686-glib2.5-linux-gnu.tar.gz
+# 		cd wgrib2-v0.1.9.4/bin
+# 		mv wgrib2 "${WRF_FOLDER}"/GrADS/Contents
+# 		cd "${WRF_FOLDER}"/GrADS/Contents
+# 		rm wgrib2-v0.1.9.4-bin-i686-glib2.5-linux-gnu.tar.gz
+# 		rm -r wgrib2-v0.1.9.4
+
+# 		export PATH="${WRF_FOLDER}"/GrADS/Contents:$PATH
+
+# 		echo " "
+# 	fi
+# 	################################## GrADS ###############################
+# 	# Version  2.2.1
+# 	# Sublibs library instructions: http://cola.gmu.edu/grads/gadoc/supplibs2.html
+# 	# GrADS instructions: http://cola.gmu.edu/grads/downloads.php
+# 	########################################################################
+# 	if [[ $GRADS_PICK -eq 2 ]]; then
+# 		cd "${WRF_FOLDER}"/Downloads
+# 		wget -c ftp://cola.gmu.edu/grads/2.2/grads-2.2.1-bin-centos7.4-x86_64.tar.gz
+# 		tar -xzvf grads-2.2.1-bin-centos7.4-x86_64.tar.gz -C "${WRF_FOLDER}"
+# 		cd "${WRF_FOLDER}"/grads-2.2.1/bin
+# 		chmod 775 *
+
+# 	fi
+
+# 	echo " "
+# 	##################### NCAR COMMAND LANGUAGE           ##################
+# 	########### NCL compiled via Conda                    ##################
+# 	########### This is the preferred method by NCAR      ##################
+# 	########### https://www.ncl.ucar.edu/index.shtml      ##################
+
+# 	#Installing Miniconda3 to WRF-Hydro directory and updating libraries
+# 	echo $PASSWD | sudo -S apt -y install python3-zstandard python3-zstd
+
+# 	export Miniconda_Install_DIR="${WRF_FOLDER}"/miniconda3
+
+# 	mkdir -p $Miniconda_Install_DIR
+
+# 	wget -c https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O $Miniconda_Install_DIR/miniconda.sh
+# 	bash $Miniconda_Install_DIR/miniconda.sh -b -u -p $Miniconda_Install_DIR
+
+# 	rm -rf $Miniconda_Install_DIR/miniconda.sh
+
+# 	export PATH="${WRF_FOLDER}"/miniconda3/bin:$PATH
+
+# 	source $Miniconda_Install_DIR/etc/profile.d/conda.sh
+
+# 	$Miniconda_Install_DIR/bin/conda init bash
+# 	$Miniconda_Install_DIR/bin/conda init zsh
+# 	$Miniconda_Install_DIR/bin/conda init tcsh
+# 	$Miniconda_Install_DIR/bin/conda init xonsh
+# 	$Miniconda_Install_DIR/bin/conda init powershell
+
+# 	conda config --add channels conda-forge
+# 	conda config --set auto_activate_base false
+# 	conda update -n root --all -y
+
+# 	echo " "
+
+# 	echo " "
+# 	#Installing NCL via Conda
+# 	source $Miniconda_Install_DIR/etc/profile.d/conda.sh
+# 	conda init bash
+# 	conda activate base
+# 	conda create -n ncl_stable -c conda-forge ncl -y
+# 	conda activate ncl_stable
+
+# 	conda deactivate
+# 	conda deactivate
+# 	conda deactivate
+
+# 	echo " "
+
+# 	############################OBSGRID###############################
+# 	## OBSGRID
+# 	## Downloaded from git tagged releases
+# 	## Option #2
+# 	########################################################################
+# 	cd "${WRF_FOLDER}"/
+# 	git clone https://github.com/wrf-model/OBSGRID.git
+# 	cd "${WRF_FOLDER}"/OBSGRID
+
+# 	./clean -a
+# 	source $Miniconda_Install_DIR/etc/profile.d/conda.sh
+# 	conda init bash
+# 	conda activate ncl_stable
+
+# 	export HOME=$(
+# 		cd
+# 		pwd
+# 	)
+# 	export DIR="${WRF_FOLDER}"/Libs
+# 	export NETCDF=$DIR/NETCDF
+
+# 	if [ ${auto_config} -eq 1 ]; then
+# 		echo 2 | ./configure 2>&1 | tee configure.log #Option 2 for gfortran/gcc and distribunted memory
+# 	else
+# 		./configure 2>&1 | tee configure.log #Option 2 for gfortran/gcc and distribunted memory
+# 	fi
+
+# 	sed -i '27s/-lnetcdf -lnetcdff/ -lnetcdff -lnetcdf/g' configure.oa
+
+# 	sed -i '31s/-lncarg -lncarg_gks -lncarg_c -lX11 -lm -lcairo/-lncarg -lncarg_gks -lncarg_c -lX11 -lm -lcairo -lfontconfig -lpixman-1 -lfreetype -lhdf5 -lhdf5_hl /g' configure.oa
+
+# 	sed -i '39s/-frecord-marker=4/-frecord-marker=4 ${fallow_argument} /g' configure.oa
+
+# 	sed -i '44s/=	/=	${fallow_argument} /g' configure.oa
+
+# 	sed -i '45s/-C -P -traditional/-P -traditional/g' configure.oa
+
+# 	echo " "
+# 	./compile 2>&1 | tee compile.obsgrid.log
+
+# 	conda deactivate
+# 	conda deactivate
+# 	conda deactivate
+
+# 	echo " "
+# 	# IF statement to check that all files were created.
+# 	cd "${WRF_FOLDER}"/OBSGRID
+# 	n=$(ls ./*.exe | wc -l)
+# 	if (($n == 3)); then
+# 		echo "All expected files created."
+# 		read -r -t 5 -p "Finished installing OBSGRID. I am going to wait for 5 seconds only ..."
+# 	else
+# 		echo "Missing one or more expected files. Exiting the script."
+# 		read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
+# 		exit
+# 	fi
+
+# 	echo " "
+
+# 	##################### WRF Python           ##################
+# 	########### WRf-Python compiled via Conda  ##################
+# 	########### This is the preferred method by NCAR      ##################
+# 	##### https://wrf-python.readthedocs.io/en/latest/installation.html  ##################
+# 	source $Miniconda_Install_DIR/etc/profile.d/conda.sh
+# 	conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
+
+# 	echo " "
+
+# 	########################## WRF Hydro GIS PreProcessor ##############################
+# 	#  Compiled with Conda
+# 	#  https://github.com/NCAR/wrf_hydro_gis_preprocessor
+# 	####################################################################################
+
+# 	conda init bash
+# 	conda activate base
+# 	conda config --add channels conda-forge
+# 	conda create -n wrfh_gis_env -c conda-forge python=3.12 gdal netCDF4 numpy pyproj whitebox=2.2.0 packaging shapely -y
+# 	conda activate wrfh_gis_env
+# 	conda update -n wrfh_gis_env --all -y
+# 	conda deactivate
+# 	conda deactivate
+# 	conda deactivate
+# 	cd "${WRF_FOLDER}"/
+# 	git clone https://github.com/NCAR/wrf_hydro_gis_preprocessor.git "${WRF_FOLDER}"/WRF-Hydro-GIS-PreProcessor
+
+# 	echo " "
+
+# 	############################# WRF HYDRO V5.3.0 #################################
+# 	# Version 5.3.0
+# 	# Standalone mode
+# 	################################################################################
+# 	# Set up NETCDF environment variables
+# 	export NETCDF_INC="$DIR/NETCDF/include"
+# 	export NETCDF_LIB="$DIR/NETCDF/lib"
+
+# 	# Create directories for Hydro Basecode and navigate to it
+# 	mkdir -p "${WRF_FOLDER}/Hydro-Basecode"
+# 	cd "${WRF_FOLDER}/Hydro-Basecode"
+
+# 	# Clone the WRF-Hydro repository and set up the build
+# 	git clone https://github.com/NCAR/wrf_hydro_nwm_public.git
+# 	cd wrf_hydro_nwm_public
+# 	mkdir -p build
+# 	cd build
+
+# 	# Run CMake configuration for WRF-Hydro with specified options
+# 	cmake .. \
+# 		-DSPATIAL_SOIL=1 \
+# 		-DWRF_HYDRO=1 \
+# 		-DWRF_HYDRO_NUDGING=1 \
+# 		-DWRFIO_NCD_LARGE_FILE_SUPPORT=1 \
+# 		-DCMAKE_Fortran_COMPILER=gfortran
+
+# 	# Compile using specified CPU settings
+# 	make -j "$CPU_QUARTER_EVEN" 2>&1 | tee make.log
+
+# 	# Check if the necessary executable files were created
+# 	cd "${WRF_FOLDER}/Hydro-Basecode/wrf_hydro_nwm_public/build/Run"
+# 	n=$(ls ./*.exe 2>/dev/null | wc -l)
+
+# 	# Function to rerun compilation if files are missing
+# 	rebuild_and_check() {
+# 		echo "Missing one or more expected files. Running compiler again..."
+# 		cd "${WRF_FOLDER}/Hydro-Basecode/wrf_hydro_nwm_public/build"
+# 		make -j "$CPU_QUARTER_EVEN" 2>&1 | tee make2.log
+# 		cd "${WRF_FOLDER}/Hydro-Basecode/wrf_hydro_nwm_public/build/Run"
+# 		n=$(ls ./*.exe 2>/dev/null | wc -l)
+# 	}
+
+# 	# IF statement to check that all expected files were created
+# 	if ((n == 2)); then
+# 		echo "All expected files created."
+# 	else
+# 		rebuild_and_check
+# 		if ((n != 2)); then
+# 			echo "Missing one or more expected files. Exiting the script."
+# 			read -r -p "Please contact script authors for assistance. Press 'Enter' to exit the script."
+# 			exit 1
+# 		else
+# 			echo "All expected files created after re-compiling."
+# 		fi
+# 	fi
+
+# 	# Finish the script with a pause
+# 	read -r -t 5 -p "Finished installing WRF Hydro Basecode. Waiting for 5 seconds..."
+# 	############################ WRF #################################
+# 	## WRF v${WPS_VERSION}
+# 	## Downloaded from git tagged releases
+# 	# option 34, option 1 for gfortran and distributed memory w/basic nesting
+# 	# large file support enable with WRFiO_NCD_LARGE_FILE_SUPPORT=1
+# 	# In the namelist.input, the following settings support pNetCDF by setting value to 11:
+# 	# io_form_boundary
+# 	# io_form_history
+# 	# io_form_auxinput2
+# 	# io_form_auxhist2
+# 	# Note that you need set nocolons = .true. in the section &time_control of namelist.input
+# 	########################################################################
+# 	cd "${WRF_FOLDER}"/Downloads
+# 	wget -c https://github.com/wrf-model/WRF/releases/download/v${WRF_VERSION}/v${WRF_VERSION}.tar.gz -O WRF-${WRF_VERSION}.tar.gz
+# 	tar -xvzf WRF-${WRF_VERSION}.tar.gz -C "${WRF_FOLDER}"/
+
+# 	# If statment for changing folder name
+# 	if [ -d ""${WRF_FOLDER}"/WRF" ]; then
+# 		mv -f "${WRF_FOLDER}"/WRF "${WRF_FOLDER}"/WRFV${WRF_VERSION}
+# 	fi
+
+# 	cd "${WRF_FOLDER}"/WRFV${WRF_VERSION}
+# 	export WRFIO_NCD_LARGE_FILE_SUPPORT=1
+
+# 	#Replace old version of WRF-Hydro distributed with WRF with updated WRF-Hydro source code
+# 	rm -r "${WRF_FOLDER}"/WRFV${WRF_VERSION}/hydro/
+# 	cp -r "${WRF_FOLDER}"/Hydro-Basecode/wrf_hydro_nwm_public/src "${WRF_FOLDER}"/WRFV${WRF_VERSION}/hydro
+
+# 	cd "${WRF_FOLDER}"/WRFV${WRF_VERSION}/hydro/template
+# 	source setEnvar.sh
+# 	cd "${WRF_FOLDER}"/WRFV${WRF_VERSION}
+
+# 	./clean
+
+# 	# SED statements to fix configure error
+# 	sed -i '186s/==/=/g' "${WRF_FOLDER}"/WRFV${WRF_VERSION}/configure
+# 	sed -i '318s/==/=/g' "${WRF_FOLDER}"/WRFV${WRF_VERSION}/configure
+# 	sed -i '919s/==/=/g' "${WRF_FOLDER}"/WRFV${WRF_VERSION}/configure
+
+# 	if [ ${auto_config} -eq 1 ]; then
+# 		sed -i '443s/.*/  $response = "34 \\n";/g' "${WRF_FOLDER}"/WRFV${WRF_VERSION}/arch/Config.pl # Answer for compiler choice
+# 		sed -i '909s/.*/  $response = "1 \\n";/g' "${WRF_FOLDER}"/WRFV${WRF_VERSION}/arch/Config.pl  #Answer for basic nesting
+# 		./configure 2>&1 | tee configure.log
+# 	else
+# 		./configure 2>&1 | tee configure.log #Option 34 gfortran compiler with distributed memory option 1 for basic nesting
+# 	fi
+
+# 	./compile -j $CPU_QUARTER_EVEN em_real 2>&1 | tee compile.wrf1.log
+
+# 	export WRF_DIR="${WRF_FOLDER}"/WRFV${WRF_VERSION}
+
+# 	# IF statement to check that all files were created.
+# 	cd "${WRF_FOLDER}"/WRFV${WRF_VERSION}/main
+# 	n=$(ls ./*.exe | wc -l)
+# 	if (($n >= 3)); then
+# 		echo "All expected files created."
+# 		read -r -t 5 -p "Finished installing WRF. I am going to wait for 5 seconds only ..."
+# 	else
+# 		echo "Missing one or more expected files."
+# 		echo "Running compiler again"
+# 		cd "${WRF_FOLDER}"/WRFV${WRF_VERSION}
+# 		./compile -j $CPU_QUARTER_EVEN em_real 2>&1 | tee compile.wrf2.log
+# 		cd "${WRF_FOLDER}"/WRFV${WRF_VERSION}/main
+# 		n=$(ls ./*.exe | wc -l)
+# 		if (($n >= 3)); then
+# 			echo "All expected files created."
+# 			read -r -t 5 -p "Finished installing WRF. I am going to wait for 5 seconds only ..."
+# 		else
+# 			read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
+# 			exit
+# 		fi
+# 	fi
+
+# 	echo " "
+# 	############################WPS#####################################
+# 	## WPS v${WPS_VERSION}
+# 	## Downloaded from git tagged releases
+# 	#Option 3 for gfortran and distributed memory
+# 	########################################################################
+
+# 	cd "${WRF_FOLDER}"/Downloads
+# 	wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v${WPS_VERSION}.tar.gz -O WPS-${WPS_VERSION}.tar.gz
+# 	tar -xvzf WPS-${WPS_VERSION}.tar.gz -C "${WRF_FOLDER}"/
+# 	cd "${WRF_FOLDER}"/WPS-${WPS_VERSION}
+# 	./clean -a
+
+# 	if [ ${auto_config} -eq 1 ]; then
+# 		echo 3 | ./configure 2>&1 | tee configure.log #Option 3 for gfortran and distributed memory
+# 	else
+# 		./configure 2>&1 | tee configure.log #Option 3 gfortran compiler with distributed memory
+# 	fi
+# 	./compile 2>&1 | tee compile.wps.log
+
+# 	echo " "
+# 	# IF statement to check that all files were created.
+# 	cd "${WRF_FOLDER}"/WPS-${WPS_VERSION}
+# 	n=$(ls ./*.exe | wc -l)
+# 	if (($n == 3)); then
+# 		echo "All expected files created."
+# 		read -r -t 5 -p "Finished installing WPS. I am going to wait for 5 seconds only ..."
+# 	else
+# 		echo "Missing one or more expected files."
+# 		echo "Running compiler again"
+# 		./compile 2>&1 | tee compile.wps2.log
+# 		cd "${WRF_FOLDER}"/WPS-${WPS_VERSION}
+# 		n=$(ls ./*.exe | wc -l)
+# 		if (($n == 3)); then
+# 			echo "All expected files created."
+# 			read -r -t 5 -p "Finished installing WPS. I am going to wait for 5 seconds only ..."
+# 		else
+# 			read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
+# 			exit
+# 		fi
+# 	fi
+
+# 	echo " "
+
+# 	######################## Static Geography Data inc/ Optional ####################
+# 	# http://www2.mmm.ucar.edu/wrf/users/download/get_sources_wps_geog.html
+# 	# These files are large so if you only need certain ones comment the others off
+# 	# All files downloaded and untarred is 200GB
+# 	# https://www2.mmm.ucar.edu/wrf/users/download/get_sources_wps_geog.html
+# 	#################################################################################
+# 	cd "${WRF_FOLDER}"/Downloads
+# 	mkdir "${WRF_FOLDER}"/GEOG
+# 	mkdir "${WRF_FOLDER}"/GEOG/WPS_GEOG
+
+# 	echo " "
+# 	echo "Mandatory WRF Preprocessing System (WPS) Geographical Input Data Mandatory Fields Downloads"
+# 	echo " "
+# 	wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_high_res_mandatory.tar.gz
+# 	tar -xvzf geog_high_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
+
+# 	wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_low_res_mandatory.tar.gz
+# 	tar -xvzf geog_low_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
+# 	mv "${WRF_FOLDER}"/GEOG/WPS_GEOG_LOW_RES/ "${WRF_FOLDER}"/GEOG/WPS_GEOG
+
+# 	if [ ${WPS_Specific_Applications} -eq 1 ]; then
+# 		echo " "
+# 		echo " WPS Geographical Input Data Mandatory for Specific Applications"
+# 		echo " "
+
+# 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_thompson28_chem.tar.gz
+# 		tar -xvzf geog_thompson28_chem.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+
+# 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_noahmp.tar.gz
+# 		tar -xvzf geog_noahmp.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+
+# 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/irrigation.tar.gz
+# 		tar -xvzf irrigation.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+# 		mkdir "${WRF_FOLDER}"/GEOG/WPS_GEOG/irrigation
+# 		mv $WRFHYDRDO_FOLDER/GEOG/WPS_GEOG/fao "${WRF_FOLDER}"/GEOG/WPS_GEOG/irrigation
+
+# 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_px.tar.gz
+# 		tar -xvzf geog_px.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+
+# 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_urban.tar.gz
+# 		tar -xvzf geog_urban.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+
+# 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_ssib.tar.gz
+# 		tar -xvzf geog_ssib.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+
+# 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/lake_depth.tar.bz2
+# 		tar -xvf lake_depth.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+
+# 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/topobath_30s.tar.bz2
+# 		tar -xvf topobath_30s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+
+# 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/gsl_gwd.tar.bz2
+# 		tar -xvf gsl_gwd.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+
+# 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/cglc_modis_lcz_global.tar.gz
+# 		tar -xvf cglc_modis_lcz_global.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+# 	fi
+
+# 	if [ ${Optional_GEOG} -eq 1 ]; then
+# 		echo " "
+# 		echo "Optional WPS Geographical Input Data"
+# 		echo " "
+
+# 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_older_than_2000.tar.gz
+# 		tar -xvzf geog_older_than_2000.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+
+# 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s_with_lakes.tar.gz
+# 		tar -xvzf modis_landuse_20class_15s_with_lakes.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+
+# 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_alt_lsm.tar.gz
+# 		tar -xvzf geog_alt_lsm.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+
+# 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/nlcd2006_ll_9s.tar.bz2
+# 		tar -xvf nlcd2006_ll_9s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+
+# 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/updated_Iceland_LU.tar.gz
+# 		tar -xvf updated_Iceland_LU.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+
+# 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s.tar.bz2
+# 		tar -xvf modis_landuse_20class_15s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+# 	fi
+# fi
+
+# if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
+
+# 	#############################basic package managment############################
+# 	#############################basic package managment############################
+# 	echo "old version of GNU detected"
+# 	echo $PASSWD | sudo -S yum install centos-release-scl -y
+# 	echo $PASSWD | sudo -S yum clean all
+# 	echo $PASSWD | sudo -S yum remove devtoolset-11*
+# 	echo $PASSWD | sudo -S yum install devtoolset-11
+# 	echo $PASSWD | sudo -S yum install devtoolset-11-\* -y
+# 	source /opt/rh/devtoolset-11/enable
+# 	gcc --version
+# 	echo $PASSWD | sudo -S yum install epel-release -y
+# 	echo $PASSWD | sudo -S yum install dnf -y
+# 	echo $PASSWD | sudo -S dnf install epel-release -y
+# 	echo $PASSWD | sudo -S dnf install dnf -y
+# 	echo $PASSWD | sudo -S dnf -y update
+# 	echo $PASSWD | sudo -S dnf -y upgrade
+# 	echo $PASSWD | sudo -S dnf -y install autoconf automake bzip2 bzip2-devel byacc cairo-devel cmake cpp curl curl-devel flex fontconfig-devel fontconfig-devel.x86_64 gcc gcc-c++ gcc-gfortran git java-11-openjdk java-11-openjdk-devel ksh libX11-devel libX11-devel.x86_64 libXaw libXaw-devel libXext-devel libXext-devel.x86_64 libXmu-devel libXrender-devel libXrender-devel.x86_64 libstdc++ libstdc++-devel libxml2 libxml2-devel m4 .x86_64 nfs-utils perl "perl(XML::LibXML)" pkgconfig pixman-devel python3 python3-devel tcsh time unzip wget
+# 	echo $PASSWD | sudo -S dnf -y groupinstall "Development Tools"
+# 	echo $PASSWD | sudo -S dnf -y update
+# 	echo $PASSWD | sudo -S dnf -y upgrade
+
+# 	echo " "
+# 	##############################Directory Listing############################
+# 	export HOME=$(
+# 		cd
+# 		pwd
+# 	)
+
+# 	mkdir $HOME/WRFHYDRO_COUPLED
+# 	export WRF_FOLDER=$HOME/WRFHYDRO_COUPLED
+# 	cd "${WRF_FOLDER}"/
+# 	mkdir Downloads
+# 	mkdir WRFPLUS
+# 	mkdir WRFDA
+# 	mkdir Libs
+# 	export DIR="${WRF_FOLDER}"/Libs
+# 	mkdir Libs/grib2
+# 	mkdir Libs/NETCDF
+# 	mkdir Libs/MPICH
+# 	mkdir -p Tests/Environment
+# 	mkdir -p Tests/Compatibility
+
+# 	echo " "
+# 	#############################Core Management####################################
+
+# 	export CPU_CORE=$(nproc) # number of available threads on system
+# 	export CPU_6CORE="6"
+# 	export CPU_QUARTER=$(($CPU_CORE / 4))                          #quarter of availble cores on system
+# 	export CPU_QUARTER_EVEN=$(($CPU_QUARTER - ($CPU_QUARTER % 2))) #Forces CPU cores to even number to avoid partial core export. ie 7 cores would be 3.5 cores.
+
+# 	if [ $CPU_CORE -le $CPU_6CORE ]; then #If statement for low core systems.  Forces computers to only use 1 core if there are 4 cores or less on the system. then
+# 		export CPU_QUARTER_EVEN="2"
+# 	else
+# 		export CPU_QUARTER_EVEN=$(($CPU_QUARTER - ($CPU_QUARTER % 2)))
+# 	fi
+
+# 	echo "##########################################"
+# 	echo "Number of Threads being used $CPU_QUARTER_EVEN"
+# 	echo "##########################################"
+
+# 	echo " "
+# 	##############################Downloading Libraries############################
+# 	#Force use of ipv4 with -4
+# 	cd Downloads
+# 	wget -c https://github.com/madler/zlib/releases/download/v$Zlib_Version/zlib-$Zlib_Version.tar.gz
+# 	wget -c https://github.com/HDFGroup/hdf5/releases/download/hdf5_$HDF5_Version.$HDF5_Sub_Version/hdf5-$HDF5_Version-$HDF5_Sub_Version.tar.gz
+# 	wget -c https://github.com/Unidata/netcdf-c/archive/refs/tags/v$Netcdf_C_Version.tar.gz
+# 	wget -c https://github.com/Unidata/netcdf-fortran/archive/refs/tags/v$Netcdf_Fortran_Version.tar.gz
+# 	wget -c https://github.com/pmodels/mpich/releases/download/v$Mpich_Version/mpich-$Mpich_Version.tar.gz
+# 	wget -c https://download.sourceforge.net/libpng/libpng-$Libpng_Version.tar.gz
+# 	wget -c https://www.ece.uvic.ca/~frodo/jasper/software/jasper-$Jasper_Version.zip
+# 	wget -c https://parallel-netcdf.github.io/Release/pnetcdf-$Pnetcdf_Version.tar.gz
+# 	wget -c https://sourceforge.net/projects/opengrads/files/grads2/2.2.1.oga.1/Linux%20%2864%20Bits%29/opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz
+
+# 	echo " "
+# 	####################################Compilers#####################################
+# 	export CC=gcc
+# 	export CXX=g++
+# 	export FC=gfortran
+# 	export F77=gfortran
+# 	export CFLAGS="-fPIC -fPIE -O3"
+
+# 	#IF statement for GNU compiler issue
+# 	export GCC_VERSION=$(gcc -dumpfullversion | awk '{print$1}')
+# 	export GFORTRAN_VERSION=$(gfortran -dumpfullversion | awk '{print$1}')
+# 	export GPLUSPLUS_VERSION=$(g++ -dumpfullversion | awk '{print$1}')
+
+# 	export GCC_VERSION_MAJOR_VERSION=$(echo $GCC_VERSION | awk -F. '{print $1}')
+# 	export GFORTRAN_VERSION_MAJOR_VERSION=$(echo $GFORTRAN_VERSION | awk -F. '{print $1}')
+# 	export GPLUSPLUS_VERSION_MAJOR_VERSION=$(echo $GPLUSPLUS_VERSION | awk -F. '{print $1}')
+
+# 	export version_10="10"
+
+# 	if [ $GCC_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GFORTRAN_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GPLUSPLUS_VERSION_MAJOR_VERSION -ge $version_10 ]; then
+# 		export fallow_argument=-fallow-argument-mismatch
+# 		export boz_argument=-fallow-invalid-boz
+# 	else
+# 		export fallow_argument=
+# 		export boz_argument=
+# 	fi
+
+# 	export FFLAGS="$fallow_argument -m64"
+# 	export FCFLAGS="$fallow_argument -m64"
+
+# 	echo "##########################################"
+# 	echo "FFLAGS = $FFLAGS"
+# 	echo "FCFLAGS = $FCFLAGS"
+# 	echo "CFLAGS = $CFLAGS"
+# 	echo "##########################################"
+
+# 	echo " "
+# 	#############################zlib############################
+# 	#Uncalling compilers due to comfigure issue with zlib$Zlib_Version
+# 	#With CC & CXX definied ./configure uses different compiler Flags
+
+# 	cd "${WRF_FOLDER}"/Downloads
+# 	tar -xvzf zlib-$Zlib_Version.tar.gz
+# 	cd zlib-$Zlib_Version/
+# 	autoreconf -i -f 2>&1 | tee autoreconf.log
+# 	./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
+
+# 	automake -a -f 2>&1 | tee automake.log
+# 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
+# 	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+# 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
+# 	#make check
+
+# 	echo " "
+# 	##############################MPICH############################
+# 	#F90= due to compiler issues with mpich install
+# 	cd "${WRF_FOLDER}"/Downloads
+# 	tar -xvzf mpich-$Mpich_Version.tar.gz
+# 	cd mpich-$Mpich_Version/
+# 	autoreconf -i -f 2>&1 | tee autoreconf.log
+
+# 	F90= ./configure --prefix=$DIR/MPICH --with-device=ch3 FFLAGS=$fallow_argument FCFLAGS=$fallow_argument 2>&1 | tee configure.log
+
+# 	automake -a -f 2>&1 | tee automake.log
+# 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
+# 	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+# 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
+# 	# make check
+
+# 	export PATH=$DIR/MPICH/bin:$PATH
+# 	export MPIFC=$DIR/MPICH/bin/mpifort
+# 	export MPIF77=$DIR/MPICH/bin/mpifort
+# 	export MPIF90=$DIR/MPICH/bin/mpifort
+# 	export MPICC=$DIR/MPICH/bin/mpicc
+# 	export MPICXX=$DIR/MPICH/bin/mpicxx
+
+# 	echo " "
+# 	#############################libpng############################
+# 	cd "${WRF_FOLDER}"/Downloads
+# 	export LDFLAGS=-L$DIR/grib2/lib
+# 	export CPPFLAGS=-I$DIR/grib2/include
+# 	tar -xvzf libpng-$Libpng_Version.tar.gz
+# 	cd libpng-$Libpng_Version/
+# 	autoreconf -i -f 2>&1 | tee autoreconf.log
+
+# 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
+
+# 	automake -a -f 2>&1 | tee automake.log
+# 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
+# 	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+# 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
+# 	#make check
+# 	echo " "
+# 	#############################JasPer############################
+# 	cd "${WRF_FOLDER}"/Downloads
+# 	unzip jasper-$Jasper_Version.zip
+# 	cd jasper-$Jasper_Version/
+# 	autoreconf -i -f 2>&1 | tee autoreconf.log
+
+# 	./configure --prefix=$DIR/grib2
+# 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
+
+# 	automake -a -f 2>&1 | tee automake.log
+# 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
+# 	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+# 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
+# 	#make check
+
+# 	export JASPERLIB=$DIR/grib2/lib
+# 	export JASPERINC=$DIR/grib2/include
+
+# 	echo " "
+# 	#############################hdf5 library for netcdf4 functionality############################
+# 	cd "${WRF_FOLDER}"/Downloads
+# 	tar -xvzf hdf5-$HDF5_Version-$HDF5_Sub_Version.tar.gz
+# 	cd hdf5-$HDF5_Version-$HDF5_Sub_Version
+# 	autoreconf -i -f 2>&1 | tee autoreconf.log
+# 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --with-zlib=$DIR/grib2 --enable-hl --enable-fortran --enable-parallel 2>&1 | tee configure.log
+
+# 	automake -a -f 2>&1 | tee automake.log
+# 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
+# 	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+# 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
+# 	#make check
+
+# 	export HDF5=$DIR/grib2
+# 	export PHDF5=$DIR/grib2
+# 	export LD_LIBRARY_PATH=$DIR/grib2/lib:$LD_LIBRARY_PATH
+
+# 	echo " "
+# 	#############################Install Parallel-netCDF##############################
+# 	#Make file created with half of available cpu cores
+# 	#Hard path for MPI added
+# 	##################################################################################
+# 	cd "${WRF_FOLDER}"/Downloads
+# 	tar -xvzf pnetcdf-$Pnetcdf_Version.tar.gz
+# 	cd pnetcdf-$Pnetcdf_Version
+# 	export MPIFC=$DIR/MPICH/bin/mpifort
+# 	export MPIF77=$DIR/MPICH/bin/mpifort
+# 	export MPIF90=$DIR/MPICH/bin/mpifort
+# 	export MPICC=$DIR/MPICH/bin/mpicc
+# 	export MPICXX=$DIR/MPICH/bin/mpicxx
+# 	autoreconf -i -f 2>&1 | tee autoreconf.log
+# 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --enable-shared --enable-static 2>&1 | tee configure.log
+
+# 	automake -a -f 2>&1 | tee automake.log
+# 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
+# 	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+# 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
+# 	#make check
+
+# 	export PNETCDF=$DIR/grib2
+
+# 	echo " "
+
+# 	##############################Install NETCDF C Library############################
+# 	cd "${WRF_FOLDER}"/Downloads
+# 	tar -xzvf v$Netcdf_C_Version.tar.gz
+# 	cd netcdf-c-$Netcdf_C_Version/
+# 	export CPPFLAGS=-I$DIR/grib2/include
+# 	export LDFLAGS=-L$DIR/grib2/lib
+# 	export LIBS="-lhdf5_hl -lhdf5 -lz -lcurl -lgfortran -lgcc -lm -ldl -lpnetcdf"
+# 	autoreconf -i -f 2>&1 | tee autoreconf.log
+
+# 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-shared --enable-static --enable-pnetcdf --enable-cdf5 --enable-parallel-tests 2>&1 | tee configure.log
+
+# 	automake -a -f 2>&1 | tee automake.log
+# 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
+# 	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+# 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
+# 	#make check
+
+# 	export PATH=$DIR/NETCDF/bin:$PATH
+# 	export NETCDF=$DIR/NETCDF
+# 	echo " "
+# 	##############################NetCDF fortran library############################
+# 	cd "${WRF_FOLDER}"/Downloads
+# 	tar -xvzf v$Netcdf_Fortran_Version.tar.gz
+# 	cd netcdf-fortran-$Netcdf_Fortran_Version/
+# 	export LD_LIBRARY_PATH=$DIR/NETCDF/lib:$LD_LIBRARY_PATH
+# 	export CPPFLAGS="-I$DIR/NETCDF/include -I$DIR/grib2/include"
+# 	export LDFLAGS="-L$DIR/NETCDF/lib -L$DIR/grib2/lib"
+# 	export LIBS="-lnetcdf -lpnetcdf -lcurl -lhdf5_hl -lhdf5 -lz -lm -ldl -lgcc -lgfortran"
+# 	autoreconf -i -f 2>&1 | tee autoreconf.log
+
+# 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-shared --enable-static --enable-parallel-tests --enable-hdf5 2>&1 | tee configure.log
+
+# 	automake -a -f 2>&1 | tee automake.log
+# 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
+# 	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+# 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
+# 	#make check
+
+# 	echo " "
+# 	#################################### System Environment Tests ##############
+
+# 	cd "${WRF_FOLDER}"/Downloads
+# 	wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_NETCDF_MPI_tests.tar
+# 	wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_tests.tar
+
+# 	tar -xvf Fortran_C_tests.tar -C "${WRF_FOLDER}"/Tests/Environment
+# 	tar -xvf Fortran_C_NETCDF_MPI_tests.tar -C "${WRF_FOLDER}"/Tests/Compatibility
+
+# 	export one="1"
+# 	echo " "
+# 	############## Testing Environment #####
+
+# 	cd "${WRF_FOLDER}"/Tests/Environment
+
+# 	cp ${NETCDF}/include/netcdf.inc .
+
+# 	echo " "
+# 	echo " "
+# 	echo "Environment Testing "
+# 	echo "Test 1"
+# 	$FC TEST_1_fortran_only_fixed.f
+# 	./a.out | tee env_test1.txt
+# 	export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test1.txt | awk '{print$1}')
+# 	if [ $TEST_PASS -ge 1 ]; then
+# 		echo "Enviroment Test 1 Passed"
+# 	else
+# 		echo "Environment Compiler Test 1 Failed"
+# 		exit
+# 	fi
+# 	read -r -t 3 -p "I am going to wait for 3 seconds only ..."
+
+# 	echo " "
+# 	echo "Test 2"
+# 	$FC TEST_2_fortran_only_free.f90
+# 	./a.out | tee env_test2.txt
+# 	export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test2.txt | awk '{print$1}')
+# 	if [ $TEST_PASS -ge 1 ]; then
+# 		echo "Enviroment Test 2 Passed"
+# 	else
+# 		echo "Environment Compiler Test 2 Failed"
+# 		exit
+# 	fi
+# 	echo " "
+# 	read -r -t 3 -p "I am going to wait for 3 seconds only ..."
+
+# 	echo " "
+# 	echo "Test 3"
+# 	$CC TEST_3_c_only.c
+# 	./a.out | tee env_test3.txt
+# 	export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test3.txt | awk '{print$1}')
+# 	if [ $TEST_PASS -ge 1 ]; then
+# 		echo "Enviroment Test 3 Passed"
+# 	else
+# 		echo "Environment Compiler Test 3 Failed"
+# 		exit
+# 	fi
+# 	echo " "
+# 	read -r -t 3 -p "I am going to wait for 3 seconds only ..."
+
+# 	echo " "
+# 	echo "Test 4"
+# 	$CC -c -m64 TEST_4_fortran+c_c.c
+# 	$FC -c -m64 TEST_4_fortran+c_f.f90
+# 	$FC -m64 TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
+# 	./a.out | tee env_test4.txt
+# 	export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test4.txt | awk '{print$1}')
+# 	if [ $TEST_PASS -ge 1 ]; then
+# 		echo "Enviroment Test 4 Passed"
+# 	else
+# 		echo "Environment Compiler Test 4 Failed"
+# 		exit
+# 	fi
+# 	echo " "
+# 	read -r -t 3 -p "I am going to wait for 3 seconds only ..."
+
+# 	echo " "
+# 	############## Testing Environment #####
+
+# 	cd "${WRF_FOLDER}"/Tests/Compatibility
+
+# 	cp ${NETCDF}/include/netcdf.inc .
+
+# 	echo " "
+# 	echo " "
+# 	echo "Library Compatibility Tests "
+# 	echo "Test 1"
+# 	$FC -c 01_fortran+c+netcdf_f.f
+# 	$CC -c 01_fortran+c+netcdf_c.c
+# 	$FC 01_fortran+c+netcdf_f.o 01_fortran+c+netcdf_c.o \
+# 		-L${NETCDF}/lib -lnetcdff -lnetcdf
+
+# 	./a.out | tee comp_test1.txt
+# 	export TEST_PASS=$(grep -w -o -c "SUCCESS" comp_test1.txt | awk '{print$1}')
+# 	if [ $TEST_PASS -ge 1 ]; then
+# 		echo "Compatibility Test 1 Passed"
+# 	else
+# 		echo "Compatibility Compiler Test 1 Failed"
+# 		exit
+# 	fi
+# 	echo " "
+# 	read -r -t 3 -p "I am going to wait for 3 seconds only ..."
+
+# 	echo " "
+
+# 	echo "Test 2"
+# 	$MPIFC -c 02_fortran+c+netcdf+mpi_f.f
+# 	$MPICC -c 02_fortran+c+netcdf+mpi_c.c
+# 	$MPIFC 02_fortran+c+netcdf+mpi_f.o \
+# 		02_fortran+c+netcdf+mpi_c.o \
+# 		-L${NETCDF}/lib -lnetcdff -lnetcdf
+
+# 	$DIR/MPICH/bin/mpirun ./a.out | tee comp_test2.txt
+# 	export TEST_PASS=$(grep -w -o -c "SUCCESS" comp_test2.txt | awk '{print$1}')
+# 	if [ $TEST_PASS -ge 1 ]; then
+# 		echo "Compatibility Test 2 Passed"
+# 	else
+# 		echo "Compatibility Compiler Test 2 Failed"
+# 		exit
+# 	fi
+# 	echo " "
+# 	read -r -t 3 -p "I am going to wait for 3 seconds only ..."
+# 	echo " "
+
+# 	echo " All tests completed and passed"
+# 	echo " "
+
+# 	###############################NCEPlibs#####################################
+# 	#The libraries are built and installed with
+# 	# ./make_ncep_libs.sh -s MACHINE -c COMPILER -d NCEPLIBS_DIR -o OPENMP [-m mpi] [-a APPLICATION]
+# 	#It is recommended to install the NCEPlibs into their own directory, which must be created before running the installer. Further information on the command line arguments can be obtained with
+# 	# ./make_ncep_libs.sh -h
+
+# 	#If iand error occurs go to https://github.com/NCAR/NCEPlibs/pull/16/files make adjustment and re-run ./make_ncep_libs.sh
+# 	############################################################################
+
+# 	cd "${WRF_FOLDER}"/Downloads
+# 	git clone https://github.com/NCAR/NCEPlibs.git
+# 	cd NCEPlibs
+# 	mkdir $DIR/nceplibs
+
+# 	export JASPER_INC=$DIR/grib2/include
+# 	export PNG_INC=$DIR/grib2/include
+# 	export NETCDF=$DIR/NETCDF
+
+# 	#for loop to edit linux.gnu for nceplibs to install
+# 	#make if statement for gcc-9 or older
+# 	export GCC_VERSION=$(gcc -dumpfullversion | awk '{print$1}')
+# 	export GFORTRAN_VERSION=$(gfortran -dumpfullversion | awk '{print$1}')
+# 	export GPLUSPLUS_VERSION=$(g++ -dumpfullversion | awk '{print$1}')
+
+# 	export GCC_VERSION_MAJOR_VERSION=$(echo $GCC_VERSION | awk -F. '{print $1}')
+# 	export GFORTRAN_VERSION_MAJOR_VERSION=$(echo $GFORTRAN_VERSION | awk -F. '{print $1}')
+# 	export GPLUSPLUS_VERSION_MAJOR_VERSION=$(echo $GPLUSPLUS_VERSION | awk -F. '{print $1}')
+
+# 	export version_10="10"
+
+# 	if [ $GCC_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GFORTRAN_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GPLUSPLUS_VERSION_MAJOR_VERSION -ge $version_10 ]; then
+# 		sed -i "24s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+# 		sed -i "28s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+# 		sed -i "32s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+# 		sed -i "36s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+# 		sed -i "40s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+# 		sed -i "45s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+# 		sed -i "49s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+# 		sed -i "53s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+# 		sed -i "56s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+# 		sed -i "60s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+# 		sed -i "64s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+# 		sed -i "68s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+# 		sed -i "69s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+# 		sed -i "73s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+# 		sed -i "74s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+# 		sed -i "79s/= /= $fallow_argument $boz_argument /g" "${WRF_FOLDER}/Downloads/NCEPlibs/macros.make.linux.gnu"
+
+# 	fi
+
+# 	if [ ${auto_config} -eq 1 ]; then
+# 		echo yes | ./make_ncep_libs.sh -s linux -c gnu -d $DIR/nceplibs -o 0 -m 1 -a upp | tee make.install.log
+# 	else
+# 		./make_ncep_libs.sh -s linux -c gnu -d $DIR/nceplibs -o 0 -m 1 -a upp | tee make.install.log
+# 	fi
+
+# 	export PATH=$DIR/nceplibs:$PATH
+
+# 	echo " "
+# 	################################UPPv4.1######################################
+# 	#Previous verison of UPP
+# 	#WRF Support page recommends UPPV4.1 due to too many changes to WRF and UPP code
+# 	#since the WRF was written
+# 	#Option 8 gfortran compiler with distributed memory
+# 	#############################################################################
+# 	cd "${WRF_FOLDER}"/
+# 	git clone -b dtc_post_v4.1.0 --recurse-submodules https://github.com/NOAA-EMC/EMC_post UPPV4.1
+# 	cd UPPV4.1
+# 	mkdir postprd
+# 	export NCEPLIBS_DIR=$DIR/nceplibs
+# 	export NETCDF=$DIR/NETCDF
+
+# 	if [ ${auto_config} -eq 1 ]; then
+# 		echo 8 | ./configure #Option 8 gfortran compiler with distributed memory
+# 	else
+# 		./configure #Option 8 gfortran compiler with distributed memory
+# 	fi
+
+# 	#make if statement for gcc-9 or older
+# 	export GCC_VERSION=$(gcc -dumpfullversion | awk '{print$1}')
+# 	export GFORTRAN_VERSION=$(gfortran -dumpfullversion | awk '{print$1}')
+# 	export GPLUSPLUS_VERSION=$(g++ -dumpfullversion | awk '{print$1}')
+
+# 	export GCC_VERSION_MAJOR_VERSION=$(echo $GCC_VERSION | awk -F. '{print $1}')
+# 	export GFORTRAN_VERSION_MAJOR_VERSION=$(echo $GFORTRAN_VERSION | awk -F. '{print $1}')
+# 	export GPLUSPLUS_VERSION_MAJOR_VERSION=$(echo $GPLUSPLUS_VERSION | awk -F. '{print $1}')
+
+# 	export version_10="10"
+
+# 	if [ $GCC_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GFORTRAN_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GPLUSPLUS_VERSION_MAJOR_VERSION -ge $version_10 ]; then
+# 		sed -i "58s/(FOPT)/(FOPT) $fallow_argument $boz_argument  /g" "${WRF_FOLDER}/UPPV4.1/configure.upp"
+# 		sed -i "63s/(FOPT)/(FOPT) $fallow_argument $boz_argument  /g" "${WRF_FOLDER}/UPPV4.1/configure.upp"
+
+# 	fi
+
+# 	./compile
+# 	cd "${WRF_FOLDER}"/UPPV4.1/scripts
+
+# 	chmod +x run_unipost
+
+# 	# IF statement to check that all files were created.
+# 	cd "${WRF_FOLDER}"/UPPV4.1/exec
+# 	n=$(ls ./*.exe | wc -l)
+# 	if (($n == 1)); then
+# 		echo "All expected files created."
+# 		read -r -t 5 -p "Finished installing UPPV4.1. I am going to wait for 5 seconds only ..."
+# 	else
+# 		echo "Missing one or more expected files. Exiting the script."
+# 		read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
+# 		exit
+# 	fi
+
+# 	echo " "
+
+# 	######################## ARWpost V3.1  ############################
+# 	## ARWpost
+# 	##Configure #3
+# 	###################################################################
+# 	cd "${WRF_FOLDER}"/Downloads
+# 	wget -c http://www2.mmm.ucar.edu/wrf/src/ARWpost_V3.tar.gz
+# 	tar -xvzf ARWpost_V3.tar.gz -C "${WRF_FOLDER}"/
+# 	cd "${WRF_FOLDER}"/ARWpost
+# 	./clean -a
+# 	sed -i -e 's/-lnetcdf/-lnetcdff -lnetcdf/g' "${WRF_FOLDER}"/ARWpost/src/Makefile
+# 	export NETCDF=$DIR/NETCDF
+
+# 	if [ ${auto_config} -eq 1 ]; then
+# 		echo 3 | ./configure #Option 3 gfortran compiler with distributed memory
+# 	else
+# 		./configure #Option 3 gfortran compiler with distributed memory
+# 	fi
+
+# 	export GCC_VERSION=$(gcc -dumpfullversion | awk '{print$1}')
+# 	export GFORTRAN_VERSION=$(gfortran -dumpfullversion | awk '{print$1}')
+# 	export GPLUSPLUS_VERSION=$(g++ -dumpfullversion | awk '{print$1}')
+
+# 	export GCC_VERSION_MAJOR_VERSION=$(echo $GCC_VERSION | awk -F. '{print $1}')
+# 	export GFORTRAN_VERSION_MAJOR_VERSION=$(echo $GFORTRAN_VERSION | awk -F. '{print $1}')
+# 	export GPLUSPLUS_VERSION_MAJOR_VERSION=$(echo $GPLUSPLUS_VERSION | awk -F. '{print $1}')
+
+# 	export version_10="10"
+
+# 	if [ $GCC_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GFORTRAN_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GPLUSPLUS_VERSION_MAJOR_VERSION -ge $version_10 ]; then
+# 		sed -i '32s/-ffree-form -O -fno-second-underscore -fconvert=big-endian -frecord-marker=4/-ffree-form -O -fno-second-underscore -fconvert=big-endian -frecord-marker=4 ${fallow_argument} /g' configure.arwp
+# 	fi
+
+# 	sed -i -e 's/-C -P -traditional/-P -traditional/g' "${WRF_FOLDER}"/ARWpost/configure.arwp
+# 	./compile
+
+# 	#IF statement to check that all files were created.
+# 	cd "${WRF_FOLDER}"/ARWpost
+# 	n=$(ls ./*.exe | wc -l)
+# 	if (($n == 1)); then
+# 		echo "All expected files created."
+# 		read -r -t 5 -p "Finished installing ARWpost. I am going to wait for 5 seconds only ..."
+# 	else
+# 		echo "Missing one or more expected files. Exiting the script."
+# 		read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
+# 		exit
+# 	fi
+
+# 	echo " "
+
+# 	export PATH="${WRF_FOLDER}"/ARWpost/ARWpost.exe:$PATH
+
+# 	echo " "
+# 	################################ OpenGrADS ##################################
+# 	#Verison 2.2.1 32bit of Linux
+# 	#############################################################################
+# 	if [[ $GRADS_PICK -eq 1 ]]; then
+# 		cd "${WRF_FOLDER}"/Downloads
+# 		tar -xzvf opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz -C "${WRF_FOLDER}"/
+# 		cd "${WRF_FOLDER}"/
+# 		mv "${WRF_FOLDER}"/opengrads-2.2.1.oga.1 "${WRF_FOLDER}"/GrADS
+# 		cd GrADS/Contents
+# 		wget -c https://github.com/regisgrundig/SIMOP/blob/master/g2ctl.pl
+# 		chmod +x g2ctl.pl
+# 		wget -c https://sourceforge.net/projects/opengrads/files/wgrib2/0.1.9.4/wgrib2-v0.1.9.4-bin-i686-glib2.5-linux-gnu.tar.gz
+# 		tar -xzvf wgrib2-v0.1.9.4-bin-i686-glib2.5-linux-gnu.tar.gz
+# 		cd wgrib2-v0.1.9.4/bin
+# 		mv wgrib2 "${WRF_FOLDER}"/GrADS/Contents
+# 		cd "${WRF_FOLDER}"/GrADS/Contents
+# 		rm wgrib2-v0.1.9.4-bin-i686-glib2.5-linux-gnu.tar.gz
+# 		rm -r wgrib2-v0.1.9.4
+
+# 		export PATH="${WRF_FOLDER}"/GrADS/Contents:$PATH
+
+# 		echo " "
+# 	fi
+# 	################################## GrADS ###############################
+# 	# Version  2.2.1
+# 	# Sublibs library instructions: http://cola.gmu.edu/grads/gadoc/supplibs2.html
+# 	# GrADS instructions: http://cola.gmu.edu/grads/downloads.php
+# 	########################################################################
+# 	if [[ $GRADS_PICK -eq 2 ]]; then
+# 		cd "${WRF_FOLDER}"/Downloads
+# 		wget -c ftp://cola.gmu.edu/grads/2.2/grads-2.2.1-bin-centos7.4-x86_64.tar.gz
+# 		tar -xzvf grads-2.2.1-bin-centos7.4-x86_64.tar.gz -C "${WRF_FOLDER}"
+# 		cd "${WRF_FOLDER}"/grads-2.2.1/bin
+# 		chmod 775 *
+
+# 	fi
+
+# 	echo " "
+# 	##################### NCAR COMMAND LANGUAGE           ##################
+# 	########### NCL compiled via Conda                    ##################
+# 	########### This is the preferred method by NCAR      ##################
+# 	########### https://www.ncl.ucar.edu/index.shtml      ##################
+
+# 	#Installing Miniconda3 to WRF-Hydro directory and updating libraries
+# 	echo $PASSWD | sudo -S apt -y install python3-zstandard python3-zstd
+
+# 	export Miniconda_Install_DIR="${WRF_FOLDER}"/miniconda3
+
+# 	mkdir -p $Miniconda_Install_DIR
+
+# 	wget -c https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O $Miniconda_Install_DIR/miniconda.sh
+# 	bash $Miniconda_Install_DIR/miniconda.sh -b -u -p $Miniconda_Install_DIR
+
+# 	rm -rf $Miniconda_Install_DIR/miniconda.sh
+
+# 	export PATH="${WRF_FOLDER}"/miniconda3/bin:$PATH
+
+# 	source $Miniconda_Install_DIR/etc/profile.d/conda.sh
+
+# 	$Miniconda_Install_DIR/bin/conda init bash
+# 	$Miniconda_Install_DIR/bin/conda init zsh
+# 	$Miniconda_Install_DIR/bin/conda init tcsh
+# 	$Miniconda_Install_DIR/bin/conda init xonsh
+# 	$Miniconda_Install_DIR/bin/conda init powershell
+
+# 	conda config --add channels conda-forge
+# 	conda config --set auto_activate_base false
+# 	conda update -n root --all -y
+
+# 	echo " "
+
+# 	echo " "
+# 	#Installing NCL via Conda
+# 	source $Miniconda_Install_DIR/etc/profile.d/conda.sh
+# 	conda init bash
+# 	conda activate base
+# 	conda create -n ncl_stable -c conda-forge ncl -y
+# 	conda activate ncl_stable
+
+# 	conda deactivate
+# 	conda deactivate
+# 	conda deactivate
+
+# 	echo " "
+
+# 	##################### WRF Python           ##################
+# 	########### WRf-Python compiled via Conda  ##################
+# 	########### This is the preferred method by NCAR      ##################
+# 	##### https://wrf-python.readthedocs.io/en/latest/installation.html  ##################
+# 	source $Miniconda_Install_DIR/etc/profile.d/conda.sh
+# 	conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
+# 	echo " "
+
+# 	########################## WRF Hydro GIS PreProcessor ##############################
+# 	#  Compiled with Conda
+# 	#  https://github.com/NCAR/wrf_hydro_gis_preprocessor
+# 	####################################################################################
+
+# 	conda init bash
+# 	conda activate base
+# 	conda config --add channels conda-forge
+# 	conda create -n wrfh_gis_env -c conda-forge python=3.12 gdal netCDF4 numpy pyproj whitebox=2.2.0 packaging shapely -y
+# 	conda activate wrfh_gis_env
+# 	conda update -n wrfh_gis_env --all -y
+# 	conda deactivate
+# 	conda deactivate
+# 	conda deactivate
+# 	cd "${WRF_FOLDER}"/
+# 	git clone https://github.com/NCAR/wrf_hydro_gis_preprocessor.git "${WRF_FOLDER}"/WRF-Hydro-GIS-PreProcessor
+
+# 	echo " "
+
+# 	#reexporting compilers after conda installed to fix conda leak
+# 	export CC=gcc
+# 	export CXX=g++
+# 	export FC=gfortran
+# 	export F77=gfortran
+# 	export CFLAGS="-fPIC -fPIE -O3"
+# 	export MPIFC=$DIR/MPICH/bin/mpifort
+# 	export MPIF77=$DIR/MPICH/bin/mpifort
+# 	export MPIF90=$DIR/MPICH/bin/mpifort
+# 	export MPICC=$DIR/MPICH/bin/mpicc
+# 	export MPICXX=$DIR/MPICH/bin/mpicxx
+
+# 	############################# WRF HYDRO V5.3.0 #################################
+# 	# Version 5.3.0
+# 	# Standalone mode
+# 	################################################################################
+# 	# Set up NETCDF environment variables
+# 	export NETCDF_INC="$DIR/NETCDF/include"
+# 	export NETCDF_LIB="$DIR/NETCDF/lib"
+
+# 	# Create directories for Hydro Basecode and navigate to it
+# 	mkdir -p "${WRF_FOLDER}/Hydro-Basecode"
+# 	cd "${WRF_FOLDER}/Hydro-Basecode"
+
+# 	# Clone the WRF-Hydro repository and set up the build
+# 	git clone https://github.com/NCAR/wrf_hydro_nwm_public.git
+# 	cd wrf_hydro_nwm_public
+# 	mkdir -p build
+# 	cd build
+
+# 	# Run CMake configuration for WRF-Hydro with specified options
+# 	cmake .. \
+# 		-DSPATIAL_SOIL=1 \
+# 		-DWRF_HYDRO=1 \
+# 		-DWRF_HYDRO_NUDGING=1 \
+# 		-DWRFIO_NCD_LARGE_FILE_SUPPORT=1 \
+# 		-DCMAKE_Fortran_COMPILER=gfortran
+
+# 	# Compile using specified CPU settings
+# 	make -j "$CPU_QUARTER_EVEN" 2>&1 | tee make.log
+
+# 	# Check if the necessary executable files were created
+# 	cd "${WRF_FOLDER}/Hydro-Basecode/wrf_hydro_nwm_public/build/Run"
+# 	n=$(ls ./*.exe 2>/dev/null | wc -l)
+
+# 	# Function to rerun compilation if files are missing
+# 	rebuild_and_check() {
+# 		echo "Missing one or more expected files. Running compiler again..."
+# 		cd "${WRF_FOLDER}/Hydro-Basecode/wrf_hydro_nwm_public/build"
+# 		make -j "$CPU_QUARTER_EVEN" 2>&1 | tee make2.log
+# 		cd "${WRF_FOLDER}/Hydro-Basecode/wrf_hydro_nwm_public/build/Run"
+# 		n=$(ls ./*.exe 2>/dev/null | wc -l)
+# 	}
+
+# 	# IF statement to check that all expected files were created
+# 	if ((n == 2)); then
+# 		echo "All expected files created."
+# 	else
+# 		rebuild_and_check
+# 		if ((n != 2)); then
+# 			echo "Missing one or more expected files. Exiting the script."
+# 			read -r -p "Please contact script authors for assistance. Press 'Enter' to exit the script."
+# 			exit 1
+# 		else
+# 			echo "All expected files created after re-compiling."
+# 		fi
+# 	fi
+
+# 	# Finish the script with a pause
+# 	read -r -t 5 -p "Finished installing WRF Hydro Basecode. Waiting for 5 seconds..."
+# 	############################ WRF #################################
+# 	## WRF v${WPS_VERSION}
+# 	## Downloaded from git tagged releases
+# 	# option 34, option 1 for gfortran and distributed memory w/basic nesting
+# 	# large file support enable with WRFiO_NCD_LARGE_FILE_SUPPORT=1
+# 	# In the namelist.input, the following settings support pNetCDF by setting value to 11:
+# 	# io_form_boundary
+# 	# io_form_history
+# 	# io_form_auxinput2
+# 	# io_form_auxhist2
+# 	# Note that you need set nocolons = .true. in the section &time_control of namelist.input
+# 	########################################################################
+# 	cd "${WRF_FOLDER}"/Downloads
+# 	wget -c https://github.com/wrf-model/WRF/releases/download/v${WRF_VERSION}/v${WRF_VERSION}.tar.gz -O WRF-${WRF_VERSION}.tar.gz
+# 	tar -xvzf WRF-${WRF_VERSION}.tar.gz -C "${WRF_FOLDER}"/
+
+# 	# If statment for changing folder name
+# 	if [ -d ""${WRF_FOLDER}"/WRF" ]; then
+# 		mv -f "${WRF_FOLDER}"/WRF "${WRF_FOLDER}"/WRFV${WRF_VERSION}
+# 	fi
+
+# 	cd "${WRF_FOLDER}"/WRFV${WRF_VERSION}
+# 	export WRFIO_NCD_LARGE_FILE_SUPPORT=1
+
+# 	#Replace old version of WRF-Hydro distributed with WRF with updated WRF-Hydro source code
+# 	rm -r "${WRF_FOLDER}"/WRFV${WRF_VERSION}/hydro/
+# 	cp -r "${WRF_FOLDER}"/Hydro-Basecode/wrf_hydro_nwm_public/src "${WRF_FOLDER}"/WRFV${WRF_VERSION}/hydro
+
+# 	cd "${WRF_FOLDER}"/WRFV${WRF_VERSION}/hydro/template
+# 	source setEnvar.sh
+# 	cd "${WRF_FOLDER}"/WRFV${WRF_VERSION}
+
+# 	./clean
+
+# 	# SED statements to fix configure error
+# 	sed -i '186s/==/=/g' "${WRF_FOLDER}"/WRFV${WRF_VERSION}/configure
+# 	sed -i '318s/==/=/g' "${WRF_FOLDER}"/WRFV${WRF_VERSION}/configure
+# 	sed -i '919s/==/=/g' "${WRF_FOLDER}"/WRFV${WRF_VERSION}/configure
+
+# 	if [ ${auto_config} -eq 1 ]; then
+# 		sed -i '443s/.*/  $response = "34 \\n";/g' "${WRF_FOLDER}"/WRFV${WRF_VERSION}/arch/Config.pl # Answer for compiler choice
+# 		sed -i '909s/.*/  $response = "1 \\n";/g' "${WRF_FOLDER}"/WRFV${WRF_VERSION}/arch/Config.pl  #Answer for basic nesting
+# 		./configure 2>&1 | tee configure.log
+# 	else
+# 		./configure 2>&1 | tee configure.log #Option 34 gfortran compiler with distributed memory option 1 for basic nesting
+# 	fi
+
+# 	./compile -j $CPU_QUARTER_EVEN em_real 2>&1 | tee compile.wrf1.log
+
+# 	# IF statement to check that all files were created.
+# 	cd "${WRF_FOLDER}"/WRFV${WRF_VERSION}/main
+# 	n=$(ls ./*.exe | wc -l)
+# 	if (($n >= 3)); then
+# 		echo "All expected files created."
+# 		read -r -t 5 -p "Finished installing WRF. I am going to wait for 5 seconds only ..."
+# 	else
+# 		echo "Missing one or more expected files."
+# 		echo "Running compiler again"
+# 		cd "${WRF_FOLDER}"/WRFV${WRF_VERSION}
+# 		./compile -j $CPU_QUARTER_EVEN em_real 2>&1 | tee compile.wrf2.log
+# 		cd "${WRF_FOLDER}"/WRFV${WRF_VERSION}/main
+# 		n=$(ls ./*.exe | wc -l)
+# 		if (($n >= 3)); then
+# 			echo "All expected files created."
+# 			read -r -t 5 -p "Finished installing WRF. I am going to wait for 5 seconds only ..."
+# 		else
+# 			read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
+# 			exit
+# 		fi
+# 	fi
+
+# 	echo " "
+# 	############################WPS#####################################
+# 	## WPS v${WPS_VERSION}
+# 	## Downloaded from git tagged releases
+# 	#Option 3 for gfortran and distributed memory
+# 	########################################################################
+
+# 	cd "${WRF_FOLDER}"/Downloads
+# 	wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v${WPS_VERSION}.tar.gz -O WPS-${WPS_VERSION}.tar.gz
+# 	tar -xvzf WPS-${WPS_VERSION}.tar.gz -C "${WRF_FOLDER}"/
+# 	cd "${WRF_FOLDER}"/WPS-${WPS_VERSION}
+# 	./clean -a
+
+# 	if [ ${auto_config} -eq 1 ]; then
+# 		echo 3 | ./configure 2>&1 | tee configure.log #Option 3 for gfortran and distributed memory
+# 	else
+# 		./configure 2>&1 | tee configure.log #Option 3 gfortran compiler with distributed memory
+# 	fi
+# 	./compile 2>&1 | tee compile.wps.log
+
+# 	echo " "
+# 	# IF statement to check that all files were created.
+# 	cd "${WRF_FOLDER}"/WPS-${WPS_VERSION}
+# 	n=$(ls ./*.exe | wc -l)
+# 	if (($n == 3)); then
+# 		echo "All expected files created."
+# 		read -r -t 5 -p "Finished installing WPS. I am going to wait for 5 seconds only ..."
+# 	else
+# 		echo "Missing one or more expected files."
+# 		echo "Running compiler again"
+# 		./compile 2>&1 | tee compile.wps2.log
+# 		cd "${WRF_FOLDER}"/WPS-${WPS_VERSION}
+# 		n=$(ls ./*.exe | wc -l)
+# 		if (($n == 3)); then
+# 			echo "All expected files created."
+# 			read -r -t 5 -p "Finished installing WPS. I am going to wait for 5 seconds only ..."
+# 		else
+# 			read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
+# 			exit
+# 		fi
+# 	fi
+
+# 	echo " "
+
+# 	######################## Static Geography Data inc/ Optional ####################
+# 	# http://www2.mmm.ucar.edu/wrf/users/download/get_sources_wps_geog.html
+# 	# These files are large so if you only need certain ones comment the others off
+# 	# All files downloaded and untarred is 200GB
+# 	# https://www2.mmm.ucar.edu/wrf/users/download/get_sources_wps_geog.html
+# 	#################################################################################
+# 	cd "${WRF_FOLDER}"/Downloads
+# 	mkdir "${WRF_FOLDER}"/GEOG
+# 	mkdir "${WRF_FOLDER}"/GEOG/WPS_GEOG
+
+# 	echo " "
+# 	echo "Mandatory WRF Preprocessing System (WPS) Geographical Input Data Mandatory Fields Downloads"
+# 	echo " "
+# 	wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_high_res_mandatory.tar.gz
+# 	tar -xvzf geog_high_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
+
+# 	wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_low_res_mandatory.tar.gz
+# 	tar -xvzf geog_low_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
+# 	mv "${WRF_FOLDER}"/GEOG/WPS_GEOG_LOW_RES/ "${WRF_FOLDER}"/GEOG/WPS_GEOG
+
+# 	if [ ${WPS_Specific_Applications} -eq 1 ]; then
+# 		echo " "
+# 		echo " WPS Geographical Input Data Mandatory for Specific Applications"
+# 		echo " "
+
+# 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_thompson28_chem.tar.gz
+# 		tar -xvzf geog_thompson28_chem.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+
+# 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_noahmp.tar.gz
+# 		tar -xvzf geog_noahmp.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+
+# 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/irrigation.tar.gz
+# 		tar -xvzf irrigation.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+# 		mkdir "${WRF_FOLDER}"/GEOG/WPS_GEOG/irrigation
+# 		mv $WRFHYDRDO_FOLDER/GEOG/WPS_GEOG/fao "${WRF_FOLDER}"/GEOG/WPS_GEOG/irrigation
+
+# 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_px.tar.gz
+# 		tar -xvzf geog_px.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+
+# 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_urban.tar.gz
+# 		tar -xvzf geog_urban.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+
+# 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_ssib.tar.gz
+# 		tar -xvzf geog_ssib.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+
+# 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/lake_depth.tar.bz2
+# 		tar -xvf lake_depth.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+
+# 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/topobath_30s.tar.bz2
+# 		tar -xvf topobath_30s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+
+# 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/gsl_gwd.tar.bz2
+# 		tar -xvf gsl_gwd.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+
+# 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/cglc_modis_lcz_global.tar.gz
+# 		tar -xvf cglc_modis_lcz_global.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+# 	fi
+
+# 	if [ ${Optional_GEOG} -eq 1 ]; then
+# 		echo " "
+# 		echo "Optional WPS Geographical Input Data"
+# 		echo " "
+
+# 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_older_than_2000.tar.gz
+# 		tar -xvzf geog_older_than_2000.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+
+# 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s_with_lakes.tar.gz
+# 		tar -xvzf modis_landuse_20class_15s_with_lakes.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+
+# 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_alt_lsm.tar.gz
+# 		tar -xvzf geog_alt_lsm.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+
+# 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/nlcd2006_ll_9s.tar.bz2
+# 		tar -xvf nlcd2006_ll_9s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+
+# 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/updated_Iceland_LU.tar.gz
+# 		tar -xvf updated_Iceland_LU.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+
+# 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s.tar.bz2
+# 		tar -xvf modis_landuse_20class_15s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+# 	fi
+# fi
 
 ########################### WRF CHEM ##########################
 ## WRFCHEM installation with parallel process.
@@ -17415,7 +17415,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -17429,7 +17429,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	F90= ./configure --prefix=$DIR/MPICH --with-device=ch3 FFLAGS="$fallow_argument -m64" FCFLAGS="$fallow_argument -m64" 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -17452,7 +17452,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 	echo " "
@@ -17465,7 +17465,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -17482,7 +17482,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --with-zlib=$DIR/grib2 --enable-hl --enable-fortran --enable-parallel 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -17508,7 +17508,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --enable-shared --enable-static 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -17528,7 +17528,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-shared --enable-static --enable-pnetcdf --enable-cdf5 --enable-parallel-tests 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -17548,7 +17548,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-shared --enable-static --enable-parallel-tests --enable-hdf5 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -18053,7 +18053,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 		./configure wrfda 2>&1 | tee configure.log #Option 18 for gfortran/gcc and distribunted memory
 	fi
 	echo " "
-	./compile -j 2 all_wrfvar 2>&1 | tee compile.chem.wrfvar.log
+	./compile -j $CPU_QUARTER_EVEN all_wrfvar 2>&1 | tee compile.chem.wrfvar.log
 	echo " "
 
 	# IF statement to check that all files were created.
@@ -18068,7 +18068,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
 		cd "${WRF_FOLDER}"/WRFDA
-		./compile -j 2 all_wrfvar 2>&1 | tee compile.chem.wrfvar2.log
+		./compile -j $CPU_QUARTER_EVEN all_wrfvar 2>&1 | tee compile.chem.wrfvar2.log
 		cd "${WRF_FOLDER}"/WRFDA/var/da
 		n=$(ls ./*.exe | wc -l)
 		cd "${WRF_FOLDER}"/WRFDA/var/obsproc/src
@@ -18426,7 +18426,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 
 	echo " "
@@ -18445,7 +18445,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 
 	echo " "
@@ -18459,7 +18459,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 
 	# other libraries below need these variables to be set
@@ -18477,7 +18477,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --with-zlib=$DIR/grib2 --enable-hl --enable-fortran --enable-parallel 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 
 	# other libraries below need these variables to be set
@@ -18499,7 +18499,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --enable-shared --enable-static 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -18522,7 +18522,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-shared --enable-static --enable-pnetcdf --enable-cdf5 --enable-parallel-tests 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 
 	# other libraries below need these variables to be set
@@ -18546,7 +18546,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-shared --enable-static --enable-parallel-tests --enable-hdf5 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 
 	echo " "
@@ -18859,7 +18859,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	sed -i '136s|mpif90 -f90=$(SFC)|mpiifx|g' "${WRF_FOLDER}"/WRFDA/configure.wrf
 	sed -i '137s|mpicc -cc=$(SCC)|mpiicx|g' "${WRF_FOLDER}"/WRFDA/configure.wrf
 
-	./compile -j 2 all_wrfvar 2>&1 | tee compile.chem.wrfvar.log
+	./compile -j $CPU_QUARTER_EVEN all_wrfvar 2>&1 | tee compile.chem.wrfvar.log
 	echo " "
 
 	# IF statement to check that all files were created.
@@ -18874,7 +18874,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
 		cd "${WRF_FOLDER}"/WRFDA
-		./compile -j 2 all_wrfvar 2>&1 | tee compile.chem.wrfvar2.log
+		./compile -j $CPU_QUARTER_EVEN all_wrfvar 2>&1 | tee compile.chem.wrfvar2.log
 		cd "${WRF_FOLDER}"/WRFDA/var/da
 		n=$(ls ./*.exe | wc -l)
 		cd "${WRF_FOLDER}"/WRFDA/var/obsproc/src
@@ -19268,7 +19268,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$MAC_CHIP" = 
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -19307,7 +19307,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$MAC_CHIP" = 
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 	#make check
@@ -19340,7 +19340,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$MAC_CHIP" = 
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -19367,7 +19367,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$MAC_CHIP" = 
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -19388,7 +19388,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$MAC_CHIP" = 
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -19410,7 +19410,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$MAC_CHIP" = 
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -19778,7 +19778,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$MAC_CHIP" = 
 		./configure wrfda 2>&1 | tee configure.log #Option 17 for gfortran/gcc and distribunted memory
 	fi
 	echo " "
-	./compile -j 2 all_wrfvar 2>&1 | tee compile.chem.wrfvar.log
+	./compile all_wrfvar 2>&1 | tee compile.chem.wrfvar.log
 	echo " "
 
 	# IF statement to check that all files were created.
@@ -19793,7 +19793,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$MAC_CHIP" = 
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
 		cd "${WRF_FOLDER}"/WRFDA
-		./compile -j 2 all_wrfvar 2>&1 | tee compile.chem.wrfvar2.log
+		./compile -j $CPU_QUARTER_EVEN all_wrfvar 2>&1 | tee compile.chem.wrfvar2.log
 		cd "${WRF_FOLDER}"/WRFDA/var/da
 		n=$(ls ./*.exe | wc -l)
 		cd "${WRF_FOLDER}"/WRFDA/var/obsproc/src
@@ -20081,7 +20081,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$MAC_CHIP" = 
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -20120,7 +20120,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$MAC_CHIP" = 
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 	#make check
@@ -20153,7 +20153,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$MAC_CHIP" = 
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -20180,7 +20180,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$MAC_CHIP" = 
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -20201,7 +20201,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$MAC_CHIP" = 
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -20223,7 +20223,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$MAC_CHIP" = 
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -20591,7 +20591,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$MAC_CHIP" = 
 		./configure wrfda 2>&1 | tee configure.log #Option 17 for gfortran/gcc and distribunted memory
 	fi
 	echo " "
-	./compile -j 2 all_wrfvar 2>&1 | tee compile.chem.wrfvar.log
+	./compile all_wrfvar 2>&1 | tee compile.chem.wrfvar.log
 	echo " "
 
 	# IF statement to check that all files were created.
@@ -20606,7 +20606,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$MAC_CHIP" = 
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
 		cd "${WRF_FOLDER}"/WRFDA
-		./compile -j 2 all_wrfvar 2>&1 | tee compile.chem.wrfvar2.log
+		./compile -j $CPU_QUARTER_EVEN all_wrfvar 2>&1 | tee compile.chem.wrfvar2.log
 		cd "${WRF_FOLDER}"/WRFDA/var/da
 		n=$(ls ./*.exe | wc -l)
 		cd "${WRF_FOLDER}"/WRFDA/var/obsproc/src
@@ -20822,7 +20822,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -20838,7 +20838,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	# make check
 
@@ -20862,7 +20862,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 	echo " "
@@ -20877,7 +20877,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -20895,7 +20895,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -20921,7 +20921,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -20942,7 +20942,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -20963,7 +20963,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -21452,7 +21452,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 		./configure wrfda 2>&1 | tee configure.log #Option 18 for gfortran/gcc and distribunted memory
 	fi
 	echo " "
-	./compile -j 2 all_wrfvar 2>&1 | tee compile.chem.wrfvar.log
+	./compile -j $CPU_QUARTER_EVEN all_wrfvar 2>&1 | tee compile.chem.wrfvar.log
 	echo " "
 
 	# IF statement to check that all files were created.
@@ -21467,7 +21467,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
 		cd "${WRF_FOLDER}"/WRFDA
-		./compile -j 2 all_wrfvar 2>&1 | tee compile.chem.wrfvar2.log
+		./compile -j $CPU_QUARTER_EVEN all_wrfvar 2>&1 | tee compile.chem.wrfvar2.log
 		cd "${WRF_FOLDER}"/WRFDA/var/da
 		n=$(ls ./*.exe | wc -l)
 		cd "${WRF_FOLDER}"/WRFDA/var/obsproc/src
@@ -21820,7 +21820,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -21836,7 +21836,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	# make check
 
@@ -21860,7 +21860,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 	echo " "
@@ -21875,7 +21875,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -21893,7 +21893,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -21919,7 +21919,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -21940,7 +21940,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -21961,7 +21961,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -22426,7 +22426,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 		./configure wrfda 2>&1 | tee configure.log #Option 18 for gfortran/gcc and distribunted memory
 	fi
 	echo " "
-	./compile -j 2 all_wrfvar 2>&1 | tee compile.chem.wrfvar.log
+	./compile -j $CPU_QUARTER_EVEN all_wrfvar 2>&1 | tee compile.chem.wrfvar.log
 	echo " "
 
 	# IF statement to check that all files were created.
@@ -22441,7 +22441,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
 		cd "${WRF_FOLDER}"/WRFDA
-		./compile -j 2 all_wrfvar 2>&1 | tee compile.chem.wrfvar2.log
+		./compile -j $CPU_QUARTER_EVEN all_wrfvar 2>&1 | tee compile.chem.wrfvar2.log
 		cd "${WRF_FOLDER}"/WRFDA/var/da
 		n=$(ls ./*.exe | wc -l)
 		cd "${WRF_FOLDER}"/WRFDA/var/obsproc/src
@@ -22809,7 +22809,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -22824,7 +22824,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	F90= ./configure --prefix=$DIR/MPICH --with-device=ch3 FFLAGS=$fallow_argument FCFLAGS=$fallow_argument 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	# make check
 
@@ -22848,7 +22848,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 	echo " "
@@ -22862,7 +22862,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -22879,7 +22879,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --with-zlib=$DIR/grib2 --enable-hl --enable-fortran --enable-parallel 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -22904,7 +22904,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --enable-shared --enable-static 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -22924,7 +22924,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-shared --enable-static --enable-pnetcdf --enable-cdf5 --enable-parallel-tests 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -22944,7 +22944,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-shared --enable-static --enable-parallel-tests --enable-hdf5 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -23602,7 +23602,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 		./configure 4dvar 2>&1 | tee configure.log #Option 18 for gfortran/gcc and distribunted memory
 	fi
 	echo " "
-	./compile -j 2 all_wrfvar 2>&1 | tee compile.wrf4dvar.log
+	./compile all_wrfvar 2>&1 | tee compile.wrf4dvar.log
 	echo " "
 
 	# IF statement to check that all files were created.
@@ -23617,7 +23617,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
 		cd "${WRF_FOLDER}"/WRFDA
-		./compile -j 2 all_wrfvar 2>&1 | tee compile.chem.wrfvar2.log
+		./compile -j $CPU_QUARTER_EVEN all_wrfvar 2>&1 | tee compile.chem.wrfvar2.log
 		cd "${WRF_FOLDER}"/WRFDA/var/da
 		n=$(ls ./*.exe | wc -l)
 		cd "${WRF_FOLDER}"/WRFDA/var/obsproc/src
@@ -23844,7 +23844,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 
 	echo " "
@@ -23863,7 +23863,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 
 	echo " "
@@ -23877,7 +23877,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 
 	# other libraries below need these variables to be set
@@ -23895,7 +23895,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --with-zlib=$DIR/grib2 --enable-hl --enable-fortran --enable-parallel 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 
 	# other libraries below need these variables to be set
@@ -23917,7 +23917,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --enable-shared --enable-static 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -23940,7 +23940,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-shared --enable-static --enable-pnetcdf --enable-cdf5 --enable-parallel-tests 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 
 	# other libraries below need these variables to be set
@@ -23963,7 +23963,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-parallel-tests --enable-hdf5 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 
 	echo " "
@@ -24447,7 +24447,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	sed -i '136s|mpif90 -f90=$(SFC)|mpiifx|g' "${WRF_FOLDER}"/WRFDA/configure.wrf
 	sed -i '137s|mpicc -cc=$(SCC)|mpiicx|g' "${WRF_FOLDER}"/WRFDA/configure.wrf
 
-	./compile -j 2 all_wrfvar 2>&1 | tee wrfda.compile.log
+	./compile all_wrfvar 2>&1 | tee wrfda.compile.log
 	echo " "
 
 	# IF statement to check that all files were created.
@@ -24462,7 +24462,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
 		cd "${WRF_FOLDER}"/WRFDA
-		./compile -j 2 all_wrfvar 2>&1 | tee compile.chem.wrfvar2.log
+		./compile -j $CPU_QUARTER_EVEN all_wrfvar 2>&1 | tee compile.chem.wrfvar2.log
 		cd "${WRF_FOLDER}"/WRFDA/var/da
 		n=$(ls ./*.exe | wc -l)
 		cd "${WRF_FOLDER}"/WRFDA/var/obsproc/src
@@ -24730,7 +24730,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "Int
 	./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -24770,7 +24770,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "Int
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -24785,7 +24785,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "Int
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	export JASPERLIB=$DIR/grib2/lib
 	export JASPERINC=$DIR/grib2/include
@@ -24801,7 +24801,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "Int
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --with-zlib=$DIR/grib2 --enable-hl --enable-fortran --enable-parallel 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -24827,7 +24827,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "Int
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --enable-shared --enable-static 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -24847,7 +24847,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "Int
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-shared --enable-static --enable-pnetcdf --enable-cdf5 --enable-parallel-tests 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -24868,7 +24868,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "Int
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-shared --enable-static --enable-parallel-tests --enable-hdf5 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -25274,7 +25274,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "Int
 		./configure 4dvar 2>&1 | tee configure.log #Option 18 for gfortran/gcc and distribunted memory
 	fi
 
-	./compile -j 2 all_wrfvar 2>&1 | tee compile.wrf4dvar.log
+	./compile all_wrfvar 2>&1 | tee compile.wrf4dvar.log
 
 	# IF statement to check that all files were created.
 	cd "${WRF_FOLDER}"/WRFDA/var/da
@@ -25288,7 +25288,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "Int
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
 		cd "${WRF_FOLDER}"/WRFDA
-		./compile -j 2 all_wrfvar 2>&1 | tee compile.chem.wrfvar2.log
+		./compile -j $CPU_QUARTER_EVEN all_wrfvar 2>&1 | tee compile.chem.wrfvar2.log
 		cd "${WRF_FOLDER}"/WRFDA/var/da
 		n=$(ls ./*.exe | wc -l)
 		cd "${WRF_FOLDER}"/WRFDA/var/obsproc/src
@@ -25576,7 +25576,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "ARM
 	./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -25592,7 +25592,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "ARM
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -25617,7 +25617,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "ARM
 
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -25632,7 +25632,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "ARM
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	export JASPERLIB=$DIR/grib2/lib
 	export JASPERINC=$DIR/grib2/include
@@ -25648,7 +25648,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "ARM
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --with-zlib=$DIR/grib2 --enable-hl --enable-fortran --enable-parallel 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -25675,7 +25675,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "ARM
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --enable-shared --enable-static 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -25695,7 +25695,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "ARM
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-shared --enable-static --enable-pnetcdf --enable-cdf5 --enable-parallel-tests 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -25716,7 +25716,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "ARM
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-shared --enable-static --enable-parallel-tests --enable-hdf5 2>&1 | tee configure.log
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -26122,7 +26122,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "ARM
 		./configure 4dvar 2>&1 | tee configure.log #Option 18 for gfortran/gcc and distribunted memory
 	fi
 
-	./compile -j 2 all_wrfvar 2>&1 | tee compile.wrf4dvar.log
+	./compile all_wrfvar 2>&1 | tee compile.wrf4dvar.log
 
 	# IF statement to check that all files were created.
 	cd "${WRF_FOLDER}"/WRFDA/var/da
@@ -26136,7 +26136,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "ARM
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
 		cd "${WRF_FOLDER}"/WRFDA
-		./compile -j 2 all_wrfvar 2>&1 | tee compile.chem.wrfvar2.log
+		./compile -j $CPU_QUARTER_EVEN all_wrfvar 2>&1 | tee compile.chem.wrfvar2.log
 		cd "${WRF_FOLDER}"/WRFDA/var/da
 		n=$(ls ./*.exe | wc -l)
 		cd "${WRF_FOLDER}"/WRFDA/var/obsproc/src
@@ -26353,7 +26353,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -26369,7 +26369,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	# make check
 
@@ -26393,7 +26393,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 	echo " "
@@ -26408,7 +26408,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -26426,7 +26426,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -26453,7 +26453,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -26474,7 +26474,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -26495,7 +26495,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -27138,7 +27138,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 		./configure 4dvar 2>&1 | tee configure.log #Option 18 for gfortran/gcc and distribunted memory
 	fi
 	echo " "
-	./compile -j 2 all_wrfvar 2>&1 | tee compile.wrf4dvar.log
+	./compile all_wrfvar 2>&1 | tee compile.wrf4dvar.log
 
 	echo " "
 	# IF statement to check that all files were created.
@@ -27153,7 +27153,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
 		cd "${WRF_FOLDER}"/WRFDA
-		./compile -j 2 all_wrfvar 2>&1 | tee compile.chem.wrfvar2.log
+		./compile -j $CPU_QUARTER_EVEN all_wrfvar 2>&1 | tee compile.chem.wrfvar2.log
 		cd "${WRF_FOLDER}"/WRFDA/var/da
 		n=$(ls ./*.exe | wc -l)
 		cd "${WRF_FOLDER}"/WRFDA/var/obsproc/src
@@ -27377,7 +27377,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRF_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -27393,7 +27393,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRF_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	# make check
 
@@ -27417,7 +27417,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRF_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 	echo " "
@@ -27432,7 +27432,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRF_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -27450,7 +27450,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRF_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -27476,7 +27476,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRF_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -27497,7 +27497,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRF_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -27518,7 +27518,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRF_PICK" = "1" ]; then
 
 	automake -a -f 2>&1 | tee automake.log
 	make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
-	#make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
+	make -j $CPU_QUARTER_EVEN check 2>&1 | tee make.check.log
 	make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
 	#make check
 
@@ -28161,7 +28161,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRF_PICK" = "1" ]; then
 		./configure 4dvar 2>&1 | tee configure.log #Option 18 for gfortran/gcc and distribunted memory
 	fi
 	echo " "
-	./compile -j 2 all_wrfvar 2>&1 | tee compile.wrf4dvar.log
+	./compile all_wrfvar 2>&1 | tee compile.wrf4dvar.log
 	echo " "
 	# IF statement to check that all files were created.
 	cd "${WRF_FOLDER}"/WRFDA/var/da
@@ -28175,7 +28175,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRF_PICK" = "1" ]; then
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
 		cd "${WRF_FOLDER}"/WRFDA
-		./compile -j 2 all_wrfvar 2>&1 | tee compile.chem.wrfvar2.log
+		./compile -j $CPU_QUARTER_EVEN all_wrfvar 2>&1 | tee compile.chem.wrfvar2.log
 		cd "${WRF_FOLDER}"/WRFDA/var/da
 		n=$(ls ./*.exe | wc -l)
 		cd "${WRF_FOLDER}"/WRFDA/var/obsproc/src
@@ -28279,8 +28279,6 @@ fi
 # This script installs the WRFCHEM Tools with gnu or intel compilers.
 ####################################################################################################
 
-
-
 if [ "$WRFCHEM_TOOLS" = "1" ]; then
 
 	if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
@@ -28290,7 +28288,7 @@ if [ "$WRFCHEM_TOOLS" = "1" ]; then
 		git clone https://github.com/HathewayWill/WRFCHEM-TOOLS-MOSIT.git
 		cd WRFCHEM-TOOLS-MOSIT
 		chmod 775 *.sh
-		env -i PASSWD="$PASSWD" Ubuntu_64bit_GNU="$Ubuntu_64bit_GNU" ./WRFCHEM_TOOLS_MOSIT.sh $PASSWD $Ubuntu_64bit_GNU
+		./WRFCHEM_TOOLS_MOSIT.sh $PASSWD $Ubuntu_64bit_GNU
 		cd $HOME
 	fi
 
@@ -28301,7 +28299,7 @@ if [ "$WRFCHEM_TOOLS" = "1" ]; then
 		git clone https://github.com/HathewayWill/WRFCHEM-TOOLS-MOSIT.git
 		cd WRFCHEM-TOOLS-MOSIT
 		chmod 775 *.sh
-		env -i PASSWD="$PASSWD" Ubuntu_64bit_Intel="$Ubuntu_64bit_Intel" ./WRFCHEM_TOOLS_MOSIT.sh $PASSWD $Ubuntu_64bit_Intel
+		./WRFCHEM_TOOLS_MOSIT.sh $PASSWD $Ubuntu_64bit_Intel
 		cd $HOME
 	fi
 
@@ -28312,7 +28310,7 @@ if [ "$WRFCHEM_TOOLS" = "1" ]; then
 		git clone https://github.com/HathewayWill/WRFCHEM-TOOLS-MOSIT.git
 		cd WRFCHEM-TOOLS-MOSIT
 		chmod 775 *.sh
-		env -i PASSWD="$PASSWD" macos_64bit_GNU="$macos_64bit_GNU" ./WRFCHEM_TOOLS_MOSIT.sh $PASSWD $macos_64bit_GNU
+		./WRFCHEM_TOOLS_MOSIT.sh $PASSWD $macos_64bit_GNU
 		cd $HOME
 	fi
 
@@ -28323,7 +28321,7 @@ if [ "$WRFCHEM_TOOLS" = "1" ]; then
 		git clone https://github.com/HathewayWill/WRFCHEM-TOOLS-MOSIT.git
 		cd WRFCHEM-TOOLS-MOSIT
 		chmod 775 *.sh
-		env -i PASSWD="$PASSWD" Centos_64bit_GNU="$Centos_64bit_GNU" ./WRFCHEM_TOOLS_MOSIT.sh $PASSWD $Centos_64bit_GNU
+		./WRFCHEM_TOOLS_MOSIT.sh $PASSWD $Centos_64bit_GNU
 		cd $HOME
 	fi
 
@@ -28334,7 +28332,7 @@ if [ "$WRFCHEM_TOOLS" = "1" ]; then
 		git clone https://github.com/HathewayWill/WRFCHEM-TOOLS-MOSIT.git
 		cd WRFCHEM-TOOLS-MOSIT
 		chmod 775 *.sh
-		env -i PASSWD="$PASSWD" Centos_64bit_GNU="$Centos_64bit_GNU" ./WRFCHEM_TOOLS_MOSIT.sh $PASSWD $Centos_64bit_GNU
+		./WRFCHEM_TOOLS_MOSIT.sh $PASSWD $Centos_64bit_GNU
 		cd $HOME
 	fi
 
