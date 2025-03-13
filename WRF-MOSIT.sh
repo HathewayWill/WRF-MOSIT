@@ -58,7 +58,7 @@ if [ "$SYS_ARCH" = "x86_64" ] || [ "$SYS_ARCH" = "arm64" ]; then
 else
 	export SYSTEMBIT="32"
 fi
-
+		
 # Determine the chip type if on macOS (ARM or Intel)
 if [ "$SYS_ARCH" = "arm64" ]; then
 	export MAC_CHIP="ARM"
@@ -80,7 +80,7 @@ elif [ "$SYS_OS" = "Linux" ]; then
 	export SYSTEMOS="Linux"
 fi
 
-########## CentOS and Linux Distribution Detection #############
+########## RHL and Linux Distribution Detection #############
 # More accurate Linux distribution detection using /etc/os-release
 #################################################################
 if [ "$SYSTEMOS" = "Linux" ]; then
@@ -92,10 +92,16 @@ if [ "$SYSTEMOS" = "Linux" ]; then
 		# Print the distribution name and version
 		echo "Operating system detected: $DISTRO_NAME, Version: $DISTRO_VERSION"
 
-		# Check if the system is CentOS
-		if grep -q "CentOS" /etc/os-release; then
-			export SYSTEMOS="CentOS"
-		fi
+		 # Check if dnf or yum is installed (dnf is used on newer systems, yum on older ones)
+        if command -v dnf >/dev/null 2>&1; then
+            echo "dnf is installed."
+            export SYSTEMOS="RHL"  # Set SYSTEMOS to RHL if dnf is detected
+        elif command -v yum >/dev/null 2>&1; then
+            echo "yum is installed."
+            export SYSTEMOS="RHL"  # Set SYSTEMOS to RHL if yum is detected
+        else
+            echo "No package manager (dnf or yum) found."
+        fi
 	else
 		echo "Unable to detect the Linux distribution version."
 	fi
@@ -106,35 +112,34 @@ echo "Final operating system detected: $SYSTEMOS"
 
 ############################### Intel or GNU Compiler Option #############
 
-# Only proceed with CentOS-specific logic if the system is CentOS
-if [ "$SYSTEMOS" = "CentOS" ]; then
-	# Check for 32-bit CentOS system
-	if [ "$SYSTEMBIT" = "32" ]; then
-		echo "Your system is not compatible with this script."
-		exit
-	fi
+# Only proceed with RHL-specific logic if the system is RHL
+if [ "$SYSTEMOS" = "RHL" ]; then
+    # Check for 32-bit RHL system
+    if [ "$SYSTEMBIT" = "32" ]; then
+        echo "Your system is not compatible with this script."
+        exit
+    fi
 
-	# Check for 64-bit CentOS system
-	if [ "$SYSTEMBIT" = "64" ]; then
-		echo "Your system is a 64-bit version of CentOS Linux Kernel."
-		echo "Intel compilers are not compatible with this script."
-		echo "Setting compiler to GNU."
-		export Centos_64bit_GNU=1
-		echo "Centos_64bit_GNU=$Centos_64bit_GNU"
+    # Check for 64-bit RHL system
+    if [ "$SYSTEMBIT" = "64" ]; then
+        echo "Your system is a 64-bit version of RHL Based Linux Kernel."
+        echo "Intel compilers are not compatible with this script."
+        echo "Setting compiler to GNU."
+        export RHL_64bit_GNU=1
+        echo "RHL_64bit_GNU=$RHL_64bit_GNU"
 
-		# Check GNU version
-		export gcc_test_version=$(gcc -dumpversion 2>&1 | awk '{print $1}')
-		export gcc_test_version_major=$(echo $gcc_test_version | awk -F. '{print $1}')
-		export gcc_version_9="9"
+        # Check for the version of the GNU compiler (gcc)
+        export gcc_test_version=$(gcc -dumpversion 2>&1 | awk '{print $1}')
+        export gcc_test_version_major=$(echo $gcc_test_version | awk -F. '{print $1}')
+        export gcc_version_9="9"
 
-		if [[ $gcc_test_version_major -lt $gcc_version_9 ]]; then
-			export Centos_64bit_GNU=2
-			echo " OLD GNU FILES FOUND."
-			echo "Centos_64bit_GNU=$Centos_64bit_GNU"
-		fi
-	fi
+        if [[ $gcc_test_version_major -lt $gcc_version_9 ]]; then
+            export RHL_64bit_GNU=2
+            echo "OLD GNU FILES FOUND."
+            echo "RHL_64bit_GNU=$RHL_64bit_GNU"
+        fi
+    fi
 fi
-
 # Check for 64-bit Linux system (Debian/Ubuntu)
 if [ "$SYSTEMBIT" = "64" ] && [ "$SYSTEMOS" = "Linux" ]; then
 	echo "Your system is a 64-bit version of Debian Linux Kernel."
@@ -942,7 +947,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$DTC_MET" = "1" ]; then
 	fi
 fi
 
-if [ "$Centos_64bit_GNU" = "1" ] && [ "$DTC_MET" = "1" ]; then
+if [ "$RHL_64bit_GNU" = "1" ] && [ "$DTC_MET" = "1" ]; then
 	export HOME=$(
 		cd
 		pwd
@@ -1117,7 +1122,7 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$DTC_MET" = "1" ]; then
 	fi
 fi
 
-if [ "$Centos_64bit_GNU" = "2" ] && [ "$DTC_MET" = "1" ]; then
+if [ "$RHL_64bit_GNU" = "2" ] && [ "$DTC_MET" = "1" ]; then
 
 	echo $PASSWD | sudo -S sudo dnf install git
 
@@ -1143,7 +1148,7 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$DTC_MET" = "1" ]; then
 	echo " "
 
 	echo "old version of GNU detected"
-	echo $PASSWD | sudo -S yum install centos-release-scl -y
+	echo $PASSWD | sudo -S yum install RHL-release-scl -y
 	echo $PASSWD | sudo -S yum clean all
 	echo $PASSWD | sudo -S yum remove devtoolset-11*
 	echo $PASSWD | sudo -S yum install devtoolset-11
@@ -2390,7 +2395,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
 	fi
 fi
 
-if [ "$Centos_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
+if [ "$RHL_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
 
 	#############################basic package managment############################
 	echo $PASSWD | sudo -S yum install epel-release -y
@@ -3018,11 +3023,11 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
 	fi
 fi
 
-if [ "$Centos_64bit_GNU" = "2" ] && [ "$CMAQ_PICK" = "1" ]; then
+if [ "$RHL_64bit_GNU" = "2" ] && [ "$CMAQ_PICK" = "1" ]; then
 	#############################basic package managment############################
 	echo "old version of GNU detected"
 	echo $PASSWD | sudo -S yum install epel-release -y
-	echo $PASSWD | sudo -S yum install centos-release-scl -y
+	echo $PASSWD | sudo -S yum install RHL-release-scl -y
 	echo $PASSWD | sudo -S yum clean all
 	echo $PASSWD | sudo -S yum remove devtoolset-11*
 	echo $PASSWD | sudo -S yum install devtoolset-11
@@ -6750,7 +6755,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$MAC_CHIP" = "A
 
 fi
 
-if [ "$Centos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
+if [ "$RHL_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
 	#############################basic package managment############################
 	echo $PASSWD | sudo -S yum install epel-release -y
 	echo $PASSWD | sudo -S yum install dnf -y
@@ -7329,8 +7334,8 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
 	########################################################################
 	if [[ $GRADS_PICK -eq 2 ]]; then
 		cd "${WRF_FOLDER}"/Downloads
-		wget -c -4 ftp://cola.gmu.edu/grads/2.2/grads-2.2.1-bin-centos7.4-x86_64.tar.gz
-		tar -xzvf grads-2.2.1-bin-centos7.4-x86_64.tar.gz -C "${WRF_FOLDER}"
+		wget -c -4 ftp://cola.gmu.edu/grads/2.2/grads-2.2.1-bin-RHL7.4-x86_64.tar.gz
+		tar -xzvf grads-2.2.1-bin-RHL7.4-x86_64.tar.gz -C "${WRF_FOLDER}"
 		cd "${WRF_FOLDER}"/grads-2.2.1/bin
 		chmod 775 *
 
@@ -7642,11 +7647,11 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
 
 fi
 
-if [ "$Centos_64bit_GNU" = "2" ] && [ "$SFIRE_PICK" = "1" ]; then
+if [ "$RHL_64bit_GNU" = "2" ] && [ "$SFIRE_PICK" = "1" ]; then
 	#############################basic package managment############################
 	echo "old version of GNU detected"
 	echo $PASSWD | sudo -S yum install epel-release -y
-	echo $PASSWD | sudo -S yum install centos-release-scl -y
+	echo $PASSWD | sudo -S yum install RHL-release-scl -y
 	echo $PASSWD | sudo -S yum clean all
 	echo $PASSWD | sudo -S yum remove devtoolset-11*
 	echo $PASSWD | sudo -S yum install devtoolset-11
@@ -8233,8 +8238,8 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$SFIRE_PICK" = "1" ]; then
 	########################################################################
 	if [[ $GRADS_PICK -eq 2 ]]; then
 		cd "${WRF_FOLDER}"/Downloads
-		wget -c ftp://cola.gmu.edu/grads/2.2/grads-2.2.1-bin-centos7.4-x86_64.tar.gz
-		tar -xzvf grads-2.2.1-bin-centos7.4-x86_64.tar.gz -C "${WRF_FOLDER}"
+		wget -c ftp://cola.gmu.edu/grads/2.2/grads-2.2.1-bin-RHL7.4-x86_64.tar.gz
+		tar -xzvf grads-2.2.1-bin-RHL7.4-x86_64.tar.gz -C "${WRF_FOLDER}"
 		cd "${WRF_FOLDER}"/grads-2.2.1/bin
 		chmod 775 *
 
@@ -10848,7 +10853,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; the
 
 fi
 
-if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
+if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 	#############################basic package managment############################
 	echo $PASSWD | sudo -S yum install epel-release -y
 	echo $PASSWD | sudo -S yum install dnf -y
@@ -11376,10 +11381,10 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 	cd $HOME
 fi
 
-if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
+if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 	#############################basic package managment############################
 	echo "old version of GNU detected"
-	echo $PASSWD | sudo -S yum install centos-release-scl -y
+	echo $PASSWD | sudo -S yum install RHL-release-scl -y
 	echo $PASSWD | sudo -S yum clean all
 	echo $PASSWD | sudo -S yum remove devtoolset-11*
 	echo $PASSWD | sudo -S yum install devtoolset-11
@@ -15351,7 +15356,7 @@ fi
 
 # fi
 
-# if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
+# if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 
 # 	#############################basic package managment############################
 # 	echo $PASSWD | sudo -S yum install epel-release -y
@@ -15938,8 +15943,8 @@ fi
 # 	########################################################################
 # 	if [[ $GRADS_PICK -eq 2 ]]; then
 # 		cd "${WRF_FOLDER}"/Downloads
-# 		wget -c ftp://cola.gmu.edu/grads/2.2/grads-2.2.1-bin-centos7.4-x86_64.tar.gz
-# 		tar -xzvf grads-2.2.1-bin-centos7.4-x86_64.tar.gz -C "${WRF_FOLDER}"
+# 		wget -c ftp://cola.gmu.edu/grads/2.2/grads-2.2.1-bin-RHL7.4-x86_64.tar.gz
+# 		tar -xzvf grads-2.2.1-bin-RHL7.4-x86_64.tar.gz -C "${WRF_FOLDER}"
 # 		cd "${WRF_FOLDER}"/grads-2.2.1/bin
 # 		chmod 775 *
 
@@ -16338,12 +16343,12 @@ fi
 # 	fi
 # fi
 
-# if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
+# if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 
 # 	#############################basic package managment############################
 # 	#############################basic package managment############################
 # 	echo "old version of GNU detected"
-# 	echo $PASSWD | sudo -S yum install centos-release-scl -y
+# 	echo $PASSWD | sudo -S yum install RHL-release-scl -y
 # 	echo $PASSWD | sudo -S yum clean all
 # 	echo $PASSWD | sudo -S yum remove devtoolset-11*
 # 	echo $PASSWD | sudo -S yum install devtoolset-11
@@ -16931,8 +16936,8 @@ fi
 # 	########################################################################
 # 	if [[ $GRADS_PICK -eq 2 ]]; then
 # 		cd "${WRF_FOLDER}"/Downloads
-# 		wget -c ftp://cola.gmu.edu/grads/2.2/grads-2.2.1-bin-centos7.4-x86_64.tar.gz
-# 		tar -xzvf grads-2.2.1-bin-centos7.4-x86_64.tar.gz -C "${WRF_FOLDER}"
+# 		wget -c ftp://cola.gmu.edu/grads/2.2/grads-2.2.1-bin-RHL7.4-x86_64.tar.gz
+# 		tar -xzvf grads-2.2.1-bin-RHL7.4-x86_64.tar.gz -C "${WRF_FOLDER}"
 # 		cd "${WRF_FOLDER}"/grads-2.2.1/bin
 # 		chmod 775 *
 
@@ -20706,7 +20711,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$MAC_CHIP" = 
 
 fi
 
-if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
+if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 
 	#############################basic package managment############################
 	echo $PASSWD | sudo -S yum install epel-release -y
@@ -21291,8 +21296,8 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	########################################################################
 	if [[ $GRADS_PICK -eq 2 ]]; then
 		cd "${WRF_FOLDER}"/Downloads
-		wget -c ftp://cola.gmu.edu/grads/2.2/grads-2.2.1-bin-centos7.4-x86_64.tar.gz
-		tar -xzvf grads-2.2.1-bin-centos7.4-x86_64.tar.gz -C "${WRF_FOLDER}"
+		wget -c ftp://cola.gmu.edu/grads/2.2/grads-2.2.1-bin-RHL7.4-x86_64.tar.gz
+		tar -xzvf grads-2.2.1-bin-RHL7.4-x86_64.tar.gz -C "${WRF_FOLDER}"
 		cd "${WRF_FOLDER}"/grads-2.2.1/bin
 		chmod 775 *
 
@@ -21695,11 +21700,11 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	fi
 fi
 
-if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRFCHEM_PICK" = "1" ]; then
+if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 
 	#############################basic package managment############################
 	echo "old version of GNU detected"
-	echo $PASSWD | sudo -S yum install centos-release-scl -y
+	echo $PASSWD | sudo -S yum install RHL-release-scl -y
 	echo $PASSWD | sudo -S yum clean all
 	echo $PASSWD | sudo -S yum remove devtoolset-11*
 	echo $PASSWD | sudo -S yum install devtoolset-11
@@ -22267,8 +22272,8 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	########################################################################
 	if [[ $GRADS_PICK -eq 2 ]]; then
 		cd "${WRF_FOLDER}"/Downloads
-		wget -c ftp://cola.gmu.edu/grads/2.2/grads-2.2.1-bin-centos7.4-x86_64.tar.gz
-		tar -xzvf grads-2.2.1-bin-centos7.4-x86_64.tar.gz -C "${WRF_FOLDER}"
+		wget -c ftp://cola.gmu.edu/grads/2.2/grads-2.2.1-bin-RHL7.4-x86_64.tar.gz
+		tar -xzvf grads-2.2.1-bin-RHL7.4-x86_64.tar.gz -C "${WRF_FOLDER}"
 		cd "${WRF_FOLDER}"/grads-2.2.1/bin
 		chmod 775 *
 
@@ -26237,7 +26242,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "ARM
 
 fi
 
-if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
+if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 
 	#############################basic package managment############################
 	echo $PASSWD | sudo -S yum install epel-release -y
@@ -26822,8 +26827,8 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	########################################################################
 	if [[ $GRADS_PICK -eq 2 ]]; then
 		cd "${WRF_FOLDER}"/Downloads
-		wget -c ftp://cola.gmu.edu/grads/2.2/grads-2.2.1-bin-centos7.4-x86_64.tar.gz
-		tar -xzvf grads-2.2.1-bin-centos7.4-x86_64.tar.gz -C "${WRF_FOLDER}"
+		wget -c ftp://cola.gmu.edu/grads/2.2/grads-2.2.1-bin-RHL7.4-x86_64.tar.gz
+		tar -xzvf grads-2.2.1-bin-RHL7.4-x86_64.tar.gz -C "${WRF_FOLDER}"
 		cd "${WRF_FOLDER}"/grads-2.2.1/bin
 		chmod 775 *
 
@@ -27253,11 +27258,11 @@ if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	fi
 fi
 
-if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRF_PICK" = "1" ]; then
+if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRF_PICK" = "1" ]; then
 
 	#############################basic package managment############################
 	echo "old version of GNU detected"
-	echo $PASSWD | sudo -S yum install centos-release-scl -y
+	echo $PASSWD | sudo -S yum install RHL-release-scl -y
 	echo $PASSWD | sudo -S yum clean all
 	echo $PASSWD | sudo -S yum remove devtoolset-11*
 	echo $PASSWD | sudo -S yum install devtoolset-11
@@ -27845,8 +27850,8 @@ if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRF_PICK" = "1" ]; then
 	########################################################################
 	if [[ $GRADS_PICK -eq 2 ]]; then
 		cd "${WRF_FOLDER}"/Downloads
-		wget -c ftp://cola.gmu.edu/grads/2.2/grads-2.2.1-bin-centos7.4-x86_64.tar.gz
-		tar -xzvf grads-2.2.1-bin-centos7.4-x86_64.tar.gz -C "${WRF_FOLDER}"
+		wget -c ftp://cola.gmu.edu/grads/2.2/grads-2.2.1-bin-RHL7.4-x86_64.tar.gz
+		tar -xzvf grads-2.2.1-bin-RHL7.4-x86_64.tar.gz -C "${WRF_FOLDER}"
 		cd "${WRF_FOLDER}"/grads-2.2.1/bin
 		chmod 775 *
 
@@ -28314,25 +28319,25 @@ if [ "$WRFCHEM_TOOLS" = "1" ]; then
 		cd $HOME
 	fi
 
-	if [ "$Centos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
+	if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 
 		echo $PASSWD | sudo -S sudo dnf install git
 		cd $HOME
 		git clone https://github.com/HathewayWill/WRFCHEM-TOOLS-MOSIT.git
 		cd WRFCHEM-TOOLS-MOSIT
 		chmod 775 *.sh
-		./WRFCHEM_TOOLS_MOSIT.sh $PASSWD $Centos_64bit_GNU
+		./WRFCHEM_TOOLS_MOSIT.sh $PASSWD $RHL_64bit_GNU
 		cd $HOME
 	fi
 
-	if [ "$Centos_64bit_GNU" = "2" ] && [ "$WRFCHEM_PICK" = "1" ]; then
+	if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 
 		echo $PASSWD | sudo -S sudo dnf install git
 		cd $HOME
 		git clone https://github.com/HathewayWill/WRFCHEM-TOOLS-MOSIT.git
 		cd WRFCHEM-TOOLS-MOSIT
 		chmod 775 *.sh
-		./WRFCHEM_TOOLS_MOSIT.sh $PASSWD $Centos_64bit_GNU
+		./WRFCHEM_TOOLS_MOSIT.sh $PASSWD $RHL_64bit_GNU
 		cd $HOME
 	fi
 
