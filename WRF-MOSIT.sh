@@ -12542,64 +12542,54 @@ fi
 
 # 	echo " "
 
-# 	############################OBSGRID###############################
-# 	## OBSGRID
-# 	## Downloaded from git tagged releases
-# 	## Option #2
-# 	########################################################################
-# 	cd "${WRF_FOLDER}"/
-# 	git clone https://github.com/wrf-model/OBSGRID.git
-# 	cd "${WRF_FOLDER}"/OBSGRID
+	# ############################OBSGRID###############################
+	# ## OBSGRID
+	# ## Downloaded from git tagged releases
+	# ## Option #2
+	# ########################################################################
+	# cd "${WRF_FOLDER}"/
+	# git clone https://github.com/wrf-model/OBSGRID.git
+	# cd "${WRF_FOLDER}"/OBSGRID
 
-# 	./clean -a
-# 	source $Miniconda_Install_DIR/etc/profile.d/conda.sh
-# 	conda init bash
-# 	conda activate ncl_stable
+	# ./clean -a
+	
+	# export DIR="${WRF_FOLDER}"/Libs
+	# export NETCDF=$DIR/NETCDF
 
-# 	export HOME=$(
-# 		cd
-# 		pwd
-# 	)
-# 	export DIR="${WRF_FOLDER}"/Libs
-# 	export NETCDF=$DIR/NETCDF
+	# if [ ${auto_config} -eq 1 ]; then
+	# 	echo 2 | ./configure 2>&1 | tee configure.log #Option 2 for gfortran/gcc and distribunted memory
+	# else
+	# 	./configure 2>&1 | tee configure.log #Option 2 for gfortran/gcc and distribunted memory
+	# fi
 
-# 	if [ ${auto_config} -eq 1 ]; then
-# 		echo 2 | ./configure 2>&1 | tee configure.log #Option 2 for gfortran/gcc and distribunted memory
-# 	else
-# 		./configure 2>&1 | tee configure.log #Option 2 for gfortran/gcc and distribunted memory
-# 	fi
+	# sed -i '27s/-lnetcdf -lnetcdff/ -lnetcdff -lnetcdf/g' configure.oa
 
-# 	sed -i '27s/-lnetcdf -lnetcdff/ -lnetcdff -lnetcdf/g' configure.oa
+	# sed -i '31s/-lncarg -lncarg_gks -lncarg_c -lX11 -lm -lcairo/-lncarg -lncarg_gks -lncarg_c -lX11 -lm -lcairo -lfontconfig -lpixman-1 -lfreetype -lhdf5 -lhdf5_hl /g' configure.oa
 
-# 	sed -i '31s/-lncarg -lncarg_gks -lncarg_c -lX11 -lm -lcairo/-lncarg -lncarg_gks -lncarg_c -lX11 -lm -lcairo -lfontconfig -lpixman-1 -lfreetype -lhdf5 -lhdf5_hl /g' configure.oa
+	# sed -i '39s/-frecord-marker=4/-frecord-marker=4 ${fallow_argument} /g' configure.oa
 
-# 	sed -i '39s/-frecord-marker=4/-frecord-marker=4 ${fallow_argument} /g' configure.oa
+	# sed -i '44s/=	/=	${fallow_argument} /g' configure.oa
 
-# 	sed -i '44s/=	/=	${fallow_argument} /g' configure.oa
+	# sed -i '45s/-C -P -traditional/-P -traditional/g' configure.oa
 
-# 	sed -i '45s/-C -P -traditional/-P -traditional/g' configure.oa
+	# echo " "
+	# ./compile 2>&1 | tee compile.obsgrid.log
 
-# 	echo " "
 
-# 	./compile 2>&1 | tee compile.obsgrid.log
+	# echo " "
+	# # IF statement to check that all files were created.
+	# cd "${WRF_FOLDER}"/OBSGRID
+	# n=$(ls ./*.exe | wc -l)
+	# if (($n == 1)); then
+	# 	echo "All expected files created."
+	# 	read -r -t 5 -p "Finished installing OBSGRID. I am going to wait for 5 seconds only ..."
+	# else
+	# 	echo "Missing one or more expected files. Exiting the script."
+	# 	read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
+	# 	exit
+	# fi
 
-# 	conda deactivate
-# 	conda deactivate
-# 	conda deactivate
-# 	# IF statement to check that all files were created.
-# 	cd "${WRF_FOLDER}"/OBSGRID
-# 	n=$(ls ./*.exe | wc -l)
-# 	if (($n == 3)); then
-# 		echo "All expected files created."
-# 		read -r -t 5 -p "Finished installing OBSGRID. I am going to wait for 5 seconds only ..."
-# 	else
-# 		echo "Missing one or more expected files. Exiting the script."
-# 		read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
-# 		exit
-# 	fi
-
-# 	echo " "
-
+	# echo " "
 # 	##################### WRF Python           ##################
 # 	########### WRf-Python compiled via Conda  ##################
 # 	########### This is the preferred method by NCAR      ##################
@@ -15996,7 +15986,7 @@ fi
 # 	conda deactivate
 # 	conda deactivate
 
-# 	echo " "
+# # 	echo " "
 
 # 	############################OBSGRID###############################
 # 	## OBSGRID
@@ -16008,14 +15998,7 @@ fi
 # 	cd "${WRF_FOLDER}"/OBSGRID
 
 # 	./clean -a
-# 	source $Miniconda_Install_DIR/etc/profile.d/conda.sh
-# 	conda init bash
-# 	conda activate ncl_stable
-
-# 	export HOME=$(
-# 		cd
-# 		pwd
-# 	)
+	
 # 	export DIR="${WRF_FOLDER}"/Libs
 # 	export NETCDF=$DIR/NETCDF
 
@@ -16038,15 +16021,12 @@ fi
 # 	echo " "
 # 	./compile 2>&1 | tee compile.obsgrid.log
 
-# 	conda deactivate
-# 	conda deactivate
-# 	conda deactivate
 
 # 	echo " "
 # 	# IF statement to check that all files were created.
 # 	cd "${WRF_FOLDER}"/OBSGRID
 # 	n=$(ls ./*.exe | wc -l)
-# 	if (($n == 3)); then
+# 	if (($n == 1)); then
 # 		echo "All expected files created."
 # 		read -r -t 5 -p "Finished installing OBSGRID. I am going to wait for 5 seconds only ..."
 # 	else
@@ -17943,14 +17923,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	cd "${WRF_FOLDER}"/OBSGRID
 
 	./clean -a
-	source $Miniconda_Install_DIR/etc/profile.d/conda.sh
-	conda init bash
-	conda activate ncl_stable
-
-	export HOME=$(
-		cd
-		pwd
-	)
+	
 	export DIR="${WRF_FOLDER}"/Libs
 	export NETCDF=$DIR/NETCDF
 
@@ -17971,17 +17944,14 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	sed -i '45s/-C -P -traditional/-P -traditional/g' configure.oa
 
 	echo " "
-
 	./compile 2>&1 | tee compile.obsgrid.log
 
-	conda deactivate
-	conda deactivate
-	conda deactivate
 
+	echo " "
 	# IF statement to check that all files were created.
 	cd "${WRF_FOLDER}"/OBSGRID
 	n=$(ls ./*.exe | wc -l)
-	if (($n == 3)); then
+	if (($n == 1)); then
 		echo "All expected files created."
 		read -r -t 5 -p "Finished installing OBSGRID. I am going to wait for 5 seconds only ..."
 	else
@@ -17991,7 +17961,6 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	fi
 
 	echo " "
-
 	##################### WRF Python           ##################
 	########### WRf-Python compiled via Conda  ##################
 	########### This is the preferred method by NCAR      ##################
@@ -21360,14 +21329,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	cd "${WRF_FOLDER}"/OBSGRID
 
 	./clean -a
-	source $Miniconda_Install_DIR/etc/profile.d/conda.sh
-	conda init bash
-	conda activate ncl_stable
-
-	export HOME=$(
-		cd
-		pwd
-	)
+	
 	export DIR="${WRF_FOLDER}"/Libs
 	export NETCDF=$DIR/NETCDF
 
@@ -21390,15 +21352,12 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	echo " "
 	./compile 2>&1 | tee compile.obsgrid.log
 
-	conda deactivate
-	conda deactivate
-	conda deactivate
 
 	echo " "
 	# IF statement to check that all files were created.
 	cd "${WRF_FOLDER}"/OBSGRID
 	n=$(ls ./*.exe | wc -l)
-	if (($n == 3)); then
+	if (($n == 1)); then
 		echo "All expected files created."
 		read -r -t 5 -p "Finished installing OBSGRID. I am going to wait for 5 seconds only ..."
 	else
@@ -22325,7 +22284,6 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	conda deactivate
 
 	echo " "
-
 	############################OBSGRID###############################
 	## OBSGRID
 	## Downloaded from git tagged releases
@@ -22336,14 +22294,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	cd "${WRF_FOLDER}"/OBSGRID
 
 	./clean -a
-	source $Miniconda_Install_DIR/etc/profile.d/conda.sh
-	conda init bash
-	conda activate ncl_stable
-
-	export HOME=$(
-		cd
-		pwd
-	)
+	
 	export DIR="${WRF_FOLDER}"/Libs
 	export NETCDF=$DIR/NETCDF
 
@@ -22366,15 +22317,12 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	echo " "
 	./compile 2>&1 | tee compile.obsgrid.log
 
-	conda deactivate
-	conda deactivate
-	conda deactivate
 
 	echo " "
 	# IF statement to check that all files were created.
 	cd "${WRF_FOLDER}"/OBSGRID
 	n=$(ls ./*.exe | wc -l)
-	if (($n == 3)); then
+	if (($n == 1)); then
 		echo "All expected files created."
 		read -r -t 5 -p "Finished installing OBSGRID. I am going to wait for 5 seconds only ..."
 	else
@@ -23337,14 +23285,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	cd "${WRF_FOLDER}"/OBSGRID
 
 	./clean -a
-	source $Miniconda_Install_DIR/etc/profile.d/conda.sh
-	conda init bash
-	conda activate ncl_stable
-
-	export HOME=$(
-		cd
-		pwd
-	)
+	
 	export DIR="${WRF_FOLDER}"/Libs
 	export NETCDF=$DIR/NETCDF
 
@@ -23367,15 +23308,12 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	echo " "
 	./compile 2>&1 | tee compile.obsgrid.log
 
-	conda deactivate
-	conda deactivate
-	conda deactivate
 
 	echo " "
 	# IF statement to check that all files were created.
 	cd "${WRF_FOLDER}"/OBSGRID
 	n=$(ls ./*.exe | wc -l)
-	if (($n == 3)); then
+	if (($n == 1)); then
 		echo "All expected files created."
 		read -r -t 5 -p "Finished installing OBSGRID. I am going to wait for 5 seconds only ..."
 	else
@@ -23385,7 +23323,6 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	fi
 
 	echo " "
-
 	##################### WRF Python           ##################
 	########### WRf-Python compiled via Conda  ##################
 	########### This is the preferred method by NCAR      ##################
@@ -26892,14 +26829,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	cd "${WRF_FOLDER}"/OBSGRID
 
 	./clean -a
-	source $Miniconda_Install_DIR/etc/profile.d/conda.sh
-	conda init bash
-	conda activate ncl_stable
-
-	export HOME=$(
-		cd
-		pwd
-	)
+	
 	export DIR="${WRF_FOLDER}"/Libs
 	export NETCDF=$DIR/NETCDF
 
@@ -26922,15 +26852,12 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	echo " "
 	./compile 2>&1 | tee compile.obsgrid.log
 
-	conda deactivate
-	conda deactivate
-	conda deactivate
 
 	echo " "
 	# IF statement to check that all files were created.
 	cd "${WRF_FOLDER}"/OBSGRID
 	n=$(ls ./*.exe | wc -l)
-	if (($n == 3)); then
+	if (($n == 1)); then
 		echo "All expected files created."
 		read -r -t 5 -p "Finished installing OBSGRID. I am going to wait for 5 seconds only ..."
 	else
@@ -27914,14 +27841,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRF_PICK" = "1" ]; then
 	cd "${WRF_FOLDER}"/OBSGRID
 
 	./clean -a
-	source $Miniconda_Install_DIR/etc/profile.d/conda.sh
-	conda init bash
-	conda activate ncl_stable
-
-	export HOME=$(
-		cd
-		pwd
-	)
+	
 	export DIR="${WRF_FOLDER}"/Libs
 	export NETCDF=$DIR/NETCDF
 
@@ -27944,15 +27864,12 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRF_PICK" = "1" ]; then
 	echo " "
 	./compile 2>&1 | tee compile.obsgrid.log
 
-	conda deactivate
-	conda deactivate
-	conda deactivate
 
 	echo " "
 	# IF statement to check that all files were created.
 	cd "${WRF_FOLDER}"/OBSGRID
 	n=$(ls ./*.exe | wc -l)
-	if (($n == 3)); then
+	if (($n == 1)); then
 		echo "All expected files created."
 		read -r -t 5 -p "Finished installing OBSGRID. I am going to wait for 5 seconds only ..."
 	else
