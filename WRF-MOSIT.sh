@@ -320,38 +320,38 @@ done
 echo "Beginning Installation"
 
 ############################# Chose GrADS or OpenGrADS #########################
-if [ "$SYSTEMOS" != "MacOS" ]; then
-	while read -r -p "Which graphic display software should be installed?
-        - OpenGrADS
-        - GrADS
-        
-        Please answer with either OpenGrADS or GrADS and press enter.
-        " yn; do
-		case $yn in
-		OpenGrADS)
-			echo " "
-			echo "OpenGrADS selected for installation"
-			echo "-------------------------------------------------- "
-			export GRADS_PICK=1 # variable set for grads or opengrads choice
-			break
-			;;
-		GrADS)
-			echo " "
-			echo "GrADS selected for installation"
-			echo "-------------------------------------------------- "
-			export GRADS_PICK=2 # variable set for grads or opengrads choice
-			break
-			;;
-		*)
-			echo " "
-			echo "Please answer OpenGrADS or GrADS (case-sensitive)."
-			;;
-		esac
-	done
-fi
+while read -r -p "Which graphic display software should be install?
+-OpenGrADS
+-GrADS (Not available for MacOS)
+
+Please answer with either OpenGrADS or GrADS and press enter.
+    " yn; do
+
+	case $yn in
+	OpenGrADS)
+
+		echo " "
+		echo "OpenGrADS selected for installation"
+		echo "-------------------------------------------------- "
+		export GRADS_PICK=1 #variable set for grads or opengrads choice
+		break
+		;;
+	GrADS)
+		echo " "
+		echo "GrADS selected for installation"
+		echo "-------------------------------------------------- "
+		export GRADS_PICK=2 #variable set for grads or opengrads choice
+		break
+		;;
+	*)
+		echo " "
+		echo "Please answer OpenGrADS or GrADS (case sensative)."
+		;;
+
+	esac
+done
 
 echo " "
-
 ##################################### Auto Configuration Test ##################
 while true; do
 	echo " Auto Configuration Check"
