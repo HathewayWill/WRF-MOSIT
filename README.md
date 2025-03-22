@@ -84,7 +84,6 @@ This is a BASH script that provides options to install the following Weather Res
 - WRF
     - Development Testbed Center (DTC) Model Evaluation Tools (MET) v11.1.1
     - Development Testbed Center (DTC) Enhanced Model Evaluation Tools (METplus) v5.1.0
-    - Development Testbed Center (DTC) Unified Post Processor (UPP) v4.1
     - ARWPost v3
     - WRF-Python (Conda installed)
     - OpenGrADS
@@ -95,7 +94,6 @@ This is a BASH script that provides options to install the following Weather Res
 - WRF-CHEM
     - Development Testbed Center (DTC) Model Evaluation Tools (MET) v11.1.1
     - Development Testbed Center (DTC) Enhanced Model Evaluation Tools (METplus) v5.1.0
-    - Development Testbed Center (DTC) Unified Post Processor (UPP) v4.1
     - ARWPost v3
     - WRF-Python (Conda installed)
     - OpenGrADS
@@ -122,7 +120,6 @@ This is a BASH script that provides options to install the following Weather Res
 - WRF-Hydo Coupled
     - Development Testbed Center (DTC) Model Evaluation Tools (MET) v11.1.0
     - Development Testbed Center (DTC) Enhanced Model Evaluation Tools (METplus) v5.1.0
-    - Development Testbed Center (DTC) Unified Post Processor (UPP) v4.1
     - ARWPost v3
     - WRF-Python (Conda installed)
     - OpenGrADS
@@ -134,7 +131,6 @@ This is a BASH script that provides options to install the following Weather Res
  - WRF-SFIRE
     - Development Testbed Center (DTC) Model Evaluation Tools (MET) v11.1.1
     - Development Testbed Center (DTC) Enhanced Model Evaluation Tools (METplus) v5.1.0
-    - Development Testbed Center (DTC) Unified Post Processor (UPP) v4.1
     - ARWPost v3
     - WRF-Python (Conda installed)
     - OpenGrADS
@@ -145,7 +141,6 @@ This is a BASH script that provides options to install the following Weather Res
 - WRF-CMAQ
     - Development Testbed Center (DTC) Model Evaluation Tools (MET) v11.1.1
     - Development Testbed Center (DTC) Enhanced Model Evaluation Tools (METplus) v5.1.0
-    - Development Testbed Center (DTC) Unified Post Processor (UPP) v4.1
     - ARWPost v3
     - WRF-Python (Conda installed)
     - OpenGrADS

@@ -961,7 +961,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$DTC_MET" = "1" ]; then
 	echo $PASSWD | sudo -S dnf install epel-release -y
 	echo $PASSWD | sudo -S dnf -y update
 	echo $PASSWD | sudo -S dnf -y upgrade
-	echo $PASSWD | sudo -S dnf -y install autoconf automake bzip2 bzip2-devel byacc cairo-devel cmake cpp curl curl-devel flex fontconfig-devel fontconfig-devel gcc gcc-c++ gcc-gfortran git java-11-openjdk java-11-openjdk-devel ksh libX11-devel libX11-devel libXaw libXaw-devel libXext-devel libXext-devel libXmu-devel libXrender-devel libXrender-devel libstdc++ libstdc++-devel libxml2 libxml2-devel m4 nfs-utils perl "perl(XML::LibXML)" pkgconfig pixman-devel python3 python3-devel tcsh time unzip wget
+	echo $PASSWD | sudo -S dnf -y install autoconf automake bzip2 bzip2-devel byacc cairo-devel cmake cpp curl curl-devel flex fontconfig-devel fontconfig-devel gcc gcc-c++ gcc-gfortran git java java-devel java-openjdk  ksh libX11-devel libX11-devel libXaw libXaw-devel libXext-devel libXext-devel libXmu-devel libXrender-devel libXrender-devel libstdc++ libstdc++-devel libxml2 libxml2-devel m4 nfs-utils perl "perl(XML::LibXML)" pkgconfig pixman-devel python3 python3-devel tcsh time unzip wget
 	echo $PASSWD | sudo -S dnf -y install python3-dateutil
 	echo $PASSWD | sudo -S dnf -y groupinstall "Development Tools"
 	echo $PASSWD | sudo -S dnf -y update
@@ -1139,7 +1139,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$DTC_MET" = "1" ]; then
 	echo $PASSWD | sudo -S dnf install epel-release -y
 	echo $PASSWD | sudo -S dnf -y update
 	echo $PASSWD | sudo -S dnf -y upgrade
-	echo $PASSWD | sudo -S dnf -y install autoconf automake bzip2 bzip2-devel byacc cairo-devel cmake cpp curl curl-devel flex fontconfig-devel fontconfig-devel gcc gcc-c++ gcc-gfortran git java-11-openjdk java-11-openjdk-devel ksh libX11-devel libX11-devel libXaw libXaw-devel libXext-devel libXext-devel libXmu-devel libXrender-devel libXrender-devel libstdc++ libstdc++-devel libxml2 libxml2-devel m4 nfs-utils perl "perl(XML::LibXML)" pkgconfig pixman-devel python3 python3-devel tcsh time unzip wget
+	echo $PASSWD | sudo -S dnf -y install autoconf automake bzip2 bzip2-devel byacc cairo-devel cmake cpp curl curl-devel flex fontconfig-devel fontconfig-devel gcc gcc-c++ gcc-gfortran git java java-devel java-openjdk  ksh libX11-devel libX11-devel libXaw libXaw-devel libXext-devel libXext-devel libXmu-devel libXrender-devel libXrender-devel libstdc++ libstdc++-devel libxml2 libxml2-devel m4 nfs-utils perl "perl(XML::LibXML)" pkgconfig pixman-devel python3 python3-devel tcsh time unzip wget
 	echo $PASSWD | sudo -S dnf -y install python3-dateutil
 	--break-system-packages
 	echo $PASSWD | sudo -S dnf -y groupinstall "Development Tools"
@@ -2404,7 +2404,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
 	echo $PASSWD | sudo -S dnf install dnf -y
 	echo $PASSWD | sudo -S dnf -y update
 	echo $PASSWD | sudo -S dnf -y upgrade
-	echo $PASSWD | sudo -S dnf -y install autoconf automake bzip2 bzip2-devel byacc cairo-devel cmake cpp curl curl-devel flex fontconfig fontconfig-devel gcc gcc-c++ gcc-gfortran git java-11-openjdk java-11-openjdk-devel ksh libjpeg libjpeg-devel libX11 libX11-devel libXaw libXaw-devel libXext-devel libXmu libXmu-devel libXrender libXrender-devel libXt libXt-devel libxml2 libxml2-devel libXmu libXmu-devel libgeotiff libgeotiff-devel libtiff libtiff-devel m4 nfs-utils perl pkgconfig pixman pixman-devel python3 python3-devel tcsh time unzip wget
+	echo $PASSWD | sudo -S dnf -y install autoconf automake bzip2 bzip2-devel byacc cairo-devel cmake cpp curl curl-devel flex fontconfig fontconfig-devel gcc gcc-c++ gcc-gfortran git java java-devel java-openjdk  ksh libjpeg libjpeg-devel libX11 libX11-devel libXaw libXaw-devel libXext-devel libXmu libXmu-devel libXrender libXrender-devel libXt libXt-devel libxml2 libxml2-devel libXmu libXmu-devel libgeotiff libgeotiff-devel libtiff libtiff-devel m4 nfs-utils perl pkgconfig pixman pixman-devel python3 python3-devel tcsh time unzip wget
 	echo $PASSWD | sudo -S dnf -y groupinstall "Development Tools"
 	echo $PASSWD | sudo -S dnf -y update
 	echo $PASSWD | sudo -S dnf -y upgrade
@@ -3043,7 +3043,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$CMAQ_PICK" = "1" ]; then
 	echo $PASSWD | sudo -S dnf install dnf -y
 	echo $PASSWD | sudo -S dnf -y update
 	echo $PASSWD | sudo -S dnf -y upgrade
-	echo $PASSWD | sudo -S dnf -y install autoconf automake bzip2 bzip2-devel byacc cairo-devel cmake cpp curl curl-devel flex fontconfig fontconfig-devel gcc gcc-c++ gcc-gfortran git java-11-openjdk java-11-openjdk-devel ksh libjpeg libjpeg-devel libX11 libX11-devel libXaw libXaw-devel libXext-devel libXmu libXmu-devel libXrender libXrender-devel libXt libXt-devel libxml2 libxml2-devel libXmu libXmu-devel libgeotiff libgeotiff-devel libtiff libtiff-devel m4 nfs-utils perl pkgconfig pixman pixman-devel python3 python3-devel tcsh time unzip wget
+	echo $PASSWD | sudo -S dnf -y install autoconf automake bzip2 bzip2-devel byacc cairo-devel cmake cpp curl curl-devel flex fontconfig fontconfig-devel gcc gcc-c++ gcc-gfortran git java java-devel java-openjdk  ksh libjpeg libjpeg-devel libX11 libX11-devel libXaw libXaw-devel libXext-devel libXmu libXmu-devel libXrender libXrender-devel libXt libXt-devel libxml2 libxml2-devel libXmu libXmu-devel libgeotiff libgeotiff-devel libtiff libtiff-devel m4 nfs-utils perl pkgconfig pixman pixman-devel python3 python3-devel tcsh time unzip wget
 	echo $PASSWD | sudo -S dnf -y groupinstall "Development Tools"
 	echo $PASSWD | sudo -S dnf -y update
 	echo $PASSWD | sudo -S dnf -y upgrade
@@ -4108,60 +4108,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
 	export PATH=$DIR/nceplibs:$PATH
 
 	echo " "
-	################################UPPv4.1######################################
-	#Previous verison of UPP
-	#WRF Support page recommends UPPV4.1 due to too many changes to WRF and UPP code
-	#since the WRF was written
-	#Option 8 gfortran compiler with distributed memory
-	#############################################################################
-	cd "${WRF_FOLDER}"/
-	git clone -b dtc_post_v4.1.0 --recurse-submodules https://github.com/NOAA-EMC/EMC_post UPPV4.1
-	cd UPPV4.1
-	mkdir postprd
-	export NCEPLIBS_DIR=$DIR/nceplibs
-	export NETCDF=$DIR/NETCDF
-
-	if [ ${auto_config} -eq 1 ]; then
-		echo 8 | ./configure #Option 8 gfortran compiler with distributed memory
-	else
-		./configure #Option 8 gfortran compiler with distributed memory
-	fi
-
-	#make if statement for gcc-9 or older
-	export GCC_VERSION=$(/usr/bin/gcc -dumpfullversion | awk '{print$1}')
-	export GFORTRAN_VERSION=$(/usr/bin/gfortran -dumpfullversion | awk '{print$1}')
-	export GPLUSPLUS_VERSION=$(/usr/bin/g++ -dumpfullversion | awk '{print$1}')
-
-	export GCC_VERSION_MAJOR_VERSION=$(echo $GCC_VERSION | awk -F. '{print $1}')
-	export GFORTRAN_VERSION_MAJOR_VERSION=$(echo $GFORTRAN_VERSION | awk -F. '{print $1}')
-	export GPLUSPLUS_VERSION_MAJOR_VERSION=$(echo $GPLUSPLUS_VERSION | awk -F. '{print $1}')
-
-	export version_10="10"
-
-	if [ $GCC_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GFORTRAN_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GPLUSPLUS_VERSION_MAJOR_VERSION -ge $version_10 ]; then
-		sed -i "58s/(FOPT)/(FOPT) $fallow_argument $boz_argument  /g" "${WRF_FOLDER}/UPPV4.1/configure.upp"
-		sed -i "63s/(FOPT)/(FOPT) $fallow_argument $boz_argument  /g" "${WRF_FOLDER}/UPPV4.1/configure.upp"
-
-	fi
-
-	./compile
-	cd "${WRF_FOLDER}"/UPPV4.1/scripts
-
-	chmod +x run_unipost
-
-	# IF statement to check that all files were created.
-	cd "${WRF_FOLDER}"/UPPV4.1/exec
-	n=$(ls ./*.exe | wc -l)
-	if (($n == 1)); then
-		echo "All expected files created."
-		read -r -t 5 -p "Finished installing UPPV4.1. I am going to wait for 5 seconds only ..."
-	else
-		echo "Missing one or more expected files. Exiting the script."
-		read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
-		exit
-	fi
-
-	echo " "
+	
 
 	######################## ARWpost V3.1  ############################
 	## ARWpost
@@ -6763,7 +6710,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
 	echo $PASSWD | sudo -S dnf install dnf -y
 	echo $PASSWD | sudo -S dnf -y update
 	echo $PASSWD | sudo -S dnf -y upgrade
-	echo $PASSWD | sudo -S dnf -y install autoconf automake bzip2 bzip2-devel byacc cairo-devel cmake cpp curl curl-devel flex fontconfig fontconfig-devel gcc gcc-c++ gcc-gfortran git java-11-openjdk java-11-openjdk-devel ksh libjpeg libjpeg-devel libX11 libX11-devel libXaw libXaw-devel libXext-devel libXmu libXmu-devel libXrender libXrender-devel libXt libXt-devel libxml2 libxml2-devel libXmu libXmu-devel libgeotiff libgeotiff-devel libtiff libtiff-devel m4 nfs-utils perl pkgconfig pixman pixman-devel python3 python3-devel tcsh time unzip wget
+	echo $PASSWD | sudo -S dnf -y install autoconf automake bzip2 bzip2-devel byacc cairo-devel cmake cpp curl curl-devel flex fontconfig fontconfig-devel gcc gcc-c++ gcc-gfortran git java java-devel java-openjdk  ksh libjpeg libjpeg-devel libX11 libX11-devel libXaw libXaw-devel libXext-devel libXmu libXmu-devel libXrender libXrender-devel libXt libXt-devel libxml2 libxml2-devel libXmu libXmu-devel libgeotiff libgeotiff-devel libtiff libtiff-devel m4 nfs-utils perl pkgconfig pixman pixman-devel python3 python3-devel tcsh time unzip wget
 	echo $PASSWD | sudo -S dnf -y groupinstall "Development Tools"
 	echo $PASSWD | sudo -S dnf -y update
 	echo $PASSWD | sudo -S dnf -y upgrade
@@ -7198,60 +7145,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
 	export PATH=$DIR/nceplibs:$PATH
 
 	echo " "
-	################################UPPv4.1######################################
-	#Previous verison of UPP
-	#WRF Support page recommends UPPV4.1 due to too many changes to WRF and UPP code
-	#since the WRF was written
-	#Option 8 gfortran compiler with distributed memory
-	#############################################################################
-	cd "${WRF_FOLDER}"/
-	git clone -b dtc_post_v4.1.0 --recurse-submodules https://github.com/NOAA-EMC/EMC_post UPPV4.1
-	cd UPPV4.1
-	mkdir postprd
-	export NCEPLIBS_DIR=$DIR/nceplibs
-	export NETCDF=$DIR/NETCDF
 
-	if [ ${auto_config} -eq 1 ]; then
-		echo 8 | ./configure #Option 8 gfortran compiler with distributed memory
-	else
-		./configure #Option 8 gfortran compiler with distributed memory
-	fi
-
-	#make if statement for gcc-9 or older
-	export GCC_VERSION=$(gcc -dumpfullversion | awk '{print$1}')
-	export GFORTRAN_VERSION=$(gfortran -dumpfullversion | awk '{print$1}')
-	export GPLUSPLUS_VERSION=$(g++ -dumpfullversion | awk '{print$1}')
-
-	export GCC_VERSION_MAJOR_VERSION=$(echo $GCC_VERSION | awk -F. '{print $1}')
-	export GFORTRAN_VERSION_MAJOR_VERSION=$(echo $GFORTRAN_VERSION | awk -F. '{print $1}')
-	export GPLUSPLUS_VERSION_MAJOR_VERSION=$(echo $GPLUSPLUS_VERSION | awk -F. '{print $1}')
-
-	export version_10="10"
-
-	if [ $GCC_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GFORTRAN_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GPLUSPLUS_VERSION_MAJOR_VERSION -ge $version_10 ]; then
-		sed -i "58s/(FOPT)/(FOPT) $fallow_argument $boz_argument  /g" "${WRF_FOLDER}/UPPV4.1/configure.upp"
-		sed -i "63s/(FOPT)/(FOPT) $fallow_argument $boz_argument  /g" "${WRF_FOLDER}/UPPV4.1/configure.upp"
-
-	fi
-
-	./compile
-	cd "${WRF_FOLDER}"/UPPV4.1/scripts
-
-	chmod +x run_unipost
-
-	# IF statement to check that all files were created.
-	cd "${WRF_FOLDER}"/UPPV4.1/exec
-	n=$(ls ./*.exe | wc -l)
-	if (($n == 1)); then
-		echo "All expected files created."
-		read -r -t 5 -p "Finished installing UPPV4.1. I am going to wait for 5 seconds only ..."
-	else
-		echo "Missing one or more expected files. Exiting the script."
-		read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
-		exit
-	fi
-
-	echo " "
 
 	######################## ARWpost V3.1  ############################
 	## ARWpost
@@ -7667,7 +7561,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$SFIRE_PICK" = "1" ]; then
 	echo $PASSWD | sudo -S dnf install dnf -y
 	echo $PASSWD | sudo -S dnf -y update
 	echo $PASSWD | sudo -S dnf -y upgrade
-	echo $PASSWD | sudo -S dnf -y install autoconf automake bzip2 bzip2-devel byacc cairo-devel cmake cpp curl curl-devel flex fontconfig fontconfig-devel gcc gcc-c++ gcc-gfortran git java-11-openjdk java-11-openjdk-devel ksh libjpeg libjpeg-deve libX11 libX11-devel libXaw libXaw-devel libXext-devel libXmu libXmu-devel libXrender libXrender-devel libXt libXt-devel libxml2 libxml2-devel libXmu libXmu-devel libgeotiff libgeotiff-devel libtiff libtiff-devel m4 nfs-utils perl pkgconfig pixman pixman-devel python3 python3-devel tcsh time unzip wget
+	echo $PASSWD | sudo -S dnf -y install autoconf automake bzip2 bzip2-devel byacc cairo-devel cmake cpp curl curl-devel flex fontconfig fontconfig-devel gcc gcc-c++ gcc-gfortran git java java-devel java-openjdk  ksh libjpeg libjpeg-deve libX11 libX11-devel libXaw libXaw-devel libXext-devel libXmu libXmu-devel libXrender libXrender-devel libXt libXt-devel libxml2 libxml2-devel libXmu libXmu-devel libgeotiff libgeotiff-devel libtiff libtiff-devel m4 nfs-utils perl pkgconfig pixman pixman-devel python3 python3-devel tcsh time unzip wget
 	echo $PASSWD | sudo -S dnf -y groupinstall "Development Tools"
 	echo $PASSWD | sudo -S dnf -y update
 	echo $PASSWD | sudo -S dnf -y upgrade
@@ -8102,60 +7996,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$SFIRE_PICK" = "1" ]; then
 	export PATH=$DIR/nceplibs:$PATH
 
 	echo " "
-	################################UPPv4.1######################################
-	#Previous verison of UPP
-	#WRF Support page recommends UPPv4.1 due to too many changes to WRF and UPP code
-	#since the WRF was written
-	#Option 8 gfortran compiler with distributed memory
-	#############################################################################
-	cd "${WRF_FOLDER}"/
-	git clone -b dtc_post_v4.1.0 --recurse-submodules https://github.com/NOAA-EMC/EMC_post UPPv4.1
-	cd UPPv4.1
-	mkdir postprd
-	export NCEPLIBS_DIR=$DIR/nceplibs
-	export NETCDF=$DIR/NETCDF
 
-	if [ ${auto_config} -eq 1 ]; then
-		echo 8 | ./configure #Option 8 gfortran compiler with distributed memory
-	else
-		./configure #Option 8 gfortran compiler with distributed memory
-	fi
-
-	#make if statement for gcc-9 or older
-	export GCC_VERSION=$(gcc -dumpfullversion | awk '{print$1}')
-	export GFORTRAN_VERSION=$(gfortran -dumpfullversion | awk '{print$1}')
-	export GPLUSPLUS_VERSION=$(g++ -dumpfullversion | awk '{print$1}')
-
-	export GCC_VERSION_MAJOR_VERSION=$(echo $GCC_VERSION | awk -F. '{print $1}')
-	export GFORTRAN_VERSION_MAJOR_VERSION=$(echo $GFORTRAN_VERSION | awk -F. '{print $1}')
-	export GPLUSPLUS_VERSION_MAJOR_VERSION=$(echo $GPLUSPLUS_VERSION | awk -F. '{print $1}')
-
-	export version_10="10"
-
-	if [ $GCC_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GFORTRAN_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GPLUSPLUS_VERSION_MAJOR_VERSION -ge $version_10 ]; then
-		sed -i "58s/(FOPT)/(FOPT) $fallow_argument $boz_argument  /g" "${WRF_FOLDER}/UPPV4.1/configure.upp"
-		sed -i "63s/(FOPT)/(FOPT) $fallow_argument $boz_argument  /g" "${WRF_FOLDER}/UPPV4.1/configure.upp"
-
-	fi
-
-	./compile
-	cd "${WRF_FOLDER}"/UPPv4.1/scripts
-
-	chmod +x run_unipost
-
-	# IF statement to check that all files were created.
-	cd "${WRF_FOLDER}"/UPPv4.1/exec
-	n=$(ls ./*.exe | wc -l)
-	if (($n == 1)); then
-		echo "All expected files created."
-		read -r -t 5 -p "Finished installing UPPv4.1. I am going to wait for 5 seconds only ..."
-	else
-		echo "Missing one or more expected files. Exiting the script."
-		read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
-		exit
-	fi
-
-	echo " "
 
 	######################## ARWpost V3.1  ############################
 	## ARWpost
@@ -10861,7 +10702,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 	echo $PASSWD | sudo -S dnf install dnf -y
 	echo $PASSWD | sudo -S dnf -y update
 	echo $PASSWD | sudo -S dnf -y upgrade
-	echo $PASSWD | sudo -S dnf -y install autoconf automake bzip2 bzip2-devel byacc cairo-devel cmake cpp curl curl-devel flex fontconfig-devel fontconfig-devel gcc gcc-c++ gcc-gfortran git java-11-openjdk java-11-openjdk-devel ksh libX11-devel libX11-devel libXaw libXaw-devel libXext-devel libXext-devel libXmu-devel libXrender-devel libXrender-devel libstdc++ libstdc++-devel libxml2 libxml2-devel m4 nfs-utils perl "perl(XML::LibXML)" pkgconfig pixman-devel python3 python3-devel tcsh time unzip wget
+	echo $PASSWD | sudo -S dnf -y install autoconf automake bzip2 bzip2-devel byacc cairo-devel cmake cpp curl curl-devel flex fontconfig-devel fontconfig-devel gcc gcc-c++ gcc-gfortran git java java-devel java-openjdk  ksh libX11-devel libX11-devel libXaw libXaw-devel libXext-devel libXext-devel libXmu-devel libXrender-devel libXrender-devel libstdc++ libstdc++-devel libxml2 libxml2-devel m4 nfs-utils perl "perl(XML::LibXML)" pkgconfig pixman-devel python3 python3-devel tcsh time unzip wget
 	echo $PASSWD | sudo -S dnf -y groupinstall "Development Tools"
 	echo $PASSWD | sudo -S dnf -y update
 	echo $PASSWD | sudo -S dnf -y upgrade
@@ -11397,7 +11238,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 	echo $PASSWD | sudo -S dnf install dnf -y
 	echo $PASSWD | sudo -S dnf -y update
 	echo $PASSWD | sudo -S dnf -y upgrade
-	echo $PASSWD | sudo -S dnf -y install autoconf automake bzip2 bzip2-devel byacc cairo-devel cmake cpp curl curl-devel flex fontconfig-devel fontconfig-devel gcc gcc-c++ gcc-gfortran git java-11-openjdk java-11-openjdk-devel ksh libX11-devel libX11-devel libXaw libXaw-devel libXext-devel libXext-devel libXmu-devel libXrender-devel libXrender-devel libstdc++ libstdc++-devel libxml2 libxml2-devel m4 nfs-utils perl "perl(XML::LibXML)" pkgconfig pixman-devel python3 python3-devel tcsh time unzip wget
+	echo $PASSWD | sudo -S dnf -y install autoconf automake bzip2 bzip2-devel byacc cairo-devel cmake cpp curl curl-devel flex fontconfig-devel fontconfig-devel gcc gcc-c++ gcc-gfortran git java java-devel java-openjdk  ksh libX11-devel libX11-devel libXaw libXaw-devel libXext-devel libXext-devel libXmu-devel libXrender-devel libXrender-devel libstdc++ libstdc++-devel libxml2 libxml2-devel m4 nfs-utils perl "perl(XML::LibXML)" pkgconfig pixman-devel python3 python3-devel tcsh time unzip wget
 	echo $PASSWD | sudo -S dnf -y groupinstall "Development Tools"
 	echo $PASSWD | sudo -S dnf -y update
 	echo $PASSWD | sudo -S dnf -y upgrade
@@ -12379,49 +12220,7 @@ fi
 # 	export PATH=$DIR/nceplibs:$PATH
 
 # 	echo " "
-# 	################################UPPv4.1######################################
-# 	#Previous verison of UPP
-# 	#WRF Support page recommends UPPV4.1 due to too many changes to WRF and UPP code
-# 	#since the WRF was written
-# 	#Option 8 gfortran compiler with distributed memory
-# 	#############################################################################
-# 	cd "${WRF_FOLDER}"/
-# 	git clone -b dtc_post_v4.1.0 --recurse-submodules https://github.com/NOAA-EMC/EMC_post UPPV4.1
-# 	cd UPPV4.1
-# 	mkdir postprd
-# 	export NCEPLIBS_DIR=$DIR/nceplibs
-# 	export NETCDF=$DIR/NETCDF
-
-# 	if [ ${auto_config} -eq 1 ]; then
-# 		echo 8 | ./configure #Option 8 gfortran compiler with distributed memory
-# 	else
-# 		./configure #Option 8 gfortran compiler with distributed memory
-# 	fi
-
-# 	echo " "
-# 	#make if statement for gcc-9 or older
-# 	export GCC_VERSION=$(/usr/bin/gcc -dumpfullversion | awk '{print$1}')
-# 	export GFORTRAN_VERSION=$(/usr/bin/gfortran -dumpfullversion | awk '{print$1}')
-# 	export GPLUSPLUS_VERSION=$(/usr/bin/g++ -dumpfullversion | awk '{print$1}')
-
-# 	export GCC_VERSION_MAJOR_VERSION=$(echo $GCC_VERSION | awk -F. '{print $1}')
-# 	export GFORTRAN_VERSION_MAJOR_VERSION=$(echo $GFORTRAN_VERSION | awk -F. '{print $1}')
-# 	export GPLUSPLUS_VERSION_MAJOR_VERSION=$(echo $GPLUSPLUS_VERSION | awk -F. '{print $1}')
-
-# 	export version_10="10"
-
-# 	if [ $GCC_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GFORTRAN_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GPLUSPLUS_VERSION_MAJOR_VERSION -ge $version_10 ]; then
-# 		sed -i "58s/(FOPT)/(FOPT) $fallow_argument $boz_argument  /g" "${WRF_FOLDER}/UPPV4.1/configure.upp"
-# 		sed -i "63s/(FOPT)/(FOPT) $fallow_argument $boz_argument  /g" "${WRF_FOLDER}/UPPV4.1/configure.upp"
-
-# 	fi
-
-# 	./compile | tee upp_compile.log
-# 	cd "${WRF_FOLDER}"/UPPV4.1/scripts
-
-# 	chmod +x run_unipost
-
-# 	echo " "
+# 	
 # 	######################## ARWpost V3.1  ############################
 # 	## ARWpost
 # 	##Configure #3
@@ -15355,7 +15154,7 @@ fi
 # 	echo $PASSWD | sudo -S dnf install dnf -y
 # 	echo $PASSWD | sudo -S dnf -y update
 # 	echo $PASSWD | sudo -S dnf -y upgrade
-# 	echo $PASSWD | sudo -S dnf -y install autoconf automake bzip2 bzip2-devel byacc cairo-devel cmake cpp curl curl-devel flex fontconfig-devel fontconfig-devel gcc gcc-c++ gcc-gfortran git java-11-openjdk java-11-openjdk-devel ksh libX11-devel libX11-devel libXaw libXaw-devel libXext-devel libXext-devel libXmu-devel libXrender-devel libXrender-devel libstdc++ libstdc++-devel libxml2 libxml2-devel m4 nfs-utils perl "perl(XML::LibXML)" pkgconfig pixman-devel python3 python3-devel tcsh time unzip wget
+# 	echo $PASSWD | sudo -S dnf -y install autoconf automake bzip2 bzip2-devel byacc cairo-devel cmake cpp curl curl-devel flex fontconfig-devel fontconfig-devel gcc gcc-c++ gcc-gfortran git java java-devel java-openjdk  ksh libX11-devel libX11-devel libXaw libXaw-devel libXext-devel libXext-devel libXmu-devel libXrender-devel libXrender-devel libstdc++ libstdc++-devel libxml2 libxml2-devel m4 nfs-utils perl "perl(XML::LibXML)" pkgconfig pixman-devel python3 python3-devel tcsh time unzip wget
 # 	echo $PASSWD | sudo -S dnf -y groupinstall "Development Tools"
 # 	echo $PASSWD | sudo -S dnf -y update
 # 	echo $PASSWD | sudo -S dnf -y upgrade
@@ -15796,61 +15595,7 @@ fi
 # 	export PATH=$DIR/nceplibs:$PATH
 
 # 	echo " "
-# 	################################UPPv4.1######################################
-# 	#Previous verison of UPP
-# 	#WRF Support page recommends UPPV4.1 due to too many changes to WRF and UPP code
-# 	#since the WRF was written
-# 	#Option 8 gfortran compiler with distributed memory
-# 	#############################################################################
-# 	cd "${WRF_FOLDER}"/
-# 	git clone -b dtc_post_v4.1.0 --recurse-submodules https://github.com/NOAA-EMC/EMC_post UPPV4.1
-# 	cd UPPV4.1
-# 	mkdir postprd
-# 	export NCEPLIBS_DIR=$DIR/nceplibs
-# 	export NETCDF=$DIR/NETCDF
-
-# 	if [ ${auto_config} -eq 1 ]; then
-# 		echo 8 | ./configure #Option 8 gfortran compiler with distributed memory
-# 	else
-# 		./configure #Option 8 gfortran compiler with distributed memory
-# 	fi
-
-# 	#make if statement for gcc-9 or older
-# 	export GCC_VERSION=$(gcc -dumpfullversion | awk '{print$1}')
-# 	export GFORTRAN_VERSION=$(gfortran -dumpfullversion | awk '{print$1}')
-# 	export GPLUSPLUS_VERSION=$(g++ -dumpfullversion | awk '{print$1}')
-
-# 	export GCC_VERSION_MAJOR_VERSION=$(echo $GCC_VERSION | awk -F. '{print $1}')
-# 	export GFORTRAN_VERSION_MAJOR_VERSION=$(echo $GFORTRAN_VERSION | awk -F. '{print $1}')
-# 	export GPLUSPLUS_VERSION_MAJOR_VERSION=$(echo $GPLUSPLUS_VERSION | awk -F. '{print $1}')
-
-# 	export version_10="10"
-
-# 	if [ $GCC_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GFORTRAN_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GPLUSPLUS_VERSION_MAJOR_VERSION -ge $version_10 ]; then
-# 		sed -i "58s/(FOPT)/(FOPT) $fallow_argument $boz_argument  /g" "${WRF_FOLDER}/UPPV4.1/configure.upp"
-# 		sed -i "63s/(FOPT)/(FOPT) $fallow_argument $boz_argument  /g" "${WRF_FOLDER}/UPPV4.1/configure.upp"
-
-# 	fi
-
-# 	./compile
-# 	cd "${WRF_FOLDER}"/UPPV4.1/scripts
-
-# 	chmod +x run_unipost
-
-# 	# IF statement to check that all files were created.
-# 	cd "${WRF_FOLDER}"/UPPV4.1/exec
-# 	n=$(ls ./*.exe | wc -l)
-# 	if (($n == 1)); then
-# 		echo "All expected files created."
-# 		read -r -t 5 -p "Finished installing UPPV4.1. I am going to wait for 5 seconds only ..."
-# 	else
-# 		echo "Missing one or more expected files. Exiting the script."
-# 		read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
-# 		exit
-# 	fi
-
-# 	echo " "
-
+# 
 # 	######################## ARWpost V3.1  ############################
 # 	## ARWpost
 # 	##Configure #3
@@ -16341,7 +16086,7 @@ fi
 # 	echo $PASSWD | sudo -S dnf install dnf -y
 # 	echo $PASSWD | sudo -S dnf -y update
 # 	echo $PASSWD | sudo -S dnf -y upgrade
-# 	echo $PASSWD | sudo -S dnf -y install autoconf automake bzip2 bzip2-devel byacc cairo-devel cmake cpp curl curl-devel flex fontconfig-devel fontconfig-devel gcc gcc-c++ gcc-gfortran git java-11-openjdk java-11-openjdk-devel ksh libX11-devel libX11-devel libXaw libXaw-devel libXext-devel libXext-devel libXmu-devel libXrender-devel libXrender-devel libstdc++ libstdc++-devel libxml2 libxml2-devel m4 nfs-utils perl "perl(XML::LibXML)" pkgconfig pixman-devel python3 python3-devel tcsh time unzip wget
+# 	echo $PASSWD | sudo -S dnf -y install autoconf automake bzip2 bzip2-devel byacc cairo-devel cmake cpp curl curl-devel flex fontconfig-devel fontconfig-devel gcc gcc-c++ gcc-gfortran git java java-devel java-openjdk  ksh libX11-devel libX11-devel libXaw libXaw-devel libXext-devel libXext-devel libXmu-devel libXrender-devel libXrender-devel libstdc++ libstdc++-devel libxml2 libxml2-devel m4 nfs-utils perl "perl(XML::LibXML)" pkgconfig pixman-devel python3 python3-devel tcsh time unzip wget
 # 	echo $PASSWD | sudo -S dnf -y groupinstall "Development Tools"
 # 	echo $PASSWD | sudo -S dnf -y update
 # 	echo $PASSWD | sudo -S dnf -y upgrade
@@ -16779,60 +16524,7 @@ fi
 # 	export PATH=$DIR/nceplibs:$PATH
 
 # 	echo " "
-# 	################################UPPv4.1######################################
-# 	#Previous verison of UPP
-# 	#WRF Support page recommends UPPV4.1 due to too many changes to WRF and UPP code
-# 	#since the WRF was written
-# 	#Option 8 gfortran compiler with distributed memory
-# 	#############################################################################
-# 	cd "${WRF_FOLDER}"/
-# 	git clone -b dtc_post_v4.1.0 --recurse-submodules https://github.com/NOAA-EMC/EMC_post UPPV4.1
-# 	cd UPPV4.1
-# 	mkdir postprd
-# 	export NCEPLIBS_DIR=$DIR/nceplibs
-# 	export NETCDF=$DIR/NETCDF
-
-# 	if [ ${auto_config} -eq 1 ]; then
-# 		echo 8 | ./configure #Option 8 gfortran compiler with distributed memory
-# 	else
-# 		./configure #Option 8 gfortran compiler with distributed memory
-# 	fi
-
-# 	#make if statement for gcc-9 or older
-# 	export GCC_VERSION=$(gcc -dumpfullversion | awk '{print$1}')
-# 	export GFORTRAN_VERSION=$(gfortran -dumpfullversion | awk '{print$1}')
-# 	export GPLUSPLUS_VERSION=$(g++ -dumpfullversion | awk '{print$1}')
-
-# 	export GCC_VERSION_MAJOR_VERSION=$(echo $GCC_VERSION | awk -F. '{print $1}')
-# 	export GFORTRAN_VERSION_MAJOR_VERSION=$(echo $GFORTRAN_VERSION | awk -F. '{print $1}')
-# 	export GPLUSPLUS_VERSION_MAJOR_VERSION=$(echo $GPLUSPLUS_VERSION | awk -F. '{print $1}')
-
-# 	export version_10="10"
-
-# 	if [ $GCC_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GFORTRAN_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GPLUSPLUS_VERSION_MAJOR_VERSION -ge $version_10 ]; then
-# 		sed -i "58s/(FOPT)/(FOPT) $fallow_argument $boz_argument  /g" "${WRF_FOLDER}/UPPV4.1/configure.upp"
-# 		sed -i "63s/(FOPT)/(FOPT) $fallow_argument $boz_argument  /g" "${WRF_FOLDER}/UPPV4.1/configure.upp"
-
-# 	fi
-
-# 	./compile
-# 	cd "${WRF_FOLDER}"/UPPV4.1/scripts
-
-# 	chmod +x run_unipost
-
-# 	# IF statement to check that all files were created.
-# 	cd "${WRF_FOLDER}"/UPPV4.1/exec
-# 	n=$(ls ./*.exe | wc -l)
-# 	if (($n == 1)); then
-# 		echo "All expected files created."
-# 		read -r -t 5 -p "Finished installing UPPV4.1. I am going to wait for 5 seconds only ..."
-# 	else
-# 		echo "Missing one or more expected files. Exiting the script."
-# 		read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
-# 		exit
-# 	fi
-
-# 	echo " "
+# 	
 
 # 	######################## ARWpost V3.1  ############################
 # 	## ARWpost
@@ -17722,61 +17414,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	export PATH=$DIR/nceplibs:$PATH
 
 	echo " "
-	################################UPPv4.1######################################
-	#Previous verison of UPP
-	#WRF Support page recommends UPPV4.1 due to too many changes to WRF and UPP code
-	#since the WRF was written
-	#Option 8 gfortran compiler with distributed memory
-	#############################################################################
-	cd "${WRF_FOLDER}"/
-	git clone -b dtc_post_v4.1.0 --recurse-submodules https://github.com/NOAA-EMC/EMC_post UPPV4.1
-	cd UPPV4.1
-	mkdir postprd
-	export NCEPLIBS_DIR=$DIR/nceplibs
-	export NETCDF=$DIR/NETCDF
-
-	if [ ${auto_config} -eq 1 ]; then
-		echo 8 | ./configure #Option 8 gfortran compiler with distributed memory
-	else
-		./configure #Option 8 gfortran compiler with distributed memory
-	fi
-
-	echo " "
-	#make if statement for gcc-9 or older
-	export GCC_VERSION=$(/usr/bin/gcc -dumpfullversion | awk '{print$1}')
-	export GFORTRAN_VERSION=$(/usr/bin/gfortran -dumpfullversion | awk '{print$1}')
-	export GPLUSPLUS_VERSION=$(/usr/bin/g++ -dumpfullversion | awk '{print$1}')
-
-	export GCC_VERSION_MAJOR_VERSION=$(echo $GCC_VERSION | awk -F. '{print $1}')
-	export GFORTRAN_VERSION_MAJOR_VERSION=$(echo $GFORTRAN_VERSION | awk -F. '{print $1}')
-	export GPLUSPLUS_VERSION_MAJOR_VERSION=$(echo $GPLUSPLUS_VERSION | awk -F. '{print $1}')
-
-	export version_10="10"
-
-	if [ $GCC_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GFORTRAN_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GPLUSPLUS_VERSION_MAJOR_VERSION -ge $version_10 ]; then
-		sed -i "58s/(FOPT)/(FOPT) $fallow_argument $boz_argument  /g" "${WRF_FOLDER}/UPPV4.1/configure.upp"
-		sed -i "63s/(FOPT)/(FOPT) $fallow_argument $boz_argument  /g" "${WRF_FOLDER}/UPPV4.1/configure.upp"
-
-	fi
-
-	./compile
-	cd "${WRF_FOLDER}"/UPPV4.1/scripts
-
-	chmod +x run_unipost
-
-	# IF statement to check that all files were created.
-	cd "${WRF_FOLDER}"/UPPV4.1/exec
-	n=$(ls ./*.exe | wc -l)
-	if (($n == 1)); then
-		echo "All expected files created."
-		read -r -t 5 -p "Finished installing UPPV4.1. I am going to wait for 5 seconds only ..."
-	else
-		echo "Missing one or more expected files. Exiting the script."
-		read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
-		exit
-	fi
-
-	echo " "
+	
 	######################## ARWpost V3.1  ############################
 	## ARWpost
 	##Configure #3
@@ -20689,7 +20327,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	echo $PASSWD | sudo -S dnf install dnf -y
 	echo $PASSWD | sudo -S dnf -y update
 	echo $PASSWD | sudo -S dnf -y upgrade
-	echo $PASSWD | sudo -S dnf -y install autoconf automake bzip2 bzip2-devel byacc cairo-devel cmake cpp curl curl-devel flex fontconfig-devel fontconfig-devel gcc gcc-c++ gcc-gfortran git java-11-openjdk java-11-openjdk-devel ksh libX11-devel libX11-devel libXaw libXaw-devel libXext-devel libXext-devel libXmu-devel libXrender-devel libXrender-devel libstdc++ libstdc++-devel libxml2 libxml2-devel m4 nfs-utils perl "perl(XML::LibXML)" pkgconfig pixman-devel python3 python3-devel tcsh time unzip wget
+	echo $PASSWD | sudo -S dnf -y install autoconf automake bzip2 bzip2-devel byacc cairo-devel cmake cpp curl curl-devel flex fontconfig-devel fontconfig-devel gcc gcc-c++ gcc-gfortran git java java-devel java-openjdk  ksh libX11-devel libX11-devel libXaw libXaw-devel libXext-devel libXext-devel libXmu-devel libXrender-devel libXrender-devel libstdc++ libstdc++-devel libxml2 libxml2-devel m4 nfs-utils perl "perl(XML::LibXML)" pkgconfig pixman-devel python3 python3-devel tcsh time unzip wget
 	echo $PASSWD | sudo -S dnf -y groupinstall "Development Tools"
 	echo $PASSWD | sudo -S dnf -y update
 	echo $PASSWD | sudo -S dnf -y upgrade
@@ -21128,60 +20766,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	export PATH=$DIR/nceplibs:$PATH
 
 	echo " "
-	################################UPPv4.1######################################
-	#Previous verison of UPP
-	#WRF Support page recommends UPPV4.1 due to too many changes to WRF and UPP code
-	#since the WRF was written
-	#Option 8 gfortran compiler with distributed memory
-	#############################################################################
-	cd "${WRF_FOLDER}"/
-	git clone -b dtc_post_v4.1.0 --recurse-submodules https://github.com/NOAA-EMC/EMC_post UPPV4.1
-	cd UPPV4.1
-	mkdir postprd
-	export NCEPLIBS_DIR=$DIR/nceplibs
-	export NETCDF=$DIR/NETCDF
 
-	if [ ${auto_config} -eq 1 ]; then
-		echo 8 | ./configure #Option 8 gfortran compiler with distributed memory
-	else
-		./configure #Option 8 gfortran compiler with distributed memory
-	fi
-
-	#make if statement for gcc-9 or older
-	export GCC_VERSION=$(gcc -dumpfullversion | awk '{print$1}')
-	export GFORTRAN_VERSION=$(gfortran -dumpfullversion | awk '{print$1}')
-	export GPLUSPLUS_VERSION=$(g++ -dumpfullversion | awk '{print$1}')
-
-	export GCC_VERSION_MAJOR_VERSION=$(echo $GCC_VERSION | awk -F. '{print $1}')
-	export GFORTRAN_VERSION_MAJOR_VERSION=$(echo $GFORTRAN_VERSION | awk -F. '{print $1}')
-	export GPLUSPLUS_VERSION_MAJOR_VERSION=$(echo $GPLUSPLUS_VERSION | awk -F. '{print $1}')
-
-	export version_10="10"
-
-	if [ $GCC_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GFORTRAN_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GPLUSPLUS_VERSION_MAJOR_VERSION -ge $version_10 ]; then
-		sed -i "58s/(FOPT)/(FOPT) $fallow_argument $boz_argument  /g" "${WRF_FOLDER}/UPPV4.1/configure.upp"
-		sed -i "63s/(FOPT)/(FOPT) $fallow_argument $boz_argument  /g" "${WRF_FOLDER}/UPPV4.1/configure.upp"
-
-	fi
-
-	./compile
-	cd "${WRF_FOLDER}"/UPPV4.1/scripts
-
-	chmod +x run_unipost
-
-	# IF statement to check that all files were created.
-	cd "${WRF_FOLDER}"/UPPV4.1/exec
-	n=$(ls ./*.exe | wc -l)
-	if (($n == 1)); then
-		echo "All expected files created."
-		read -r -t 5 -p "Finished installing UPPV4.1. I am going to wait for 5 seconds only ..."
-	else
-		echo "Missing one or more expected files. Exiting the script."
-		read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
-		exit
-	fi
-
-	echo " "
 
 	######################## ARWpost V3.1  ############################
 	## ARWpost
@@ -21676,7 +21261,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	echo $PASSWD | sudo -S dnf install dnf -y
 	echo $PASSWD | sudo -S dnf -y update
 	echo $PASSWD | sudo -S dnf -y upgrade
-	echo $PASSWD | sudo -S dnf -y install autoconf automake bzip2 bzip2-devel byacc cairo-devel cmake cpp curl curl-devel flex fontconfig-devel fontconfig-devel gcc gcc-c++ gcc-gfortran git java-11-openjdk java-11-openjdk-devel ksh libX11-devel libX11-devel libXaw libXaw-devel libXext-devel libXext-devel libXmu-devel libXrender-devel libXrender-devel libstdc++ libstdc++-devel libxml2 libxml2-devel m4 nfs-utils perl "perl(XML::LibXML)" pkgconfig pixman-devel python3 python3-devel tcsh time unzip wget
+	echo $PASSWD | sudo -S dnf -y install autoconf automake bzip2 bzip2-devel byacc cairo-devel cmake cpp curl curl-devel flex fontconfig-devel fontconfig-devel gcc gcc-c++ gcc-gfortran git java java-devel java-openjdk  ksh libX11-devel libX11-devel libXaw libXaw-devel libXext-devel libXext-devel libXmu-devel libXrender-devel libXrender-devel libstdc++ libstdc++-devel libxml2 libxml2-devel m4 nfs-utils perl "perl(XML::LibXML)" pkgconfig pixman-devel python3 python3-devel tcsh time unzip wget
 	echo $PASSWD | sudo -S dnf -y groupinstall "Development Tools"
 	echo $PASSWD | sudo -S dnf -y update
 	echo $PASSWD | sudo -S dnf -y upgrade
@@ -22116,60 +21701,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	export PATH=$DIR/nceplibs:$PATH
 
 	echo " "
-	################################UPPv4.1######################################
-	#Previous verison of UPP
-	#WRF Support page recommends UPPV4.1 due to too many changes to WRF and UPP code
-	#since the WRF was written
-	#Option 8 gfortran compiler with distributed memory
-	#############################################################################
-	cd "${WRF_FOLDER}"/
-	git clone -b dtc_post_v4.1.0 --recurse-submodules https://github.com/NOAA-EMC/EMC_post UPPV4.1
-	cd UPPV4.1
-	mkdir postprd
-	export NCEPLIBS_DIR=$DIR/nceplibs
-	export NETCDF=$DIR/NETCDF
 
-	if [ ${auto_config} -eq 1 ]; then
-		echo 8 | ./configure #Option 8 gfortran compiler with distributed memory
-	else
-		./configure #Option 8 gfortran compiler with distributed memory
-	fi
-
-	#make if statement for gcc-9 or older
-	export GCC_VERSION=$(gcc -dumpfullversion | awk '{print$1}')
-	export GFORTRAN_VERSION=$(gfortran -dumpfullversion | awk '{print$1}')
-	export GPLUSPLUS_VERSION=$(g++ -dumpfullversion | awk '{print$1}')
-
-	export GCC_VERSION_MAJOR_VERSION=$(echo $GCC_VERSION | awk -F. '{print $1}')
-	export GFORTRAN_VERSION_MAJOR_VERSION=$(echo $GFORTRAN_VERSION | awk -F. '{print $1}')
-	export GPLUSPLUS_VERSION_MAJOR_VERSION=$(echo $GPLUSPLUS_VERSION | awk -F. '{print $1}')
-
-	export version_10="10"
-
-	if [ $GCC_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GFORTRAN_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GPLUSPLUS_VERSION_MAJOR_VERSION -ge $version_10 ]; then
-		sed -i "58s/(FOPT)/(FOPT) $fallow_argument $boz_argument  /g" "${WRF_FOLDER}/UPPV4.1/configure.upp"
-		sed -i "63s/(FOPT)/(FOPT) $fallow_argument $boz_argument  /g" "${WRF_FOLDER}/UPPV4.1/configure.upp"
-
-	fi
-
-	./compile
-	cd "${WRF_FOLDER}"/UPPV4.1/scripts
-
-	chmod +x run_unipost
-
-	# IF statement to check that all files were created.
-	cd "${WRF_FOLDER}"/UPPV4.1/exec
-	n=$(ls ./*.exe | wc -l)
-	if (($n == 1)); then
-		echo "All expected files created."
-		read -r -t 5 -p "Finished installing UPPV4.1. I am going to wait for 5 seconds only ..."
-	else
-		echo "Missing one or more expected files. Exiting the script."
-		read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
-		exit
-	fi
-
-	echo " "
 
 	######################## ARWpost V3.1  ############################
 	## ARWpost
@@ -23088,60 +22620,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	export PATH=$DIR/nceplibs:$PATH
 
 	echo " "
-	################################UPPv4.1######################################
-	#Previous verison of UPP
-	#WRF Support page recommends UPPV4.1 due to too many changes to WRF and UPP code
-	#since the WRF was written
-	#Option 8 gfortran compiler with distributed memory
-	#############################################################################
-	cd "${WRF_FOLDER}"/
-	git clone -b dtc_post_v4.1.0 --recurse-submodules https://github.com/NOAA-EMC/EMC_post UPPV4.1
-	cd UPPV4.1
-	mkdir postprd
-	export NCEPLIBS_DIR=$DIR/nceplibs
-	export NETCDF=$DIR/NETCDF
-
-	if [ ${auto_config} -eq 1 ]; then
-		echo 8 | ./configure #Option 8 gfortran compiler with distributed memory
-	else
-		./configure #Option 8 gfortran compiler with distributed memory
-	fi
-
-	#make if statement for gcc-9 or older
-	export GCC_VERSION=$(/usr/bin/gcc -dumpfullversion | awk '{print$1}')
-	export GFORTRAN_VERSION=$(/usr/bin/gfortran -dumpfullversion | awk '{print$1}')
-	export GPLUSPLUS_VERSION=$(/usr/bin/g++ -dumpfullversion | awk '{print$1}')
-
-	export GCC_VERSION_MAJOR_VERSION=$(echo $GCC_VERSION | awk -F. '{print $1}')
-	export GFORTRAN_VERSION_MAJOR_VERSION=$(echo $GFORTRAN_VERSION | awk -F. '{print $1}')
-	export GPLUSPLUS_VERSION_MAJOR_VERSION=$(echo $GPLUSPLUS_VERSION | awk -F. '{print $1}')
-
-	export version_10="10"
-
-	if [ $GCC_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GFORTRAN_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GPLUSPLUS_VERSION_MAJOR_VERSION -ge $version_10 ]; then
-		sed -i "58s/(FOPT)/(FOPT) $fallow_argument $boz_argument  /g" "${WRF_FOLDER}/UPPV4.1/configure.upp"
-		sed -i "63s/(FOPT)/(FOPT) $fallow_argument $boz_argument  /g" "${WRF_FOLDER}/UPPV4.1/configure.upp"
-
-	fi
-
-	./compile
-	cd "${WRF_FOLDER}"/UPPV4.1/scripts
-
-	chmod +x run_unipost
-
-	# IF statement to check that all files were created.
-	cd "${WRF_FOLDER}"/UPPV4.1/exec
-	n=$(ls ./*.exe | wc -l)
-	if (($n == 1)); then
-		echo "All expected files created."
-		read -r -t 5 -p "Finished installing UPPV4.1. I am going to wait for 5 seconds only ..."
-	else
-		echo "Missing one or more expected files. Exiting the script."
-		read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
-		exit
-	fi
-
-	echo " "
+	
 
 	######################## ARWpost V3.1  ############################
 	## ARWpost
@@ -26188,7 +25667,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	echo $PASSWD | sudo -S dnf install dnf -y
 	echo $PASSWD | sudo -S dnf -y update
 	echo $PASSWD | sudo -S dnf -y upgrade
-	echo $PASSWD | sudo -S dnf -y install autoconf automake bzip2 bzip2-devel byacc cairo-devel cmake cpp curl curl-devel flex fontconfig-devel fontconfig-devel gcc gcc-c++ gcc-gfortran git java-11-openjdk java-11-openjdk-devel ksh libX11-devel libX11-devel libXaw libXaw-devel libXext-devel libXext-devel libXmu-devel libXrender-devel libXrender-devel libstdc++ libstdc++-devel libxml2 libxml2-devel m4 nfs-utils perl "perl(XML::LibXML)" pkgconfig pixman-devel python3 python3-devel tcsh time unzip wget
+	echo $PASSWD | sudo -S dnf -y install autoconf automake bzip2 bzip2-devel byacc cairo-devel cmake cpp curl curl-devel flex fontconfig-devel fontconfig-devel gcc gcc-c++ gcc-gfortran git java java-devel java-openjdk  ksh libX11-devel libX11-devel libXaw libXaw-devel libXext-devel libXext-devel libXmu-devel libXrender-devel libXrender-devel libstdc++ libstdc++-devel libxml2 libxml2-devel m4 nfs-utils perl "perl(XML::LibXML)" pkgconfig pixman-devel python3 python3-devel tcsh time unzip wget
 	echo $PASSWD | sudo -S dnf -y groupinstall "Development Tools"
 	echo $PASSWD | sudo -S dnf -y update
 	echo $PASSWD | sudo -S dnf -y upgrade
@@ -26628,60 +26107,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	export PATH=$DIR/nceplibs:$PATH
 
 	echo " "
-	################################UPPv4.1######################################
-	#Previous verison of UPP
-	#WRF Support page recommends UPPV4.1 due to too many changes to WRF and UPP code
-	#since the WRF was written
-	#Option 8 gfortran compiler with distributed memory
-	#############################################################################
-	cd "${WRF_FOLDER}"/
-	git clone -b dtc_post_v4.1.0 --recurse-submodules https://github.com/NOAA-EMC/EMC_post UPPV4.1
-	cd UPPV4.1
-	mkdir postprd
-	export NCEPLIBS_DIR=$DIR/nceplibs
-	export NETCDF=$DIR/NETCDF
 
-	if [ ${auto_config} -eq 1 ]; then
-		echo 8 | ./configure #Option 8 gfortran compiler with distributed memory
-	else
-		./configure #Option 8 gfortran compiler with distributed memory
-	fi
-
-	#make if statement for gcc-9 or older
-	export GCC_VERSION=$(gcc -dumpfullversion | awk '{print$1}')
-	export GFORTRAN_VERSION=$(gfortran -dumpfullversion | awk '{print$1}')
-	export GPLUSPLUS_VERSION=$(g++ -dumpfullversion | awk '{print$1}')
-
-	export GCC_VERSION_MAJOR_VERSION=$(echo $GCC_VERSION | awk -F. '{print $1}')
-	export GFORTRAN_VERSION_MAJOR_VERSION=$(echo $GFORTRAN_VERSION | awk -F. '{print $1}')
-	export GPLUSPLUS_VERSION_MAJOR_VERSION=$(echo $GPLUSPLUS_VERSION | awk -F. '{print $1}')
-
-	export version_10="10"
-
-	if [ $GCC_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GFORTRAN_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GPLUSPLUS_VERSION_MAJOR_VERSION -ge $version_10 ]; then
-		sed -i "58s/(FOPT)/(FOPT) $fallow_argument $boz_argument  /g" "${WRF_FOLDER}/UPPV4.1/configure.upp"
-		sed -i "63s/(FOPT)/(FOPT) $fallow_argument $boz_argument  /g" "${WRF_FOLDER}/UPPV4.1/configure.upp"
-
-	fi
-
-	./compile
-	cd "${WRF_FOLDER}"/UPPV4.1/scripts
-
-	chmod +x run_unipost
-
-	# IF statement to check that all files were created.
-	cd "${WRF_FOLDER}"/UPPV4.1/exec
-	n=$(ls ./*.exe | wc -l)
-	if (($n == 1)); then
-		echo "All expected files created."
-		read -r -t 5 -p "Finished installing UPPV4.1. I am going to wait for 5 seconds only ..."
-	else
-		echo "Missing one or more expected files. Exiting the script."
-		read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
-		exit
-	fi
-
-	echo " "
 
 	######################## ARWpost V3.1  ############################
 	## ARWpost
@@ -27202,7 +26628,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRF_PICK" = "1" ]; then
 	echo $PASSWD | sudo -S dnf install dnf -y
 	echo $PASSWD | sudo -S dnf -y update
 	echo $PASSWD | sudo -S dnf -y upgrade
-	echo $PASSWD | sudo -S dnf -y install autoconf automake bzip2 bzip2-devel byacc cairo-devel cmake cpp curl curl-devel flex fontconfig-devel fontconfig-devel gcc gcc-c++ gcc-gfortran git java-11-openjdk java-11-openjdk-devel ksh libX11-devel libX11-devel libXaw libXaw-devel libXext-devel libXext-devel libXmu-devel libXrender-devel libXrender-devel libstdc++ libstdc++-devel libxml2 libxml2-devel m4 nfs-utils perl "perl(XML::LibXML)" pkgconfig pixman-devel python3 python3-devel tcsh time unzip wget
+	echo $PASSWD | sudo -S dnf -y install autoconf automake bzip2 bzip2-devel byacc cairo-devel cmake cpp curl curl-devel flex fontconfig-devel fontconfig-devel gcc gcc-c++ gcc-gfortran git java java-devel java-openjdk  ksh libX11-devel libX11-devel libXaw libXaw-devel libXext-devel libXext-devel libXmu-devel libXrender-devel libXrender-devel libstdc++ libstdc++-devel libxml2 libxml2-devel m4 nfs-utils perl "perl(XML::LibXML)" pkgconfig pixman-devel python3 python3-devel tcsh time unzip wget
 	echo $PASSWD | sudo -S dnf -y groupinstall "Development Tools"
 	echo $PASSWD | sudo -S dnf -y update
 	echo $PASSWD | sudo -S dnf -y upgrade
@@ -27641,60 +27067,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRF_PICK" = "1" ]; then
 	export PATH=$DIR/nceplibs:$PATH
 
 	echo " "
-	################################UPPv4.1######################################
-	#Previous verison of UPP
-	#WRF Support page recommends UPPV4.1 due to too many changes to WRF and UPP code
-	#since the WRF was written
-	#Option 8 gfortran compiler with distributed memory
-	#############################################################################
-	cd "${WRF_FOLDER}"/
-	git clone -b dtc_post_v4.1.0 --recurse-submodules https://github.com/NOAA-EMC/EMC_post UPPV4.1
-	cd UPPV4.1
-	mkdir postprd
-	export NCEPLIBS_DIR=$DIR/nceplibs
-	export NETCDF=$DIR/NETCDF
 
-	if [ ${auto_config} -eq 1 ]; then
-		echo 8 | ./configure #Option 8 gfortran compiler with distributed memory
-	else
-		./configure #Option 8 gfortran compiler with distributed memory
-	fi
-
-	#make if statement for gcc-9 or older
-	export GCC_VERSION=$(gcc -dumpfullversion | awk '{print$1}')
-	export GFORTRAN_VERSION=$(gfortran -dumpfullversion | awk '{print$1}')
-	export GPLUSPLUS_VERSION=$(g++ -dumpfullversion | awk '{print$1}')
-
-	export GCC_VERSION_MAJOR_VERSION=$(echo $GCC_VERSION | awk -F. '{print $1}')
-	export GFORTRAN_VERSION_MAJOR_VERSION=$(echo $GFORTRAN_VERSION | awk -F. '{print $1}')
-	export GPLUSPLUS_VERSION_MAJOR_VERSION=$(echo $GPLUSPLUS_VERSION | awk -F. '{print $1}')
-
-	export version_10="10"
-
-	if [ $GCC_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GFORTRAN_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GPLUSPLUS_VERSION_MAJOR_VERSION -ge $version_10 ]; then
-		sed -i "58s/(FOPT)/(FOPT) $fallow_argument $boz_argument  /g" "${WRF_FOLDER}/UPPV4.1/configure.upp"
-		sed -i "63s/(FOPT)/(FOPT) $fallow_argument $boz_argument  /g" "${WRF_FOLDER}/UPPV4.1/configure.upp"
-
-	fi
-
-	./compile
-	cd "${WRF_FOLDER}"/UPPV4.1/scripts
-
-	chmod +x run_unipost
-
-	# IF statement to check that all files were created.
-	cd "${WRF_FOLDER}"/UPPV4.1/exec
-	n=$(ls ./*.exe | wc -l)
-	if (($n == 1)); then
-		echo "All expected files created."
-		read -r -t 5 -p "Finished installing UPPV4.1. I am going to wait for 5 seconds only ..."
-	else
-		echo "Missing one or more expected files. Exiting the script."
-		read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
-		exit
-	fi
-
-	echo " "
 
 	######################## ARWpost V3.1  ############################
 	## ARWpost
