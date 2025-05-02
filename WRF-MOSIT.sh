@@ -598,7 +598,7 @@ echo " "
 # 	export MPIF77=mpiifx
 # 	export MPIF90=mpiifx
 # 	export MPICC=mpiicx
-# 	export MPICXX=mpiicpc
+# 	export MPICXX=mpiicpx
 # 	export CFLAGS="-fPIC -fPIE -O3 -Wno-implicit-function-declaration -Wno-incompatible-function-pointer-types -Wno-unused-command-line-argument"
 # 	export FFLAGS="-m64"
 # 	export FCFLAGS="-m64"
@@ -4540,7 +4540,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
 	export MPIF77=mpiifx
 	export MPIF90=mpiifx
 	export MPICC=mpiicx
-	export MPICXX=mpiicpc
+	export MPICXX=mpiicpx
 	export CFLAGS="-fPIC -fPIE -O3 -Wno-implicit-function-declaration -Wno-incompatible-function-pointer-types -Wno-unused-command-line-argument"
 	export FFLAGS="-m64"
 	export FCFLAGS="-m64"
@@ -10244,7 +10244,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; the
 	export MPIF77=mpiifx
 	export MPIF90=mpiifx
 	export MPICC=mpiicx
-	export MPICXX=mpiicpc
+	export MPICXX=mpiicpx
 	export CFLAGS="-fPIC -fPIE -O3 -Wno-implicit-function-declaration -Wno-incompatible-function-pointer-types -Wno-unused-command-line-argument"
 	############################# CPU Core Management ####################################
 
@@ -12750,7 +12750,7 @@ fi
 # 	export MPIF77=mpiifx
 # 	export MPIF90=mpiifx
 # 	export MPICC=mpiicx
-# 	export MPICXX=mpiicpc
+# 	export MPICXX=mpiicpx
 # 	export CFLAGS="-fPIC -fPIE -O3 -Wno-implicit-function-declaration -Wno-incompatible-function-pointer-types -Wno-unused-command-line-argument"
 # 	export FFLAGS="-m64"
 # 	export FCFLAGS="-m64"
@@ -12897,7 +12897,7 @@ fi
 # 	export MPIF77=mpiifx
 # 	export MPIF90=mpiifx
 # 	export MPICC=mpiicx
-# 	export MPICXX=mpiicpc
+# 	export MPICXX=mpiicpx
 # 	export CFLAGS="-fPIC -fPIE -O3 -Wno-implicit-function-declaration -Wno-incompatible-function-pointer-types -Wno-unused-command-line-argument"
 # 	export FFLAGS="-m64"
 # 	export FCFLAGS="-m64"
@@ -17968,7 +17968,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	export MPIF77=mpiifx
 	export MPIF90=mpiifx
 	export MPICC=mpiicx
-	export MPICXX=mpiicpc
+	export MPICXX=mpiicpx
 	export CFLAGS="-fPIC -fPIE -O3 -Wno-implicit-function-declaration -Wno-incompatible-function-pointer-types -Wno-unused-command-line-argument"
 	export FFLAGS="-m64"
 	export FCFLAGS="-m64"
@@ -23195,7 +23195,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	export MPIF77=mpiifx
 	export MPIF90=mpiifx
 	export MPICC=mpiicx
-	export MPICXX=mpiicpc
+	export MPICXX=mpiicpx
 	export CFLAGS="-fPIC -fPIE -O3 -Wno-implicit-function-declaration -Wno-incompatible-function-pointer-types -Wno-unused-command-line-argument"
 	export FFLAGS="-m64"
 	export FCFLAGS="-m64"
