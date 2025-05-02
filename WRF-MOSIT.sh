@@ -1853,7 +1853,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
 	wget -c https://github.com/Unidata/netcdf-c/archive/refs/tags/v$Netcdf_C_Version.tar.gz
 	wget -c https://github.com/Unidata/netcdf-fortran/archive/refs/tags/v$Netcdf_Fortran_Version.tar.gz
 	wget -c https://download.sourceforge.net/libpng/libpng-$Libpng_Version.tar.gz
-	wget -c https://www.ece.uvic.ca/~frodo/jasper/software/jasper-$Jasper_Version.zip
+	wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/jasper-$Jasper_Version.tar.gz
 	wget -c https://github.com/pmodels/mpich/releases/download/v$Mpich_Version/mpich-$Mpich_Version.tar.gz
 	wget -c https://parallel-netcdf.github.io/Release/pnetcdf-$Pnetcdf_Version.tar.gz
 	wget -c https://sourceforge.net/projects/opengrads/files/grads2/2.2.1.oga.1/Linux%20%2864%20Bits%29/opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz
@@ -1946,7 +1946,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
 	echo " "
 	#############################JasPer############################
 	cd "${WRF_FOLDER}"/Downloads
-	unzip jasper-$Jasper_Version.zip
+	tar xzvf jasper-$Jasper_Version.tar.gz
 	cd jasper-$Jasper_Version/
 	autoreconf -i -f 2>&1 | tee autoreconf.log
 	./configure --prefix=$DIR/grib2
@@ -2455,7 +2455,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
 	wget -c https://github.com/Unidata/netcdf-c/archive/refs/tags/v$Netcdf_C_Version.tar.gz
 	wget -c https://github.com/Unidata/netcdf-fortran/archive/refs/tags/v$Netcdf_Fortran_Version.tar.gz
 	wget -c https://download.sourceforge.net/libpng/libpng-$Libpng_Version.tar.gz
-	wget -c https://www.ece.uvic.ca/~frodo/jasper/software/jasper-$Jasper_Version.zip
+	wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/jasper-$Jasper_Version.tar.gz
 	wget -c https://github.com/pmodels/mpich/releases/download/v$Mpich_Version/mpich-$Mpich_Version.tar.gz
 	wget -c https://parallel-netcdf.github.io/Release/pnetcdf-$Pnetcdf_Version.tar.gz
 	wget -c https://sourceforge.net/projects/opengrads/files/grads2/2.2.1.oga.1/Linux%20%2864%20Bits%29/opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz
@@ -2556,7 +2556,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
 	echo " "
 	#############################JasPer############################
 	cd "${WRF_FOLDER}"/Downloads
-	unzip jasper-$Jasper_Version.zip
+	tar xzvf jasper-$Jasper_Version.tar.gz
 	cd jasper-$Jasper_Version/
 	autoreconf -i -f 2>&1 | tee autoreconf.log
 
@@ -3094,7 +3094,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$CMAQ_PICK" = "1" ]; then
 	wget -c https://github.com/Unidata/netcdf-c/archive/refs/tags/v$Netcdf_C_Version.tar.gz
 	wget -c https://github.com/Unidata/netcdf-fortran/archive/refs/tags/v$Netcdf_Fortran_Version.tar.gz
 	wget -c https://download.sourceforge.net/libpng/libpng-$Libpng_Version.tar.gz
-	wget -c https://www.ece.uvic.ca/~frodo/jasper/software/jasper-$Jasper_Version.zip
+	wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/jasper-$Jasper_Version.tar.gz
 	wget -c https://github.com/pmodels/mpich/releases/download/v$Mpich_Version/mpich-$Mpich_Version.tar.gz
 	wget -c https://parallel-netcdf.github.io/Release/pnetcdf-$Pnetcdf_Version.tar.gz
 	wget -c https://sourceforge.net/projects/opengrads/files/grads2/2.2.1.oga.1/Linux%20%2864%20Bits%29/opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz
@@ -3195,7 +3195,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$CMAQ_PICK" = "1" ]; then
 	echo " "
 	#############################JasPer############################
 	cd "${WRF_FOLDER}"/Downloads
-	unzip jasper-$Jasper_Version.zip
+	tar xzvf jasper-$Jasper_Version.tar.gz
 	cd jasper-$Jasper_Version/
 	autoreconf -i -f 2>&1 | tee autoreconf.log
 
@@ -3733,7 +3733,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
 	wget -c -4 https://github.com/Unidata/netcdf-c/archive/refs/tags/v$Netcdf_C_Version.tar.gz
 	wget -c -4 https://github.com/Unidata/netcdf-fortran/archive/refs/tags/v$Netcdf_Fortran_Version.tar.gz
 	wget -c -4 https://download.sourceforge.net/libpng/libpng-$Libpng_Version.tar.gz
-	wget -c -4 https://www.ece.uvic.ca/~frodo/jasper/software/jasper-$Jasper_Version.zip
+	wget -c -4 https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/jasper-$Jasper_Version.tar.gz
 	wget -c -4 https://github.com/pmodels/mpich/releases/download/v$Mpich_Version/mpich-$Mpich_Version.tar.gz
 	wget -c -4 https://parallel-netcdf.github.io/Release/pnetcdf-$Pnetcdf_Version.tar.gz
 	wget -c -4 https://sourceforge.net/projects/opengrads/files/grads2/2.2.1.oga.1/Linux%20%2864%20Bits%29/opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz
@@ -3826,7 +3826,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
 	echo " "
 	#############################JasPer############################
 	cd "${WRF_FOLDER}"/Downloads
-	unzip jasper-$Jasper_Version.zip
+	tar xzvf jasper-$Jasper_Version.tar.gz
 	cd jasper-$Jasper_Version/
 	autoreconf -i -f 2>&1 | tee autoreconf.log
 	./configure --prefix=$DIR/grib2
@@ -4595,7 +4595,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
 	wget -c -4 https://github.com/Unidata/netcdf-c/archive/refs/tags/v$Netcdf_C_Version.tar.gz
 	wget -c -4 https://github.com/Unidata/netcdf-fortran/archive/refs/tags/v$Netcdf_Fortran_Version.tar.gz
 	wget -c -4 https://download.sourceforge.net/libpng/libpng-$Libpng_Version.tar.gz
-	wget -c -4 https://www.ece.uvic.ca/~frodo/jasper/software/jasper-$Jasper_Version.zip
+	wget -c -4 https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/jasper-$Jasper_Version.tar.gz
 	wget -c -4 https://github.com/pmodels/mpich/releases/download/v$Mpich_Version/mpich-$Mpich_Version.tar.gz
 	wget -c -4 https://parallel-netcdf.github.io/Release/pnetcdf-$Pnetcdf_Version.tar.gz
 	wget -c -4 https://sourceforge.net/projects/opengrads/files/grads2/2.2.1.oga.1/Linux%20%2864%20Bits%29/opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz
@@ -4638,7 +4638,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
 	############################# JasPer ############################
 
 	cd "${WRF_FOLDER}"/Downloads
-	unzip jasper-$Jasper_Version.zip
+	tar xzvf jasper-$Jasper_Version.tar.gz
 	cd jasper-$Jasper_Version/
 	autoreconf -i -f 2>&1 | tee autoreconf.log
 
@@ -5278,7 +5278,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$MAC_CHIP" = "I
 	wget -c -4 https://github.com/Unidata/netcdf-c/archive/refs/tags/v$Netcdf_C_Version.tar.gz
 	wget -c -4 https://github.com/Unidata/netcdf-fortran/archive/refs/tags/v$Netcdf_Fortran_Version.tar.gz
 	wget -c -4 https://download.sourceforge.net/libpng/libpng-$Libpng_Version.tar.gz
-	wget -c -4 https://www.ece.uvic.ca/~frodo/jasper/software/jasper-$Jasper_Version.zip
+	wget -c -4 https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/jasper-$Jasper_Version.tar.gz
 	wget -c -4 https://github.com/pmodels/mpich/releases/download/v$Mpich_Version/mpich-$Mpich_Version.tar.gz
 	wget -c -4 https://parallel-netcdf.github.io/Release/pnetcdf-$Pnetcdf_Version.tar.gz
 	wget -c -4 https://github.com/openwfm/convert_geotiff/releases/download/v0.1/convert_geotiff-0.1.0.tar.gz
@@ -5415,7 +5415,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$MAC_CHIP" = "I
 	#############################JasPer############################
 
 	cd "${WRF_FOLDER}"/Downloads
-	unzip jasper-$Jasper_Version.zip
+	tar xzvf jasper-$Jasper_Version.tar.gz
 	cd jasper-$Jasper_Version/
 	autoreconf -i -f 2>&1 | tee autoreconf.log
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
@@ -6020,7 +6020,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$MAC_CHIP" = "A
 	wget -c -4 https://github.com/Unidata/netcdf-c/archive/refs/tags/v$Netcdf_C_Version.tar.gz
 	wget -c -4 https://github.com/Unidata/netcdf-fortran/archive/refs/tags/v$Netcdf_Fortran_Version.tar.gz
 	wget -c -4 https://download.sourceforge.net/libpng/libpng-$Libpng_Version.tar.gz
-	wget -c -4 https://www.ece.uvic.ca/~frodo/jasper/software/jasper-$Jasper_Version.zip
+	wget -c -4 https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/jasper-$Jasper_Version.tar.gz
 	wget -c -4 https://github.com/pmodels/mpich/releases/download/v$Mpich_Version/mpich-$Mpich_Version.tar.gz
 	wget -c -4 https://parallel-netcdf.github.io/Release/pnetcdf-$Pnetcdf_Version.tar.gz
 	wget -c -4 https://github.com/openwfm/convert_geotiff/releases/download/v0.1/convert_geotiff-0.1.0.tar.gz
@@ -6176,7 +6176,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$MAC_CHIP" = "A
 	#############################JasPer############################
 
 	cd "${WRF_FOLDER}"/Downloads
-	unzip jasper-$Jasper_Version.zip
+	tar xzvf jasper-$Jasper_Version.tar.gz
 	cd jasper-$Jasper_Version/
 	autoreconf -i -f 2>&1 | tee autoreconf.log
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
@@ -6856,7 +6856,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
 	echo " "
 	#############################JasPer############################
 	cd "${WRF_FOLDER}"/Downloads
-	unzip jasper-$Jasper_Version.zip
+	tar xzvf jasper-$Jasper_Version.tar.gz
 	cd jasper-$Jasper_Version/
 	autoreconf -i -f 2>&1 | tee autoreconf.log
 	./configure --prefix=$DIR/grib2
@@ -7707,7 +7707,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$SFIRE_PICK" = "1" ]; then
 
 	#############################JasPer############################
 	cd "${WRF_FOLDER}"/Downloads
-	unzip jasper-$Jasper_Version.zip
+	tar xzvf jasper-$Jasper_Version.tar.gz
 	cd jasper-$Jasper_Version/
 	autoreconf -i -f 2>&1 | tee autoreconf.log
 	./configure --prefix=$DIR/grib2
@@ -8478,7 +8478,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 	wget -c https://github.com/Unidata/netcdf-c/archive/refs/tags/v$Netcdf_C_Version.tar.gz
 	wget -c https://github.com/Unidata/netcdf-fortran/archive/refs/tags/v$Netcdf_Fortran_Version.tar.gz
 	wget -c https://download.sourceforge.net/libpng/libpng-$Libpng_Version.tar.gz
-	wget -c https://www.ece.uvic.ca/~frodo/jasper/software/jasper-$Jasper_Version.zip
+	wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/jasper-$Jasper_Version.tar.gz
 	wget -c https://github.com/pmodels/mpich/releases/download/v$Mpich_Version/mpich-$Mpich_Version.tar.gz
 	wget -c https://parallel-netcdf.github.io/Release/pnetcdf-$Pnetcdf_Version.tar.gz
 	wget -c https://sourceforge.net/projects/opengrads/files/grads2/2.2.1.oga.1/Linux%20%2864%20Bits%29/opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz
@@ -8574,7 +8574,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 	echo " "
 	#############################JasPer############################
 	cd "${WRF_FOLDER}"/Downloads
-	unzip jasper-$Jasper_Version.zip
+	tar xzvf jasper-$Jasper_Version.tar.gz
 	cd jasper-$Jasper_Version/
 	autoreconf -i -f 2>&1 | tee autoreconf.log
 
@@ -9045,7 +9045,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ] && [ "$
 	wget -c https://github.com/Unidata/netcdf-c/archive/refs/tags/v$Netcdf_C_Version.tar.gz
 	wget -c https://github.com/Unidata/netcdf-fortran/archive/refs/tags/v$Netcdf_Fortran_Version.tar.gz
 	wget -c https://download.sourceforge.net/libpng/libpng-$Libpng_Version.tar.gz
-	wget -c https://www.ece.uvic.ca/~frodo/jasper/software/jasper-$Jasper_Version.zip
+	wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/jasper-$Jasper_Version.tar.gz
 	wget -c https://github.com/pmodels/mpich/releases/download/v$Mpich_Version/mpich-$Mpich_Version.tar.gz
 	wget -c https://parallel-netcdf.github.io/Release/pnetcdf-$Pnetcdf_Version.tar.gz
 
@@ -9162,7 +9162,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ] && [ "$
 	#############################JasPer############################
 
 	cd "${WRF_FOLDER}"/Downloads
-	unzip jasper-$Jasper_Version.zip
+	tar xzvf jasper-$Jasper_Version.tar.gz
 	cd jasper-$Jasper_Version/
 	autoreconf -i -f 2>&1 | tee autoreconf.log
 
@@ -9634,7 +9634,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ] && [ "$
 	wget -c https://github.com/Unidata/netcdf-c/archive/refs/tags/v$Netcdf_C_Version.tar.gz
 	wget -c https://github.com/Unidata/netcdf-fortran/archive/refs/tags/v$Netcdf_Fortran_Version.tar.gz
 	wget -c https://download.sourceforge.net/libpng/libpng-$Libpng_Version.tar.gz
-	wget -c https://www.ece.uvic.ca/~frodo/jasper/software/jasper-$Jasper_Version.zip
+	wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/jasper-$Jasper_Version.tar.gz
 	wget -c https://github.com/pmodels/mpich/releases/download/v$Mpich_Version/mpich-$Mpich_Version.tar.gz
 	wget -c https://parallel-netcdf.github.io/Release/pnetcdf-$Pnetcdf_Version.tar.gz
 
@@ -9796,7 +9796,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ] && [ "$
 	#############################JasPer############################
 
 	cd "${WRF_FOLDER}"/Downloads
-	unzip jasper-$Jasper_Version.zip
+	tar xzvf jasper-$Jasper_Version.tar.gz
 	cd jasper-$Jasper_Version/
 	autoreconf -i -f 2>&1 | tee autoreconf.log
 
@@ -10289,7 +10289,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; the
 	wget -c https://github.com/Unidata/netcdf-c/archive/refs/tags/v$Netcdf_C_Version.tar.gz
 	wget -c https://github.com/Unidata/netcdf-fortran/archive/refs/tags/v$Netcdf_Fortran_Version.tar.gz
 	wget -c https://download.sourceforge.net/libpng/libpng-$Libpng_Version.tar.gz
-	wget -c https://www.ece.uvic.ca/~frodo/jasper/software/jasper-$Jasper_Version.zip
+	wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/jasper-$Jasper_Version.tar.gz
 	wget -c https://parallel-netcdf.github.io/Release/pnetcdf-$Pnetcdf_Version.tar.gz
 	wget -c https://sourceforge.net/projects/opengrads/files/grads2/2.2.1.oga.1/Linux%20%2864%20Bits%29/opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz
 
@@ -10329,7 +10329,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; the
 	echo " "
 	#############################JasPer############################
 	cd "${WRF_FOLDER}"/Downloads
-	unzip jasper-$Jasper_Version.zip
+	tar xzvf jasper-$Jasper_Version.tar.gz
 	cd jasper-$Jasper_Version/
 	autoreconf -i -f 2>&1 | tee autoreconf.log
 
@@ -10756,7 +10756,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 	wget -c https://github.com/Unidata/netcdf-fortran/archive/refs/tags/v$Netcdf_Fortran_Version.tar.gz
 	wget -c https://github.com/pmodels/mpich/releases/download/v$Mpich_Version/mpich-$Mpich_Version.tar.gz
 	wget -c https://download.sourceforge.net/libpng/libpng-$Libpng_Version.tar.gz
-	wget -c https://www.ece.uvic.ca/~frodo/jasper/software/jasper-$Jasper_Version.zip
+	wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/jasper-$Jasper_Version.tar.gz
 	wget -c https://parallel-netcdf.github.io/Release/pnetcdf-$Pnetcdf_Version.tar.gz
 	wget -c https://sourceforge.net/projects/opengrads/files/grads2/2.2.1.oga.1/Linux%20%2864%20Bits%29/opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz
 
@@ -10855,7 +10855,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 	echo " "
 	#############################JasPer############################
 	cd "${WRF_FOLDER}"/Downloads
-	unzip jasper-$Jasper_Version.zip
+	tar xzvf jasper-$Jasper_Version.tar.gz
 	cd jasper-$Jasper_Version/
 	autoreconf -i -f 2>&1 | tee autoreconf.log
 
@@ -11292,7 +11292,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 	wget -c https://github.com/Unidata/netcdf-fortran/archive/refs/tags/v$Netcdf_Fortran_Version.tar.gz
 	wget -c https://github.com/pmodels/mpich/releases/download/v$Mpich_Version/mpich-$Mpich_Version.tar.gz
 	wget -c https://download.sourceforge.net/libpng/libpng-$Libpng_Version.tar.gz
-	wget -c https://www.ece.uvic.ca/~frodo/jasper/software/jasper-$Jasper_Version.zip
+	wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/jasper-$Jasper_Version.tar.gz
 	wget -c https://parallel-netcdf.github.io/Release/pnetcdf-$Pnetcdf_Version.tar.gz
 	wget -c https://sourceforge.net/projects/opengrads/files/grads2/2.2.1.oga.1/Linux%20%2864%20Bits%29/opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz
 
@@ -11391,7 +11391,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 	echo " "
 	#############################JasPer############################
 	cd "${WRF_FOLDER}"/Downloads
-	unzip jasper-$Jasper_Version.zip
+	tar xzvf jasper-$Jasper_Version.tar.gz
 	cd jasper-$Jasper_Version/
 	autoreconf -i -f 2>&1 | tee autoreconf.log
 
@@ -11844,7 +11844,7 @@ fi
 # 	wget -c https://github.com/Unidata/netcdf-c/archive/refs/tags/v$Netcdf_C_Version.tar.gz
 # 	wget -c https://github.com/Unidata/netcdf-fortran/archive/refs/tags/v$Netcdf_Fortran_Version.tar.gz
 # 	wget -c https://download.sourceforge.net/libpng/libpng-$Libpng_Version.tar.gz
-# 	wget -c https://www.ece.uvic.ca/~frodo/jasper/software/jasper-$Jasper_Version.zip
+# 	wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/jasper-$Jasper_Version.tar.gz
 # 	wget -c https://github.com/pmodels/mpich/releases/download/v$Mpich_Version/mpich-$Mpich_Version.tar.gz
 # 	wget -c https://parallel-netcdf.github.io/Release/pnetcdf-$Pnetcdf_Version.tar.gz
 # 	wget -c https://sourceforge.net/projects/opengrads/files/grads2/2.2.1.oga.1/Linux%20%2864%20Bits%29/opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz
@@ -11940,7 +11940,7 @@ fi
 # 	echo " "
 # 	#############################JasPer############################
 # 	cd "${WRF_FOLDER}"/Downloads
-# 	unzip jasper-$Jasper_Version.zip
+# 	tar xzvf jasper-$Jasper_Version.tar.gz
 # 	cd jasper-$Jasper_Version/
 # 	autoreconf -i -f 2>&1 | tee autoreconf.log
 
@@ -12804,7 +12804,7 @@ fi
 # 	wget -c https://github.com/Unidata/netcdf-c/archive/refs/tags/v$Netcdf_C_Version.tar.gz
 # 	wget -c https://github.com/Unidata/netcdf-fortran/archive/refs/tags/v$Netcdf_Fortran_Version.tar.gz
 # 	wget -c https://download.sourceforge.net/libpng/libpng-$Libpng_Version.tar.gz
-# 	wget -c https://www.ece.uvic.ca/~frodo/jasper/software/jasper-$Jasper_Version.zip
+# 	wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/jasper-$Jasper_Version.tar.gz
 # 	wget -c https://parallel-netcdf.github.io/Release/pnetcdf-$Pnetcdf_Version.tar.gz
 # 	wget -c https://sourceforge.net/projects/opengrads/files/grads2/2.2.1.oga.1/Linux%20%2864%20Bits%29/opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz
 
@@ -12845,7 +12845,7 @@ fi
 # 	############################# JasPer ############################
 
 # 	cd "${WRF_FOLDER}"/Downloads
-# 	unzip jasper-$Jasper_Version.zip
+# 	tar xzvf jasper-$Jasper_Version.tar.gz
 # 	cd jasper-$Jasper_Version/
 # 	autoreconf -i -f 2>&1 | tee autoreconf.log
 
@@ -13597,7 +13597,7 @@ fi
 # 	wget -c https://github.com/Unidata/netcdf-c/archive/refs/tags/v$Netcdf_C_Version.tar.gz
 # 	wget -c https://github.com/Unidata/netcdf-fortran/archive/refs/tags/v$Netcdf_Fortran_Version.tar.gz
 # 	wget -c https://download.sourceforge.net/libpng/libpng-$Libpng_Version.tar.gz
-# 	wget -c https://www.ece.uvic.ca/~frodo/jasper/software/jasper-$Jasper_Version.zip
+# 	wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/jasper-$Jasper_Version.tar.gz
 # 	wget -c https://github.com/pmodels/mpich/releases/download/v$Mpich_Version/mpich-$Mpich_Version.tar.gz
 # 	wget -c https://parallel-netcdf.github.io/Release/pnetcdf-$Pnetcdf_Version.tar.gz
 
@@ -13741,7 +13741,7 @@ fi
 # 	#############################JasPer############################
 
 # 	cd "${WRF_FOLDER}"/Downloads
-# 	unzip jasper-$Jasper_Version.zip
+# 	tar xzvf jasper-$Jasper_Version.tar.gz
 # 	cd jasper-$Jasper_Version/
 # 	autoreconf -i -f 2>&1 | tee autoreconf.log
 
@@ -14404,7 +14404,7 @@ fi
 # 	wget -c https://github.com/Unidata/netcdf-c/archive/refs/tags/v$Netcdf_C_Version.tar.gz
 # 	wget -c https://github.com/Unidata/netcdf-fortran/archive/refs/tags/v$Netcdf_Fortran_Version.tar.gz
 # 	wget -c https://download.sourceforge.net/libpng/libpng-$Libpng_Version.tar.gz
-# 	wget -c https://www.ece.uvic.ca/~frodo/jasper/software/jasper-$Jasper_Version.zip
+# 	wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/jasper-$Jasper_Version.tar.gz
 # 	wget -c https://github.com/pmodels/mpich/releases/download/v$Mpich_Version/mpich-$Mpich_Version.tar.gz
 # 	wget -c https://parallel-netcdf.github.io/Release/pnetcdf-$Pnetcdf_Version.tar.gz
 
@@ -14565,7 +14565,7 @@ fi
 # 	#############################JasPer############################
 
 # 	cd "${WRF_FOLDER}"/Downloads
-# 	unzip jasper-$Jasper_Version.zip
+# 	tar xzvf jasper-$Jasper_Version.tar.gz
 # 	cd jasper-$Jasper_Version/
 # 	autoreconf -i -f 2>&1 | tee autoreconf.log
 
@@ -15210,7 +15210,7 @@ fi
 # 	wget -c https://github.com/Unidata/netcdf-fortran/archive/refs/tags/v$Netcdf_Fortran_Version.tar.gz
 # 	wget -c https://github.com/pmodels/mpich/releases/download/v$Mpich_Version/mpich-$Mpich_Version.tar.gz
 # 	wget -c https://download.sourceforge.net/libpng/libpng-$Libpng_Version.tar.gz
-# 	wget -c https://www.ece.uvic.ca/~frodo/jasper/software/jasper-$Jasper_Version.zip
+# 	wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/jasper-$Jasper_Version.tar.gz
 # 	wget -c https://parallel-netcdf.github.io/Release/pnetcdf-$Pnetcdf_Version.tar.gz
 # 	wget -c https://sourceforge.net/projects/opengrads/files/grads2/2.2.1.oga.1/Linux%20%2864%20Bits%29/opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz
 
@@ -15309,7 +15309,7 @@ fi
 # 	echo " "
 # 	#############################JasPer############################
 # 	cd "${WRF_FOLDER}"/Downloads
-# 	unzip jasper-$Jasper_Version.zip
+# 	tar xzvf jasper-$Jasper_Version.tar.gz
 # 	cd jasper-$Jasper_Version/
 # 	autoreconf -i -f 2>&1 | tee autoreconf.log
 
@@ -16140,7 +16140,7 @@ fi
 # 	wget -c https://github.com/Unidata/netcdf-fortran/archive/refs/tags/v$Netcdf_Fortran_Version.tar.gz
 # 	wget -c https://github.com/pmodels/mpich/releases/download/v$Mpich_Version/mpich-$Mpich_Version.tar.gz
 # 	wget -c https://download.sourceforge.net/libpng/libpng-$Libpng_Version.tar.gz
-# 	wget -c https://www.ece.uvic.ca/~frodo/jasper/software/jasper-$Jasper_Version.zip
+# 	wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/jasper-$Jasper_Version.tar.gz
 # 	wget -c https://parallel-netcdf.github.io/Release/pnetcdf-$Pnetcdf_Version.tar.gz
 # 	wget -c https://sourceforge.net/projects/opengrads/files/grads2/2.2.1.oga.1/Linux%20%2864%20Bits%29/opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz
 
@@ -16239,7 +16239,7 @@ fi
 # 	echo " "
 # 	#############################JasPer############################
 # 	cd "${WRF_FOLDER}"/Downloads
-# 	unzip jasper-$Jasper_Version.zip
+# 	tar xzvf jasper-$Jasper_Version.tar.gz
 # 	cd jasper-$Jasper_Version/
 # 	autoreconf -i -f 2>&1 | tee autoreconf.log
 
@@ -17039,7 +17039,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	wget -c https://github.com/Unidata/netcdf-c/archive/refs/tags/v$Netcdf_C_Version.tar.gz
 	wget -c https://github.com/Unidata/netcdf-fortran/archive/refs/tags/v$Netcdf_Fortran_Version.tar.gz
 	wget -c https://download.sourceforge.net/libpng/libpng-$Libpng_Version.tar.gz
-	wget -c https://www.ece.uvic.ca/~frodo/jasper/software/jasper-$Jasper_Version.zip
+	wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/jasper-$Jasper_Version.tar.gz
 	wget -c https://github.com/pmodels/mpich/releases/download/v$Mpich_Version/mpich-$Mpich_Version.tar.gz
 	wget -c https://parallel-netcdf.github.io/Release/pnetcdf-$Pnetcdf_Version.tar.gz
 	wget -c https://sourceforge.net/projects/opengrads/files/grads2/2.2.1.oga.1/Linux%20%2864%20Bits%29/opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz
@@ -17135,7 +17135,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	echo " "
 	#############################JasPer############################
 	cd "${WRF_FOLDER}"/Downloads
-	unzip jasper-$Jasper_Version.zip
+	tar xzvf jasper-$Jasper_Version.tar.gz
 	cd jasper-$Jasper_Version/
 	autoreconf -i -f 2>&1 | tee autoreconf.log
 
@@ -18023,7 +18023,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	wget -c https://github.com/Unidata/netcdf-c/archive/refs/tags/v$Netcdf_C_Version.tar.gz
 	wget -c https://github.com/Unidata/netcdf-fortran/archive/refs/tags/v$Netcdf_Fortran_Version.tar.gz
 	wget -c https://download.sourceforge.net/libpng/libpng-$Libpng_Version.tar.gz
-	wget -c https://www.ece.uvic.ca/~frodo/jasper/software/jasper-$Jasper_Version.zip
+	wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/jasper-$Jasper_Version.tar.gz
 	wget -c https://parallel-netcdf.github.io/Release/pnetcdf-$Pnetcdf_Version.tar.gz
 	wget -c https://sourceforge.net/projects/opengrads/files/grads2/2.2.1.oga.1/Linux%20%2864%20Bits%29/opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz
 
@@ -18064,7 +18064,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	############################# JasPer ############################
 
 	cd "${WRF_FOLDER}"/Downloads
-	unzip jasper-$Jasper_Version.zip
+	tar xzvf jasper-$Jasper_Version.tar.gz
 	cd jasper-$Jasper_Version/
 	autoreconf -i -f 2>&1 | tee autoreconf.log
 
@@ -18785,7 +18785,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$MAC_CHIP" = 
 	wget -c https://github.com/Unidata/netcdf-c/archive/refs/tags/v$Netcdf_C_Version.tar.gz
 	wget -c https://github.com/Unidata/netcdf-fortran/archive/refs/tags/v$Netcdf_Fortran_Version.tar.gz
 	wget -c https://download.sourceforge.net/libpng/libpng-$Libpng_Version.tar.gz
-	wget -c https://www.ece.uvic.ca/~frodo/jasper/software/jasper-$Jasper_Version.zip
+	wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/jasper-$Jasper_Version.tar.gz
 	wget -c https://github.com/pmodels/mpich/releases/download/v$Mpich_Version/mpich-$Mpich_Version.tar.gz
 	wget -c https://parallel-netcdf.github.io/Release/pnetcdf-$Pnetcdf_Version.tar.gz
 
@@ -18928,7 +18928,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$MAC_CHIP" = 
 	#############################JasPer############################
 
 	cd "${WRF_FOLDER}"/Downloads
-	unzip jasper-$Jasper_Version.zip
+	tar xzvf jasper-$Jasper_Version.tar.gz
 	cd jasper-$Jasper_Version/
 	autoreconf -i -f 2>&1 | tee autoreconf.log
 
@@ -19581,7 +19581,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$MAC_CHIP" = 
 	wget -c https://github.com/Unidata/netcdf-c/archive/refs/tags/v$Netcdf_C_Version.tar.gz
 	wget -c https://github.com/Unidata/netcdf-fortran/archive/refs/tags/v$Netcdf_Fortran_Version.tar.gz
 	wget -c https://download.sourceforge.net/libpng/libpng-$Libpng_Version.tar.gz
-	wget -c https://www.ece.uvic.ca/~frodo/jasper/software/jasper-$Jasper_Version.zip
+	wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/jasper-$Jasper_Version.tar.gz
 	wget -c https://github.com/pmodels/mpich/releases/download/v$Mpich_Version/mpich-$Mpich_Version.tar.gz
 	wget -c https://parallel-netcdf.github.io/Release/pnetcdf-$Pnetcdf_Version.tar.gz
 
@@ -19741,7 +19741,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$MAC_CHIP" = 
 	#############################JasPer############################
 
 	cd "${WRF_FOLDER}"/Downloads
-	unzip jasper-$Jasper_Version.zip
+	tar xzvf jasper-$Jasper_Version.tar.gz
 	cd jasper-$Jasper_Version/
 	autoreconf -i -f 2>&1 | tee autoreconf.log
 
@@ -20381,7 +20381,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	wget -c https://github.com/Unidata/netcdf-fortran/archive/refs/tags/v$Netcdf_Fortran_Version.tar.gz
 	wget -c https://github.com/pmodels/mpich/releases/download/v$Mpich_Version/mpich-$Mpich_Version.tar.gz
 	wget -c https://download.sourceforge.net/libpng/libpng-$Libpng_Version.tar.gz
-	wget -c https://www.ece.uvic.ca/~frodo/jasper/software/jasper-$Jasper_Version.zip
+	wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/jasper-$Jasper_Version.tar.gz
 	wget -c https://parallel-netcdf.github.io/Release/pnetcdf-$Pnetcdf_Version.tar.gz
 	wget -c https://sourceforge.net/projects/opengrads/files/grads2/2.2.1.oga.1/Linux%20%2864%20Bits%29/opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz
 
@@ -20480,7 +20480,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	echo " "
 	#############################JasPer############################
 	cd "${WRF_FOLDER}"/Downloads
-	unzip jasper-$Jasper_Version.zip
+	tar xzvf jasper-$Jasper_Version.tar.gz
 	cd jasper-$Jasper_Version/
 	autoreconf -i -f 2>&1 | tee autoreconf.log
 
@@ -21316,7 +21316,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	wget -c https://github.com/Unidata/netcdf-fortran/archive/refs/tags/v$Netcdf_Fortran_Version.tar.gz
 	wget -c https://github.com/pmodels/mpich/releases/download/v$Mpich_Version/mpich-$Mpich_Version.tar.gz
 	wget -c https://download.sourceforge.net/libpng/libpng-$Libpng_Version.tar.gz
-	wget -c https://www.ece.uvic.ca/~frodo/jasper/software/jasper-$Jasper_Version.zip
+	wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/jasper-$Jasper_Version.tar.gz
 	wget -c https://parallel-netcdf.github.io/Release/pnetcdf-$Pnetcdf_Version.tar.gz
 	wget -c https://sourceforge.net/projects/opengrads/files/grads2/2.2.1.oga.1/Linux%20%2864%20Bits%29/opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz
 
@@ -21415,7 +21415,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	echo " "
 	#############################JasPer############################
 	cd "${WRF_FOLDER}"/Downloads
-	unzip jasper-$Jasper_Version.zip
+	tar xzvf jasper-$Jasper_Version.tar.gz
 	cd jasper-$Jasper_Version/
 	autoreconf -i -f 2>&1 | tee autoreconf.log
 
@@ -22241,7 +22241,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	wget -c https://github.com/Unidata/netcdf-c/archive/refs/tags/v$Netcdf_C_Version.tar.gz
 	wget -c https://github.com/Unidata/netcdf-fortran/archive/refs/tags/v$Netcdf_Fortran_Version.tar.gz
 	wget -c https://download.sourceforge.net/libpng/libpng-$Libpng_Version.tar.gz
-	wget -c https://www.ece.uvic.ca/~frodo/jasper/software/jasper-$Jasper_Version.zip
+	wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/jasper-$Jasper_Version.tar.gz
 	wget -c https://github.com/pmodels/mpich/releases/download/v$Mpich_Version/mpich-$Mpich_Version.tar.gz
 	wget -c https://parallel-netcdf.github.io/Release/pnetcdf-$Pnetcdf_Version.tar.gz
 	wget -c https://sourceforge.net/projects/opengrads/files/grads2/2.2.1.oga.1/Linux%20%2864%20Bits%29/opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz
@@ -22339,7 +22339,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	echo " "
 	#############################JasPer############################
 	cd "${WRF_FOLDER}"/Downloads
-	unzip jasper-$Jasper_Version.zip
+	tar xzvf jasper-$Jasper_Version.tar.gz
 	cd jasper-$Jasper_Version/
 	autoreconf -i -f 2>&1 | tee autoreconf.log
 
@@ -23250,7 +23250,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	wget -c https://github.com/Unidata/netcdf-c/archive/refs/tags/v$Netcdf_C_Version.tar.gz
 	wget -c https://github.com/Unidata/netcdf-fortran/archive/refs/tags/v$Netcdf_Fortran_Version.tar.gz
 	wget -c https://download.sourceforge.net/libpng/libpng-$Libpng_Version.tar.gz
-	wget -c https://www.ece.uvic.ca/~frodo/jasper/software/jasper-$Jasper_Version.zip
+	wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/jasper-$Jasper_Version.tar.gz
 	wget -c https://parallel-netcdf.github.io/Release/pnetcdf-$Pnetcdf_Version.tar.gz
 	wget -c https://sourceforge.net/projects/opengrads/files/grads2/2.2.1.oga.1/Linux%20%2864%20Bits%29/opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz
 
@@ -23291,7 +23291,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	############################# JasPer ############################
 
 	cd "${WRF_FOLDER}"/Downloads
-	unzip jasper-$Jasper_Version.zip
+	tar xzvf jasper-$Jasper_Version.tar.gz
 	cd jasper-$Jasper_Version/
 	autoreconf -i -f 2>&1 | tee autoreconf.log
 
@@ -24057,7 +24057,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "Int
 	wget -c https://github.com/Unidata/netcdf-c/archive/refs/tags/v$Netcdf_C_Version.tar.gz
 	wget -c https://github.com/Unidata/netcdf-fortran/archive/refs/tags/v$Netcdf_Fortran_Version.tar.gz
 	wget -c https://download.sourceforge.net/libpng/libpng-$Libpng_Version.tar.gz
-	wget -c https://www.ece.uvic.ca/~frodo/jasper/software/jasper-$Jasper_Version.zip
+	wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/jasper-$Jasper_Version.tar.gz
 	wget -c https://github.com/pmodels/mpich/releases/download/v$Mpich_Version/mpich-$Mpich_Version.tar.gz
 	wget -c https://parallel-netcdf.github.io/Release/pnetcdf-$Pnetcdf_Version.tar.gz
 
@@ -24199,7 +24199,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "Int
 	#############################JasPer############################
 
 	cd "${WRF_FOLDER}"/Downloads
-	unzip jasper-$Jasper_Version.zip
+	tar xzvf jasper-$Jasper_Version.tar.gz
 	cd jasper-$Jasper_Version/
 	autoreconf -i -f 2>&1 | tee autoreconf.log
 
@@ -24886,7 +24886,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "ARM
 	wget -c https://github.com/Unidata/netcdf-c/archive/refs/tags/v$Netcdf_C_Version.tar.gz
 	wget -c https://github.com/Unidata/netcdf-fortran/archive/refs/tags/v$Netcdf_Fortran_Version.tar.gz
 	wget -c https://download.sourceforge.net/libpng/libpng-$Libpng_Version.tar.gz
-	wget -c https://www.ece.uvic.ca/~frodo/jasper/software/jasper-$Jasper_Version.zip
+	wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/jasper-$Jasper_Version.tar.gz
 	wget -c https://github.com/pmodels/mpich/releases/download/v$Mpich_Version/mpich-$Mpich_Version.tar.gz
 	wget -c https://parallel-netcdf.github.io/Release/pnetcdf-$Pnetcdf_Version.tar.gz
 
@@ -25046,7 +25046,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "ARM
 	#############################JasPer############################
 
 	cd "${WRF_FOLDER}"/Downloads
-	unzip jasper-$Jasper_Version.zip
+	tar xzvf jasper-$Jasper_Version.tar.gz
 	cd jasper-$Jasper_Version/
 	autoreconf -i -f 2>&1 | tee autoreconf.log
 
@@ -25721,7 +25721,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	wget -c https://github.com/Unidata/netcdf-fortran/archive/refs/tags/v$Netcdf_Fortran_Version.tar.gz
 	wget -c https://github.com/pmodels/mpich/releases/download/v$Mpich_Version/mpich-$Mpich_Version.tar.gz
 	wget -c https://download.sourceforge.net/libpng/libpng-$Libpng_Version.tar.gz
-	wget -c https://www.ece.uvic.ca/~frodo/jasper/software/jasper-$Jasper_Version.zip
+	wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/jasper-$Jasper_Version.tar.gz
 	wget -c https://parallel-netcdf.github.io/Release/pnetcdf-$Pnetcdf_Version.tar.gz
 	wget -c https://sourceforge.net/projects/opengrads/files/grads2/2.2.1.oga.1/Linux%20%2864%20Bits%29/opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz
 
@@ -25820,7 +25820,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	echo " "
 	#############################JasPer############################
 	cd "${WRF_FOLDER}"/Downloads
-	unzip jasper-$Jasper_Version.zip
+	tar xzvf jasper-$Jasper_Version.tar.gz
 	cd jasper-$Jasper_Version/
 	autoreconf -i -f 2>&1 | tee autoreconf.log
 
@@ -26682,7 +26682,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRF_PICK" = "1" ]; then
 	wget -c https://github.com/Unidata/netcdf-fortran/archive/refs/tags/v$Netcdf_Fortran_Version.tar.gz
 	wget -c https://github.com/pmodels/mpich/releases/download/v$Mpich_Version/mpich-$Mpich_Version.tar.gz
 	wget -c https://download.sourceforge.net/libpng/libpng-$Libpng_Version.tar.gz
-	wget -c https://www.ece.uvic.ca/~frodo/jasper/software/jasper-$Jasper_Version.zip
+	wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/jasper-$Jasper_Version.tar.gz
 	wget -c https://parallel-netcdf.github.io/Release/pnetcdf-$Pnetcdf_Version.tar.gz
 	wget -c https://sourceforge.net/projects/opengrads/files/grads2/2.2.1.oga.1/Linux%20%2864%20Bits%29/opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz
 
@@ -26781,7 +26781,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRF_PICK" = "1" ]; then
 	echo " "
 	#############################JasPer############################
 	cd "${WRF_FOLDER}"/Downloads
-	unzip jasper-$Jasper_Version.zip
+	tar xzvf jasper-$Jasper_Version.tar.gz
 	cd jasper-$Jasper_Version/
 	autoreconf -i -f 2>&1 | tee autoreconf.log
 
