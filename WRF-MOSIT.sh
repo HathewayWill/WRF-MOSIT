@@ -2367,6 +2367,10 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/cglc_modis_lcz_global.tar.gz
 		tar -xvf cglc_modis_lcz_global.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+		
+		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/slucm.tar.gz
+		tar slucm.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+
 	fi
 
 	if [ ${Optional_GEOG} -eq 1 ]; then
@@ -2994,6 +2998,10 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/cglc_modis_lcz_global.tar.gz
 		tar -xvf cglc_modis_lcz_global.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+		
+		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/slucm.tar.gz
+		tar slucm.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+
 
 	fi
 
@@ -3633,6 +3641,10 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$CMAQ_PICK" = "1" ]; then
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/cglc_modis_lcz_global.tar.gz
 		tar -xvf cglc_modis_lcz_global.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+		
+		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/slucm.tar.gz
+		tar slucm.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+
 	fi
 
 	if [ ${Optional_GEOG} -eq 1 ]; then
@@ -8365,6 +8377,10 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$SFIRE_PICK" = "1" ]; then
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/cglc_modis_lcz_global.tar.gz
 		tar -xvf cglc_modis_lcz_global.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+		
+		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/slucm.tar.gz
+		tar slucm.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+
 	fi
 
 	if [ ${Optional_GEOG} -eq 1 ]; then
@@ -17880,6 +17896,10 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/cglc_modis_lcz_global.tar.gz
 		tar -xvf cglc_modis_lcz_global.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+		
+		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/slucm.tar.gz
+		tar slucm.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+
 	fi
 
 	if [ ${Optional_GEOG} -eq 1 ]; then
@@ -18681,6 +18701,10 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/cglc_modis_lcz_global.tar.gz
 		tar -xvf cglc_modis_lcz_global.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+		
+		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/slucm.tar.gz
+		tar slucm.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+
 	fi
 
 	if [ ${Optional_GEOG} -eq 1 ]; then
@@ -19474,6 +19498,10 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$MAC_CHIP" = 
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/cglc_modis_lcz_global.tar.gz
 		tar -xvf cglc_modis_lcz_global.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+		
+		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/slucm.tar.gz
+		tar slucm.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+
 
 	fi
 
@@ -20287,6 +20315,10 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$MAC_CHIP" = 
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/cglc_modis_lcz_global.tar.gz
 		tar -xvf cglc_modis_lcz_global.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+		
+		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/slucm.tar.gz
+		tar slucm.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+
 
 	fi
 
@@ -21217,6 +21249,10 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/cglc_modis_lcz_global.tar.gz
 		tar -xvf cglc_modis_lcz_global.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+		
+		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/slucm.tar.gz
+		tar slucm.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+
 	fi
 
 	if [ ${Optional_GEOG} -eq 1 ]; then
@@ -22127,6 +22163,10 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/cglc_modis_lcz_global.tar.gz
 		tar -xvf cglc_modis_lcz_global.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+		
+		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/slucm.tar.gz
+		tar slucm.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+
 	fi
 
 	if [ ${Optional_GEOG} -eq 1 ]; then
@@ -23107,6 +23147,10 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/cglc_modis_lcz_global.tar.gz
 		tar -xvf cglc_modis_lcz_global.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+		
+		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/slucm.tar.gz
+		tar slucm.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+
 	fi
 
 	if [ ${Optional_GEOG} -eq 1 ]; then
@@ -23952,6 +23996,13 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/cglc_modis_lcz_global.tar.gz
 		tar -xvf cglc_modis_lcz_global.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+		
+		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/slucm.tar.gz
+		tar slucm.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+
+
+
+
 	fi
 
 	if [ ${Optional_GEOG} -eq 1 ]; then
@@ -24779,6 +24830,10 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "Int
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/cglc_modis_lcz_global.tar.gz
 		tar -xvf cglc_modis_lcz_global.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+		
+		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/slucm.tar.gz
+		tar slucm.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+
 
 	fi
 
@@ -25627,6 +25682,10 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "ARM
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/cglc_modis_lcz_global.tar.gz
 		tar -xvf cglc_modis_lcz_global.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+		
+		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/slucm.tar.gz
+		tar slucm.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+
 
 	fi
 
@@ -26584,6 +26643,10 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/cglc_modis_lcz_global.tar.gz
 		tar -xvf cglc_modis_lcz_global.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+		
+		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/slucm.tar.gz
+		tar slucm.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+
 	fi
 
 	if [ ${Optional_GEOG} -eq 1 ]; then
@@ -27543,6 +27606,10 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRF_PICK" = "1" ]; then
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/cglc_modis_lcz_global.tar.gz
 		tar -xvf cglc_modis_lcz_global.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+		
+		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/slucm.tar.gz
+		tar slucm.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+
 	fi
 
 	if [ ${Optional_GEOG} -eq 1 ]; then
