@@ -1,6 +1,3 @@
-### Having to turn off WRF-Hydro Coupled due to compilation issues that are being resolved slowly.
-
-
 
 ### Citation:
 Hatheway, W., Snoun, H., ur Rehman, H. et al. WRF-MOSIT: a modular and cross-platform tool for configuring and installing the WRF model. Earth Sci Inform (2023). https://doi.org/10.1007/s12145-023-01136-y
@@ -9,12 +6,13 @@ Hatheway, W., Snoun, H., ur Rehman, H. et al. WRF-MOSIT: a modular and cross-pla
 ### WRF Multi Operational System Install Toolkit
 This is a BASH script that provides options to install the following Weather Research & Forecasting Model (WRF) packages in 64-bit systems:
 
-- Weather Research & Forecasting Model (WRF)
+- Weather Research & Forecasting Model (WRF-ARW)
 - Weather Research & Forecasting Model Chemistry (WRF-CHEM)
 - Weather Research & Forecasting Model Hydro Standalone (WRF-Hydro)
 - Weather Research & Forecasting Model Hydro Coupled w/ WRF (WRF-Hydro Coupled)
 - Weather Research & Forecasting Model CMAQ (WRF-CMAQ)
 - Weather Research & Forecasting Model Wildland Fire (WRF-SFIRE)
+- A Coupled-Ocean-Atmosphere-Wave-Sediment Transport Modeling System (COAWST)
 
 - Basic Nesting is set up
 ---
@@ -23,57 +21,114 @@ This is a BASH script that provides options to install the following Weather Res
     - Darwin (MacOS)
     - Linux Debian Distro (Ubuntu, Mint, etc)
     - Windows Subsystem for Linux (Debian Distro, Ubuntu, Mint, etc)
-    - RHL Systems (AlmaLinux, Fedora, RedHat, CentOS) currently being tested
+    - Linux Fedora Distro (Centos, Rocky Linux, RHL, etc)
 - 350 Gigabyte (GB) of free storage space
+---
+### Minimum Reccomended System Configuration
+- 16GB or more RAM
+- 8 or more CPU cores
 
 ---
-### Libraries Installed (Latest libraries as of 11/01/2023)
+### WRF Folder Structure
+The default WRF folder is located at:
+
+```
+/home/<username>/<WRF software name>
+```
+
+Where:
+- `<username>` is your Linux/MacOS system username.
+- `<WRF software name>` can be one of:
+    - `WRF`
+    - `WRF_CHEM`
+    - `WRFHYDRO`
+    - `WRF_COUPLED`
+    - `WRF_SFIRE`
+    - `WRF_CMAQ`
+    - `COAWST`
+
+Example:
+
+```
+/home/johndoe/WRF_CHEM/
+/home/johndoe/WRFHYDRO_Coupled_Intel/
+```
+
+Update this path accordingly when configuring your environment variables or running tools.
+
+---
+### Installed Version Information
+
+```bash
+export METPLUS_Version=6.2.0
+export met_Version_number=12.2.0
+export met_VERSION_number=12.2
+export METPLUS_DATA=6.2
+export WRF_VERSION=4.7.1
+export WPS_VERSION=4.6.0
+export CMAQ_VERSION=5.5
+```
+
+---
+| OS / Model                     |      WRF-ARW |     WRF-CHEM | Hydro Standalone | Hydro Coupled |          **CMAQ** |    **SFIRE** |        **COAWST** |
+| ------------------------------ | -----------: | -----------: | ---------------: | ------------: | ----------------: | -----------: | ----------------: |
+| **Ubuntu/Debian (x86_64)**     |  GNU / Intel |  GNU / Intel |      GNU / Intel |   GNU / Intel |      **GNU only** | **GNU only** |       GNU / Intel |
+| **RHEL/Rocky/CentOS (x86_64)** |  GNU / Intel |  GNU / Intel |      GNU / Intel |   GNU / Intel |      **GNU only** | **GNU only** |       GNU / Intel |
+| **macOS (Intel/ARM)**          | **GNU only** | **GNU only** |     **GNU only** |  **GNU only** | **Not available** | **GNU only** | **Not available** |
+
+
+---
+### Libraries Installed (Latest libraries as of 11/01/2025)
 - Libraries are manually installed in sub-folders utilizing either Intel or GNU Compilers.
     - Libraries installed with GNU compilers
         - zlib (1.3.1)
-        - MPICH (4.2.2)
+        - MPICH (4.3.2)
         - libpng (1.6.39)
         - JasPer (1.900.1)
-        - HDF5 (1.14.4.3)
-        - PHDF5 (1.14.4.3)
-        - Parallel-NetCDF (1.13.0)
-        - NetCDF-C (4.9.2)
-        - NetCDF-Fortran (4.6.1)
+        - HDF5 (1.14.6)
+        - PHDF5 (1.14.6)
+        - Parallel-NetCDF (1.14.1)
+        - NetCDF-C (4.9.3)
+        - NetCDF-Fortran (4.6.2)
+        - NetCDF-CXX (4.3.1)
         - Miniconda
     - Libraries installed with Intel compilers
         - zlib (1.3.1)
         - libpng (1.6.39)
         - JasPer (1.900.1)
-        - HDF5 (1.14.4.3)
-        - PHDF5 (1.14.4.3)
-        - Parallel-NetCDF (1.13.0)
-        - NetCDF-C (4.9.2)
-        - NetCDF-Fortran (4.6.1)
+        - HDF5 (1.14.6)
+        - PHDF5 (1.14.6)
+        - Parallel-NetCDF (1.14.1)
+        - NetCDF-C (4.9.3)
+        - NetCDF-Fortran (4.6.2)
         - Miniconda
         - Intel-Basekit
         - Intel-HPCKIT
-        - Intel-AIKIT
+        - Intel-Oneapi-Python
 
 ---
 ### Software Packages
 - WRF
-    - WRF v4.6.0
+    - WRF v4.7.1
     - WPS v4.6.0
-    - WRF PLUS v4.6.0
-    - WRFDA 4DVAR v4.6.0    
+    - WRF PLUS v4.7.1
+    - WRFDA 4DVAR v4.7.1
+    - OBSGRID (Conda Installed - NCAR Command Language)    
 - WRF-CHEM
-    - WRF Chem w/KPP 4.5
+    - WRF Chem w/KPP v4.7.1
     - WPS v4.6.0
     - WRFDA Chem 3DVAR
+    - OBSGRID (Conda Installed - NCAR Command Language) 
 - WRF-Hydro Standalone
-    - WRF-Hydro v5.2
+    - WRF-Hydro v5.4
 - WRF-Hydro Coupled
-    - WRF-Hydro v5.2
-    - WRF v4.6.0
+    - WRF-Hydro v5.4
+    - WRF v4.7.1
     - WPS v4.6.0
+    - OBSGRID (Conda Installed - NCAR Command Language) 
 - WRF-CMAQ
-    - WRF v4.6.0
-    - CMAW v5.4
+    - WRF v4.5.0
+    - CMAQ v5.5
     - WPS v4.6.0
 - WRF-SFIRE
     - WRF-SFIRE v2
@@ -82,19 +137,17 @@ This is a BASH script that provides options to install the following Weather Res
 ---
 ### Pre/Post Processing Packages Installed
 - WRF
-    - Development Testbed Center (DTC) Model Evaluation Tools (MET) v11.1.1
-    - Development Testbed Center (DTC) Enhanced Model Evaluation Tools (METplus) v5.1.0
-    - ARWPost v3
+    - Development Testbed Center (DTC) Model Evaluation Tools (MET) v12.1.1
+    - Development Testbed Center (DTC) Enhanced Model Evaluation Tools (METplus) v6.1.0
     - WRF-Python (Conda installed)
-    - OpenGrADS
-    - GrADS
+    - OpenGrADS 
+    - GrADS 
     - NCAR Command Langauge (Conda installed)
     - Climate Data Operators (Conda installed)
       
 - WRF-CHEM
-    - Development Testbed Center (DTC) Model Evaluation Tools (MET) v11.1.1
-    - Development Testbed Center (DTC) Enhanced Model Evaluation Tools (METplus) v5.1.0
-    - ARWPost v3
+    - Development Testbed Center (DTC) Model Evaluation Tools (MET) v12.1.1
+    - Development Testbed Center (DTC) Enhanced Model Evaluation Tools (METplus) v6.1.0
     - WRF-Python (Conda installed)
     - OpenGrADS
     - GrADS
@@ -114,13 +167,13 @@ This is a BASH script that provides options to install the following Weather Res
         - FINN
 
 - WRF-Hydro Standalone
-    - Development Testbed Center (DTC) Model Evaluation Tools (MET) v11.1.0
-    - Development Testbed Center (DTC) Enhanced Model Evaluation Tools (METplus) v5.1.0
+    - Development Testbed Center (DTC) Model Evaluation Tools (MET) v12.1.1
+    - Development Testbed Center (DTC) Enhanced Model Evaluation Tools (METplus) v6.1.0
+    - WRF-GIS-Preprocessor (Conda installed)
       
 - WRF-Hydo Coupled
-    - Development Testbed Center (DTC) Model Evaluation Tools (MET) v11.1.0
-    - Development Testbed Center (DTC) Enhanced Model Evaluation Tools (METplus) v5.1.0
-    - ARWPost v3
+    - Development Testbed Center (DTC) Model Evaluation Tools (MET) v12.1.1
+    - Development Testbed Center (DTC) Enhanced Model Evaluation Tools (METplus) v6.1.0
     - WRF-Python (Conda installed)
     - OpenGrADS
     - GrADS
@@ -129,9 +182,8 @@ This is a BASH script that provides options to install the following Weather Res
     - WRF-GIS-Preprocessor (Conda installed)
       
  - WRF-SFIRE
-    - Development Testbed Center (DTC) Model Evaluation Tools (MET) v11.1.1
-    - Development Testbed Center (DTC) Enhanced Model Evaluation Tools (METplus) v5.1.0
-    - ARWPost v3
+    - Development Testbed Center (DTC) Model Evaluation Tools (MET) v12.1.1
+    - Development Testbed Center (DTC) Enhanced Model Evaluation Tools (METplus) v6.1.0
     - WRF-Python (Conda installed)
     - OpenGrADS
     - GrADS
@@ -139,9 +191,17 @@ This is a BASH script that provides options to install the following Weather Res
     - Climate Data Operators (Conda installed)
   
 - WRF-CMAQ
-    - Development Testbed Center (DTC) Model Evaluation Tools (MET) v11.1.1
-    - Development Testbed Center (DTC) Enhanced Model Evaluation Tools (METplus) v5.1.0
-    - ARWPost v3
+    - Development Testbed Center (DTC) Model Evaluation Tools (MET) v12.1.1
+    - Development Testbed Center (DTC) Enhanced Model Evaluation Tools (METplus) v6.1.0
+    - WRF-Python (Conda installed)
+    - OpenGrADS
+    - GrADS
+    - NCAR Command Langauge (Conda installed)
+    - Climate Data Operators (Conda installed)
+
+- COAWST
+    - Development Testbed Center (DTC) Model Evaluation Tools (MET) v12.1.1
+    - Development Testbed Center (DTC) Enhanced Model Evaluation Tools (METplus) v6.1.0
     - WRF-Python (Conda installed)
     - OpenGrADS
     - GrADS
@@ -194,18 +254,70 @@ This is a BASH script that provides options to install the following Weather Res
 
 > ./WRF-MOSIT.sh 2>&1 | tee WRF_MOSIT.log
 
-- Script will check for System Architecture Type and Storage Space requirements.
 
-- Once running the script users will be provided with options to select how the WRF-MOSIT will compile and install the various packages.
-    - First option, Which compiler users want to use Intel or GNU compilers.
-    - Second option, Which graphic display package should be installed.  GrADS or OpenGrADS
-    - Third option, Auto Configuration.  This allows users to have a one-click install
-    - Fourth option, Secondary WPS geography file download choice.
-      - Author of script recommends selecting "YES" if user is unsure.
-    - Fifth option, Optional WPS geography file download choice.
-      - Author of script recommends selecting "YES" if user is unsure.
-    - Last option, Pick which WRF software user wants to install
+---
+### Script Behavior and Installation Options
 
+Once the script is launched, it will perform the following checks and guide the user through a step-by-step installation process:
+
+#### Automatic Checks
+- Detects **system architecture type** (e.g., Intel, AMD).
+- Verifies **available storage space** meets minimum requirements.
+
+#### Interactive Installation Options
+
+Users will be prompted to configure the following options:
+
+1. **Compiler Selection**  
+   Choose which compiler to use:
+   - `Intel` – Offers improved performance on Intel CPUs. On non-Intel CPUs, performance gains are minimal or negligible.
+   - `GNU` – Broad compatibility and stability across most architectures.
+
+2. **Graphics Display Package**  
+   Select your preferred visualization software:
+   - `GrADS`
+   - `OpenGrADS`
+
+3. **Auto Configuration**  
+   Enable one-click install using default/recommended settings.
+   **Recommended:** `Yes`
+
+4. **Secondary WPS Geography Files**  
+   Download additional WPS geography datasets.  
+   **Recommended:** `Yes` (especially for full functionality)
+
+5. **Optional WPS Geography Files**  
+   Download optional datasets to enhance spatial resolution support.  
+   **Recommended:** `Yes`
+
+6. **WRF Software Selection**  
+   Choose which WRF-based model you want to install:
+   - `WRF`
+   - `WRF-CHEM`
+   - `WRF-Hydro`
+   - `WRF-Hydro Coupled`
+   - `WRF-CMAQ`
+   - `WRF-SFIRE`
+   - `COAWST`
+
+---
+
+---
+
+### Conda Environments and Tools
+
+The WRF-MOSIT installation includes several pre-configured **Conda environments** to support post-processing, visualization, and scripting tools commonly used with WRF output. These are automatically installed during setup:
+
+| Environment Name | Path | Purpose |
+|------------------|------|---------|
+| `cdo_stable`     | `$HOME/<WRF software name>/miniconda3/envs/cdo_stable` | Environment for **Climate Data Operators (CDO)** – a collection of command-line tools for manipulating and analyzing climate and forecast model data. |
+| `ncl_stable`     | `$HOME/<WRF software name>/miniconda3/envs/ncl_stable` | Environment for **NCAR Command Language (NCL)** – used for advanced scientific visualization and analysis of atmospheric data. |
+| `wrf-python`     | `$HOME/<WRF software name>/miniconda3/envs/wrf-python` | Environment for **WRF-Python** – a Python package for post-processing WRF model output using NumPy and Matplotlib-compatible interfaces. |
+| `wrfh_gis_env`     | `$HOME/<WRF software name>/miniconda3/envs/wrfh_gis_env` | Environment for **WRF-GIS-Preprocessor** – The WRF-Hydro GIS Pre-processor provides various scripts and tools for building the geospatial input files for running a WRF-Hydro simulation. |
+
+> These environments ensure tool stability and avoid dependency conflicts by isolating the tools in their own environments. You can activate them using:
+
+conda activate *environment_name*
 
 
 ---
@@ -220,6 +332,8 @@ This is a BASH script that provides options to install the following Weather Res
     > export PATH=$HOME/WRF/Libs/MPICH/bin:$PATH
 
     > export PATH=$HOME/WRF/Libs/grib2/lib:$PATH
+    
+    > export PATH=$HOME/WRF/GrADS/Contents:$PATH
 
 
 
@@ -233,6 +347,9 @@ This is a BASH script that provides options to install the following Weather Res
     > export LD_LIBRARY_PATH=$HOME/WRF_Intel/Libs/grib2/lib:$LD_LIBRARY_PATH
 
     > export PATH=$HOME/WRF_Intel/Libs/grib2/lib:$PATH
+       
+    > export PATH=$HOME/WRF_Intel/GrADS/Contents:$PATH
+
 
 - Make sure to change the name of the WRF Folder to whichever version you are using, WRF_CHEM, WRFHYDRO, etc.
 
@@ -240,9 +357,9 @@ This is a BASH script that provides options to install the following Weather Res
 
 ---
 
-  ##### *** Tested on Ubuntu 22.04.4 LTS, Ubuntu 24.04.1 LTS, MacOS Ventura, MacOS Sonoma, Centos7, Rocky Linux 9, Windows Sub-Linux Ubuntu***
+  ##### *** Tested on Ubuntu 22.04.4 LTS, Ubuntu 24.04.3 LTS, MacOS Ventura, MacOS Sonoma, Centos8, Rocky Linux 9, Windows Sub-Linux Ubuntu***
 - Built 64-bit system.
-- Tested with current available libraries on 07/01/2024, exceptions have been noted in the script documentation.
+- Tested with current available libraries on 11/01/2025, exceptions have been noted in the script documentation.
 ---
 
 #### Estimated Run Time ~ 60 to 120 Minutes @ 10mbps download speed.
@@ -254,8 +371,8 @@ This is a BASH script that provides options to install the following Weather Res
 - University of Manchester's  Doug L
 - University of Tunis El Manar's Hosni S.
 - GSL's Jordan S.
-- NCAR's Mary B., Christine W., & Carl D.
-- DTC's Julie P., Tara J., George M., & John H.
+- NCAR's Mary B., Christine W., Soren R., & Carl D.
+- DTC's Tara J.,Julie P., George M., & John H.
 - UCAR's Katelyn F., Jim B., Jordan P., Kevin M.,
 ---
 #### Citation:
