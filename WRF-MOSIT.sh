@@ -510,49 +510,54 @@ echo -e "Which version of WRF would you like to install?
 
 PS3="Please enter the number corresponding to your choice: "
 
+
 options=("WRF-ARW" "WRFCHEM" "WRFHYDRO_COUPLED" "WRFHYDRO_STANDALONE" "WRF_SFIRE" "WRF_CMAQ" "COAWST")
+
+PS3="Please enter the number corresponding to your choice: "
+
 select opt in "${options[@]}"; do
-	case $opt in
-	"WRF")
-		echo "WRF selected for installation"
-		export WRF_PICK=1
-		break
-		;;
-	"WRFCHEM")
-		echo "WRFCHEM selected for installation"
-		export WRFCHEM_PICK=1
-		break
-		;;
-	"WRFHYDRO_COUPLED")
-		echo "WRFHYDRO_COUPLED selected for installation"
-		export WRFHYDRO_COUPLED_PICK=1
-		break
-		;;
-	"WRFHYDRO_STANDALONE")
-		echo "WRFHYDRO_STANDALONE selected for installation"
-		export WRFHYDRO_STANDALONE_PICK=1
-		break
-		;;
-	"WRF_SFIRE")
-		echo "WRF_SFIRE selected for installation"
-		export SFIRE_PICK=1
-		break
-		;;
-	"WRF_CMAQ")
-		echo -e "WRF_CMAQ selected for installation \nWRF_CMAQ is only compatible with GNU Compilers"
-		export CMAQ_PICK=1
-		break
-		;;
-	"COAWST")
-		echo "COAWST selected for installation"
-		export COWAST_PICK=1
-		break
-		;;
-	*)
-		echo "Invalid option. Please select a number between 1 and ${#options[@]}."
-		;;
-	esac
+    case $opt in
+        "WRF-ARW")
+            echo "WRF-ARW selected for installation"
+            export WRF_PICK=1
+            break
+            ;;
+        "WRFCHEM")
+            echo "WRFCHEM selected for installation"
+            export WRFCHEM_PICK=1
+            break
+            ;;
+        "WRFHYDRO_COUPLED")
+            echo "WRFHYDRO_COUPLED selected for installation"
+            export WRFHYDRO_COUPLED_PICK=1
+            break
+            ;;
+        "WRFHYDRO_STANDALONE")
+            echo "WRFHYDRO_STANDALONE selected for installation"
+            export WRFHYDRO_STANDALONE_PICK=1
+            break
+            ;;
+        "WRF_SFIRE")
+            echo "WRF_SFIRE selected for installation"
+            export SFIRE_PICK=1
+            break
+            ;;
+        "WRF_CMAQ")
+            echo -e "WRF_CMAQ selected for installation \nWRF_CMAQ is only compatible with GNU Compilers"
+            export CMAQ_PICK=1
+            break
+            ;;
+        "COAWST")
+            echo "COAWST selected for installation"
+            export COAWST_PICK=1     # fixed typo
+            break
+            ;;
+        *)
+            echo "Invalid option. Please select a number between 1 and ${#options[@]}."
+            ;;
+    esac
 done
+
 
 ################################# WRF-CHEM Tools Test ##################
 if [ "$WRFCHEM_PICK" = "1" ]; then
