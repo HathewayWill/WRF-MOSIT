@@ -300,14 +300,14 @@ echo "Testing for storage space for installation."
 
 HOME_DIR="${HOME}"
 REQUIRED_GB=350
-REQUIRED_KB=$((REQUIRED_GB * 1024 * 1024))   # 350 GB in KiB
+REQUIRED_KB=$((REQUIRED_GB * 1024 * 1024)) # 350 GB in KiB
 
 # df -k prints sizes in 1K blocks on both GNU (Linux) and BSD (macOS)
 AVAILABLE_KB=$(df -k "$HOME_DIR" | awk 'NR==2 {print $4}')
 
 if [ -z "$AVAILABLE_KB" ]; then
-    echo "ERROR: Could not determine available disk space for $HOME_DIR"
-    exit 1
+	echo "ERROR: Could not determine available disk space for $HOME_DIR"
+	exit 1
 fi
 
 # Human-readable strings (GiB)
@@ -315,19 +315,18 @@ AVAILABLE_HR=$(awk -v kb="$AVAILABLE_KB" 'BEGIN { printf "%.1f GiB", kb/1024/102
 REQUIRED_HR=$(awk -v kb="$REQUIRED_KB" 'BEGIN { printf "%.1f GiB", kb/1024/1024 }')
 
 if [ "$AVAILABLE_KB" -lt "$REQUIRED_KB" ]; then
-    echo
-    echo "############################################################"
-    echo "Not enough free disk space in $HOME_DIR."
-    echo "  Required:  $REQUIRED_HR"
-    echo "  Available: $AVAILABLE_HR"
-    echo "Please free up space and rerun this script."
-    echo "############################################################"
-    echo
-    exit 1
+	echo
+	echo "############################################################"
+	echo "Not enough free disk space in $HOME_DIR."
+	echo "  Required:  $REQUIRED_HR"
+	echo "  Available: $AVAILABLE_HR"
+	echo "Please free up space and rerun this script."
+	echo "############################################################"
+	echo
+	exit 1
 else
-    echo "Disk space check passed: $AVAILABLE_HR available (need at least $REQUIRED_HR)."
+	echo "Disk space check passed: $AVAILABLE_HR available (need at least $REQUIRED_HR)."
 fi
-
 
 echo "--------------------------------------------------"
 ############################# Enter sudo users information #############################
@@ -510,54 +509,52 @@ echo -e "Which version of WRF would you like to install?
 
 PS3="Please enter the number corresponding to your choice: "
 
-
 options=("WRF-ARW" "WRFCHEM" "WRFHYDRO_COUPLED" "WRFHYDRO_STANDALONE" "WRF_SFIRE" "WRF_CMAQ" "COAWST")
 
 PS3="Please enter the number corresponding to your choice: "
 
 select opt in "${options[@]}"; do
-    case $opt in
-        "WRF-ARW")
-            echo "WRF-ARW selected for installation"
-            export WRF_PICK=1
-            break
-            ;;
-        "WRFCHEM")
-            echo "WRFCHEM selected for installation"
-            export WRFCHEM_PICK=1
-            break
-            ;;
-        "WRFHYDRO_COUPLED")
-            echo "WRFHYDRO_COUPLED selected for installation"
-            export WRFHYDRO_COUPLED_PICK=1
-            break
-            ;;
-        "WRFHYDRO_STANDALONE")
-            echo "WRFHYDRO_STANDALONE selected for installation"
-            export WRFHYDRO_STANDALONE_PICK=1
-            break
-            ;;
-        "WRF_SFIRE")
-            echo "WRF_SFIRE selected for installation"
-            export SFIRE_PICK=1
-            break
-            ;;
-        "WRF_CMAQ")
-            echo -e "WRF_CMAQ selected for installation \nWRF_CMAQ is only compatible with GNU Compilers"
-            export CMAQ_PICK=1
-            break
-            ;;
-        "COAWST")
-            echo "COAWST selected for installation"
-            export COAWST_PICK=1     # fixed typo
-            break
-            ;;
-        *)
-            echo "Invalid option. Please select a number between 1 and ${#options[@]}."
-            ;;
-    esac
+	case $opt in
+	"WRF-ARW")
+		echo "WRF-ARW selected for installation"
+		export WRF_PICK=1
+		break
+		;;
+	"WRFCHEM")
+		echo "WRFCHEM selected for installation"
+		export WRFCHEM_PICK=1
+		break
+		;;
+	"WRFHYDRO_COUPLED")
+		echo "WRFHYDRO_COUPLED selected for installation"
+		export WRFHYDRO_COUPLED_PICK=1
+		break
+		;;
+	"WRFHYDRO_STANDALONE")
+		echo "WRFHYDRO_STANDALONE selected for installation"
+		export WRFHYDRO_STANDALONE_PICK=1
+		break
+		;;
+	"WRF_SFIRE")
+		echo "WRF_SFIRE selected for installation"
+		export SFIRE_PICK=1
+		break
+		;;
+	"WRF_CMAQ")
+		echo -e "WRF_CMAQ selected for installation \nWRF_CMAQ is only compatible with GNU Compilers"
+		export CMAQ_PICK=1
+		break
+		;;
+	"COAWST")
+		echo "COAWST selected for installation"
+		export COAWST_PICK=1 # fixed typo
+		break
+		;;
+	*)
+		echo "Invalid option. Please select a number between 1 and ${#options[@]}."
+		;;
+	esac
 done
-
 
 ################################# WRF-CHEM Tools Test ##################
 if [ "$WRFCHEM_PICK" = "1" ]; then
@@ -1612,7 +1609,6 @@ if [ "$RHL_64bit_Intel" = "1"] && [ "$DTC_MET" = "1" ]; then
 	fi
 
 fi
-
 
 ############################################# WRF CMAQ #################################
 ## WRF_CMAQ installation with parallel process.
@@ -12792,14 +12788,15 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 
 	LD_LIBRARY_PATH= ./clean -a
 
-
-    ############################################################ NEEDS REVIEW IN FUTURE ##################################
-    sed -i '34s\($x =~ "ifort")\($x =~ /ifort|intel/)\g' "${WRF_FOLDER}"/WRF-${WRF_VERSION}/hydro/wrf_hydro_config
-    ######################################################################################################################
-
+	############################################################ NEEDS REVIEW IN FUTURE ##################################
+	sed -i '34s\($x =~ "ifort")\($x =~ /ifort|intel/)\g' "${WRF_FOLDER}"/WRF-${WRF_VERSION}/hydro/wrf_hydro_config
+	######################################################################################################################
 
 	if [ ${auto_config} -eq 1 ]; then
-( echo 78 ; echo 1 ) | ./configure
+		(
+			echo 78
+			echo 1
+		) | ./configure
 
 	else
 		./configure 2>&1 | tee configure.log #option 78 intel compiler with distributed memory option 1 for basic nesting
@@ -16896,13 +16893,15 @@ if [ "$RHL_64bit_Intel" = "1"] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 
 	LD_LIBRARY_PATH= ./clean -a
 
-    ############################################################ NEEDS REVIEW IN FUTURE ##################################
-    sed -i '34s\($x =~ "ifort")\($x =~ /ifort|intel/)\g' "${WRF_FOLDER}"/WRF-${WRF_VERSION}/hydro/wrf_hydro_config
-    ######################################################################################################################
-
+	############################################################ NEEDS REVIEW IN FUTURE ##################################
+	sed -i '34s\($x =~ "ifort")\($x =~ /ifort|intel/)\g' "${WRF_FOLDER}"/WRF-${WRF_VERSION}/hydro/wrf_hydro_config
+	######################################################################################################################
 
 	if [ ${auto_config} -eq 1 ]; then
-( echo 78 ; echo 1 ) | ./configure
+		(
+			echo 78
+			echo 1
+		) | ./configure
 
 	else
 		./configure 2>&1 | tee configure.log #option 78 intel compiler with distributed memory option 1 for basic nesting
@@ -18722,7 +18721,10 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	sed -i '121s|$WKC_HOME/util/wkc/tuv_kpp FIRST ../../inc/|$WKC_HOME/util/wkc/tuv_kpp FIRST ../../../../inc/|g' "${WRF_FOLDER}"/WRF-${WRF_VERSION}/chem/KPP/compile_wkc
 
 	if [ ${auto_config} -eq 1 ]; then
-( echo 78 ; echo 1 ) | ./configure
+		(
+			echo 78
+			echo 1
+		) | ./configure
 
 	else
 		./configure 2>&1 | tee configure.log #option 78 intel compiler with distributed memory option 1 for basic nesting
@@ -23111,7 +23113,10 @@ if [ "$RHL_64bit_Intel" = "1"] && [ "$WRFCHEM_PICK" ]; then
 	sed -i '121s|$WKC_HOME/util/wkc/tuv_kpp FIRST ../../inc/|$WKC_HOME/util/wkc/tuv_kpp FIRST ../../../../inc/|g' "${WRF_FOLDER}"/WRF-${WRF_VERSION}/chem/KPP/compile_wkc
 
 	if [ ${auto_config} -eq 1 ]; then
-( echo 78 ; echo 1 ) | ./configure
+		(
+			echo 78
+			echo 1
+		) | ./configure
 
 	else
 		./configure 2>&1 | tee configure.log #option 78 intel compiler with distributed memory option 1 for basic nesting
@@ -24819,7 +24824,10 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	LD_LIBRARY_PATH= ./clean -a
 
 	if [ ${auto_config} -eq 1 ]; then
-( echo 78 ; echo 1 ) | ./configure
+		(
+			echo 78
+			echo 1
+		) | ./configure
 
 	else
 		./configure 2>&1 | tee configure.log #option 78 intel compiler with distributed memory option 1 for basic nesting
@@ -29203,7 +29211,10 @@ if [ "$RHL_64bit_Intel" = "1"] && [ "$WRF_PICK" ]; then
 	LD_LIBRARY_PATH= ./clean -a
 
 	if [ ${auto_config} -eq 1 ]; then
-( echo 78 ; echo 1 ) | ./configure
+		(
+			echo 78
+			echo 1
+		) | ./configure
 
 	else
 		./configure 2>&1 | tee configure.log #option 78 intel compiler with distributed memory option 1 for basic nesting
