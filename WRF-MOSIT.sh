@@ -17839,7 +17839,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
 		cd "${WRF_FOLDER}"/WRF-${WRF_VERSION}
-		LD_LIBRARY_PATH= ./compile -j $CPU_QUARTER_EVEN em_real 2>&1 | tee compile.wrf2.log
+		LD_LIBRARY_PATH= ./compile -j 2 em_real 2>&1 | tee compile.wrf2.log
 		cd "${WRF_FOLDER}"/WRF-${WRF_VERSION}/main
 		n=$(ls ./*.exe | wc -l)
 		if (($n >= 3)); then
@@ -17868,7 +17868,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
 		cd "${WRF_FOLDER}"/WRF-${WRF_VERSION}
-		LD_LIBRARY_PATH= ./compile -j $CPU_QUARTER_EVEN emi_conv 2>&1 | tee compile.emis2.log
+		LD_LIBRARY_PATH= ./compile -j 2 emi_conv 2>&1 | tee compile.emis2.log
 
 		cd "${WRF_FOLDER}"/WRF-${WRF_VERSION}/chem
 		if [[ -f convert_emiss.exe ]]; then
@@ -18746,7 +18746,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
 		cd "${WRF_FOLDER}"/WRF-${WRF_VERSION}
-		LD_LIBRARY_PATH= ./compile -j $CPU_QUARTER_EVEN em_real 2>&1 | tee compile.wrf2.log
+		LD_LIBRARY_PATH= ./compile -j 2 em_real 2>&1 | tee compile.wrf2.log
 		cd "${WRF_FOLDER}"/WRF-${WRF_VERSION}/main
 		n=$(ls ./*.exe | wc -l)
 		if (($n >= 3)); then
@@ -18775,7 +18775,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
 		cd "${WRF_FOLDER}"/WRF-${WRF_VERSION}
-		LD_LIBRARY_PATH= ./compile -j $CPU_QUARTER_EVEN emi_conv 2>&1 | tee compile.emis2.log
+		LD_LIBRARY_PATH= ./compile -j 2 emi_conv 2>&1 | tee compile.emis2.log
 
 		cd "${WRF_FOLDER}"/WRF-${WRF_VERSION}/chem
 		if [[ -f convert_emiss.exe ]]; then
@@ -19525,7 +19525,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$MAC_CHIP" = 
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
 		cd "${WRF_FOLDER}"/WRF-${WRF_VERSION}
-		LD_LIBRARY_PATH= ./compile -j $CPU_QUARTER_EVEN em_real 2>&1 | tee compile.wrf2.log
+		LD_LIBRARY_PATH= ./compile -j 2 em_real 2>&1 | tee compile.wrf2.log
 		cd "${WRF_FOLDER}"/WRF-${WRF_VERSION}/main
 		n=$(ls ./*.exe | wc -l)
 		if (($n >= 3)); then
@@ -19554,7 +19554,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$MAC_CHIP" = 
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
 		cd "${WRF_FOLDER}"/WRF-${WRF_VERSION}
-		LD_LIBRARY_PATH= ./compile -j $CPU_QUARTER_EVEN emi_conv 2>&1 | tee compile.emis2.log
+		LD_LIBRARY_PATH= ./compile -j 2 emi_conv 2>&1 | tee compile.emis2.log
 
 		cd "${WRF_FOLDER}"/WRF-${WRF_VERSION}/chem
 		if [[ -f convert_emiss.exe ]]; then
@@ -20384,7 +20384,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$MAC_CHIP" = 
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
 		cd "${WRF_FOLDER}"/WRF-${WRF_VERSION}
-		LD_LIBRARY_PATH= ./compile -j $CPU_QUARTER_EVEN em_real 2>&1 | tee compile.wrf2.log
+		LD_LIBRARY_PATH= ./compile -j 2 em_real 2>&1 | tee compile.wrf2.log
 		cd "${WRF_FOLDER}"/WRF-${WRF_VERSION}/main
 		n=$(ls ./*.exe | wc -l)
 		if (($n >= 3)); then
@@ -20413,7 +20413,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$MAC_CHIP" = 
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
 		cd "${WRF_FOLDER}"/WRF-${WRF_VERSION}
-		LD_LIBRARY_PATH= ./compile -j $CPU_QUARTER_EVEN emi_conv 2>&1 | tee compile.emis2.log
+		LD_LIBRARY_PATH= ./compile -j 2 emi_conv 2>&1 | tee compile.emis2.log
 
 		cd "${WRF_FOLDER}"/WRF-${WRF_VERSION}/chem
 		if [[ -f convert_emiss.exe ]]; then
@@ -21362,7 +21362,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
 		cd "${WRF_FOLDER}"/WRF-${WRF_VERSION}
-		LD_LIBRARY_PATH= ./compile -j $CPU_QUARTER_EVEN em_real 2>&1 | tee compile.wrf2.log
+		LD_LIBRARY_PATH= ./compile -j 2 em_real 2>&1 | tee compile.wrf2.log
 		cd "${WRF_FOLDER}"/WRF-${WRF_VERSION}/main
 		n=$(ls ./*.exe | wc -l)
 		if (($n >= 3)); then
@@ -21391,7 +21391,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
 		cd "${WRF_FOLDER}"/WRF-${WRF_VERSION}
-		LD_LIBRARY_PATH= ./compile -j $CPU_QUARTER_EVEN emi_conv 2>&1 | tee compile.emis2.log
+		LD_LIBRARY_PATH= ./compile -j 2 emi_conv 2>&1 | tee compile.emis2.log
 
 		cd "${WRF_FOLDER}"/WRF-${WRF_VERSION}/chem
 		if [[ -f convert_emiss.exe ]]; then
@@ -22236,7 +22236,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
 		cd "${WRF_FOLDER}"/WRF-${WRF_VERSION}
-		LD_LIBRARY_PATH= ./compile -j $CPU_QUARTER_EVEN em_real 2>&1 | tee compile.wrf2.log
+		LD_LIBRARY_PATH= ./compile -j 2 em_real 2>&1 | tee compile.wrf2.log
 		cd "${WRF_FOLDER}"/WRF-${WRF_VERSION}/main
 		n=$(ls ./*.exe | wc -l)
 		if (($n >= 3)); then
@@ -22265,7 +22265,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
 		cd "${WRF_FOLDER}"/WRF-${WRF_VERSION}
-		LD_LIBRARY_PATH= ./compile -j $CPU_QUARTER_EVEN emi_conv 2>&1 | tee compile.emis2.log
+		LD_LIBRARY_PATH= ./compile -j 2 emi_conv 2>&1 | tee compile.emis2.log
 
 		cd "${WRF_FOLDER}"/WRF-${WRF_VERSION}/chem
 		if [[ -f convert_emiss.exe ]]; then
@@ -23138,7 +23138,7 @@ if [ "$RHL_64bit_Intel" = "1"] && [ "$WRFCHEM_PICK" ]; then
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
 		cd "${WRF_FOLDER}"/WRF-${WRF_VERSION}
-		LD_LIBRARY_PATH= ./compile -j $CPU_QUARTER_EVEN em_real 2>&1 | tee compile.wrf2.log
+		LD_LIBRARY_PATH= ./compile -j 2 em_real 2>&1 | tee compile.wrf2.log
 		cd "${WRF_FOLDER}"/WRF-${WRF_VERSION}/main
 		n=$(ls ./*.exe | wc -l)
 		if (($n >= 3)); then
@@ -23167,7 +23167,7 @@ if [ "$RHL_64bit_Intel" = "1"] && [ "$WRFCHEM_PICK" ]; then
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
 		cd "${WRF_FOLDER}"/WRF-${WRF_VERSION}
-		LD_LIBRARY_PATH= ./compile -j $CPU_QUARTER_EVEN emi_conv 2>&1 | tee compile.emis2.log
+		LD_LIBRARY_PATH= ./compile -j 2 emi_conv 2>&1 | tee compile.emis2.log
 
 		cd "${WRF_FOLDER}"/WRF-${WRF_VERSION}/chem
 		if [[ -f convert_emiss.exe ]]; then
