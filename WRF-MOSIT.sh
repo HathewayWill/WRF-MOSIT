@@ -17740,6 +17740,31 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	# Note that you need set nocolons = .true. in the section &time_control of namelist.input
 	########################################################################
 	#Setting up WRF-CHEM/KPP
+    ########################################
+    # Clean out non-apt flex installations
+    ########################################
+
+    # Remove any custom flex builds in your WRF tree
+    rm -rf "${WRF_FOLDER}/Libs/flex-2.6.4" 2>/dev/null || true
+    rm -rf /tmp/flex-2.6.4 2>/dev/null || true
+    
+    # Remove typical /usr/local flex files (NOT managed by apt)
+    echo "$PASSWD" | sudo -S bash -c '
+      rm -f /usr/local/bin/flex
+      rm -f /usr/local/lib/libfl.a
+      rm -f /usr/local/lib/libfl.so
+      rm -f /usr/local/lib/libfl.so.*
+      rm -f /usr/local/lib64/libfl.a
+      rm -f /usr/local/lib64/libfl.so
+      rm -f /usr/local/lib64/libfl.so.*
+      rm -f /usr/local/include/FlexLexer.h
+    '
+
+    # (Optional) show what apt thinks flex is
+    echo "Apt-managed flex files:"
+    dpkg -L flex 2>/dev/null || echo "flex package not installed via apt."
+
+
 	cd /tmp
 
 	# Download the flex 2.6.4 source tarball
@@ -17827,7 +17852,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 		./configure 2>&1 | tee configure.log #Option 34 gfortran compiler with distributed memory option 1 for basic nesting
 	fi
 
-	LD_LIBRARY_PATH= ./compile -j 2 em_real 2>&1 | tee compile.wrf1.log
+	./compile -j 2 em_real 2>&1 | tee compile.wrf1.log
 
 	# IF statement to check that all files were created.
 	cd "${WRF_FOLDER}"/WRF-${WRF_VERSION}/main
@@ -17839,7 +17864,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
 		cd "${WRF_FOLDER}"/WRF-${WRF_VERSION}
-		LD_LIBRARY_PATH= ./compile -j 2 em_real 2>&1 | tee compile.wrf2.log
+		./compile -j 2 em_real 2>&1 | tee compile.wrf2.log
 		cd "${WRF_FOLDER}"/WRF-${WRF_VERSION}/main
 		n=$(ls ./*.exe | wc -l)
 		if (($n >= 3)); then
@@ -18645,6 +18670,31 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	# large file support enable with WRFiO_NCD_LARGE_FILE_SUPPORT=1
 	########################################################################
 
+    ########################################
+    # Clean out non-apt flex installations
+    ########################################
+
+    # Remove any custom flex builds in your WRF tree
+    rm -rf "${WRF_FOLDER}/Libs/flex-2.6.4" 2>/dev/null || true
+    rm -rf /tmp/flex-2.6.4 2>/dev/null || true
+    
+    # Remove typical /usr/local flex files (NOT managed by apt)
+    echo "$PASSWD" | sudo -S bash -c '
+      rm -f /usr/local/bin/flex
+      rm -f /usr/local/lib/libfl.a
+      rm -f /usr/local/lib/libfl.so
+      rm -f /usr/local/lib/libfl.so.*
+      rm -f /usr/local/lib64/libfl.a
+      rm -f /usr/local/lib64/libfl.so
+      rm -f /usr/local/lib64/libfl.so.*
+      rm -f /usr/local/include/FlexLexer.h
+    '
+
+    # (Optional) show what apt thinks flex is
+    echo "Apt-managed flex files:"
+    dpkg -L flex 2>/dev/null || echo "flex package not installed via apt."
+
+
 	cd /tmp
 
 	# Download the flex 2.6.4 source tarball
@@ -18734,7 +18784,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	sed -i '136s|mpif90 -f90=$(SFC)|mpiifx|g' "${WRF_FOLDER}"/WRF-${WRF_VERSION}/configure.wrf
 	sed -i '137s|mpicc -cc=$(SCC)|mpiicx|g' "${WRF_FOLDER}"/WRF-${WRF_VERSION}/configure.wrf
 
-	LD_LIBRARY_PATH= ./compile -j 2 em_real 2>&1 | tee compile.wrf1.log
+	./compile -j 2 em_real 2>&1 | tee compile.wrf1.log
 
 	# IF statement to check that all files were created.
 	cd "${WRF_FOLDER}"/WRF-${WRF_VERSION}/main
@@ -18746,7 +18796,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
 		cd "${WRF_FOLDER}"/WRF-${WRF_VERSION}
-		LD_LIBRARY_PATH= ./compile -j 2 em_real 2>&1 | tee compile.wrf2.log
+		./compile -j 2 em_real 2>&1 | tee compile.wrf2.log
 		cd "${WRF_FOLDER}"/WRF-${WRF_VERSION}/main
 		n=$(ls ./*.exe | wc -l)
 		if (($n >= 3)); then
@@ -19513,7 +19563,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$MAC_CHIP" = 
 
 	sed -i'' -e 's/-w  -c/-w  -c -fPIC -fPIE -O3 -Wno-implicit-function-declaration/g' "${WRF_FOLDER}"/WRF-${WRF_VERSION}/configure.wrf
 
-	LD_LIBRARY_PATH= ./compile -j 2 em_real 2>&1 | tee compile.wrf1.log
+	./compile -j 2 em_real 2>&1 | tee compile.wrf1.log
 
 	# IF statement to check that all files were created.
 	cd "${WRF_FOLDER}"/WRF-${WRF_VERSION}/main
@@ -19525,7 +19575,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$MAC_CHIP" = 
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
 		cd "${WRF_FOLDER}"/WRF-${WRF_VERSION}
-		LD_LIBRARY_PATH= ./compile -j 2 em_real 2>&1 | tee compile.wrf2.log
+		./compile -j 2 em_real 2>&1 | tee compile.wrf2.log
 		cd "${WRF_FOLDER}"/WRF-${WRF_VERSION}/main
 		n=$(ls ./*.exe | wc -l)
 		if (($n >= 3)); then
@@ -20372,7 +20422,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$MAC_CHIP" = 
 
 	sed -i'' -e 's/-w  -c/-w  -c -fPIC -fPIE -O3 -Wno-implicit-function-declaration/g' "${WRF_FOLDER}"/WRF-${WRF_VERSION}/configure.wrf
 
-	LD_LIBRARY_PATH= ./compile -j 2 em_real 2>&1 | tee compile.wrf1.log
+	./compile -j 2 em_real 2>&1 | tee compile.wrf1.log
 
 	# IF statement to check that all files were created.
 	cd "${WRF_FOLDER}"/WRF-${WRF_VERSION}/main
@@ -20384,7 +20434,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$MAC_CHIP" = 
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
 		cd "${WRF_FOLDER}"/WRF-${WRF_VERSION}
-		LD_LIBRARY_PATH= ./compile -j 2 em_real 2>&1 | tee compile.wrf2.log
+		./compile -j 2 em_real 2>&1 | tee compile.wrf2.log
 		cd "${WRF_FOLDER}"/WRF-${WRF_VERSION}/main
 		n=$(ls ./*.exe | wc -l)
 		if (($n >= 3)); then
@@ -21264,6 +21314,31 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	# io_form_auxhist2
 	# Note that you need set nocolons = .true. in the section &time_control of namelist.input
 	########################################################################
+    ########################################
+    # Clean out non-apt flex installations
+    ########################################
+
+    # Remove any custom flex builds in your WRF tree
+    rm -rf "${WRF_FOLDER}/Libs/flex-2.6.4" 2>/dev/null || true
+    rm -rf /tmp/flex-2.6.4 2>/dev/null || true
+    
+    # Remove typical /usr/local flex files (NOT managed by apt)
+    echo "$PASSWD" | sudo -S bash -c '
+      rm -f /usr/local/bin/flex
+      rm -f /usr/local/lib/libfl.a
+      rm -f /usr/local/lib/libfl.so
+      rm -f /usr/local/lib/libfl.so.*
+      rm -f /usr/local/lib64/libfl.a
+      rm -f /usr/local/lib64/libfl.so
+      rm -f /usr/local/lib64/libfl.so.*
+      rm -f /usr/local/include/FlexLexer.h
+    '
+
+    # (Optional) show what apt thinks flex is
+    echo "Apt-managed flex files:"
+    dpkg -L flex 2>/dev/null || echo "flex package not installed via apt."
+
+
 	cd /tmp
 
 	# Download the flex 2.6.4 source tarball
@@ -21350,7 +21425,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 		./configure 2>&1 | tee configure.log #Option 34 gfortran compiler with distributed memory option 1 for basic nesting
 	fi
 
-	LD_LIBRARY_PATH= ./compile -j 2 em_real 2>&1 | tee compile.wrf1.log
+	./compile -j 2 em_real 2>&1 | tee compile.wrf1.log
 
 	# IF statement to check that all files were created.
 	cd "${WRF_FOLDER}"/WRF-${WRF_VERSION}/main
@@ -21362,7 +21437,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
 		cd "${WRF_FOLDER}"/WRF-${WRF_VERSION}
-		LD_LIBRARY_PATH= ./compile -j 2 em_real 2>&1 | tee compile.wrf2.log
+		./compile -j 2 em_real 2>&1 | tee compile.wrf2.log
 		cd "${WRF_FOLDER}"/WRF-${WRF_VERSION}/main
 		n=$(ls ./*.exe | wc -l)
 		if (($n >= 3)); then
@@ -22138,6 +22213,31 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	# io_form_auxhist2
 	# Note that you need set nocolons = .true. in the section &time_control of namelist.input
 	########################################################################
+    ########################################
+    # Clean out non-apt flex installations
+    ########################################
+
+    # Remove any custom flex builds in your WRF tree
+    rm -rf "${WRF_FOLDER}/Libs/flex-2.6.4" 2>/dev/null || true
+    rm -rf /tmp/flex-2.6.4 2>/dev/null || true
+    
+    # Remove typical /usr/local flex files (NOT managed by apt)
+    echo "$PASSWD" | sudo -S bash -c '
+      rm -f /usr/local/bin/flex
+      rm -f /usr/local/lib/libfl.a
+      rm -f /usr/local/lib/libfl.so
+      rm -f /usr/local/lib/libfl.so.*
+      rm -f /usr/local/lib64/libfl.a
+      rm -f /usr/local/lib64/libfl.so
+      rm -f /usr/local/lib64/libfl.so.*
+      rm -f /usr/local/include/FlexLexer.h
+    '
+
+    # (Optional) show what apt thinks flex is
+    echo "Apt-managed flex files:"
+    dpkg -L flex 2>/dev/null || echo "flex package not installed via apt."
+
+
 	cd /tmp
 
 	# Download the flex 2.6.4 source tarball
@@ -22224,7 +22324,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 		./configure 2>&1 | tee configure.log #Option 34 gfortran compiler with distributed memory option 1 for basic nesting
 	fi
 
-	LD_LIBRARY_PATH= ./compile -j 2 em_real 2>&1 | tee compile.wrf1.log
+	./compile -j 2 em_real 2>&1 | tee compile.wrf1.log
 
 	# IF statement to check that all files were created.
 	cd "${WRF_FOLDER}"/WRF-${WRF_VERSION}/main
@@ -22236,7 +22336,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
 		cd "${WRF_FOLDER}"/WRF-${WRF_VERSION}
-		LD_LIBRARY_PATH= ./compile -j 2 em_real 2>&1 | tee compile.wrf2.log
+		./compile -j 2 em_real 2>&1 | tee compile.wrf2.log
 		cd "${WRF_FOLDER}"/WRF-${WRF_VERSION}/main
 		n=$(ls ./*.exe | wc -l)
 		if (($n >= 3)); then
@@ -23036,6 +23136,31 @@ if [ "$RHL_64bit_Intel" = "1"] && [ "$WRFCHEM_PICK" ]; then
 	# large file support enable with WRFiO_NCD_LARGE_FILE_SUPPORT=1
 	########################################################################
 
+    ########################################
+    # Clean out non-apt flex installations
+    ########################################
+
+    # Remove any custom flex builds in your WRF tree
+    rm -rf "${WRF_FOLDER}/Libs/flex-2.6.4" 2>/dev/null || true
+    rm -rf /tmp/flex-2.6.4 2>/dev/null || true
+    
+    # Remove typical /usr/local flex files (NOT managed by apt)
+    echo "$PASSWD" | sudo -S bash -c '
+      rm -f /usr/local/bin/flex
+      rm -f /usr/local/lib/libfl.a
+      rm -f /usr/local/lib/libfl.so
+      rm -f /usr/local/lib/libfl.so.*
+      rm -f /usr/local/lib64/libfl.a
+      rm -f /usr/local/lib64/libfl.so
+      rm -f /usr/local/lib64/libfl.so.*
+      rm -f /usr/local/include/FlexLexer.h
+    '
+
+    # (Optional) show what apt thinks flex is
+    echo "Apt-managed flex files:"
+    dpkg -L flex 2>/dev/null || echo "flex package not installed via apt."
+
+
 	cd /tmp
 
 	# Download the flex 2.6.4 source tarball
@@ -23126,7 +23251,7 @@ if [ "$RHL_64bit_Intel" = "1"] && [ "$WRFCHEM_PICK" ]; then
 	sed -i '136s|mpif90 -f90=$(SFC)|mpiifx|g' "${WRF_FOLDER}"/WRF-${WRF_VERSION}/configure.wrf
 	sed -i '137s|mpicc -cc=$(SCC)|mpiicx|g' "${WRF_FOLDER}"/WRF-${WRF_VERSION}/configure.wrf
 
-	LD_LIBRARY_PATH= ./compile -j 2 em_real 2>&1 | tee compile.wrf1.log
+	./compile -j 2 em_real 2>&1 | tee compile.wrf1.log
 
 	# IF statement to check that all files were created.
 	cd "${WRF_FOLDER}"/WRF-${WRF_VERSION}/main
@@ -23138,7 +23263,7 @@ if [ "$RHL_64bit_Intel" = "1"] && [ "$WRFCHEM_PICK" ]; then
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
 		cd "${WRF_FOLDER}"/WRF-${WRF_VERSION}
-		LD_LIBRARY_PATH= ./compile -j 2 em_real 2>&1 | tee compile.wrf2.log
+		./compile -j 2 em_real 2>&1 | tee compile.wrf2.log
 		cd "${WRF_FOLDER}"/WRF-${WRF_VERSION}/main
 		n=$(ls ./*.exe | wc -l)
 		if (($n >= 3)); then
