@@ -12799,10 +12799,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 
 
 	if [ ${auto_config} -eq 1 ]; then
-		(
-			echo 78
-			echo 1
-		) | ./configure
+( echo 78 ; echo 1 ) | ./configure
 
 	else
 		./configure 2>&1 | tee configure.log #option 78 intel compiler with distributed memory option 1 for basic nesting
@@ -16905,10 +16902,7 @@ if [ "$RHL_64bit_Intel" = "1"] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 
 
 	if [ ${auto_config} -eq 1 ]; then
-		(
-			echo 78
-			echo 1
-		) | ./configure
+( echo 78 ; echo 1 ) | ./configure
 
 	else
 		./configure 2>&1 | tee configure.log #option 78 intel compiler with distributed memory option 1 for basic nesting
@@ -18728,10 +18722,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	sed -i '121s|$WKC_HOME/util/wkc/tuv_kpp FIRST ../../inc/|$WKC_HOME/util/wkc/tuv_kpp FIRST ../../../../inc/|g' "${WRF_FOLDER}"/WRF-${WRF_VERSION}/chem/KPP/compile_wkc
 
 	if [ ${auto_config} -eq 1 ]; then
-		(
-			echo 78
-			echo 1
-		) | ./configure
+( echo 78 ; echo 1 ) | ./configure
 
 	else
 		./configure 2>&1 | tee configure.log #option 78 intel compiler with distributed memory option 1 for basic nesting
@@ -23120,10 +23111,7 @@ if [ "$RHL_64bit_Intel" = "1"] && [ "$WRFCHEM_PICK" ]; then
 	sed -i '121s|$WKC_HOME/util/wkc/tuv_kpp FIRST ../../inc/|$WKC_HOME/util/wkc/tuv_kpp FIRST ../../../../inc/|g' "${WRF_FOLDER}"/WRF-${WRF_VERSION}/chem/KPP/compile_wkc
 
 	if [ ${auto_config} -eq 1 ]; then
-		(
-			echo 78
-			echo 1
-		) | ./configure
+( echo 78 ; echo 1 ) | ./configure
 
 	else
 		./configure 2>&1 | tee configure.log #option 78 intel compiler with distributed memory option 1 for basic nesting
@@ -24831,10 +24819,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	LD_LIBRARY_PATH= ./clean -a
 
 	if [ ${auto_config} -eq 1 ]; then
-		(
-			echo 78
-			echo 1
-		) | ./configure
+( echo 78 ; echo 1 ) | ./configure
 
 	else
 		./configure 2>&1 | tee configure.log #option 78 intel compiler with distributed memory option 1 for basic nesting
@@ -29218,10 +29203,7 @@ if [ "$RHL_64bit_Intel" = "1"] && [ "$WRF_PICK" ]; then
 	LD_LIBRARY_PATH= ./clean -a
 
 	if [ ${auto_config} -eq 1 ]; then
-		(
-			echo 78
-			echo 1
-		) | ./configure
+( echo 78 ; echo 1 ) | ./configure
 
 	else
 		./configure 2>&1 | tee configure.log #option 78 intel compiler with distributed memory option 1 for basic nesting
