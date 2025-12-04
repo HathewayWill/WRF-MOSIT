@@ -2110,12 +2110,15 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
 	./bldit_cctm.csh gcc 2>&1 | tee bldit.cctm.twoway.gcc.log
 
 	# Move built folder to top level directory
-	mv "${WRF_FOLDER}"/Downloads/CMAQ/Build_WRFv4.5.1-CMAQv${CMAQ_VERSION}/CCTM/scripts/BLD_WRFv4.5.1_CCTM_v55_gcc/* "${WRF_FOLDER}"/WRF-${WRF_VERSION}_CMAQv${CMAQ_VERSION}
 
-	export WRF_DIR="${WRF_FOLDER}"/WRF-${WRF_VERSION}_CMAQv${CMAQ_VERSION}
+	mkdir "${WRF_FOLDER}"/WRF-4.5.1_CMAQv${CMAQ_VERSION}
+
+	mv "${WRF_FOLDER}"/Downloads/CMAQ/Build_WRFv4.5.1-CMAQv${CMAQ_VERSION}/CCTM/scripts/BLD_WRFv4.5.1_CCTM_v55_gcc/* "${WRF_FOLDER}"/WRF-4.5.1_CMAQv${CMAQ_VERSION}
+
+	export WRF_DIR="${WRF_FOLDER}"/WRF-4.5.1_CMAQv${CMAQ_VERSION}
 
 	# IF statement to check that all files were created.
-	cd "${WRF_FOLDER}"/WRF-${WRF_VERSION}_CMAQv${CMAQ_VERSION}/main
+	cd "${WRF_FOLDER}"/WRF-4.5.1_CMAQv${CMAQ_VERSION}/main
 	n=$(ls ./*.exe | wc -l)
 	if (($n >= 3)); then
 		echo "All expected files created."
@@ -2742,12 +2745,14 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
 	./bldit_cctm.csh gcc 2>&1 | tee bldit.cctm.twoway.gcc.log
 
 	# Move built folder to top level directory
-	mv "${WRF_FOLDER}"/Downloads/CMAQ/Build_WRFv4.5.1-CMAQv${CMAQ_VERSION}/CCTM/scripts/BLD_WRFv4.5.1_CCTM_v55_gcc/* "${WRF_FOLDER}"/WRF-${WRF_VERSION}_CMAQv${CMAQ_VERSION}
+	mkdir "${WRF_FOLDER}"/WRF-4.5.1_CMAQv${CMAQ_VERSION}
 
-	export WRF_DIR="${WRF_FOLDER}"/WRF-${WRF_VERSION}_CMAQv${CMAQ_VERSION}
+	mv "${WRF_FOLDER}"/Downloads/CMAQ/Build_WRFv4.5.1-CMAQv${CMAQ_VERSION}/CCTM/scripts/BLD_WRFv4.5.1_CCTM_v55_gcc/* "${WRF_FOLDER}"/WRF-4.5.1_CMAQv${CMAQ_VERSION}
+
+	export WRF_DIR="${WRF_FOLDER}"/WRF-4.5.1_CMAQv${CMAQ_VERSION}
 
 	# IF statement to check that all files were created.
-	cd "${WRF_FOLDER}"/WRF-${WRF_VERSION}_CMAQv${CMAQ_VERSION}/main
+	cd "${WRF_FOLDER}"/WRF-4.5.1_CMAQv${CMAQ_VERSION}/main
 	n=$(ls ./*.exe | wc -l)
 	if (($n >= 3)); then
 		echo "All expected files created."
@@ -3387,12 +3392,14 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$CMAQ_PICK" = "1" ]; then
 	./bldit_cctm.csh gcc 2>&1 | tee bldit.cctm.twoway.gcc.log
 
 	# Move built folder to top level directory
-	mv "${WRF_FOLDER}"/Downloads/CMAQ/Build_WRFv4.5.1-CMAQv${CMAQ_VERSION}/CCTM/scripts/BLD_WRFv4.5.1_CCTM_v55_gcc/* "${WRF_FOLDER}"/WRF-${WRF_VERSION}_CMAQv${CMAQ_VERSION}
+	mkdir "${WRF_FOLDER}"/WRF-4.5.1_CMAQv${CMAQ_VERSION}
 
-	export WRF_DIR="${WRF_FOLDER}"/WRF-${WRF_VERSION}_CMAQv${CMAQ_VERSION}
+	mv "${WRF_FOLDER}"/Downloads/CMAQ/Build_WRFv4.5.1-CMAQv${CMAQ_VERSION}/CCTM/scripts/BLD_WRFv4.5.1_CCTM_v55_gcc/* "${WRF_FOLDER}"/WRF-4.5.1_CMAQv${CMAQ_VERSION}
+
+	export WRF_DIR="${WRF_FOLDER}"/WRF-4.5.1_CMAQv${CMAQ_VERSION}
 
 	# IF statement to check that all files were created.
-	cd "${WRF_FOLDER}"/WRF-${WRF_VERSION}_CMAQv${CMAQ_VERSION}/main
+	cd "${WRF_FOLDER}"/WRF-4.5.1_CMAQv${CMAQ_VERSION}/main
 	n=$(ls ./*.exe | wc -l)
 	if (($n >= 3)); then
 		echo "All expected files created."
