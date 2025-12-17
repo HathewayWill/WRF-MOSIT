@@ -339,7 +339,7 @@ while true; do
 	((attempt++))
 
 	# After first failure, offer visible input
-	if (( attempt > 1 )); then
+	if ((attempt > 1)); then
 		read -r -p "Show password while typing? (y/N): " show_pw
 	else
 		show_pw="n"
@@ -373,7 +373,7 @@ while true; do
 	fi
 
 	# Enforce retry limit
-	if (( attempt >= MAX_RETRIES )); then
+	if ((attempt >= MAX_RETRIES)); then
 		echo "Maximum attempts ($MAX_RETRIES) reached. Exiting."
 		exit 1
 	fi
@@ -645,7 +645,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$DTC_MET" = "1" ]; then
 		echo $PASSWD | sudo -S apt install emacs -y
 	fi
 
-	echo $PASSWD | sudo -S apt -y install -y bison build-essential byacc cmake csh curl default-jdk default-jre flex libfl-dev g++ gawk gcc gettext gfortran git ksh libcurl4-gnutls-dev libjpeg-dev libncurses6 libncursesw5-dev libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev libxml-libxml-perl m4 make ncview pipenv pkg-config python3 python3-dev python3-pip python3-dateutil tcsh unzip xauth xorg time ghostscript less libbz2-dev libc6-dev libffi-dev libgdbm-dev libopenblas-dev libreadline-dev libssl-dev libtiff-dev tk-dev vim wget
+	echo "$PASSWD" | sudo -S apt -y install bison build-essential byacc cmake csh curl default-jdk default-jre flex libfl-dev g++ gawk gcc gettext gfortran git ksh libcurl4-gnutls-dev libjpeg-dev libncurses6 libncursesw5-dev libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev libxml-libxml-perl m4 make ncview pipenv pkg-config python3 python3-dev python3-pip python3-dateutil tcsh unzip xauth xorg time ghostscript less libbz2-dev libc6-dev libffi-dev libgdbm-dev libopenblas-dev libreadline-dev libssl-dev libtiff-dev libgeotiff-dev tk-dev vim wget
 
 	#
 	# install the Intel compilers
@@ -861,8 +861,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$DTC_MET" = "1" ]; then
 		echo $PASSWD | sudo -S apt install emacs -y
 	fi
 
-	echo $PASSWD | sudo -S apt -y install -y bison build-essential byacc cmake csh curl default-jdk default-jre flex libfl-dev g++ gawk gcc gettext gfortran git ksh libcurl4-gnutls-dev libjpeg-dev libncurses6 libncursesw5-dev libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev libxml-libxml-perl m4 make ncview pipenv pkg-config python3 python3-dev python3-pip python3-dateutil tcsh unzip xauth xorg time ghostscript less libbz2-dev libc6-dev libffi-dev libgdbm-dev libopenblas-dev libreadline-dev libssl-dev libtiff-dev tk-dev vim wget
-
+	echo "$PASSWD" | sudo -S apt -y install bison build-essential byacc cmake csh curl default-jdk default-jre flex libfl-dev g++ gawk gcc gettext gfortran git ksh libcurl4-gnutls-dev libjpeg-dev libncurses6 libncursesw5-dev libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev libxml-libxml-perl m4 make ncview pipenv pkg-config python3 python3-dev python3-pip python3-dateutil tcsh unzip xauth xorg time ghostscript less libbz2-dev libc6-dev libffi-dev libgdbm-dev libopenblas-dev libreadline-dev libssl-dev libtiff-dev libgeotiff-dev tk-dev vim wget
 
 	#Downloading latest dateutil due to python3.8 running old version.
 	echo $PASSWD | sudo -S apt -y install python3-dateutil
@@ -1053,7 +1052,11 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$DTC_MET" = "1" ]; then
 	echo $PASSWD | sudo -S dnf install epel-release -y
 	echo $PASSWD | sudo -S dnf -y update
 	echo $PASSWD | sudo -S dnf -y upgrade
-	echo $PASSWD | sudo -S dnf -y install bzip2 bzip2-devel byacc cairo-devel cmake cpp curl curl-devel flex fontconfig-devel fontconfig-devel gcc gcc-c++ gcc-gfortran git java-11-openjdk java-11-openjdk-devel ksh libX11-devel libX11-devel libXaw libXaw-devel libXext-devel libXext-devel libXmu-devel libXrender-devel libXrender-devel libstdc++ libstdc++-devel libxml2 libxml2-devel m4 nfs-utils perl "perl(XML::LibXML)" pkgconfig pixman-devel python3 python3-devel tcsh time unzip wget
+	echo $PASSWD | sudo -S dnf -y install byacc bzip2 bzip2-devel cairo-devel cmake cpp curl curl-devel flex fontconfig fontconfig-devel gcc gcc-c++ gcc-gfortran git ksh libjpeg libjpeg-devel libstdc++ libstdc++-devel libX11 libX11-devel libXaw libXaw-devel libXext-devel libXmu libXmu-devel libXrender libXrender-devel libXt libXt-devel libxml2 libxml2-devel libgeotiff libgeotiff-devel libtiff libtiff-devel m4 nfs-utils perl 'perl(XML::LibXML)' pkgconfig pixman pixman-devel python3 python3-devel tcsh time unzip wget
+	echo $PASSWD | sudo -S dnf -y java-devel java
+	echo $PASSWD | sudo -S dnf -y java-17-openjdk-devel java-17-openjdk
+	echo $PASSWD | sudo -S dnf -y java-21-openjdk-devel java-21-openjdk
+
 	echo $PASSWD | sudo -S dnf -y install python3-dateutil
 	echo $PASSWD | sudo -S dnf -y groupinstall "Development Tools"
 	echo $PASSWD | sudo -S dnf -y update
@@ -1255,7 +1258,11 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$DTC_MET" = "1" ]; then
 	echo $PASSWD | sudo -S dnf install epel-release -y
 	echo $PASSWD | sudo -S dnf -y update
 	echo $PASSWD | sudo -S dnf -y upgrade
-	echo $PASSWD | sudo -S dnf -y install bzip2 bzip2-devel byacc cairo-devel cmake cpp curl curl-devel flex fontconfig-devel fontconfig-devel gcc gcc-c++ gcc-gfortran git java-11-openjdk java-11-openjdk-devel ksh libX11-devel libX11-devel libXaw libXaw-devel libXext-devel libXext-devel libXmu-devel libXrender-devel libXrender-devel libstdc++ libstdc++-devel libxml2 libxml2-devel m4 nfs-utils perl "perl(XML::LibXML)" pkgconfig pixman-devel python3 python3-devel tcsh time unzip wget
+	echo $PASSWD | sudo -S dnf -y install byacc bzip2 bzip2-devel cairo-devel cmake cpp curl curl-devel flex fontconfig fontconfig-devel gcc gcc-c++ gcc-gfortran git ksh libjpeg libjpeg-devel libstdc++ libstdc++-devel libX11 libX11-devel libXaw libXaw-devel libXext-devel libXmu libXmu-devel libXrender libXrender-devel libXt libXt-devel libxml2 libxml2-devel libgeotiff libgeotiff-devel libtiff libtiff-devel m4 nfs-utils perl 'perl(XML::LibXML)' pkgconfig pixman pixman-devel python3 python3-devel tcsh time unzip wget
+	echo $PASSWD | sudo -S dnf -y java-devel java
+	echo $PASSWD | sudo -S dnf -y java-17-openjdk-devel java-17-openjdk
+	echo $PASSWD | sudo -S dnf -y java-21-openjdk-devel java-21-openjdk
+
 	echo $PASSWD | sudo -S dnf -y install python3-dateutil
 	echo $PASSWD | sudo -S dnf -y groupinstall "Development Tools"
 	echo $PASSWD | sudo -S dnf -y update
@@ -1454,7 +1461,7 @@ if [ "$RHL_64bit_Intel" = "1"] && [ "$DTC_MET" = "1" ]; then
 	echo $PASSWD | sudo -S dnf install dnf -y
 	echo $PASSWD | sudo -S dnf -y update
 	echo $PASSWD | sudo -S dnf -y upgrade
-	echo $PASSWD | sudo -S dnf -y install -y bison cmake curl flex gcc-gfortran ghostscript git less bzip2-devel glibc-devel libffi-devel libcurl-devel libjpeg-turbo-devel ncurses-devel pixman-devel readline-devel libtiff-devel m4 tk-devel unzip vim wget make gcc gcc-c++ redhat-rpm-config
+	echo $PASSWD | sudo -S dnf install -y bison cmake curl flex gcc-gfortran ghostscript git less bzip2-devel glibc-devel libffi-devel libcurl-devel libjpeg-turbo-devel ncurses-devel pixman-devel readline-devel libtiff-devel m4 tk-devel unzip vim wget make gcc gcc-c++ redhat-rpm-config
 	echo $PASSWD | sudo -S dnf -y install python3-dateutil
 	echo $PASSWD | sudo -S dnf -y groupinstall "Development Tools"
 
@@ -1677,8 +1684,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
 		echo $PASSWD | sudo -S apt install emacs -y
 	fi
 
-	echo $PASSWD | sudo -S apt -y install bison build-essential byacc cmake csh curl default-jdk default-jre flex libfl-dev g++ gawk gcc gettext gfortran git ksh libcurl4-gnutls-dev libjpeg-dev libncurses6 libncursesw5-dev libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev libxml-libxml-perl m4 make ncview pipenv pkg-config python3 python3-dev python3-pip python3-dateutil tcsh unzip xauth xorg time ghostscript less libbz2-dev libc6-dev libffi-dev libgdbm-dev libopenblas-dev libreadline-dev libssl-dev libtiff-dev tk-dev vim wget
-
+	echo "$PASSWD" | sudo -S apt -y install bison build-essential byacc cmake csh curl default-jdk default-jre flex libfl-dev g++ gawk gcc gettext gfortran git ksh libcurl4-gnutls-dev libjpeg-dev libncurses6 libncursesw5-dev libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev libxml-libxml-perl m4 make ncview pipenv pkg-config python3 python3-dev python3-pip python3-dateutil tcsh unzip xauth xorg time ghostscript less libbz2-dev libc6-dev libffi-dev libgdbm-dev libopenblas-dev libreadline-dev libssl-dev libtiff-dev libgeotiff-dev tk-dev vim wget
 
 	echo " "
 	##############################Directory Listing############################
@@ -2298,7 +2304,11 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
 	echo $PASSWD | sudo -S dnf install dnf -y
 	echo $PASSWD | sudo -S dnf -y update
 	echo $PASSWD | sudo -S dnf -y upgrade
-	echo $PASSWD | sudo -S dnf -y install bzip2 bzip2-devel byacc cairo-devel cmake cpp curl curl-devel flex fontconfig fontconfig-devel gcc gcc-c++ gcc-gfortran git java-11-openjdk java-11-openjdk-devel ksh libjpeg libjpeg-devel libX11 libX11-devel libXaw libXaw-devel libXext-devel libXmu libXmu-devel libXrender libXrender-devel libXt libXt-devel libxml2 libxml2-devel libXmu libXmu-devel libgeotiff libgeotiff-devel libtiff libtiff-devel m4 nfs-utils perl pkgconfig pixman pixman-devel python3 python3-devel tcsh time unzip wget
+	echo $PASSWD | sudo -S dnf -y install byacc bzip2 bzip2-devel cairo-devel cmake cpp curl curl-devel flex fontconfig fontconfig-devel gcc gcc-c++ gcc-gfortran git ksh libjpeg libjpeg-devel libstdc++ libstdc++-devel libX11 libX11-devel libXaw libXaw-devel libXext-devel libXmu libXmu-devel libXrender libXrender-devel libXt libXt-devel libxml2 libxml2-devel libgeotiff libgeotiff-devel libtiff libtiff-devel m4 nfs-utils perl 'perl(XML::LibXML)' pkgconfig pixman pixman-devel python3 python3-devel tcsh time unzip wget
+	echo $PASSWD | sudo -S dnf -y java-devel java
+	echo $PASSWD | sudo -S dnf -y java-17-openjdk-devel java-17-openjdk
+	echo $PASSWD | sudo -S dnf -y java-21-openjdk-devel java-21-openjdk
+
 	echo $PASSWD | sudo -S dnf -y groupinstall "Development Tools"
 	echo $PASSWD | sudo -S dnf -y update
 	echo $PASSWD | sudo -S dnf -y upgrade
@@ -2944,7 +2954,11 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$CMAQ_PICK" = "1" ]; then
 	echo $PASSWD | sudo -S dnf install dnf -y
 	echo $PASSWD | sudo -S dnf -y update
 	echo $PASSWD | sudo -S dnf -y upgrade
-	echo $PASSWD | sudo -S dnf -y install bzip2 bzip2-devel byacc cairo-devel cmake cpp curl curl-devel flex fontconfig fontconfig-devel gcc gcc-c++ gcc-gfortran git java-11-openjdk java-11-openjdk-devel ksh libjpeg libjpeg-devel libX11 libX11-devel libXaw libXaw-devel libXext-devel libXmu libXmu-devel libXrender libXrender-devel libXt libXt-devel libxml2 libxml2-devel libXmu libXmu-devel libgeotiff libgeotiff-devel libtiff libtiff-devel m4 nfs-utils perl pkgconfig pixman pixman-devel python3 python3-devel tcsh time unzip wget
+	echo $PASSWD | sudo -S dnf -y install byacc bzip2 bzip2-devel cairo-devel cmake cpp curl curl-devel flex fontconfig fontconfig-devel gcc gcc-c++ gcc-gfortran git ksh libjpeg libjpeg-devel libstdc++ libstdc++-devel libX11 libX11-devel libXaw libXaw-devel libXext-devel libXmu libXmu-devel libXrender libXrender-devel libXt libXt-devel libxml2 libxml2-devel libgeotiff libgeotiff-devel libtiff libtiff-devel m4 nfs-utils perl 'perl(XML::LibXML)' pkgconfig pixman pixman-devel python3 python3-devel tcsh time unzip wget
+	echo $PASSWD | sudo -S dnf -y java-devel java
+	echo $PASSWD | sudo -S dnf -y java-17-openjdk-devel java-17-openjdk
+	echo $PASSWD | sudo -S dnf -y java-21-openjdk-devel java-21-openjdk
+
 	echo $PASSWD | sudo -S dnf -y groupinstall "Development Tools"
 	echo $PASSWD | sudo -S dnf -y update
 	echo $PASSWD | sudo -S dnf -y upgrade
@@ -3607,7 +3621,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
 		echo $PASSWD | sudo -S apt install emacs -y
 	fi
 
-	echo $PASSWD | sudo -S apt -y install bison build-essential byacc cmake csh curl default-jdk default-jre flex libfl-dev g++ gawk gcc gettext gfortran git ksh libcurl4-gnutls-dev libjpeg-dev libncurses6 libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev m4 make ncview pipenv pkg-config python3 python3-dev python3-pip python3-dateutil tcsh unzip xauth xorg time libgeotiff-dev
+	echo "$PASSWD" | sudo -S apt -y install bison build-essential byacc cmake csh curl default-jdk default-jre flex libfl-dev g++ gawk gcc gettext gfortran git ksh libcurl4-gnutls-dev libjpeg-dev libncurses6 libncursesw5-dev libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev libxml-libxml-perl m4 make ncview pipenv pkg-config python3 python3-dev python3-pip python3-dateutil tcsh unzip xauth xorg time ghostscript less libbz2-dev libc6-dev libffi-dev libgdbm-dev libopenblas-dev libreadline-dev libssl-dev libtiff-dev libgeotiff-dev tk-dev vim wget
 
 	echo " "
 	##############################Directory Listing############################
@@ -4266,7 +4280,11 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
 	echo $PASSWD | sudo -S dnf install dnf -y
 	echo $PASSWD | sudo -S dnf -y update
 	echo $PASSWD | sudo -S dnf -y upgrade
-	echo $PASSWD | sudo -S dnf -y install bzip2 bzip2-devel byacc cairo-devel cmake cpp curl curl-devel flex fontconfig fontconfig-devel gcc gcc-c++ gcc-gfortran git java-11-openjdk java-11-openjdk-devel ksh libjpeg libjpeg-devel libX11 libX11-devel libXaw libXaw-devel libXext-devel libXmu libXmu-devel libXrender libXrender-devel libXt libXt-devel libxml2 libxml2-devel libXmu libXmu-devel libgeotiff libgeotiff-devel libtiff libtiff-devel m4 nfs-utils perl pkgconfig pixman pixman-devel python3 python3-devel tcsh time unzip wget
+	echo $PASSWD | sudo -S dnf -y install byacc bzip2 bzip2-devel cairo-devel cmake cpp curl curl-devel flex fontconfig fontconfig-devel gcc gcc-c++ gcc-gfortran git ksh libjpeg libjpeg-devel libstdc++ libstdc++-devel libX11 libX11-devel libXaw libXaw-devel libXext-devel libXmu libXmu-devel libXrender libXrender-devel libXt libXt-devel libxml2 libxml2-devel libgeotiff libgeotiff-devel libtiff libtiff-devel m4 nfs-utils perl 'perl(XML::LibXML)' pkgconfig pixman pixman-devel python3 python3-devel tcsh time unzip wget
+	echo $PASSWD | sudo -S dnf -y java-devel java
+	echo $PASSWD | sudo -S dnf -y java-17-openjdk-devel java-17-openjdk
+	echo $PASSWD | sudo -S dnf -y java-21-openjdk-devel java-21-openjdk
+
 	echo $PASSWD | sudo -S dnf -y groupinstall "Development Tools"
 	echo $PASSWD | sudo -S dnf -y update
 	echo $PASSWD | sudo -S dnf -y upgrade
@@ -4952,7 +4970,11 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$SFIRE_PICK" = "1" ]; then
 	echo $PASSWD | sudo -S dnf install dnf -y
 	echo $PASSWD | sudo -S dnf -y update
 	echo $PASSWD | sudo -S dnf -y upgrade
-	echo $PASSWD | sudo -S dnf -y install bzip2 bzip2-devel byacc cairo-devel cmake cpp curl curl-devel flex fontconfig fontconfig-devel gcc gcc-c++ gcc-gfortran git java-11-openjdk java-11-openjdk-devel ksh libjpeg libjpeg-deve libX11 libX11-devel libXaw libXaw-devel libXext-devel libXmu libXmu-devel libXrender libXrender-devel libXt libXt-devel libxml2 libxml2-devel libXmu libXmu-devel libgeotiff libgeotiff-devel libtiff libtiff-devel m4 nfs-utils perl pkgconfig pixman pixman-devel python3 python3-devel tcsh time unzip wget
+	echo $PASSWD | sudo -S dnf -y install byacc bzip2 bzip2-devel cairo-devel cmake cpp curl curl-devel flex fontconfig fontconfig-devel gcc gcc-c++ gcc-gfortran git ksh libjpeg libjpeg-devel libstdc++ libstdc++-devel libX11 libX11-devel libXaw libXaw-devel libXext-devel libXmu libXmu-devel libXrender libXrender-devel libXt libXt-devel libxml2 libxml2-devel libgeotiff libgeotiff-devel libtiff libtiff-devel m4 nfs-utils perl 'perl(XML::LibXML)' pkgconfig pixman pixman-devel python3 python3-devel tcsh time unzip wget
+	echo $PASSWD | sudo -S dnf -y java-devel java
+	echo $PASSWD | sudo -S dnf -y java-17-openjdk-devel java-17-openjdk
+	echo $PASSWD | sudo -S dnf -y java-21-openjdk-devel java-21-openjdk
+
 	echo $PASSWD | sudo -S dnf -y groupinstall "Development Tools"
 	echo $PASSWD | sudo -S dnf -y update
 	echo $PASSWD | sudo -S dnf -y upgrade
@@ -7181,8 +7203,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 		echo $PASSWD | sudo -S apt install emacs -y
 	fi
 
-	echo $PASSWD | sudo -S apt -y install bison build-essential byacc cmake csh curl default-jdk default-jre flex libfl-dev g++ gawk gcc gettext gfortran git ksh libcurl4-gnutls-dev libjpeg-dev libncurses6 libncursesw5-dev libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev libxml-libxml-perl m4 make ncview pipenv pkg-config python3 python3-dev python3-pip python3-dateutil tcsh unzip xauth xorg time ghostscript less libbz2-dev libc6-dev libffi-dev libgdbm-dev libopenblas-dev libreadline-dev libssl-dev libtiff-dev tk-dev vim wget
-
+	echo "$PASSWD" | sudo -S apt -y install bison build-essential byacc cmake csh curl default-jdk default-jre flex libfl-dev g++ gawk gcc gettext gfortran git ksh libcurl4-gnutls-dev libjpeg-dev libncurses6 libncursesw5-dev libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev libxml-libxml-perl m4 make ncview pipenv pkg-config python3 python3-dev python3-pip python3-dateutil tcsh unzip xauth xorg time ghostscript less libbz2-dev libc6-dev libffi-dev libgdbm-dev libopenblas-dev libreadline-dev libssl-dev libtiff-dev libgeotiff-dev tk-dev vim wget
 
 	echo " "
 	##############################Directory Listing############################
@@ -7773,8 +7794,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; the
 		echo $PASSWD | sudo -S apt install emacs -y
 	fi
 
-	echo $PASSWD | sudo -S apt -y install bison build-essential byacc cmake csh curl default-jdk default-jre flex libfl-dev g++ gawk gcc gettext gfortran git ksh libcurl4-gnutls-dev libjpeg-dev libncurses6 libncursesw5-dev libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev libxml-libxml-perl m4 make ncview pipenv pkg-config python3 python3-dev python3-pip python3-dateutil tcsh unzip xauth xorg time ghostscript less libbz2-dev libc6-dev libffi-dev libgdbm-dev libopenblas-dev libreadline-dev libssl-dev libtiff-dev tk-dev vim wget
-
+	echo "$PASSWD" | sudo -S apt -y install bison build-essential byacc cmake csh curl default-jdk default-jre flex libfl-dev g++ gawk gcc gettext gfortran git ksh libcurl4-gnutls-dev libjpeg-dev libncurses6 libncursesw5-dev libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev libxml-libxml-perl m4 make ncview pipenv pkg-config python3 python3-dev python3-pip python3-dateutil tcsh unzip xauth xorg time ghostscript less libbz2-dev libc6-dev libffi-dev libgdbm-dev libopenblas-dev libreadline-dev libssl-dev libtiff-dev libgeotiff-dev tk-dev vim wget
 
 	# install the Intel compilers
 	echo $PASSWD | sudo -S apt -y install intel-basekit
@@ -9601,7 +9621,11 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 	echo $PASSWD | sudo -S dnf install dnf -y
 	echo $PASSWD | sudo -S dnf -y update
 	echo $PASSWD | sudo -S dnf -y upgrade
-	echo $PASSWD | sudo -S dnf -y install bzip2 bzip2-devel byacc cairo-devel cmake cpp curl curl-devel flex fontconfig-devel fontconfig-devel gcc gcc-c++ gcc-gfortran git java-11-openjdk java-11-openjdk-devel ksh libX11-devel libX11-devel libXaw libXaw-devel libXext-devel libXext-devel libXmu-devel libXrender-devel libXrender-devel libstdc++ libstdc++-devel libxml2 libxml2-devel m4 nfs-utils perl "perl(XML::LibXML)" pkgconfig pixman-devel python3 python3-devel tcsh time unzip wget
+	echo $PASSWD | sudo -S dnf -y install byacc bzip2 bzip2-devel cairo-devel cmake cpp curl curl-devel flex fontconfig fontconfig-devel gcc gcc-c++ gcc-gfortran git ksh libjpeg libjpeg-devel libstdc++ libstdc++-devel libX11 libX11-devel libXaw libXaw-devel libXext-devel libXmu libXmu-devel libXrender libXrender-devel libXt libXt-devel libxml2 libxml2-devel libgeotiff libgeotiff-devel libtiff libtiff-devel m4 nfs-utils perl 'perl(XML::LibXML)' pkgconfig pixman pixman-devel python3 python3-devel tcsh time unzip wget
+	echo $PASSWD | sudo -S dnf -y java-devel java
+	echo $PASSWD | sudo -S dnf -y java-17-openjdk-devel java-17-openjdk
+	echo $PASSWD | sudo -S dnf -y java-21-openjdk-devel java-21-openjdk
+
 	echo $PASSWD | sudo -S dnf -y groupinstall "Development Tools"
 	echo $PASSWD | sudo -S dnf -y update
 	echo $PASSWD | sudo -S dnf -y upgrade
@@ -10173,7 +10197,11 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 	echo $PASSWD | sudo -S dnf install dnf -y
 	echo $PASSWD | sudo -S dnf -y update
 	echo $PASSWD | sudo -S dnf -y upgrade
-	echo $PASSWD | sudo -S dnf -y install bzip2 bzip2-devel byacc cairo-devel cmake cpp curl curl-devel flex fontconfig-devel fontconfig-devel gcc gcc-c++ gcc-gfortran git java-11-openjdk java-11-openjdk-devel ksh libX11-devel libX11-devel libXaw libXaw-devel libXext-devel libXext-devel libXmu-devel libXrender-devel libXrender-devel libstdc++ libstdc++-devel libxml2 libxml2-devel m4 nfs-utils perl "perl(XML::LibXML)" pkgconfig pixman-devel python3 python3-devel tcsh time unzip wget
+	echo $PASSWD | sudo -S dnf -y install byacc bzip2 bzip2-devel cairo-devel cmake cpp curl curl-devel flex fontconfig fontconfig-devel gcc gcc-c++ gcc-gfortran git ksh libjpeg libjpeg-devel libstdc++ libstdc++-devel libX11 libX11-devel libXaw libXaw-devel libXext-devel libXmu libXmu-devel libXrender libXrender-devel libXt libXt-devel libxml2 libxml2-devel libgeotiff libgeotiff-devel libtiff libtiff-devel m4 nfs-utils perl 'perl(XML::LibXML)' pkgconfig pixman pixman-devel python3 python3-devel tcsh time unzip wget
+	echo $PASSWD | sudo -S dnf -y java-devel java
+	echo $PASSWD | sudo -S dnf -y java-17-openjdk-devel java-17-openjdk
+	echo $PASSWD | sudo -S dnf -y java-21-openjdk-devel java-21-openjdk
+
 	echo $PASSWD | sudo -S dnf -y groupinstall "Development Tools"
 	echo $PASSWD | sudo -S dnf -y update
 	echo $PASSWD | sudo -S dnf -y upgrade
@@ -11303,8 +11331,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 		echo $PASSWD | sudo -S apt install emacs -y
 	fi
 
-	echo $PASSWD | sudo -S apt -y install bison build-essential byacc cmake csh curl default-jdk default-jre flex libfl-dev g++ gawk gcc gettext gfortran git ksh libcurl4-gnutls-dev libjpeg-dev libncurses6 libncursesw5-dev libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev libxml-libxml-perl m4 make ncview pipenv pkg-config python3 python3-dev python3-pip python3-dateutil tcsh unzip xauth xorg time ghostscript less libbz2-dev libc6-dev libffi-dev libgdbm-dev libopenblas-dev libreadline-dev libssl-dev libtiff-dev tk-dev vim wget
-
+	echo "$PASSWD" | sudo -S apt -y install bison build-essential byacc cmake csh curl default-jdk default-jre flex libfl-dev g++ gawk gcc gettext gfortran git ksh libcurl4-gnutls-dev libjpeg-dev libncurses6 libncursesw5-dev libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev libxml-libxml-perl m4 make ncview pipenv pkg-config python3 python3-dev python3-pip python3-dateutil tcsh unzip xauth xorg time ghostscript less libbz2-dev libc6-dev libffi-dev libgdbm-dev libopenblas-dev libreadline-dev libssl-dev libtiff-dev libgeotiff-dev tk-dev vim wget
 
 	echo " "
 	##############################Directory Listing############################
@@ -12159,8 +12186,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 		echo $PASSWD | sudo -S apt install emacs -y
 	fi
 
-	echo $PASSWD | sudo -S apt -y install bison build-essential byacc cmake csh curl default-jdk default-jre flex libfl-dev g++ gawk gcc gettext gfortran git ksh libcurl4-gnutls-dev libjpeg-dev libncurses6 libncursesw5-dev libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev libxml-libxml-perl m4 make ncview pipenv pkg-config python3 python3-dev python3-pip python3-dateutil tcsh unzip xauth xorg time ghostscript less libbz2-dev libc6-dev libffi-dev libgdbm-dev libopenblas-dev libreadline-dev libssl-dev libtiff-dev tk-dev vim wget
-
+	echo "$PASSWD" | sudo -S apt -y install bison build-essential byacc cmake csh curl default-jdk default-jre flex libfl-dev g++ gawk gcc gettext gfortran git ksh libcurl4-gnutls-dev libjpeg-dev libncurses6 libncursesw5-dev libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev libxml-libxml-perl m4 make ncview pipenv pkg-config python3 python3-dev python3-pip python3-dateutil tcsh unzip xauth xorg time ghostscript less libbz2-dev libc6-dev libffi-dev libgdbm-dev libopenblas-dev libreadline-dev libssl-dev libtiff-dev libgeotiff-dev tk-dev vim wget
 
 	# install the Intel compilers
 	echo $PASSWD | sudo -S apt -y install intel-basekit
@@ -14701,7 +14727,11 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 	echo $PASSWD | sudo -S dnf install dnf -y
 	echo $PASSWD | sudo -S dnf -y update
 	echo $PASSWD | sudo -S dnf -y upgrade
-	echo $PASSWD | sudo -S dnf -y install bzip2 bzip2-devel byacc cairo-devel cmake cpp curl curl-devel flex fontconfig-devel fontconfig-devel gcc gcc-c++ gcc-gfortran git java-11-openjdk java-11-openjdk-devel ksh libX11-devel libX11-devel libXaw libXaw-devel libXext-devel libXext-devel libXmu-devel libXrender-devel libXrender-devel libstdc++ libstdc++-devel libxml2 libxml2-devel m4 nfs-utils perl "perl(XML::LibXML)" pkgconfig pixman-devel python3 python3-devel tcsh time unzip wget
+	echo $PASSWD | sudo -S dnf -y install byacc bzip2 bzip2-devel cairo-devel cmake cpp curl curl-devel flex fontconfig fontconfig-devel gcc gcc-c++ gcc-gfortran git ksh libjpeg libjpeg-devel libstdc++ libstdc++-devel libX11 libX11-devel libXaw libXaw-devel libXext-devel libXmu libXmu-devel libXrender libXrender-devel libXt libXt-devel libxml2 libxml2-devel libgeotiff libgeotiff-devel libtiff libtiff-devel m4 nfs-utils perl 'perl(XML::LibXML)' pkgconfig pixman pixman-devel python3 python3-devel tcsh time unzip wget
+	echo $PASSWD | sudo -S dnf -y java-devel java
+	echo $PASSWD | sudo -S dnf -y java-17-openjdk-devel java-17-openjdk
+	echo $PASSWD | sudo -S dnf -y java-21-openjdk-devel java-21-openjdk
+
 	echo $PASSWD | sudo -S dnf -y groupinstall "Development Tools"
 	echo $PASSWD | sudo -S dnf -y update
 	echo $PASSWD | sudo -S dnf -y upgrade
@@ -15553,7 +15583,11 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 	echo $PASSWD | sudo -S dnf install dnf -y
 	echo $PASSWD | sudo -S dnf -y update
 	echo $PASSWD | sudo -S dnf -y upgrade
-	echo $PASSWD | sudo -S dnf -y install bzip2 bzip2-devel byacc cairo-devel cmake cpp curl curl-devel flex fontconfig-devel fontconfig-devel gcc gcc-c++ gcc-gfortran git java-11-openjdk java-11-openjdk-devel ksh libX11-devel libX11-devel libXaw libXaw-devel libXext-devel libXext-devel libXmu-devel libXrender-devel libXrender-devel libstdc++ libstdc++-devel libxml2 libxml2-devel m4 nfs-utils perl "perl(XML::LibXML)" pkgconfig pixman-devel python3 python3-devel tcsh time unzip wget
+	echo $PASSWD | sudo -S dnf -y install byacc bzip2 bzip2-devel cairo-devel cmake cpp curl curl-devel flex fontconfig fontconfig-devel gcc gcc-c++ gcc-gfortran git ksh libjpeg libjpeg-devel libstdc++ libstdc++-devel libX11 libX11-devel libXaw libXaw-devel libXext-devel libXmu libXmu-devel libXrender libXrender-devel libXt libXt-devel libxml2 libxml2-devel libgeotiff libgeotiff-devel libtiff libtiff-devel m4 nfs-utils perl 'perl(XML::LibXML)' pkgconfig pixman pixman-devel python3 python3-devel tcsh time unzip wget
+	echo $PASSWD | sudo -S dnf -y java-devel java
+	echo $PASSWD | sudo -S dnf -y java-17-openjdk-devel java-17-openjdk
+	echo $PASSWD | sudo -S dnf -y java-21-openjdk-devel java-21-openjdk
+
 	echo $PASSWD | sudo -S dnf -y groupinstall "Development Tools"
 	echo $PASSWD | sudo -S dnf -y update
 	echo $PASSWD | sudo -S dnf -y upgrade
@@ -17164,8 +17198,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 		echo $PASSWD | sudo -S apt install emacs -y
 	fi
 
-	echo $PASSWD | sudo -S apt -y install bison build-essential byacc cmake csh curl default-jdk default-jre flex libfl-dev g++ gawk gcc gettext gfortran git ksh libcurl4-gnutls-dev libjpeg-dev libncurses6 libncursesw5-dev libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev libxml-libxml-perl m4 make ncview pipenv pkg-config python3 python3-dev python3-pip python3-dateutil tcsh unzip xauth xorg time ghostscript less libbz2-dev libc6-dev libffi-dev libgdbm-dev libopenblas-dev libreadline-dev libssl-dev libtiff-dev tk-dev vim wget
-
+	echo "$PASSWD" | sudo -S apt -y install bison build-essential byacc cmake csh curl default-jdk default-jre flex libfl-dev g++ gawk gcc gettext gfortran git ksh libcurl4-gnutls-dev libjpeg-dev libncurses6 libncursesw5-dev libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev libxml-libxml-perl m4 make ncview pipenv pkg-config python3 python3-dev python3-pip python3-dateutil tcsh unzip xauth xorg time ghostscript less libbz2-dev libc6-dev libffi-dev libgdbm-dev libopenblas-dev libreadline-dev libssl-dev libtiff-dev libgeotiff-dev tk-dev vim wget
 
 	echo " "
 	##############################Directory Listing############################
@@ -17783,16 +17816,16 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	# Note that you need set nocolons = .true. in the section &time_control of namelist.input
 	########################################################################
 	#Setting up WRF-CHEM/KPP
-    ########################################
-    # Clean out non-apt flex installations
-    ########################################
+	########################################
+	# Clean out non-apt flex installations
+	########################################
 
-    # Remove any custom flex builds in your WRF tree
-    rm -rf "${WRF_FOLDER}/Libs/flex-2.6.4" 2>/dev/null || true
-    rm -rf /tmp/flex-2.6.4 2>/dev/null || true
-    
-    # Remove typical /usr/local flex files (NOT managed by apt)
-    echo "$PASSWD" | sudo -S bash -c '
+	# Remove any custom flex builds in your WRF tree
+	rm -rf "${WRF_FOLDER}/Libs/flex-2.6.4" 2>/dev/null || true
+	rm -rf /tmp/flex-2.6.4 2>/dev/null || true
+
+	# Remove typical /usr/local flex files (NOT managed by apt)
+	echo "$PASSWD" | sudo -S bash -c '
       rm -f /usr/local/bin/flex
       rm -f /usr/local/lib/libfl.a
       rm -f /usr/local/lib/libfl.so
@@ -17803,10 +17836,9 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
       rm -f /usr/local/include/FlexLexer.h
     '
 
-    # (Optional) show what apt thinks flex is
-    echo "Apt-managed flex files:"
-    dpkg -L flex 2>/dev/null || echo "flex package not installed via apt."
-
+	# (Optional) show what apt thinks flex is
+	echo "Apt-managed flex files:"
+	dpkg -L flex 2>/dev/null || echo "flex package not installed via apt."
 
 	cd /tmp
 
@@ -18113,8 +18145,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 		echo $PASSWD | sudo -S apt install emacs -y
 	fi
 
-	echo $PASSWD | sudo -S apt -y install bison build-essential byacc cmake csh curl default-jdk default-jre flex libfl-dev g++ gawk gcc gettext gfortran git ksh libcurl4-gnutls-dev libjpeg-dev libncurses6 libncursesw5-dev libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev libxml-libxml-perl m4 make ncview pipenv pkg-config python3 python3-dev python3-pip python3-dateutil tcsh unzip xauth xorg time ghostscript less libbz2-dev libc6-dev libffi-dev libgdbm-dev libopenblas-dev libreadline-dev libssl-dev libtiff-dev tk-dev vim wget
-
+	echo "$PASSWD" | sudo -S apt -y install bison build-essential byacc cmake csh curl default-jdk default-jre flex libfl-dev g++ gawk gcc gettext gfortran git ksh libcurl4-gnutls-dev libjpeg-dev libncurses6 libncursesw5-dev libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev libxml-libxml-perl m4 make ncview pipenv pkg-config python3 python3-dev python3-pip python3-dateutil tcsh unzip xauth xorg time ghostscript less libbz2-dev libc6-dev libffi-dev libgdbm-dev libopenblas-dev libreadline-dev libssl-dev libtiff-dev libgeotiff-dev tk-dev vim wget
 
 	# install the Intel compilers
 	echo $PASSWD | sudo -S apt -y install intel-basekit
@@ -18714,16 +18745,16 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	# large file support enable with WRFiO_NCD_LARGE_FILE_SUPPORT=1
 	########################################################################
 
-    ########################################
-    # Clean out non-apt flex installations
-    ########################################
+	########################################
+	# Clean out non-apt flex installations
+	########################################
 
-    # Remove any custom flex builds in your WRF tree
-    rm -rf "${WRF_FOLDER}/Libs/flex-2.6.4" 2>/dev/null || true
-    rm -rf /tmp/flex-2.6.4 2>/dev/null || true
-    
-    # Remove typical /usr/local flex files (NOT managed by apt)
-    echo "$PASSWD" | sudo -S bash -c '
+	# Remove any custom flex builds in your WRF tree
+	rm -rf "${WRF_FOLDER}/Libs/flex-2.6.4" 2>/dev/null || true
+	rm -rf /tmp/flex-2.6.4 2>/dev/null || true
+
+	# Remove typical /usr/local flex files (NOT managed by apt)
+	echo "$PASSWD" | sudo -S bash -c '
       rm -f /usr/local/bin/flex
       rm -f /usr/local/lib/libfl.a
       rm -f /usr/local/lib/libfl.so
@@ -18734,10 +18765,9 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
       rm -f /usr/local/include/FlexLexer.h
     '
 
-    # (Optional) show what apt thinks flex is
-    echo "Apt-managed flex files:"
-    dpkg -L flex 2>/dev/null || echo "flex package not installed via apt."
-
+	# (Optional) show what apt thinks flex is
+	echo "Apt-managed flex files:"
+	dpkg -L flex 2>/dev/null || echo "flex package not installed via apt."
 
 	cd /tmp
 
@@ -20748,7 +20778,11 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	echo $PASSWD | sudo -S dnf install dnf -y
 	echo $PASSWD | sudo -S dnf -y update
 	echo $PASSWD | sudo -S dnf -y upgrade
-	echo $PASSWD | sudo -S dnf -y install bzip2 bzip2-devel byacc cairo-devel cmake cpp curl curl-devel flex fontconfig-devel fontconfig-devel gcc gcc-c++ gcc-gfortran git java-11-openjdk java-11-openjdk-devel ksh libX11-devel libX11-devel libXaw libXaw-devel libXext-devel libXext-devel libXmu-devel libXrender-devel libXrender-devel libstdc++ libstdc++-devel libxml2 libxml2-devel m4 nfs-utils perl "perl(XML::LibXML)" pkgconfig pixman-devel python3 python3-devel tcsh time unzip wget
+	echo $PASSWD | sudo -S dnf -y install byacc bzip2 bzip2-devel cairo-devel cmake cpp curl curl-devel flex fontconfig fontconfig-devel gcc gcc-c++ gcc-gfortran git ksh libjpeg libjpeg-devel libstdc++ libstdc++-devel libX11 libX11-devel libXaw libXaw-devel libXext-devel libXmu libXmu-devel libXrender libXrender-devel libXt libXt-devel libxml2 libxml2-devel libgeotiff libgeotiff-devel libtiff libtiff-devel m4 nfs-utils perl 'perl(XML::LibXML)' pkgconfig pixman pixman-devel python3 python3-devel tcsh time unzip wget
+	echo $PASSWD | sudo -S dnf -y java-devel java
+	echo $PASSWD | sudo -S dnf -y java-17-openjdk-devel java-17-openjdk
+	echo $PASSWD | sudo -S dnf -y java-21-openjdk-devel java-21-openjdk
+
 	echo $PASSWD | sudo -S dnf -y groupinstall "Development Tools"
 	echo $PASSWD | sudo -S dnf -y update
 	echo $PASSWD | sudo -S dnf -y upgrade
@@ -21358,16 +21392,16 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	# io_form_auxhist2
 	# Note that you need set nocolons = .true. in the section &time_control of namelist.input
 	########################################################################
-    ########################################
-    # Clean out non-apt flex installations
-    ########################################
+	########################################
+	# Clean out non-apt flex installations
+	########################################
 
-    # Remove any custom flex builds in your WRF tree
-    rm -rf "${WRF_FOLDER}/Libs/flex-2.6.4" 2>/dev/null || true
-    rm -rf /tmp/flex-2.6.4 2>/dev/null || true
-    
-    # Remove typical /usr/local flex files (NOT managed by apt)
-    echo "$PASSWD" | sudo -S bash -c '
+	# Remove any custom flex builds in your WRF tree
+	rm -rf "${WRF_FOLDER}/Libs/flex-2.6.4" 2>/dev/null || true
+	rm -rf /tmp/flex-2.6.4 2>/dev/null || true
+
+	# Remove typical /usr/local flex files (NOT managed by apt)
+	echo "$PASSWD" | sudo -S bash -c '
       rm -f /usr/local/bin/flex
       rm -f /usr/local/lib/libfl.a
       rm -f /usr/local/lib/libfl.so
@@ -21378,10 +21412,9 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
       rm -f /usr/local/include/FlexLexer.h
     '
 
-    # (Optional) show what apt thinks flex is
-    echo "Apt-managed flex files:"
-    dpkg -L flex 2>/dev/null || echo "flex package not installed via apt."
-
+	# (Optional) show what apt thinks flex is
+	echo "Apt-managed flex files:"
+	dpkg -L flex 2>/dev/null || echo "flex package not installed via apt."
 
 	cd /tmp
 
@@ -21674,7 +21707,11 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	echo $PASSWD | sudo -S dnf install dnf -y
 	echo $PASSWD | sudo -S dnf -y update
 	echo $PASSWD | sudo -S dnf -y upgrade
-	echo $PASSWD | sudo -S dnf -y install bzip2 bzip2-devel byacc cairo-devel cmake cpp curl curl-devel flex fontconfig-devel fontconfig-devel gcc gcc-c++ gcc-gfortran git java-11-openjdk java-11-openjdk-devel ksh libX11-devel libX11-devel libXaw libXaw-devel libXext-devel libXext-devel libXmu-devel libXrender-devel libXrender-devel libstdc++ libstdc++-devel libxml2 libxml2-devel m4 nfs-utils perl "perl(XML::LibXML)" pkgconfig pixman-devel python3 python3-devel tcsh time unzip wget
+	echo $PASSWD | sudo -S dnf -y install byacc bzip2 bzip2-devel cairo-devel cmake cpp curl curl-devel flex fontconfig fontconfig-devel gcc gcc-c++ gcc-gfortran git ksh libjpeg libjpeg-devel libstdc++ libstdc++-devel libX11 libX11-devel libXaw libXaw-devel libXext-devel libXmu libXmu-devel libXrender libXrender-devel libXt libXt-devel libxml2 libxml2-devel libgeotiff libgeotiff-devel libtiff libtiff-devel m4 nfs-utils perl 'perl(XML::LibXML)' pkgconfig pixman pixman-devel python3 python3-devel tcsh time unzip wget
+	echo $PASSWD | sudo -S dnf -y java-devel java
+	echo $PASSWD | sudo -S dnf -y java-17-openjdk-devel java-17-openjdk
+	echo $PASSWD | sudo -S dnf -y java-21-openjdk-devel java-21-openjdk
+
 	echo $PASSWD | sudo -S dnf -y groupinstall "Development Tools"
 	echo $PASSWD | sudo -S dnf -y update
 	echo $PASSWD | sudo -S dnf -y upgrade
@@ -22257,16 +22294,16 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	# io_form_auxhist2
 	# Note that you need set nocolons = .true. in the section &time_control of namelist.input
 	########################################################################
-    ########################################
-    # Clean out non-apt flex installations
-    ########################################
+	########################################
+	# Clean out non-apt flex installations
+	########################################
 
-    # Remove any custom flex builds in your WRF tree
-    rm -rf "${WRF_FOLDER}/Libs/flex-2.6.4" 2>/dev/null || true
-    rm -rf /tmp/flex-2.6.4 2>/dev/null || true
-    
-    # Remove typical /usr/local flex files (NOT managed by apt)
-    echo "$PASSWD" | sudo -S bash -c '
+	# Remove any custom flex builds in your WRF tree
+	rm -rf "${WRF_FOLDER}/Libs/flex-2.6.4" 2>/dev/null || true
+	rm -rf /tmp/flex-2.6.4 2>/dev/null || true
+
+	# Remove typical /usr/local flex files (NOT managed by apt)
+	echo "$PASSWD" | sudo -S bash -c '
       rm -f /usr/local/bin/flex
       rm -f /usr/local/lib/libfl.a
       rm -f /usr/local/lib/libfl.so
@@ -22277,10 +22314,9 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRFCHEM_PICK" = "1" ]; then
       rm -f /usr/local/include/FlexLexer.h
     '
 
-    # (Optional) show what apt thinks flex is
-    echo "Apt-managed flex files:"
-    dpkg -L flex 2>/dev/null || echo "flex package not installed via apt."
-
+	# (Optional) show what apt thinks flex is
+	echo "Apt-managed flex files:"
+	dpkg -L flex 2>/dev/null || echo "flex package not installed via apt."
 
 	cd /tmp
 
@@ -23180,16 +23216,16 @@ if [ "$RHL_64bit_Intel" = "1"] && [ "$WRFCHEM_PICK" ]; then
 	# large file support enable with WRFiO_NCD_LARGE_FILE_SUPPORT=1
 	########################################################################
 
-    ########################################
-    # Clean out non-apt flex installations
-    ########################################
+	########################################
+	# Clean out non-apt flex installations
+	########################################
 
-    # Remove any custom flex builds in your WRF tree
-    rm -rf "${WRF_FOLDER}/Libs/flex-2.6.4" 2>/dev/null || true
-    rm -rf /tmp/flex-2.6.4 2>/dev/null || true
-    
-    # Remove typical /usr/local flex files (NOT managed by apt)
-    echo "$PASSWD" | sudo -S bash -c '
+	# Remove any custom flex builds in your WRF tree
+	rm -rf "${WRF_FOLDER}/Libs/flex-2.6.4" 2>/dev/null || true
+	rm -rf /tmp/flex-2.6.4 2>/dev/null || true
+
+	# Remove typical /usr/local flex files (NOT managed by apt)
+	echo "$PASSWD" | sudo -S bash -c '
       rm -f /usr/local/bin/flex
       rm -f /usr/local/lib/libfl.a
       rm -f /usr/local/lib/libfl.so
@@ -23200,10 +23236,9 @@ if [ "$RHL_64bit_Intel" = "1"] && [ "$WRFCHEM_PICK" ]; then
       rm -f /usr/local/include/FlexLexer.h
     '
 
-    # (Optional) show what apt thinks flex is
-    echo "Apt-managed flex files:"
-    dpkg -L flex 2>/dev/null || echo "flex package not installed via apt."
-
+	# (Optional) show what apt thinks flex is
+	echo "Apt-managed flex files:"
+	dpkg -L flex 2>/dev/null || echo "flex package not installed via apt."
 
 	cd /tmp
 
@@ -23534,8 +23569,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 		echo $PASSWD | sudo -S apt install emacs -y
 	fi
 
-	echo $PASSWD | sudo -S apt -y install bison build-essential byacc cmake csh curl default-jdk default-jre flex libfl-dev g++ gawk gcc gettext gfortran git ksh libcurl4-gnutls-dev libjpeg-dev libncurses6 libncursesw5-dev libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev libxml-libxml-perl m4 make ncview pipenv pkg-config python3 python3-dev python3-pip python3-dateutil tcsh unzip xauth xorg time ghostscript less libbz2-dev libc6-dev libffi-dev libgdbm-dev libopenblas-dev libreadline-dev libssl-dev libtiff-dev tk-dev vim wget
-
+	echo "$PASSWD" | sudo -S apt -y install bison build-essential byacc cmake csh curl default-jdk default-jre flex libfl-dev g++ gawk gcc gettext gfortran git ksh libcurl4-gnutls-dev libjpeg-dev libncurses6 libncursesw5-dev libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev libxml-libxml-perl m4 make ncview pipenv pkg-config python3 python3-dev python3-pip python3-dateutil tcsh unzip xauth xorg time ghostscript less libbz2-dev libc6-dev libffi-dev libgdbm-dev libopenblas-dev libreadline-dev libssl-dev libtiff-dev libgeotiff-dev tk-dev vim wget
 
 	echo " "
 	##############################Directory Listing############################
@@ -24446,8 +24480,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 		echo $PASSWD | sudo -S apt install emacs -y
 	fi
 
-	echo $PASSWD | sudo -S apt -y install bison build-essential byacc cmake csh curl default-jdk default-jre flex libfl-dev g++ gawk gcc gettext gfortran git ksh libcurl4-gnutls-dev libjpeg-dev libncurses6 libncursesw5-dev libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev libxml-libxml-perl m4 make ncview pipenv pkg-config python3 python3-dev python3-pip python3-dateutil tcsh unzip xauth xorg time ghostscript less libbz2-dev libc6-dev libffi-dev libgdbm-dev libopenblas-dev libreadline-dev libssl-dev libtiff-dev tk-dev vim wget
-
+	echo "$PASSWD" | sudo -S apt -y install bison build-essential byacc cmake csh curl default-jdk default-jre flex libfl-dev g++ gawk gcc gettext gfortran git ksh libcurl4-gnutls-dev libjpeg-dev libncurses6 libncursesw5-dev libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev libxml-libxml-perl m4 make ncview pipenv pkg-config python3 python3-dev python3-pip python3-dateutil tcsh unzip xauth xorg time ghostscript less libbz2-dev libc6-dev libffi-dev libgdbm-dev libopenblas-dev libreadline-dev libssl-dev libtiff-dev libgeotiff-dev tk-dev vim wget
 
 	# install the Intel compilers
 	echo $PASSWD | sudo -S apt -y install intel-basekit
@@ -27053,7 +27086,11 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	echo $PASSWD | sudo -S dnf install dnf -y
 	echo $PASSWD | sudo -S dnf -y update
 	echo $PASSWD | sudo -S dnf -y upgrade
-	echo $PASSWD | sudo -S dnf -y install bzip2 bzip2-devel byacc cairo-devel cmake cpp curl curl-devel flex fontconfig-devel fontconfig-devel gcc gcc-c++ gcc-gfortran git java-11-openjdk java-11-openjdk-devel ksh libX11-devel libX11-devel libXaw libXaw-devel libXext-devel libXext-devel libXmu-devel libXrender-devel libXrender-devel libstdc++ libstdc++-devel libxml2 libxml2-devel m4 nfs-utils perl "perl(XML::LibXML)" pkgconfig pixman-devel python3 python3-devel tcsh time unzip wget
+	echo $PASSWD | sudo -S dnf -y install byacc bzip2 bzip2-devel cairo-devel cmake cpp curl curl-devel flex fontconfig fontconfig-devel gcc gcc-c++ gcc-gfortran git ksh libjpeg libjpeg-devel libstdc++ libstdc++-devel libX11 libX11-devel libXaw libXaw-devel libXext-devel libXmu libXmu-devel libXrender libXrender-devel libXt libXt-devel libxml2 libxml2-devel libgeotiff libgeotiff-devel libtiff libtiff-devel m4 nfs-utils perl 'perl(XML::LibXML)' pkgconfig pixman pixman-devel python3 python3-devel tcsh time unzip wget
+	echo $PASSWD | sudo -S dnf -y java-devel java
+	echo $PASSWD | sudo -S dnf -y java-17-openjdk-devel java-17-openjdk
+	echo $PASSWD | sudo -S dnf -y java-21-openjdk-devel java-21-openjdk
+
 	echo $PASSWD | sudo -S dnf -y groupinstall "Development Tools"
 	echo $PASSWD | sudo -S dnf -y update
 	echo $PASSWD | sudo -S dnf -y upgrade
@@ -27942,7 +27979,11 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRF_PICK" = "1" ]; then
 	echo $PASSWD | sudo -S dnf install dnf -y
 	echo $PASSWD | sudo -S dnf -y update
 	echo $PASSWD | sudo -S dnf -y upgrade
-	echo $PASSWD | sudo -S dnf -y install bzip2 bzip2-devel byacc cairo-devel cmake cpp curl curl-devel flex fontconfig-devel fontconfig-devel gcc gcc-c++ gcc-gfortran git java-11-openjdk java-11-openjdk-devel ksh libX11-devel libX11-devel libXaw libXaw-devel libXext-devel libXext-devel libXmu-devel libXrender-devel libXrender-devel libstdc++ libstdc++-devel libxml2 libxml2-devel m4 nfs-utils perl "perl(XML::LibXML)" pkgconfig pixman-devel python3 python3-devel tcsh time unzip wget
+	echo $PASSWD | sudo -S dnf -y install byacc bzip2 bzip2-devel cairo-devel cmake cpp curl curl-devel flex fontconfig fontconfig-devel gcc gcc-c++ gcc-gfortran git ksh libjpeg libjpeg-devel libstdc++ libstdc++-devel libX11 libX11-devel libXaw libXaw-devel libXext-devel libXmu libXmu-devel libXrender libXrender-devel libXt libXt-devel libxml2 libxml2-devel libgeotiff libgeotiff-devel libtiff libtiff-devel m4 nfs-utils perl 'perl(XML::LibXML)' pkgconfig pixman pixman-devel python3 python3-devel tcsh time unzip wget
+	echo $PASSWD | sudo -S dnf -y java-devel java
+	echo $PASSWD | sudo -S dnf -y java-17-openjdk-devel java-17-openjdk
+	echo $PASSWD | sudo -S dnf -y java-21-openjdk-devel java-21-openjdk
+
 	echo $PASSWD | sudo -S dnf -y groupinstall "Development Tools"
 	echo $PASSWD | sudo -S dnf -y update
 	echo $PASSWD | sudo -S dnf -y upgrade
@@ -29742,8 +29783,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$COAWST_Pick" = "1" ]; then
 		echo $PASSWD | sudo -S apt install emacs -y
 	fi
 
-	echo $PASSWD | sudo -S apt -y install bison build-essential byacc cmake csh curl default-jdk default-jre flex libfl-dev g++ gawk gcc gettext gfortran git ksh libcurl4-gnutls-dev libjpeg-dev libncurses6 libncursesw5-dev libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev libxml-libxml-perl m4 make ncview pipenv pkg-config python3 python3-dev python3-pip python3-dateutil tcsh unzip xauth xorg time ghostscript less libbz2-dev libc6-dev libffi-dev libgdbm-dev libopenblas-dev libreadline-dev libssl-dev libtiff-dev tk-dev vim wget
-
+	echo "$PASSWD" | sudo -S apt -y install bison build-essential byacc cmake csh curl default-jdk default-jre flex libfl-dev g++ gawk gcc gettext gfortran git ksh libcurl4-gnutls-dev libjpeg-dev libncurses6 libncursesw5-dev libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev libxml-libxml-perl m4 make ncview pipenv pkg-config python3 python3-dev python3-pip python3-dateutil tcsh unzip xauth xorg time ghostscript less libbz2-dev libc6-dev libffi-dev libgdbm-dev libopenblas-dev libreadline-dev libssl-dev libtiff-dev libgeotiff-dev tk-dev vim wget
 
 	echo " "
 	##############################Directory Listing############################
@@ -30174,7 +30214,11 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$COAWST_Pick" = "1" ]; then
 	echo $PASSWD | sudo -S dnf install dnf -y
 	echo $PASSWD | sudo -S dnf -y update
 	echo $PASSWD | sudo -S dnf -y upgrade
-	echo $PASSWD | sudo -S dnf -y install bzip2 bzip2-devel byacc cairo-devel cmake cpp curl curl-devel flex fontconfig-devel fontconfig-devel gcc gcc-c++ gcc-gfortran git java-11-openjdk java-11-openjdk-devel ksh libX11-devel libX11-devel libXaw libXaw-devel libXext-devel libXext-devel libXmu-devel libXrender-devel libXrender-devel libstdc++ libstdc++-devel libxml2 libxml2-devel m4 nfs-utils perl "perl(XML::LibXML)" pkgconfig pixman-devel python3 python3-devel tcsh time unzip wget
+	echo $PASSWD | sudo -S dnf -y install byacc bzip2 bzip2-devel cairo-devel cmake cpp curl curl-devel flex fontconfig fontconfig-devel gcc gcc-c++ gcc-gfortran git ksh libjpeg libjpeg-devel libstdc++ libstdc++-devel libX11 libX11-devel libXaw libXaw-devel libXext-devel libXmu libXmu-devel libXrender libXrender-devel libXt libXt-devel libxml2 libxml2-devel libgeotiff libgeotiff-devel libtiff libtiff-devel m4 nfs-utils perl 'perl(XML::LibXML)' pkgconfig pixman pixman-devel python3 python3-devel tcsh time unzip wget
+	echo $PASSWD | sudo -S dnf -y java-devel java
+	echo $PASSWD | sudo -S dnf -y java-17-openjdk-devel java-17-openjdk
+	echo $PASSWD | sudo -S dnf -y java-21-openjdk-devel java-21-openjdk
+
 	echo $PASSWD | sudo -S dnf -y groupinstall "Development Tools"
 	echo $PASSWD | sudo -S dnf -y update
 	echo $PASSWD | sudo -S dnf -y upgrade
@@ -30722,7 +30766,11 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$COAWST_Pick" = "1" ]; then
 	echo $PASSWD | sudo -S dnf install dnf -y
 	echo $PASSWD | sudo -S dnf -y update
 	echo $PASSWD | sudo -S dnf -y upgrade
-	echo $PASSWD | sudo -S dnf -y install bzip2 bzip2-devel byacc cairo-devel cmake cpp curl curl-devel flex fontconfig-devel fontconfig-devel gcc gcc-c++ gcc-gfortran git java-11-openjdk java-11-openjdk-devel ksh libX11-devel libX11-devel libXaw libXaw-devel libXext-devel libXext-devel libXmu-devel libXrender-devel libstdc++ libstdc++-devel libxml2 libxml2-devel m4 nfs-utils perl "perl(XML::LibXML)" pkgconfig pixman-devel python3 python3-devel tcsh time unzip wget
+	echo $PASSWD | sudo -S dnf -y install byacc bzip2 bzip2-devel cairo-devel cmake cpp curl curl-devel flex fontconfig fontconfig-devel gcc gcc-c++ gcc-gfortran git ksh libjpeg libjpeg-devel libstdc++ libstdc++-devel libX11 libX11-devel libXaw libXaw-devel libXext-devel libXmu libXmu-devel libXrender libXrender-devel libXt libXt-devel libxml2 libxml2-devel libgeotiff libgeotiff-devel libtiff libtiff-devel m4 nfs-utils perl 'perl(XML::LibXML)' pkgconfig pixman pixman-devel python3 python3-devel tcsh time unzip wget
+	echo $PASSWD | sudo -S dnf -y java-devel java
+	echo $PASSWD | sudo -S dnf -y java-17-openjdk-devel java-17-openjdk
+	echo $PASSWD | sudo -S dnf -y java-21-openjdk-devel java-21-openjdk
+
 	echo $PASSWD | sudo -S dnf -y groupinstall "Development Tools"
 	echo $PASSWD | sudo -S dnf -y update
 	echo $PASSWD | sudo -S dnf -y upgrade
