@@ -1053,9 +1053,9 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$DTC_MET" = "1" ]; then
 	echo $PASSWD | sudo -S dnf -y update
 	echo $PASSWD | sudo -S dnf -y upgrade
 	echo $PASSWD | sudo -S dnf -y install byacc bzip2 bzip2-devel cairo-devel cmake cpp curl curl-devel flex fontconfig fontconfig-devel gcc gcc-c++ gcc-gfortran git ksh libjpeg libjpeg-devel libstdc++ libstdc++-devel libX11 libX11-devel libXaw libXaw-devel libXext-devel libXmu libXmu-devel libXrender libXrender-devel libXt libXt-devel libxml2 libxml2-devel libgeotiff libgeotiff-devel libtiff libtiff-devel m4 nfs-utils perl 'perl(XML::LibXML)' pkgconfig pixman pixman-devel python3 python3-devel tcsh time unzip wget
-	echo $PASSWD | sudo -S dnf -y java-devel java
-	echo $PASSWD | sudo -S dnf -y java-17-openjdk-devel java-17-openjdk
-	echo $PASSWD | sudo -S dnf -y java-21-openjdk-devel java-21-openjdk
+	echo $PASSWD | sudo -S dnf install -y java java-devel
+	echo $PASSWD | sudo -S dnf install -y java-17-openjdk-devel java-17-openjdk
+	echo $PASSWD | sudo -S dnf install -y java-21-openjdk-devel java-21-openjdk
 
 	echo $PASSWD | sudo -S dnf -y install python3-dateutil
 	echo $PASSWD | sudo -S dnf -y groupinstall "Development Tools"
@@ -1259,9 +1259,9 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$DTC_MET" = "1" ]; then
 	echo $PASSWD | sudo -S dnf -y update
 	echo $PASSWD | sudo -S dnf -y upgrade
 	echo $PASSWD | sudo -S dnf -y install byacc bzip2 bzip2-devel cairo-devel cmake cpp curl curl-devel flex fontconfig fontconfig-devel gcc gcc-c++ gcc-gfortran git ksh libjpeg libjpeg-devel libstdc++ libstdc++-devel libX11 libX11-devel libXaw libXaw-devel libXext-devel libXmu libXmu-devel libXrender libXrender-devel libXt libXt-devel libxml2 libxml2-devel libgeotiff libgeotiff-devel libtiff libtiff-devel m4 nfs-utils perl 'perl(XML::LibXML)' pkgconfig pixman pixman-devel python3 python3-devel tcsh time unzip wget
-	echo $PASSWD | sudo -S dnf -y java-devel java
-	echo $PASSWD | sudo -S dnf -y java-17-openjdk-devel java-17-openjdk
-	echo $PASSWD | sudo -S dnf -y java-21-openjdk-devel java-21-openjdk
+	echo $PASSWD | sudo -S dnf install -y java java-devel
+	echo $PASSWD | sudo -S dnf install -y java-17-openjdk-devel java-17-openjdk
+	echo $PASSWD | sudo -S dnf install -y java-21-openjdk-devel java-21-openjdk
 
 	echo $PASSWD | sudo -S dnf -y install python3-dateutil
 	echo $PASSWD | sudo -S dnf -y groupinstall "Development Tools"
@@ -2305,9 +2305,9 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
 	echo $PASSWD | sudo -S dnf -y update
 	echo $PASSWD | sudo -S dnf -y upgrade
 	echo $PASSWD | sudo -S dnf -y install byacc bzip2 bzip2-devel cairo-devel cmake cpp curl curl-devel flex fontconfig fontconfig-devel gcc gcc-c++ gcc-gfortran git ksh libjpeg libjpeg-devel libstdc++ libstdc++-devel libX11 libX11-devel libXaw libXaw-devel libXext-devel libXmu libXmu-devel libXrender libXrender-devel libXt libXt-devel libxml2 libxml2-devel libgeotiff libgeotiff-devel libtiff libtiff-devel m4 nfs-utils perl 'perl(XML::LibXML)' pkgconfig pixman pixman-devel python3 python3-devel tcsh time unzip wget
-	echo $PASSWD | sudo -S dnf -y java-devel java
-	echo $PASSWD | sudo -S dnf -y java-17-openjdk-devel java-17-openjdk
-	echo $PASSWD | sudo -S dnf -y java-21-openjdk-devel java-21-openjdk
+	echo $PASSWD | sudo -S dnf install -y java java-devel
+	echo $PASSWD | sudo -S dnf install -y java-17-openjdk-devel java-17-openjdk
+	echo $PASSWD | sudo -S dnf install -y java-21-openjdk-devel java-21-openjdk
 
 	echo $PASSWD | sudo -S dnf -y groupinstall "Development Tools"
 	echo $PASSWD | sudo -S dnf -y update
@@ -2955,9 +2955,9 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$CMAQ_PICK" = "1" ]; then
 	echo $PASSWD | sudo -S dnf -y update
 	echo $PASSWD | sudo -S dnf -y upgrade
 	echo $PASSWD | sudo -S dnf -y install byacc bzip2 bzip2-devel cairo-devel cmake cpp curl curl-devel flex fontconfig fontconfig-devel gcc gcc-c++ gcc-gfortran git ksh libjpeg libjpeg-devel libstdc++ libstdc++-devel libX11 libX11-devel libXaw libXaw-devel libXext-devel libXmu libXmu-devel libXrender libXrender-devel libXt libXt-devel libxml2 libxml2-devel libgeotiff libgeotiff-devel libtiff libtiff-devel m4 nfs-utils perl 'perl(XML::LibXML)' pkgconfig pixman pixman-devel python3 python3-devel tcsh time unzip wget
-	echo $PASSWD | sudo -S dnf -y java-devel java
-	echo $PASSWD | sudo -S dnf -y java-17-openjdk-devel java-17-openjdk
-	echo $PASSWD | sudo -S dnf -y java-21-openjdk-devel java-21-openjdk
+	echo $PASSWD | sudo -S dnf install -y java java-devel
+	echo $PASSWD | sudo -S dnf install -y java-17-openjdk-devel java-17-openjdk
+	echo $PASSWD | sudo -S dnf install -y java-21-openjdk-devel java-21-openjdk
 
 	echo $PASSWD | sudo -S dnf -y groupinstall "Development Tools"
 	echo $PASSWD | sudo -S dnf -y update
@@ -4281,9 +4281,9 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
 	echo $PASSWD | sudo -S dnf -y update
 	echo $PASSWD | sudo -S dnf -y upgrade
 	echo $PASSWD | sudo -S dnf -y install byacc bzip2 bzip2-devel cairo-devel cmake cpp curl curl-devel flex fontconfig fontconfig-devel gcc gcc-c++ gcc-gfortran git ksh libjpeg libjpeg-devel libstdc++ libstdc++-devel libX11 libX11-devel libXaw libXaw-devel libXext-devel libXmu libXmu-devel libXrender libXrender-devel libXt libXt-devel libxml2 libxml2-devel libgeotiff libgeotiff-devel libtiff libtiff-devel m4 nfs-utils perl 'perl(XML::LibXML)' pkgconfig pixman pixman-devel python3 python3-devel tcsh time unzip wget
-	echo $PASSWD | sudo -S dnf -y java-devel java
-	echo $PASSWD | sudo -S dnf -y java-17-openjdk-devel java-17-openjdk
-	echo $PASSWD | sudo -S dnf -y java-21-openjdk-devel java-21-openjdk
+	echo $PASSWD | sudo -S dnf install -y java java-devel
+	echo $PASSWD | sudo -S dnf install -y java-17-openjdk-devel java-17-openjdk
+	echo $PASSWD | sudo -S dnf install -y java-21-openjdk-devel java-21-openjdk
 
 	echo $PASSWD | sudo -S dnf -y groupinstall "Development Tools"
 	echo $PASSWD | sudo -S dnf -y update
@@ -4971,9 +4971,9 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$SFIRE_PICK" = "1" ]; then
 	echo $PASSWD | sudo -S dnf -y update
 	echo $PASSWD | sudo -S dnf -y upgrade
 	echo $PASSWD | sudo -S dnf -y install byacc bzip2 bzip2-devel cairo-devel cmake cpp curl curl-devel flex fontconfig fontconfig-devel gcc gcc-c++ gcc-gfortran git ksh libjpeg libjpeg-devel libstdc++ libstdc++-devel libX11 libX11-devel libXaw libXaw-devel libXext-devel libXmu libXmu-devel libXrender libXrender-devel libXt libXt-devel libxml2 libxml2-devel libgeotiff libgeotiff-devel libtiff libtiff-devel m4 nfs-utils perl 'perl(XML::LibXML)' pkgconfig pixman pixman-devel python3 python3-devel tcsh time unzip wget
-	echo $PASSWD | sudo -S dnf -y java-devel java
-	echo $PASSWD | sudo -S dnf -y java-17-openjdk-devel java-17-openjdk
-	echo $PASSWD | sudo -S dnf -y java-21-openjdk-devel java-21-openjdk
+	echo $PASSWD | sudo -S dnf install -y java java-devel
+	echo $PASSWD | sudo -S dnf install -y java-17-openjdk-devel java-17-openjdk
+	echo $PASSWD | sudo -S dnf install -y java-21-openjdk-devel java-21-openjdk
 
 	echo $PASSWD | sudo -S dnf -y groupinstall "Development Tools"
 	echo $PASSWD | sudo -S dnf -y update
@@ -9622,9 +9622,9 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 	echo $PASSWD | sudo -S dnf -y update
 	echo $PASSWD | sudo -S dnf -y upgrade
 	echo $PASSWD | sudo -S dnf -y install byacc bzip2 bzip2-devel cairo-devel cmake cpp curl curl-devel flex fontconfig fontconfig-devel gcc gcc-c++ gcc-gfortran git ksh libjpeg libjpeg-devel libstdc++ libstdc++-devel libX11 libX11-devel libXaw libXaw-devel libXext-devel libXmu libXmu-devel libXrender libXrender-devel libXt libXt-devel libxml2 libxml2-devel libgeotiff libgeotiff-devel libtiff libtiff-devel m4 nfs-utils perl 'perl(XML::LibXML)' pkgconfig pixman pixman-devel python3 python3-devel tcsh time unzip wget
-	echo $PASSWD | sudo -S dnf -y java-devel java
-	echo $PASSWD | sudo -S dnf -y java-17-openjdk-devel java-17-openjdk
-	echo $PASSWD | sudo -S dnf -y java-21-openjdk-devel java-21-openjdk
+	echo $PASSWD | sudo -S dnf install -y java java-devel
+	echo $PASSWD | sudo -S dnf install -y java-17-openjdk-devel java-17-openjdk
+	echo $PASSWD | sudo -S dnf install -y java-21-openjdk-devel java-21-openjdk
 
 	echo $PASSWD | sudo -S dnf -y groupinstall "Development Tools"
 	echo $PASSWD | sudo -S dnf -y update
@@ -10198,9 +10198,9 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 	echo $PASSWD | sudo -S dnf -y update
 	echo $PASSWD | sudo -S dnf -y upgrade
 	echo $PASSWD | sudo -S dnf -y install byacc bzip2 bzip2-devel cairo-devel cmake cpp curl curl-devel flex fontconfig fontconfig-devel gcc gcc-c++ gcc-gfortran git ksh libjpeg libjpeg-devel libstdc++ libstdc++-devel libX11 libX11-devel libXaw libXaw-devel libXext-devel libXmu libXmu-devel libXrender libXrender-devel libXt libXt-devel libxml2 libxml2-devel libgeotiff libgeotiff-devel libtiff libtiff-devel m4 nfs-utils perl 'perl(XML::LibXML)' pkgconfig pixman pixman-devel python3 python3-devel tcsh time unzip wget
-	echo $PASSWD | sudo -S dnf -y java-devel java
-	echo $PASSWD | sudo -S dnf -y java-17-openjdk-devel java-17-openjdk
-	echo $PASSWD | sudo -S dnf -y java-21-openjdk-devel java-21-openjdk
+	echo $PASSWD | sudo -S dnf install -y java java-devel
+	echo $PASSWD | sudo -S dnf install -y java-17-openjdk-devel java-17-openjdk
+	echo $PASSWD | sudo -S dnf install -y java-21-openjdk-devel java-21-openjdk
 
 	echo $PASSWD | sudo -S dnf -y groupinstall "Development Tools"
 	echo $PASSWD | sudo -S dnf -y update
@@ -14728,9 +14728,9 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 	echo $PASSWD | sudo -S dnf -y update
 	echo $PASSWD | sudo -S dnf -y upgrade
 	echo $PASSWD | sudo -S dnf -y install byacc bzip2 bzip2-devel cairo-devel cmake cpp curl curl-devel flex fontconfig fontconfig-devel gcc gcc-c++ gcc-gfortran git ksh libjpeg libjpeg-devel libstdc++ libstdc++-devel libX11 libX11-devel libXaw libXaw-devel libXext-devel libXmu libXmu-devel libXrender libXrender-devel libXt libXt-devel libxml2 libxml2-devel libgeotiff libgeotiff-devel libtiff libtiff-devel m4 nfs-utils perl 'perl(XML::LibXML)' pkgconfig pixman pixman-devel python3 python3-devel tcsh time unzip wget
-	echo $PASSWD | sudo -S dnf -y java-devel java
-	echo $PASSWD | sudo -S dnf -y java-17-openjdk-devel java-17-openjdk
-	echo $PASSWD | sudo -S dnf -y java-21-openjdk-devel java-21-openjdk
+	echo $PASSWD | sudo -S dnf install -y java java-devel
+	echo $PASSWD | sudo -S dnf install -y java-17-openjdk-devel java-17-openjdk
+	echo $PASSWD | sudo -S dnf install -y java-21-openjdk-devel java-21-openjdk
 
 	echo $PASSWD | sudo -S dnf -y groupinstall "Development Tools"
 	echo $PASSWD | sudo -S dnf -y update
@@ -15584,9 +15584,9 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 	echo $PASSWD | sudo -S dnf -y update
 	echo $PASSWD | sudo -S dnf -y upgrade
 	echo $PASSWD | sudo -S dnf -y install byacc bzip2 bzip2-devel cairo-devel cmake cpp curl curl-devel flex fontconfig fontconfig-devel gcc gcc-c++ gcc-gfortran git ksh libjpeg libjpeg-devel libstdc++ libstdc++-devel libX11 libX11-devel libXaw libXaw-devel libXext-devel libXmu libXmu-devel libXrender libXrender-devel libXt libXt-devel libxml2 libxml2-devel libgeotiff libgeotiff-devel libtiff libtiff-devel m4 nfs-utils perl 'perl(XML::LibXML)' pkgconfig pixman pixman-devel python3 python3-devel tcsh time unzip wget
-	echo $PASSWD | sudo -S dnf -y java-devel java
-	echo $PASSWD | sudo -S dnf -y java-17-openjdk-devel java-17-openjdk
-	echo $PASSWD | sudo -S dnf -y java-21-openjdk-devel java-21-openjdk
+	echo $PASSWD | sudo -S dnf install -y java java-devel
+	echo $PASSWD | sudo -S dnf install -y java-17-openjdk-devel java-17-openjdk
+	echo $PASSWD | sudo -S dnf install -y java-21-openjdk-devel java-21-openjdk
 
 	echo $PASSWD | sudo -S dnf -y groupinstall "Development Tools"
 	echo $PASSWD | sudo -S dnf -y update
@@ -20779,9 +20779,9 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	echo $PASSWD | sudo -S dnf -y update
 	echo $PASSWD | sudo -S dnf -y upgrade
 	echo $PASSWD | sudo -S dnf -y install byacc bzip2 bzip2-devel cairo-devel cmake cpp curl curl-devel flex fontconfig fontconfig-devel gcc gcc-c++ gcc-gfortran git ksh libjpeg libjpeg-devel libstdc++ libstdc++-devel libX11 libX11-devel libXaw libXaw-devel libXext-devel libXmu libXmu-devel libXrender libXrender-devel libXt libXt-devel libxml2 libxml2-devel libgeotiff libgeotiff-devel libtiff libtiff-devel m4 nfs-utils perl 'perl(XML::LibXML)' pkgconfig pixman pixman-devel python3 python3-devel tcsh time unzip wget
-	echo $PASSWD | sudo -S dnf -y java-devel java
-	echo $PASSWD | sudo -S dnf -y java-17-openjdk-devel java-17-openjdk
-	echo $PASSWD | sudo -S dnf -y java-21-openjdk-devel java-21-openjdk
+	echo $PASSWD | sudo -S dnf install -y java java-devel
+	echo $PASSWD | sudo -S dnf install -y java-17-openjdk-devel java-17-openjdk
+	echo $PASSWD | sudo -S dnf install -y java-21-openjdk-devel java-21-openjdk
 
 	echo $PASSWD | sudo -S dnf -y groupinstall "Development Tools"
 	echo $PASSWD | sudo -S dnf -y update
@@ -21708,9 +21708,9 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	echo $PASSWD | sudo -S dnf -y update
 	echo $PASSWD | sudo -S dnf -y upgrade
 	echo $PASSWD | sudo -S dnf -y install byacc bzip2 bzip2-devel cairo-devel cmake cpp curl curl-devel flex fontconfig fontconfig-devel gcc gcc-c++ gcc-gfortran git ksh libjpeg libjpeg-devel libstdc++ libstdc++-devel libX11 libX11-devel libXaw libXaw-devel libXext-devel libXmu libXmu-devel libXrender libXrender-devel libXt libXt-devel libxml2 libxml2-devel libgeotiff libgeotiff-devel libtiff libtiff-devel m4 nfs-utils perl 'perl(XML::LibXML)' pkgconfig pixman pixman-devel python3 python3-devel tcsh time unzip wget
-	echo $PASSWD | sudo -S dnf -y java-devel java
-	echo $PASSWD | sudo -S dnf -y java-17-openjdk-devel java-17-openjdk
-	echo $PASSWD | sudo -S dnf -y java-21-openjdk-devel java-21-openjdk
+	echo $PASSWD | sudo -S dnf install -y java java-devel
+	echo $PASSWD | sudo -S dnf install -y java-17-openjdk-devel java-17-openjdk
+	echo $PASSWD | sudo -S dnf install -y java-21-openjdk-devel java-21-openjdk
 
 	echo $PASSWD | sudo -S dnf -y groupinstall "Development Tools"
 	echo $PASSWD | sudo -S dnf -y update
@@ -27087,9 +27087,9 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	echo $PASSWD | sudo -S dnf -y update
 	echo $PASSWD | sudo -S dnf -y upgrade
 	echo $PASSWD | sudo -S dnf -y install byacc bzip2 bzip2-devel cairo-devel cmake cpp curl curl-devel flex fontconfig fontconfig-devel gcc gcc-c++ gcc-gfortran git ksh libjpeg libjpeg-devel libstdc++ libstdc++-devel libX11 libX11-devel libXaw libXaw-devel libXext-devel libXmu libXmu-devel libXrender libXrender-devel libXt libXt-devel libxml2 libxml2-devel libgeotiff libgeotiff-devel libtiff libtiff-devel m4 nfs-utils perl 'perl(XML::LibXML)' pkgconfig pixman pixman-devel python3 python3-devel tcsh time unzip wget
-	echo $PASSWD | sudo -S dnf -y java-devel java
-	echo $PASSWD | sudo -S dnf -y java-17-openjdk-devel java-17-openjdk
-	echo $PASSWD | sudo -S dnf -y java-21-openjdk-devel java-21-openjdk
+	echo $PASSWD | sudo -S dnf install -y java java-devel
+	echo $PASSWD | sudo -S dnf install -y java-17-openjdk-devel java-17-openjdk
+	echo $PASSWD | sudo -S dnf install -y java-21-openjdk-devel java-21-openjdk
 
 	echo $PASSWD | sudo -S dnf -y groupinstall "Development Tools"
 	echo $PASSWD | sudo -S dnf -y update
@@ -27980,9 +27980,9 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRF_PICK" = "1" ]; then
 	echo $PASSWD | sudo -S dnf -y update
 	echo $PASSWD | sudo -S dnf -y upgrade
 	echo $PASSWD | sudo -S dnf -y install byacc bzip2 bzip2-devel cairo-devel cmake cpp curl curl-devel flex fontconfig fontconfig-devel gcc gcc-c++ gcc-gfortran git ksh libjpeg libjpeg-devel libstdc++ libstdc++-devel libX11 libX11-devel libXaw libXaw-devel libXext-devel libXmu libXmu-devel libXrender libXrender-devel libXt libXt-devel libxml2 libxml2-devel libgeotiff libgeotiff-devel libtiff libtiff-devel m4 nfs-utils perl 'perl(XML::LibXML)' pkgconfig pixman pixman-devel python3 python3-devel tcsh time unzip wget
-	echo $PASSWD | sudo -S dnf -y java-devel java
-	echo $PASSWD | sudo -S dnf -y java-17-openjdk-devel java-17-openjdk
-	echo $PASSWD | sudo -S dnf -y java-21-openjdk-devel java-21-openjdk
+	echo $PASSWD | sudo -S dnf install -y java java-devel
+	echo $PASSWD | sudo -S dnf install -y java-17-openjdk-devel java-17-openjdk
+	echo $PASSWD | sudo -S dnf install -y java-21-openjdk-devel java-21-openjdk
 
 	echo $PASSWD | sudo -S dnf -y groupinstall "Development Tools"
 	echo $PASSWD | sudo -S dnf -y update
@@ -30215,9 +30215,9 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$COAWST_Pick" = "1" ]; then
 	echo $PASSWD | sudo -S dnf -y update
 	echo $PASSWD | sudo -S dnf -y upgrade
 	echo $PASSWD | sudo -S dnf -y install byacc bzip2 bzip2-devel cairo-devel cmake cpp curl curl-devel flex fontconfig fontconfig-devel gcc gcc-c++ gcc-gfortran git ksh libjpeg libjpeg-devel libstdc++ libstdc++-devel libX11 libX11-devel libXaw libXaw-devel libXext-devel libXmu libXmu-devel libXrender libXrender-devel libXt libXt-devel libxml2 libxml2-devel libgeotiff libgeotiff-devel libtiff libtiff-devel m4 nfs-utils perl 'perl(XML::LibXML)' pkgconfig pixman pixman-devel python3 python3-devel tcsh time unzip wget
-	echo $PASSWD | sudo -S dnf -y java-devel java
-	echo $PASSWD | sudo -S dnf -y java-17-openjdk-devel java-17-openjdk
-	echo $PASSWD | sudo -S dnf -y java-21-openjdk-devel java-21-openjdk
+	echo $PASSWD | sudo -S dnf install -y java java-devel
+	echo $PASSWD | sudo -S dnf install -y java-17-openjdk-devel java-17-openjdk
+	echo $PASSWD | sudo -S dnf install -y java-21-openjdk-devel java-21-openjdk
 
 	echo $PASSWD | sudo -S dnf -y groupinstall "Development Tools"
 	echo $PASSWD | sudo -S dnf -y update
@@ -30767,9 +30767,9 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$COAWST_Pick" = "1" ]; then
 	echo $PASSWD | sudo -S dnf -y update
 	echo $PASSWD | sudo -S dnf -y upgrade
 	echo $PASSWD | sudo -S dnf -y install byacc bzip2 bzip2-devel cairo-devel cmake cpp curl curl-devel flex fontconfig fontconfig-devel gcc gcc-c++ gcc-gfortran git ksh libjpeg libjpeg-devel libstdc++ libstdc++-devel libX11 libX11-devel libXaw libXaw-devel libXext-devel libXmu libXmu-devel libXrender libXrender-devel libXt libXt-devel libxml2 libxml2-devel libgeotiff libgeotiff-devel libtiff libtiff-devel m4 nfs-utils perl 'perl(XML::LibXML)' pkgconfig pixman pixman-devel python3 python3-devel tcsh time unzip wget
-	echo $PASSWD | sudo -S dnf -y java-devel java
-	echo $PASSWD | sudo -S dnf -y java-17-openjdk-devel java-17-openjdk
-	echo $PASSWD | sudo -S dnf -y java-21-openjdk-devel java-21-openjdk
+	echo $PASSWD | sudo -S dnf install -y java java-devel
+	echo $PASSWD | sudo -S dnf install -y java-17-openjdk-devel java-17-openjdk
+	echo $PASSWD | sudo -S dnf install -y java-21-openjdk-devel java-21-openjdk
 
 	echo $PASSWD | sudo -S dnf -y groupinstall "Development Tools"
 	echo $PASSWD | sudo -S dnf -y update
