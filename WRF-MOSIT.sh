@@ -1050,7 +1050,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$DTC_MET" = "1" ]; then
   echo $PASSWD | sudo -S dnf install epel-release -y
   echo $PASSWD | sudo -S dnf -y update
   echo $PASSWD | sudo -S dnf -y upgrade
-  echo $PASSWD | sudo -S dnf -y install byacc bzip2 bzip2-devel cairo-devel cmake cpp curl curl-devel flex fontconfig fontconfig-devel gcc gcc-c++ gcc-gfortran git ksh libjpeg libjpeg-devel libstdc++ libstdc++-devel libX11 libX11-devel libXaw libXaw-devel libXext-devel libXmu libXmu-devel libXrender libXrender-devel libXt libXt-devel libxml2 libxml2-devel libgeotiff libgeotiff-devel libtiff libtiff-devel m4 nfs-utils perl 'perl(XML::LibXML)' pkgconfig pixman pixman-devel python3 python3-devel tcsh time unzip wget
+  echo $PASSWD | sudo -S dnf -y install byacc bzip2 bzip2-devel cairo-devel cmake cpp curl curl-devel flex flex-devel fontconfig fontconfig-devel gcc gcc-c++ gcc-gfortran git ksh libjpeg libjpeg-devel libstdc++ libstdc++-devel libX11 libX11-devel libXaw libXaw-devel libXext-devel libXmu libXmu-devel libXrender libXrender-devel libXt libXt-devel libxml2 libxml2-devel libgeotiff libgeotiff-devel libtiff libtiff-devel m4 nfs-utils perl 'perl(XML::LibXML)' pkgconfig pixman pixman-devel python3 python3-devel tcsh time unzip wget
   echo $PASSWD | sudo -S dnf install -y java java-devel
   echo $PASSWD | sudo -S dnf install -y java-17-openjdk-devel java-17-openjdk
   echo $PASSWD | sudo -S dnf install -y java-21-openjdk-devel java-21-openjdk
@@ -1256,7 +1256,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$DTC_MET" = "1" ]; then
   echo $PASSWD | sudo -S dnf install epel-release -y
   echo $PASSWD | sudo -S dnf -y update
   echo $PASSWD | sudo -S dnf -y upgrade
-  echo $PASSWD | sudo -S dnf -y install byacc bzip2 bzip2-devel cairo-devel cmake cpp curl curl-devel flex fontconfig fontconfig-devel gcc gcc-c++ gcc-gfortran git ksh libjpeg libjpeg-devel libstdc++ libstdc++-devel libX11 libX11-devel libXaw libXaw-devel libXext-devel libXmu libXmu-devel libXrender libXrender-devel libXt libXt-devel libxml2 libxml2-devel libgeotiff libgeotiff-devel libtiff libtiff-devel m4 nfs-utils perl 'perl(XML::LibXML)' pkgconfig pixman pixman-devel python3 python3-devel tcsh time unzip wget
+  echo $PASSWD | sudo -S dnf -y install byacc bzip2 bzip2-devel cairo-devel cmake cpp curl curl-devel flex flex-devel fontconfig fontconfig-devel gcc gcc-c++ gcc-gfortran git ksh libjpeg libjpeg-devel libstdc++ libstdc++-devel libX11 libX11-devel libXaw libXaw-devel libXext-devel libXmu libXmu-devel libXrender libXrender-devel libXt libXt-devel libxml2 libxml2-devel libgeotiff libgeotiff-devel libtiff libtiff-devel m4 nfs-utils perl 'perl(XML::LibXML)' pkgconfig pixman pixman-devel python3 python3-devel tcsh time unzip wget
   echo $PASSWD | sudo -S dnf install -y java java-devel
   echo $PASSWD | sudo -S dnf install -y java-17-openjdk-devel java-17-openjdk
   echo $PASSWD | sudo -S dnf install -y java-21-openjdk-devel java-21-openjdk
@@ -2301,7 +2301,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
   echo $PASSWD | sudo -S dnf install dnf -y
   echo $PASSWD | sudo -S dnf -y update
   echo $PASSWD | sudo -S dnf -y upgrade
-  echo $PASSWD | sudo -S dnf -y install byacc bzip2 bzip2-devel cairo-devel cmake cpp curl curl-devel flex fontconfig fontconfig-devel gcc gcc-c++ gcc-gfortran git ksh libjpeg libjpeg-devel libstdc++ libstdc++-devel libX11 libX11-devel libXaw libXaw-devel libXext-devel libXmu libXmu-devel libXrender libXrender-devel libXt libXt-devel libxml2 libxml2-devel libgeotiff libgeotiff-devel libtiff libtiff-devel m4 nfs-utils perl 'perl(XML::LibXML)' pkgconfig pixman pixman-devel python3 python3-devel tcsh time unzip wget
+  echo $PASSWD | sudo -S dnf -y install byacc bzip2 bzip2-devel cairo-devel cmake cpp curl curl-devel flex flex-devel fontconfig fontconfig-devel gcc gcc-c++ gcc-gfortran git ksh libjpeg libjpeg-devel libstdc++ libstdc++-devel libX11 libX11-devel libXaw libXaw-devel libXext-devel libXmu libXmu-devel libXrender libXrender-devel libXt libXt-devel libxml2 libxml2-devel libgeotiff libgeotiff-devel libtiff libtiff-devel m4 nfs-utils perl 'perl(XML::LibXML)' pkgconfig pixman pixman-devel python3 python3-devel tcsh time unzip wget
   echo $PASSWD | sudo -S dnf install -y java java-devel
   echo $PASSWD | sudo -S dnf install -y java-17-openjdk-devel java-17-openjdk
   echo $PASSWD | sudo -S dnf install -y java-21-openjdk-devel java-21-openjdk
@@ -2950,7 +2950,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$CMAQ_PICK" = "1" ]; then
   echo $PASSWD | sudo -S dnf install dnf -y
   echo $PASSWD | sudo -S dnf -y update
   echo $PASSWD | sudo -S dnf -y upgrade
-  echo $PASSWD | sudo -S dnf -y install byacc bzip2 bzip2-devel cairo-devel cmake cpp curl curl-devel flex fontconfig fontconfig-devel gcc gcc-c++ gcc-gfortran git ksh libjpeg libjpeg-devel libstdc++ libstdc++-devel libX11 libX11-devel libXaw libXaw-devel libXext-devel libXmu libXmu-devel libXrender libXrender-devel libXt libXt-devel libxml2 libxml2-devel libgeotiff libgeotiff-devel libtiff libtiff-devel m4 nfs-utils perl 'perl(XML::LibXML)' pkgconfig pixman pixman-devel python3 python3-devel tcsh time unzip wget
+  echo $PASSWD | sudo -S dnf -y install byacc bzip2 bzip2-devel cairo-devel cmake cpp curl curl-devel flex flex-devel fontconfig fontconfig-devel gcc gcc-c++ gcc-gfortran git ksh libjpeg libjpeg-devel libstdc++ libstdc++-devel libX11 libX11-devel libXaw libXaw-devel libXext-devel libXmu libXmu-devel libXrender libXrender-devel libXt libXt-devel libxml2 libxml2-devel libgeotiff libgeotiff-devel libtiff libtiff-devel m4 nfs-utils perl 'perl(XML::LibXML)' pkgconfig pixman pixman-devel python3 python3-devel tcsh time unzip wget
   echo $PASSWD | sudo -S dnf install -y java java-devel
   echo $PASSWD | sudo -S dnf install -y java-17-openjdk-devel java-17-openjdk
   echo $PASSWD | sudo -S dnf install -y java-21-openjdk-devel java-21-openjdk
@@ -4275,7 +4275,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
   echo $PASSWD | sudo -S dnf install dnf -y
   echo $PASSWD | sudo -S dnf -y update
   echo $PASSWD | sudo -S dnf -y upgrade
-  echo $PASSWD | sudo -S dnf -y install byacc bzip2 bzip2-devel cairo-devel cmake cpp curl curl-devel flex fontconfig fontconfig-devel gcc gcc-c++ gcc-gfortran git ksh libjpeg libjpeg-devel libstdc++ libstdc++-devel libX11 libX11-devel libXaw libXaw-devel libXext-devel libXmu libXmu-devel libXrender libXrender-devel libXt libXt-devel libxml2 libxml2-devel libgeotiff libgeotiff-devel libtiff libtiff-devel m4 nfs-utils perl 'perl(XML::LibXML)' pkgconfig pixman pixman-devel python3 python3-devel tcsh time unzip wget
+  echo $PASSWD | sudo -S dnf -y install byacc bzip2 bzip2-devel cairo-devel cmake cpp curl curl-devel flex flex-devel fontconfig fontconfig-devel gcc gcc-c++ gcc-gfortran git ksh libjpeg libjpeg-devel libstdc++ libstdc++-devel libX11 libX11-devel libXaw libXaw-devel libXext-devel libXmu libXmu-devel libXrender libXrender-devel libXt libXt-devel libxml2 libxml2-devel libgeotiff libgeotiff-devel libtiff libtiff-devel m4 nfs-utils perl 'perl(XML::LibXML)' pkgconfig pixman pixman-devel python3 python3-devel tcsh time unzip wget
   echo $PASSWD | sudo -S dnf install -y java java-devel
   echo $PASSWD | sudo -S dnf install -y java-17-openjdk-devel java-17-openjdk
   echo $PASSWD | sudo -S dnf install -y java-21-openjdk-devel java-21-openjdk
@@ -4965,7 +4965,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$SFIRE_PICK" = "1" ]; then
   echo $PASSWD | sudo -S dnf install dnf -y
   echo $PASSWD | sudo -S dnf -y update
   echo $PASSWD | sudo -S dnf -y upgrade
-  echo $PASSWD | sudo -S dnf -y install byacc bzip2 bzip2-devel cairo-devel cmake cpp curl curl-devel flex fontconfig fontconfig-devel gcc gcc-c++ gcc-gfortran git ksh libjpeg libjpeg-devel libstdc++ libstdc++-devel libX11 libX11-devel libXaw libXaw-devel libXext-devel libXmu libXmu-devel libXrender libXrender-devel libXt libXt-devel libxml2 libxml2-devel libgeotiff libgeotiff-devel libtiff libtiff-devel m4 nfs-utils perl 'perl(XML::LibXML)' pkgconfig pixman pixman-devel python3 python3-devel tcsh time unzip wget
+  echo $PASSWD | sudo -S dnf -y install byacc bzip2 bzip2-devel cairo-devel cmake cpp curl curl-devel flex flex-devel fontconfig fontconfig-devel gcc gcc-c++ gcc-gfortran git ksh libjpeg libjpeg-devel libstdc++ libstdc++-devel libX11 libX11-devel libXaw libXaw-devel libXext-devel libXmu libXmu-devel libXrender libXrender-devel libXt libXt-devel libxml2 libxml2-devel libgeotiff libgeotiff-devel libtiff libtiff-devel m4 nfs-utils perl 'perl(XML::LibXML)' pkgconfig pixman pixman-devel python3 python3-devel tcsh time unzip wget
   echo $PASSWD | sudo -S dnf install -y java java-devel
   echo $PASSWD | sudo -S dnf install -y java-17-openjdk-devel java-17-openjdk
   echo $PASSWD | sudo -S dnf install -y java-21-openjdk-devel java-21-openjdk
@@ -9615,7 +9615,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
   echo $PASSWD | sudo -S dnf install dnf -y
   echo $PASSWD | sudo -S dnf -y update
   echo $PASSWD | sudo -S dnf -y upgrade
-  echo $PASSWD | sudo -S dnf -y install byacc bzip2 bzip2-devel cairo-devel cmake cpp curl curl-devel flex fontconfig fontconfig-devel gcc gcc-c++ gcc-gfortran git ksh libjpeg libjpeg-devel libstdc++ libstdc++-devel libX11 libX11-devel libXaw libXaw-devel libXext-devel libXmu libXmu-devel libXrender libXrender-devel libXt libXt-devel libxml2 libxml2-devel libgeotiff libgeotiff-devel libtiff libtiff-devel m4 nfs-utils perl 'perl(XML::LibXML)' pkgconfig pixman pixman-devel python3 python3-devel tcsh time unzip wget
+  echo $PASSWD | sudo -S dnf -y install byacc bzip2 bzip2-devel cairo-devel cmake cpp curl curl-devel flex flex-devel fontconfig fontconfig-devel gcc gcc-c++ gcc-gfortran git ksh libjpeg libjpeg-devel libstdc++ libstdc++-devel libX11 libX11-devel libXaw libXaw-devel libXext-devel libXmu libXmu-devel libXrender libXrender-devel libXt libXt-devel libxml2 libxml2-devel libgeotiff libgeotiff-devel libtiff libtiff-devel m4 nfs-utils perl 'perl(XML::LibXML)' pkgconfig pixman pixman-devel python3 python3-devel tcsh time unzip wget
   echo $PASSWD | sudo -S dnf install -y java java-devel
   echo $PASSWD | sudo -S dnf install -y java-17-openjdk-devel java-17-openjdk
   echo $PASSWD | sudo -S dnf install -y java-21-openjdk-devel java-21-openjdk
@@ -10190,7 +10190,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
   echo $PASSWD | sudo -S dnf install dnf -y
   echo $PASSWD | sudo -S dnf -y update
   echo $PASSWD | sudo -S dnf -y upgrade
-  echo $PASSWD | sudo -S dnf -y install byacc bzip2 bzip2-devel cairo-devel cmake cpp curl curl-devel flex fontconfig fontconfig-devel gcc gcc-c++ gcc-gfortran git ksh libjpeg libjpeg-devel libstdc++ libstdc++-devel libX11 libX11-devel libXaw libXaw-devel libXext-devel libXmu libXmu-devel libXrender libXrender-devel libXt libXt-devel libxml2 libxml2-devel libgeotiff libgeotiff-devel libtiff libtiff-devel m4 nfs-utils perl 'perl(XML::LibXML)' pkgconfig pixman pixman-devel python3 python3-devel tcsh time unzip wget
+  echo $PASSWD | sudo -S dnf -y install byacc bzip2 bzip2-devel cairo-devel cmake cpp curl curl-devel flex flex-devel fontconfig fontconfig-devel gcc gcc-c++ gcc-gfortran git ksh libjpeg libjpeg-devel libstdc++ libstdc++-devel libX11 libX11-devel libXaw libXaw-devel libXext-devel libXmu libXmu-devel libXrender libXrender-devel libXt libXt-devel libxml2 libxml2-devel libgeotiff libgeotiff-devel libtiff libtiff-devel m4 nfs-utils perl 'perl(XML::LibXML)' pkgconfig pixman pixman-devel python3 python3-devel tcsh time unzip wget
   echo $PASSWD | sudo -S dnf install -y java java-devel
   echo $PASSWD | sudo -S dnf install -y java-17-openjdk-devel java-17-openjdk
   echo $PASSWD | sudo -S dnf install -y java-21-openjdk-devel java-21-openjdk
@@ -14719,7 +14719,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   echo $PASSWD | sudo -S dnf install dnf -y
   echo $PASSWD | sudo -S dnf -y update
   echo $PASSWD | sudo -S dnf -y upgrade
-  echo $PASSWD | sudo -S dnf -y install byacc bzip2 bzip2-devel cairo-devel cmake cpp curl curl-devel flex fontconfig fontconfig-devel gcc gcc-c++ gcc-gfortran git ksh libjpeg libjpeg-devel libstdc++ libstdc++-devel libX11 libX11-devel libXaw libXaw-devel libXext-devel libXmu libXmu-devel libXrender libXrender-devel libXt libXt-devel libxml2 libxml2-devel libgeotiff libgeotiff-devel libtiff libtiff-devel m4 nfs-utils perl 'perl(XML::LibXML)' pkgconfig pixman pixman-devel python3 python3-devel tcsh time unzip wget
+  echo $PASSWD | sudo -S dnf -y install byacc bzip2 bzip2-devel cairo-devel cmake cpp curl curl-devel flex flex-devel fontconfig fontconfig-devel gcc gcc-c++ gcc-gfortran git ksh libjpeg libjpeg-devel libstdc++ libstdc++-devel libX11 libX11-devel libXaw libXaw-devel libXext-devel libXmu libXmu-devel libXrender libXrender-devel libXt libXt-devel libxml2 libxml2-devel libgeotiff libgeotiff-devel libtiff libtiff-devel m4 nfs-utils perl 'perl(XML::LibXML)' pkgconfig pixman pixman-devel python3 python3-devel tcsh time unzip wget
   echo $PASSWD | sudo -S dnf install -y java java-devel
   echo $PASSWD | sudo -S dnf install -y java-17-openjdk-devel java-17-openjdk
   echo $PASSWD | sudo -S dnf install -y java-21-openjdk-devel java-21-openjdk
@@ -15574,7 +15574,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   echo $PASSWD | sudo -S dnf install dnf -y
   echo $PASSWD | sudo -S dnf -y update
   echo $PASSWD | sudo -S dnf -y upgrade
-  echo $PASSWD | sudo -S dnf -y install byacc bzip2 bzip2-devel cairo-devel cmake cpp curl curl-devel flex fontconfig fontconfig-devel gcc gcc-c++ gcc-gfortran git ksh libjpeg libjpeg-devel libstdc++ libstdc++-devel libX11 libX11-devel libXaw libXaw-devel libXext-devel libXmu libXmu-devel libXrender libXrender-devel libXt libXt-devel libxml2 libxml2-devel libgeotiff libgeotiff-devel libtiff libtiff-devel m4 nfs-utils perl 'perl(XML::LibXML)' pkgconfig pixman pixman-devel python3 python3-devel tcsh time unzip wget
+  echo $PASSWD | sudo -S dnf -y install byacc bzip2 bzip2-devel cairo-devel cmake cpp curl curl-devel flex flex-devel fontconfig fontconfig-devel gcc gcc-c++ gcc-gfortran git ksh libjpeg libjpeg-devel libstdc++ libstdc++-devel libX11 libX11-devel libXaw libXaw-devel libXext-devel libXmu libXmu-devel libXrender libXrender-devel libXt libXt-devel libxml2 libxml2-devel libgeotiff libgeotiff-devel libtiff libtiff-devel m4 nfs-utils perl 'perl(XML::LibXML)' pkgconfig pixman pixman-devel python3 python3-devel tcsh time unzip wget
   echo $PASSWD | sudo -S dnf install -y java java-devel
   echo $PASSWD | sudo -S dnf install -y java-17-openjdk-devel java-17-openjdk
   echo $PASSWD | sudo -S dnf install -y java-21-openjdk-devel java-21-openjdk
@@ -17809,55 +17809,192 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   ########################################
   # Clean out non-apt flex installations
   ########################################
-
-  # Remove any custom flex builds in your WRF tree
-  rm -rf "${WRF_FOLDER}/Libs/flex-2.6.4" 2> /dev/null || true
-  rm -rf /tmp/flex-2.6.4 2> /dev/null || true
-
-  # Remove typical /usr/local flex files (NOT managed by apt)
-  echo "$PASSWD" | sudo -S bash -c '
-      rm -f /usr/local/bin/flex
-      rm -f /usr/local/lib/libfl.a
-      rm -f /usr/local/lib/libfl.so
-      rm -f /usr/local/lib/libfl.so.*
-      rm -f /usr/local/lib64/libfl.a
-      rm -f /usr/local/lib64/libfl.so
-      rm -f /usr/local/lib64/libfl.so.*
-      rm -f /usr/local/include/FlexLexer.h
-    '
-
-  # (Optional) show what apt thinks flex is
-  echo "Apt-managed flex files:"
-  dpkg -L flex 2> /dev/null || echo "flex package not installed via apt."
-
-  cd /tmp
-
-  # Download the flex 2.6.4 source tarball
-  wget https://github.com/westes/flex/releases/download/v2.6.4/flex-2.6.4.tar.gz
-
-  # Extract it
-  tar -xzf flex-2.6.4.tar.gz
-  cd flex-2.6.4
-
-  # Configure to install into /usr (so libs go to /usr/lib64)
-  ./configure --prefix=/usr/ 2>&1 | tee "${WRF_FOLDER}"/Downloads/flex.configure.log
-
-  # Build
-  make 2>&1 | tee "${WRF_FOLDER}"/Downloads/flex.make.log
-
-  # Install (will prompt for sudo password)
-  echo $PASSWD | sudo -S make install
-
   # --------------------------------------------------------
-  # Detect Flex library location automatically
+  # Ensure flex + libfl.so.2 are available (apt/dnf preferred)
   # --------------------------------------------------------
-  FLEX_LIB_PATH=$(find /usr /usr/local -type f \( -name "libfl.a" -o -name "libfl.so" \) 2> /dev/null | head -n 1)
-  # Extract the directory name only
-  FLEX_LIB_DIR=$(dirname "$FLEX_LIB_PATH")
+  need_flex_install() {
+    # flex binary missing OR runtime lib missing
+    command -v flex > /dev/null 2>&1 || return 0
 
-  # Export it for WRF configure
-  export FLEX_LIB_DIR
-  echo "FLEX_LIB_DIR set to $FLEX_LIB_DIR"
+    # Check if dynamic loader can see libfl.so.2
+    if ldconfig -p 2> /dev/null | grep -q 'libfl\.so\.2'; then
+      return 1
+    fi
+
+    # Fallback checks if ldconfig isn't available / doesn't list it
+    if find /usr /lib /usr/local -type f -name 'libfl.so.2*' 2> /dev/null | grep -q .; then
+      return 1
+    fi
+
+    return 0
+  }
+
+  install_flex_via_pkgmgr() {
+    if command -v apt-get > /dev/null 2>&1; then
+      echo "[flex] Using apt-get to install flex/libfl..."
+      sudo -S apt-get update
+      # flex provides the flex binary; libfl2 provides libfl.so.2; libfl-dev is nice-to-have
+      sudo -S apt-get install -y flex libfl2 libfl-dev
+      sudo -S ldconfig || true
+      return 0
+    elif command -v dnf > /dev/null 2>&1; then
+      echo "[flex] Using dnf to install flex..."
+      sudo -S dnf -y install flex
+      sudo -S ldconfig || true
+      return 0
+    else
+      echo "[flex] No supported package manager (apt-get/dnf) detected."
+      return 1
+    fi
+  }
+
+  build_flex_from_source() {
+    echo "[flex] Building flex 2.6.4 from source..."
+
+    # Clean old custom installs in WRF tree
+    rm -rf "${WRF_FOLDER}/Libs/flex-2.6.4" 2> /dev/null || true
+    rm -rf /tmp/flex-2.6.4 /tmp/flex-2.6.4.tar.gz 2> /dev/null || true
+
+    # Remove typical /usr/local flex files (not managed by apt/dnf)
+    echo "$PASSWD" | sudo -S bash -c '
+    rm -f /usr/local/bin/flex
+    rm -f /usr/local/lib/libfl.a /usr/local/lib/libfl.so /usr/local/lib/libfl.so.*
+    rm -f /usr/local/lib64/libfl.a /usr/local/lib64/libfl.so /usr/local/lib64/libfl.so.*
+    rm -f /usr/local/include/FlexLexer.h
+  '
+
+    cd /tmp
+    wget -q https://github.com/westes/flex/releases/download/v2.6.4/flex-2.6.4.tar.gz
+    tar -xzf flex-2.6.4.tar.gz
+    cd flex-2.6.4
+
+    # IMPORTANT: avoid polluting flex build with WRF's exported flags
+    unset CPPFLAGS CFLAGS CXXFLAGS FCFLAGS LDFLAGS LIBS
+
+    ./configure --prefix=/usr --enable-shared 2>&1 | tee "${WRF_FOLDER}/Downloads/flex.configure.log"
+    make -j"$(nproc 2> /dev/null || echo 2)" 2>&1 | tee "${WRF_FOLDER}/Downloads/flex.make.log"
+    echo "$PASSWD" | sudo -S make install
+    echo "$PASSWD" | sudo -S ldconfig
+  }
+
+  # Main logic: try pkg mgr first; source build only if still missing
+  if need_flex_install; then
+    echo "[flex] flex/libfl.so.2 not detected. Attempting install via package manager..."
+    if ! install_flex_via_pkgmgr; then
+      echo "[flex] Package-manager install not possible/failed; falling back to source build."
+      build_flex_from_source
+    fi
+
+    # Verify after install
+    if ! command -v flex > /dev/null 2>&1; then
+      echo "[flex] ERROR: flex still not found after install."
+      exit 1
+    fi
+    if ! (ldconfig -p 2> /dev/null | grep -q 'libfl\.so\.2' \
+      || find /usr /lib /usr/local -type f -name 'libfl.so.2*' 2> /dev/null | grep -q .); then
+      echo "[flex] ERROR: libfl.so.2 still not found after install."
+      exit 1
+    fi
+  else
+    echo "[flex] flex and libfl.so.2 already present; skipping installation."
+  fi
+
+  # Point WRF/KPP to system flex
+  export FLEX="$(command -v flex)"
+  export YACC="${YACC:-/usr/bin/yacc -d}"
+  # --------------------------------------------------------
+  # Ensure flex + libfl.so.2 are available (apt/dnf preferred)
+  # --------------------------------------------------------
+  need_flex_install() {
+    # flex binary missing OR runtime lib missing
+    command -v flex > /dev/null 2>&1 || return 0
+
+    # Check if dynamic loader can see libfl.so.2
+    if ldconfig -p 2> /dev/null | grep -q 'libfl\.so\.2'; then
+      return 1
+    fi
+
+    # Fallback checks if ldconfig isn't available / doesn't list it
+    if find /usr /lib /usr/local -type f -name 'libfl.so.2*' 2> /dev/null | grep -q .; then
+      return 1
+    fi
+
+    return 0
+  }
+
+  install_flex_via_pkgmgr() {
+    if command -v apt-get > /dev/null 2>&1; then
+      echo "[flex] Using apt-get to install flex/libfl..."
+      sudo -S apt-get update
+      # flex provides the flex binary; libfl2 provides libfl.so.2; libfl-dev is nice-to-have
+      sudo -S apt-get install -y flex libfl2 libfl-dev
+      sudo -S ldconfig || true
+      return 0
+    elif command -v dnf > /dev/null 2>&1; then
+      echo "[flex] Using dnf to install flex..."
+      sudo -S dnf -y install flex
+      sudo -S ldconfig || true
+      return 0
+    else
+      echo "[flex] No supported package manager (apt-get/dnf) detected."
+      return 1
+    fi
+  }
+
+  build_flex_from_source() {
+    echo "[flex] Building flex 2.6.4 from source..."
+
+    # Clean old custom installs in WRF tree
+    rm -rf "${WRF_FOLDER}/Libs/flex-2.6.4" 2> /dev/null || true
+    rm -rf /tmp/flex-2.6.4 /tmp/flex-2.6.4.tar.gz 2> /dev/null || true
+
+    # Remove typical /usr/local flex files (not managed by apt/dnf)
+    echo "$PASSWD" | sudo -S bash -c '
+    rm -f /usr/local/bin/flex
+    rm -f /usr/local/lib/libfl.a /usr/local/lib/libfl.so /usr/local/lib/libfl.so.*
+    rm -f /usr/local/lib64/libfl.a /usr/local/lib64/libfl.so /usr/local/lib64/libfl.so.*
+    rm -f /usr/local/include/FlexLexer.h
+  '
+
+    cd /tmp
+    wget -q https://github.com/westes/flex/releases/download/v2.6.4/flex-2.6.4.tar.gz
+    tar -xzf flex-2.6.4.tar.gz
+    cd flex-2.6.4
+
+    # IMPORTANT: avoid polluting flex build with WRF's exported flags
+    unset CPPFLAGS CFLAGS CXXFLAGS FCFLAGS LDFLAGS LIBS
+
+    ./configure --prefix=/usr --enable-shared 2>&1 | tee "${WRF_FOLDER}/Downloads/flex.configure.log"
+    make -j"$(nproc 2> /dev/null || echo 2)" 2>&1 | tee "${WRF_FOLDER}/Downloads/flex.make.log"
+    echo "$PASSWD" | sudo -S make install
+    echo "$PASSWD" | sudo -S ldconfig
+  }
+
+  # Main logic: try pkg mgr first; source build only if still missing
+  if need_flex_install; then
+    echo "[flex] flex/libfl.so.2 not detected. Attempting install via package manager..."
+    if ! install_flex_via_pkgmgr; then
+      echo "[flex] Package-manager install not possible/failed; falling back to source build."
+      build_flex_from_source
+    fi
+
+    # Verify after install
+    if ! command -v flex > /dev/null 2>&1; then
+      echo "[flex] ERROR: flex still not found after install."
+      exit 1
+    fi
+    if ! (ldconfig -p 2> /dev/null | grep -q 'libfl\.so\.2' \
+      || find /usr /lib /usr/local -type f -name 'libfl.so.2*' 2> /dev/null | grep -q .); then
+      echo "[flex] ERROR: libfl.so.2 still not found after install."
+      exit 1
+    fi
+  else
+    echo "[flex] flex and libfl.so.2 already present; skipping installation."
+  fi
+
+  # Point WRF/KPP to system flex
+  export FLEX="$(command -v flex)"
+  export YACC="${YACC:-/usr/bin/yacc -d}"
 
   # --------------------------------------------------------
   # Setting up WRF-CHEM/KPP environment
@@ -17870,10 +18007,6 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   export WRF_CHEM=1
   export WRF_KPP=1
 
-  export YACC='/usr/bin/yacc -d'
-  export FLEX=/usr/bin/flex
-
-  # FLEX_LIB_DIR is already set above, no need to hardcode
 
   export KPP_HOME="${WRF_FOLDER}"/WRF-${WRF_VERSION}/chem/KPP/kpp/kpp-2.1
   export WRF_SRC_ROOT_DIR="${WRF_FOLDER}"/WRF-${WRF_VERSION}
@@ -18738,55 +18871,192 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   ########################################
   # Clean out non-apt flex installations
   ########################################
-
-  # Remove any custom flex builds in your WRF tree
-  rm -rf "${WRF_FOLDER}/Libs/flex-2.6.4" 2> /dev/null || true
-  rm -rf /tmp/flex-2.6.4 2> /dev/null || true
-
-  # Remove typical /usr/local flex files (NOT managed by apt)
-  echo "$PASSWD" | sudo -S bash -c '
-      rm -f /usr/local/bin/flex
-      rm -f /usr/local/lib/libfl.a
-      rm -f /usr/local/lib/libfl.so
-      rm -f /usr/local/lib/libfl.so.*
-      rm -f /usr/local/lib64/libfl.a
-      rm -f /usr/local/lib64/libfl.so
-      rm -f /usr/local/lib64/libfl.so.*
-      rm -f /usr/local/include/FlexLexer.h
-    '
-
-  # (Optional) show what apt thinks flex is
-  echo "Apt-managed flex files:"
-  dpkg -L flex 2> /dev/null || echo "flex package not installed via apt."
-
-  cd /tmp
-
-  # Download the flex 2.6.4 source tarball
-  wget https://github.com/westes/flex/releases/download/v2.6.4/flex-2.6.4.tar.gz
-
-  # Extract it
-  tar -xzf flex-2.6.4.tar.gz
-  cd flex-2.6.4
-
-  # Configure to install into /usr (so libs go to /usr/lib64)
-  ./configure --prefix=/usr/ 2>&1 | tee "${WRF_FOLDER}"/Downloads/flex.configure.log
-
-  # Build
-  make 2>&1 | tee "${WRF_FOLDER}"/Downloads/flex.make.log
-
-  # Install (will prompt for sudo password)
-  echo $PASSWD | sudo -S make install
-
   # --------------------------------------------------------
-  # Detect Flex library location automatically
+  # Ensure flex + libfl.so.2 are available (apt/dnf preferred)
   # --------------------------------------------------------
-  FLEX_LIB_PATH=$(find /usr /usr/local -type f \( -name "libfl.a" -o -name "libfl.so" \) 2> /dev/null | head -n 1)
-  # Extract the directory name only
-  FLEX_LIB_DIR=$(dirname "$FLEX_LIB_PATH")
+  need_flex_install() {
+    # flex binary missing OR runtime lib missing
+    command -v flex > /dev/null 2>&1 || return 0
 
-  # Export it for WRF configure
-  export FLEX_LIB_DIR
-  echo "FLEX_LIB_DIR set to $FLEX_LIB_DIR"
+    # Check if dynamic loader can see libfl.so.2
+    if ldconfig -p 2> /dev/null | grep -q 'libfl\.so\.2'; then
+      return 1
+    fi
+
+    # Fallback checks if ldconfig isn't available / doesn't list it
+    if find /usr /lib /usr/local -type f -name 'libfl.so.2*' 2> /dev/null | grep -q .; then
+      return 1
+    fi
+
+    return 0
+  }
+
+  install_flex_via_pkgmgr() {
+    if command -v apt-get > /dev/null 2>&1; then
+      echo "[flex] Using apt-get to install flex/libfl..."
+      sudo -S apt-get update
+      # flex provides the flex binary; libfl2 provides libfl.so.2; libfl-dev is nice-to-have
+      sudo -S apt-get install -y flex libfl2 libfl-dev
+      sudo -S ldconfig || true
+      return 0
+    elif command -v dnf > /dev/null 2>&1; then
+      echo "[flex] Using dnf to install flex..."
+      sudo -S dnf -y install flex
+      sudo -S ldconfig || true
+      return 0
+    else
+      echo "[flex] No supported package manager (apt-get/dnf) detected."
+      return 1
+    fi
+  }
+
+  build_flex_from_source() {
+    echo "[flex] Building flex 2.6.4 from source..."
+
+    # Clean old custom installs in WRF tree
+    rm -rf "${WRF_FOLDER}/Libs/flex-2.6.4" 2> /dev/null || true
+    rm -rf /tmp/flex-2.6.4 /tmp/flex-2.6.4.tar.gz 2> /dev/null || true
+
+    # Remove typical /usr/local flex files (not managed by apt/dnf)
+    echo "$PASSWD" | sudo -S bash -c '
+    rm -f /usr/local/bin/flex
+    rm -f /usr/local/lib/libfl.a /usr/local/lib/libfl.so /usr/local/lib/libfl.so.*
+    rm -f /usr/local/lib64/libfl.a /usr/local/lib64/libfl.so /usr/local/lib64/libfl.so.*
+    rm -f /usr/local/include/FlexLexer.h
+  '
+
+    cd /tmp
+    wget -q https://github.com/westes/flex/releases/download/v2.6.4/flex-2.6.4.tar.gz
+    tar -xzf flex-2.6.4.tar.gz
+    cd flex-2.6.4
+
+    # IMPORTANT: avoid polluting flex build with WRF's exported flags
+    unset CPPFLAGS CFLAGS CXXFLAGS FCFLAGS LDFLAGS LIBS
+
+    ./configure --prefix=/usr --enable-shared 2>&1 | tee "${WRF_FOLDER}/Downloads/flex.configure.log"
+    make -j"$(nproc 2> /dev/null || echo 2)" 2>&1 | tee "${WRF_FOLDER}/Downloads/flex.make.log"
+    echo "$PASSWD" | sudo -S make install
+    echo "$PASSWD" | sudo -S ldconfig
+  }
+
+  # Main logic: try pkg mgr first; source build only if still missing
+  if need_flex_install; then
+    echo "[flex] flex/libfl.so.2 not detected. Attempting install via package manager..."
+    if ! install_flex_via_pkgmgr; then
+      echo "[flex] Package-manager install not possible/failed; falling back to source build."
+      build_flex_from_source
+    fi
+
+    # Verify after install
+    if ! command -v flex > /dev/null 2>&1; then
+      echo "[flex] ERROR: flex still not found after install."
+      exit 1
+    fi
+    if ! (ldconfig -p 2> /dev/null | grep -q 'libfl\.so\.2' \
+      || find /usr /lib /usr/local -type f -name 'libfl.so.2*' 2> /dev/null | grep -q .); then
+      echo "[flex] ERROR: libfl.so.2 still not found after install."
+      exit 1
+    fi
+  else
+    echo "[flex] flex and libfl.so.2 already present; skipping installation."
+  fi
+
+  # Point WRF/KPP to system flex
+  export FLEX="$(command -v flex)"
+  export YACC="${YACC:-/usr/bin/yacc -d}"
+  # --------------------------------------------------------
+  # Ensure flex + libfl.so.2 are available (apt/dnf preferred)
+  # --------------------------------------------------------
+  need_flex_install() {
+    # flex binary missing OR runtime lib missing
+    command -v flex > /dev/null 2>&1 || return 0
+
+    # Check if dynamic loader can see libfl.so.2
+    if ldconfig -p 2> /dev/null | grep -q 'libfl\.so\.2'; then
+      return 1
+    fi
+
+    # Fallback checks if ldconfig isn't available / doesn't list it
+    if find /usr /lib /usr/local -type f -name 'libfl.so.2*' 2> /dev/null | grep -q .; then
+      return 1
+    fi
+
+    return 0
+  }
+
+  install_flex_via_pkgmgr() {
+    if command -v apt-get > /dev/null 2>&1; then
+      echo "[flex] Using apt-get to install flex/libfl..."
+      sudo -S apt-get update
+      # flex provides the flex binary; libfl2 provides libfl.so.2; libfl-dev is nice-to-have
+      sudo -S apt-get install -y flex libfl2 libfl-dev
+      sudo -S ldconfig || true
+      return 0
+    elif command -v dnf > /dev/null 2>&1; then
+      echo "[flex] Using dnf to install flex..."
+      sudo -S dnf -y install flex
+      sudo -S ldconfig || true
+      return 0
+    else
+      echo "[flex] No supported package manager (apt-get/dnf) detected."
+      return 1
+    fi
+  }
+
+  build_flex_from_source() {
+    echo "[flex] Building flex 2.6.4 from source..."
+
+    # Clean old custom installs in WRF tree
+    rm -rf "${WRF_FOLDER}/Libs/flex-2.6.4" 2> /dev/null || true
+    rm -rf /tmp/flex-2.6.4 /tmp/flex-2.6.4.tar.gz 2> /dev/null || true
+
+    # Remove typical /usr/local flex files (not managed by apt/dnf)
+    echo "$PASSWD" | sudo -S bash -c '
+    rm -f /usr/local/bin/flex
+    rm -f /usr/local/lib/libfl.a /usr/local/lib/libfl.so /usr/local/lib/libfl.so.*
+    rm -f /usr/local/lib64/libfl.a /usr/local/lib64/libfl.so /usr/local/lib64/libfl.so.*
+    rm -f /usr/local/include/FlexLexer.h
+  '
+
+    cd /tmp
+    wget -q https://github.com/westes/flex/releases/download/v2.6.4/flex-2.6.4.tar.gz
+    tar -xzf flex-2.6.4.tar.gz
+    cd flex-2.6.4
+
+    # IMPORTANT: avoid polluting flex build with WRF's exported flags
+    unset CPPFLAGS CFLAGS CXXFLAGS FCFLAGS LDFLAGS LIBS
+
+    ./configure --prefix=/usr --enable-shared 2>&1 | tee "${WRF_FOLDER}/Downloads/flex.configure.log"
+    make -j"$(nproc 2> /dev/null || echo 2)" 2>&1 | tee "${WRF_FOLDER}/Downloads/flex.make.log"
+    echo "$PASSWD" | sudo -S make install
+    echo "$PASSWD" | sudo -S ldconfig
+  }
+
+  # Main logic: try pkg mgr first; source build only if still missing
+  if need_flex_install; then
+    echo "[flex] flex/libfl.so.2 not detected. Attempting install via package manager..."
+    if ! install_flex_via_pkgmgr; then
+      echo "[flex] Package-manager install not possible/failed; falling back to source build."
+      build_flex_from_source
+    fi
+
+    # Verify after install
+    if ! command -v flex > /dev/null 2>&1; then
+      echo "[flex] ERROR: flex still not found after install."
+      exit 1
+    fi
+    if ! (ldconfig -p 2> /dev/null | grep -q 'libfl\.so\.2' \
+      || find /usr /lib /usr/local -type f -name 'libfl.so.2*' 2> /dev/null | grep -q .); then
+      echo "[flex] ERROR: libfl.so.2 still not found after install."
+      exit 1
+    fi
+  else
+    echo "[flex] flex and libfl.so.2 already present; skipping installation."
+  fi
+
+  # Point WRF/KPP to system flex
+  export FLEX="$(command -v flex)"
+  export YACC="${YACC:-/usr/bin/yacc -d}"
 
   # --------------------------------------------------------
   # Setting up WRF-CHEM/KPP environment
@@ -18799,10 +19069,6 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   export WRF_CHEM=1
   export WRF_KPP=1
 
-  export YACC='/usr/bin/yacc -d'
-  export FLEX=/usr/bin/flex
-
-  # FLEX_LIB_DIR is already set above, no need to hardcode
 
   export KPP_HOME="${WRF_FOLDER}"/WRF-${WRF_VERSION}/chem/KPP/kpp/kpp-2.1
   export WRF_SRC_ROOT_DIR="${WRF_FOLDER}"/WRF-${WRF_VERSION}
@@ -20768,7 +21034,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   echo $PASSWD | sudo -S dnf install dnf -y
   echo $PASSWD | sudo -S dnf -y update
   echo $PASSWD | sudo -S dnf -y upgrade
-  echo $PASSWD | sudo -S dnf -y install byacc bzip2 bzip2-devel cairo-devel cmake cpp curl curl-devel flex fontconfig fontconfig-devel gcc gcc-c++ gcc-gfortran git ksh libjpeg libjpeg-devel libstdc++ libstdc++-devel libX11 libX11-devel libXaw libXaw-devel libXext-devel libXmu libXmu-devel libXrender libXrender-devel libXt libXt-devel libxml2 libxml2-devel libgeotiff libgeotiff-devel libtiff libtiff-devel m4 nfs-utils perl 'perl(XML::LibXML)' pkgconfig pixman pixman-devel python3 python3-devel tcsh time unzip wget
+  echo $PASSWD | sudo -S dnf -y install byacc bzip2 bzip2-devel cairo-devel cmake cpp curl curl-devel flex flex-devel fontconfig fontconfig-devel gcc gcc-c++ gcc-gfortran git ksh libjpeg libjpeg-devel libstdc++ libstdc++-devel libX11 libX11-devel libXaw libXaw-devel libXext-devel libXmu libXmu-devel libXrender libXrender-devel libXt libXt-devel libxml2 libxml2-devel libgeotiff libgeotiff-devel libtiff libtiff-devel m4 nfs-utils perl 'perl(XML::LibXML)' pkgconfig pixman pixman-devel python3 python3-devel tcsh time unzip wget
   echo $PASSWD | sudo -S dnf install -y java java-devel
   echo $PASSWD | sudo -S dnf install -y java-17-openjdk-devel java-17-openjdk
   echo $PASSWD | sudo -S dnf install -y java-21-openjdk-devel java-21-openjdk
@@ -21384,55 +21650,192 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   ########################################
   # Clean out non-apt flex installations
   ########################################
-
-  # Remove any custom flex builds in your WRF tree
-  rm -rf "${WRF_FOLDER}/Libs/flex-2.6.4" 2> /dev/null || true
-  rm -rf /tmp/flex-2.6.4 2> /dev/null || true
-
-  # Remove typical /usr/local flex files (NOT managed by apt)
-  echo "$PASSWD" | sudo -S bash -c '
-      rm -f /usr/local/bin/flex
-      rm -f /usr/local/lib/libfl.a
-      rm -f /usr/local/lib/libfl.so
-      rm -f /usr/local/lib/libfl.so.*
-      rm -f /usr/local/lib64/libfl.a
-      rm -f /usr/local/lib64/libfl.so
-      rm -f /usr/local/lib64/libfl.so.*
-      rm -f /usr/local/include/FlexLexer.h
-    '
-
-  # (Optional) show what apt thinks flex is
-  echo "Apt-managed flex files:"
-  dpkg -L flex 2> /dev/null || echo "flex package not installed via apt."
-
-  cd /tmp
-
-  # Download the flex 2.6.4 source tarball
-  wget https://github.com/westes/flex/releases/download/v2.6.4/flex-2.6.4.tar.gz
-
-  # Extract it
-  tar -xzf flex-2.6.4.tar.gz
-  cd flex-2.6.4
-
-  # Configure to install into /usr (so libs go to /usr/lib64)
-  ./configure --prefix=/usr/ 2>&1 | tee "${WRF_FOLDER}"/Downloads/flex.configure.log
-
-  # Build
-  make 2>&1 | tee "${WRF_FOLDER}"/Downloads/flex.make.log
-
-  # Install (will prompt for sudo password)
-  echo $PASSWD | sudo -S make install
-
   # --------------------------------------------------------
-  # Detect Flex library location automatically
+  # Ensure flex + libfl.so.2 are available (apt/dnf preferred)
   # --------------------------------------------------------
-  FLEX_LIB_PATH=$(find /usr /usr/local -type f \( -name "libfl.a" -o -name "libfl.so" \) 2> /dev/null | head -n 1)
-  # Extract the directory name only
-  FLEX_LIB_DIR=$(dirname "$FLEX_LIB_PATH")
+  need_flex_install() {
+    # flex binary missing OR runtime lib missing
+    command -v flex > /dev/null 2>&1 || return 0
 
-  # Export it for WRF configure
-  export FLEX_LIB_DIR
-  echo "FLEX_LIB_DIR set to $FLEX_LIB_DIR"
+    # Check if dynamic loader can see libfl.so.2
+    if ldconfig -p 2> /dev/null | grep -q 'libfl\.so\.2'; then
+      return 1
+    fi
+
+    # Fallback checks if ldconfig isn't available / doesn't list it
+    if find /usr /lib /usr/local -type f -name 'libfl.so.2*' 2> /dev/null | grep -q .; then
+      return 1
+    fi
+
+    return 0
+  }
+
+  install_flex_via_pkgmgr() {
+    if command -v apt-get > /dev/null 2>&1; then
+      echo "[flex] Using apt-get to install flex/libfl..."
+      sudo -S apt-get update
+      # flex provides the flex binary; libfl2 provides libfl.so.2; libfl-dev is nice-to-have
+      sudo -S apt-get install -y flex libfl2 libfl-dev
+      sudo -S ldconfig || true
+      return 0
+    elif command -v dnf > /dev/null 2>&1; then
+      echo "[flex] Using dnf to install flex..."
+      sudo -S dnf -y install flex
+      sudo -S ldconfig || true
+      return 0
+    else
+      echo "[flex] No supported package manager (apt-get/dnf) detected."
+      return 1
+    fi
+  }
+
+  build_flex_from_source() {
+    echo "[flex] Building flex 2.6.4 from source..."
+
+    # Clean old custom installs in WRF tree
+    rm -rf "${WRF_FOLDER}/Libs/flex-2.6.4" 2> /dev/null || true
+    rm -rf /tmp/flex-2.6.4 /tmp/flex-2.6.4.tar.gz 2> /dev/null || true
+
+    # Remove typical /usr/local flex files (not managed by apt/dnf)
+    echo "$PASSWD" | sudo -S bash -c '
+    rm -f /usr/local/bin/flex
+    rm -f /usr/local/lib/libfl.a /usr/local/lib/libfl.so /usr/local/lib/libfl.so.*
+    rm -f /usr/local/lib64/libfl.a /usr/local/lib64/libfl.so /usr/local/lib64/libfl.so.*
+    rm -f /usr/local/include/FlexLexer.h
+  '
+
+    cd /tmp
+    wget -q https://github.com/westes/flex/releases/download/v2.6.4/flex-2.6.4.tar.gz
+    tar -xzf flex-2.6.4.tar.gz
+    cd flex-2.6.4
+
+    # IMPORTANT: avoid polluting flex build with WRF's exported flags
+    unset CPPFLAGS CFLAGS CXXFLAGS FCFLAGS LDFLAGS LIBS
+
+    ./configure --prefix=/usr --enable-shared 2>&1 | tee "${WRF_FOLDER}/Downloads/flex.configure.log"
+    make -j"$(nproc 2> /dev/null || echo 2)" 2>&1 | tee "${WRF_FOLDER}/Downloads/flex.make.log"
+    echo "$PASSWD" | sudo -S make install
+    echo "$PASSWD" | sudo -S ldconfig
+  }
+
+  # Main logic: try pkg mgr first; source build only if still missing
+  if need_flex_install; then
+    echo "[flex] flex/libfl.so.2 not detected. Attempting install via package manager..."
+    if ! install_flex_via_pkgmgr; then
+      echo "[flex] Package-manager install not possible/failed; falling back to source build."
+      build_flex_from_source
+    fi
+
+    # Verify after install
+    if ! command -v flex > /dev/null 2>&1; then
+      echo "[flex] ERROR: flex still not found after install."
+      exit 1
+    fi
+    if ! (ldconfig -p 2> /dev/null | grep -q 'libfl\.so\.2' \
+      || find /usr /lib /usr/local -type f -name 'libfl.so.2*' 2> /dev/null | grep -q .); then
+      echo "[flex] ERROR: libfl.so.2 still not found after install."
+      exit 1
+    fi
+  else
+    echo "[flex] flex and libfl.so.2 already present; skipping installation."
+  fi
+
+  # Point WRF/KPP to system flex
+  export FLEX="$(command -v flex)"
+  export YACC="${YACC:-/usr/bin/yacc -d}"
+  # --------------------------------------------------------
+  # Ensure flex + libfl.so.2 are available (apt/dnf preferred)
+  # --------------------------------------------------------
+  need_flex_install() {
+    # flex binary missing OR runtime lib missing
+    command -v flex > /dev/null 2>&1 || return 0
+
+    # Check if dynamic loader can see libfl.so.2
+    if ldconfig -p 2> /dev/null | grep -q 'libfl\.so\.2'; then
+      return 1
+    fi
+
+    # Fallback checks if ldconfig isn't available / doesn't list it
+    if find /usr /lib /usr/local -type f -name 'libfl.so.2*' 2> /dev/null | grep -q .; then
+      return 1
+    fi
+
+    return 0
+  }
+
+  install_flex_via_pkgmgr() {
+    if command -v apt-get > /dev/null 2>&1; then
+      echo "[flex] Using apt-get to install flex/libfl..."
+      sudo -S apt-get update
+      # flex provides the flex binary; libfl2 provides libfl.so.2; libfl-dev is nice-to-have
+      sudo -S apt-get install -y flex libfl2 libfl-dev
+      sudo -S ldconfig || true
+      return 0
+    elif command -v dnf > /dev/null 2>&1; then
+      echo "[flex] Using dnf to install flex..."
+      sudo -S dnf -y install flex
+      sudo -S ldconfig || true
+      return 0
+    else
+      echo "[flex] No supported package manager (apt-get/dnf) detected."
+      return 1
+    fi
+  }
+
+  build_flex_from_source() {
+    echo "[flex] Building flex 2.6.4 from source..."
+
+    # Clean old custom installs in WRF tree
+    rm -rf "${WRF_FOLDER}/Libs/flex-2.6.4" 2> /dev/null || true
+    rm -rf /tmp/flex-2.6.4 /tmp/flex-2.6.4.tar.gz 2> /dev/null || true
+
+    # Remove typical /usr/local flex files (not managed by apt/dnf)
+    echo "$PASSWD" | sudo -S bash -c '
+    rm -f /usr/local/bin/flex
+    rm -f /usr/local/lib/libfl.a /usr/local/lib/libfl.so /usr/local/lib/libfl.so.*
+    rm -f /usr/local/lib64/libfl.a /usr/local/lib64/libfl.so /usr/local/lib64/libfl.so.*
+    rm -f /usr/local/include/FlexLexer.h
+  '
+
+    cd /tmp
+    wget -q https://github.com/westes/flex/releases/download/v2.6.4/flex-2.6.4.tar.gz
+    tar -xzf flex-2.6.4.tar.gz
+    cd flex-2.6.4
+
+    # IMPORTANT: avoid polluting flex build with WRF's exported flags
+    unset CPPFLAGS CFLAGS CXXFLAGS FCFLAGS LDFLAGS LIBS
+
+    ./configure --prefix=/usr --enable-shared 2>&1 | tee "${WRF_FOLDER}/Downloads/flex.configure.log"
+    make -j"$(nproc 2> /dev/null || echo 2)" 2>&1 | tee "${WRF_FOLDER}/Downloads/flex.make.log"
+    echo "$PASSWD" | sudo -S make install
+    echo "$PASSWD" | sudo -S ldconfig
+  }
+
+  # Main logic: try pkg mgr first; source build only if still missing
+  if need_flex_install; then
+    echo "[flex] flex/libfl.so.2 not detected. Attempting install via package manager..."
+    if ! install_flex_via_pkgmgr; then
+      echo "[flex] Package-manager install not possible/failed; falling back to source build."
+      build_flex_from_source
+    fi
+
+    # Verify after install
+    if ! command -v flex > /dev/null 2>&1; then
+      echo "[flex] ERROR: flex still not found after install."
+      exit 1
+    fi
+    if ! (ldconfig -p 2> /dev/null | grep -q 'libfl\.so\.2' \
+      || find /usr /lib /usr/local -type f -name 'libfl.so.2*' 2> /dev/null | grep -q .); then
+      echo "[flex] ERROR: libfl.so.2 still not found after install."
+      exit 1
+    fi
+  else
+    echo "[flex] flex and libfl.so.2 already present; skipping installation."
+  fi
+
+  # Point WRF/KPP to system flex
+  export FLEX="$(command -v flex)"
+  export YACC="${YACC:-/usr/bin/yacc -d}"
 
   # --------------------------------------------------------
   # Setting up WRF-CHEM/KPP environment
@@ -21445,10 +21848,6 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   export WRF_CHEM=1
   export WRF_KPP=1
 
-  export YACC='/usr/bin/yacc -d'
-  export FLEX=/usr/bin/flex
-
-  # FLEX_LIB_DIR is already set above, no need to hardcode
 
   export KPP_HOME="${WRF_FOLDER}"/WRF-${WRF_VERSION}/chem/KPP/kpp/kpp-2.1
   export WRF_SRC_ROOT_DIR="${WRF_FOLDER}"/WRF-${WRF_VERSION}
@@ -21696,7 +22095,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   echo $PASSWD | sudo -S dnf install dnf -y
   echo $PASSWD | sudo -S dnf -y update
   echo $PASSWD | sudo -S dnf -y upgrade
-  echo $PASSWD | sudo -S dnf -y install byacc bzip2 bzip2-devel cairo-devel cmake cpp curl curl-devel flex fontconfig fontconfig-devel gcc gcc-c++ gcc-gfortran git ksh libjpeg libjpeg-devel libstdc++ libstdc++-devel libX11 libX11-devel libXaw libXaw-devel libXext-devel libXmu libXmu-devel libXrender libXrender-devel libXt libXt-devel libxml2 libxml2-devel libgeotiff libgeotiff-devel libtiff libtiff-devel m4 nfs-utils perl 'perl(XML::LibXML)' pkgconfig pixman pixman-devel python3 python3-devel tcsh time unzip wget
+  echo $PASSWD | sudo -S dnf -y install byacc bzip2 bzip2-devel cairo-devel cmake cpp curl curl-devel flex flex-devel fontconfig fontconfig-devel gcc gcc-c++ gcc-gfortran git ksh libjpeg libjpeg-devel libstdc++ libstdc++-devel libX11 libX11-devel libXaw libXaw-devel libXext-devel libXmu libXmu-devel libXrender libXrender-devel libXt libXt-devel libxml2 libxml2-devel libgeotiff libgeotiff-devel libtiff libtiff-devel m4 nfs-utils perl 'perl(XML::LibXML)' pkgconfig pixman pixman-devel python3 python3-devel tcsh time unzip wget
   echo $PASSWD | sudo -S dnf install -y java java-devel
   echo $PASSWD | sudo -S dnf install -y java-17-openjdk-devel java-17-openjdk
   echo $PASSWD | sudo -S dnf install -y java-21-openjdk-devel java-21-openjdk
@@ -22285,55 +22684,192 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   ########################################
   # Clean out non-apt flex installations
   ########################################
-
-  # Remove any custom flex builds in your WRF tree
-  rm -rf "${WRF_FOLDER}/Libs/flex-2.6.4" 2> /dev/null || true
-  rm -rf /tmp/flex-2.6.4 2> /dev/null || true
-
-  # Remove typical /usr/local flex files (NOT managed by apt)
-  echo "$PASSWD" | sudo -S bash -c '
-      rm -f /usr/local/bin/flex
-      rm -f /usr/local/lib/libfl.a
-      rm -f /usr/local/lib/libfl.so
-      rm -f /usr/local/lib/libfl.so.*
-      rm -f /usr/local/lib64/libfl.a
-      rm -f /usr/local/lib64/libfl.so
-      rm -f /usr/local/lib64/libfl.so.*
-      rm -f /usr/local/include/FlexLexer.h
-    '
-
-  # (Optional) show what apt thinks flex is
-  echo "Apt-managed flex files:"
-  dpkg -L flex 2> /dev/null || echo "flex package not installed via apt."
-
-  cd /tmp
-
-  # Download the flex 2.6.4 source tarball
-  wget https://github.com/westes/flex/releases/download/v2.6.4/flex-2.6.4.tar.gz
-
-  # Extract it
-  tar -xzf flex-2.6.4.tar.gz
-  cd flex-2.6.4
-
-  # Configure to install into /usr (so libs go to /usr/lib64)
-  ./configure --prefix=/usr/ 2>&1 | tee "${WRF_FOLDER}"/Downloads/flex.configure.log
-
-  # Build
-  make 2>&1 | tee "${WRF_FOLDER}"/Downloads/flex.make.log
-
-  # Install (will prompt for sudo password)
-  echo $PASSWD | sudo -S make install
-
   # --------------------------------------------------------
-  # Detect Flex library location automatically
+  # Ensure flex + libfl.so.2 are available (apt/dnf preferred)
   # --------------------------------------------------------
-  FLEX_LIB_PATH=$(find /usr /usr/local -type f \( -name "libfl.a" -o -name "libfl.so" \) 2> /dev/null | head -n 1)
-  # Extract the directory name only
-  FLEX_LIB_DIR=$(dirname "$FLEX_LIB_PATH")
+  need_flex_install() {
+    # flex binary missing OR runtime lib missing
+    command -v flex > /dev/null 2>&1 || return 0
 
-  # Export it for WRF configure
-  export FLEX_LIB_DIR
-  echo "FLEX_LIB_DIR set to $FLEX_LIB_DIR"
+    # Check if dynamic loader can see libfl.so.2
+    if ldconfig -p 2> /dev/null | grep -q 'libfl\.so\.2'; then
+      return 1
+    fi
+
+    # Fallback checks if ldconfig isn't available / doesn't list it
+    if find /usr /lib /usr/local -type f -name 'libfl.so.2*' 2> /dev/null | grep -q .; then
+      return 1
+    fi
+
+    return 0
+  }
+
+  install_flex_via_pkgmgr() {
+    if command -v apt-get > /dev/null 2>&1; then
+      echo "[flex] Using apt-get to install flex/libfl..."
+      sudo -S apt-get update
+      # flex provides the flex binary; libfl2 provides libfl.so.2; libfl-dev is nice-to-have
+      sudo -S apt-get install -y flex libfl2 libfl-dev
+      sudo -S ldconfig || true
+      return 0
+    elif command -v dnf > /dev/null 2>&1; then
+      echo "[flex] Using dnf to install flex..."
+      sudo -S dnf -y install flex
+      sudo -S ldconfig || true
+      return 0
+    else
+      echo "[flex] No supported package manager (apt-get/dnf) detected."
+      return 1
+    fi
+  }
+
+  build_flex_from_source() {
+    echo "[flex] Building flex 2.6.4 from source..."
+
+    # Clean old custom installs in WRF tree
+    rm -rf "${WRF_FOLDER}/Libs/flex-2.6.4" 2> /dev/null || true
+    rm -rf /tmp/flex-2.6.4 /tmp/flex-2.6.4.tar.gz 2> /dev/null || true
+
+    # Remove typical /usr/local flex files (not managed by apt/dnf)
+    echo "$PASSWD" | sudo -S bash -c '
+    rm -f /usr/local/bin/flex
+    rm -f /usr/local/lib/libfl.a /usr/local/lib/libfl.so /usr/local/lib/libfl.so.*
+    rm -f /usr/local/lib64/libfl.a /usr/local/lib64/libfl.so /usr/local/lib64/libfl.so.*
+    rm -f /usr/local/include/FlexLexer.h
+  '
+
+    cd /tmp
+    wget -q https://github.com/westes/flex/releases/download/v2.6.4/flex-2.6.4.tar.gz
+    tar -xzf flex-2.6.4.tar.gz
+    cd flex-2.6.4
+
+    # IMPORTANT: avoid polluting flex build with WRF's exported flags
+    unset CPPFLAGS CFLAGS CXXFLAGS FCFLAGS LDFLAGS LIBS
+
+    ./configure --prefix=/usr --enable-shared 2>&1 | tee "${WRF_FOLDER}/Downloads/flex.configure.log"
+    make -j"$(nproc 2> /dev/null || echo 2)" 2>&1 | tee "${WRF_FOLDER}/Downloads/flex.make.log"
+    echo "$PASSWD" | sudo -S make install
+    echo "$PASSWD" | sudo -S ldconfig
+  }
+
+  # Main logic: try pkg mgr first; source build only if still missing
+  if need_flex_install; then
+    echo "[flex] flex/libfl.so.2 not detected. Attempting install via package manager..."
+    if ! install_flex_via_pkgmgr; then
+      echo "[flex] Package-manager install not possible/failed; falling back to source build."
+      build_flex_from_source
+    fi
+
+    # Verify after install
+    if ! command -v flex > /dev/null 2>&1; then
+      echo "[flex] ERROR: flex still not found after install."
+      exit 1
+    fi
+    if ! (ldconfig -p 2> /dev/null | grep -q 'libfl\.so\.2' \
+      || find /usr /lib /usr/local -type f -name 'libfl.so.2*' 2> /dev/null | grep -q .); then
+      echo "[flex] ERROR: libfl.so.2 still not found after install."
+      exit 1
+    fi
+  else
+    echo "[flex] flex and libfl.so.2 already present; skipping installation."
+  fi
+
+  # Point WRF/KPP to system flex
+  export FLEX="$(command -v flex)"
+  export YACC="${YACC:-/usr/bin/yacc -d}"
+  # --------------------------------------------------------
+  # Ensure flex + libfl.so.2 are available (apt/dnf preferred)
+  # --------------------------------------------------------
+  need_flex_install() {
+    # flex binary missing OR runtime lib missing
+    command -v flex > /dev/null 2>&1 || return 0
+
+    # Check if dynamic loader can see libfl.so.2
+    if ldconfig -p 2> /dev/null | grep -q 'libfl\.so\.2'; then
+      return 1
+    fi
+
+    # Fallback checks if ldconfig isn't available / doesn't list it
+    if find /usr /lib /usr/local -type f -name 'libfl.so.2*' 2> /dev/null | grep -q .; then
+      return 1
+    fi
+
+    return 0
+  }
+
+  install_flex_via_pkgmgr() {
+    if command -v apt-get > /dev/null 2>&1; then
+      echo "[flex] Using apt-get to install flex/libfl..."
+      sudo -S apt-get update
+      # flex provides the flex binary; libfl2 provides libfl.so.2; libfl-dev is nice-to-have
+      sudo -S apt-get install -y flex libfl2 libfl-dev
+      sudo -S ldconfig || true
+      return 0
+    elif command -v dnf > /dev/null 2>&1; then
+      echo "[flex] Using dnf to install flex..."
+      sudo -S dnf -y install flex
+      sudo -S ldconfig || true
+      return 0
+    else
+      echo "[flex] No supported package manager (apt-get/dnf) detected."
+      return 1
+    fi
+  }
+
+  build_flex_from_source() {
+    echo "[flex] Building flex 2.6.4 from source..."
+
+    # Clean old custom installs in WRF tree
+    rm -rf "${WRF_FOLDER}/Libs/flex-2.6.4" 2> /dev/null || true
+    rm -rf /tmp/flex-2.6.4 /tmp/flex-2.6.4.tar.gz 2> /dev/null || true
+
+    # Remove typical /usr/local flex files (not managed by apt/dnf)
+    echo "$PASSWD" | sudo -S bash -c '
+    rm -f /usr/local/bin/flex
+    rm -f /usr/local/lib/libfl.a /usr/local/lib/libfl.so /usr/local/lib/libfl.so.*
+    rm -f /usr/local/lib64/libfl.a /usr/local/lib64/libfl.so /usr/local/lib64/libfl.so.*
+    rm -f /usr/local/include/FlexLexer.h
+  '
+
+    cd /tmp
+    wget -q https://github.com/westes/flex/releases/download/v2.6.4/flex-2.6.4.tar.gz
+    tar -xzf flex-2.6.4.tar.gz
+    cd flex-2.6.4
+
+    # IMPORTANT: avoid polluting flex build with WRF's exported flags
+    unset CPPFLAGS CFLAGS CXXFLAGS FCFLAGS LDFLAGS LIBS
+
+    ./configure --prefix=/usr --enable-shared 2>&1 | tee "${WRF_FOLDER}/Downloads/flex.configure.log"
+    make -j"$(nproc 2> /dev/null || echo 2)" 2>&1 | tee "${WRF_FOLDER}/Downloads/flex.make.log"
+    echo "$PASSWD" | sudo -S make install
+    echo "$PASSWD" | sudo -S ldconfig
+  }
+
+  # Main logic: try pkg mgr first; source build only if still missing
+  if need_flex_install; then
+    echo "[flex] flex/libfl.so.2 not detected. Attempting install via package manager..."
+    if ! install_flex_via_pkgmgr; then
+      echo "[flex] Package-manager install not possible/failed; falling back to source build."
+      build_flex_from_source
+    fi
+
+    # Verify after install
+    if ! command -v flex > /dev/null 2>&1; then
+      echo "[flex] ERROR: flex still not found after install."
+      exit 1
+    fi
+    if ! (ldconfig -p 2> /dev/null | grep -q 'libfl\.so\.2' \
+      || find /usr /lib /usr/local -type f -name 'libfl.so.2*' 2> /dev/null | grep -q .); then
+      echo "[flex] ERROR: libfl.so.2 still not found after install."
+      exit 1
+    fi
+  else
+    echo "[flex] flex and libfl.so.2 already present; skipping installation."
+  fi
+
+  # Point WRF/KPP to system flex
+  export FLEX="$(command -v flex)"
+  export YACC="${YACC:-/usr/bin/yacc -d}"
 
   # --------------------------------------------------------
   # Setting up WRF-CHEM/KPP environment
@@ -22346,10 +22882,6 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   export WRF_CHEM=1
   export WRF_KPP=1
 
-  export YACC='/usr/bin/yacc -d'
-  export FLEX=/usr/bin/flex
-
-  # FLEX_LIB_DIR is already set above, no need to hardcode
 
   export KPP_HOME="${WRF_FOLDER}"/WRF-${WRF_VERSION}/chem/KPP/kpp/kpp-2.1
   export WRF_SRC_ROOT_DIR="${WRF_FOLDER}"/WRF-${WRF_VERSION}
@@ -23207,55 +23739,192 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" ]; then
   ########################################
   # Clean out non-apt flex installations
   ########################################
-
-  # Remove any custom flex builds in your WRF tree
-  rm -rf "${WRF_FOLDER}/Libs/flex-2.6.4" 2> /dev/null || true
-  rm -rf /tmp/flex-2.6.4 2> /dev/null || true
-
-  # Remove typical /usr/local flex files (NOT managed by apt)
-  echo "$PASSWD" | sudo -S bash -c '
-      rm -f /usr/local/bin/flex
-      rm -f /usr/local/lib/libfl.a
-      rm -f /usr/local/lib/libfl.so
-      rm -f /usr/local/lib/libfl.so.*
-      rm -f /usr/local/lib64/libfl.a
-      rm -f /usr/local/lib64/libfl.so
-      rm -f /usr/local/lib64/libfl.so.*
-      rm -f /usr/local/include/FlexLexer.h
-    '
-
-  # (Optional) show what apt thinks flex is
-  echo "Apt-managed flex files:"
-  dpkg -L flex 2> /dev/null || echo "flex package not installed via apt."
-
-  cd /tmp
-
-  # Download the flex 2.6.4 source tarball
-  wget https://github.com/westes/flex/releases/download/v2.6.4/flex-2.6.4.tar.gz
-
-  # Extract it
-  tar -xzf flex-2.6.4.tar.gz
-  cd flex-2.6.4
-
-  # Configure to install into /usr (so libs go to /usr/lib64)
-  ./configure --prefix=/usr/ 2>&1 | tee "${WRF_FOLDER}"/Downloads/flex.configure.log
-
-  # Build
-  make 2>&1 | tee "${WRF_FOLDER}"/Downloads/flex.make.log
-
-  # Install (will prompt for sudo password)
-  echo $PASSWD | sudo -S make install
-
   # --------------------------------------------------------
-  # Detect Flex library location automatically
+  # Ensure flex + libfl.so.2 are available (apt/dnf preferred)
   # --------------------------------------------------------
-  FLEX_LIB_PATH=$(find /usr /usr/local -type f \( -name "libfl.a" -o -name "libfl.so" \) 2> /dev/null | head -n 1)
-  # Extract the directory name only
-  FLEX_LIB_DIR=$(dirname "$FLEX_LIB_PATH")
+  need_flex_install() {
+    # flex binary missing OR runtime lib missing
+    command -v flex > /dev/null 2>&1 || return 0
 
-  # Export it for WRF configure
-  export FLEX_LIB_DIR
-  echo "FLEX_LIB_DIR set to $FLEX_LIB_DIR"
+    # Check if dynamic loader can see libfl.so.2
+    if ldconfig -p 2> /dev/null | grep -q 'libfl\.so\.2'; then
+      return 1
+    fi
+
+    # Fallback checks if ldconfig isn't available / doesn't list it
+    if find /usr /lib /usr/local -type f -name 'libfl.so.2*' 2> /dev/null | grep -q .; then
+      return 1
+    fi
+
+    return 0
+  }
+
+  install_flex_via_pkgmgr() {
+    if command -v apt-get > /dev/null 2>&1; then
+      echo "[flex] Using apt-get to install flex/libfl..."
+      sudo -S apt-get update
+      # flex provides the flex binary; libfl2 provides libfl.so.2; libfl-dev is nice-to-have
+      sudo -S apt-get install -y flex libfl2 libfl-dev
+      sudo -S ldconfig || true
+      return 0
+    elif command -v dnf > /dev/null 2>&1; then
+      echo "[flex] Using dnf to install flex..."
+      sudo -S dnf -y install flex
+      sudo -S ldconfig || true
+      return 0
+    else
+      echo "[flex] No supported package manager (apt-get/dnf) detected."
+      return 1
+    fi
+  }
+
+  build_flex_from_source() {
+    echo "[flex] Building flex 2.6.4 from source..."
+
+    # Clean old custom installs in WRF tree
+    rm -rf "${WRF_FOLDER}/Libs/flex-2.6.4" 2> /dev/null || true
+    rm -rf /tmp/flex-2.6.4 /tmp/flex-2.6.4.tar.gz 2> /dev/null || true
+
+    # Remove typical /usr/local flex files (not managed by apt/dnf)
+    echo "$PASSWD" | sudo -S bash -c '
+    rm -f /usr/local/bin/flex
+    rm -f /usr/local/lib/libfl.a /usr/local/lib/libfl.so /usr/local/lib/libfl.so.*
+    rm -f /usr/local/lib64/libfl.a /usr/local/lib64/libfl.so /usr/local/lib64/libfl.so.*
+    rm -f /usr/local/include/FlexLexer.h
+  '
+
+    cd /tmp
+    wget -q https://github.com/westes/flex/releases/download/v2.6.4/flex-2.6.4.tar.gz
+    tar -xzf flex-2.6.4.tar.gz
+    cd flex-2.6.4
+
+    # IMPORTANT: avoid polluting flex build with WRF's exported flags
+    unset CPPFLAGS CFLAGS CXXFLAGS FCFLAGS LDFLAGS LIBS
+
+    ./configure --prefix=/usr --enable-shared 2>&1 | tee "${WRF_FOLDER}/Downloads/flex.configure.log"
+    make -j"$(nproc 2> /dev/null || echo 2)" 2>&1 | tee "${WRF_FOLDER}/Downloads/flex.make.log"
+    echo "$PASSWD" | sudo -S make install
+    echo "$PASSWD" | sudo -S ldconfig
+  }
+
+  # Main logic: try pkg mgr first; source build only if still missing
+  if need_flex_install; then
+    echo "[flex] flex/libfl.so.2 not detected. Attempting install via package manager..."
+    if ! install_flex_via_pkgmgr; then
+      echo "[flex] Package-manager install not possible/failed; falling back to source build."
+      build_flex_from_source
+    fi
+
+    # Verify after install
+    if ! command -v flex > /dev/null 2>&1; then
+      echo "[flex] ERROR: flex still not found after install."
+      exit 1
+    fi
+    if ! (ldconfig -p 2> /dev/null | grep -q 'libfl\.so\.2' \
+      || find /usr /lib /usr/local -type f -name 'libfl.so.2*' 2> /dev/null | grep -q .); then
+      echo "[flex] ERROR: libfl.so.2 still not found after install."
+      exit 1
+    fi
+  else
+    echo "[flex] flex and libfl.so.2 already present; skipping installation."
+  fi
+
+  # Point WRF/KPP to system flex
+  export FLEX="$(command -v flex)"
+  export YACC="${YACC:-/usr/bin/yacc -d}"
+  # --------------------------------------------------------
+  # Ensure flex + libfl.so.2 are available (apt/dnf preferred)
+  # --------------------------------------------------------
+  need_flex_install() {
+    # flex binary missing OR runtime lib missing
+    command -v flex > /dev/null 2>&1 || return 0
+
+    # Check if dynamic loader can see libfl.so.2
+    if ldconfig -p 2> /dev/null | grep -q 'libfl\.so\.2'; then
+      return 1
+    fi
+
+    # Fallback checks if ldconfig isn't available / doesn't list it
+    if find /usr /lib /usr/local -type f -name 'libfl.so.2*' 2> /dev/null | grep -q .; then
+      return 1
+    fi
+
+    return 0
+  }
+
+  install_flex_via_pkgmgr() {
+    if command -v apt-get > /dev/null 2>&1; then
+      echo "[flex] Using apt-get to install flex/libfl..."
+      sudo -S apt-get update
+      # flex provides the flex binary; libfl2 provides libfl.so.2; libfl-dev is nice-to-have
+      sudo -S apt-get install -y flex libfl2 libfl-dev
+      sudo -S ldconfig || true
+      return 0
+    elif command -v dnf > /dev/null 2>&1; then
+      echo "[flex] Using dnf to install flex..."
+      sudo -S dnf -y install flex
+      sudo -S ldconfig || true
+      return 0
+    else
+      echo "[flex] No supported package manager (apt-get/dnf) detected."
+      return 1
+    fi
+  }
+
+  build_flex_from_source() {
+    echo "[flex] Building flex 2.6.4 from source..."
+
+    # Clean old custom installs in WRF tree
+    rm -rf "${WRF_FOLDER}/Libs/flex-2.6.4" 2> /dev/null || true
+    rm -rf /tmp/flex-2.6.4 /tmp/flex-2.6.4.tar.gz 2> /dev/null || true
+
+    # Remove typical /usr/local flex files (not managed by apt/dnf)
+    echo "$PASSWD" | sudo -S bash -c '
+    rm -f /usr/local/bin/flex
+    rm -f /usr/local/lib/libfl.a /usr/local/lib/libfl.so /usr/local/lib/libfl.so.*
+    rm -f /usr/local/lib64/libfl.a /usr/local/lib64/libfl.so /usr/local/lib64/libfl.so.*
+    rm -f /usr/local/include/FlexLexer.h
+  '
+
+    cd /tmp
+    wget -q https://github.com/westes/flex/releases/download/v2.6.4/flex-2.6.4.tar.gz
+    tar -xzf flex-2.6.4.tar.gz
+    cd flex-2.6.4
+
+    # IMPORTANT: avoid polluting flex build with WRF's exported flags
+    unset CPPFLAGS CFLAGS CXXFLAGS FCFLAGS LDFLAGS LIBS
+
+    ./configure --prefix=/usr --enable-shared 2>&1 | tee "${WRF_FOLDER}/Downloads/flex.configure.log"
+    make -j"$(nproc 2> /dev/null || echo 2)" 2>&1 | tee "${WRF_FOLDER}/Downloads/flex.make.log"
+    echo "$PASSWD" | sudo -S make install
+    echo "$PASSWD" | sudo -S ldconfig
+  }
+
+  # Main logic: try pkg mgr first; source build only if still missing
+  if need_flex_install; then
+    echo "[flex] flex/libfl.so.2 not detected. Attempting install via package manager..."
+    if ! install_flex_via_pkgmgr; then
+      echo "[flex] Package-manager install not possible/failed; falling back to source build."
+      build_flex_from_source
+    fi
+
+    # Verify after install
+    if ! command -v flex > /dev/null 2>&1; then
+      echo "[flex] ERROR: flex still not found after install."
+      exit 1
+    fi
+    if ! (ldconfig -p 2> /dev/null | grep -q 'libfl\.so\.2' \
+      || find /usr /lib /usr/local -type f -name 'libfl.so.2*' 2> /dev/null | grep -q .); then
+      echo "[flex] ERROR: libfl.so.2 still not found after install."
+      exit 1
+    fi
+  else
+    echo "[flex] flex and libfl.so.2 already present; skipping installation."
+  fi
+
+  # Point WRF/KPP to system flex
+  export FLEX="$(command -v flex)"
+  export YACC="${YACC:-/usr/bin/yacc -d}"
 
   # --------------------------------------------------------
   # Setting up WRF-CHEM/KPP environment
@@ -23268,10 +23937,6 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" ]; then
   export WRF_CHEM=1
   export WRF_KPP=1
 
-  export YACC='/usr/bin/yacc -d'
-  export FLEX=/usr/bin/flex
-
-  # FLEX_LIB_DIR is already set above, no need to hardcode
 
   export KPP_HOME="${WRF_FOLDER}"/WRF-${WRF_VERSION}/chem/KPP/kpp/kpp-2.1
   export WRF_SRC_ROOT_DIR="${WRF_FOLDER}"/WRF-${WRF_VERSION}
@@ -27073,7 +27738,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   echo $PASSWD | sudo -S dnf install dnf -y
   echo $PASSWD | sudo -S dnf -y update
   echo $PASSWD | sudo -S dnf -y upgrade
-  echo $PASSWD | sudo -S dnf -y install byacc bzip2 bzip2-devel cairo-devel cmake cpp curl curl-devel flex fontconfig fontconfig-devel gcc gcc-c++ gcc-gfortran git ksh libjpeg libjpeg-devel libstdc++ libstdc++-devel libX11 libX11-devel libXaw libXaw-devel libXext-devel libXmu libXmu-devel libXrender libXrender-devel libXt libXt-devel libxml2 libxml2-devel libgeotiff libgeotiff-devel libtiff libtiff-devel m4 nfs-utils perl 'perl(XML::LibXML)' pkgconfig pixman pixman-devel python3 python3-devel tcsh time unzip wget
+  echo $PASSWD | sudo -S dnf -y install byacc bzip2 bzip2-devel cairo-devel cmake cpp curl curl-devel flex flex-devel fontconfig fontconfig-devel gcc gcc-c++ gcc-gfortran git ksh libjpeg libjpeg-devel libstdc++ libstdc++-devel libX11 libX11-devel libXaw libXaw-devel libXext-devel libXmu libXmu-devel libXrender libXrender-devel libXt libXt-devel libxml2 libxml2-devel libgeotiff libgeotiff-devel libtiff libtiff-devel m4 nfs-utils perl 'perl(XML::LibXML)' pkgconfig pixman pixman-devel python3 python3-devel tcsh time unzip wget
   echo $PASSWD | sudo -S dnf install -y java java-devel
   echo $PASSWD | sudo -S dnf install -y java-17-openjdk-devel java-17-openjdk
   echo $PASSWD | sudo -S dnf install -y java-21-openjdk-devel java-21-openjdk
@@ -27965,7 +28630,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRF_PICK" = "1" ]; then
   echo $PASSWD | sudo -S dnf install dnf -y
   echo $PASSWD | sudo -S dnf -y update
   echo $PASSWD | sudo -S dnf -y upgrade
-  echo $PASSWD | sudo -S dnf -y install byacc bzip2 bzip2-devel cairo-devel cmake cpp curl curl-devel flex fontconfig fontconfig-devel gcc gcc-c++ gcc-gfortran git ksh libjpeg libjpeg-devel libstdc++ libstdc++-devel libX11 libX11-devel libXaw libXaw-devel libXext-devel libXmu libXmu-devel libXrender libXrender-devel libXt libXt-devel libxml2 libxml2-devel libgeotiff libgeotiff-devel libtiff libtiff-devel m4 nfs-utils perl 'perl(XML::LibXML)' pkgconfig pixman pixman-devel python3 python3-devel tcsh time unzip wget
+  echo $PASSWD | sudo -S dnf -y install byacc bzip2 bzip2-devel cairo-devel cmake cpp curl curl-devel flex flex-devel fontconfig fontconfig-devel gcc gcc-c++ gcc-gfortran git ksh libjpeg libjpeg-devel libstdc++ libstdc++-devel libX11 libX11-devel libXaw libXaw-devel libXext-devel libXmu libXmu-devel libXrender libXrender-devel libXt libXt-devel libxml2 libxml2-devel libgeotiff libgeotiff-devel libtiff libtiff-devel m4 nfs-utils perl 'perl(XML::LibXML)' pkgconfig pixman pixman-devel python3 python3-devel tcsh time unzip wget
   echo $PASSWD | sudo -S dnf install -y java java-devel
   echo $PASSWD | sudo -S dnf install -y java-17-openjdk-devel java-17-openjdk
   echo $PASSWD | sudo -S dnf install -y java-21-openjdk-devel java-21-openjdk
@@ -30198,7 +30863,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$COAWST_Pick" = "1" ]; then
   echo $PASSWD | sudo -S dnf install dnf -y
   echo $PASSWD | sudo -S dnf -y update
   echo $PASSWD | sudo -S dnf -y upgrade
-  echo $PASSWD | sudo -S dnf -y install byacc bzip2 bzip2-devel cairo-devel cmake cpp curl curl-devel flex fontconfig fontconfig-devel gcc gcc-c++ gcc-gfortran git ksh libjpeg libjpeg-devel libstdc++ libstdc++-devel libX11 libX11-devel libXaw libXaw-devel libXext-devel libXmu libXmu-devel libXrender libXrender-devel libXt libXt-devel libxml2 libxml2-devel libgeotiff libgeotiff-devel libtiff libtiff-devel m4 nfs-utils perl 'perl(XML::LibXML)' pkgconfig pixman pixman-devel python3 python3-devel tcsh time unzip wget
+  echo $PASSWD | sudo -S dnf -y install byacc bzip2 bzip2-devel cairo-devel cmake cpp curl curl-devel flex flex-devel fontconfig fontconfig-devel gcc gcc-c++ gcc-gfortran git ksh libjpeg libjpeg-devel libstdc++ libstdc++-devel libX11 libX11-devel libXaw libXaw-devel libXext-devel libXmu libXmu-devel libXrender libXrender-devel libXt libXt-devel libxml2 libxml2-devel libgeotiff libgeotiff-devel libtiff libtiff-devel m4 nfs-utils perl 'perl(XML::LibXML)' pkgconfig pixman pixman-devel python3 python3-devel tcsh time unzip wget
   echo $PASSWD | sudo -S dnf install -y java java-devel
   echo $PASSWD | sudo -S dnf install -y java-17-openjdk-devel java-17-openjdk
   echo $PASSWD | sudo -S dnf install -y java-21-openjdk-devel java-21-openjdk
@@ -30749,7 +31414,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$COAWST_Pick" = "1" ]; then
   echo $PASSWD | sudo -S dnf install dnf -y
   echo $PASSWD | sudo -S dnf -y update
   echo $PASSWD | sudo -S dnf -y upgrade
-  echo $PASSWD | sudo -S dnf -y install byacc bzip2 bzip2-devel cairo-devel cmake cpp curl curl-devel flex fontconfig fontconfig-devel gcc gcc-c++ gcc-gfortran git ksh libjpeg libjpeg-devel libstdc++ libstdc++-devel libX11 libX11-devel libXaw libXaw-devel libXext-devel libXmu libXmu-devel libXrender libXrender-devel libXt libXt-devel libxml2 libxml2-devel libgeotiff libgeotiff-devel libtiff libtiff-devel m4 nfs-utils perl 'perl(XML::LibXML)' pkgconfig pixman pixman-devel python3 python3-devel tcsh time unzip wget
+  echo $PASSWD | sudo -S dnf -y install byacc bzip2 bzip2-devel cairo-devel cmake cpp curl curl-devel flex flex-devel fontconfig fontconfig-devel gcc gcc-c++ gcc-gfortran git ksh libjpeg libjpeg-devel libstdc++ libstdc++-devel libX11 libX11-devel libXaw libXaw-devel libXext-devel libXmu libXmu-devel libXrender libXrender-devel libXt libXt-devel libxml2 libxml2-devel libgeotiff libgeotiff-devel libtiff libtiff-devel m4 nfs-utils perl 'perl(XML::LibXML)' pkgconfig pixman pixman-devel python3 python3-devel tcsh time unzip wget
   echo $PASSWD | sudo -S dnf install -y java java-devel
   echo $PASSWD | sudo -S dnf install -y java-17-openjdk-devel java-17-openjdk
   echo $PASSWD | sudo -S dnf install -y java-21-openjdk-devel java-21-openjdk
