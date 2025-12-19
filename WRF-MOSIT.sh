@@ -5763,10 +5763,10 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$MAC_CHIP" = "I
   echo $PASSWD | sudo -S ln -sf /usr/local/bin/python3.12 /usr/local/bin/python3
 
   # Export compiler environment variables
-  export CC=gcc
-  export CXX=g++
-  export FC=gfortran
-  export F77=gfortran
+  export CC=/usr/local/bin/gcc-13
+  export CXX=/usr/local/bin/g++-13
+  export FC=/usr/local/bin/gfortran-13
+  export F77=/usr/local/bin/gfortran-13
   export CFLAGS="-fPIC -fPIE -Wno-implicit-function-declaration -Wno-incompatible-function-pointer-types -Wno-incompatible-pointer-types -Wall"
 
   echo " "
@@ -6531,10 +6531,10 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$MAC_CHIP" = "A
   gfortran --version
 
   # Export compiler environment variables
-  export CC=gcc
-  export CXX=g++
-  export FC=gfortran
-  export F77=gfortran
+  export CC=/usr/local/bin/gcc-13
+  export CXX=/usr/local/bin/g++-13
+  export FC=/usr/local/bin/gfortran-13
+  export F77=/usr/local/bin/gfortran-13
   export CFLAGS="-fPIC -fPIE -Wno-implicit-function-declaration -Wno-incompatible-function-pointer-types -Wno-incompatible-pointer-types -Wall"
 
   echo " "
@@ -8319,7 +8319,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ] && [ "$
 
   # List of packages to check/install
   packages=(
-    "autoconf" "automake" "bison" "byacc" "cmake" "curl" "flex" "gcc"
+    "autoconf" "automake" "bison" "byacc" "cmake" "curl" "flex" "gcc@13"
     "gedit" "git" "gnu-sed" "ksh"
     "libtool" "libxml2" "m4" "make" "python@3.12" "tcsh" "wget"
     "xauth" "xorgproto" "xorgrgb" "xquartz"
@@ -8398,9 +8398,9 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ] && [ "$
   # Default homebrew path: /usr/local/bin
 
   # Find the highest version of GCC, G++, and GFortran in /usr/local/bin
-  latest_gcc=$(ls /usr/local/bin/gcc-* 2> /dev/null | grep -o 'gcc-[0-9]*' | sort -V | tail -n 1)
-  latest_gpp=$(ls /usr/local/bin/g++-* 2> /dev/null | grep -o 'g++-[0-9]*' | sort -V | tail -n 1)
-  latest_gfortran=$(ls /usr/local/bin/gfortran-* 2> /dev/null | grep -o 'gfortran-[0-9]*' | sort -V | tail -n 1)
+  latest_gcc=gcc-13
+  latest_gpp=g++-13
+  latest_gfortran=gfortran-13
 
   # Display the chosen versions
   echo "Selected gcc version: $latest_gcc"
@@ -8423,10 +8423,10 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ] && [ "$
   echo $PASSWD | sudo -S ln -sf /usr/local/bin/python3.12 /usr/local/bin/python3
 
   # Export compiler environment variables
-  export CC=gcc
-  export CXX=g++
-  export FC=gfortran
-  export F77=gfortran
+  export CC=/usr/local/bin/gcc-13
+  export CXX=/usr/local/bin/g++-13
+  export FC=/usr/local/bin/gfortran-13
+  export F77=/usr/local/bin/gfortran-13
   export CFLAGS="-fPIC -fPIE -Wno-implicit-function-declaration -Wno-incompatible-function-pointer-types -Wno-incompatible-pointer-types -Wall"
 
   echo " "
@@ -8964,7 +8964,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ] && [ "$
 
   # List of packages to check/install
   packages=(
-    "autoconf" "automake" "bison" "byacc" "cmake" "curl" "flex" "gcc"
+    "autoconf" "automake" "bison" "byacc" "cmake" "curl" "flex" "gcc@13"
     "gedit" "git" "gnu-sed" "ksh"
     "libtool" "libxml2" "m4" "make" "python@3.12" "tcsh" "wget"
     "xauth" "xorgproto" "xorgrgb" "xquartz"
@@ -9056,9 +9056,9 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ] && [ "$
   cd /opt/homebrew/bin
 
   # Find the latest version of GCC, G++, and GFortran
-  latest_gcc=$(ls gcc-* 2> /dev/null | grep -o 'gcc-[0-9]*' | sort -V | tail -n 1)
-  latest_gpp=$(ls g++-* 2> /dev/null | grep -o 'g++-[0-9]*' | sort -V | tail -n 1)
-  latest_gfortran=$(ls gfortran-* 2> /dev/null | grep -o 'gfortran-[0-9]*' | sort -V | tail -n 1)
+  latest_gcc=gcc-13
+  latest_gpp=g++-13
+  latest_gfortran=gfortran-13
 
   # Check if the latest versions were found and link them
   echo "Linking the latest GCC version: $latest_gcc"
@@ -9081,10 +9081,10 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ] && [ "$
   gfortran --version
 
   # Export compiler environment variables
-  export CC=gcc
-  export CXX=g++
-  export FC=gfortran
-  export F77=gfortran
+  export CC=/usr/local/bin/gcc-13
+  export CXX=/usr/local/bin/g++-13
+  export FC=/usr/local/bin/gfortran-13
+  export F77=/usr/local/bin/gfortran-13
   export CFLAGS="-fPIC -fPIE -Wno-implicit-function-declaration -Wno-incompatible-function-pointer-types -Wno-incompatible-pointer-types -Wall"
 
   echo " "
@@ -13052,7 +13052,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ] && [ "$MAC
 
   # List of packages to check/install
   packages=(
-    "autoconf" "automake" "bison" "byacc" "cmake" "curl" "flex" "gcc"
+    "autoconf" "automake" "bison" "byacc" "cmake" "curl" "flex" "gcc@13"
     "gedit" "git" "gnu-sed" "ksh"
     "libtool" "libxml2" "m4" "make" "python@3.12" "tcsh" "wget"
     "xauth" "xorgproto" "xorgrgb" "xquartz"
@@ -13136,9 +13136,9 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ] && [ "$MAC
   # Default homebrew path: /usr/local/bin
 
   # Find the highest version of GCC, G++, and GFortran in /usr/local/bin
-  latest_gcc=$(ls /usr/local/bin/gcc-* 2> /dev/null | grep -o 'gcc-[0-9]*' | sort -V | tail -n 1)
-  latest_gpp=$(ls /usr/local/bin/g++-* 2> /dev/null | grep -o 'g++-[0-9]*' | sort -V | tail -n 1)
-  latest_gfortran=$(ls /usr/local/bin/gfortran-* 2> /dev/null | grep -o 'gfortran-[0-9]*' | sort -V | tail -n 1)
+  latest_gcc=gcc-13
+  latest_gpp=g++-13
+  latest_gfortran=gfortran-13
 
   # Display the chosen versions
   echo "Selected gcc version: $latest_gcc"
@@ -13161,10 +13161,10 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ] && [ "$MAC
   echo $PASSWD | sudo -S ln -sf /usr/local/bin/python3.12 /usr/local/bin/python3
 
   # Export compiler environment variables
-  export CC=gcc
-  export CXX=g++
-  export FC=gfortran
-  export F77=gfortran
+  export CC=/usr/local/bin/gcc-13
+  export CXX=/usr/local/bin/g++-13
+  export FC=/usr/local/bin/gfortran-13
+  export F77=/usr/local/bin/gfortran-13
   export CFLAGS="-fPIC -fPIE -Wno-implicit-function-declaration -Wno-incompatible-function-pointer-types -Wno-incompatible-pointer-types -Wall"
 
   echo " "
@@ -13882,7 +13882,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ] && [ "$MAC
 
   # List of packages to check/install
   packages=(
-    "autoconf" "automake" "bison" "byacc" "cmake" "curl" "flex" "gcc"
+    "autoconf" "automake" "bison" "byacc" "cmake" "curl" "flex" "gcc@13"
     "gedit" "git" "gnu-sed" "ksh"
     "libtool" "libxml2" "m4" "make" "python@3.12" "tcsh" "wget"
     "xauth" "xorgproto" "xorgrgb" "xquartz"
@@ -13978,9 +13978,9 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ] && [ "$MAC
   cd /opt/homebrew/bin
 
   # Find the latest version of GCC, G++, and GFortran
-  latest_gcc=$(ls gcc-* 2> /dev/null | grep -o 'gcc-[0-9]*' | sort -V | tail -n 1)
-  latest_gpp=$(ls g++-* 2> /dev/null | grep -o 'g++-[0-9]*' | sort -V | tail -n 1)
-  latest_gfortran=$(ls gfortran-* 2> /dev/null | grep -o 'gfortran-[0-9]*' | sort -V | tail -n 1)
+  latest_gcc=gcc-13
+  latest_gpp=g++-13
+  latest_gfortran=gfortran-13
 
   # Check if the latest versions were found and link them
   echo "Linking the latest GCC version: $latest_gcc"
@@ -14003,10 +14003,10 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ] && [ "$MAC
   gfortran --version
 
   # Export compiler environment variables
-  export CC=gcc
-  export CXX=g++
-  export FC=gfortran
-  export F77=gfortran
+  export CC=/usr/local/bin/gcc-13
+  export CXX=/usr/local/bin/g++-13
+  export FC=/usr/local/bin/gfortran-13
+  export F77=/usr/local/bin/gfortran-13
   export CFLAGS="-fPIC -fPIE -Wno-implicit-function-declaration -Wno-incompatible-function-pointer-types -Wno-incompatible-pointer-types -Wall"
 
   echo " "
@@ -19327,7 +19327,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$MAC_CHIP" = 
 
   # List of packages to check/install
   packages=(
-    "autoconf" "automake" "bison" "byacc" "cmake" "curl" "flex" "gcc"
+    "autoconf" "automake" "bison" "byacc" "cmake" "curl" "flex" "gcc@13"
     "gedit" "git" "gnu-sed" "ksh"
     "libtool" "libxml2" "m4" "make" "python@3.12" "tcsh" "wget"
     "xauth" "xorgproto" "xorgrgb" "xquartz"
@@ -19408,9 +19408,9 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$MAC_CHIP" = 
   # Default homebrew path: /usr/local/bin
 
   # Find the highest version of GCC, G++, and GFortran in /usr/local/bin
-  latest_gcc=$(ls /usr/local/bin/gcc-* 2> /dev/null | grep -o 'gcc-[0-9]*' | sort -V | tail -n 1)
-  latest_gpp=$(ls /usr/local/bin/g++-* 2> /dev/null | grep -o 'g++-[0-9]*' | sort -V | tail -n 1)
-  latest_gfortran=$(ls /usr/local/bin/gfortran-* 2> /dev/null | grep -o 'gfortran-[0-9]*' | sort -V | tail -n 1)
+  latest_gcc=gcc-13
+  latest_gpp=g++-13
+  latest_gfortran=gfortran-13
 
   # Display the chosen versions
   echo "Selected gcc version: $latest_gcc"
@@ -19433,10 +19433,10 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$MAC_CHIP" = 
   echo $PASSWD | sudo -S ln -sf /usr/local/bin/python3.12 /usr/local/bin/python3
 
   # Export compiler environment variables
-  export CC=gcc
-  export CXX=g++
-  export FC=gfortran
-  export F77=gfortran
+  export CC=/usr/local/bin/gcc-13
+  export CXX=/usr/local/bin/g++-13
+  export FC=/usr/local/bin/gfortran-13
+  export F77=/usr/local/bin/gfortran-13
   export CFLAGS="-fPIC -fPIE -Wno-implicit-function-declaration -Wno-incompatible-function-pointer-types -Wno-incompatible-pointer-types -Wall"
 
   echo " "
@@ -20175,7 +20175,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$MAC_CHIP" = 
 
   # List of packages to check/install
   packages=(
-    "autoconf" "automake" "bison" "byacc" "cmake" "curl" "flex" "gcc"
+    "autoconf" "automake" "bison" "byacc" "cmake" "curl" "flex" "gcc@13"
     "gedit" "git" "gnu-sed" "ksh"
     "libtool" "libxml2" "m4" "make" "python@3.12" "tcsh" "wget"
     "xauth" "xorgproto" "xorgrgb" "xquartz"
@@ -20268,9 +20268,9 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$MAC_CHIP" = 
   cd /opt/homebrew/bin
 
   # Find the latest version of GCC, G++, and GFortran
-  latest_gcc=$(ls gcc-* 2> /dev/null | grep -o 'gcc-[0-9]*' | sort -V | tail -n 1)
-  latest_gpp=$(ls g++-* 2> /dev/null | grep -o 'g++-[0-9]*' | sort -V | tail -n 1)
-  latest_gfortran=$(ls gfortran-* 2> /dev/null | grep -o 'gfortran-[0-9]*' | sort -V | tail -n 1)
+  latest_gcc=gcc-13
+  latest_gpp=g++-13
+  latest_gfortran=gfortran-13
 
   # Check if the latest versions were found and link them
   echo "Linking the latest GCC version: $latest_gcc"
@@ -20293,10 +20293,10 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$MAC_CHIP" = 
   gfortran --version
 
   # Export compiler environment variables
-  export CC=gcc
-  export CXX=g++
-  export FC=gfortran
-  export F77=gfortran
+  export CC=/usr/local/bin/gcc-13
+  export CXX=/usr/local/bin/g++-13
+  export FC=/usr/local/bin/gfortran-13
+  export F77=/usr/local/bin/gfortran-13
   export CFLAGS="-fPIC -fPIE -Wno-implicit-function-declaration -Wno-incompatible-function-pointer-types -Wno-incompatible-pointer-types -Wall"
 
   echo " "
@@ -26020,7 +26020,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "Int
 
   # List of packages to check/install
   packages=(
-    "autoconf" "automake" "bison" "byacc" "cmake" "curl" "flex" "gcc"
+    "autoconf" "automake" "bison" "byacc" "cmake" "curl" "flex" "gcc@13"
     "gedit" "git" "gnu-sed" "ksh"
     "libtool" "libxml2" "m4" "make" "python@3.12" "tcsh" "wget"
     "xauth" "xorgproto" "xorgrgb" "xquartz"
@@ -26101,9 +26101,9 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "Int
   # Default homebrew path: /usr/local/bin
 
   # Find the highest version of GCC, G++, and GFortran in /usr/local/bin
-  latest_gcc=$(ls /usr/local/bin/gcc-* 2> /dev/null | grep -o 'gcc-[0-9]*' | sort -V | tail -n 1)
-  latest_gpp=$(ls /usr/local/bin/g++-* 2> /dev/null | grep -o 'g++-[0-9]*' | sort -V | tail -n 1)
-  latest_gfortran=$(ls /usr/local/bin/gfortran-* 2> /dev/null | grep -o 'gfortran-[0-9]*' | sort -V | tail -n 1)
+  latest_gcc=gcc-13
+  latest_gpp=g++-13
+  latest_gfortran=gfortran-13
 
   # Display the chosen versions
   echo "Selected gcc version: $latest_gcc"
@@ -26126,10 +26126,10 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "Int
   echo $PASSWD | sudo -S ln -sf /usr/local/bin/python3.12 /usr/local/bin/python3
 
   # Export compiler environment variables
-  export CC=gcc
-  export CXX=g++
-  export FC=gfortran
-  export F77=gfortran
+  export CC=/usr/local/bin/gcc-13
+  export CXX=/usr/local/bin/g++-13
+  export FC=/usr/local/bin/gfortran-13
+  export F77=/usr/local/bin/gfortran-13
   export CFLAGS="-fPIC -fPIE -Wno-implicit-function-declaration -Wno-incompatible-function-pointer-types -Wno-incompatible-pointer-types -Wall"
 
   echo " "
@@ -26872,7 +26872,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "ARM
 
   # List of packages to check/install
   packages=(
-    "autoconf" "automake" "bison" "byacc" "cmake" "curl" "flex" "gcc"
+    "autoconf" "automake" "bison" "byacc" "cmake" "curl" "flex" "gcc@13"
     "gedit" "git" "gnu-sed" "ksh"
     "libtool" "libxml2" "m4" "make" "python@3.12" "tcsh" "wget"
     "xauth" "xorgproto" "xorgrgb" "xquartz"
@@ -26965,9 +26965,9 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "ARM
   cd /opt/homebrew/bin
 
   # Find the latest version of GCC, G++, and GFortran
-  latest_gcc=$(ls gcc-* 2> /dev/null | grep -o 'gcc-[0-9]*' | sort -V | tail -n 1)
-  latest_gpp=$(ls g++-* 2> /dev/null | grep -o 'g++-[0-9]*' | sort -V | tail -n 1)
-  latest_gfortran=$(ls gfortran-* 2> /dev/null | grep -o 'gfortran-[0-9]*' | sort -V | tail -n 1)
+  latest_gcc=gcc-13
+  latest_gpp=g++-13
+  latest_gfortran=gfortran-13
 
   # Check if the latest versions were found and link them
   echo "Linking the latest GCC version: $latest_gcc"
@@ -26990,10 +26990,10 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "ARM
   gfortran --version
 
   # Export compiler environment variables
-  export CC=gcc
-  export CXX=g++
-  export FC=gfortran
-  export F77=gfortran
+  export CC=/usr/local/bin/gcc-13
+  export CXX=/usr/local/bin/g++-13
+  export FC=/usr/local/bin/gfortran-13
+  export F77=/usr/local/bin/gfortran-13
   export CFLAGS="-fPIC -fPIE -Wno-implicit-function-declaration -Wno-incompatible-function-pointer-types -Wno-incompatible-pointer-types -Wall"
 
   echo " "
