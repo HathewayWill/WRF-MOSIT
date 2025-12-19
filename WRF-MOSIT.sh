@@ -58,7 +58,7 @@ read -p "Press enter to continue"
 ##########################################################################
 export SYS_ARCH=$(uname -m)
 
-if [ "$SYS_ARCH" = "x86_64" ] || [ "$SYS_ARCH" = "arm64" ]; then
+if [ "$SYS_ARCH" = "x86_64" ] || [ "$SYS_ARCH" = "arm64" ] || [ "$SYS_ARCH" = "aarch64" ]; then
   export SYSTEMBIT="64"
 else
   export SYSTEMBIT="32"
