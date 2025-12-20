@@ -402,6 +402,8 @@ select opt in "${options[@]}"; do
   esac
 done
 
+echo""
+
 ##################################### Auto Configuration Test ##################
 PS3="Enter your choice (1 or 2): "
 
@@ -581,6 +583,8 @@ select opt in "${options[@]}"; do
       ;;
   esac
 done
+
+echo ""
 
 ################################# WRF-CHEM Tools Test ##################
 if [ "$WRFCHEM_PICK" = "1" ]; then
@@ -1762,8 +1766,8 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
     export boz_argument=
   fi
 
-  export FFLAGS="$fallow_argument $boz_argument -m64"
-  export FCFLAGS="$fallow_argument $boz_argument -m64"
+  export FFLAGS="$fallow_argument"
+  export FCFLAGS="$fallow_argument"
 
   echo "##########################################"
   echo "FFLAGS = $FFLAGS"
@@ -1791,7 +1795,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
   cd "${WRF_FOLDER}"/Downloads
   LD_LIBRARY_PATH= tar -xvzf mpich-$Mpich_Version.tar.gz
   cd mpich-$Mpich_Version/
-  F90= ./configure --prefix=$DIR/MPICH --with-device=ch3 FFLAGS=$fallow_argument FCFLAGS=$fallow_argument 2>&1 | tee configure.log
+  F90= ./configure --prefix=$DIR/MPICH --with-device=ch3 FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS 2>&1 | tee configure.log
 
   make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
   make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
@@ -2388,8 +2392,8 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
     export boz_argument=
   fi
 
-  export FFLAGS="$fallow_argument $boz_argument -m64"
-  export FCFLAGS="$fallow_argument $boz_argument -m64"
+  export FFLAGS="$fallow_argument"
+  export FCFLAGS="$fallow_argument"
 
   echo "##########################################"
   echo "FFLAGS = $FFLAGS"
@@ -2419,7 +2423,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
   LD_LIBRARY_PATH= tar -xvzf mpich-$Mpich_Version.tar.gz
   cd mpich-$Mpich_Version/
 
-  F90= ./configure --prefix=$DIR/MPICH --with-device=ch3 FFLAGS=$fallow_argument FCFLAGS=$fallow_argument 2>&1 | tee configure.log
+  F90= ./configure --prefix=$DIR/MPICH --with-device=ch3 FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS 2>&1 | tee configure.log
 
   make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
   make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
@@ -3037,8 +3041,8 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$CMAQ_PICK" = "1" ]; then
     export boz_argument=
   fi
 
-  export FFLAGS="$fallow_argument $boz_argument -m64"
-  export FCFLAGS="$fallow_argument $boz_argument -m64"
+  export FFLAGS="$fallow_argument"
+  export FCFLAGS="$fallow_argument"
 
   echo "##########################################"
   echo "FFLAGS = $FFLAGS"
@@ -3068,7 +3072,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$CMAQ_PICK" = "1" ]; then
   LD_LIBRARY_PATH= tar -xvzf mpich-$Mpich_Version.tar.gz
   cd mpich-$Mpich_Version/
 
-  F90= ./configure --prefix=$DIR/MPICH --with-device=ch3 FFLAGS=$fallow_argument FCFLAGS=$fallow_argument 2>&1 | tee configure.log
+  F90= ./configure --prefix=$DIR/MPICH --with-device=ch3 FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS 2>&1 | tee configure.log
 
   make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
   make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
@@ -3695,8 +3699,8 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
     export boz_argument=
   fi
 
-  export FFLAGS="$fallow_argument $boz_argument -m64"
-  export FCFLAGS="$fallow_argument $boz_argument -m64"
+  export FFLAGS="$fallow_argument"
+  export FCFLAGS="$fallow_argument"
 
   echo "##########################################"
   echo "FFLAGS = $FFLAGS"
@@ -3724,7 +3728,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
   cd "${WRF_FOLDER}"/Downloads
   LD_LIBRARY_PATH= tar -xvzf mpich-$Mpich_Version.tar.gz
   cd mpich-$Mpich_Version/
-  F90= ./configure --prefix=$DIR/MPICH --with-device=ch3 FFLAGS=$fallow_argument FCFLAGS=$fallow_argument 2>&1 | tee configure.log
+  F90= ./configure --prefix=$DIR/MPICH --with-device=ch3 FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS 2>&1 | tee configure.log
 
   make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
   make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
@@ -4362,8 +4366,8 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
     export boz_argument=
   fi
 
-  export FFLAGS="$fallow_argument $boz_argument -m64"
-  export FCFLAGS="$fallow_argument $boz_argument -m64"
+  export FFLAGS="$fallow_argument"
+  export FCFLAGS="$fallow_argument"
 
   echo "##########################################"
   echo "FFLAGS = $FFLAGS"
@@ -4391,7 +4395,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
   cd "${WRF_FOLDER}"/Downloads
   LD_LIBRARY_PATH= tar -xvzf mpich-$Mpich_Version.tar.gz
   cd mpich-$Mpich_Version/
-  F90= ./configure --prefix=$DIR/MPICH --with-device=ch3 FFLAGS=$fallow_argument FCFLAGS=$fallow_argument 2>&1 | tee configure.log
+  F90= ./configure --prefix=$DIR/MPICH --with-device=ch3 FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS 2>&1 | tee configure.log
 
   make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
   make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
@@ -5052,8 +5056,8 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$SFIRE_PICK" = "1" ]; then
     export boz_argument=
   fi
 
-  export FFLAGS="$fallow_argument $boz_argument -m64"
-  export FCFLAGS="$fallow_argument $boz_argument -m64"
+  export FFLAGS="$fallow_argument"
+  export FCFLAGS="$fallow_argument"
 
   echo "##########################################"
   echo "FFLAGS = $FFLAGS"
@@ -5081,7 +5085,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$SFIRE_PICK" = "1" ]; then
   cd "${WRF_FOLDER}"/Downloads
   LD_LIBRARY_PATH= tar -xvzf mpich-$Mpich_Version.tar.gz
   cd mpich-$Mpich_Version/
-  F90= ./configure --prefix=$DIR/MPICH --with-device=ch3 FFLAGS=$fallow_argument FCFLAGS=$fallow_argument 2>&1 | tee configure.log
+  F90= ./configure --prefix=$DIR/MPICH --with-device=ch3 FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS 2>&1 | tee configure.log
 
   make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
   make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
@@ -5792,8 +5796,8 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$MAC_CHIP" = "I
     export boz_argument=
   fi
 
-  export FFLAGS="$fallow_argument $boz_argument -m64"
-  export FCFLAGS="$fallow_argument $boz_argument -m64"
+  export FFLAGS="$fallow_argument"
+  export FCFLAGS="$fallow_argument"
 
   echo "##########################################"
   echo "FFLAGS = $FFLAGS"
@@ -6560,8 +6564,8 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$MAC_CHIP" = "A
     export boz_argument=
   fi
 
-  export FFLAGS="$fallow_argument $boz_argument -m64"
-  export FCFLAGS="$fallow_argument $boz_argument -m64"
+  export FFLAGS="$fallow_argument"
+  export FCFLAGS="$fallow_argument"
 
   echo "##########################################"
   echo "FFLAGS = $FFLAGS"
@@ -7276,8 +7280,8 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
     export boz_argument=
   fi
 
-  export FFLAGS="$fallow_argument $boz_argument -m64"
-  export FCFLAGS="$fallow_argument $boz_argument -m64"
+  export FFLAGS="$fallow_argument"
+  export FCFLAGS="$fallow_argument"
 
   echo "##########################################"
   echo "FFLAGS = $FFLAGS"
@@ -8452,8 +8456,8 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ] && [ "$
     export boz_argument=
   fi
 
-  export FFLAGS="$fallow_argument $boz_argument -m64"
-  export FCFLAGS="$fallow_argument $boz_argument -m64"
+  export FFLAGS="$fallow_argument"
+  export FCFLAGS="$fallow_argument"
 
   echo "##########################################"
   echo "FFLAGS = $FFLAGS"
@@ -9110,8 +9114,8 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ] && [ "$
     export boz_argument=
   fi
 
-  export FFLAGS="$fallow_argument $boz_argument -m64"
-  export FCFLAGS="$fallow_argument $boz_argument -m64"
+  export FFLAGS="$fallow_argument"
+  export FCFLAGS="$fallow_argument"
 
   echo "##########################################"
   echo "FFLAGS = $FFLAGS"
@@ -9701,8 +9705,8 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
     export boz_argument=
   fi
 
-  export FFLAGS="$fallow_argument $boz_argument -m64"
-  export FCFLAGS="$fallow_argument $boz_argument -m64"
+  export FFLAGS="$fallow_argument"
+  export FCFLAGS="$fallow_argument"
 
   echo "##########################################"
   echo "FFLAGS = $FFLAGS"
@@ -9732,7 +9736,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
   LD_LIBRARY_PATH= tar -xvzf mpich-$Mpich_Version.tar.gz
   cd mpich-$Mpich_Version/
 
-  F90= ./configure --prefix=$DIR/MPICH --with-device=ch3 FFLAGS=$fallow_argument FCFLAGS=$fallow_argument 2>&1 | tee configure.log
+  F90= ./configure --prefix=$DIR/MPICH --with-device=ch3 FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS 2>&1 | tee configure.log
 
   make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
   make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
@@ -10276,8 +10280,8 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
     export boz_argument=
   fi
 
-  export FFLAGS="$fallow_argument $boz_argument -m64"
-  export FCFLAGS="$fallow_argument $boz_argument -m64"
+  export FFLAGS="$fallow_argument"
+  export FCFLAGS="$fallow_argument"
 
   echo "##########################################"
   echo "FFLAGS = $FFLAGS"
@@ -10308,7 +10312,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
   LD_LIBRARY_PATH= tar -xvzf mpich-$Mpich_Version.tar.gz
   cd mpich-$Mpich_Version/
 
-  F90= ./configure --prefix=$DIR/MPICH --with-device=ch3 FFLAGS=$fallow_argument FCFLAGS=$fallow_argument 2>&1 | tee configure.log
+  F90= ./configure --prefix=$DIR/MPICH --with-device=ch3 FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS 2>&1 | tee configure.log
 
   make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
   make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
@@ -11402,8 +11406,8 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
     export boz_argument=
   fi
 
-  export FFLAGS="$fallow_argument $boz_argument -m64"
-  export FCFLAGS="$fallow_argument $boz_argument -m64"
+  export FFLAGS="$fallow_argument"
+  export FCFLAGS="$fallow_argument"
 
   echo "##########################################"
   echo "FFLAGS = $FFLAGS"
@@ -13190,8 +13194,8 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ] && [ "$MAC
     export boz_argument=
   fi
 
-  export FFLAGS="$fallow_argument $boz_argument -m64"
-  export FCFLAGS="$fallow_argument $boz_argument -m64"
+  export FFLAGS="$fallow_argument"
+  export FCFLAGS="$fallow_argument"
 
   echo "##########################################"
   echo "FFLAGS = $FFLAGS"
@@ -14032,8 +14036,8 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ] && [ "$MAC
     export boz_argument=
   fi
 
-  export FFLAGS="$fallow_argument $boz_argument -m64"
-  export FCFLAGS="$fallow_argument $boz_argument -m64"
+  export FFLAGS="$fallow_argument"
+  export FCFLAGS="$fallow_argument"
 
   echo "##########################################"
   echo "FFLAGS = $FFLAGS"
@@ -14807,8 +14811,8 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
     export boz_argument=
   fi
 
-  export FFLAGS="$fallow_argument $boz_argument -m64"
-  export FCFLAGS="$fallow_argument $boz_argument -m64"
+  export FFLAGS="$fallow_argument"
+  export FCFLAGS="$fallow_argument"
 
   echo "##########################################"
   echo "FFLAGS = $FFLAGS"
@@ -14838,7 +14842,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   LD_LIBRARY_PATH= tar -xvzf mpich-$Mpich_Version.tar.gz
   cd mpich-$Mpich_Version/
 
-  F90= ./configure --prefix=$DIR/MPICH --with-device=ch3 FFLAGS=$fallow_argument FCFLAGS=$fallow_argument 2>&1 | tee configure.log
+  F90= ./configure --prefix=$DIR/MPICH --with-device=ch3 FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS 2>&1 | tee configure.log
 
   make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
   make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
@@ -15660,8 +15664,8 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
     export boz_argument=
   fi
 
-  export FFLAGS="$fallow_argument $boz_argument -m64"
-  export FCFLAGS="$fallow_argument $boz_argument -m64"
+  export FFLAGS="$fallow_argument"
+  export FCFLAGS="$fallow_argument"
 
   echo "##########################################"
   echo "FFLAGS = $FFLAGS"
@@ -15691,7 +15695,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   LD_LIBRARY_PATH= tar -xvzf mpich-$Mpich_Version.tar.gz
   cd mpich-$Mpich_Version/
 
-  F90= ./configure --prefix=$DIR/MPICH --with-device=ch3 FFLAGS=$fallow_argument FCFLAGS=$fallow_argument 2>&1 | tee configure.log
+  F90= ./configure --prefix=$DIR/MPICH --with-device=ch3 FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS 2>&1 | tee configure.log
 
   make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
   make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
@@ -17263,8 +17267,8 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
     export boz_argument=
   fi
 
-  export FFLAGS="$fallow_argument $boz_argument -m64"
-  export FCFLAGS="$fallow_argument $boz_argument -m64"
+  export FFLAGS="$fallow_argument"
+  export FCFLAGS="$fallow_argument"
 
   echo "##########################################"
   echo "FFLAGS = $FFLAGS"
@@ -19464,8 +19468,8 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$MAC_CHIP" = 
     export boz_argument=
   fi
 
-  export FFLAGS="$fallow_argument $boz_argument -m64"
-  export FCFLAGS="$fallow_argument $boz_argument -m64"
+  export FFLAGS="$fallow_argument"
+  export FCFLAGS="$fallow_argument"
 
   echo "##########################################"
   echo "FFLAGS = $FFLAGS"
@@ -20322,8 +20326,8 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$MAC_CHIP" = 
     export boz_argument=
   fi
 
-  export FFLAGS="$fallow_argument $boz_argument -m64"
-  export FCFLAGS="$fallow_argument $boz_argument -m64"
+  export FFLAGS="$fallow_argument"
+  export FCFLAGS="$fallow_argument"
 
   echo "##########################################"
   echo "FFLAGS = $FFLAGS"
@@ -21120,8 +21124,8 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
     export boz_argument=
   fi
 
-  export FFLAGS="$fallow_argument $boz_argument -m64"
-  export FCFLAGS="$fallow_argument $boz_argument -m64"
+  export FFLAGS="$fallow_argument"
+  export FCFLAGS="$fallow_argument"
 
   echo "##########################################"
   echo "FFLAGS = $FFLAGS"
@@ -21152,7 +21156,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   LD_LIBRARY_PATH= tar -xvzf mpich-$Mpich_Version.tar.gz
   cd mpich-$Mpich_Version/
 
-  F90= ./configure --prefix=$DIR/MPICH --with-device=ch3 FFLAGS=$fallow_argument FCFLAGS=$fallow_argument 2>&1 | tee configure.log
+  F90= ./configure --prefix=$DIR/MPICH --with-device=ch3 FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS 2>&1 | tee configure.log
 
   make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
   make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
@@ -22182,8 +22186,8 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRFCHEM_PICK" = "1" ]; then
     export boz_argument=
   fi
 
-  export FFLAGS="$fallow_argument $boz_argument -m64"
-  export FCFLAGS="$fallow_argument $boz_argument -m64"
+  export FFLAGS="$fallow_argument"
+  export FCFLAGS="$fallow_argument"
 
   echo "##########################################"
   echo "FFLAGS = $FFLAGS"
@@ -22213,7 +22217,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   LD_LIBRARY_PATH= tar -xvzf mpich-$Mpich_Version.tar.gz
   cd mpich-$Mpich_Version/
 
-  F90= ./configure --prefix=$DIR/MPICH --with-device=ch3 FFLAGS=$fallow_argument FCFLAGS=$fallow_argument 2>&1 | tee configure.log
+  F90= ./configure --prefix=$DIR/MPICH --with-device=ch3 FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS 2>&1 | tee configure.log
 
   make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
   make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
@@ -24301,8 +24305,8 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
     export boz_argument=
   fi
 
-  export FFLAGS="$fallow_argument $boz_argument -m64"
-  export FCFLAGS="$fallow_argument $boz_argument -m64"
+  export FFLAGS="$fallow_argument"
+  export FCFLAGS="$fallow_argument"
 
   echo "##########################################"
   echo "FFLAGS = $FFLAGS"
@@ -24332,7 +24336,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   LD_LIBRARY_PATH= tar -xvzf mpich-$Mpich_Version.tar.gz
   cd mpich-$Mpich_Version/
 
-  F90= ./configure --prefix=$DIR/MPICH --with-device=ch3 FFLAGS=$fallow_argument FCFLAGS=$fallow_argument 2>&1 | tee configure.log
+  F90= ./configure --prefix=$DIR/MPICH --with-device=ch3 FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS 2>&1 | tee configure.log
 
   make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
   make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
@@ -26153,8 +26157,8 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "Int
     export boz_argument=
   fi
 
-  export FFLAGS="$fallow_argument $boz_argument -m64"
-  export FCFLAGS="$fallow_argument $boz_argument -m64"
+  export FFLAGS="$fallow_argument"
+  export FCFLAGS="$fallow_argument"
 
   echo "##########################################"
   echo "FFLAGS = $FFLAGS"
@@ -27019,8 +27023,8 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "ARM
     export boz_argument=
   fi
 
-  export FFLAGS="$fallow_argument $boz_argument -m64"
-  export FCFLAGS="$fallow_argument $boz_argument -m64"
+  export FFLAGS="$fallow_argument"
+  export FCFLAGS="$fallow_argument"
 
   echo "##########################################"
   echo "FFLAGS = $FFLAGS"
@@ -27824,8 +27828,8 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
     export boz_argument=
   fi
 
-  export FFLAGS="$fallow_argument $boz_argument -m64"
-  export FCFLAGS="$fallow_argument $boz_argument -m64"
+  export FFLAGS="$fallow_argument"
+  export FCFLAGS="$fallow_argument"
 
   echo "##########################################"
   echo "FFLAGS = $FFLAGS"
@@ -27855,7 +27859,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   LD_LIBRARY_PATH= tar -xvzf mpich-$Mpich_Version.tar.gz
   cd mpich-$Mpich_Version/
 
-  F90= ./configure --prefix=$DIR/MPICH --with-device=ch3 FFLAGS=$fallow_argument FCFLAGS=$fallow_argument 2>&1 | tee configure.log
+  F90= ./configure --prefix=$DIR/MPICH --with-device=ch3 FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS 2>&1 | tee configure.log
 
   make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
   make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
@@ -28716,8 +28720,8 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRF_PICK" = "1" ]; then
     export boz_argument=
   fi
 
-  export FFLAGS="$fallow_argument $boz_argument -m64"
-  export FCFLAGS="$fallow_argument $boz_argument -m64"
+  export FFLAGS="$fallow_argument"
+  export FCFLAGS="$fallow_argument"
 
   echo "##########################################"
   echo "FFLAGS = $FFLAGS"
@@ -28747,7 +28751,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRF_PICK" = "1" ]; then
   LD_LIBRARY_PATH= tar -xvzf mpich-$Mpich_Version.tar.gz
   cd mpich-$Mpich_Version/
 
-  F90= ./configure --prefix=$DIR/MPICH --with-device=ch3 FFLAGS=$fallow_argument FCFLAGS=$fallow_argument 2>&1 | tee configure.log
+  F90= ./configure --prefix=$DIR/MPICH --with-device=ch3 FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS 2>&1 | tee configure.log
 
   make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
   make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
@@ -30513,8 +30517,8 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$COAWST_Pick" = "1" ]; then
     export boz_argument=
   fi
 
-  export FFLAGS="$fallow_argument $boz_argument -m64"
-  export FCFLAGS="$fallow_argument $boz_argument -m64"
+  export FFLAGS="$fallow_argument"
+  export FCFLAGS="$fallow_argument"
 
   echo "##########################################"
   echo "FFLAGS = $FFLAGS"
@@ -30544,7 +30548,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$COAWST_Pick" = "1" ]; then
   LD_LIBRARY_PATH= tar -xvzf mpich-$Mpich_Version.tar.gz
   cd mpich-$Mpich_Version/
 
-  F90= ./configure --prefix=$DIR/MPICH --with-device=ch3 FFLAGS=$fallow_argument FCFLAGS=$fallow_argument 2>&1 | tee configure.log
+  F90= ./configure --prefix=$DIR/MPICH --with-device=ch3 FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS 2>&1 | tee configure.log
 
   make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
   make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
@@ -30953,8 +30957,8 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$COAWST_Pick" = "1" ]; then
     export boz_argument=
   fi
 
-  export FFLAGS="$fallow_argument $boz_argument -m64"
-  export FCFLAGS="$fallow_argument $boz_argument -m64"
+  export FFLAGS="$fallow_argument"
+  export FCFLAGS="$fallow_argument"
 
   echo "##########################################"
   echo "FFLAGS = $FFLAGS"
@@ -30984,7 +30988,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$COAWST_Pick" = "1" ]; then
   LD_LIBRARY_PATH= tar -xvzf mpich-$Mpich_Version.tar.gz
   cd mpich-$Mpich_Version/
 
-  F90= ./configure --prefix=$DIR/MPICH --with-device=ch3 FFLAGS=$fallow_argument FCFLAGS=$fallow_argument 2>&1 | tee configure.log
+  F90= ./configure --prefix=$DIR/MPICH --with-device=ch3 FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS 2>&1 | tee configure.log
 
   make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
   make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
@@ -31504,8 +31508,8 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$COAWST_Pick" = "1" ]; then
     export boz_argument=
   fi
 
-  export FFLAGS="$fallow_argument $boz_argument -m64"
-  export FCFLAGS="$fallow_argument $boz_argument -m64"
+  export FFLAGS="$fallow_argument"
+  export FCFLAGS="$fallow_argument"
 
   echo "##########################################"
   echo "FFLAGS = $FFLAGS"
@@ -31535,7 +31539,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$COAWST_Pick" = "1" ]; then
   LD_LIBRARY_PATH= tar -xvzf mpich-$Mpich_Version.tar.gz
   cd mpich-$Mpich_Version/
 
-  F90= ./configure --prefix=$DIR/MPICH --with-device=ch3 FFLAGS=$fallow_argument FCFLAGS=$fallow_argument 2>&1 | tee configure.log
+  F90= ./configure --prefix=$DIR/MPICH --with-device=ch3 FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS 2>&1 | tee configure.log
 
   make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
   make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
