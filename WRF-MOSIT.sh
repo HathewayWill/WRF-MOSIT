@@ -87,35 +87,50 @@ fi
 
 ########## RHL and Linux Distribution Detection #############
 # More accurate Linux distribution detection using /etc/os-release
-#################################################################
+########## Linux Distribution + Package Manager Detection ##########
 if [ "$SYSTEMOS" = "Linux" ]; then
-  if [ -f /etc/os-release ]; then
-    # Extract the distribution name and version from /etc/os-release
-    export DISTRO_NAME=$(grep -w "NAME" /etc/os-release | cut -d'=' -f2 | tr -d '"')
-    export DISTRO_VERSION=$(grep -w "VERSION_ID" /etc/os-release | cut -d'=' -f2 | tr -d '"')
+  if [ -r /etc/os-release ]; then
+    . /etc/os-release
 
-    # Print the distribution name and version
+    # Human-friendly info
+    DISTRO_NAME="${NAME:-Linux}"
+    DISTRO_VERSION="${VERSION_ID:-unknown}"
     echo "Operating system detected: $DISTRO_NAME, Version: $DISTRO_VERSION"
 
-    # Check if the system is RHL based on /etc/os-release
-    if grep -q "RHL" /etc/os-release; then
-      export SYSTEMOS="RHL"
+    # Classify distro family using ID / ID_LIKE (more reliable than checking yum/dnf)
+    # We'll use SYSTEMOS values you already branch on: "RHL" or "Linux"
+    case " ${ID:-} ${ID_LIKE:-} " in
+      *" rhel "*|*" fedora "*|*" centos "*|*" rocky "*|*" almalinux "*)
+        SYSTEMOS="RHL"
+        ;;
+      *" debian "*|*" ubuntu "*)
+        SYSTEMOS="Linux"   # keep your existing "Linux" meaning Debian/Ubuntu path
+        ;;
+      *)
+        SYSTEMOS="Linux"   # unknowns fall back to generic Linux path
+        ;;
+    esac
+
+    # Choose package manager (used for installs, not OS identity)
+    if command -v dnf >/dev/null 2>&1; then
+      PKG_MGR="dnf"
+    elif command -v yum >/dev/null 2>&1; then
+      PKG_MGR="yum"
+    elif command -v apt-get >/dev/null 2>&1; then
+      PKG_MGR="apt"
+    else
+      PKG_MGR="none"
     fi
 
-    # Check if dnf or yum is installed (dnf is used on newer systems, yum on older ones)
-    if command -v dnf > /dev/null 2>&1; then
-      echo "dnf is installed."
-      export SYSTEMOS="RHL" # Set SYSTEMOS to RHL if dnf is detected
-    elif command -v yum > /dev/null 2>&1; then
-      echo "yum is installed."
-      export SYSTEMOS="RHL" # Set SYSTEMOS to RHL if yum is detected
-    else
-      echo "No package manager (dnf or yum) found."
-    fi
+    echo "Final operating system detected: $SYSTEMOS"
+    echo "Package manager detected: $PKG_MGR"
   else
-    echo "Unable to detect the Linux distribution version."
+    echo "Unable to detect the Linux distribution version (missing /etc/os-release)."
+    SYSTEMOS="Linux"
+    PKG_MGR="none"
   fi
 fi
+
 
 # Print the final detected OS
 echo "Final operating system detected: $SYSTEMOS"
@@ -714,7 +729,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$DTC_MET" = "1" ]; then
   wget -c https://github.com/dtcenter/MET/archive/refs/tags/v$met_Version_number.tar.gz
 
   cp compile_MET_all.sh "${WRF_FOLDER}"/MET-$met_Version_number
-  LD_LIBRARY_PATH= tar -xvzf tar_files.met-v$met_VERSION_number.tgz -C "${WRF_FOLDER}"/MET-$met_Version_number
+  env -u LD_LIBRARY_PATH  tar -xvzf tar_files.met-v$met_VERSION_number.tgz -C "${WRF_FOLDER}"/MET-$met_Version_number
   cp v$met_Version_number.tar.gz "${WRF_FOLDER}"/MET-$met_Version_number/tar_files
   cd "${WRF_FOLDER}"/MET-$met_Version_number
 
@@ -800,7 +815,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$DTC_MET" = "1" ]; then
 
   cd "${WRF_FOLDER}"/METplus-$METPLUS_Version/Downloads
   wget -c https://github.com/dtcenter/METplus/archive/refs/tags/v$METPLUS_Version.tar.gz
-  LD_LIBRARY_PATH= tar -xvzf v$METPLUS_Version.tar.gz -C "${WRF_FOLDER}"
+  env -u LD_LIBRARY_PATH  tar -xvzf v$METPLUS_Version.tar.gz -C "${WRF_FOLDER}"
 
   # Insatlllation of Model Evaluation Tools Plus
   cd "${WRF_FOLDER}"/METplus-$METPLUS_Version/parm/metplus_config
@@ -813,7 +828,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$DTC_MET" = "1" ]; then
 
   cd "${WRF_FOLDER}"/METplus-$METPLUS_Version/Downloads
   wget -c https://dtcenter.ucar.edu/dfiles/code/METplus/METplus_Data/v$METPLUS_DATA/sample_data-met_tool_wrapper.tgz
-  LD_LIBRARY_PATH= tar -xvzf sample_data-met_tool_wrapper.tgz -C "${WRF_FOLDER}"/METplus-$METPLUS_Version/Sample_Data
+  env -u LD_LIBRARY_PATH  tar -xvzf sample_data-met_tool_wrapper.tgz -C "${WRF_FOLDER}"/METplus-$METPLUS_Version/Sample_Data
 
   # Testing if installation of MET & METPlus was sucessfull
   # If you see in terminal "METplus has successfully finished running."
@@ -842,7 +857,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$DTC_MET" = "1" ]; then
   echo $PASSWD | sudo -S apt install git
   echo "MET INSTALLING"
   export HOME=$(
-    cd
+    cd ~ &&
     pwd
   )
   #Basic Package Management for Model Evaluation Tools (MET)
@@ -903,7 +918,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$DTC_MET" = "1" ]; then
   wget -c https://github.com/dtcenter/MET/archive/refs/tags/v$met_Version_number.tar.gz
 
   cp compile_MET_all.sh "${WRF_FOLDER}"/MET-$met_Version_number
-  LD_LIBRARY_PATH= tar -xvzf tar_files.met-v$met_VERSION_number.tgz -C "${WRF_FOLDER}"/MET-$met_Version_number
+  env -u LD_LIBRARY_PATH  tar -xvzf tar_files.met-v$met_VERSION_number.tgz -C "${WRF_FOLDER}"/MET-$met_Version_number
   cp v$met_Version_number.tar.gz "${WRF_FOLDER}"/MET-$met_Version_number/tar_files
   cd "${WRF_FOLDER}"/MET-$met_Version_number
 
@@ -1003,7 +1018,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$DTC_MET" = "1" ]; then
 
   cd "${WRF_FOLDER}"/METplus-$METPLUS_Version/Downloads
   wget -c https://github.com/dtcenter/METplus/archive/refs/tags/v$METPLUS_Version.tar.gz
-  LD_LIBRARY_PATH= tar -xvzf v$METPLUS_Version.tar.gz -C "${WRF_FOLDER}"
+  env -u LD_LIBRARY_PATH  tar -xvzf v$METPLUS_Version.tar.gz -C "${WRF_FOLDER}"
 
   # Insatlllation of Model Evaluation Tools Plus
   cd "${WRF_FOLDER}"/METplus-$METPLUS_Version/parm/metplus_config
@@ -1016,7 +1031,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$DTC_MET" = "1" ]; then
 
   cd "${WRF_FOLDER}"/METplus-$METPLUS_Version/Downloads
   wget -c https://dtcenter.ucar.edu/dfiles/code/METplus/METplus_Data/v$METPLUS_DATA/sample_data-met_tool_wrapper.tgz
-  LD_LIBRARY_PATH= tar -xvzf sample_data-met_tool_wrapper.tgz -C "${WRF_FOLDER}"/METplus-$METPLUS_Version/Sample_Data
+  env -u LD_LIBRARY_PATH  tar -xvzf sample_data-met_tool_wrapper.tgz -C "${WRF_FOLDER}"/METplus-$METPLUS_Version/Sample_Data
 
   # Testing if installation of MET & METPlus was sucessfull
   # If you see in terminal "METplus has successfully finished running."
@@ -1042,7 +1057,7 @@ fi
 
 if [ "$RHL_64bit_GNU" = "1" ] && [ "$DTC_MET" = "1" ]; then
   export HOME=$(
-    cd
+    cd ~ &&
     pwd
   )
 
@@ -1101,7 +1116,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$DTC_MET" = "1" ]; then
   wget -c https://github.com/dtcenter/MET/archive/refs/tags/v$met_Version_number.tar.gz
 
   cp compile_MET_all.sh "${WRF_FOLDER}"/MET-$met_Version_number
-  LD_LIBRARY_PATH= tar -xvzf tar_files.met-v$met_VERSION_number.tgz -C "${WRF_FOLDER}"/MET-$met_Version_number
+  env -u LD_LIBRARY_PATH  tar -xvzf tar_files.met-v$met_VERSION_number.tgz -C "${WRF_FOLDER}"/MET-$met_Version_number
   cp v$met_Version_number.tar.gz "${WRF_FOLDER}"/MET-$met_Version_number/tar_files
   cd "${WRF_FOLDER}"/MET-$met_Version_number
 
@@ -1206,7 +1221,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$DTC_MET" = "1" ]; then
 
   cd "${WRF_FOLDER}"/METplus-$METPLUS_Version/Downloads
   wget -c https://github.com/dtcenter/METplus/archive/refs/tags/v$METPLUS_Version.tar.gz
-  LD_LIBRARY_PATH= tar -xvzf v$METPLUS_Version.tar.gz -C "${WRF_FOLDER}"
+  env -u LD_LIBRARY_PATH  tar -xvzf v$METPLUS_Version.tar.gz -C "${WRF_FOLDER}"
 
   # Insatlllation of Model Evaluation Tools Plus
   cd "${WRF_FOLDER}"/METplus-$METPLUS_Version/parm/metplus_config
@@ -1219,7 +1234,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$DTC_MET" = "1" ]; then
 
   cd "${WRF_FOLDER}"/METplus-$METPLUS_Version/Downloads
   wget -c https://dtcenter.ucar.edu/dfiles/code/METplus/METplus_Data/v$METPLUS_DATA/sample_data-met_tool_wrapper.tgz
-  LD_LIBRARY_PATH= tar -xvzf sample_data-met_tool_wrapper.tgz -C "${WRF_FOLDER}"/METplus-$METPLUS_Version/Sample_Data
+  env -u LD_LIBRARY_PATH  tar -xvzf sample_data-met_tool_wrapper.tgz -C "${WRF_FOLDER}"/METplus-$METPLUS_Version/Sample_Data
 
   # Testing if installation of MET & METPlus was sucessfull
   # If you see in terminal "METplus has successfully finished running."
@@ -1249,7 +1264,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$DTC_MET" = "1" ]; then
 
   echo "MET INSTALLING"
   export HOME=$(
-    cd
+    cd ~ &&
     pwd
   )
 
@@ -1320,7 +1335,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$DTC_MET" = "1" ]; then
   wget -c https://github.com/dtcenter/MET/archive/refs/tags/v$met_Version_number.tar.gz
 
   cp compile_MET_all.sh "${WRF_FOLDER}"/MET-$met_Version_number
-  LD_LIBRARY_PATH= tar -xvzf tar_files.met-v$met_VERSION_number.tgz -C "${WRF_FOLDER}"/MET-$met_Version_number
+  env -u LD_LIBRARY_PATH  tar -xvzf tar_files.met-v$met_VERSION_number.tgz -C "${WRF_FOLDER}"/MET-$met_Version_number
   cp v$met_Version_number.tar.gz "${WRF_FOLDER}"/MET-$met_Version_number/tar_files
   cd "${WRF_FOLDER}"/MET-$met_Version_number
 
@@ -1409,7 +1424,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$DTC_MET" = "1" ]; then
 
   cd "${WRF_FOLDER}"/METplus-$METPLUS_Version/Downloads
   wget -c https://github.com/dtcenter/METplus/archive/refs/tags/v$METPLUS_Version.tar.gz
-  LD_LIBRARY_PATH= tar -xvzf v$METPLUS_Version.tar.gz -C "${WRF_FOLDER}"
+  env -u LD_LIBRARY_PATH  tar -xvzf v$METPLUS_Version.tar.gz -C "${WRF_FOLDER}"
 
   # Insatlllation of Model Evaluation Tools Plus
   cd "${WRF_FOLDER}"/METplus-$METPLUS_Version/parm/metplus_config
@@ -1422,7 +1437,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$DTC_MET" = "1" ]; then
 
   cd "${WRF_FOLDER}"/METplus-$METPLUS_Version/Downloads
   wget -c https://dtcenter.ucar.edu/dfiles/code/METplus/METplus_Data/v$METPLUS_DATA/sample_data-met_tool_wrapper.tgz
-  LD_LIBRARY_PATH= tar -xvzf sample_data-met_tool_wrapper.tgz -C "${WRF_FOLDER}"/METplus-$METPLUS_Version/Sample_Data
+  env -u LD_LIBRARY_PATH  tar -xvzf sample_data-met_tool_wrapper.tgz -C "${WRF_FOLDER}"/METplus-$METPLUS_Version/Sample_Data
 
   # Testing if installation of MET & METPlus was sucessfull
   # If you see in terminal "METplus has successfully finished running."
@@ -1524,7 +1539,7 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$DTC_MET" = "1" ]; then
   wget -c https://github.com/dtcenter/MET/archive/refs/tags/v$met_Version_number.tar.gz
 
   cp compile_MET_all.sh "${WRF_FOLDER}"/MET-$met_Version_number
-  LD_LIBRARY_PATH= LD_LIBRARY_PATH= tar -xvzf tar_files.met-v$met_VERSION_number.tgz -C "${WRF_FOLDER}"/MET-$met_Version_number
+  LD_LIBRARY_PATH= env -u LD_LIBRARY_PATH  tar -xvzf tar_files.met-v$met_VERSION_number.tgz -C "${WRF_FOLDER}"/MET-$met_Version_number
   cp v$met_Version_number.tar.gz "${WRF_FOLDER}"/MET-$met_Version_number/tar_files
   cd "${WRF_FOLDER}"/MET-$met_Version_number
 
@@ -1611,7 +1626,7 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$DTC_MET" = "1" ]; then
 
   cd "${WRF_FOLDER}"/METplus-$METPLUS_Version/Downloads
   wget -c https://github.com/dtcenter/METplus/archive/refs/tags/v$METPLUS_Version.tar.gz
-  LD_LIBRARY_PATH= LD_LIBRARY_PATH= tar -xvzf v$METPLUS_Version.tar.gz -C "${WRF_FOLDER}"
+  LD_LIBRARY_PATH= env -u LD_LIBRARY_PATH  tar -xvzf v$METPLUS_Version.tar.gz -C "${WRF_FOLDER}"
 
   # Insatlllation of Model Evaluation Tools Plus
   cd "${WRF_FOLDER}"/METplus-$METPLUS_Version/parm/metplus_config
@@ -1624,7 +1639,7 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$DTC_MET" = "1" ]; then
 
   cd "${WRF_FOLDER}"/METplus-$METPLUS_Version/Downloads
   wget -c https://dtcenter.ucar.edu/dfiles/code/METplus/METplus_Data/v$METPLUS_DATA/sample_data-met_tool_wrapper.tgz
-  LD_LIBRARY_PATH= LD_LIBRARY_PATH= tar -xvzf sample_data-met_tool_wrapper.tgz -C "${WRF_FOLDER}"/METplus-$METPLUS_Version/Sample_Data
+  LD_LIBRARY_PATH= env -u LD_LIBRARY_PATH  tar -xvzf sample_data-met_tool_wrapper.tgz -C "${WRF_FOLDER}"/METplus-$METPLUS_Version/Sample_Data
 
   # Testing if installation of MET & METPlus was sucessfull
   # If you see in terminal "METplus has successfully finished running."
@@ -1691,7 +1706,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
   echo " "
   ##############################Directory Listing############################
   export HOME=$(
-    cd
+    cd ~ &&
     pwd
   )
 
@@ -1778,7 +1793,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
   ############################# ZLib ############################
 
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf zlib-$Zlib_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf zlib-$Zlib_Version.tar.gz
   cd zlib-$Zlib_Version/
 
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
@@ -1793,7 +1808,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
   ############################## MPICH ############################
   #F90= due to compiler issues with mpich install
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf mpich-$Mpich_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf mpich-$Mpich_Version.tar.gz
   cd mpich-$Mpich_Version/
   F90= ./configure --prefix=$DIR/MPICH --with-device=ch3 FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS 2>&1 | tee configure.log
 
@@ -1817,7 +1832,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
   export LDFLAGS=-L$DIR/grib2/lib
   export CPPFLAGS=-I$DIR/grib2/include
 
-  LD_LIBRARY_PATH= tar -xvzf libpng-$Libpng_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf libpng-$Libpng_Version.tar.gz
   cd libpng-$Libpng_Version/
 
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
@@ -1830,7 +1845,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
   echo " "
   #############################JasPer ############################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf jasper-$Jasper_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf jasper-$Jasper_Version.tar.gz
   cd jasper-$Jasper_Version/
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
 
@@ -1845,7 +1860,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
   echo " "
   ############################# hdf5 library for netcdf4 functionality ############################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf hdf5-$HDF5_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf hdf5-$HDF5_Version.tar.gz
   cd hdf5-$HDF5_Version
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --with-zlib=$DIR/grib2 --enable-hl --enable-fortran --enable-parallel 2>&1 | tee configure.log
 
@@ -1864,7 +1879,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
   #Hard path for MPI added
   ##################################################################################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf pnetcdf-$Pnetcdf_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf pnetcdf-$Pnetcdf_Version.tar.gz
   cd pnetcdf-$Pnetcdf_Version
   export MPIFC=$DIR/MPICH/bin/mpifort
   export MPIF77=$DIR/MPICH/bin/mpifort
@@ -1882,7 +1897,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
 
   ############################## Install NETCDF C Library ############################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf v$Netcdf_C_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf v$Netcdf_C_Version.tar.gz
   cd netcdf-c-$Netcdf_C_Version/
   export CPPFLAGS=-I$DIR/grib2/include
   export LDFLAGS="-L$DIR/grib2/lib -Wl,-rpath,$DIR/grib2/lib"
@@ -1902,7 +1917,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
   echo " "
   ############################## NetCDF fortran library ############################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf v$Netcdf_Fortran_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf v$Netcdf_Fortran_Version.tar.gz
   cd netcdf-fortran-$Netcdf_Fortran_Version/
   export LD_LIBRARY_PATH=$DIR/NETCDF/lib:$LD_LIBRARY_PATH
   export CPPFLAGS="-I$DIR/NETCDF/include -I$DIR/grib2/include"
@@ -1920,7 +1935,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
   cd "${WRF_FOLDER}"/Downloads
   mkdir ioapi
   cd ioapi
-  LD_LIBRARY_PATH= tar -xvzf "${WRF_FOLDER}"/Downloads/ioapi-3.2.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf "${WRF_FOLDER}"/Downloads/ioapi-3.2.tar.gz
 
   #set gnu version
   export BIN=Linux2_x86_64gfort10
@@ -1973,8 +1988,8 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
   wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_NETCDF_MPI_tests.tar
   wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_tests.tar
 
-  LD_LIBRARY_PATH= tar -xvf Fortran_C_tests.tar -C "${WRF_FOLDER}"/Tests/Environment
-  LD_LIBRARY_PATH= tar -xvf Fortran_C_NETCDF_MPI_tests.tar -C "${WRF_FOLDER}"/Tests/Compatibility
+  env -u LD_LIBRARY_PATH  tar -xvf Fortran_C_tests.tar -C "${WRF_FOLDER}"/Tests/Environment
+  env -u LD_LIBRARY_PATH  tar -xvf Fortran_C_NETCDF_MPI_tests.tar -C "${WRF_FOLDER}"/Tests/Compatibility
 
   export one="1"
   echo " "
@@ -2176,7 +2191,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
 
   cd "${WRF_FOLDER}"/Downloads
   wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v${WPS_VERSION}.tar.gz -O WPS-${WPS_VERSION}.tar.gz
-  LD_LIBRARY_PATH= tar -xvzf WPS-${WPS_VERSION}.tar.gz -C "${WRF_FOLDER}"/
+  env -u LD_LIBRARY_PATH  tar -xvzf WPS-${WPS_VERSION}.tar.gz -C "${WRF_FOLDER}"/
   # Check if WPS directory exists
   if [ -d "${WRF_FOLDER}/WPS" ]; then
     mv -f "${WRF_FOLDER}/WPS" "${WRF_FOLDER}/WPS-${WPS_VERSION}"
@@ -2228,10 +2243,10 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
   echo "Mandatory WRF Preprocessing System (WPS) Geographical Input Data Mandatory Fields Downloads"
   echo " "
   wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_high_res_mandatory.tar.gz
-  LD_LIBRARY_PATH= tar -xvzf geog_high_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
+  env -u LD_LIBRARY_PATH  tar -xvzf geog_high_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
 
   wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_low_res_mandatory.tar.gz
-  LD_LIBRARY_PATH= tar -xvzf geog_low_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
+  env -u LD_LIBRARY_PATH  tar -xvzf geog_low_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
   mv "${WRF_FOLDER}"/GEOG/WPS_GEOG_LOW_RES/ "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
   if [ ${WPS_Specific_Applications} -eq 1 ]; then
@@ -2240,34 +2255,34 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
     echo " "
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_thompson28_chem.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_thompson28_chem.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_thompson28_chem.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_noahmp.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_noahmp.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_noahmp.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/irrigation.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf irrigation.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf irrigation.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_px.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_px.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_px.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_urban.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_urban.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_urban.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_ssib.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_ssib.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_ssib.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/lake_depth.tar.bz2
-    LD_LIBRARY_PATH= tar -xvf lake_depth.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf lake_depth.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/topobath_30s.tar.bz2
-    LD_LIBRARY_PATH= tar -xvf topobath_30s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf topobath_30s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/gsl_gwd.tar.bz2
-    LD_LIBRARY_PATH= tar -xvf gsl_gwd.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf gsl_gwd.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/cglc_modis_lcz_global.tar.gz
-    LD_LIBRARY_PATH= tar -xvf cglc_modis_lcz_global.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf cglc_modis_lcz_global.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
   fi
 
   if [ ${Optional_GEOG} -eq 1 ]; then
@@ -2276,22 +2291,22 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
     echo " "
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_older_than_2000.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_older_than_2000.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_older_than_2000.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s_with_lakes.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf modis_landuse_20class_15s_with_lakes.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf modis_landuse_20class_15s_with_lakes.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_alt_lsm.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_alt_lsm.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_alt_lsm.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/nlcd2006_ll_9s.tar.bz2
-    LD_LIBRARY_PATH= tar -xvf nlcd2006_ll_9s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf nlcd2006_ll_9s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/updated_Iceland_LU.tar.gz
-    LD_LIBRARY_PATH= tar -xvf updated_Iceland_LU.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf updated_Iceland_LU.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s.tar.bz2
-    LD_LIBRARY_PATH= tar -xvf modis_landuse_20class_15s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf modis_landuse_20class_15s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
   fi
 fi
@@ -2317,7 +2332,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
   echo " "
   ##############################Directory Listing############################
   export HOME=$(
-    cd
+    cd ~ &&
     pwd
   )
 
@@ -2405,7 +2420,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
   ############################# ZLib ############################
 
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf zlib-$Zlib_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf zlib-$Zlib_Version.tar.gz
   cd zlib-$Zlib_Version/
 
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
@@ -2420,7 +2435,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
   ############################## MPICH ############################
   #F90= due to compiler issues with mpich install
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf mpich-$Mpich_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf mpich-$Mpich_Version.tar.gz
   cd mpich-$Mpich_Version/
 
   F90= ./configure --prefix=$DIR/MPICH --with-device=ch3 FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS 2>&1 | tee configure.log
@@ -2444,7 +2459,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
   export LDFLAGS=-L$DIR/grib2/lib
   export CPPFLAGS=-I$DIR/grib2/include
 
-  LD_LIBRARY_PATH= tar -xvzf libpng-$Libpng_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf libpng-$Libpng_Version.tar.gz
   cd libpng-$Libpng_Version/
 
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
@@ -2457,7 +2472,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
   echo " "
   #############################JasPer ############################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf jasper-$Jasper_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf jasper-$Jasper_Version.tar.gz
   cd jasper-$Jasper_Version/
 
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
@@ -2474,7 +2489,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
   echo " "
   ############################# hdf5 library for netcdf4 functionality ############################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf hdf5-$HDF5_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf hdf5-$HDF5_Version.tar.gz
   cd hdf5-$HDF5_Version
 
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --with-zlib=$DIR/grib2 --enable-hl --enable-fortran --enable-parallel 2>&1 | tee configure.log
@@ -2495,7 +2510,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
   #Hard path for MPI added
   ##################################################################################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf pnetcdf-$Pnetcdf_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf pnetcdf-$Pnetcdf_Version.tar.gz
   cd pnetcdf-$Pnetcdf_Version
   export MPIFC=mpifort
   export MPIF77=mpifort
@@ -2516,7 +2531,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
 
   ############################## Install NETCDF C Library ############################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf v$Netcdf_C_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf v$Netcdf_C_Version.tar.gz
   cd netcdf-c-$Netcdf_C_Version/
   export CPPFLAGS=-I$DIR/grib2/include
   export LDFLAGS="-L$DIR/grib2/lib -Wl,-rpath,$DIR/grib2/lib"
@@ -2539,7 +2554,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
   echo " "
   ############################## NetCDF fortran library ############################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf v$Netcdf_Fortran_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf v$Netcdf_Fortran_Version.tar.gz
   cd netcdf-fortran-$Netcdf_Fortran_Version/
   export LD_LIBRARY_PATH=$DIR/NETCDF/lib:$LD_LIBRARY_PATH
   export CPPFLAGS="-I$DIR/NETCDF/include -I$DIR/grib2/include"
@@ -2559,7 +2574,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
   cd "${WRF_FOLDER}"/Downloads
   mkdir ioapi
   cd ioapi
-  LD_LIBRARY_PATH= tar -xvzf "${WRF_FOLDER}"/Downloads/ioapi-3.2.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf "${WRF_FOLDER}"/Downloads/ioapi-3.2.tar.gz
 
   #set gnu version
   export BIN=Linux2_x86_64gfort10
@@ -2612,8 +2627,8 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
   wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_NETCDF_MPI_tests.tar
   wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_tests.tar
 
-  LD_LIBRARY_PATH= tar -xvf Fortran_C_tests.tar -C "${WRF_FOLDER}"/Tests/Environment
-  LD_LIBRARY_PATH= tar -xvf Fortran_C_NETCDF_MPI_tests.tar -C "${WRF_FOLDER}"/Tests/Compatibility
+  env -u LD_LIBRARY_PATH  tar -xvf Fortran_C_tests.tar -C "${WRF_FOLDER}"/Tests/Environment
+  env -u LD_LIBRARY_PATH  tar -xvf Fortran_C_NETCDF_MPI_tests.tar -C "${WRF_FOLDER}"/Tests/Compatibility
 
   export one="1"
   echo " "
@@ -2813,7 +2828,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
 
   cd "${WRF_FOLDER}"/Downloads
   wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v${WPS_VERSION}.tar.gz -O WPS-${WPS_VERSION}.tar.gz
-  LD_LIBRARY_PATH= tar -xvzf WPS-${WPS_VERSION}.tar.gz -C "${WRF_FOLDER}"/
+  env -u LD_LIBRARY_PATH  tar -xvzf WPS-${WPS_VERSION}.tar.gz -C "${WRF_FOLDER}"/
   # Check if WPS directory exists
   if [ -d "${WRF_FOLDER}/WPS" ]; then
     mv -f "${WRF_FOLDER}/WPS" "${WRF_FOLDER}/WPS-${WPS_VERSION}"
@@ -2865,10 +2880,10 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
   echo "Mandatory WRF Preprocessing System (WPS) Geographical Input Data Mandatory Fields Downloads"
   echo " "
   wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_high_res_mandatory.tar.gz
-  LD_LIBRARY_PATH= tar -xvzf geog_high_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
+  env -u LD_LIBRARY_PATH  tar -xvzf geog_high_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
 
   wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_low_res_mandatory.tar.gz
-  LD_LIBRARY_PATH= tar -xvzf geog_low_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
+  env -u LD_LIBRARY_PATH  tar -xvzf geog_low_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
   mv "${WRF_FOLDER}"/GEOG/WPS_GEOG_LOW_RES/ "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
   if [ ${WPS_Specific_Applications} -eq 1 ]; then
@@ -2877,34 +2892,34 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
     echo " "
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_thompson28_chem.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_thompson28_chem.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_thompson28_chem.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_noahmp.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_noahmp.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_noahmp.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/irrigation.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf irrigation.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf irrigation.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_px.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_px.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_px.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_urban.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_urban.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_urban.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_ssib.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_ssib.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_ssib.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/lake_depth.tar.bz2
-    LD_LIBRARY_PATH= tar -xvf lake_depth.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf lake_depth.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/topobath_30s.tar.bz2
-    LD_LIBRARY_PATH= tar -xvf topobath_30s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf topobath_30s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/gsl_gwd.tar.bz2
-    LD_LIBRARY_PATH= tar -xvf gsl_gwd.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf gsl_gwd.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/cglc_modis_lcz_global.tar.gz
-    LD_LIBRARY_PATH= tar -xvf cglc_modis_lcz_global.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf cglc_modis_lcz_global.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
   fi
 
@@ -2914,22 +2929,22 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
     echo " "
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_older_than_2000.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_older_than_2000.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_older_than_2000.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s_with_lakes.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf modis_landuse_20class_15s_with_lakes.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf modis_landuse_20class_15s_with_lakes.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_alt_lsm.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_alt_lsm.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_alt_lsm.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/nlcd2006_ll_9s.tar.bz2
-    LD_LIBRARY_PATH= tar -xvf nlcd2006_ll_9s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf nlcd2006_ll_9s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/updated_Iceland_LU.tar.gz
-    LD_LIBRARY_PATH= tar -xvf updated_Iceland_LU.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf updated_Iceland_LU.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s.tar.bz2
-    LD_LIBRARY_PATH= tar -xvf modis_landuse_20class_15s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf modis_landuse_20class_15s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
   fi
 fi
@@ -2966,7 +2981,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$CMAQ_PICK" = "1" ]; then
   echo " "
   ##############################Directory Listing############################
   export HOME=$(
-    cd
+    cd ~ &&
     pwd
   )
 
@@ -3054,7 +3069,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$CMAQ_PICK" = "1" ]; then
   ############################# ZLib ############################
 
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf zlib-$Zlib_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf zlib-$Zlib_Version.tar.gz
   cd zlib-$Zlib_Version/
 
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
@@ -3069,7 +3084,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$CMAQ_PICK" = "1" ]; then
   ############################## MPICH ############################
   #F90= due to compiler issues with mpich install
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf mpich-$Mpich_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf mpich-$Mpich_Version.tar.gz
   cd mpich-$Mpich_Version/
 
   F90= ./configure --prefix=$DIR/MPICH --with-device=ch3 FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS 2>&1 | tee configure.log
@@ -3093,7 +3108,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$CMAQ_PICK" = "1" ]; then
   export LDFLAGS=-L$DIR/grib2/lib
   export CPPFLAGS=-I$DIR/grib2/include
 
-  LD_LIBRARY_PATH= tar -xvzf libpng-$Libpng_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf libpng-$Libpng_Version.tar.gz
   cd libpng-$Libpng_Version/
 
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
@@ -3106,7 +3121,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$CMAQ_PICK" = "1" ]; then
   echo " "
   #############################JasPer ############################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf jasper-$Jasper_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf jasper-$Jasper_Version.tar.gz
   cd jasper-$Jasper_Version/
 
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
@@ -3123,7 +3138,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$CMAQ_PICK" = "1" ]; then
   echo " "
   ############################# hdf5 library for netcdf4 functionality ############################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf hdf5-$HDF5_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf hdf5-$HDF5_Version.tar.gz
   cd hdf5-$HDF5_Version
 
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --with-zlib=$DIR/grib2 --enable-hl --enable-fortran --enable-parallel 2>&1 | tee configure.log
@@ -3144,7 +3159,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$CMAQ_PICK" = "1" ]; then
   #Hard path for MPI added
   ##################################################################################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf pnetcdf-$Pnetcdf_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf pnetcdf-$Pnetcdf_Version.tar.gz
   cd pnetcdf-$Pnetcdf_Version
   export MPIFC=mpifort
   export MPIF77=mpifort
@@ -3165,7 +3180,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$CMAQ_PICK" = "1" ]; then
 
   ############################## Install NETCDF C Library ############################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf v$Netcdf_C_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf v$Netcdf_C_Version.tar.gz
   cd netcdf-c-$Netcdf_C_Version/
   export CPPFLAGS=-I$DIR/grib2/include
   export LDFLAGS="-L$DIR/grib2/lib -Wl,-rpath,$DIR/grib2/lib"
@@ -3188,7 +3203,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$CMAQ_PICK" = "1" ]; then
   echo " "
   ############################## NetCDF fortran library ############################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf v$Netcdf_Fortran_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf v$Netcdf_Fortran_Version.tar.gz
   cd netcdf-fortran-$Netcdf_Fortran_Version/
   export LD_LIBRARY_PATH=$DIR/NETCDF/lib:$LD_LIBRARY_PATH
   export CPPFLAGS="-I$DIR/NETCDF/include -I$DIR/grib2/include"
@@ -3208,7 +3223,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$CMAQ_PICK" = "1" ]; then
   cd "${WRF_FOLDER}"/Downloads
   mkdir ioapi
   cd ioapi
-  LD_LIBRARY_PATH= tar -xvzf "${WRF_FOLDER}"/Downloads/ioapi-3.2.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf "${WRF_FOLDER}"/Downloads/ioapi-3.2.tar.gz
 
   #set gnu version
   export BIN=Linux2_x86_64gfort10
@@ -3261,8 +3276,8 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$CMAQ_PICK" = "1" ]; then
   wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_NETCDF_MPI_tests.tar
   wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_tests.tar
 
-  LD_LIBRARY_PATH= tar -xvf Fortran_C_tests.tar -C "${WRF_FOLDER}"/Tests/Environment
-  LD_LIBRARY_PATH= tar -xvf Fortran_C_NETCDF_MPI_tests.tar -C "${WRF_FOLDER}"/Tests/Compatibility
+  env -u LD_LIBRARY_PATH  tar -xvf Fortran_C_tests.tar -C "${WRF_FOLDER}"/Tests/Environment
+  env -u LD_LIBRARY_PATH  tar -xvf Fortran_C_NETCDF_MPI_tests.tar -C "${WRF_FOLDER}"/Tests/Compatibility
 
   export one="1"
   echo " "
@@ -3463,7 +3478,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$CMAQ_PICK" = "1" ]; then
 
   cd "${WRF_FOLDER}"/Downloads
   wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v${WPS_VERSION}.tar.gz -O WPS-${WPS_VERSION}.tar.gz
-  LD_LIBRARY_PATH= tar -xvzf WPS-${WPS_VERSION}.tar.gz -C "${WRF_FOLDER}"/
+  env -u LD_LIBRARY_PATH  tar -xvzf WPS-${WPS_VERSION}.tar.gz -C "${WRF_FOLDER}"/
   # Check if WPS directory exists
   if [ -d "${WRF_FOLDER}/WPS" ]; then
     mv -f "${WRF_FOLDER}/WPS" "${WRF_FOLDER}/WPS-${WPS_VERSION}"
@@ -3515,10 +3530,10 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$CMAQ_PICK" = "1" ]; then
   echo "Mandatory WRF Preprocessing System (WPS) Geographical Input Data Mandatory Fields Downloads"
   echo " "
   wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_high_res_mandatory.tar.gz
-  LD_LIBRARY_PATH= tar -xvzf geog_high_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
+  env -u LD_LIBRARY_PATH  tar -xvzf geog_high_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
 
   wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_low_res_mandatory.tar.gz
-  LD_LIBRARY_PATH= tar -xvzf geog_low_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
+  env -u LD_LIBRARY_PATH  tar -xvzf geog_low_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
   mv "${WRF_FOLDER}"/GEOG/WPS_GEOG_LOW_RES/ "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
   if [ ${WPS_Specific_Applications} -eq 1 ]; then
@@ -3527,34 +3542,34 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$CMAQ_PICK" = "1" ]; then
     echo " "
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_thompson28_chem.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_thompson28_chem.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_thompson28_chem.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_noahmp.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_noahmp.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_noahmp.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/irrigation.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf irrigation.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf irrigation.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_px.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_px.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_px.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_urban.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_urban.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_urban.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_ssib.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_ssib.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_ssib.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/lake_depth.tar.bz2
-    LD_LIBRARY_PATH= tar -xvf lake_depth.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf lake_depth.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/topobath_30s.tar.bz2
-    LD_LIBRARY_PATH= tar -xvf topobath_30s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf topobath_30s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/gsl_gwd.tar.bz2
-    LD_LIBRARY_PATH= tar -xvf gsl_gwd.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf gsl_gwd.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/cglc_modis_lcz_global.tar.gz
-    LD_LIBRARY_PATH= tar -xvf cglc_modis_lcz_global.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf cglc_modis_lcz_global.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
   fi
 
   if [ ${Optional_GEOG} -eq 1 ]; then
@@ -3563,22 +3578,22 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$CMAQ_PICK" = "1" ]; then
     echo " "
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_older_than_2000.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_older_than_2000.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_older_than_2000.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s_with_lakes.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf modis_landuse_20class_15s_with_lakes.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf modis_landuse_20class_15s_with_lakes.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_alt_lsm.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_alt_lsm.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_alt_lsm.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/nlcd2006_ll_9s.tar.bz2
-    LD_LIBRARY_PATH= tar -xvf nlcd2006_ll_9s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf nlcd2006_ll_9s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/updated_Iceland_LU.tar.gz
-    LD_LIBRARY_PATH= tar -xvf updated_Iceland_LU.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf updated_Iceland_LU.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s.tar.bz2
-    LD_LIBRARY_PATH= tar -xvf modis_landuse_20class_15s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf modis_landuse_20class_15s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
   fi
 fi
@@ -3625,7 +3640,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
   echo " "
   ##############################Directory Listing############################
   export HOME=$(
-    cd
+    cd ~ &&
     pwd
   )
 
@@ -3711,7 +3726,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
   ############################# ZLib ############################
 
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf zlib-$Zlib_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf zlib-$Zlib_Version.tar.gz
   cd zlib-$Zlib_Version/
 
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
@@ -3726,7 +3741,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
   ############################## MPICH ############################
   #F90= due to compiler issues with mpich install
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf mpich-$Mpich_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf mpich-$Mpich_Version.tar.gz
   cd mpich-$Mpich_Version/
   F90= ./configure --prefix=$DIR/MPICH --with-device=ch3 FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS 2>&1 | tee configure.log
 
@@ -3750,7 +3765,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
   export LDFLAGS=-L$DIR/grib2/lib
   export CPPFLAGS=-I$DIR/grib2/include
 
-  LD_LIBRARY_PATH= tar -xvzf libpng-$Libpng_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf libpng-$Libpng_Version.tar.gz
   cd libpng-$Libpng_Version/
 
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
@@ -3763,7 +3778,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
   echo " "
   #############################JasPer ############################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf jasper-$Jasper_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf jasper-$Jasper_Version.tar.gz
   cd jasper-$Jasper_Version/
   ./configure --prefix=$DIR/grib2
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
@@ -3779,7 +3794,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
   echo " "
   ############################# hdf5 library for netcdf4 functionality ############################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf hdf5-$HDF5_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf hdf5-$HDF5_Version.tar.gz
   cd hdf5-$HDF5_Version
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --with-zlib=$DIR/grib2 --enable-hl --enable-fortran --enable-parallel 2>&1 | tee configure.log
 
@@ -3798,7 +3813,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
   #Hard path for MPI added
   ##################################################################################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf pnetcdf-$Pnetcdf_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf pnetcdf-$Pnetcdf_Version.tar.gz
   cd pnetcdf-$Pnetcdf_Version
   export MPIFC=$DIR/MPICH/bin/mpifort
   export MPIF77=$DIR/MPICH/bin/mpifort
@@ -3816,7 +3831,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
 
   ############################## Install NETCDF C Library ############################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf v$Netcdf_C_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf v$Netcdf_C_Version.tar.gz
   cd netcdf-c-$Netcdf_C_Version/
   export CPPFLAGS=-I$DIR/grib2/include
   export LDFLAGS="-L$DIR/grib2/lib -Wl,-rpath,$DIR/grib2/lib"
@@ -3836,7 +3851,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
   echo " "
   ############################## NetCDF fortran library ############################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf v$Netcdf_Fortran_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf v$Netcdf_Fortran_Version.tar.gz
   cd netcdf-fortran-$Netcdf_Fortran_Version/
   export LD_LIBRARY_PATH=$DIR/NETCDF/lib:$LD_LIBRARY_PATH
   export CPPFLAGS="-I$DIR/NETCDF/include -I$DIR/grib2/include"
@@ -3852,7 +3867,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
   ############################# Convert Geo Tiff #################################
 
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf convert_geotiff-0.1.0.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf convert_geotiff-0.1.0.tar.gz
   cd convert_geotiff-0.1.0
   CC=$MPICC FC=$MPIFC CXX=$MPICXX F90=$MPIF90 F77=$MPIF77 CFLAGS=$CFLAGS FCFLAGS=$FCFLAGS ./configure --exec-prefix=$DIR/grib2 --prefix=$DIR/grib2 2>&1 | tee configure.log
 
@@ -3865,8 +3880,8 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
   wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_NETCDF_MPI_tests.tar
   wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_tests.tar
 
-  LD_LIBRARY_PATH= tar -xvf Fortran_C_tests.tar -C "${WRF_FOLDER}"/Tests/Environment
-  LD_LIBRARY_PATH= tar -xvf Fortran_C_NETCDF_MPI_tests.tar -C "${WRF_FOLDER}"/Tests/Compatibility
+  env -u LD_LIBRARY_PATH  tar -xvf Fortran_C_tests.tar -C "${WRF_FOLDER}"/Tests/Environment
+  env -u LD_LIBRARY_PATH  tar -xvf Fortran_C_NETCDF_MPI_tests.tar -C "${WRF_FOLDER}"/Tests/Compatibility
 
   export one="1"
   echo " "
@@ -3991,16 +4006,16 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
   #############################################################################
   if [[ $GRADS_PICK -eq 1 ]]; then
     cd "${WRF_FOLDER}"/Downloads
-    LD_LIBRARY_PATH= tar -xvzf cd "${WRF_FOLDER}"/Downloads
+    env -u LD_LIBRARY_PATH  tar -xvzf cd "${WRF_FOLDER}"/Downloads
     wget -c https://sourceforge.net/projects/opengrads/files/grads2/2.2.1.oga.1/Linux%20%2864%20Bits%29/opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz -C "${WRF_FOLDER}"/ -C "${WRF_FOLDER}"/
+    env -u LD_LIBRARY_PATH  tar -xvzf opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz -C "${WRF_FOLDER}"/ -C "${WRF_FOLDER}"/
     cd "${WRF_FOLDER}"/
     mv "${WRF_FOLDER}"/opengrads-2.2.1.oga.1 "${WRF_FOLDER}"/GrADS
     cd GrADS/Contents
     wget -c https://github.com/regisgrundig/SIMOP/blob/master/g2ctl.pl
     chmod +x g2ctl.pl
     wget -c https://sourceforge.net/projects/opengrads/files/wgrib2/0.1.9.4/wgrib2-v0.1.9.4-bin-i686-glib2.5-linux-gnu.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf wgrib2-v0.1.9.4-bin-i686-glib2.5-linux-gnu.tar.gz
+    env -u LD_LIBRARY_PATH  tar -xvzf wgrib2-v0.1.9.4-bin-i686-glib2.5-linux-gnu.tar.gz
     cd wgrib2-v0.1.9.4/bin
     mv wgrib2 "${WRF_FOLDER}"/GrADS/Contents
     cd "${WRF_FOLDER}"/GrADS/Contents
@@ -4206,10 +4221,10 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
   echo "Mandatory WRF Preprocessing System (WPS) Geographical Input Data Mandatory Fields Downloads"
   echo " "
   wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_high_res_mandatory.tar.gz
-  LD_LIBRARY_PATH= tar -xvzf geog_high_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
+  env -u LD_LIBRARY_PATH  tar -xvzf geog_high_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
 
   wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_low_res_mandatory.tar.gz
-  LD_LIBRARY_PATH= tar -xvzf geog_low_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
+  env -u LD_LIBRARY_PATH  tar -xvzf geog_low_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
   mv "${WRF_FOLDER}"/GEOG/WPS_GEOG_LOW_RES/ "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
   if [ ${WPS_Specific_Applications} -eq 1 ]; then
@@ -4218,31 +4233,31 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
     echo " "
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_thompson28_chem.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_thompson28_chem.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_thompson28_chem.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_noahmp.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_noahmp.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_noahmp.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/irrigation.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf irrigation.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf irrigation.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_px.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_px.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_px.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_urban.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_urban.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_urban.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_ssib.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_ssib.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_ssib.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/lake_depth.tar.bz2
-    LD_LIBRARY_PATH= tar -xvf lake_depth.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf lake_depth.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/topobath_30s.tar.bz2
-    LD_LIBRARY_PATH= tar -xvf topobath_30s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf topobath_30s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/gsl_gwd.tar.bz2
-    LD_LIBRARY_PATH= tar -xvf gsl_gwd.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf gsl_gwd.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
   fi
 
   if [ ${Optional_GEOG} -eq 1 ]; then
@@ -4251,22 +4266,22 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
     echo " "
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_older_than_2000.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_older_than_2000.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_older_than_2000.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s_with_lakes.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf modis_landuse_20class_15s_with_lakes.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf modis_landuse_20class_15s_with_lakes.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_alt_lsm.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_alt_lsm.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_alt_lsm.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/nlcd2006_ll_9s.tar.bz2
-    LD_LIBRARY_PATH= tar -xvf nlcd2006_ll_9s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf nlcd2006_ll_9s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/updated_Iceland_LU.tar.gz
-    LD_LIBRARY_PATH= tar -xvf updated_Iceland_LU.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf updated_Iceland_LU.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s.tar.bz2
-    LD_LIBRARY_PATH= tar -xvf modis_landuse_20class_15s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf modis_landuse_20class_15s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
   fi
 fi
@@ -4292,7 +4307,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
 
   ##############################Directory Listing############################
   export HOME=$(
-    cd
+    cd ~ &&
     pwd
   )
 
@@ -4378,7 +4393,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
   ############################# ZLib ############################
 
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf zlib-$Zlib_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf zlib-$Zlib_Version.tar.gz
   cd zlib-$Zlib_Version/
 
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
@@ -4393,7 +4408,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
   ############################## MPICH ############################
   #F90= due to compiler issues with mpich install
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf mpich-$Mpich_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf mpich-$Mpich_Version.tar.gz
   cd mpich-$Mpich_Version/
   F90= ./configure --prefix=$DIR/MPICH --with-device=ch3 FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS 2>&1 | tee configure.log
 
@@ -4417,7 +4432,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
   export LDFLAGS=-L$DIR/grib2/lib
   export CPPFLAGS=-I$DIR/grib2/include
 
-  LD_LIBRARY_PATH= tar -xvzf libpng-$Libpng_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf libpng-$Libpng_Version.tar.gz
   cd libpng-$Libpng_Version/
 
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
@@ -4430,7 +4445,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
   echo " "
   #############################JasPer ############################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf jasper-$Jasper_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf jasper-$Jasper_Version.tar.gz
   cd jasper-$Jasper_Version/
   ./configure --prefix=$DIR/grib2
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
@@ -4446,7 +4461,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
   echo " "
   ############################# hdf5 library for netcdf4 functionality ############################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf hdf5-$HDF5_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf hdf5-$HDF5_Version.tar.gz
   cd hdf5-$HDF5_Version
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --with-zlib=$DIR/grib2 --enable-hl --enable-fortran --enable-parallel 2>&1 | tee configure.log
 
@@ -4466,7 +4481,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
   #Hard path for MPI added
   ##################################################################################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf pnetcdf-$Pnetcdf_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf pnetcdf-$Pnetcdf_Version.tar.gz
   cd pnetcdf-$Pnetcdf_Version
   export MPIFC=$DIR/MPICH/bin/mpifort
   export MPIF77=$DIR/MPICH/bin/mpifort
@@ -4484,7 +4499,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
 
   ############################## Install NETCDF C Library ############################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf v$Netcdf_C_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf v$Netcdf_C_Version.tar.gz
   cd netcdf-c-$Netcdf_C_Version/
   export CPPFLAGS=-I$DIR/grib2/include
   export LDFLAGS="-L$DIR/grib2/lib -Wl,-rpath,$DIR/grib2/lib"
@@ -4504,7 +4519,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
   echo " "
   ############################## NetCDF fortran library ############################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf v$Netcdf_Fortran_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf v$Netcdf_Fortran_Version.tar.gz
   cd netcdf-fortran-$Netcdf_Fortran_Version/
   export LD_LIBRARY_PATH=$DIR/NETCDF/lib:$LD_LIBRARY_PATH
   export CPPFLAGS="-I$DIR/NETCDF/include -I$DIR/grib2/include"
@@ -4520,7 +4535,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
   ############################# Convert Geo Tiff #################################
 
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf convert_geotiff-0.1.0.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf convert_geotiff-0.1.0.tar.gz
   cd convert_geotiff-0.1.0
   export CPPFLAGS="-I$DIR/NETCDF/include -I$DIR/grib2/include -I/usr/include/libgeotiff"
   export LDFLAGS="-L$DIR/NETCDF/lib -L$DIR/grib2/lib -L/usr/lib/libgeotiff"
@@ -4539,8 +4554,8 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
   wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_NETCDF_MPI_tests.tar
   wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_tests.tar
 
-  LD_LIBRARY_PATH= tar -xvf Fortran_C_tests.tar -C "${WRF_FOLDER}"/Tests/Environment
-  LD_LIBRARY_PATH= tar -xvf Fortran_C_NETCDF_MPI_tests.tar -C "${WRF_FOLDER}"/Tests/Compatibility
+  env -u LD_LIBRARY_PATH  tar -xvf Fortran_C_tests.tar -C "${WRF_FOLDER}"/Tests/Environment
+  env -u LD_LIBRARY_PATH  tar -xvf Fortran_C_NETCDF_MPI_tests.tar -C "${WRF_FOLDER}"/Tests/Compatibility
 
   export one="1"
   echo " "
@@ -4665,16 +4680,16 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
   #############################################################################
   if [[ $GRADS_PICK -eq 1 ]]; then
     cd "${WRF_FOLDER}"/Downloads
-    LD_LIBRARY_PATH= tar -xvzf cd "${WRF_FOLDER}"/Downloads
+    env -u LD_LIBRARY_PATH  tar -xvzf cd "${WRF_FOLDER}"/Downloads
     wget -c https://sourceforge.net/projects/opengrads/files/grads2/2.2.1.oga.1/Linux%20%2864%20Bits%29/opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz -C "${WRF_FOLDER}"/ -C "${WRF_FOLDER}"/
+    env -u LD_LIBRARY_PATH  tar -xvzf opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz -C "${WRF_FOLDER}"/ -C "${WRF_FOLDER}"/
     cd "${WRF_FOLDER}"/
     mv "${WRF_FOLDER}"/opengrads-2.2.1.oga.1 "${WRF_FOLDER}"/GrADS
     cd GrADS/Contents
     wget -c https://github.com/regisgrundig/SIMOP/blob/master/g2ctl.pl
     chmod +x g2ctl.pl
     wget -c https://sourceforge.net/projects/opengrads/files/wgrib2/0.1.9.4/wgrib2-v0.1.9.4-bin-i686-glib2.5-linux-gnu.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf wgrib2-v0.1.9.4-bin-i686-glib2.5-linux-gnu.tar.gz
+    env -u LD_LIBRARY_PATH  tar -xvzf wgrib2-v0.1.9.4-bin-i686-glib2.5-linux-gnu.tar.gz
     cd wgrib2-v0.1.9.4/bin
     mv wgrib2 "${WRF_FOLDER}"/GrADS/Contents
     cd "${WRF_FOLDER}"/GrADS/Contents
@@ -4693,7 +4708,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
   if [[ $GRADS_PICK -eq 2 ]]; then
     cd "${WRF_FOLDER}"/Downloads
     wget -c ftp://cola.gmu.edu/grads/2.2/grads-2.2.1-bin-RHL7.4-x86_64.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf grads-2.2.1-bin-RHL7.4-x86_64.tar.gz -C "${WRF_FOLDER}"
+    env -u LD_LIBRARY_PATH  tar -xvzf grads-2.2.1-bin-RHL7.4-x86_64.tar.gz -C "${WRF_FOLDER}"
     cd "${WRF_FOLDER}"/grads-2.2.1/bin
     chmod 775 *
 
@@ -4883,10 +4898,10 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
   echo "Mandatory WRF Preprocessing System (WPS) Geographical Input Data Mandatory Fields Downloads"
   echo " "
   wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_high_res_mandatory.tar.gz
-  LD_LIBRARY_PATH= tar -xvzf geog_high_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
+  env -u LD_LIBRARY_PATH  tar -xvzf geog_high_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
 
   wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_low_res_mandatory.tar.gz
-  LD_LIBRARY_PATH= tar -xvzf geog_low_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
+  env -u LD_LIBRARY_PATH  tar -xvzf geog_low_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
   mv "${WRF_FOLDER}"/GEOG/WPS_GEOG_LOW_RES/ "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
   if [ ${WPS_Specific_Applications} -eq 1 ]; then
@@ -4895,31 +4910,31 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
     echo " "
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_thompson28_chem.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_thompson28_chem.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_thompson28_chem.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_noahmp.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_noahmp.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_noahmp.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/irrigation.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf irrigation.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf irrigation.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_px.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_px.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_px.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_urban.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_urban.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_urban.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_ssib.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_ssib.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_ssib.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/lake_depth.tar.bz2
-    LD_LIBRARY_PATH= tar -xvf lake_depth.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf lake_depth.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/topobath_30s.tar.bz2
-    LD_LIBRARY_PATH= tar -xvf topobath_30s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf topobath_30s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/gsl_gwd.tar.bz2
-    LD_LIBRARY_PATH= tar -xvf gsl_gwd.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf gsl_gwd.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
   fi
 
   if [ ${Optional_GEOG} -eq 1 ]; then
@@ -4928,22 +4943,22 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
     echo " "
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_older_than_2000.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_older_than_2000.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_older_than_2000.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s_with_lakes.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf modis_landuse_20class_15s_with_lakes.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf modis_landuse_20class_15s_with_lakes.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_alt_lsm.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_alt_lsm.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_alt_lsm.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/nlcd2006_ll_9s.tar.bz2
-    LD_LIBRARY_PATH= tar -xvf nlcd2006_ll_9s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf nlcd2006_ll_9s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/updated_Iceland_LU.tar.gz
-    LD_LIBRARY_PATH= tar -xvf updated_Iceland_LU.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf updated_Iceland_LU.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s.tar.bz2
-    LD_LIBRARY_PATH= tar -xvf modis_landuse_20class_15s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf modis_landuse_20class_15s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
   fi
 
@@ -4982,7 +4997,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$SFIRE_PICK" = "1" ]; then
 
   ##############################Directory Listing############################
   export HOME=$(
-    cd
+    cd ~ &&
     pwd
   )
 
@@ -5068,7 +5083,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$SFIRE_PICK" = "1" ]; then
   ############################# ZLib ############################
 
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf zlib-$Zlib_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf zlib-$Zlib_Version.tar.gz
   cd zlib-$Zlib_Version/
 
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
@@ -5083,7 +5098,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$SFIRE_PICK" = "1" ]; then
   ############################## MPICH ############################
   #F90= due to compiler issues with mpich install
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf mpich-$Mpich_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf mpich-$Mpich_Version.tar.gz
   cd mpich-$Mpich_Version/
   F90= ./configure --prefix=$DIR/MPICH --with-device=ch3 FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS 2>&1 | tee configure.log
 
@@ -5107,7 +5122,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$SFIRE_PICK" = "1" ]; then
   export LDFLAGS=-L$DIR/grib2/lib
   export CPPFLAGS=-I$DIR/grib2/include
 
-  LD_LIBRARY_PATH= tar -xvzf libpng-$Libpng_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf libpng-$Libpng_Version.tar.gz
   cd libpng-$Libpng_Version/
 
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
@@ -5121,7 +5136,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$SFIRE_PICK" = "1" ]; then
 
   #############################JasPer ############################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf jasper-$Jasper_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf jasper-$Jasper_Version.tar.gz
   cd jasper-$Jasper_Version/
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
 
@@ -5136,7 +5151,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$SFIRE_PICK" = "1" ]; then
   echo " "
   ############################# hdf5 library for netcdf4 functionality ############################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf hdf5-$HDF5_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf hdf5-$HDF5_Version.tar.gz
   cd hdf5-$HDF5_Version
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --with-zlib=$DIR/grib2 --enable-hl --enable-fortran --enable-parallel 2>&1 | tee configure.log
 
@@ -5156,7 +5171,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$SFIRE_PICK" = "1" ]; then
   #Hard path for MPI added
   ##################################################################################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf pnetcdf-$Pnetcdf_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf pnetcdf-$Pnetcdf_Version.tar.gz
   cd pnetcdf-$Pnetcdf_Version
   export MPIFC=$DIR/MPICH/bin/mpifort
   export MPIF77=$DIR/MPICH/bin/mpifort
@@ -5174,7 +5189,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$SFIRE_PICK" = "1" ]; then
 
   ############################## Install NETCDF C Library ############################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf v$Netcdf_C_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf v$Netcdf_C_Version.tar.gz
   cd netcdf-c-$Netcdf_C_Version/
   export CPPFLAGS=-I$DIR/grib2/include
   export LDFLAGS="-L$DIR/grib2/lib -Wl,-rpath,$DIR/grib2/lib"
@@ -5194,7 +5209,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$SFIRE_PICK" = "1" ]; then
   echo " "
   ############################## NetCDF fortran library ############################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf v$Netcdf_Fortran_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf v$Netcdf_Fortran_Version.tar.gz
   cd netcdf-fortran-$Netcdf_Fortran_Version/
   export LD_LIBRARY_PATH=$DIR/NETCDF/lib:$LD_LIBRARY_PATH
   export CPPFLAGS="-I$DIR/NETCDF/include -I$DIR/grib2/include"
@@ -5210,7 +5225,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$SFIRE_PICK" = "1" ]; then
   ############################# Convert Geo Tiff #################################
 
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf convert_geotiff-0.1.0.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf convert_geotiff-0.1.0.tar.gz
   cd convert_geotiff-0.1.0
   export CPPFLAGS="-I$DIR/NETCDF/include -I$DIR/grib2/include -I/usr/include/libgeotiff"
   export LDFLAGS="-L$DIR/NETCDF/lib -L$DIR/grib2/lib -L/usr/lib/libgeotiff"
@@ -5229,8 +5244,8 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$SFIRE_PICK" = "1" ]; then
   wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_NETCDF_MPI_tests.tar
   wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_tests.tar
 
-  LD_LIBRARY_PATH= tar -xvf Fortran_C_tests.tar -C "${WRF_FOLDER}"/Tests/Environment
-  LD_LIBRARY_PATH= tar -xvf Fortran_C_NETCDF_MPI_tests.tar -C "${WRF_FOLDER}"/Tests/Compatibility
+  env -u LD_LIBRARY_PATH  tar -xvf Fortran_C_tests.tar -C "${WRF_FOLDER}"/Tests/Environment
+  env -u LD_LIBRARY_PATH  tar -xvf Fortran_C_NETCDF_MPI_tests.tar -C "${WRF_FOLDER}"/Tests/Compatibility
 
   export one="1"
   echo " "
@@ -5355,16 +5370,16 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$SFIRE_PICK" = "1" ]; then
   #############################################################################
   if [[ $GRADS_PICK -eq 1 ]]; then
     cd "${WRF_FOLDER}"/Downloads
-    LD_LIBRARY_PATH= tar -xvzf cd "${WRF_FOLDER}"/Downloads
+    env -u LD_LIBRARY_PATH  tar -xvzf cd "${WRF_FOLDER}"/Downloads
     wget -c https://sourceforge.net/projects/opengrads/files/grads2/2.2.1.oga.1/Linux%20%2864%20Bits%29/opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz -C "${WRF_FOLDER}"/ -C "${WRF_FOLDER}"/
+    env -u LD_LIBRARY_PATH  tar -xvzf opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz -C "${WRF_FOLDER}"/ -C "${WRF_FOLDER}"/
     cd "${WRF_FOLDER}"/
     mv "${WRF_FOLDER}"/opengrads-2.2.1.oga.1 "${WRF_FOLDER}"/GrADS
     cd GrADS/Contents
     wget -c https://github.com/regisgrundig/SIMOP/blob/master/g2ctl.pl
     chmod +x g2ctl.pl
     wget -c https://sourceforge.net/projects/opengrads/files/wgrib2/0.1.9.4/wgrib2-v0.1.9.4-bin-i686-glib2.5-linux-gnu.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf wgrib2-v0.1.9.4-bin-i686-glib2.5-linux-gnu.tar.gz
+    env -u LD_LIBRARY_PATH  tar -xvzf wgrib2-v0.1.9.4-bin-i686-glib2.5-linux-gnu.tar.gz
     cd wgrib2-v0.1.9.4/bin
     mv wgrib2 "${WRF_FOLDER}"/GrADS/Contents
     cd "${WRF_FOLDER}"/GrADS/Contents
@@ -5383,7 +5398,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$SFIRE_PICK" = "1" ]; then
   if [[ $GRADS_PICK -eq 2 ]]; then
     cd "${WRF_FOLDER}"/Downloads
     wget -c ftp://cola.gmu.edu/grads/2.2/grads-2.2.1-bin-RHL7.4-x86_64.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf grads-2.2.1-bin-RHL7.4-x86_64.tar.gz -C "${WRF_FOLDER}"
+    env -u LD_LIBRARY_PATH  tar -xvzf grads-2.2.1-bin-RHL7.4-x86_64.tar.gz -C "${WRF_FOLDER}"
     cd "${WRF_FOLDER}"/grads-2.2.1/bin
     chmod 775 *
 
@@ -5575,10 +5590,10 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$SFIRE_PICK" = "1" ]; then
   echo "Mandatory WRF Preprocessing System (WPS) Geographical Input Data Mandatory Fields Downloads"
   echo " "
   wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_high_res_mandatory.tar.gz
-  LD_LIBRARY_PATH= tar -xvzf geog_high_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
+  env -u LD_LIBRARY_PATH  tar -xvzf geog_high_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
 
   wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_low_res_mandatory.tar.gz
-  LD_LIBRARY_PATH= tar -xvzf geog_low_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
+  env -u LD_LIBRARY_PATH  tar -xvzf geog_low_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
   mv "${WRF_FOLDER}"/GEOG/WPS_GEOG_LOW_RES/ "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
   if [ ${WPS_Specific_Applications} -eq 1 ]; then
@@ -5587,34 +5602,34 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$SFIRE_PICK" = "1" ]; then
     echo " "
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_thompson28_chem.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_thompson28_chem.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_thompson28_chem.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_noahmp.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_noahmp.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_noahmp.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/irrigation.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf irrigation.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf irrigation.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_px.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_px.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_px.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_urban.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_urban.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_urban.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_ssib.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_ssib.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_ssib.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/lake_depth.tar.bz2
-    LD_LIBRARY_PATH= tar -xvf lake_depth.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf lake_depth.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/topobath_30s.tar.bz2
-    LD_LIBRARY_PATH= tar -xvf topobath_30s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf topobath_30s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/gsl_gwd.tar.bz2
-    LD_LIBRARY_PATH= tar -xvf gsl_gwd.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf gsl_gwd.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/cglc_modis_lcz_global.tar.gz
-    LD_LIBRARY_PATH= tar -xvf cglc_modis_lcz_global.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf cglc_modis_lcz_global.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
   fi
 
   if [ ${Optional_GEOG} -eq 1 ]; then
@@ -5623,22 +5638,22 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$SFIRE_PICK" = "1" ]; then
     echo " "
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_older_than_2000.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_older_than_2000.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_older_than_2000.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s_with_lakes.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf modis_landuse_20class_15s_with_lakes.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf modis_landuse_20class_15s_with_lakes.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_alt_lsm.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_alt_lsm.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_alt_lsm.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/nlcd2006_ll_9s.tar.bz2
-    LD_LIBRARY_PATH= tar -xvf nlcd2006_ll_9s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf nlcd2006_ll_9s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/updated_Iceland_LU.tar.gz
-    LD_LIBRARY_PATH= tar -xvf updated_Iceland_LU.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf updated_Iceland_LU.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s.tar.bz2
-    LD_LIBRARY_PATH= tar -xvf modis_landuse_20class_15s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf modis_landuse_20class_15s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
   fi
 
@@ -5688,7 +5703,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$MAC_CHIP" = "I
   ##############################Directory Listing############################
 
   export HOME=$(
-    cd
+    cd ~ &&
     pwd
   )
 
@@ -5810,7 +5825,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$MAC_CHIP" = "I
   ############################# ZLib ############################
 
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf zlib-$Zlib_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf zlib-$Zlib_Version.tar.gz
   cd zlib-$Zlib_Version/
 
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
@@ -5825,7 +5840,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$MAC_CHIP" = "I
 
   ############################## MPICH ############################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf mpich-$Mpich_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf mpich-$Mpich_Version.tar.gz
   cd mpich-$Mpich_Version/
 
   F90= ./configure --prefix=$DIR/MPICH --with-device=ch3 FFLAGS="$fallow_argument $boz_argument " FCFLAGS="$fallow_argument $boz_argument " 2>&1 | tee configure.log
@@ -5851,7 +5866,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$MAC_CHIP" = "I
   export LDFLAGS=-L$DIR/grib2/lib
   export CPPFLAGS=-I$DIR/grib2/include
 
-  LD_LIBRARY_PATH= tar -xvzf libpng-$Libpng_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf libpng-$Libpng_Version.tar.gz
   cd libpng-$Libpng_Version/
 
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
@@ -5865,7 +5880,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$MAC_CHIP" = "I
   #############################JasPer ############################
 
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf jasper-$Jasper_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf jasper-$Jasper_Version.tar.gz
   cd jasper-$Jasper_Version/
 
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
@@ -5881,7 +5896,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$MAC_CHIP" = "I
   ############################# hdf5 library for netcdf4 functionality ############################
 
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf hdf5-$HDF5_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf hdf5-$HDF5_Version.tar.gz
   cd hdf5-$HDF5_Version
 
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --with-zlib=$DIR/grib2 --enable-hl --enable-fortran --enable-parallel 2>&1 | tee configure.log
@@ -5902,7 +5917,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$MAC_CHIP" = "I
   #Hard path for MPI added
   ##################################################################################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf pnetcdf-$Pnetcdf_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf pnetcdf-$Pnetcdf_Version.tar.gz
   cd pnetcdf-$Pnetcdf_Version
 
   export MPIFC=$DIR/MPICH/bin/mpifort
@@ -5930,7 +5945,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$MAC_CHIP" = "I
 
   ############################## Install NETCDF C Library ############################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf v$Netcdf_C_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf v$Netcdf_C_Version.tar.gz
   cd netcdf-c-$Netcdf_C_Version/
   export CPPFLAGS=-I$DIR/grib2/include
   export LDFLAGS="-L$DIR/grib2/lib -Wl,-rpath,$DIR/grib2/lib"
@@ -5952,7 +5967,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$MAC_CHIP" = "I
 
   ############################## NetCDF fortran library ############################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf v$Netcdf_Fortran_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf v$Netcdf_Fortran_Version.tar.gz
   cd netcdf-fortran-$Netcdf_Fortran_Version/
   export LD_LIBRARY_PATH=$DIR/NETCDF/lib:$LD_LIBRARY_PATH
   export CPPFLAGS="-I$DIR/NETCDF/include -I$DIR/grib2/include"
@@ -5969,7 +5984,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$MAC_CHIP" = "I
   ############################# Convert Geo Tiff #################################
 
   cd $WRF_FOLDER/Downloads
-  LD_LIBRARY_PATH= tar -xzvf convert_geotiff-0.1.0.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xzvf convert_geotiff-0.1.0.tar.gz
   cd convert_geotiff-0.1.0
 
   # Adjust CPP flags for Geo Tiff
@@ -6000,8 +6015,8 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$MAC_CHIP" = "I
   wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_NETCDF_MPI_tests.tar
   wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_tests.tar
 
-  LD_LIBRARY_PATH= tar -xvf Fortran_C_tests.tar -C "${WRF_FOLDER}"/Tests/Environment
-  LD_LIBRARY_PATH= tar -xvf Fortran_C_NETCDF_MPI_tests.tar -C "${WRF_FOLDER}"/Tests/Compatibility
+  env -u LD_LIBRARY_PATH  tar -xvf Fortran_C_tests.tar -C "${WRF_FOLDER}"/Tests/Environment
+  env -u LD_LIBRARY_PATH  tar -xvf Fortran_C_NETCDF_MPI_tests.tar -C "${WRF_FOLDER}"/Tests/Compatibility
   export one="1"
   echo " "
   ############## Testing Environment #####
@@ -6267,7 +6282,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$MAC_CHIP" = "I
 
   cd "${WRF_FOLDER}"/Downloads
   wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v${WPS_VERSION}.tar.gz -O WPS-${WPS_VERSION}.tar.gz
-  LD_LIBRARY_PATH= tar -xvzf WPS-${WPS_VERSION}.tar.gz -C "${WRF_FOLDER}"/
+  env -u LD_LIBRARY_PATH  tar -xvzf WPS-${WPS_VERSION}.tar.gz -C "${WRF_FOLDER}"/
   # Check if WPS directory exists
   if [ -d "${WRF_FOLDER}/WPS" ]; then
     mv -f "${WRF_FOLDER}/WPS" "${WRF_FOLDER}/WPS-${WPS_VERSION}"
@@ -6328,10 +6343,10 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$MAC_CHIP" = "I
   echo "Mandatory WRF Preprocessing System (WPS) Geographical Input Data Mandatory Fields Downloads"
   echo " "
   wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_high_res_mandatory.tar.gz
-  LD_LIBRARY_PATH= tar -xvzf geog_high_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
+  env -u LD_LIBRARY_PATH  tar -xvzf geog_high_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
 
   wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_low_res_mandatory.tar.gz
-  LD_LIBRARY_PATH= tar -xvzf geog_low_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
+  env -u LD_LIBRARY_PATH  tar -xvzf geog_low_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
   mv "${WRF_FOLDER}"/GEOG/WPS_GEOG_LOW_RES/ "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
   if [ ${WPS_Specific_Applications} -eq 1 ]; then
@@ -6340,34 +6355,34 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$MAC_CHIP" = "I
     echo " "
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_thompson28_chem.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_thompson28_chem.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_thompson28_chem.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_noahmp.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_noahmp.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_noahmp.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/irrigation.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf irrigation.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf irrigation.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_px.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_px.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_px.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_urban.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_urban.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_urban.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_ssib.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_ssib.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_ssib.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/lake_depth.tar.bz2
-    LD_LIBRARY_PATH= tar -xvf lake_depth.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf lake_depth.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/topobath_30s.tar.bz2
-    LD_LIBRARY_PATH= tar -xvf topobath_30s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf topobath_30s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/gsl_gwd.tar.bz2
-    LD_LIBRARY_PATH= tar -xvf gsl_gwd.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf gsl_gwd.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/cglc_modis_lcz_global.tar.gz
-    LD_LIBRARY_PATH= tar -xvf cglc_modis_lcz_global.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf cglc_modis_lcz_global.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
   fi
 
   if [ ${Optional_GEOG} -eq 1 ]; then
@@ -6376,22 +6391,22 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$MAC_CHIP" = "I
     echo " "
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_older_than_2000.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_older_than_2000.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_older_than_2000.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s_with_lakes.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf modis_landuse_20class_15s_with_lakes.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf modis_landuse_20class_15s_with_lakes.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_alt_lsm.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_alt_lsm.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_alt_lsm.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/nlcd2006_ll_9s.tar.bz2
-    LD_LIBRARY_PATH= tar -xvf nlcd2006_ll_9s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf nlcd2006_ll_9s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/updated_Iceland_LU.tar.gz
-    LD_LIBRARY_PATH= tar -xvf updated_Iceland_LU.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf updated_Iceland_LU.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s.tar.bz2
-    LD_LIBRARY_PATH= tar -xvf modis_landuse_20class_15s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf modis_landuse_20class_15s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
   fi
 
 fi
@@ -6440,7 +6455,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$MAC_CHIP" = "A
   ##############################Directory Listing############################
 
   export HOME=$(
-    cd
+    cd ~ &&
     pwd
   )
 
@@ -6578,7 +6593,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$MAC_CHIP" = "A
   ############################# ZLib ############################
 
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf zlib-$Zlib_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf zlib-$Zlib_Version.tar.gz
   cd zlib-$Zlib_Version/
 
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
@@ -6593,7 +6608,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$MAC_CHIP" = "A
 
   ############################## MPICH ############################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf mpich-$Mpich_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf mpich-$Mpich_Version.tar.gz
   cd mpich-$Mpich_Version/
 
   F90= ./configure --prefix=$DIR/MPICH --with-device=ch3 FFLAGS="$fallow_argument $boz_argument " FCFLAGS="$fallow_argument $boz_argument " 2>&1 | tee configure.log
@@ -6619,7 +6634,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$MAC_CHIP" = "A
   export LDFLAGS=-L$DIR/grib2/lib
   export CPPFLAGS=-I$DIR/grib2/include
 
-  LD_LIBRARY_PATH= tar -xvzf libpng-$Libpng_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf libpng-$Libpng_Version.tar.gz
   cd libpng-$Libpng_Version/
 
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
@@ -6633,7 +6648,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$MAC_CHIP" = "A
   #############################JasPer ############################
 
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf jasper-$Jasper_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf jasper-$Jasper_Version.tar.gz
   cd jasper-$Jasper_Version/
 
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
@@ -6649,7 +6664,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$MAC_CHIP" = "A
   ############################# hdf5 library for netcdf4 functionality ############################
 
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf hdf5-$HDF5_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf hdf5-$HDF5_Version.tar.gz
   cd hdf5-$HDF5_Version
 
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --with-zlib=$DIR/grib2 --enable-hl --enable-fortran --enable-parallel 2>&1 | tee configure.log
@@ -6670,7 +6685,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$MAC_CHIP" = "A
   #Hard path for MPI added
   ##################################################################################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf pnetcdf-$Pnetcdf_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf pnetcdf-$Pnetcdf_Version.tar.gz
   cd pnetcdf-$Pnetcdf_Version
 
   export MPIFC=$DIR/MPICH/bin/mpifort
@@ -6698,7 +6713,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$MAC_CHIP" = "A
 
   ############################## Install NETCDF C Library ############################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf v$Netcdf_C_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf v$Netcdf_C_Version.tar.gz
   cd netcdf-c-$Netcdf_C_Version/
   export CPPFLAGS=-I$DIR/grib2/include
   export LDFLAGS="-L$DIR/grib2/lib -Wl,-rpath,$DIR/grib2/lib"
@@ -6720,7 +6735,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$MAC_CHIP" = "A
 
   ############################## NetCDF fortran library ############################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf v$Netcdf_Fortran_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf v$Netcdf_Fortran_Version.tar.gz
   cd netcdf-fortran-$Netcdf_Fortran_Version/
   export LD_LIBRARY_PATH=$DIR/NETCDF/lib:$LD_LIBRARY_PATH
   export CPPFLAGS="-I$DIR/NETCDF/include -I$DIR/grib2/include"
@@ -6737,7 +6752,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$MAC_CHIP" = "A
   ############################# Convert Geo Tiff #################################
 
   cd $WRF_FOLDER/Downloads
-  LD_LIBRARY_PATH= tar -xzvf convert_geotiff-0.1.0.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xzvf convert_geotiff-0.1.0.tar.gz
   cd convert_geotiff-0.1.0
 
   # Adjust CPP flags for Geo Tiff
@@ -6768,8 +6783,8 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$MAC_CHIP" = "A
   wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_NETCDF_MPI_tests.tar
   wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_tests.tar
 
-  LD_LIBRARY_PATH= tar -xvf Fortran_C_tests.tar -C "${WRF_FOLDER}"/Tests/Environment
-  LD_LIBRARY_PATH= tar -xvf Fortran_C_NETCDF_MPI_tests.tar -C "${WRF_FOLDER}"/Tests/Compatibility
+  env -u LD_LIBRARY_PATH  tar -xvf Fortran_C_tests.tar -C "${WRF_FOLDER}"/Tests/Environment
+  env -u LD_LIBRARY_PATH  tar -xvf Fortran_C_NETCDF_MPI_tests.tar -C "${WRF_FOLDER}"/Tests/Compatibility
   export one="1"
   echo " "
   ############## Testing Environment #####
@@ -7035,7 +7050,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$MAC_CHIP" = "A
 
   cd "${WRF_FOLDER}"/Downloads
   wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v${WPS_VERSION}.tar.gz -O WPS-${WPS_VERSION}.tar.gz
-  LD_LIBRARY_PATH= tar -xvzf WPS-${WPS_VERSION}.tar.gz -C "${WRF_FOLDER}"/
+  env -u LD_LIBRARY_PATH  tar -xvzf WPS-${WPS_VERSION}.tar.gz -C "${WRF_FOLDER}"/
   # Check if WPS directory exists
   if [ -d "${WRF_FOLDER}/WPS" ]; then
     mv -f "${WRF_FOLDER}/WPS" "${WRF_FOLDER}/WPS-${WPS_VERSION}"
@@ -7096,10 +7111,10 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$MAC_CHIP" = "A
   echo "Mandatory WRF Preprocessing System (WPS) Geographical Input Data Mandatory Fields Downloads"
   echo " "
   wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_high_res_mandatory.tar.gz
-  LD_LIBRARY_PATH= tar -xvzf geog_high_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
+  env -u LD_LIBRARY_PATH  tar -xvzf geog_high_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
 
   wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_low_res_mandatory.tar.gz
-  LD_LIBRARY_PATH= tar -xvzf geog_low_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
+  env -u LD_LIBRARY_PATH  tar -xvzf geog_low_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
   mv "${WRF_FOLDER}"/GEOG/WPS_GEOG_LOW_RES/ "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
   if [ ${WPS_Specific_Applications} -eq 1 ]; then
@@ -7108,34 +7123,34 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$MAC_CHIP" = "A
     echo " "
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_thompson28_chem.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_thompson28_chem.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_thompson28_chem.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_noahmp.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_noahmp.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_noahmp.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/irrigation.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf irrigation.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf irrigation.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_px.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_px.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_px.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_urban.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_urban.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_urban.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_ssib.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_ssib.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_ssib.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/lake_depth.tar.bz2
-    LD_LIBRARY_PATH= tar -xvf lake_depth.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf lake_depth.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/topobath_30s.tar.bz2
-    LD_LIBRARY_PATH= tar -xvf topobath_30s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf topobath_30s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/gsl_gwd.tar.bz2
-    LD_LIBRARY_PATH= tar -xvf gsl_gwd.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf gsl_gwd.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/cglc_modis_lcz_global.tar.gz
-    LD_LIBRARY_PATH= tar -xvf cglc_modis_lcz_global.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf cglc_modis_lcz_global.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
   fi
 
   if [ ${Optional_GEOG} -eq 1 ]; then
@@ -7144,22 +7159,22 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$MAC_CHIP" = "A
     echo " "
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_older_than_2000.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_older_than_2000.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_older_than_2000.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s_with_lakes.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf modis_landuse_20class_15s_with_lakes.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf modis_landuse_20class_15s_with_lakes.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_alt_lsm.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_alt_lsm.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_alt_lsm.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/nlcd2006_ll_9s.tar.bz2
-    LD_LIBRARY_PATH= tar -xvf nlcd2006_ll_9s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf nlcd2006_ll_9s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/updated_Iceland_LU.tar.gz
-    LD_LIBRARY_PATH= tar -xvf updated_Iceland_LU.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf updated_Iceland_LU.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s.tar.bz2
-    LD_LIBRARY_PATH= tar -xvf modis_landuse_20class_15s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf modis_landuse_20class_15s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
   fi
 
 fi
@@ -7206,7 +7221,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
   echo " "
   ##############################Directory Listing############################
   export HOME=$(
-    cd
+    cd ~ &&
     pwd
   )
   mkdir $HOME/WRFHYDRO_STANDALONE
@@ -7293,7 +7308,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
   ############################# ZLib ############################
 
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf zlib-$Zlib_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf zlib-$Zlib_Version.tar.gz
   cd zlib-$Zlib_Version/
 
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
@@ -7307,7 +7322,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
   echo " "
   ############################## MPICH ############################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf mpich-$Mpich_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf mpich-$Mpich_Version.tar.gz
   cd mpich-$Mpich_Version/
 
   F90= ./configure --prefix=$DIR/MPICH --with-device=ch3 FFLAGS="$fallow_argument $boz_argument " FCFLAGS="$fallow_argument $boz_argument " 2>&1 | tee configure.log
@@ -7331,7 +7346,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
   export LDFLAGS=-L$DIR/grib2/lib
   export CPPFLAGS=-I$DIR/grib2/include
 
-  LD_LIBRARY_PATH= tar -xvzf libpng-$Libpng_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf libpng-$Libpng_Version.tar.gz
   cd libpng-$Libpng_Version/
 
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
@@ -7344,7 +7359,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
   echo " "
   #############################JasPer ############################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf jasper-$Jasper_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf jasper-$Jasper_Version.tar.gz
   cd jasper-$Jasper_Version/
 
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
@@ -7360,7 +7375,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
   echo " "
   ############################# hdf5 library for netcdf4 functionality ############################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf hdf5-$HDF5_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf hdf5-$HDF5_Version.tar.gz
   cd hdf5-$HDF5_Version
 
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --with-zlib=$DIR/grib2 --enable-hl --enable-fortran --enable-parallel 2>&1 | tee configure.log
@@ -7379,7 +7394,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
   #Hard path for MPI added
   ##################################################################################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf pnetcdf-$Pnetcdf_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf pnetcdf-$Pnetcdf_Version.tar.gz
   cd pnetcdf-$Pnetcdf_Version
 
   export MPIFC=$DIR/MPICH/bin/mpifort
@@ -7400,7 +7415,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 
   ############################## Install NETCDF C Library ############################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf v$Netcdf_C_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf v$Netcdf_C_Version.tar.gz
   cd netcdf-c-$Netcdf_C_Version/
   export CPPFLAGS=-I$DIR/grib2/include
   export LDFLAGS="-L$DIR/grib2/lib -Wl,-rpath,$DIR/grib2/lib"
@@ -7421,7 +7436,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
   echo " "
   ############################## NetCDF fortran library ############################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf v$Netcdf_Fortran_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf v$Netcdf_Fortran_Version.tar.gz
   cd netcdf-fortran-$Netcdf_Fortran_Version/
   export LD_LIBRARY_PATH=$DIR/NETCDF/lib:$LD_LIBRARY_PATH
   export CPPFLAGS="-I$DIR/NETCDF/include -I$DIR/grib2/include"
@@ -7443,8 +7458,8 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
   wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_NETCDF_MPI_tests.tar
   wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_tests.tar
 
-  LD_LIBRARY_PATH= tar -xvf Fortran_C_tests.tar -C "${WRF_FOLDER}"/Tests/Environment
-  LD_LIBRARY_PATH= tar -xvf Fortran_C_NETCDF_MPI_tests.tar -C "${WRF_FOLDER}"/Tests/Compatibility
+  env -u LD_LIBRARY_PATH  tar -xvf Fortran_C_tests.tar -C "${WRF_FOLDER}"/Tests/Environment
+  env -u LD_LIBRARY_PATH  tar -xvf Fortran_C_NETCDF_MPI_tests.tar -C "${WRF_FOLDER}"/Tests/Compatibility
   export one="1"
   echo " "
   ############## Testing Environment #####
@@ -7641,7 +7656,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
   #Download test case for WRF HYDRO and move to NWM
   cd "${WRF_FOLDER}"/Downloads
   wget -c https://github.com/NCAR/wrf_hydro_nwm_public/releases/download/v${HYDRO_CROTON_TEST_CASE}/croton_NY_training_example_v${HYDRO_CROTON_TEST_CASE_MINOR}.tar.gz
-  LD_LIBRARY_PATH= tar -xvzf croton_NY_training_example_v${HYDRO_CROTON_TEST_CASE_MINOR}.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf croton_NY_training_example_v${HYDRO_CROTON_TEST_CASE_MINOR}.tar.gz
   mv example_case "${WRF_FOLDER}"/Hydro-Basecode
 
   #Copy the *.TBL files to the example configuration directory:
@@ -7845,7 +7860,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; the
   echo " "
   ##############################Directory Listing############################
   export HOME=$(
-    cd
+    cd ~ &&
     pwd
   )
 
@@ -7874,7 +7889,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; the
   ############################# ZLib ############################
 
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf zlib-$Zlib_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf zlib-$Zlib_Version.tar.gz
   cd zlib-$Zlib_Version/
 
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
@@ -7894,7 +7909,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; the
   export LDFLAGS=-L$DIR/grib2/lib
   export CPPFLAGS=-I$DIR/grib2/include
 
-  LD_LIBRARY_PATH= tar -xvzf libpng-$Libpng_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf libpng-$Libpng_Version.tar.gz
   cd libpng-$Libpng_Version/
 
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
@@ -7907,7 +7922,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; the
   echo " "
   #############################JasPer ############################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf jasper-$Jasper_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf jasper-$Jasper_Version.tar.gz
   cd jasper-$Jasper_Version/
 
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
@@ -7924,7 +7939,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; the
 
   ############################# hdf5 library for netcdf4 functionality ############################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf hdf5-$HDF5_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf hdf5-$HDF5_Version.tar.gz
   cd hdf5-$HDF5_Version
 
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --with-zlib=$DIR/grib2 --enable-hl --enable-fortran --enable-parallel 2>&1 | tee configure.log
@@ -7944,7 +7959,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; the
   #Hard path for MPI added
   ##################################################################################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf pnetcdf-$Pnetcdf_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf pnetcdf-$Pnetcdf_Version.tar.gz
   cd pnetcdf-$Pnetcdf_Version
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --enable-static 2>&1 | tee configure.log
 
@@ -7959,7 +7974,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; the
 
   ############################## Install NETCDF C Library ############################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf v$Netcdf_C_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf v$Netcdf_C_Version.tar.gz
   cd netcdf-c-$Netcdf_C_Version/
   export CPPFLAGS=-I$DIR/grib2/include
   export LDFLAGS="-L$DIR/grib2/lib -Wl,-rpath,$DIR/grib2/lib"
@@ -7980,7 +7995,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; the
   echo " "
   ############################## NetCDF fortran library ############################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf v$Netcdf_Fortran_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf v$Netcdf_Fortran_Version.tar.gz
   cd netcdf-fortran-$Netcdf_Fortran_Version/
   export LD_LIBRARY_PATH=$DIR/NETCDF/lib:$LD_LIBRARY_PATH
   export CPPFLAGS="-I$DIR/NETCDF/include -I$DIR/grib2/include"
@@ -8002,8 +8017,8 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; the
   wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_NETCDF_MPI_tests.tar
   wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_tests.tar
 
-  LD_LIBRARY_PATH= tar -xvf Fortran_C_tests.tar -C "${WRF_FOLDER}"/Tests/Environment
-  LD_LIBRARY_PATH= tar -xvf Fortran_C_NETCDF_MPI_tests.tar -C "${WRF_FOLDER}"/Tests/Compatibility
+  env -u LD_LIBRARY_PATH  tar -xvf Fortran_C_tests.tar -C "${WRF_FOLDER}"/Tests/Environment
+  env -u LD_LIBRARY_PATH  tar -xvf Fortran_C_NETCDF_MPI_tests.tar -C "${WRF_FOLDER}"/Tests/Compatibility
   export one="1"
   echo " "
   ############## Testing Environment #####
@@ -8203,7 +8218,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; the
   #Download test case for WRF HYDRO and move to NWM
   cd "${WRF_FOLDER}"/Downloads
   wget -c https://github.com/NCAR/wrf_hydro_nwm_public/releases/download/v${HYDRO_CROTON_TEST_CASE}/croton_NY_training_example_v${HYDRO_CROTON_TEST_CASE_MINOR}.tar.gz
-  LD_LIBRARY_PATH= tar -xvzf croton_NY_training_example_v${HYDRO_CROTON_TEST_CASE_MINOR}.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf croton_NY_training_example_v${HYDRO_CROTON_TEST_CASE_MINOR}.tar.gz
   mv example_case "${WRF_FOLDER}"/Hydro-Basecode
 
   #Copy the *.TBL files to the example configuration directory:
@@ -8348,7 +8363,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ] && [ "$
   ##############################Directory Listing############################
 
   export HOME=$(
-    cd
+    cd ~ &&
     pwd
   )
 
@@ -8470,7 +8485,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ] && [ "$
   ############################# ZLib ############################
 
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf zlib-$Zlib_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf zlib-$Zlib_Version.tar.gz
   cd zlib-$Zlib_Version/
 
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
@@ -8485,7 +8500,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ] && [ "$
 
   ############################## MPICH ############################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf mpich-$Mpich_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf mpich-$Mpich_Version.tar.gz
   cd mpich-$Mpich_Version/
 
   F90= ./configure --prefix=$DIR/MPICH --with-device=ch3 FFLAGS="$fallow_argument $boz_argument " FCFLAGS="$fallow_argument $boz_argument " 2>&1 | tee configure.log
@@ -8511,7 +8526,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ] && [ "$
   export LDFLAGS=-L$DIR/grib2/lib
   export CPPFLAGS=-I$DIR/grib2/include
 
-  LD_LIBRARY_PATH= tar -xvzf libpng-$Libpng_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf libpng-$Libpng_Version.tar.gz
   cd libpng-$Libpng_Version/
 
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
@@ -8525,7 +8540,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ] && [ "$
   #############################JasPer ############################
 
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf jasper-$Jasper_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf jasper-$Jasper_Version.tar.gz
   cd jasper-$Jasper_Version/
 
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
@@ -8541,7 +8556,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ] && [ "$
   ############################# hdf5 library for netcdf4 functionality ############################
 
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf hdf5-$HDF5_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf hdf5-$HDF5_Version.tar.gz
   cd hdf5-$HDF5_Version
 
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --with-zlib=$DIR/grib2 --enable-hl --enable-fortran --enable-parallel 2>&1 | tee configure.log
@@ -8562,7 +8577,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ] && [ "$
   #Hard path for MPI added
   ##################################################################################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf pnetcdf-$Pnetcdf_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf pnetcdf-$Pnetcdf_Version.tar.gz
   cd pnetcdf-$Pnetcdf_Version
 
   export MPIFC=$DIR/MPICH/bin/mpifort
@@ -8590,7 +8605,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ] && [ "$
 
   ############################## Install NETCDF C Library ############################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf v$Netcdf_C_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf v$Netcdf_C_Version.tar.gz
   cd netcdf-c-$Netcdf_C_Version/
   export CPPFLAGS=-I$DIR/grib2/include
   export LDFLAGS="-L$DIR/grib2/lib -Wl,-rpath,$DIR/grib2/lib"
@@ -8612,7 +8627,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ] && [ "$
 
   ############################## NetCDF fortran library ############################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf v$Netcdf_Fortran_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf v$Netcdf_Fortran_Version.tar.gz
   cd netcdf-fortran-$Netcdf_Fortran_Version/
   export LD_LIBRARY_PATH=$DIR/NETCDF/lib:$LD_LIBRARY_PATH
   export CPPFLAGS="-I$DIR/NETCDF/include -I$DIR/grib2/include"
@@ -8634,8 +8649,8 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ] && [ "$
   wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_NETCDF_MPI_tests.tar
   wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_tests.tar
 
-  LD_LIBRARY_PATH= tar -xvf Fortran_C_tests.tar -C "${WRF_FOLDER}"/Tests/Environment
-  LD_LIBRARY_PATH= tar -xvf Fortran_C_NETCDF_MPI_tests.tar -C "${WRF_FOLDER}"/Tests/Compatibility
+  env -u LD_LIBRARY_PATH  tar -xvf Fortran_C_tests.tar -C "${WRF_FOLDER}"/Tests/Environment
+  env -u LD_LIBRARY_PATH  tar -xvf Fortran_C_NETCDF_MPI_tests.tar -C "${WRF_FOLDER}"/Tests/Compatibility
   export one="1"
   echo " "
   ############## Testing Environment #####
@@ -8854,7 +8869,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ] && [ "$
   #Download test case for WRF HYDRO and move to NWM
   cd "${WRF_FOLDER}"/Downloads
   wget -c https://github.com/NCAR/wrf_hydro_nwm_public/releases/download/v${HYDRO_CROTON_TEST_CASE}/croton_NY_training_example_v${HYDRO_CROTON_TEST_CASE_MINOR}.tar.gz
-  LD_LIBRARY_PATH= tar -xvzf croton_NY_training_example_v${HYDRO_CROTON_TEST_CASE_MINOR}.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf croton_NY_training_example_v${HYDRO_CROTON_TEST_CASE_MINOR}.tar.gz
   mv example_case "${WRF_FOLDER}"/Hydro-Basecode
 
   #Copy the *.TBL files to the example configuration directory:
@@ -8994,7 +9009,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ] && [ "$
   ##############################Directory Listing############################
 
   export HOME=$(
-    cd
+    cd ~ &&
     pwd
   )
 
@@ -9127,7 +9142,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ] && [ "$
   ############################# ZLib ############################
 
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf zlib-$Zlib_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf zlib-$Zlib_Version.tar.gz
   cd zlib-$Zlib_Version/
 
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
@@ -9142,7 +9157,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ] && [ "$
 
   ############################## MPICH ############################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf mpich-$Mpich_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf mpich-$Mpich_Version.tar.gz
   cd mpich-$Mpich_Version/
 
   F90= ./configure --prefix=$DIR/MPICH --with-device=ch3 FFLAGS="$fallow_argument $boz_argument " FCFLAGS="$fallow_argument $boz_argument " 2>&1 | tee configure.log
@@ -9168,7 +9183,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ] && [ "$
   export LDFLAGS=-L$DIR/grib2/lib
   export CPPFLAGS=-I$DIR/grib2/include
 
-  LD_LIBRARY_PATH= tar -xvzf libpng-$Libpng_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf libpng-$Libpng_Version.tar.gz
   cd libpng-$Libpng_Version/
 
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
@@ -9182,7 +9197,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ] && [ "$
   #############################JasPer ############################
 
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf jasper-$Jasper_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf jasper-$Jasper_Version.tar.gz
   cd jasper-$Jasper_Version/
 
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
@@ -9198,7 +9213,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ] && [ "$
   ############################# hdf5 library for netcdf4 functionality ############################
 
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf hdf5-$HDF5_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf hdf5-$HDF5_Version.tar.gz
   cd hdf5-$HDF5_Version
 
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --with-zlib=$DIR/grib2 --enable-hl --enable-fortran --enable-parallel 2>&1 | tee configure.log
@@ -9219,7 +9234,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ] && [ "$
   #Hard path for MPI added
   ##################################################################################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf pnetcdf-$Pnetcdf_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf pnetcdf-$Pnetcdf_Version.tar.gz
   cd pnetcdf-$Pnetcdf_Version
 
   export MPIFC=$DIR/MPICH/bin/mpifort
@@ -9247,7 +9262,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ] && [ "$
 
   ############################## Install NETCDF C Library ############################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf v$Netcdf_C_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf v$Netcdf_C_Version.tar.gz
   cd netcdf-c-$Netcdf_C_Version/
   export CPPFLAGS=-I$DIR/grib2/include
   export LDFLAGS="-L$DIR/grib2/lib -Wl,-rpath,$DIR/grib2/lib"
@@ -9269,7 +9284,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ] && [ "$
 
   ############################## NetCDF fortran library ############################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf v$Netcdf_Fortran_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf v$Netcdf_Fortran_Version.tar.gz
   cd netcdf-fortran-$Netcdf_Fortran_Version/
   export LD_LIBRARY_PATH=$DIR/NETCDF/lib:$LD_LIBRARY_PATH
   export CPPFLAGS="-I$DIR/NETCDF/include -I$DIR/grib2/include"
@@ -9291,8 +9306,8 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ] && [ "$
   wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_NETCDF_MPI_tests.tar
   wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_tests.tar
 
-  LD_LIBRARY_PATH= tar -xvf Fortran_C_tests.tar -C "${WRF_FOLDER}"/Tests/Environment
-  LD_LIBRARY_PATH= tar -xvf Fortran_C_NETCDF_MPI_tests.tar -C "${WRF_FOLDER}"/Tests/Compatibility
+  env -u LD_LIBRARY_PATH  tar -xvf Fortran_C_tests.tar -C "${WRF_FOLDER}"/Tests/Environment
+  env -u LD_LIBRARY_PATH  tar -xvf Fortran_C_NETCDF_MPI_tests.tar -C "${WRF_FOLDER}"/Tests/Compatibility
   export one="1"
   echo " "
   ############## Testing Environment #####
@@ -9514,7 +9529,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ] && [ "$
   #Download test case for WRF HYDRO and move to NWM
   cd "${WRF_FOLDER}"/Downloads
   wget -c https://github.com/NCAR/wrf_hydro_nwm_public/releases/download/v${HYDRO_CROTON_TEST_CASE}/croton_NY_training_example_v${HYDRO_CROTON_TEST_CASE_MINOR}.tar.gz
-  LD_LIBRARY_PATH= tar -xvzf croton_NY_training_example_v${HYDRO_CROTON_TEST_CASE_MINOR}.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf croton_NY_training_example_v${HYDRO_CROTON_TEST_CASE_MINOR}.tar.gz
   mv example_case "${WRF_FOLDER}"/Hydro-Basecode
 
   #Copy the *.TBL files to the example configuration directory:
@@ -9631,7 +9646,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
   echo " "
   ##############################Directory Listing############################
   export HOME=$(
-    cd
+    cd ~ &&
     pwd
   )
 
@@ -9718,7 +9733,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
   ############################# ZLib ############################
 
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf zlib-$Zlib_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf zlib-$Zlib_Version.tar.gz
   cd zlib-$Zlib_Version/
 
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
@@ -9733,7 +9748,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
   ############################## MPICH ############################
   #F90= due to compiler issues with mpich install
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf mpich-$Mpich_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf mpich-$Mpich_Version.tar.gz
   cd mpich-$Mpich_Version/
 
   F90= ./configure --prefix=$DIR/MPICH --with-device=ch3 FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS 2>&1 | tee configure.log
@@ -9757,7 +9772,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
   export LDFLAGS=-L$DIR/grib2/lib
   export CPPFLAGS=-I$DIR/grib2/include
 
-  LD_LIBRARY_PATH= tar -xvzf libpng-$Libpng_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf libpng-$Libpng_Version.tar.gz
   cd libpng-$Libpng_Version/
 
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
@@ -9770,7 +9785,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
   echo " "
   #############################JasPer ############################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf jasper-$Jasper_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf jasper-$Jasper_Version.tar.gz
   cd jasper-$Jasper_Version/
 
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
@@ -9786,7 +9801,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
   echo " "
   ############################# hdf5 library for netcdf4 functionality ############################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf hdf5-$HDF5_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf hdf5-$HDF5_Version.tar.gz
   cd hdf5-$HDF5_Version
 
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --with-zlib=$DIR/grib2 --enable-hl --enable-fortran --enable-parallel 2>&1 | tee configure.log
@@ -9806,7 +9821,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
   #Hard path for MPI added
   ##################################################################################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf pnetcdf-$Pnetcdf_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf pnetcdf-$Pnetcdf_Version.tar.gz
   cd pnetcdf-$Pnetcdf_Version
 
   export MPIFC=$DIR/MPICH/bin/mpifort
@@ -9827,7 +9842,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 
   ############################## Install NETCDF C Library ############################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf v$Netcdf_C_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf v$Netcdf_C_Version.tar.gz
   cd netcdf-c-$Netcdf_C_Version/
   export CPPFLAGS=-I$DIR/grib2/include
   export LDFLAGS="-L$DIR/grib2/lib -Wl,-rpath,$DIR/grib2/lib"
@@ -9848,7 +9863,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
   echo " "
   ############################## NetCDF fortran library ############################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf v$Netcdf_Fortran_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf v$Netcdf_Fortran_Version.tar.gz
   cd netcdf-fortran-$Netcdf_Fortran_Version/
   export LD_LIBRARY_PATH=$DIR/NETCDF/lib:$LD_LIBRARY_PATH
   export CPPFLAGS="-I$DIR/NETCDF/include -I$DIR/grib2/include"
@@ -9867,8 +9882,8 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
   wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_NETCDF_MPI_tests.tar
   wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_tests.tar
 
-  LD_LIBRARY_PATH= tar -xvf Fortran_C_tests.tar -C "${WRF_FOLDER}"/Tests/Environment
-  LD_LIBRARY_PATH= tar -xvf Fortran_C_NETCDF_MPI_tests.tar -C "${WRF_FOLDER}"/Tests/Compatibility
+  env -u LD_LIBRARY_PATH  tar -xvf Fortran_C_tests.tar -C "${WRF_FOLDER}"/Tests/Environment
+  env -u LD_LIBRARY_PATH  tar -xvf Fortran_C_NETCDF_MPI_tests.tar -C "${WRF_FOLDER}"/Tests/Compatibility
 
   export one="1"
   echo " "
@@ -10077,7 +10092,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
   #Download test case for WRF HYDRO and move to NWM
   cd "${WRF_FOLDER}"/Downloads
   wget -c https://github.com/NCAR/wrf_hydro_nwm_public/releases/download/v${HYDRO_CROTON_TEST_CASE}/croton_NY_training_example_v${HYDRO_CROTON_TEST_CASE_MINOR}.tar.gz
-  LD_LIBRARY_PATH= tar -xvzf croton_NY_training_example_v${HYDRO_CROTON_TEST_CASE_MINOR}.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf croton_NY_training_example_v${HYDRO_CROTON_TEST_CASE_MINOR}.tar.gz
   mv example_case "${WRF_FOLDER}"/Hydro-Basecode
 
   #Copy the *.TBL files to the example configuration directory:
@@ -10206,7 +10221,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
   echo " "
   ##############################Directory Listing############################
   export HOME=$(
-    cd
+    cd ~ &&
     pwd
   )
 
@@ -10293,7 +10308,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
   ############################# ZLib ############################
 
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf zlib-$Zlib_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf zlib-$Zlib_Version.tar.gz
   cd zlib-$Zlib_Version/
 
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
@@ -10309,7 +10324,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
   ############################## MPICH ############################
   #F90= due to compiler issues with mpich install
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf mpich-$Mpich_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf mpich-$Mpich_Version.tar.gz
   cd mpich-$Mpich_Version/
 
   F90= ./configure --prefix=$DIR/MPICH --with-device=ch3 FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS 2>&1 | tee configure.log
@@ -10333,7 +10348,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
   export LDFLAGS=-L$DIR/grib2/lib
   export CPPFLAGS=-I$DIR/grib2/include
 
-  LD_LIBRARY_PATH= tar -xvzf libpng-$Libpng_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf libpng-$Libpng_Version.tar.gz
   cd libpng-$Libpng_Version/
 
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
@@ -10346,7 +10361,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
   echo " "
   #############################JasPer ############################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf jasper-$Jasper_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf jasper-$Jasper_Version.tar.gz
   cd jasper-$Jasper_Version/
 
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
@@ -10362,7 +10377,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
   echo " "
   ############################# hdf5 library for netcdf4 functionality ############################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf hdf5-$HDF5_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf hdf5-$HDF5_Version.tar.gz
   cd hdf5-$HDF5_Version
 
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --with-zlib=$DIR/grib2 --enable-hl --enable-fortran --enable-parallel 2>&1 | tee configure.log
@@ -10382,7 +10397,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
   #Hard path for MPI added
   ##################################################################################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf pnetcdf-$Pnetcdf_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf pnetcdf-$Pnetcdf_Version.tar.gz
   cd pnetcdf-$Pnetcdf_Version
 
   export MPIFC=$DIR/MPICH/bin/mpifort
@@ -10403,7 +10418,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 
   ############################## Install NETCDF C Library ############################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf v$Netcdf_C_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf v$Netcdf_C_Version.tar.gz
   cd netcdf-c-$Netcdf_C_Version/
   export CPPFLAGS=-I$DIR/grib2/include
   export LDFLAGS="-L$DIR/grib2/lib -Wl,-rpath,$DIR/grib2/lib"
@@ -10424,7 +10439,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
   echo " "
   ############################## NetCDF fortran library ############################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf v$Netcdf_Fortran_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf v$Netcdf_Fortran_Version.tar.gz
   cd netcdf-fortran-$Netcdf_Fortran_Version/
   export LD_LIBRARY_PATH=$DIR/NETCDF/lib:$LD_LIBRARY_PATH
   export CPPFLAGS="-I$DIR/NETCDF/include -I$DIR/grib2/include"
@@ -10443,8 +10458,8 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
   wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_NETCDF_MPI_tests.tar
   wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_tests.tar
 
-  LD_LIBRARY_PATH= tar -xvf Fortran_C_tests.tar -C "${WRF_FOLDER}"/Tests/Environment
-  LD_LIBRARY_PATH= tar -xvf Fortran_C_NETCDF_MPI_tests.tar -C "${WRF_FOLDER}"/Tests/Compatibility
+  env -u LD_LIBRARY_PATH  tar -xvf Fortran_C_tests.tar -C "${WRF_FOLDER}"/Tests/Environment
+  env -u LD_LIBRARY_PATH  tar -xvf Fortran_C_NETCDF_MPI_tests.tar -C "${WRF_FOLDER}"/Tests/Compatibility
 
   export one="1"
   echo " "
@@ -10644,7 +10659,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
   #Download test case for WRF HYDRO and move to NWM
   cd "${WRF_FOLDER}"/Downloads
   wget -c https://github.com/NCAR/wrf_hydro_nwm_public/releases/download/v${HYDRO_CROTON_TEST_CASE}/croton_NY_training_example_v${HYDRO_CROTON_TEST_CASE_MINOR}.tar.gz
-  LD_LIBRARY_PATH= tar -xvzf croton_NY_training_example_v${HYDRO_CROTON_TEST_CASE_MINOR}.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf croton_NY_training_example_v${HYDRO_CROTON_TEST_CASE_MINOR}.tar.gz
   mv example_case "${WRF_FOLDER}"/Hydro-Basecode
 
   #Copy the *.TBL files to the example configuration directory:
@@ -10821,7 +10836,7 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" ]; then
   ############################################################################
 
   export HOME=$(
-    cd
+    cd ~ &&
     pwd
   )
   export WRF_FOLDER=$HOME/WRFHYDRO_STANDALONE_INTEL
@@ -10854,7 +10869,7 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" ]; then
   ############################# ZLib ############################
 
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf zlib-$Zlib_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf zlib-$Zlib_Version.tar.gz
   cd zlib-$Zlib_Version/
 
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
@@ -10874,7 +10889,7 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" ]; then
   export LDFLAGS=-L$DIR/grib2/lib
   export CPPFLAGS=-I$DIR/grib2/include
 
-  LD_LIBRARY_PATH= tar -xvzf libpng-$Libpng_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf libpng-$Libpng_Version.tar.gz
   cd libpng-$Libpng_Version/
 
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
@@ -10888,7 +10903,7 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" ]; then
   ############################# JasPer ############################
 
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf jasper-$Jasper_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf jasper-$Jasper_Version.tar.gz
   cd jasper-$Jasper_Version/
 
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
@@ -10906,7 +10921,7 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" ]; then
   ############################# HDF5 library for NetCDF4 & parallel functionality ############################
 
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf hdf5-$HDF5_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf hdf5-$HDF5_Version.tar.gz
   cd hdf5-$HDF5_Version
 
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --with-zlib=$DIR/grib2 --enable-hl --enable-fortran --enable-parallel 2>&1 | tee configure.log
@@ -10928,7 +10943,7 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" ]; then
   #Hard path for MPI added
   ##################################################################################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf pnetcdf-$Pnetcdf_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf pnetcdf-$Pnetcdf_Version.tar.gz
   cd pnetcdf-$Pnetcdf_Version
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --enable-static 2>&1 | tee configure.log
 
@@ -10945,7 +10960,7 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" ]; then
   ############################## Install NETCDF-C Library ############################
 
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf v$Netcdf_C_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf v$Netcdf_C_Version.tar.gz
   cd netcdf-c-$Netcdf_C_Version/
 
   # these variables need to be set for the NetCDF-C install to work
@@ -10970,7 +10985,7 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" ]; then
   ############################## NetCDF-Fortran library ############################
 
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf v$Netcdf_Fortran_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf v$Netcdf_Fortran_Version.tar.gz
   cd netcdf-fortran-$Netcdf_Fortran_Version/
 
   # these variables need to be set for the NetCDF-Fortran install to work
@@ -10990,8 +11005,8 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" ]; then
   wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_NETCDF_MPI_tests.tar
   wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_tests.tar
 
-  LD_LIBRARY_PATH= tar -xvf Fortran_C_tests.tar -C "${WRF_FOLDER}/Tests/Environment"
-  LD_LIBRARY_PATH= tar -xvf Fortran_C_NETCDF_MPI_tests.tar -C "${WRF_FOLDER}"/Tests/Compatibility
+  env -u LD_LIBRARY_PATH  tar -xvf Fortran_C_tests.tar -C "${WRF_FOLDER}/Tests/Environment"
+  env -u LD_LIBRARY_PATH  tar -xvf Fortran_C_NETCDF_MPI_tests.tar -C "${WRF_FOLDER}"/Tests/Compatibility
 
   export one="1"
   echo " "
@@ -11192,7 +11207,7 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" ]; then
   #Download test case for WRF HYDRO and move to NWM
   cd "${WRF_FOLDER}"/Downloads
   wget -c https://github.com/NCAR/wrf_hydro_nwm_public/releases/download/v${HYDRO_CROTON_TEST_CASE}/croton_NY_training_example_v${HYDRO_CROTON_TEST_CASE_MINOR}.tar.gz
-  LD_LIBRARY_PATH= tar -xvzf croton_NY_training_example_v${HYDRO_CROTON_TEST_CASE_MINOR}.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf croton_NY_training_example_v${HYDRO_CROTON_TEST_CASE_MINOR}.tar.gz
   mv example_case "${WRF_FOLDER}"/Hydro-Basecode
 
   #Copy the *.TBL files to the example configuration directory:
@@ -11332,7 +11347,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   echo " "
   ##############################Directory Listing############################
   export HOME=$(
-    cd
+    cd ~ &&
     pwd
   )
   mkdir $HOME/WRFHYDRO_COUPLED
@@ -11419,7 +11434,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   ############################# ZLib ############################
 
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf zlib-$Zlib_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf zlib-$Zlib_Version.tar.gz
   cd zlib-$Zlib_Version/
 
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
@@ -11433,7 +11448,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   echo " "
   ############################## MPICH ############################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf mpich-$Mpich_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf mpich-$Mpich_Version.tar.gz
   cd mpich-$Mpich_Version/
 
   F90= ./configure --prefix=$DIR/MPICH --with-device=ch3 FFLAGS="$fallow_argument $boz_argument " FCFLAGS="$fallow_argument $boz_argument " 2>&1 | tee configure.log
@@ -11457,7 +11472,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   export LDFLAGS=-L$DIR/grib2/lib
   export CPPFLAGS=-I$DIR/grib2/include
 
-  LD_LIBRARY_PATH= tar -xvzf libpng-$Libpng_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf libpng-$Libpng_Version.tar.gz
   cd libpng-$Libpng_Version/
 
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
@@ -11470,7 +11485,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   echo " "
   #############################JasPer ############################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf jasper-$Jasper_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf jasper-$Jasper_Version.tar.gz
   cd jasper-$Jasper_Version/
 
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
@@ -11486,7 +11501,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   echo " "
   ############################# hdf5 library for netcdf4 functionality ############################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf hdf5-$HDF5_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf hdf5-$HDF5_Version.tar.gz
   cd hdf5-$HDF5_Version
 
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --with-zlib=$DIR/grib2 --enable-hl --enable-fortran --enable-parallel 2>&1 | tee configure.log
@@ -11505,7 +11520,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   #Hard path for MPI added
   ##################################################################################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf pnetcdf-$Pnetcdf_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf pnetcdf-$Pnetcdf_Version.tar.gz
   cd pnetcdf-$Pnetcdf_Version
 
   export MPIFC=$DIR/MPICH/bin/mpifort
@@ -11526,7 +11541,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 
   ############################## Install NETCDF C Library ############################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf v$Netcdf_C_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf v$Netcdf_C_Version.tar.gz
   cd netcdf-c-$Netcdf_C_Version/
   export CPPFLAGS=-I$DIR/grib2/include
   export LDFLAGS="-L$DIR/grib2/lib -Wl,-rpath,$DIR/grib2/lib"
@@ -11547,7 +11562,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   echo " "
   ############################## NetCDF fortran library ############################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf v$Netcdf_Fortran_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf v$Netcdf_Fortran_Version.tar.gz
   cd netcdf-fortran-$Netcdf_Fortran_Version/
   export LD_LIBRARY_PATH=$DIR/NETCDF/lib:$LD_LIBRARY_PATH
   export CPPFLAGS="-I$DIR/NETCDF/include -I$DIR/grib2/include"
@@ -11567,8 +11582,8 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_NETCDF_MPI_tests.tar
   wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_tests.tar
 
-  LD_LIBRARY_PATH= tar -xvf Fortran_C_tests.tar -C "${WRF_FOLDER}"/Tests/Environment
-  LD_LIBRARY_PATH= tar -xvf Fortran_C_NETCDF_MPI_tests.tar -C "${WRF_FOLDER}"/Tests/Compatibility
+  env -u LD_LIBRARY_PATH  tar -xvf Fortran_C_tests.tar -C "${WRF_FOLDER}"/Tests/Environment
+  env -u LD_LIBRARY_PATH  tar -xvf Fortran_C_NETCDF_MPI_tests.tar -C "${WRF_FOLDER}"/Tests/Compatibility
   export one="1"
   echo " "
   ############## Testing Environment #####
@@ -11691,16 +11706,16 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   #Verison 2.2.1 64bit of Linux
   #############################################################################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf cd "${WRF_FOLDER}"/Downloads
+  env -u LD_LIBRARY_PATH  tar -xvzf cd "${WRF_FOLDER}"/Downloads
   wget -c https://sourceforge.net/projects/opengrads/files/grads2/2.2.1.oga.1/Linux%20%2864%20Bits%29/opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz
-  LD_LIBRARY_PATH= tar -xvzf opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz -C "${WRF_FOLDER}"/ -C "${WRF_FOLDER}"/
+  env -u LD_LIBRARY_PATH  tar -xvzf opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz -C "${WRF_FOLDER}"/ -C "${WRF_FOLDER}"/
   cd "${WRF_FOLDER}"/
   mv "${WRF_FOLDER}"/opengrads-2.2.1.oga.1 "${WRF_FOLDER}"/GrADS
   cd GrADS/Contents
   wget -c https://github.com/regisgrundig/SIMOP/blob/master/g2ctl.pl
   chmod +x g2ctl.pl
   wget -c https://sourceforge.net/projects/opengrads/files/wgrib2/0.1.9.4/wgrib2-v0.1.9.4-bin-x86_64-glibc2.5-linux-gnu.tar.gz
-  LD_LIBRARY_PATH= tar -xvzf wgrib2-v0.1.9.4-bin-x86_64-glibc2.5-linux-gnu.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf wgrib2-v0.1.9.4-bin-x86_64-glibc2.5-linux-gnu.tar.gz
   cd wgrib2-v0.1.9.4/bin
   mv wgrib2 "${WRF_FOLDER}"/GrADS/Contents
   cd "${WRF_FOLDER}"/GrADS/Contents
@@ -11767,7 +11782,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   conda activate ncl_stable
 
   export HOME=$(
-    cd
+    cd ~ &&
     pwd
   )
   export DIR="${WRF_FOLDER}"/Libs
@@ -11940,7 +11955,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   ########################################################################
   cd "${WRF_FOLDER}"/Downloads
   wget -c https://github.com/wrf-model/WRF/releases/download/v${WRF_VERSION}/v${WRF_VERSION}.tar.gz -O WRF-${WRF_VERSION}.tar.gz
-  LD_LIBRARY_PATH= tar -xvzf WRF-${WRF_VERSION}.tar.gz -C "${WRF_FOLDER}"/
+  env -u LD_LIBRARY_PATH  tar -xvzf WRF-${WRF_VERSION}.tar.gz -C "${WRF_FOLDER}"/
 
   # If statment for changing folder name
   # Check if WRF directory exists
@@ -12021,7 +12036,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 
   cd "${WRF_FOLDER}"/Downloads
   wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v${WPS_VERSION}.tar.gz -O WPS-${WPS_VERSION}.tar.gz
-  LD_LIBRARY_PATH= tar -xvzf WPS-${WPS_VERSION}.tar.gz -C "${WRF_FOLDER}"/
+  env -u LD_LIBRARY_PATH  tar -xvzf WPS-${WPS_VERSION}.tar.gz -C "${WRF_FOLDER}"/
   # Check if WPS directory exists
   if [ -d "${WRF_FOLDER}/WPS" ]; then
     mv -f "${WRF_FOLDER}/WPS" "${WRF_FOLDER}/WPS-${WPS_VERSION}"
@@ -12084,10 +12099,10 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   echo "Mandatory WRF Preprocessing System (WPS) Geographical Input Data Mandatory Fields Downloads"
   echo " "
   wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_high_res_mandatory.tar.gz
-  LD_LIBRARY_PATH= tar -xvzf geog_high_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
+  env -u LD_LIBRARY_PATH  tar -xvzf geog_high_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
 
   wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_low_res_mandatory.tar.gz
-  LD_LIBRARY_PATH= tar -xvzf geog_low_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
+  env -u LD_LIBRARY_PATH  tar -xvzf geog_low_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
   mv "${WRF_FOLDER}"/GEOG/WPS_GEOG_LOW_RES/ "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
   if [ ${WPS_Specific_Applications} -eq 1 ]; then
@@ -12095,34 +12110,34 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
     echo " WPS Geographical Input Data Mandatory for Specific Applications"
     echo " "
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_thompson28_chem.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_thompson28_chem.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_thompson28_chem.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_noahmp.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_noahmp.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_noahmp.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/irrigation.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf irrigation.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf irrigation.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_px.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_px.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_px.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_urban.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_urban.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_urban.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_ssib.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_ssib.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_ssib.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/lake_depth.tar.bz2
-    LD_LIBRARY_PATH= tar -xvf lake_depth.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf lake_depth.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/topobath_30s.tar.bz2
-    LD_LIBRARY_PATH= tar -xvf topobath_30s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf topobath_30s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/gsl_gwd.tar.bz2
-    LD_LIBRARY_PATH= tar -xvf gsl_gwd.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf gsl_gwd.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/cglc_modis_lcz_global.tar.gz
-    LD_LIBRARY_PATH= tar -xvf cglc_modis_lcz_global.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf cglc_modis_lcz_global.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
   fi
 
   if [ ${Optional_GEOG} -eq 1 ]; then
@@ -12131,22 +12146,22 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
     echo " "
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_older_than_2000.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_older_than_2000.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_older_than_2000.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s_with_lakes.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf modis_landuse_20class_15s_with_lakes.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf modis_landuse_20class_15s_with_lakes.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_alt_lsm.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_alt_lsm.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_alt_lsm.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/nlcd2006_ll_9s.tar.bz2
-    LD_LIBRARY_PATH= tar -xvf nlcd2006_ll_9s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf nlcd2006_ll_9s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/updated_Iceland_LU.tar.gz
-    LD_LIBRARY_PATH= tar -xvf updated_Iceland_LU.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf updated_Iceland_LU.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s.tar.bz2
-    LD_LIBRARY_PATH= tar -xvf modis_landuse_20class_15s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf modis_landuse_20class_15s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
   fi
 
@@ -12240,7 +12255,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   ############################################################################
 
   export HOME=$(
-    cd
+    cd ~ &&
     pwd
   )
   export WRF_FOLDER=$HOME/WRFHYDRO_COUPLED_Intel
@@ -12272,7 +12287,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   ############################# ZLib ############################
 
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf zlib-$Zlib_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf zlib-$Zlib_Version.tar.gz
   cd zlib-$Zlib_Version/
 
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
@@ -12292,7 +12307,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   export LDFLAGS=-L$DIR/grib2/lib
   export CPPFLAGS=-I$DIR/grib2/include
 
-  LD_LIBRARY_PATH= tar -xvzf libpng-$Libpng_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf libpng-$Libpng_Version.tar.gz
   cd libpng-$Libpng_Version/
 
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
@@ -12306,7 +12321,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   ############################# JasPer ############################
 
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf jasper-$Jasper_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf jasper-$Jasper_Version.tar.gz
   cd jasper-$Jasper_Version/
 
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
@@ -12324,7 +12339,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   ############################# HDF5 library for NetCDF4 & parallel functionality ############################
 
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf hdf5-$HDF5_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf hdf5-$HDF5_Version.tar.gz
   cd hdf5-$HDF5_Version
 
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --with-zlib=$DIR/grib2 --enable-hl --enable-fortran --enable-parallel 2>&1 | tee configure.log
@@ -12346,7 +12361,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   #Hard path for MPI added
   ##################################################################################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf pnetcdf-$Pnetcdf_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf pnetcdf-$Pnetcdf_Version.tar.gz
   cd pnetcdf-$Pnetcdf_Version
   export CC=icx
   export CXX=icpx
@@ -12375,7 +12390,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   ############################## Install NETCDF-C Library ############################
 
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf v$Netcdf_C_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf v$Netcdf_C_Version.tar.gz
   cd netcdf-c-$Netcdf_C_Version/
 
   # these variables need to be set for the NetCDF-C install to work
@@ -12400,7 +12415,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   ############################## NetCDF-Fortran library ############################
 
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf v$Netcdf_Fortran_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf v$Netcdf_Fortran_Version.tar.gz
   cd netcdf-fortran-$Netcdf_Fortran_Version/
 
   # these variables need to be set for the NetCDF-Fortran install to work
@@ -12421,8 +12436,8 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_NETCDF_MPI_tests.tar
   wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_tests.tar
 
-  LD_LIBRARY_PATH= tar -xvf Fortran_C_tests.tar -C "${WRF_FOLDER}"/Tests/Environment
-  LD_LIBRARY_PATH= tar -xvf Fortran_C_NETCDF_MPI_tests.tar -C "${WRF_FOLDER}"/Tests/Compatibility
+  env -u LD_LIBRARY_PATH  tar -xvf Fortran_C_tests.tar -C "${WRF_FOLDER}"/Tests/Environment
+  env -u LD_LIBRARY_PATH  tar -xvf Fortran_C_NETCDF_MPI_tests.tar -C "${WRF_FOLDER}"/Tests/Compatibility
 
   export one="1"
   echo " "
@@ -12546,16 +12561,16 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   if [[ $GRADS_PICK -eq 1 ]]; then
 
     cd "${WRF_FOLDER}"/Downloads
-    LD_LIBRARY_PATH= tar -xvzf cd "${WRF_FOLDER}"/Downloads
+    env -u LD_LIBRARY_PATH  tar -xvzf cd "${WRF_FOLDER}"/Downloads
     wget -c https://sourceforge.net/projects/opengrads/files/grads2/2.2.1.oga.1/Linux%20%2864%20Bits%29/opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz -C "${WRF_FOLDER}"/ -C "${WRF_FOLDER}"/
+    env -u LD_LIBRARY_PATH  tar -xvzf opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz -C "${WRF_FOLDER}"/ -C "${WRF_FOLDER}"/
     cd "${WRF_FOLDER}"/
     mv "${WRF_FOLDER}"/opengrads-2.2.1.oga.1 "${WRF_FOLDER}"/GrADS
     cd GrADS/Contents
     wget -c https://github.com/regisgrundig/SIMOP/blob/master/g2ctl.pl
     chmod +x g2ctl.pl
     wget -c https://sourceforge.net/projects/opengrads/files/wgrib2/0.1.9.4/wgrib2-v0.1.9.4-bin-x86_64-glibc2.5-linux-gnu.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf wgrib2-v0.1.9.4-bin-x86_64-glibc2.5-linux-gnu.tar.gz
+    env -u LD_LIBRARY_PATH  tar -xvzf wgrib2-v0.1.9.4-bin-x86_64-glibc2.5-linux-gnu.tar.gz
     cd wgrib2-v0.1.9.4/bin
     mv wgrib2 "${WRF_FOLDER}"/GrADS/Contents
     cd "${WRF_FOLDER}"/GrADS/Contents
@@ -12633,7 +12648,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   conda activate ncl_stable
 
   export HOME=$(
-    cd
+    cd ~ &&
     pwd
   )
   export DIR="${WRF_FOLDER}"/Libs
@@ -12815,7 +12830,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   cd "${WRF_FOLDER}"/Downloads
 
   wget -c https://github.com/wrf-model/WRF/releases/download/v${WRF_VERSION}/v${WRF_VERSION}.tar.gz -O WRF-${WRF_VERSION}.tar.gz
-  LD_LIBRARY_PATH= tar -xvzf WRF-${WRF_VERSION}.tar.gz -C "${WRF_FOLDER}"/
+  env -u LD_LIBRARY_PATH  tar -xvzf WRF-${WRF_VERSION}.tar.gz -C "${WRF_FOLDER}"/
 
   # If statment for changing folder name
   # Check if WRF directory exists
@@ -12910,7 +12925,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 
   cd "${WRF_FOLDER}"/Downloads
   wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v${WPS_VERSION}.tar.gz -O WPS-${WPS_VERSION}.tar.gz
-  LD_LIBRARY_PATH= tar -xvzf WPS-${WPS_VERSION}.tar.gz -C "${WRF_FOLDER}"/
+  env -u LD_LIBRARY_PATH  tar -xvzf WPS-${WPS_VERSION}.tar.gz -C "${WRF_FOLDER}"/
   # Check if WPS directory exists
   if [ -d "${WRF_FOLDER}/WPS" ]; then
     mv -f "${WRF_FOLDER}/WPS" "${WRF_FOLDER}/WPS-${WPS_VERSION}"
@@ -12978,10 +12993,10 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   echo "Mandatory WRF Preprocessing System (WPS) Geographical Input Data Mandatory Fields Downloads"
   echo " "
   wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_high_res_mandatory.tar.gz
-  LD_LIBRARY_PATH= tar -xvzf geog_high_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
+  env -u LD_LIBRARY_PATH  tar -xvzf geog_high_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
 
   wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_low_res_mandatory.tar.gz
-  LD_LIBRARY_PATH= tar -xvzf geog_low_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
+  env -u LD_LIBRARY_PATH  tar -xvzf geog_low_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
   mv "${WRF_FOLDER}"/GEOG/WPS_GEOG_LOW_RES/ "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
   if [ ${WPS_Specific_Applications} -eq 1 ]; then
@@ -12990,34 +13005,34 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
     echo " "
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_thompson28_chem.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_thompson28_chem.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_thompson28_chem.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_noahmp.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_noahmp.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_noahmp.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/irrigation.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf irrigation.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf irrigation.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_px.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_px.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_px.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_urban.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_urban.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_urban.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_ssib.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_ssib.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_ssib.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/lake_depth.tar.bz2
-    LD_LIBRARY_PATH= tar -xvf lake_depth.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf lake_depth.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/topobath_30s.tar.bz2
-    LD_LIBRARY_PATH= tar -xvf topobath_30s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf topobath_30s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/gsl_gwd.tar.bz2
-    LD_LIBRARY_PATH= tar -xvf gsl_gwd.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf gsl_gwd.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/cglc_modis_lcz_global.tar.gz
-    LD_LIBRARY_PATH= tar -xvf cglc_modis_lcz_global.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf cglc_modis_lcz_global.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
   fi
 
   if [ ${Optional_GEOG} -eq 1 ]; then
@@ -13026,22 +13041,22 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
     echo " "
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_older_than_2000.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_older_than_2000.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_older_than_2000.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s_with_lakes.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf modis_landuse_20class_15s_with_lakes.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf modis_landuse_20class_15s_with_lakes.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_alt_lsm.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_alt_lsm.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_alt_lsm.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/nlcd2006_ll_9s.tar.bz2
-    LD_LIBRARY_PATH= tar -xvf nlcd2006_ll_9s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf nlcd2006_ll_9s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/updated_Iceland_LU.tar.gz
-    LD_LIBRARY_PATH= tar -xvf updated_Iceland_LU.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf updated_Iceland_LU.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s.tar.bz2
-    LD_LIBRARY_PATH= tar -xvf modis_landuse_20class_15s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf modis_landuse_20class_15s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
   fi
 
 fi
@@ -13082,7 +13097,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ] && [ "$MAC
   ##############################Directory Listing############################
 
   export HOME=$(
-    cd
+    cd ~ &&
     pwd
   )
   mkdir $HOME/WRFHYDRO_COUPLED
@@ -13208,7 +13223,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ] && [ "$MAC
   ############################# ZLib ############################
 
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf zlib-$Zlib_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf zlib-$Zlib_Version.tar.gz
   cd zlib-$Zlib_Version/
 
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
@@ -13223,7 +13238,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ] && [ "$MAC
 
   ############################## MPICH ############################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf mpich-$Mpich_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf mpich-$Mpich_Version.tar.gz
   cd mpich-$Mpich_Version/
 
   F90= ./configure --prefix=$DIR/MPICH --with-device=ch3 FFLAGS="$fallow_argument $boz_argument " FCFLAGS="$fallow_argument $boz_argument " 2>&1 | tee configure.log
@@ -13248,7 +13263,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ] && [ "$MAC
   export LDFLAGS=-L$DIR/grib2/lib
   export CPPFLAGS=-I$DIR/grib2/include
 
-  LD_LIBRARY_PATH= tar -xvzf libpng-$Libpng_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf libpng-$Libpng_Version.tar.gz
   cd libpng-$Libpng_Version/
 
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
@@ -13262,7 +13277,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ] && [ "$MAC
   #############################JasPer ############################
 
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf jasper-$Jasper_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf jasper-$Jasper_Version.tar.gz
   cd jasper-$Jasper_Version/
 
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
@@ -13278,7 +13293,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ] && [ "$MAC
   ############################# hdf5 library for netcdf4 functionality ############################
 
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf hdf5-$HDF5_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf hdf5-$HDF5_Version.tar.gz
   cd hdf5-$HDF5_Version
 
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --with-zlib=$DIR/grib2 --enable-hl --enable-fortran --enable-parallel 2>&1 | tee configure.log
@@ -13299,7 +13314,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ] && [ "$MAC
   #Hard path for MPI added
   ##################################################################################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf pnetcdf-$Pnetcdf_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf pnetcdf-$Pnetcdf_Version.tar.gz
   cd pnetcdf-$Pnetcdf_Version
 
   export MPIFC=$DIR/MPICH/bin/mpifort
@@ -13327,7 +13342,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ] && [ "$MAC
 
   ############################## Install NETCDF C Library ############################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf v$Netcdf_C_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf v$Netcdf_C_Version.tar.gz
   cd netcdf-c-$Netcdf_C_Version/
   export CPPFLAGS=-I$DIR/grib2/include
   export LDFLAGS="-L$DIR/grib2/lib -Wl,-rpath,$DIR/grib2/lib"
@@ -13349,7 +13364,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ] && [ "$MAC
 
   ############################## NetCDF fortran library ############################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf v$Netcdf_Fortran_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf v$Netcdf_Fortran_Version.tar.gz
   cd netcdf-fortran-$Netcdf_Fortran_Version/
   export LD_LIBRARY_PATH=$DIR/NETCDF/lib:$LD_LIBRARY_PATH
   export CPPFLAGS="-I$DIR/NETCDF/include -I$DIR/grib2/include"
@@ -13370,8 +13385,8 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ] && [ "$MAC
   wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_NETCDF_MPI_tests.tar
   wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_tests.tar
 
-  LD_LIBRARY_PATH= tar -xvf Fortran_C_tests.tar -C "${WRF_FOLDER}"/Tests/Environment
-  LD_LIBRARY_PATH= tar -xvf Fortran_C_NETCDF_MPI_tests.tar -C "${WRF_FOLDER}"/Tests/Compatibility
+  env -u LD_LIBRARY_PATH  tar -xvf Fortran_C_tests.tar -C "${WRF_FOLDER}"/Tests/Environment
+  env -u LD_LIBRARY_PATH  tar -xvf Fortran_C_NETCDF_MPI_tests.tar -C "${WRF_FOLDER}"/Tests/Compatibility
   export one="1"
   echo " "
   ############## Testing Environment #####
@@ -13666,7 +13681,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ] && [ "$MAC
 
   cd "${WRF_FOLDER}"/Downloads
   wget -c https://github.com/wrf-model/WRF/releases/download/v${WRF_VERSION}/v${WRF_VERSION}.tar.gz -O WRF-${WRF_VERSION}.tar.gz
-  LD_LIBRARY_PATH= tar -xvzf WRF-${WRF_VERSION}.tar.gz -C "${WRF_FOLDER}"/
+  env -u LD_LIBRARY_PATH  tar -xvzf WRF-${WRF_VERSION}.tar.gz -C "${WRF_FOLDER}"/
 
   # If statment for changing folder name
   # Check if WRF directory exists
@@ -13747,7 +13762,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ] && [ "$MAC
 
   cd "${WRF_FOLDER}"/Downloads
   wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v${WPS_VERSION}.tar.gz -O WPS-${WPS_VERSION}.tar.gz
-  LD_LIBRARY_PATH= tar -xvzf WPS-${WPS_VERSION}.tar.gz -C "${WRF_FOLDER}"/
+  env -u LD_LIBRARY_PATH  tar -xvzf WPS-${WPS_VERSION}.tar.gz -C "${WRF_FOLDER}"/
   # Check if WPS directory exists
   if [ -d "${WRF_FOLDER}/WPS" ]; then
     mv -f "${WRF_FOLDER}/WPS" "${WRF_FOLDER}/WPS-${WPS_VERSION}"
@@ -13808,10 +13823,10 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ] && [ "$MAC
   echo "Mandatory WRF Preprocessing System (WPS) Geographical Input Data Mandatory Fields Downloads"
   echo " "
   wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_high_res_mandatory.tar.gz
-  LD_LIBRARY_PATH= tar -xvzf geog_high_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
+  env -u LD_LIBRARY_PATH  tar -xvzf geog_high_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
 
   wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_low_res_mandatory.tar.gz
-  LD_LIBRARY_PATH= tar -xvzf geog_low_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
+  env -u LD_LIBRARY_PATH  tar -xvzf geog_low_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
   mv "${WRF_FOLDER}"/GEOG/WPS_GEOG_LOW_RES/ "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
   if [ ${WPS_Specific_Applications} -eq 1 ]; then
@@ -13820,34 +13835,34 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ] && [ "$MAC
     echo " "
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_thompson28_chem.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_thompson28_chem.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_thompson28_chem.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_noahmp.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_noahmp.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_noahmp.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/irrigation.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf irrigation.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf irrigation.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_px.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_px.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_px.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_urban.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_urban.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_urban.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_ssib.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_ssib.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_ssib.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/lake_depth.tar.bz2
-    LD_LIBRARY_PATH= tar -xvf lake_depth.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf lake_depth.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/topobath_30s.tar.bz2
-    LD_LIBRARY_PATH= tar -xvf topobath_30s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf topobath_30s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/gsl_gwd.tar.bz2
-    LD_LIBRARY_PATH= tar -xvf gsl_gwd.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf gsl_gwd.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/cglc_modis_lcz_global.tar.gz
-    LD_LIBRARY_PATH= tar -xvf cglc_modis_lcz_global.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf cglc_modis_lcz_global.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
   fi
 
   if [ ${Optional_GEOG} -eq 1 ]; then
@@ -13856,22 +13871,22 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ] && [ "$MAC
     echo " "
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_older_than_2000.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_older_than_2000.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_older_than_2000.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s_with_lakes.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf modis_landuse_20class_15s_with_lakes.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf modis_landuse_20class_15s_with_lakes.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_alt_lsm.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_alt_lsm.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_alt_lsm.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/nlcd2006_ll_9s.tar.bz2
-    LD_LIBRARY_PATH= tar -xvf nlcd2006_ll_9s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf nlcd2006_ll_9s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/updated_Iceland_LU.tar.gz
-    LD_LIBRARY_PATH= tar -xvf updated_Iceland_LU.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf updated_Iceland_LU.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s.tar.bz2
-    LD_LIBRARY_PATH= tar -xvf modis_landuse_20class_15s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf modis_landuse_20class_15s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
   fi
 
 fi
@@ -13912,7 +13927,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ] && [ "$MAC
   ##############################Directory Listing############################
 
   export HOME=$(
-    cd
+    cd ~ &&
     pwd
   )
   mkdir $HOME/WRFHYDRO_COUPLED
@@ -14050,7 +14065,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ] && [ "$MAC
   ############################# ZLib ############################
 
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf zlib-$Zlib_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf zlib-$Zlib_Version.tar.gz
   cd zlib-$Zlib_Version/
 
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
@@ -14064,7 +14079,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ] && [ "$MAC
   echo " "
   ############################## MPICH ############################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf mpich-$Mpich_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf mpich-$Mpich_Version.tar.gz
   cd mpich-$Mpich_Version/
 
   F90= ./configure --prefix=$DIR/MPICH --with-device=ch3 FFLAGS="$fallow_argument $boz_argument " FCFLAGS="$fallow_argument $boz_argument " 2>&1 | tee configure.log
@@ -14089,7 +14104,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ] && [ "$MAC
   export LDFLAGS=-L$DIR/grib2/lib
   export CPPFLAGS=-I$DIR/grib2/include
 
-  LD_LIBRARY_PATH= tar -xvzf libpng-$Libpng_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf libpng-$Libpng_Version.tar.gz
   cd libpng-$Libpng_Version/
 
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
@@ -14103,7 +14118,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ] && [ "$MAC
   #############################JasPer ############################
 
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf jasper-$Jasper_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf jasper-$Jasper_Version.tar.gz
   cd jasper-$Jasper_Version/
 
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
@@ -14119,7 +14134,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ] && [ "$MAC
   ############################# hdf5 library for netcdf4 functionality ############################
 
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf hdf5-$HDF5_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf hdf5-$HDF5_Version.tar.gz
   cd hdf5-$HDF5_Version
 
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --with-zlib=$DIR/grib2 --enable-hl --enable-fortran --enable-parallel 2>&1 | tee configure.log
@@ -14140,7 +14155,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ] && [ "$MAC
   #Hard path for MPI added
   ##################################################################################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf pnetcdf-$Pnetcdf_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf pnetcdf-$Pnetcdf_Version.tar.gz
   cd pnetcdf-$Pnetcdf_Version
 
   export MPIFC=$DIR/MPICH/bin/mpifort
@@ -14168,7 +14183,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ] && [ "$MAC
 
   ############################## Install NETCDF C Library ############################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf v$Netcdf_C_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf v$Netcdf_C_Version.tar.gz
   cd netcdf-c-$Netcdf_C_Version/
   export CPPFLAGS=-I$DIR/grib2/include
   export LDFLAGS="-L$DIR/grib2/lib -Wl,-rpath,$DIR/grib2/lib"
@@ -14190,7 +14205,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ] && [ "$MAC
 
   ############################## NetCDF fortran library ############################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf v$Netcdf_Fortran_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf v$Netcdf_Fortran_Version.tar.gz
   cd netcdf-fortran-$Netcdf_Fortran_Version/
   export LD_LIBRARY_PATH=$DIR/NETCDF/lib:$LD_LIBRARY_PATH
   export CPPFLAGS="-I$DIR/NETCDF/include -I$DIR/grib2/include"
@@ -14211,8 +14226,8 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ] && [ "$MAC
   wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_NETCDF_MPI_tests.tar
   wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_tests.tar
 
-  LD_LIBRARY_PATH= tar -xvf Fortran_C_tests.tar -C "${WRF_FOLDER}"/Tests/Environment
-  LD_LIBRARY_PATH= tar -xvf Fortran_C_NETCDF_MPI_tests.tar -C "${WRF_FOLDER}"/Tests/Compatibility
+  env -u LD_LIBRARY_PATH  tar -xvf Fortran_C_tests.tar -C "${WRF_FOLDER}"/Tests/Environment
+  env -u LD_LIBRARY_PATH  tar -xvf Fortran_C_NETCDF_MPI_tests.tar -C "${WRF_FOLDER}"/Tests/Compatibility
   export one="1"
   echo " "
   ############## Testing Environment #####
@@ -14507,7 +14522,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ] && [ "$MAC
 
   cd "${WRF_FOLDER}"/Downloads
   wget -c https://github.com/wrf-model/WRF/releases/download/v${WRF_VERSION}/v${WRF_VERSION}.tar.gz -O WRF-${WRF_VERSION}.tar.gz
-  LD_LIBRARY_PATH= tar -xvzf WRF-${WRF_VERSION}.tar.gz -C "${WRF_FOLDER}"/
+  env -u LD_LIBRARY_PATH  tar -xvzf WRF-${WRF_VERSION}.tar.gz -C "${WRF_FOLDER}"/
 
   # If statment for changing folder name
   # Check if WRF directory exists
@@ -14585,7 +14600,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ] && [ "$MAC
 
   cd "${WRF_FOLDER}"/Downloads
   wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v${WPS_VERSION}.tar.gz -O WPS-${WPS_VERSION}.tar.gz
-  LD_LIBRARY_PATH= tar -xvzf WPS-${WPS_VERSION}.tar.gz -C "${WRF_FOLDER}"/
+  env -u LD_LIBRARY_PATH  tar -xvzf WPS-${WPS_VERSION}.tar.gz -C "${WRF_FOLDER}"/
   # Check if WPS directory exists
   if [ -d "${WRF_FOLDER}/WPS" ]; then
     mv -f "${WRF_FOLDER}/WPS" "${WRF_FOLDER}/WPS-${WPS_VERSION}"
@@ -14646,10 +14661,10 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ] && [ "$MAC
   echo "Mandatory WRF Preprocessing System (WPS) Geographical Input Data Mandatory Fields Downloads"
   echo " "
   wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_high_res_mandatory.tar.gz
-  LD_LIBRARY_PATH= tar -xvzf geog_high_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
+  env -u LD_LIBRARY_PATH  tar -xvzf geog_high_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
 
   wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_low_res_mandatory.tar.gz
-  LD_LIBRARY_PATH= tar -xvzf geog_low_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
+  env -u LD_LIBRARY_PATH  tar -xvzf geog_low_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
   mv "${WRF_FOLDER}"/GEOG/WPS_GEOG_LOW_RES/ "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
   if [ ${WPS_Specific_Applications} -eq 1 ]; then
@@ -14658,34 +14673,34 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ] && [ "$MAC
     echo " "
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_thompson28_chem.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_thompson28_chem.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_thompson28_chem.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_noahmp.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_noahmp.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_noahmp.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/irrigation.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf irrigation.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf irrigation.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_px.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_px.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_px.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_urban.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_urban.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_urban.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_ssib.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_ssib.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_ssib.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/lake_depth.tar.bz2
-    LD_LIBRARY_PATH= tar -xvf lake_depth.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf lake_depth.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/topobath_30s.tar.bz2
-    LD_LIBRARY_PATH= tar -xvf topobath_30s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf topobath_30s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/gsl_gwd.tar.bz2
-    LD_LIBRARY_PATH= tar -xvf gsl_gwd.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf gsl_gwd.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/cglc_modis_lcz_global.tar.gz
-    LD_LIBRARY_PATH= tar -xvf cglc_modis_lcz_global.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf cglc_modis_lcz_global.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
   fi
 
   if [ ${Optional_GEOG} -eq 1 ]; then
@@ -14694,22 +14709,22 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ] && [ "$MAC
     echo " "
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_older_than_2000.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_older_than_2000.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_older_than_2000.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s_with_lakes.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf modis_landuse_20class_15s_with_lakes.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf modis_landuse_20class_15s_with_lakes.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_alt_lsm.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_alt_lsm.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_alt_lsm.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/nlcd2006_ll_9s.tar.bz2
-    LD_LIBRARY_PATH= tar -xvf nlcd2006_ll_9s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf nlcd2006_ll_9s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/updated_Iceland_LU.tar.gz
-    LD_LIBRARY_PATH= tar -xvf updated_Iceland_LU.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf updated_Iceland_LU.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s.tar.bz2
-    LD_LIBRARY_PATH= tar -xvf modis_landuse_20class_15s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf modis_landuse_20class_15s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
   fi
 
 fi
@@ -14737,7 +14752,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   echo " "
   ##############################Directory Listing############################
   export HOME=$(
-    cd
+    cd ~ &&
     pwd
   )
 
@@ -14824,7 +14839,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   ############################# ZLib ############################
 
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf zlib-$Zlib_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf zlib-$Zlib_Version.tar.gz
   cd zlib-$Zlib_Version/
 
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
@@ -14839,7 +14854,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   ############################## MPICH ############################
   #F90= due to compiler issues with mpich install
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf mpich-$Mpich_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf mpich-$Mpich_Version.tar.gz
   cd mpich-$Mpich_Version/
 
   F90= ./configure --prefix=$DIR/MPICH --with-device=ch3 FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS 2>&1 | tee configure.log
@@ -14863,7 +14878,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   export LDFLAGS=-L$DIR/grib2/lib
   export CPPFLAGS=-I$DIR/grib2/include
 
-  LD_LIBRARY_PATH= tar -xvzf libpng-$Libpng_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf libpng-$Libpng_Version.tar.gz
   cd libpng-$Libpng_Version/
 
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
@@ -14876,7 +14891,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   echo " "
   #############################JasPer ############################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf jasper-$Jasper_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf jasper-$Jasper_Version.tar.gz
   cd jasper-$Jasper_Version/
 
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
@@ -14892,7 +14907,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   echo " "
   ############################# hdf5 library for netcdf4 functionality ############################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf hdf5-$HDF5_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf hdf5-$HDF5_Version.tar.gz
   cd hdf5-$HDF5_Version
 
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --with-zlib=$DIR/grib2 --enable-hl --enable-fortran --enable-parallel 2>&1 | tee configure.log
@@ -14912,7 +14927,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   #Hard path for MPI added
   ##################################################################################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf pnetcdf-$Pnetcdf_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf pnetcdf-$Pnetcdf_Version.tar.gz
   cd pnetcdf-$Pnetcdf_Version
   export MPIFC=$DIR/MPICH/bin/mpifort
   export MPIF77=$DIR/MPICH/bin/mpifort
@@ -14932,7 +14947,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 
   ############################## Install NETCDF C Library ############################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf v$Netcdf_C_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf v$Netcdf_C_Version.tar.gz
   cd netcdf-c-$Netcdf_C_Version/
   export CPPFLAGS=-I$DIR/grib2/include
   export LDFLAGS="-L$DIR/grib2/lib -Wl,-rpath,$DIR/grib2/lib"
@@ -14953,7 +14968,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   echo " "
   ############################## NetCDF fortran library ############################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf v$Netcdf_Fortran_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf v$Netcdf_Fortran_Version.tar.gz
   cd netcdf-fortran-$Netcdf_Fortran_Version/
   export LD_LIBRARY_PATH=$DIR/NETCDF/lib:$LD_LIBRARY_PATH
   export CPPFLAGS="-I$DIR/NETCDF/include -I$DIR/grib2/include"
@@ -14972,8 +14987,8 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_NETCDF_MPI_tests.tar
   wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_tests.tar
 
-  LD_LIBRARY_PATH= tar -xvf Fortran_C_tests.tar -C "${WRF_FOLDER}"/Tests/Environment
-  LD_LIBRARY_PATH= tar -xvf Fortran_C_NETCDF_MPI_tests.tar -C "${WRF_FOLDER}"/Tests/Compatibility
+  env -u LD_LIBRARY_PATH  tar -xvf Fortran_C_tests.tar -C "${WRF_FOLDER}"/Tests/Environment
+  env -u LD_LIBRARY_PATH  tar -xvf Fortran_C_NETCDF_MPI_tests.tar -C "${WRF_FOLDER}"/Tests/Compatibility
 
   export one="1"
   echo " "
@@ -15098,16 +15113,16 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   #############################################################################
   if [[ $GRADS_PICK -eq 1 ]]; then
     cd "${WRF_FOLDER}"/Downloads
-    LD_LIBRARY_PATH= tar -xvzf cd "${WRF_FOLDER}"/Downloads
+    env -u LD_LIBRARY_PATH  tar -xvzf cd "${WRF_FOLDER}"/Downloads
     wget -c https://sourceforge.net/projects/opengrads/files/grads2/2.2.1.oga.1/Linux%20%2864%20Bits%29/opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz -C "${WRF_FOLDER}"/ -C "${WRF_FOLDER}"/
+    env -u LD_LIBRARY_PATH  tar -xvzf opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz -C "${WRF_FOLDER}"/ -C "${WRF_FOLDER}"/
     cd "${WRF_FOLDER}"/
     mv "${WRF_FOLDER}"/opengrads-2.2.1.oga.1 "${WRF_FOLDER}"/GrADS
     cd GrADS/Contents
     wget -c https://github.com/regisgrundig/SIMOP/blob/master/g2ctl.pl
     chmod +x g2ctl.pl
     wget -c https://sourceforge.net/projects/opengrads/files/wgrib2/0.1.9.4/wgrib2-v0.1.9.4-bin-i686-glib2.5-linux-gnu.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf wgrib2-v0.1.9.4-bin-i686-glib2.5-linux-gnu.tar.gz
+    env -u LD_LIBRARY_PATH  tar -xvzf wgrib2-v0.1.9.4-bin-i686-glib2.5-linux-gnu.tar.gz
     cd wgrib2-v0.1.9.4/bin
     mv wgrib2 "${WRF_FOLDER}"/GrADS/Contents
     cd "${WRF_FOLDER}"/GrADS/Contents
@@ -15126,7 +15141,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   if [[ $GRADS_PICK -eq 2 ]]; then
     cd "${WRF_FOLDER}"/Downloads
     wget -c ftp://cola.gmu.edu/grads/2.2/grads-2.2.1-bin-RHL7.4-x86_64.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf grads-2.2.1-bin-RHL7.4-x86_64.tar.gz -C "${WRF_FOLDER}"
+    env -u LD_LIBRARY_PATH  tar -xvzf grads-2.2.1-bin-RHL7.4-x86_64.tar.gz -C "${WRF_FOLDER}"
     cd "${WRF_FOLDER}"/grads-2.2.1/bin
     chmod 775 *
 
@@ -15190,7 +15205,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   conda activate ncl_stable
 
   export HOME=$(
-    cd
+    cd ~ &&
     pwd
   )
   export DIR="${WRF_FOLDER}"/Libs
@@ -15350,7 +15365,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   ########################################################################
   cd "${WRF_FOLDER}"/Downloads
   wget -c https://github.com/wrf-model/WRF/releases/download/v${WRF_VERSION}/v${WRF_VERSION}.tar.gz -O WRF-${WRF_VERSION}.tar.gz
-  LD_LIBRARY_PATH= tar -xvzf WRF-${WRF_VERSION}.tar.gz -C "${WRF_FOLDER}"/
+  env -u LD_LIBRARY_PATH  tar -xvzf WRF-${WRF_VERSION}.tar.gz -C "${WRF_FOLDER}"/
 
   # If statment for changing folder name
   # Check if WRF directory exists
@@ -15429,7 +15444,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 
   cd "${WRF_FOLDER}"/Downloads
   wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v${WPS_VERSION}.tar.gz -O WPS-${WPS_VERSION}.tar.gz
-  LD_LIBRARY_PATH= tar -xvzf WPS-${WPS_VERSION}.tar.gz -C "${WRF_FOLDER}"/
+  env -u LD_LIBRARY_PATH  tar -xvzf WPS-${WPS_VERSION}.tar.gz -C "${WRF_FOLDER}"/
   # Check if WPS directory exists
   if [ -d "${WRF_FOLDER}/WPS" ]; then
     mv -f "${WRF_FOLDER}/WPS" "${WRF_FOLDER}/WPS-${WPS_VERSION}"
@@ -15491,10 +15506,10 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   echo "Mandatory WRF Preprocessing System (WPS) Geographical Input Data Mandatory Fields Downloads"
   echo " "
   wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_high_res_mandatory.tar.gz
-  LD_LIBRARY_PATH= tar -xvzf geog_high_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
+  env -u LD_LIBRARY_PATH  tar -xvzf geog_high_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
 
   wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_low_res_mandatory.tar.gz
-  LD_LIBRARY_PATH= tar -xvzf geog_low_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
+  env -u LD_LIBRARY_PATH  tar -xvzf geog_low_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
   mv "${WRF_FOLDER}"/GEOG/WPS_GEOG_LOW_RES/ "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
   if [ ${WPS_Specific_Applications} -eq 1 ]; then
@@ -15503,36 +15518,36 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
     echo " "
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_thompson28_chem.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_thompson28_chem.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_thompson28_chem.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_noahmp.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_noahmp.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_noahmp.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/irrigation.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf irrigation.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf irrigation.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
     mkdir "${WRF_FOLDER}"/GEOG/WPS_GEOG/irrigation
     mv $WRFHYDRDO_FOLDER/GEOG/WPS_GEOG/fao "${WRF_FOLDER}"/GEOG/WPS_GEOG/irrigation
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_px.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_px.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_px.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_urban.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_urban.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_urban.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_ssib.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_ssib.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_ssib.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/lake_depth.tar.bz2
-    LD_LIBRARY_PATH= tar -xvf lake_depth.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf lake_depth.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/topobath_30s.tar.bz2
-    LD_LIBRARY_PATH= tar -xvf topobath_30s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf topobath_30s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/gsl_gwd.tar.bz2
-    LD_LIBRARY_PATH= tar -xvf gsl_gwd.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf gsl_gwd.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/cglc_modis_lcz_global.tar.gz
-    LD_LIBRARY_PATH= tar -xvf cglc_modis_lcz_global.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf cglc_modis_lcz_global.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
   fi
 
   if [ ${Optional_GEOG} -eq 1 ]; then
@@ -15541,22 +15556,22 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
     echo " "
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_older_than_2000.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_older_than_2000.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_older_than_2000.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s_with_lakes.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf modis_landuse_20class_15s_with_lakes.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf modis_landuse_20class_15s_with_lakes.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_alt_lsm.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_alt_lsm.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_alt_lsm.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/nlcd2006_ll_9s.tar.bz2
-    LD_LIBRARY_PATH= tar -xvf nlcd2006_ll_9s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf nlcd2006_ll_9s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/updated_Iceland_LU.tar.gz
-    LD_LIBRARY_PATH= tar -xvf updated_Iceland_LU.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf updated_Iceland_LU.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s.tar.bz2
-    LD_LIBRARY_PATH= tar -xvf modis_landuse_20class_15s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf modis_landuse_20class_15s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
   fi
 fi
 
@@ -15590,7 +15605,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   echo " "
   ##############################Directory Listing############################
   export HOME=$(
-    cd
+    cd ~ &&
     pwd
   )
 
@@ -15677,7 +15692,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   ############################# ZLib ############################
 
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf zlib-$Zlib_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf zlib-$Zlib_Version.tar.gz
   cd zlib-$Zlib_Version/
 
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
@@ -15692,7 +15707,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   ############################## MPICH ############################
   #F90= due to compiler issues with mpich install
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf mpich-$Mpich_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf mpich-$Mpich_Version.tar.gz
   cd mpich-$Mpich_Version/
 
   F90= ./configure --prefix=$DIR/MPICH --with-device=ch3 FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS 2>&1 | tee configure.log
@@ -15716,7 +15731,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   export LDFLAGS=-L$DIR/grib2/lib
   export CPPFLAGS=-I$DIR/grib2/include
 
-  LD_LIBRARY_PATH= tar -xvzf libpng-$Libpng_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf libpng-$Libpng_Version.tar.gz
   cd libpng-$Libpng_Version/
 
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
@@ -15729,7 +15744,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   echo " "
   #############################JasPer ############################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf jasper-$Jasper_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf jasper-$Jasper_Version.tar.gz
   cd jasper-$Jasper_Version/
 
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
@@ -15745,7 +15760,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   echo " "
   ############################# hdf5 library for netcdf4 functionality ############################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf hdf5-$HDF5_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf hdf5-$HDF5_Version.tar.gz
   cd hdf5-$HDF5_Version
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --with-zlib=$DIR/grib2 --enable-hl --enable-fortran --enable-parallel 2>&1 | tee configure.log
 
@@ -15764,7 +15779,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   #Hard path for MPI added
   ##################################################################################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf pnetcdf-$Pnetcdf_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf pnetcdf-$Pnetcdf_Version.tar.gz
   cd pnetcdf-$Pnetcdf_Version
   export MPIFC=$DIR/MPICH/bin/mpifort
   export MPIF77=$DIR/MPICH/bin/mpifort
@@ -15784,7 +15799,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 
   ############################## Install NETCDF C Library ############################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf v$Netcdf_C_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf v$Netcdf_C_Version.tar.gz
   cd netcdf-c-$Netcdf_C_Version/
   export CPPFLAGS=-I$DIR/grib2/include
   export LDFLAGS="-L$DIR/grib2/lib -Wl,-rpath,$DIR/grib2/lib"
@@ -15805,7 +15820,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   echo " "
   ############################## NetCDF fortran library ############################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf v$Netcdf_Fortran_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf v$Netcdf_Fortran_Version.tar.gz
   cd netcdf-fortran-$Netcdf_Fortran_Version/
   export LD_LIBRARY_PATH=$DIR/NETCDF/lib:$LD_LIBRARY_PATH
   export CPPFLAGS="-I$DIR/NETCDF/include -I$DIR/grib2/include"
@@ -15824,8 +15839,8 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_NETCDF_MPI_tests.tar
   wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_tests.tar
 
-  LD_LIBRARY_PATH= tar -xvf Fortran_C_tests.tar -C "${WRF_FOLDER}"/Tests/Environment
-  LD_LIBRARY_PATH= tar -xvf Fortran_C_NETCDF_MPI_tests.tar -C "${WRF_FOLDER}"/Tests/Compatibility
+  env -u LD_LIBRARY_PATH  tar -xvf Fortran_C_tests.tar -C "${WRF_FOLDER}"/Tests/Environment
+  env -u LD_LIBRARY_PATH  tar -xvf Fortran_C_NETCDF_MPI_tests.tar -C "${WRF_FOLDER}"/Tests/Compatibility
 
   export one="1"
   echo " "
@@ -15950,16 +15965,16 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   #############################################################################
   if [[ $GRADS_PICK -eq 1 ]]; then
     cd "${WRF_FOLDER}"/Downloads
-    LD_LIBRARY_PATH= tar -xvzf cd "${WRF_FOLDER}"/Downloads
+    env -u LD_LIBRARY_PATH  tar -xvzf cd "${WRF_FOLDER}"/Downloads
     wget -c https://sourceforge.net/projects/opengrads/files/grads2/2.2.1.oga.1/Linux%20%2864%20Bits%29/opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz -C "${WRF_FOLDER}"/ -C "${WRF_FOLDER}"/
+    env -u LD_LIBRARY_PATH  tar -xvzf opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz -C "${WRF_FOLDER}"/ -C "${WRF_FOLDER}"/
     cd "${WRF_FOLDER}"/
     mv "${WRF_FOLDER}"/opengrads-2.2.1.oga.1 "${WRF_FOLDER}"/GrADS
     cd GrADS/Contents
     wget -c https://github.com/regisgrundig/SIMOP/blob/master/g2ctl.pl
     chmod +x g2ctl.pl
     wget -c https://sourceforge.net/projects/opengrads/files/wgrib2/0.1.9.4/wgrib2-v0.1.9.4-bin-i686-glib2.5-linux-gnu.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf wgrib2-v0.1.9.4-bin-i686-glib2.5-linux-gnu.tar.gz
+    env -u LD_LIBRARY_PATH  tar -xvzf wgrib2-v0.1.9.4-bin-i686-glib2.5-linux-gnu.tar.gz
     cd wgrib2-v0.1.9.4/bin
     mv wgrib2 "${WRF_FOLDER}"/GrADS/Contents
     cd "${WRF_FOLDER}"/GrADS/Contents
@@ -15978,7 +15993,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   if [[ $GRADS_PICK -eq 2 ]]; then
     cd "${WRF_FOLDER}"/Downloads
     wget -c ftp://cola.gmu.edu/grads/2.2/grads-2.2.1-bin-RHL7.4-x86_64.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf grads-2.2.1-bin-RHL7.4-x86_64.tar.gz -C "${WRF_FOLDER}"
+    env -u LD_LIBRARY_PATH  tar -xvzf grads-2.2.1-bin-RHL7.4-x86_64.tar.gz -C "${WRF_FOLDER}"
     cd "${WRF_FOLDER}"/grads-2.2.1/bin
     chmod 775 *
 
@@ -16147,7 +16162,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   ########################################################################
   cd "${WRF_FOLDER}"/Downloads
   wget -c https://github.com/wrf-model/WRF/releases/download/v${WRF_VERSION}/v${WRF_VERSION}.tar.gz -O WRF-${WRF_VERSION}.tar.gz
-  LD_LIBRARY_PATH= tar -xvzf WRF-${WRF_VERSION}.tar.gz -C "${WRF_FOLDER}"/
+  env -u LD_LIBRARY_PATH  tar -xvzf WRF-${WRF_VERSION}.tar.gz -C "${WRF_FOLDER}"/
 
   # If statment for changing folder name
   # Check if WRF directory exists
@@ -16224,7 +16239,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 
   cd "${WRF_FOLDER}"/Downloads
   wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v${WPS_VERSION}.tar.gz -O WPS-${WPS_VERSION}.tar.gz
-  LD_LIBRARY_PATH= tar -xvzf WPS-${WPS_VERSION}.tar.gz -C "${WRF_FOLDER}"/
+  env -u LD_LIBRARY_PATH  tar -xvzf WPS-${WPS_VERSION}.tar.gz -C "${WRF_FOLDER}"/
   # Check if WPS directory exists
   if [ -d "${WRF_FOLDER}/WPS" ]; then
     mv -f "${WRF_FOLDER}/WPS" "${WRF_FOLDER}/WPS-${WPS_VERSION}"
@@ -16286,10 +16301,10 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   echo "Mandatory WRF Preprocessing System (WPS) Geographical Input Data Mandatory Fields Downloads"
   echo " "
   wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_high_res_mandatory.tar.gz
-  LD_LIBRARY_PATH= tar -xvzf geog_high_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
+  env -u LD_LIBRARY_PATH  tar -xvzf geog_high_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
 
   wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_low_res_mandatory.tar.gz
-  LD_LIBRARY_PATH= tar -xvzf geog_low_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
+  env -u LD_LIBRARY_PATH  tar -xvzf geog_low_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
   mv "${WRF_FOLDER}"/GEOG/WPS_GEOG_LOW_RES/ "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
   if [ ${WPS_Specific_Applications} -eq 1 ]; then
@@ -16298,36 +16313,36 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
     echo " "
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_thompson28_chem.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_thompson28_chem.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_thompson28_chem.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_noahmp.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_noahmp.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_noahmp.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/irrigation.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf irrigation.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf irrigation.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
     mkdir "${WRF_FOLDER}"/GEOG/WPS_GEOG/irrigation
     mv $WRFHYDRDO_FOLDER/GEOG/WPS_GEOG/fao "${WRF_FOLDER}"/GEOG/WPS_GEOG/irrigation
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_px.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_px.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_px.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_urban.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_urban.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_urban.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_ssib.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_ssib.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_ssib.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/lake_depth.tar.bz2
-    LD_LIBRARY_PATH= tar -xvf lake_depth.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf lake_depth.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/topobath_30s.tar.bz2
-    LD_LIBRARY_PATH= tar -xvf topobath_30s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf topobath_30s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/gsl_gwd.tar.bz2
-    LD_LIBRARY_PATH= tar -xvf gsl_gwd.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf gsl_gwd.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/cglc_modis_lcz_global.tar.gz
-    LD_LIBRARY_PATH= tar -xvf cglc_modis_lcz_global.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf cglc_modis_lcz_global.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
   fi
 
   if [ ${Optional_GEOG} -eq 1 ]; then
@@ -16336,22 +16351,22 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
     echo " "
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_older_than_2000.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_older_than_2000.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_older_than_2000.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s_with_lakes.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf modis_landuse_20class_15s_with_lakes.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf modis_landuse_20class_15s_with_lakes.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_alt_lsm.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_alt_lsm.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_alt_lsm.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/nlcd2006_ll_9s.tar.bz2
-    LD_LIBRARY_PATH= tar -xvf nlcd2006_ll_9s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf nlcd2006_ll_9s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/updated_Iceland_LU.tar.gz
-    LD_LIBRARY_PATH= tar -xvf updated_Iceland_LU.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf updated_Iceland_LU.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s.tar.bz2
-    LD_LIBRARY_PATH= tar -xvf modis_landuse_20class_15s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf modis_landuse_20class_15s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
   fi
 fi
 
@@ -16433,7 +16448,7 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   ############################################################################
 
   export HOME=$(
-    cd
+    cd ~ &&
     pwd
   )
   export WRF_FOLDER=$HOME/WRFHYDRO_COUPLED_INTEL
@@ -16466,7 +16481,7 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   ############################# ZLib ############################
 
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf zlib-$Zlib_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf zlib-$Zlib_Version.tar.gz
   cd zlib-$Zlib_Version/
 
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
@@ -16486,7 +16501,7 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   export LDFLAGS=-L$DIR/grib2/lib
   export CPPFLAGS=-I$DIR/grib2/include
 
-  LD_LIBRARY_PATH= tar -xvzf libpng-$Libpng_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf libpng-$Libpng_Version.tar.gz
   cd libpng-$Libpng_Version/
 
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
@@ -16500,7 +16515,7 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   ############################# JasPer ############################
 
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf jasper-$Jasper_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf jasper-$Jasper_Version.tar.gz
   cd jasper-$Jasper_Version/
 
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
@@ -16518,7 +16533,7 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   ############################# HDF5 library for NetCDF4 & parallel functionality ############################
 
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf hdf5-$HDF5_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf hdf5-$HDF5_Version.tar.gz
   cd hdf5-$HDF5_Version
 
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --with-zlib=$DIR/grib2 --enable-hl --enable-fortran --enable-parallel 2>&1 | tee configure.log
@@ -16540,7 +16555,7 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   #Hard path for MPI added
   ##################################################################################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf pnetcdf-$Pnetcdf_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf pnetcdf-$Pnetcdf_Version.tar.gz
   cd pnetcdf-$Pnetcdf_Version
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --enable-static 2>&1 | tee configure.log
 
@@ -16557,7 +16572,7 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   ############################## Install NETCDF-C Library ############################
 
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf v$Netcdf_C_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf v$Netcdf_C_Version.tar.gz
   cd netcdf-c-$Netcdf_C_Version/
 
   # these variables need to be set for the NetCDF-C install to work
@@ -16582,7 +16597,7 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   ############################## NetCDF-Fortran library ############################
 
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf v$Netcdf_Fortran_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf v$Netcdf_Fortran_Version.tar.gz
   cd netcdf-fortran-$Netcdf_Fortran_Version/
 
   # these variables need to be set for the NetCDF-Fortran install to work
@@ -16602,8 +16617,8 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_NETCDF_MPI_tests.tar
   wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_tests.tar
 
-  LD_LIBRARY_PATH= tar -xvf Fortran_C_tests.tar -C "${WRF_FOLDER}/Tests/Environment"
-  LD_LIBRARY_PATH= tar -xvf Fortran_C_NETCDF_MPI_tests.tar -C "${WRF_FOLDER}"/Tests/Compatibility
+  env -u LD_LIBRARY_PATH  tar -xvf Fortran_C_tests.tar -C "${WRF_FOLDER}/Tests/Environment"
+  env -u LD_LIBRARY_PATH  tar -xvf Fortran_C_NETCDF_MPI_tests.tar -C "${WRF_FOLDER}"/Tests/Compatibility
 
   export one="1"
   echo " "
@@ -16727,16 +16742,16 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   if [[ $GRADS_PICK -eq 1 ]]; then
 
     cd "${WRF_FOLDER}"/Downloads
-    LD_LIBRARY_PATH= tar -xvzf cd "${WRF_FOLDER}"/Downloads
+    env -u LD_LIBRARY_PATH  tar -xvzf cd "${WRF_FOLDER}"/Downloads
     wget -c https://sourceforge.net/projects/opengrads/files/grads2/2.2.1.oga.1/Linux%20%2864%20Bits%29/opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz -C "${WRF_FOLDER}"/ -C "${WRF_FOLDER}"/
+    env -u LD_LIBRARY_PATH  tar -xvzf opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz -C "${WRF_FOLDER}"/ -C "${WRF_FOLDER}"/
     cd "${WRF_FOLDER}"/
     mv "${WRF_FOLDER}"/opengrads-2.2.1.oga.1 "${WRF_FOLDER}"/GrADS
     cd GrADS/Contents
     wget -c https://github.com/regisgrundig/SIMOP/blob/master/g2ctl.pl
     chmod +x g2ctl.pl
     wget -c https://sourceforge.net/projects/opengrads/files/wgrib2/0.1.9.4/wgrib2-v0.1.9.4-bin-x86_64-glibc2.5-linux-gnu.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf wgrib2-v0.1.9.4-bin-x86_64-glibc2.5-linux-gnu.tar.gz
+    env -u LD_LIBRARY_PATH  tar -xvzf wgrib2-v0.1.9.4-bin-x86_64-glibc2.5-linux-gnu.tar.gz
     cd wgrib2-v0.1.9.4/bin
     mv wgrib2 "${WRF_FOLDER}"/GrADS/Contents
     cd "${WRF_FOLDER}"/GrADS/Contents
@@ -16928,7 +16943,7 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   cd "${WRF_FOLDER}"/Downloads
 
   wget -c https://github.com/wrf-model/WRF/releases/download/v${WRF_VERSION}/v${WRF_VERSION}.tar.gz -O WRF-${WRF_VERSION}.tar.gz
-  LD_LIBRARY_PATH= tar -xvzf WRF-${WRF_VERSION}.tar.gz -C "${WRF_FOLDER}"/
+  env -u LD_LIBRARY_PATH  tar -xvzf WRF-${WRF_VERSION}.tar.gz -C "${WRF_FOLDER}"/
 
   # If statment for changing folder name
   # Check if WRF directory exists
@@ -17021,7 +17036,7 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 
   cd "${WRF_FOLDER}"/Downloads
   wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v${WPS_VERSION}.tar.gz -O WPS-${WPS_VERSION}.tar.gz
-  LD_LIBRARY_PATH= tar -xvzf WPS-${WPS_VERSION}.tar.gz -C "${WRF_FOLDER}"/
+  env -u LD_LIBRARY_PATH  tar -xvzf WPS-${WPS_VERSION}.tar.gz -C "${WRF_FOLDER}"/
   # Check if WPS directory exists
   if [ -d "${WRF_FOLDER}/WPS" ]; then
     mv -f "${WRF_FOLDER}/WPS" "${WRF_FOLDER}/WPS-${WPS_VERSION}"
@@ -17087,10 +17102,10 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   echo "Mandatory WRF Preprocessing System (WPS) Geographical Input Data Mandatory Fields Downloads"
   echo " "
   wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_high_res_mandatory.tar.gz
-  LD_LIBRARY_PATH= tar -xvzf geog_high_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
+  env -u LD_LIBRARY_PATH  tar -xvzf geog_high_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
 
   wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_low_res_mandatory.tar.gz
-  LD_LIBRARY_PATH= tar -xvzf geog_low_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
+  env -u LD_LIBRARY_PATH  tar -xvzf geog_low_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
   mv "${WRF_FOLDER}"/GEOG/WPS_GEOG_LOW_RES/ "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
   if [ ${WPS_Specific_Applications} -eq 1 ]; then
@@ -17099,34 +17114,34 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
     echo " "
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_thompson28_chem.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_thompson28_chem.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_thompson28_chem.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_noahmp.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_noahmp.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_noahmp.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/irrigation.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf irrigation.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf irrigation.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_px.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_px.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_px.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_urban.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_urban.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_urban.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_ssib.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_ssib.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_ssib.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/lake_depth.tar.bz2
-    LD_LIBRARY_PATH= tar -xvf lake_depth.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf lake_depth.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/topobath_30s.tar.bz2
-    LD_LIBRARY_PATH= tar -xvf topobath_30s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf topobath_30s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/gsl_gwd.tar.bz2
-    LD_LIBRARY_PATH= tar -xvf gsl_gwd.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf gsl_gwd.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/cglc_modis_lcz_global.tar.gz
-    LD_LIBRARY_PATH= tar -xvf cglc_modis_lcz_global.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf cglc_modis_lcz_global.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
   fi
 
   if [ ${Optional_GEOG} -eq 1 ]; then
@@ -17135,22 +17150,22 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
     echo " "
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_older_than_2000.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_older_than_2000.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_older_than_2000.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s_with_lakes.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf modis_landuse_20class_15s_with_lakes.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf modis_landuse_20class_15s_with_lakes.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_alt_lsm.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_alt_lsm.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_alt_lsm.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/nlcd2006_ll_9s.tar.bz2
-    LD_LIBRARY_PATH= tar -xvf nlcd2006_ll_9s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf nlcd2006_ll_9s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/updated_Iceland_LU.tar.gz
-    LD_LIBRARY_PATH= tar -xvf updated_Iceland_LU.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf updated_Iceland_LU.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s.tar.bz2
-    LD_LIBRARY_PATH= tar -xvf modis_landuse_20class_15s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf modis_landuse_20class_15s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
   fi
 
 fi
@@ -17197,7 +17212,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   echo " "
   ##############################Directory Listing############################
   export HOME=$(
-    cd
+    cd ~ &&
     pwd
   )
 
@@ -17280,7 +17295,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   ############################# ZLib ############################
 
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf zlib-$Zlib_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf zlib-$Zlib_Version.tar.gz
   cd zlib-$Zlib_Version/
 
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
@@ -17294,7 +17309,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   echo " "
   ############################## MPICH ############################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf mpich-$Mpich_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf mpich-$Mpich_Version.tar.gz
   cd mpich-$Mpich_Version/
 
   F90= ./configure --prefix=$DIR/MPICH --with-device=ch3 FFLAGS="$fallow_argument $boz_argument " FCFLAGS="$fallow_argument $boz_argument " 2>&1 | tee configure.log
@@ -17318,7 +17333,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   export LDFLAGS=-L$DIR/grib2/lib
   export CPPFLAGS=-I$DIR/grib2/include
 
-  LD_LIBRARY_PATH= tar -xvzf libpng-$Libpng_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf libpng-$Libpng_Version.tar.gz
   cd libpng-$Libpng_Version/
 
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
@@ -17331,7 +17346,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   echo " "
   #############################JasPer ############################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf jasper-$Jasper_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf jasper-$Jasper_Version.tar.gz
   cd jasper-$Jasper_Version/
 
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
@@ -17347,7 +17362,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   echo " "
   ############################# hdf5 library for netcdf4 functionality ############################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf hdf5-$HDF5_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf hdf5-$HDF5_Version.tar.gz
   cd hdf5-$HDF5_Version
 
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --with-zlib=$DIR/grib2 --enable-hl --enable-fortran --enable-parallel 2>&1 | tee configure.log
@@ -17368,7 +17383,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   #Hard path for MPI added
   ##################################################################################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf pnetcdf-$Pnetcdf_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf pnetcdf-$Pnetcdf_Version.tar.gz
   cd pnetcdf-$Pnetcdf_Version
   export MPIFC=$DIR/MPICH/bin/mpifort
   export MPIF77=$DIR/MPICH/bin/mpifort
@@ -17388,7 +17403,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 
   ############################## Install NETCDF C Library ############################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf v$Netcdf_C_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf v$Netcdf_C_Version.tar.gz
   cd netcdf-c-$Netcdf_C_Version/
   export CPPFLAGS=-I$DIR/grib2/include
   export LDFLAGS="-L$DIR/grib2/lib -Wl,-rpath,$DIR/grib2/lib"
@@ -17409,7 +17424,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   echo " "
   ############################## NetCDF fortran library ############################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf v$Netcdf_Fortran_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf v$Netcdf_Fortran_Version.tar.gz
   cd netcdf-fortran-$Netcdf_Fortran_Version/
   export LD_LIBRARY_PATH=$DIR/NETCDF/lib:$LD_LIBRARY_PATH
   export CPPFLAGS="-I$DIR/NETCDF/include -I$DIR/grib2/include"
@@ -17428,8 +17443,8 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_NETCDF_MPI_tests.tar
   wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_tests.tar
 
-  LD_LIBRARY_PATH= tar -xvf Fortran_C_tests.tar -C "${WRF_FOLDER}"/Tests/Environment
-  LD_LIBRARY_PATH= tar -xvf Fortran_C_NETCDF_MPI_tests.tar -C "${WRF_FOLDER}"/Tests/Compatibility
+  env -u LD_LIBRARY_PATH  tar -xvf Fortran_C_tests.tar -C "${WRF_FOLDER}"/Tests/Environment
+  env -u LD_LIBRARY_PATH  tar -xvf Fortran_C_NETCDF_MPI_tests.tar -C "${WRF_FOLDER}"/Tests/Compatibility
   export one="1"
   echo " "
   ############## Testing Environment #####
@@ -17553,16 +17568,16 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   if [[ $GRADS_PICK -eq 1 ]]; then
 
     cd "${WRF_FOLDER}"/Downloads
-    LD_LIBRARY_PATH= tar -xvzf cd "${WRF_FOLDER}"/Downloads
+    env -u LD_LIBRARY_PATH  tar -xvzf cd "${WRF_FOLDER}"/Downloads
     wget -c https://sourceforge.net/projects/opengrads/files/grads2/2.2.1.oga.1/Linux%20%2864%20Bits%29/opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz -C "${WRF_FOLDER}"/ -C "${WRF_FOLDER}"/
+    env -u LD_LIBRARY_PATH  tar -xvzf opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz -C "${WRF_FOLDER}"/ -C "${WRF_FOLDER}"/
     cd "${WRF_FOLDER}"/
     mv "${WRF_FOLDER}"/opengrads-2.2.1.oga.1 "${WRF_FOLDER}"/GrADS
     cd GrADS/Contents
     wget -c https://github.com/regisgrundig/SIMOP/blob/master/g2ctl.pl
     chmod +x g2ctl.pl
     wget -c https://sourceforge.net/projects/opengrads/files/wgrib2/0.1.9.4/wgrib2-v0.1.9.4-bin-i686-glib2.5-linux-gnu.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf wgrib2-v0.1.9.4-bin-i686-glib2.5-linux-gnu.tar.gz
+    env -u LD_LIBRARY_PATH  tar -xvzf wgrib2-v0.1.9.4-bin-i686-glib2.5-linux-gnu.tar.gz
     cd wgrib2-v0.1.9.4/bin
     mv wgrib2 "${WRF_FOLDER}"/GrADS/Contents
     cd "${WRF_FOLDER}"/GrADS/Contents
@@ -17643,7 +17658,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   conda activate ncl_stable
 
   export HOME=$(
-    cd
+    cd ~ &&
     pwd
   )
   export DIR="${WRF_FOLDER}"/Libs
@@ -17730,7 +17745,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   cd "${WRF_FOLDER}"/Downloads
   wget -c https://github.com/wrf-model/WRF/releases/download/v${WRF_VERSION}/v${WRF_VERSION}.tar.gz -O WRF-${WRF_VERSION}.tar.gz
   mkdir -p "${WRF_FOLDER}"/WRFDA
-  LD_LIBRARY_PATH= tar -xvzf WRF-${WRF_VERSION}.tar.gz -C "${WRF_FOLDER}"/WRFDA
+  env -u LD_LIBRARY_PATH  tar -xvzf WRF-${WRF_VERSION}.tar.gz -C "${WRF_FOLDER}"/WRFDA
 
   # If statement for changing folder name inside WRFDA
   if [ -d "${WRF_FOLDER}/WRFDA/WRF" ]; then
@@ -18022,7 +18037,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 
   cd "${WRF_FOLDER}"/Downloads
   wget -c https://github.com/wrf-model/WRF/releases/download/v${WRF_VERSION}/v${WRF_VERSION}.tar.gz -O WRF-${WRF_VERSION}.tar.gz
-  LD_LIBRARY_PATH= tar -xvzf WRF-${WRF_VERSION}.tar.gz -C "${WRF_FOLDER}"/
+  env -u LD_LIBRARY_PATH  tar -xvzf WRF-${WRF_VERSION}.tar.gz -C "${WRF_FOLDER}"/
 
   # If statment for changing folder name
   # Check if WRF directory exists
@@ -18122,7 +18137,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 
   cd "${WRF_FOLDER}"/Downloads
   wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v${WPS_VERSION}.tar.gz -O WPS-${WPS_VERSION}.tar.gz
-  LD_LIBRARY_PATH= tar -xvzf WPS-${WPS_VERSION}.tar.gz -C "${WRF_FOLDER}"/
+  env -u LD_LIBRARY_PATH  tar -xvzf WPS-${WPS_VERSION}.tar.gz -C "${WRF_FOLDER}"/
   cd "${WRF_FOLDER}"/WPS-${WPS_VERSION}
 
   LD_LIBRARY_PATH= ./clean -a
@@ -18173,10 +18188,10 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   echo "Mandatory WRF Preprocessing System (WPS) Geographical Input Data Mandatory Fields Downloads"
   echo " "
   wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_high_res_mandatory.tar.gz
-  LD_LIBRARY_PATH= tar -xvzf geog_high_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
+  env -u LD_LIBRARY_PATH  tar -xvzf geog_high_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
 
   wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_low_res_mandatory.tar.gz
-  LD_LIBRARY_PATH= tar -xvzf geog_low_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
+  env -u LD_LIBRARY_PATH  tar -xvzf geog_low_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
   mv "${WRF_FOLDER}"/GEOG/WPS_GEOG_LOW_RES/ "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
   if [ ${WPS_Specific_Applications} -eq 1 ]; then
@@ -18184,34 +18199,34 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
     echo " WPS Geographical Input Data Mandatory for Specific Applications"
     echo " "
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_thompson28_chem.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_thompson28_chem.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_thompson28_chem.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_noahmp.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_noahmp.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_noahmp.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/irrigation.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf irrigation.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf irrigation.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_px.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_px.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_px.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_urban.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_urban.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_urban.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_ssib.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_ssib.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_ssib.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/lake_depth.tar.bz2
-    LD_LIBRARY_PATH= tar -xvf lake_depth.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf lake_depth.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/topobath_30s.tar.bz2
-    LD_LIBRARY_PATH= tar -xvf topobath_30s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf topobath_30s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/gsl_gwd.tar.bz2
-    LD_LIBRARY_PATH= tar -xvf gsl_gwd.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf gsl_gwd.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/cglc_modis_lcz_global.tar.gz
-    LD_LIBRARY_PATH= tar -xvf cglc_modis_lcz_global.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf cglc_modis_lcz_global.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
   fi
 
   if [ ${Optional_GEOG} -eq 1 ]; then
@@ -18221,22 +18236,22 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
     echo " "
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_older_than_2000.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_older_than_2000.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_older_than_2000.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s_with_lakes.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf modis_landuse_20class_15s_with_lakes.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf modis_landuse_20class_15s_with_lakes.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_alt_lsm.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_alt_lsm.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_alt_lsm.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/nlcd2006_ll_9s.tar.bz2
-    LD_LIBRARY_PATH= tar -xvf nlcd2006_ll_9s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf nlcd2006_ll_9s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/updated_Iceland_LU.tar.gz
-    LD_LIBRARY_PATH= tar -xvf updated_Iceland_LU.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf updated_Iceland_LU.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s.tar.bz2
-    LD_LIBRARY_PATH= tar -xvf modis_landuse_20class_15s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf modis_landuse_20class_15s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
   fi
 
@@ -18330,7 +18345,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   ############################################################################
 
   export HOME=$(
-    cd
+    cd ~ &&
     pwd
   )
   export WRF_FOLDER=$HOME/WRFCHEM_Intel
@@ -18363,7 +18378,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   ############################# ZLib ############################
 
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf zlib-$Zlib_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf zlib-$Zlib_Version.tar.gz
   cd zlib-$Zlib_Version/
 
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
@@ -18383,7 +18398,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   export LDFLAGS=-L$DIR/grib2/lib
   export CPPFLAGS=-I$DIR/grib2/include
 
-  LD_LIBRARY_PATH= tar -xvzf libpng-$Libpng_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf libpng-$Libpng_Version.tar.gz
   cd libpng-$Libpng_Version/
 
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
@@ -18397,7 +18412,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   ############################# JasPer ############################
 
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf jasper-$Jasper_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf jasper-$Jasper_Version.tar.gz
   cd jasper-$Jasper_Version/
 
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
@@ -18415,7 +18430,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   ############################# HDF5 library for NetCDF4 & parallel functionality ############################
 
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf hdf5-$HDF5_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf hdf5-$HDF5_Version.tar.gz
   cd hdf5-$HDF5_Version
 
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --with-zlib=$DIR/grib2 --enable-hl --enable-fortran --enable-parallel 2>&1 | tee configure.log
@@ -18437,7 +18452,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   #Hard path for MPI added
   ##################################################################################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf pnetcdf-$Pnetcdf_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf pnetcdf-$Pnetcdf_Version.tar.gz
   cd pnetcdf-$Pnetcdf_Version
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --enable-static 2>&1 | tee configure.log
 
@@ -18453,7 +18468,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   ############################## Install NETCDF-C Library ############################
 
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf v$Netcdf_C_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf v$Netcdf_C_Version.tar.gz
   cd netcdf-c-$Netcdf_C_Version/
 
   # these variables need to be set for the NetCDF-C install to work
@@ -18478,7 +18493,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   ############################## NetCDF-Fortran library ############################
 
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf v$Netcdf_Fortran_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf v$Netcdf_Fortran_Version.tar.gz
   cd netcdf-fortran-$Netcdf_Fortran_Version/
 
   # these variables need to be set for the NetCDF-Fortran install to work
@@ -18499,8 +18514,8 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_NETCDF_MPI_tests.tar
   wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_tests.tar
 
-  LD_LIBRARY_PATH= tar -xvf Fortran_C_tests.tar -C "${WRF_FOLDER}"/Tests/Environment
-  LD_LIBRARY_PATH= tar -xvf Fortran_C_NETCDF_MPI_tests.tar -C "${WRF_FOLDER}"/Tests/Compatibility
+  env -u LD_LIBRARY_PATH  tar -xvf Fortran_C_tests.tar -C "${WRF_FOLDER}"/Tests/Environment
+  env -u LD_LIBRARY_PATH  tar -xvf Fortran_C_NETCDF_MPI_tests.tar -C "${WRF_FOLDER}"/Tests/Compatibility
 
   export one="1"
   echo " "
@@ -18623,16 +18638,16 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   #############################################################################
   if [[ $GRADS_PICK -eq 1 ]]; then
     cd "${WRF_FOLDER}"/Downloads
-    LD_LIBRARY_PATH= tar -xvzf cd "${WRF_FOLDER}"/Downloads
+    env -u LD_LIBRARY_PATH  tar -xvzf cd "${WRF_FOLDER}"/Downloads
     wget -c https://sourceforge.net/projects/opengrads/files/grads2/2.2.1.oga.1/Linux%20%2864%20Bits%29/opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz -C "${WRF_FOLDER}"/ -C "${WRF_FOLDER}"/
+    env -u LD_LIBRARY_PATH  tar -xvzf opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz -C "${WRF_FOLDER}"/ -C "${WRF_FOLDER}"/
     cd "${WRF_FOLDER}"/
     mv "${WRF_FOLDER}"/opengrads-2.2.1.oga.1 "${WRF_FOLDER}"/GrADS
     cd GrADS/Contents
     wget -c https://github.com/regisgrundig/SIMOP/blob/master/g2ctl.pl
     chmod +x g2ctl.pl
     wget -c https://sourceforge.net/projects/opengrads/files/wgrib2/0.1.9.4/wgrib2-v0.1.9.4-bin-x86_64-glibc2.5-linux-gnu.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf wgrib2-v0.1.9.4-bin-x86_64-glibc2.5-linux-gnu.tar.gz
+    env -u LD_LIBRARY_PATH  tar -xvzf wgrib2-v0.1.9.4-bin-x86_64-glibc2.5-linux-gnu.tar.gz
     cd wgrib2-v0.1.9.4/bin
     mv wgrib2 "${WRF_FOLDER}"/GrADS/Contents
     cd "${WRF_FOLDER}"/GrADS/Contents
@@ -18708,7 +18723,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   conda activate ncl_stable
 
   export HOME=$(
-    cd
+    cd ~ &&
     pwd
   )
   export DIR="${WRF_FOLDER}"/Libs
@@ -18799,7 +18814,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   cd "${WRF_FOLDER}"/Downloads
   wget -c https://github.com/wrf-model/WRF/releases/download/v${WRF_VERSION}/v${WRF_VERSION}.tar.gz -O WRF-${WRF_VERSION}.tar.gz
   mkdir -p "${WRF_FOLDER}"/WRFDA
-  LD_LIBRARY_PATH= tar -xvzf WRF-${WRF_VERSION}.tar.gz -C "${WRF_FOLDER}"/WRFDA
+  env -u LD_LIBRARY_PATH  tar -xvzf WRF-${WRF_VERSION}.tar.gz -C "${WRF_FOLDER}"/WRFDA
   # If statement for changing folder name inside WRFDA
   if [ -d "${WRF_FOLDER}/WRFDA/WRF" ]; then
     mv -f "${WRF_FOLDER}/WRFDA/WRF" "${WRF_FOLDER}/WRFDA/WRF-${WRF_VERSION}"
@@ -19082,7 +19097,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 
   cd "${WRF_FOLDER}"/Downloads
   wget -c https://github.com/wrf-model/WRF/releases/download/v${WRF_VERSION}/v${WRF_VERSION}.tar.gz -O WRF-${WRF_VERSION}.tar.gz
-  LD_LIBRARY_PATH= tar -xvzf WRF-${WRF_VERSION}.tar.gz -C "${WRF_FOLDER}"/
+  env -u LD_LIBRARY_PATH  tar -xvzf WRF-${WRF_VERSION}.tar.gz -C "${WRF_FOLDER}"/
   # If statment for changing folder name
   # Check if WRF directory exists
   if [ -d "${WRF_FOLDER}/WRF" ]; then
@@ -19186,7 +19201,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 
   cd "${WRF_FOLDER}"/Downloads
   wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v${WPS_VERSION}.tar.gz -O WPS-${WPS_VERSION}.tar.gz
-  LD_LIBRARY_PATH= tar -xvzf WPS-${WPS_VERSION}.tar.gz -C "${WRF_FOLDER}"/
+  env -u LD_LIBRARY_PATH  tar -xvzf WPS-${WPS_VERSION}.tar.gz -C "${WRF_FOLDER}"/
   # Check if WPS directory exists
   if [ -d "${WRF_FOLDER}/WPS" ]; then
     mv -f "${WRF_FOLDER}/WPS" "${WRF_FOLDER}/WPS-${WPS_VERSION}"
@@ -19254,10 +19269,10 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   echo "Mandatory WRF Preprocessing System (WPS) Geographical Input Data Mandatory Fields Downloads"
   echo " "
   wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_high_res_mandatory.tar.gz
-  LD_LIBRARY_PATH= tar -xvzf geog_high_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
+  env -u LD_LIBRARY_PATH  tar -xvzf geog_high_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
 
   wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_low_res_mandatory.tar.gz
-  LD_LIBRARY_PATH= tar -xvzf geog_low_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
+  env -u LD_LIBRARY_PATH  tar -xvzf geog_low_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
   mv "${WRF_FOLDER}"/GEOG/WPS_GEOG_LOW_RES/ "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
   if [ ${WPS_Specific_Applications} -eq 1 ]; then
@@ -19266,34 +19281,34 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
     echo " "
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_thompson28_chem.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_thompson28_chem.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_thompson28_chem.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_noahmp.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_noahmp.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_noahmp.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/irrigation.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf irrigation.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf irrigation.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_px.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_px.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_px.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_urban.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_urban.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_urban.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_ssib.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_ssib.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_ssib.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/lake_depth.tar.bz2
-    LD_LIBRARY_PATH= tar -xvf lake_depth.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf lake_depth.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/topobath_30s.tar.bz2
-    LD_LIBRARY_PATH= tar -xvf topobath_30s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf topobath_30s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/gsl_gwd.tar.bz2
-    LD_LIBRARY_PATH= tar -xvf gsl_gwd.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf gsl_gwd.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/cglc_modis_lcz_global.tar.gz
-    LD_LIBRARY_PATH= tar -xvf cglc_modis_lcz_global.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf cglc_modis_lcz_global.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
   fi
 
   if [ ${Optional_GEOG} -eq 1 ]; then
@@ -19302,22 +19317,22 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
     echo " "
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_older_than_2000.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_older_than_2000.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_older_than_2000.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s_with_lakes.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf modis_landuse_20class_15s_with_lakes.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf modis_landuse_20class_15s_with_lakes.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_alt_lsm.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_alt_lsm.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_alt_lsm.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/nlcd2006_ll_9s.tar.bz2
-    LD_LIBRARY_PATH= tar -xvf nlcd2006_ll_9s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf nlcd2006_ll_9s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/updated_Iceland_LU.tar.gz
-    LD_LIBRARY_PATH= tar -xvf updated_Iceland_LU.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf updated_Iceland_LU.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s.tar.bz2
-    LD_LIBRARY_PATH= tar -xvf modis_landuse_20class_15s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf modis_landuse_20class_15s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
   fi
 
 fi
@@ -19357,7 +19372,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$MAC_CHIP" = 
   ##############################Directory Listing############################
 
   export HOME=$(
-    cd
+    cd ~ &&
     pwd
   )
   mkdir $HOME/WRFCHEM
@@ -19482,7 +19497,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$MAC_CHIP" = 
   ############################# ZLib ############################
 
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf zlib-$Zlib_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf zlib-$Zlib_Version.tar.gz
   cd zlib-$Zlib_Version/
 
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
@@ -19496,7 +19511,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$MAC_CHIP" = 
   echo " "
   ############################## MPICH ############################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf mpich-$Mpich_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf mpich-$Mpich_Version.tar.gz
   cd mpich-$Mpich_Version/
 
   F90= ./configure --prefix=$DIR/MPICH --with-device=ch3 FFLAGS="$fallow_argument $boz_argument " FCFLAGS="$fallow_argument $boz_argument " 2>&1 | tee configure.log
@@ -19521,7 +19536,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$MAC_CHIP" = 
   export LDFLAGS=-L$DIR/grib2/lib
   export CPPFLAGS=-I$DIR/grib2/include
 
-  LD_LIBRARY_PATH= tar -xvzf libpng-$Libpng_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf libpng-$Libpng_Version.tar.gz
   cd libpng-$Libpng_Version/
 
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
@@ -19535,7 +19550,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$MAC_CHIP" = 
   #############################JasPer ############################
 
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf jasper-$Jasper_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf jasper-$Jasper_Version.tar.gz
   cd jasper-$Jasper_Version/
 
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
@@ -19551,7 +19566,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$MAC_CHIP" = 
   ############################# hdf5 library for netcdf4 functionality ############################
 
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf hdf5-$HDF5_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf hdf5-$HDF5_Version.tar.gz
   cd hdf5-$HDF5_Version
 
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --with-zlib=$DIR/grib2 --enable-hl --enable-fortran --enable-parallel 2>&1 | tee configure.log
@@ -19572,7 +19587,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$MAC_CHIP" = 
   #Hard path for MPI added
   ##################################################################################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf pnetcdf-$Pnetcdf_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf pnetcdf-$Pnetcdf_Version.tar.gz
   cd pnetcdf-$Pnetcdf_Version
 
   export MPIFC=$DIR/MPICH/bin/mpifort
@@ -19600,7 +19615,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$MAC_CHIP" = 
 
   ############################## Install NETCDF C Library ############################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf v$Netcdf_C_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf v$Netcdf_C_Version.tar.gz
   cd netcdf-c-$Netcdf_C_Version/
   export CPPFLAGS=-I$DIR/grib2/include
   export LDFLAGS="-L$DIR/grib2/lib -Wl,-rpath,$DIR/grib2/lib"
@@ -19622,7 +19637,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$MAC_CHIP" = 
 
   ############################## NetCDF fortran library ############################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf v$Netcdf_Fortran_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf v$Netcdf_Fortran_Version.tar.gz
   cd netcdf-fortran-$Netcdf_Fortran_Version/
   export LD_LIBRARY_PATH=$DIR/NETCDF/lib:$LD_LIBRARY_PATH
   export CPPFLAGS="-I$DIR/NETCDF/include -I$DIR/grib2/include"
@@ -19644,8 +19659,8 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$MAC_CHIP" = 
   wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_NETCDF_MPI_tests.tar
   wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_tests.tar
 
-  LD_LIBRARY_PATH= tar -xvf Fortran_C_tests.tar -C "${WRF_FOLDER}"/Tests/Environment
-  LD_LIBRARY_PATH= tar -xvf Fortran_C_NETCDF_MPI_tests.tar -C "${WRF_FOLDER}"/Tests/Compatibility
+  env -u LD_LIBRARY_PATH  tar -xvf Fortran_C_tests.tar -C "${WRF_FOLDER}"/Tests/Environment
+  env -u LD_LIBRARY_PATH  tar -xvf Fortran_C_NETCDF_MPI_tests.tar -C "${WRF_FOLDER}"/Tests/Compatibility
   export one="1"
   echo " "
   ############## Testing Environment #####
@@ -19868,7 +19883,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$MAC_CHIP" = 
   #Downloading WRF code
   cd "${WRF_FOLDER}"/Downloads
   wget -c https://github.com/wrf-model/WRF/releases/download/v${WRF_VERSION}/v${WRF_VERSION}.tar.gz -O WRF-${WRF_VERSION}.tar.gz
-  LD_LIBRARY_PATH= tar -xvzf WRF-${WRF_VERSION}.tar.gz -C "${WRF_FOLDER}"/
+  env -u LD_LIBRARY_PATH  tar -xvzf WRF-${WRF_VERSION}.tar.gz -C "${WRF_FOLDER}"/
 
   # If statment for changing folder name
   # Check if WRF directory exists
@@ -19965,7 +19980,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$MAC_CHIP" = 
 
   cd "${WRF_FOLDER}"/Downloads
   wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v${WPS_VERSION}.tar.gz -O WPS-${WPS_VERSION}.tar.gz
-  LD_LIBRARY_PATH= tar -xvzf WPS-${WPS_VERSION}.tar.gz -C "${WRF_FOLDER}"/
+  env -u LD_LIBRARY_PATH  tar -xvzf WPS-${WPS_VERSION}.tar.gz -C "${WRF_FOLDER}"/
   # Check if WPS directory exists
   if [ -d "${WRF_FOLDER}/WPS" ]; then
     mv -f "${WRF_FOLDER}/WPS" "${WRF_FOLDER}/WPS-${WPS_VERSION}"
@@ -20024,7 +20039,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$MAC_CHIP" = 
   cd "${WRF_FOLDER}"/Downloads
   wget -c https://github.com/wrf-model/WRF/releases/download/v${WRF_VERSION}/v${WRF_VERSION}.tar.gz -O WRF-${WRF_VERSION}.tar.gz
   mkdir -p "${WRF_FOLDER}"/WRFDA
-  LD_LIBRARY_PATH= tar -xvzf WRF-${WRF_VERSION}.tar.gz -C "${WRF_FOLDER}"/WRFDA
+  env -u LD_LIBRARY_PATH  tar -xvzf WRF-${WRF_VERSION}.tar.gz -C "${WRF_FOLDER}"/WRFDA
   # If statement for changing folder name inside WRFDA
   if [ -d "${WRF_FOLDER}/WRFDA/WRF" ]; then
     mv -f "${WRF_FOLDER}/WRFDA/WRF" "${WRF_FOLDER}/WRFDA/WRF-${WRF_VERSION}"
@@ -20099,10 +20114,10 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$MAC_CHIP" = 
   echo "Mandatory WRF Preprocessing System (WPS) Geographical Input Data Mandatory Fields Downloads"
   echo " "
   wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_high_res_mandatory.tar.gz
-  LD_LIBRARY_PATH= tar -xvzf geog_high_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
+  env -u LD_LIBRARY_PATH  tar -xvzf geog_high_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
 
   wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_low_res_mandatory.tar.gz
-  LD_LIBRARY_PATH= tar -xvzf geog_low_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
+  env -u LD_LIBRARY_PATH  tar -xvzf geog_low_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
   mv "${WRF_FOLDER}"/GEOG/WPS_GEOG_LOW_RES/ "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
   if [ ${WPS_Specific_Applications} -eq 1 ]; then
@@ -20111,34 +20126,34 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$MAC_CHIP" = 
     echo " "
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_thompson28_chem.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_thompson28_chem.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_thompson28_chem.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_noahmp.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_noahmp.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_noahmp.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/irrigation.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf irrigation.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf irrigation.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_px.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_px.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_px.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_urban.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_urban.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_urban.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_ssib.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_ssib.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_ssib.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/lake_depth.tar.bz2
-    LD_LIBRARY_PATH= tar -xvf lake_depth.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf lake_depth.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/topobath_30s.tar.bz2
-    LD_LIBRARY_PATH= tar -xvf topobath_30s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf topobath_30s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/gsl_gwd.tar.bz2
-    LD_LIBRARY_PATH= tar -xvf gsl_gwd.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf gsl_gwd.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/cglc_modis_lcz_global.tar.gz
-    LD_LIBRARY_PATH= tar -xvf cglc_modis_lcz_global.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf cglc_modis_lcz_global.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
   fi
 
@@ -20149,22 +20164,22 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$MAC_CHIP" = 
     echo " "
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_older_than_2000.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_older_than_2000.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_older_than_2000.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s_with_lakes.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf modis_landuse_20class_15s_with_lakes.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf modis_landuse_20class_15s_with_lakes.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_alt_lsm.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_alt_lsm.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_alt_lsm.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/nlcd2006_ll_9s.tar.bz2
-    LD_LIBRARY_PATH= tar -xvf nlcd2006_ll_9s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf nlcd2006_ll_9s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/updated_Iceland_LU.tar.gz
-    LD_LIBRARY_PATH= tar -xvf updated_Iceland_LU.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf updated_Iceland_LU.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s.tar.bz2
-    LD_LIBRARY_PATH= tar -xvf modis_landuse_20class_15s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf modis_landuse_20class_15s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
   fi
 
@@ -20205,7 +20220,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$MAC_CHIP" = 
   ##############################Directory Listing############################
 
   export HOME=$(
-    cd
+    cd ~ &&
     pwd
   )
   mkdir $HOME/WRFCHEM
@@ -20340,7 +20355,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$MAC_CHIP" = 
   ############################# ZLib ############################
 
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf zlib-$Zlib_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf zlib-$Zlib_Version.tar.gz
   cd zlib-$Zlib_Version/
 
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
@@ -20355,7 +20370,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$MAC_CHIP" = 
 
   ############################## MPICH ############################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf mpich-$Mpich_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf mpich-$Mpich_Version.tar.gz
   cd mpich-$Mpich_Version/
 
   F90= ./configure --prefix=$DIR/MPICH --with-device=ch3 FFLAGS="$fallow_argument $boz_argument " FCFLAGS="$fallow_argument $boz_argument " 2>&1 | tee configure.log
@@ -20380,7 +20395,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$MAC_CHIP" = 
   export LDFLAGS=-L$DIR/grib2/lib
   export CPPFLAGS=-I$DIR/grib2/include
 
-  LD_LIBRARY_PATH= tar -xvzf libpng-$Libpng_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf libpng-$Libpng_Version.tar.gz
   cd libpng-$Libpng_Version/
 
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
@@ -20394,7 +20409,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$MAC_CHIP" = 
   #############################JasPer ############################
 
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf jasper-$Jasper_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf jasper-$Jasper_Version.tar.gz
   cd jasper-$Jasper_Version/
 
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
@@ -20410,7 +20425,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$MAC_CHIP" = 
   ############################# hdf5 library for netcdf4 functionality ############################
 
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf hdf5-$HDF5_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf hdf5-$HDF5_Version.tar.gz
   cd hdf5-$HDF5_Version
 
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --with-zlib=$DIR/grib2 --enable-hl --enable-fortran --enable-parallel 2>&1 | tee configure.log
@@ -20431,7 +20446,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$MAC_CHIP" = 
   #Hard path for MPI added
   ##################################################################################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf pnetcdf-$Pnetcdf_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf pnetcdf-$Pnetcdf_Version.tar.gz
   cd pnetcdf-$Pnetcdf_Version
 
   export MPIFC=$DIR/MPICH/bin/mpifort
@@ -20459,7 +20474,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$MAC_CHIP" = 
 
   ############################## Install NETCDF C Library ############################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf v$Netcdf_C_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf v$Netcdf_C_Version.tar.gz
   cd netcdf-c-$Netcdf_C_Version/
   export CPPFLAGS=-I$DIR/grib2/include
   export LDFLAGS="-L$DIR/grib2/lib -Wl,-rpath,$DIR/grib2/lib"
@@ -20481,7 +20496,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$MAC_CHIP" = 
 
   ############################## NetCDF fortran library ############################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf v$Netcdf_Fortran_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf v$Netcdf_Fortran_Version.tar.gz
   cd netcdf-fortran-$Netcdf_Fortran_Version/
   export LD_LIBRARY_PATH=$DIR/NETCDF/lib:$LD_LIBRARY_PATH
   export CPPFLAGS="-I$DIR/NETCDF/include -I$DIR/grib2/include"
@@ -20503,8 +20518,8 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$MAC_CHIP" = 
   wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_NETCDF_MPI_tests.tar
   wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_tests.tar
 
-  LD_LIBRARY_PATH= tar -xvf Fortran_C_tests.tar -C "${WRF_FOLDER}"/Tests/Environment
-  LD_LIBRARY_PATH= tar -xvf Fortran_C_NETCDF_MPI_tests.tar -C "${WRF_FOLDER}"/Tests/Compatibility
+  env -u LD_LIBRARY_PATH  tar -xvf Fortran_C_tests.tar -C "${WRF_FOLDER}"/Tests/Environment
+  env -u LD_LIBRARY_PATH  tar -xvf Fortran_C_NETCDF_MPI_tests.tar -C "${WRF_FOLDER}"/Tests/Compatibility
   export one="1"
   echo " "
   ############## Testing Environment #####
@@ -20727,7 +20742,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$MAC_CHIP" = 
   #Downloading WRF code
   cd "${WRF_FOLDER}"/Downloads
   wget -c https://github.com/wrf-model/WRF/releases/download/v${WRF_VERSION}/v${WRF_VERSION}.tar.gz -O WRF-${WRF_VERSION}.tar.gz
-  LD_LIBRARY_PATH= tar -xvzf WRF-${WRF_VERSION}.tar.gz -C "${WRF_FOLDER}"/
+  env -u LD_LIBRARY_PATH  tar -xvzf WRF-${WRF_VERSION}.tar.gz -C "${WRF_FOLDER}"/
 
   # If statment for changing folder name
   # Check if WRF directory exists
@@ -20824,7 +20839,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$MAC_CHIP" = 
 
   cd "${WRF_FOLDER}"/Downloads
   wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v${WPS_VERSION}.tar.gz -O WPS-${WPS_VERSION}.tar.gz
-  LD_LIBRARY_PATH= tar -xvzf WPS-${WPS_VERSION}.tar.gz -C "${WRF_FOLDER}"/
+  env -u LD_LIBRARY_PATH  tar -xvzf WPS-${WPS_VERSION}.tar.gz -C "${WRF_FOLDER}"/
   # Check if WPS directory exists
   if [ -d "${WRF_FOLDER}/WPS" ]; then
     mv -f "${WRF_FOLDER}/WPS" "${WRF_FOLDER}/WPS-${WPS_VERSION}"
@@ -20883,7 +20898,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$MAC_CHIP" = 
   cd "${WRF_FOLDER}"/Downloads
   wget -c https://github.com/wrf-model/WRF/releases/download/v${WRF_VERSION}/v${WRF_VERSION}.tar.gz -O WRF-${WRF_VERSION}.tar.gz
   mkdir -p "${WRF_FOLDER}"/WRFDA
-  LD_LIBRARY_PATH= tar -xvzf WRF-${WRF_VERSION}.tar.gz -C "${WRF_FOLDER}"/WRFDA
+  env -u LD_LIBRARY_PATH  tar -xvzf WRF-${WRF_VERSION}.tar.gz -C "${WRF_FOLDER}"/WRFDA
   # If statement for changing folder name inside WRFDA
   if [ -d "${WRF_FOLDER}/WRFDA/WRF" ]; then
     mv -f "${WRF_FOLDER}/WRFDA/WRF" "${WRF_FOLDER}/WRFDA/WRF-${WRF_VERSION}"
@@ -20958,10 +20973,10 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$MAC_CHIP" = 
   echo "Mandatory WRF Preprocessing System (WPS) Geographical Input Data Mandatory Fields Downloads"
   echo " "
   wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_high_res_mandatory.tar.gz
-  LD_LIBRARY_PATH= tar -xvzf geog_high_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
+  env -u LD_LIBRARY_PATH  tar -xvzf geog_high_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
 
   wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_low_res_mandatory.tar.gz
-  LD_LIBRARY_PATH= tar -xvzf geog_low_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
+  env -u LD_LIBRARY_PATH  tar -xvzf geog_low_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
   mv "${WRF_FOLDER}"/GEOG/WPS_GEOG_LOW_RES/ "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
   if [ ${WPS_Specific_Applications} -eq 1 ]; then
@@ -20970,34 +20985,34 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$MAC_CHIP" = 
     echo " "
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_thompson28_chem.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_thompson28_chem.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_thompson28_chem.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_noahmp.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_noahmp.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_noahmp.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/irrigation.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf irrigation.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf irrigation.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_px.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_px.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_px.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_urban.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_urban.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_urban.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_ssib.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_ssib.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_ssib.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/lake_depth.tar.bz2
-    LD_LIBRARY_PATH= tar -xvf lake_depth.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf lake_depth.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/topobath_30s.tar.bz2
-    LD_LIBRARY_PATH= tar -xvf topobath_30s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf topobath_30s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/gsl_gwd.tar.bz2
-    LD_LIBRARY_PATH= tar -xvf gsl_gwd.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf gsl_gwd.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/cglc_modis_lcz_global.tar.gz
-    LD_LIBRARY_PATH= tar -xvf cglc_modis_lcz_global.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf cglc_modis_lcz_global.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
   fi
 
@@ -21008,22 +21023,22 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$MAC_CHIP" = 
     echo " "
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_older_than_2000.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_older_than_2000.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_older_than_2000.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s_with_lakes.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf modis_landuse_20class_15s_with_lakes.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf modis_landuse_20class_15s_with_lakes.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_alt_lsm.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_alt_lsm.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_alt_lsm.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/nlcd2006_ll_9s.tar.bz2
-    LD_LIBRARY_PATH= tar -xvf nlcd2006_ll_9s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf nlcd2006_ll_9s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/updated_Iceland_LU.tar.gz
-    LD_LIBRARY_PATH= tar -xvf updated_Iceland_LU.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf updated_Iceland_LU.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s.tar.bz2
-    LD_LIBRARY_PATH= tar -xvf modis_landuse_20class_15s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf modis_landuse_20class_15s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
   fi
 
@@ -21050,7 +21065,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 
   ##############################Directory Listing############################
   export HOME=$(
-    cd
+    cd ~ &&
     pwd
   )
 
@@ -21137,7 +21152,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   ############################# ZLib ############################
 
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf zlib-$Zlib_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf zlib-$Zlib_Version.tar.gz
   cd zlib-$Zlib_Version/
 
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
@@ -21153,7 +21168,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   ############################## MPICH ############################
   #F90= due to compiler issues with mpich install
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf mpich-$Mpich_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf mpich-$Mpich_Version.tar.gz
   cd mpich-$Mpich_Version/
 
   F90= ./configure --prefix=$DIR/MPICH --with-device=ch3 FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS 2>&1 | tee configure.log
@@ -21177,7 +21192,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   export LDFLAGS=-L$DIR/grib2/lib
   export CPPFLAGS=-I$DIR/grib2/include
 
-  LD_LIBRARY_PATH= tar -xvzf libpng-$Libpng_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf libpng-$Libpng_Version.tar.gz
   cd libpng-$Libpng_Version/
 
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
@@ -21190,7 +21205,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   echo " "
   #############################JasPer ############################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf jasper-$Jasper_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf jasper-$Jasper_Version.tar.gz
   cd jasper-$Jasper_Version/
 
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
@@ -21206,7 +21221,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   echo " "
   ############################# hdf5 library for netcdf4 functionality ############################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf hdf5-$HDF5_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf hdf5-$HDF5_Version.tar.gz
   cd hdf5-$HDF5_Version
 
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --with-zlib=$DIR/grib2 --enable-hl --enable-fortran --enable-parallel 2>&1 | tee configure.log
@@ -21226,7 +21241,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   #Hard path for MPI added
   ##################################################################################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf pnetcdf-$Pnetcdf_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf pnetcdf-$Pnetcdf_Version.tar.gz
   cd pnetcdf-$Pnetcdf_Version
   export MPIFC=$DIR/MPICH/bin/mpifort
   export MPIF77=$DIR/MPICH/bin/mpifort
@@ -21246,7 +21261,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 
   ############################## Install NETCDF C Library ############################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf v$Netcdf_C_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf v$Netcdf_C_Version.tar.gz
   cd netcdf-c-$Netcdf_C_Version/
   export CPPFLAGS=-I$DIR/grib2/include
   export LDFLAGS="-L$DIR/grib2/lib -Wl,-rpath,$DIR/grib2/lib"
@@ -21267,7 +21282,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   echo " "
   ############################## NetCDF fortran library ############################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf v$Netcdf_Fortran_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf v$Netcdf_Fortran_Version.tar.gz
   cd netcdf-fortran-$Netcdf_Fortran_Version/
   export LD_LIBRARY_PATH=$DIR/NETCDF/lib:$LD_LIBRARY_PATH
   export CPPFLAGS="-I$DIR/NETCDF/include -I$DIR/grib2/include"
@@ -21286,8 +21301,8 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_NETCDF_MPI_tests.tar
   wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_tests.tar
 
-  LD_LIBRARY_PATH= tar -xvf Fortran_C_tests.tar -C "${WRF_FOLDER}"/Tests/Environment
-  LD_LIBRARY_PATH= tar -xvf Fortran_C_NETCDF_MPI_tests.tar -C "${WRF_FOLDER}"/Tests/Compatibility
+  env -u LD_LIBRARY_PATH  tar -xvf Fortran_C_tests.tar -C "${WRF_FOLDER}"/Tests/Environment
+  env -u LD_LIBRARY_PATH  tar -xvf Fortran_C_NETCDF_MPI_tests.tar -C "${WRF_FOLDER}"/Tests/Compatibility
 
   export one="1"
   echo " "
@@ -21412,16 +21427,16 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   #############################################################################
   if [[ $GRADS_PICK -eq 1 ]]; then
     cd "${WRF_FOLDER}"/Downloads
-    LD_LIBRARY_PATH= tar -xvzf cd "${WRF_FOLDER}"/Downloads
+    env -u LD_LIBRARY_PATH  tar -xvzf cd "${WRF_FOLDER}"/Downloads
     wget -c https://sourceforge.net/projects/opengrads/files/grads2/2.2.1.oga.1/Linux%20%2864%20Bits%29/opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz -C "${WRF_FOLDER}"/ -C "${WRF_FOLDER}"/
+    env -u LD_LIBRARY_PATH  tar -xvzf opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz -C "${WRF_FOLDER}"/ -C "${WRF_FOLDER}"/
     cd "${WRF_FOLDER}"/
     mv "${WRF_FOLDER}"/opengrads-2.2.1.oga.1 "${WRF_FOLDER}"/GrADS
     cd GrADS/Contents
     wget -c https://github.com/regisgrundig/SIMOP/blob/master/g2ctl.pl
     chmod +x g2ctl.pl
     wget -c https://sourceforge.net/projects/opengrads/files/wgrib2/0.1.9.4/wgrib2-v0.1.9.4-bin-i686-glib2.5-linux-gnu.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf wgrib2-v0.1.9.4-bin-i686-glib2.5-linux-gnu.tar.gz
+    env -u LD_LIBRARY_PATH  tar -xvzf wgrib2-v0.1.9.4-bin-i686-glib2.5-linux-gnu.tar.gz
     cd wgrib2-v0.1.9.4/bin
     mv wgrib2 "${WRF_FOLDER}"/GrADS/Contents
     cd "${WRF_FOLDER}"/GrADS/Contents
@@ -21440,7 +21455,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   if [[ $GRADS_PICK -eq 2 ]]; then
     cd "${WRF_FOLDER}"/Downloads
     wget -c ftp://cola.gmu.edu/grads/2.2/grads-2.2.1-bin-RHL7.4-x86_64.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf grads-2.2.1-bin-RHL7.4-x86_64.tar.gz -C "${WRF_FOLDER}"
+    env -u LD_LIBRARY_PATH  tar -xvzf grads-2.2.1-bin-RHL7.4-x86_64.tar.gz -C "${WRF_FOLDER}"
     cd "${WRF_FOLDER}"/grads-2.2.1/bin
     chmod 775 *
 
@@ -21503,7 +21518,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   conda activate ncl_stable
 
   export HOME=$(
-    cd
+    cd ~ &&
     pwd
   )
   export DIR="${WRF_FOLDER}"/Libs
@@ -21575,7 +21590,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   cd "${WRF_FOLDER}"/Downloads
   wget -c https://github.com/wrf-model/WRF/releases/download/v${WRF_VERSION}/v${WRF_VERSION}.tar.gz -O WRF-${WRF_VERSION}.tar.gz
   mkdir -p "${WRF_FOLDER}"/WRFDA
-  LD_LIBRARY_PATH= tar -xvzf WRF-${WRF_VERSION}.tar.gz -C "${WRF_FOLDER}"/WRFDA
+  env -u LD_LIBRARY_PATH  tar -xvzf WRF-${WRF_VERSION}.tar.gz -C "${WRF_FOLDER}"/WRFDA
   # If statement for changing folder name inside WRFDA
   if [ -d "${WRF_FOLDER}/WRFDA/WRF" ]; then
     mv -f "${WRF_FOLDER}/WRFDA/WRF" "${WRF_FOLDER}/WRFDA/WRF-${WRF_VERSION}"
@@ -21863,7 +21878,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 
   cd "${WRF_FOLDER}"/Downloads
   wget -c https://github.com/wrf-model/WRF/releases/download/v${WRF_VERSION}/v${WRF_VERSION}.tar.gz -O WRF-${WRF_VERSION}.tar.gz
-  LD_LIBRARY_PATH= tar -xvzf WRF-${WRF_VERSION}.tar.gz -C "${WRF_FOLDER}"/
+  env -u LD_LIBRARY_PATH  tar -xvzf WRF-${WRF_VERSION}.tar.gz -C "${WRF_FOLDER}"/
   # If statment for changing folder name
   # Check if WRF directory exists
   if [ -d "${WRF_FOLDER}/WRF" ]; then
@@ -21962,7 +21977,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 
   cd "${WRF_FOLDER}"/Downloads
   wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v${WPS_VERSION}.tar.gz -O WPS-${WPS_VERSION}.tar.gz
-  LD_LIBRARY_PATH= tar -xvzf WPS-${WPS_VERSION}.tar.gz -C "${WRF_FOLDER}"/
+  env -u LD_LIBRARY_PATH  tar -xvzf WPS-${WPS_VERSION}.tar.gz -C "${WRF_FOLDER}"/
   cd "${WRF_FOLDER}"/WPS-${WPS_VERSION}
 
   LD_LIBRARY_PATH= ./clean -a
@@ -22013,10 +22028,10 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   echo "Mandatory WRF Preprocessing System (WPS) Geographical Input Data Mandatory Fields Downloads"
   echo " "
   wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_high_res_mandatory.tar.gz
-  LD_LIBRARY_PATH= tar -xvzf geog_high_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
+  env -u LD_LIBRARY_PATH  tar -xvzf geog_high_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
 
   wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_low_res_mandatory.tar.gz
-  LD_LIBRARY_PATH= tar -xvzf geog_low_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
+  env -u LD_LIBRARY_PATH  tar -xvzf geog_low_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
   mv "${WRF_FOLDER}"/GEOG/WPS_GEOG_LOW_RES/ "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
   if [ ${WPS_Specific_Applications} -eq 1 ]; then
@@ -22025,36 +22040,36 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
     echo " "
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_thompson28_chem.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_thompson28_chem.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_thompson28_chem.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_noahmp.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_noahmp.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_noahmp.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/irrigation.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf irrigation.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf irrigation.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
     mkdir "${WRF_FOLDER}"/GEOG/WPS_GEOG/irrigation
     mv "${WRF_FOLDER}"/GEOG/WPS_GEOG/fao "${WRF_FOLDER}"/GEOG/WPS_GEOG/irrigation
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_px.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_px.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_px.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_urban.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_urban.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_urban.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_ssib.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_ssib.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_ssib.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/lake_depth.tar.bz2
-    LD_LIBRARY_PATH= tar -xvf lake_depth.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf lake_depth.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/topobath_30s.tar.bz2
-    LD_LIBRARY_PATH= tar -xvf topobath_30s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf topobath_30s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/gsl_gwd.tar.bz2
-    LD_LIBRARY_PATH= tar -xvf gsl_gwd.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf gsl_gwd.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/cglc_modis_lcz_global.tar.gz
-    LD_LIBRARY_PATH= tar -xvf cglc_modis_lcz_global.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf cglc_modis_lcz_global.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
   fi
 
   if [ ${Optional_GEOG} -eq 1 ]; then
@@ -22063,22 +22078,22 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
     echo " "
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_older_than_2000.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_older_than_2000.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_older_than_2000.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s_with_lakes.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf modis_landuse_20class_15s_with_lakes.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf modis_landuse_20class_15s_with_lakes.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_alt_lsm.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_alt_lsm.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_alt_lsm.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/nlcd2006_ll_9s.tar.bz2
-    LD_LIBRARY_PATH= tar -xvf nlcd2006_ll_9s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf nlcd2006_ll_9s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/updated_Iceland_LU.tar.gz
-    LD_LIBRARY_PATH= tar -xvf updated_Iceland_LU.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf updated_Iceland_LU.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s.tar.bz2
-    LD_LIBRARY_PATH= tar -xvf modis_landuse_20class_15s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf modis_landuse_20class_15s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
   fi
 fi
 
@@ -22112,7 +22127,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 
   ##############################Directory Listing############################
   export HOME=$(
-    cd
+    cd ~ &&
     pwd
   )
 
@@ -22199,7 +22214,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   ############################# ZLib ############################
 
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf zlib-$Zlib_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf zlib-$Zlib_Version.tar.gz
   cd zlib-$Zlib_Version/
 
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
@@ -22214,7 +22229,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   ############################## MPICH ############################
   #F90= due to compiler issues with mpich install
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf mpich-$Mpich_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf mpich-$Mpich_Version.tar.gz
   cd mpich-$Mpich_Version/
 
   F90= ./configure --prefix=$DIR/MPICH --with-device=ch3 FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS 2>&1 | tee configure.log
@@ -22238,7 +22253,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   export LDFLAGS=-L$DIR/grib2/lib
   export CPPFLAGS=-I$DIR/grib2/include
 
-  LD_LIBRARY_PATH= tar -xvzf libpng-$Libpng_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf libpng-$Libpng_Version.tar.gz
   cd libpng-$Libpng_Version/
 
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
@@ -22251,7 +22266,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   echo " "
   #############################JasPer ############################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf jasper-$Jasper_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf jasper-$Jasper_Version.tar.gz
   cd jasper-$Jasper_Version/
 
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
@@ -22267,7 +22282,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   echo " "
   ############################# hdf5 library for netcdf4 functionality ############################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf hdf5-$HDF5_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf hdf5-$HDF5_Version.tar.gz
   cd hdf5-$HDF5_Version
 
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --with-zlib=$DIR/grib2 --enable-hl --enable-fortran --enable-parallel 2>&1 | tee configure.log
@@ -22287,7 +22302,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   #Hard path for MPI added
   ##################################################################################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf pnetcdf-$Pnetcdf_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf pnetcdf-$Pnetcdf_Version.tar.gz
   cd pnetcdf-$Pnetcdf_Version
   export MPIFC=$DIR/MPICH/bin/mpifort
   export MPIF77=$DIR/MPICH/bin/mpifort
@@ -22307,7 +22322,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 
   ############################## Install NETCDF C Library ############################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf v$Netcdf_C_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf v$Netcdf_C_Version.tar.gz
   cd netcdf-c-$Netcdf_C_Version/
   export CPPFLAGS=-I$DIR/grib2/include
   export LDFLAGS="-L$DIR/grib2/lib -Wl,-rpath,$DIR/grib2/lib"
@@ -22328,7 +22343,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   echo " "
   ############################## NetCDF fortran library ############################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf v$Netcdf_Fortran_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf v$Netcdf_Fortran_Version.tar.gz
   cd netcdf-fortran-$Netcdf_Fortran_Version/
 
   export LD_LIBRARY_PATH=$DIR/NETCDF/lib:$LD_LIBRARY_PATH
@@ -22347,8 +22362,8 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_NETCDF_MPI_tests.tar
   wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_tests.tar
 
-  LD_LIBRARY_PATH= tar -xvf Fortran_C_tests.tar -C "${WRF_FOLDER}"/Tests/Environment
-  LD_LIBRARY_PATH= tar -xvf Fortran_C_NETCDF_MPI_tests.tar -C "${WRF_FOLDER}"/Tests/Compatibility
+  env -u LD_LIBRARY_PATH  tar -xvf Fortran_C_tests.tar -C "${WRF_FOLDER}"/Tests/Environment
+  env -u LD_LIBRARY_PATH  tar -xvf Fortran_C_NETCDF_MPI_tests.tar -C "${WRF_FOLDER}"/Tests/Compatibility
 
   export one="1"
   echo " "
@@ -22476,7 +22491,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   if [[ $GRADS_PICK -eq 2 ]]; then
     cd "${WRF_FOLDER}"/Downloads
     wget -c ftp://cola.gmu.edu/grads/2.2/grads-2.2.1-bin-RHL7.4-x86_64.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf grads-2.2.1-bin-RHL7.4-x86_64.tar.gz -C "${WRF_FOLDER}"
+    env -u LD_LIBRARY_PATH  tar -xvzf grads-2.2.1-bin-RHL7.4-x86_64.tar.gz -C "${WRF_FOLDER}"
     cd "${WRF_FOLDER}"/grads-2.2.1/bin
     chmod 775 *
 
@@ -22539,7 +22554,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   conda activate ncl_stable
 
   export HOME=$(
-    cd
+    cd ~ &&
     pwd
   )
   export DIR="${WRF_FOLDER}"/Libs
@@ -22609,7 +22624,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   cd "${WRF_FOLDER}"/Downloads
   wget -c https://github.com/wrf-model/WRF/releases/download/v${WRF_VERSION}/v${WRF_VERSION}.tar.gz -O WRF-${WRF_VERSION}.tar.gz
   mkdir -p "${WRF_FOLDER}"/WRFDA
-  LD_LIBRARY_PATH= tar -xvzf WRF-${WRF_VERSION}.tar.gz -C "${WRF_FOLDER}"/WRFDA
+  env -u LD_LIBRARY_PATH  tar -xvzf WRF-${WRF_VERSION}.tar.gz -C "${WRF_FOLDER}"/WRFDA
   # If statement for changing folder name inside WRFDA
   if [ -d "${WRF_FOLDER}/WRFDA/WRF" ]; then
     mv -f "${WRF_FOLDER}/WRFDA/WRF" "${WRF_FOLDER}/WRFDA/WRF-${WRF_VERSION}"
@@ -22897,7 +22912,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 
   cd "${WRF_FOLDER}"/Downloads
   wget -c https://github.com/wrf-model/WRF/releases/download/v${WRF_VERSION}/v${WRF_VERSION}.tar.gz -O WRF-${WRF_VERSION}.tar.gz
-  LD_LIBRARY_PATH= tar -xvzf WRF-${WRF_VERSION}.tar.gz -C "${WRF_FOLDER}"/
+  env -u LD_LIBRARY_PATH  tar -xvzf WRF-${WRF_VERSION}.tar.gz -C "${WRF_FOLDER}"/
   # If statment for changing folder name
   # Check if WRF directory exists
   if [ -d "${WRF_FOLDER}/WRF" ]; then
@@ -22996,7 +23011,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 
   cd "${WRF_FOLDER}"/Downloads
   wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v${WPS_VERSION}.tar.gz -O WPS-${WPS_VERSION}.tar.gz
-  LD_LIBRARY_PATH= tar -xvzf WPS-${WPS_VERSION}.tar.gz -C "${WRF_FOLDER}"/
+  env -u LD_LIBRARY_PATH  tar -xvzf WPS-${WPS_VERSION}.tar.gz -C "${WRF_FOLDER}"/
   cd "${WRF_FOLDER}"/WPS-${WPS_VERSION}
 
   LD_LIBRARY_PATH= ./clean -a
@@ -23047,10 +23062,10 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   echo "Mandatory WRF Preprocessing System (WPS) Geographical Input Data Mandatory Fields Downloads"
   echo " "
   wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_high_res_mandatory.tar.gz
-  LD_LIBRARY_PATH= tar -xvzf geog_high_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
+  env -u LD_LIBRARY_PATH  tar -xvzf geog_high_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
 
   wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_low_res_mandatory.tar.gz
-  LD_LIBRARY_PATH= tar -xvzf geog_low_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
+  env -u LD_LIBRARY_PATH  tar -xvzf geog_low_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
   mv "${WRF_FOLDER}"/GEOG/WPS_GEOG_LOW_RES/ "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
   if [ ${WPS_Specific_Applications} -eq 1 ]; then
@@ -23059,36 +23074,36 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRFCHEM_PICK" = "1" ]; then
     echo " "
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_thompson28_chem.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_thompson28_chem.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_thompson28_chem.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_noahmp.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_noahmp.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_noahmp.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/irrigation.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf irrigation.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf irrigation.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
     mkdir "${WRF_FOLDER}"/GEOG/WPS_GEOG/irrigation
     mv "${WRF_FOLDER}"/GEOG/WPS_GEOG/fao "${WRF_FOLDER}"/GEOG/WPS_GEOG/irrigation
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_px.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_px.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_px.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_urban.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_urban.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_urban.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_ssib.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_ssib.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_ssib.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/lake_depth.tar.bz2
-    LD_LIBRARY_PATH= tar -xvf lake_depth.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf lake_depth.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/topobath_30s.tar.bz2
-    LD_LIBRARY_PATH= tar -xvf topobath_30s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf topobath_30s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/gsl_gwd.tar.bz2
-    LD_LIBRARY_PATH= tar -xvf gsl_gwd.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf gsl_gwd.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/cglc_modis_lcz_global.tar.gz
-    LD_LIBRARY_PATH= tar -xvf cglc_modis_lcz_global.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf cglc_modis_lcz_global.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
   fi
 
   if [ ${Optional_GEOG} -eq 1 ]; then
@@ -23097,22 +23112,22 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRFCHEM_PICK" = "1" ]; then
     echo " "
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_older_than_2000.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_older_than_2000.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_older_than_2000.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s_with_lakes.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf modis_landuse_20class_15s_with_lakes.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf modis_landuse_20class_15s_with_lakes.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_alt_lsm.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_alt_lsm.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_alt_lsm.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/nlcd2006_ll_9s.tar.bz2
-    LD_LIBRARY_PATH= tar -xvf nlcd2006_ll_9s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf nlcd2006_ll_9s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/updated_Iceland_LU.tar.gz
-    LD_LIBRARY_PATH= tar -xvf updated_Iceland_LU.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf updated_Iceland_LU.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s.tar.bz2
-    LD_LIBRARY_PATH= tar -xvf modis_landuse_20class_15s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf modis_landuse_20class_15s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
   fi
 fi
 
@@ -23194,7 +23209,7 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" ]; then
   ############################################################################
 
   export HOME=$(
-    cd
+    cd ~ &&
     pwd
   )
   export WRF_FOLDER=$HOME/WRFCHEM_INTEL
@@ -23227,7 +23242,7 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" ]; then
   ############################# ZLib ############################
 
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf zlib-$Zlib_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf zlib-$Zlib_Version.tar.gz
   cd zlib-$Zlib_Version/
 
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
@@ -23247,7 +23262,7 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" ]; then
   export LDFLAGS=-L$DIR/grib2/lib
   export CPPFLAGS=-I$DIR/grib2/include
 
-  LD_LIBRARY_PATH= tar -xvzf libpng-$Libpng_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf libpng-$Libpng_Version.tar.gz
   cd libpng-$Libpng_Version/
 
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
@@ -23261,7 +23276,7 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" ]; then
   ############################# JasPer ############################
 
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf jasper-$Jasper_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf jasper-$Jasper_Version.tar.gz
   cd jasper-$Jasper_Version/
 
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
@@ -23279,7 +23294,7 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" ]; then
   ############################# HDF5 library for NetCDF4 & parallel functionality ############################
 
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf hdf5-$HDF5_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf hdf5-$HDF5_Version.tar.gz
   cd hdf5-$HDF5_Version
 
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --with-zlib=$DIR/grib2 --enable-hl --enable-fortran --enable-parallel 2>&1 | tee configure.log
@@ -23301,7 +23316,7 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" ]; then
   #Hard path for MPI added
   ##################################################################################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf pnetcdf-$Pnetcdf_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf pnetcdf-$Pnetcdf_Version.tar.gz
   cd pnetcdf-$Pnetcdf_Version
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --enable-static 2>&1 | tee configure.log
 
@@ -23318,7 +23333,7 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" ]; then
   ############################## Install NETCDF-C Library ############################
 
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf v$Netcdf_C_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf v$Netcdf_C_Version.tar.gz
   cd netcdf-c-$Netcdf_C_Version/
 
   # these variables need to be set for the NetCDF-C install to work
@@ -23343,7 +23358,7 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" ]; then
   ############################## NetCDF-Fortran library ############################
 
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf v$Netcdf_Fortran_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf v$Netcdf_Fortran_Version.tar.gz
   cd netcdf-fortran-$Netcdf_Fortran_Version/
 
   # these variables need to be set for the NetCDF-Fortran install to work
@@ -23363,8 +23378,8 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" ]; then
   wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_NETCDF_MPI_tests.tar
   wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_tests.tar
 
-  LD_LIBRARY_PATH= tar -xvf Fortran_C_tests.tar -C "${WRF_FOLDER}/Tests/Environment"
-  LD_LIBRARY_PATH= tar -xvf Fortran_C_NETCDF_MPI_tests.tar -C "${WRF_FOLDER}"/Tests/Compatibility
+  env -u LD_LIBRARY_PATH  tar -xvf Fortran_C_tests.tar -C "${WRF_FOLDER}/Tests/Environment"
+  env -u LD_LIBRARY_PATH  tar -xvf Fortran_C_NETCDF_MPI_tests.tar -C "${WRF_FOLDER}"/Tests/Compatibility
 
   export one="1"
   echo " "
@@ -23487,16 +23502,16 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" ]; then
   #############################################################################
   if [[ $GRADS_PICK -eq 1 ]]; then
     cd "${WRF_FOLDER}"/Downloads
-    LD_LIBRARY_PATH= tar -xvzf cd "${WRF_FOLDER}"/Downloads
+    env -u LD_LIBRARY_PATH  tar -xvzf cd "${WRF_FOLDER}"/Downloads
     wget -c https://sourceforge.net/projects/opengrads/files/grads2/2.2.1.oga.1/Linux%20%2864%20Bits%29/opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz -C "${WRF_FOLDER}"/ -C "${WRF_FOLDER}"/
+    env -u LD_LIBRARY_PATH  tar -xvzf opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz -C "${WRF_FOLDER}"/ -C "${WRF_FOLDER}"/
     cd "${WRF_FOLDER}"/
     mv "${WRF_FOLDER}"/opengrads-2.2.1.oga.1 "${WRF_FOLDER}"/GrADS
     cd GrADS/Contents
     wget -c https://github.com/regisgrundig/SIMOP/blob/master/g2ctl.pl
     chmod +x g2ctl.pl
     wget -c https://sourceforge.net/projects/opengrads/files/wgrib2/0.1.9.4/wgrib2-v0.1.9.4-bin-x86_64-glibc2.5-linux-gnu.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf wgrib2-v0.1.9.4-bin-x86_64-glibc2.5-linux-gnu.tar.gz
+    env -u LD_LIBRARY_PATH  tar -xvzf wgrib2-v0.1.9.4-bin-x86_64-glibc2.5-linux-gnu.tar.gz
     cd wgrib2-v0.1.9.4/bin
     mv wgrib2 "${WRF_FOLDER}"/GrADS/Contents
     cd "${WRF_FOLDER}"/GrADS/Contents
@@ -23576,7 +23591,7 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" ]; then
   conda activate ncl_stable
 
   export HOME=$(
-    cd
+    cd ~ &&
     pwd
   )
   export DIR="${WRF_FOLDER}"/Libs
@@ -23667,7 +23682,7 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" ]; then
   cd "${WRF_FOLDER}"/Downloads
   wget -c https://github.com/wrf-model/WRF/releases/download/v${WRF_VERSION}/v${WRF_VERSION}.tar.gz -O WRF-${WRF_VERSION}.tar.gz
   mkdir -p "${WRF_FOLDER}"/WRFDA
-  LD_LIBRARY_PATH= tar -xvzf WRF-${WRF_VERSION}.tar.gz -C "${WRF_FOLDER}"/WRFDA
+  env -u LD_LIBRARY_PATH  tar -xvzf WRF-${WRF_VERSION}.tar.gz -C "${WRF_FOLDER}"/WRFDA
   # If statement for changing folder name inside WRFDA
   if [ -d "${WRF_FOLDER}/WRFDA/WRF" ]; then
     mv -f "${WRF_FOLDER}/WRFDA/WRF" "${WRF_FOLDER}/WRFDA/WRF-${WRF_VERSION}"
@@ -23950,7 +23965,7 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" ]; then
 
   cd "${WRF_FOLDER}"/Downloads
   wget -c https://github.com/wrf-model/WRF/releases/download/v${WRF_VERSION}/v${WRF_VERSION}.tar.gz -O WRF-${WRF_VERSION}.tar.gz
-  LD_LIBRARY_PATH= tar -xvzf WRF-${WRF_VERSION}.tar.gz -C "${WRF_FOLDER}"/
+  env -u LD_LIBRARY_PATH  tar -xvzf WRF-${WRF_VERSION}.tar.gz -C "${WRF_FOLDER}"/
   # If statment for changing folder name
   # Check if WRF directory exists
   if [ -d "${WRF_FOLDER}/WRF" ]; then
@@ -24055,7 +24070,7 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" ]; then
 
   cd "${WRF_FOLDER}"/Downloads
   wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v${WPS_VERSION}.tar.gz -O WPS-${WPS_VERSION}.tar.gz
-  LD_LIBRARY_PATH= tar -xvzf WPS-${WPS_VERSION}.tar.gz -C "${WRF_FOLDER}"/
+  env -u LD_LIBRARY_PATH  tar -xvzf WPS-${WPS_VERSION}.tar.gz -C "${WRF_FOLDER}"/
   # Check if WPS directory exists
   if [ -d "${WRF_FOLDER}/WPS" ]; then
     mv -f "${WRF_FOLDER}/WPS" "${WRF_FOLDER}/WPS-${WPS_VERSION}"
@@ -24121,10 +24136,10 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" ]; then
   echo "Mandatory WRF Preprocessing System (WPS) Geographical Input Data Mandatory Fields Downloads"
   echo " "
   wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_high_res_mandatory.tar.gz
-  LD_LIBRARY_PATH= tar -xvzf geog_high_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
+  env -u LD_LIBRARY_PATH  tar -xvzf geog_high_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
 
   wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_low_res_mandatory.tar.gz
-  LD_LIBRARY_PATH= tar -xvzf geog_low_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
+  env -u LD_LIBRARY_PATH  tar -xvzf geog_low_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
   mv "${WRF_FOLDER}"/GEOG/WPS_GEOG_LOW_RES/ "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
   if [ ${WPS_Specific_Applications} -eq 1 ]; then
@@ -24133,34 +24148,34 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" ]; then
     echo " "
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_thompson28_chem.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_thompson28_chem.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_thompson28_chem.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_noahmp.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_noahmp.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_noahmp.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/irrigation.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf irrigation.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf irrigation.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_px.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_px.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_px.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_urban.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_urban.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_urban.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_ssib.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_ssib.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_ssib.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/lake_depth.tar.bz2
-    LD_LIBRARY_PATH= tar -xvf lake_depth.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf lake_depth.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/topobath_30s.tar.bz2
-    LD_LIBRARY_PATH= tar -xvf topobath_30s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf topobath_30s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/gsl_gwd.tar.bz2
-    LD_LIBRARY_PATH= tar -xvf gsl_gwd.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf gsl_gwd.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/cglc_modis_lcz_global.tar.gz
-    LD_LIBRARY_PATH= tar -xvf cglc_modis_lcz_global.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf cglc_modis_lcz_global.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
   fi
 
   if [ ${Optional_GEOG} -eq 1 ]; then
@@ -24169,22 +24184,22 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" ]; then
     echo " "
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_older_than_2000.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_older_than_2000.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_older_than_2000.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s_with_lakes.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf modis_landuse_20class_15s_with_lakes.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf modis_landuse_20class_15s_with_lakes.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_alt_lsm.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_alt_lsm.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_alt_lsm.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/nlcd2006_ll_9s.tar.bz2
-    LD_LIBRARY_PATH= tar -xvf nlcd2006_ll_9s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf nlcd2006_ll_9s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/updated_Iceland_LU.tar.gz
-    LD_LIBRARY_PATH= tar -xvf updated_Iceland_LU.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf updated_Iceland_LU.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s.tar.bz2
-    LD_LIBRARY_PATH= tar -xvf modis_landuse_20class_15s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf modis_landuse_20class_15s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
   fi
 
 fi
@@ -24231,7 +24246,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   echo " "
   ##############################Directory Listing############################
   export HOME=$(
-    cd
+    cd ~ &&
     pwd
   )
 
@@ -24318,7 +24333,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   ############################# ZLib ############################
 
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf zlib-$Zlib_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf zlib-$Zlib_Version.tar.gz
   cd zlib-$Zlib_Version/
 
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
@@ -24333,7 +24348,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   ############################## MPICH ############################
   #F90= due to compiler issues with mpich install
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf mpich-$Mpich_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf mpich-$Mpich_Version.tar.gz
   cd mpich-$Mpich_Version/
 
   F90= ./configure --prefix=$DIR/MPICH --with-device=ch3 FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS 2>&1 | tee configure.log
@@ -24358,7 +24373,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   export LDFLAGS=-L$DIR/grib2/lib
   export CPPFLAGS=-I$DIR/grib2/include
 
-  LD_LIBRARY_PATH= tar -xvzf libpng-$Libpng_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf libpng-$Libpng_Version.tar.gz
   cd libpng-$Libpng_Version/
 
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
@@ -24371,7 +24386,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   echo " "
   #############################JasPer ############################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf jasper-$Jasper_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf jasper-$Jasper_Version.tar.gz
   cd jasper-$Jasper_Version/
 
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
@@ -24387,7 +24402,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   echo " "
   ############################# hdf5 library for netcdf4 functionality ############################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf hdf5-$HDF5_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf hdf5-$HDF5_Version.tar.gz
   cd hdf5-$HDF5_Version
 
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --with-zlib=$DIR/grib2 --enable-hl --enable-fortran --enable-parallel 2>&1 | tee configure.log
@@ -24407,7 +24422,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   #Hard path for MPI added
   ##################################################################################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf pnetcdf-$Pnetcdf_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf pnetcdf-$Pnetcdf_Version.tar.gz
   cd pnetcdf-$Pnetcdf_Version
   export MPIFC=$DIR/MPICH/bin/mpifort
   export MPIF77=$DIR/MPICH/bin/mpifort
@@ -24427,7 +24442,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 
   ############################## Install NETCDF C Library ############################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf v$Netcdf_C_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf v$Netcdf_C_Version.tar.gz
   cd netcdf-c-$Netcdf_C_Version/
   export CPPFLAGS=-I$DIR/grib2/include
   export LDFLAGS="-L$DIR/grib2/lib -Wl,-rpath,$DIR/grib2/lib"
@@ -24448,7 +24463,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   echo " "
   ############################## NetCDF fortran library ############################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf v$Netcdf_Fortran_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf v$Netcdf_Fortran_Version.tar.gz
   cd netcdf-fortran-$Netcdf_Fortran_Version/
   export LD_LIBRARY_PATH=$DIR/NETCDF/lib:$LD_LIBRARY_PATH
   export CPPFLAGS="-I$DIR/NETCDF/include -I$DIR/grib2/include"
@@ -24467,8 +24482,8 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_NETCDF_MPI_tests.tar
   wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_tests.tar
 
-  LD_LIBRARY_PATH= tar -xvf Fortran_C_tests.tar -C "${WRF_FOLDER}"/Tests/Environment
-  LD_LIBRARY_PATH= tar -xvf Fortran_C_NETCDF_MPI_tests.tar -C "${WRF_FOLDER}"/Tests/Compatibility
+  env -u LD_LIBRARY_PATH  tar -xvf Fortran_C_tests.tar -C "${WRF_FOLDER}"/Tests/Environment
+  env -u LD_LIBRARY_PATH  tar -xvf Fortran_C_NETCDF_MPI_tests.tar -C "${WRF_FOLDER}"/Tests/Compatibility
 
   export one="1"
   echo " "
@@ -24593,16 +24608,16 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   #############################################################################
   if [[ $GRADS_PICK -eq 1 ]]; then
     cd "${WRF_FOLDER}"/Downloads
-    LD_LIBRARY_PATH= tar -xvzf cd "${WRF_FOLDER}"/Downloads
+    env -u LD_LIBRARY_PATH  tar -xvzf cd "${WRF_FOLDER}"/Downloads
     wget -c https://sourceforge.net/projects/opengrads/files/grads2/2.2.1.oga.1/Linux%20%2864%20Bits%29/opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz -C "${WRF_FOLDER}"/ -C "${WRF_FOLDER}"/
+    env -u LD_LIBRARY_PATH  tar -xvzf opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz -C "${WRF_FOLDER}"/ -C "${WRF_FOLDER}"/
     cd "${WRF_FOLDER}"/
     mv "${WRF_FOLDER}"/opengrads-2.2.1.oga.1 "${WRF_FOLDER}"/GrADS
     cd GrADS/Contents
     wget -c https://github.com/regisgrundig/SIMOP/blob/master/g2ctl.pl
     chmod +x g2ctl.pl
     wget -c https://sourceforge.net/projects/opengrads/files/wgrib2/0.1.9.4/wgrib2-v0.1.9.4-bin-i686-glib2.5-linux-gnu.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf wgrib2-v0.1.9.4-bin-i686-glib2.5-linux-gnu.tar.gz
+    env -u LD_LIBRARY_PATH  tar -xvzf wgrib2-v0.1.9.4-bin-i686-glib2.5-linux-gnu.tar.gz
     cd wgrib2-v0.1.9.4/bin
     mv wgrib2 "${WRF_FOLDER}"/GrADS/Contents
     cd "${WRF_FOLDER}"/GrADS/Contents
@@ -24681,7 +24696,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   conda activate ncl_stable
 
   export HOME=$(
-    cd
+    cd ~ &&
     pwd
   )
   export DIR="${WRF_FOLDER}"/Libs
@@ -24771,7 +24786,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   ########################################################################
   cd "${WRF_FOLDER}"/Downloads
   wget -c https://github.com/wrf-model/WRF/releases/download/v${WRF_VERSION}/v${WRF_VERSION}.tar.gz -O WRF-${WRF_VERSION}.tar.gz
-  LD_LIBRARY_PATH= tar -xvzf WRF-${WRF_VERSION}.tar.gz -C "${WRF_FOLDER}"/
+  env -u LD_LIBRARY_PATH  tar -xvzf WRF-${WRF_VERSION}.tar.gz -C "${WRF_FOLDER}"/
 
   # If statment for changing folder name
   # Check if WRF directory exists
@@ -24837,7 +24852,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 
   cd "${WRF_FOLDER}"/Downloads
   wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v${WPS_VERSION}.tar.gz -O WPS-${WPS_VERSION}.tar.gz
-  LD_LIBRARY_PATH= tar -xvzf WPS-${WPS_VERSION}.tar.gz -C "${WRF_FOLDER}"/
+  env -u LD_LIBRARY_PATH  tar -xvzf WPS-${WPS_VERSION}.tar.gz -C "${WRF_FOLDER}"/
   # Check if WPS directory exists
   if [ -d "${WRF_FOLDER}/WPS" ]; then
     mv -f "${WRF_FOLDER}/WPS" "${WRF_FOLDER}/WPS-${WPS_VERSION}"
@@ -24894,7 +24909,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   ########################################################################
   cd "${WRF_FOLDER}"/Downloads
   mkdir "${WRF_FOLDER}"/WRFPLUS
-  LD_LIBRARY_PATH= tar -xvzf WRF-${WRF_VERSION}.tar.gz -C "${WRF_FOLDER}"/WRFPLUS
+  env -u LD_LIBRARY_PATH  tar -xvzf WRF-${WRF_VERSION}.tar.gz -C "${WRF_FOLDER}"/WRFPLUS
 
   # If statement for changing folder name inside WRFPLUS
   if [ -d "${WRF_FOLDER}/WRFPLUS/WRF" ]; then
@@ -24963,7 +24978,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   ########################################################################
   cd "${WRF_FOLDER}"/Downloads
   mkdir "${WRF_FOLDER}"/WRFDA
-  LD_LIBRARY_PATH= tar -xvzf WRF-${WRF_VERSION}.tar.gz -C "${WRF_FOLDER}"/WRFDA
+  env -u LD_LIBRARY_PATH  tar -xvzf WRF-${WRF_VERSION}.tar.gz -C "${WRF_FOLDER}"/WRFDA
 
   # If statement for changing folder name inside WRFDA
   if [ -d "${WRF_FOLDER}/WRFDA/WRF" ]; then
@@ -25037,10 +25052,10 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   echo "Mandatory WRF Preprocessing System (WPS) Geographical Input Data Mandatory Fields Downloads"
   echo " "
   wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_high_res_mandatory.tar.gz
-  LD_LIBRARY_PATH= tar -xvzf geog_high_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
+  env -u LD_LIBRARY_PATH  tar -xvzf geog_high_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
 
   wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_low_res_mandatory.tar.gz
-  LD_LIBRARY_PATH= tar -xvzf geog_low_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
+  env -u LD_LIBRARY_PATH  tar -xvzf geog_low_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
   mv "${WRF_FOLDER}"/GEOG/WPS_GEOG_LOW_RES/ "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
   if [ ${WPS_Specific_Applications} -eq 1 ]; then
@@ -25049,34 +25064,34 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
     echo " "
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_thompson28_chem.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_thompson28_chem.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_thompson28_chem.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_noahmp.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_noahmp.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_noahmp.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/irrigation.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf irrigation.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf irrigation.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_px.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_px.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_px.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_urban.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_urban.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_urban.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_ssib.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_ssib.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_ssib.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/lake_depth.tar.bz2
-    LD_LIBRARY_PATH= tar -xvf lake_depth.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf lake_depth.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/topobath_30s.tar.bz2
-    LD_LIBRARY_PATH= tar -xvf topobath_30s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf topobath_30s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/gsl_gwd.tar.bz2
-    LD_LIBRARY_PATH= tar -xvf gsl_gwd.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf gsl_gwd.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/cglc_modis_lcz_global.tar.gz
-    LD_LIBRARY_PATH= tar -xvf cglc_modis_lcz_global.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf cglc_modis_lcz_global.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
   fi
 
   if [ ${Optional_GEOG} -eq 1 ]; then
@@ -25085,22 +25100,22 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
     echo " "
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_older_than_2000.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_older_than_2000.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_older_than_2000.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s_with_lakes.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf modis_landuse_20class_15s_with_lakes.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf modis_landuse_20class_15s_with_lakes.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_alt_lsm.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_alt_lsm.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_alt_lsm.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/nlcd2006_ll_9s.tar.bz2
-    LD_LIBRARY_PATH= tar -xvf nlcd2006_ll_9s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf nlcd2006_ll_9s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/updated_Iceland_LU.tar.gz
-    LD_LIBRARY_PATH= tar -xvf updated_Iceland_LU.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf updated_Iceland_LU.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s.tar.bz2
-    LD_LIBRARY_PATH= tar -xvf modis_landuse_20class_15s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf modis_landuse_20class_15s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
   fi
 
@@ -25195,7 +25210,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   ############################################################################
 
   export HOME=$(
-    cd
+    cd ~ &&
     pwd
   )
   export WRF_FOLDER=$HOME/WRF_Intel
@@ -25227,7 +25242,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   ############################# ZLib ############################
 
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf zlib-$Zlib_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf zlib-$Zlib_Version.tar.gz
   cd zlib-$Zlib_Version/
 
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
@@ -25247,7 +25262,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   export LDFLAGS=-L$DIR/grib2/lib
   export CPPFLAGS=-I$DIR/grib2/include
 
-  LD_LIBRARY_PATH= tar -xvzf libpng-$Libpng_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf libpng-$Libpng_Version.tar.gz
   cd libpng-$Libpng_Version/
 
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
@@ -25261,7 +25276,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   ############################# JasPer ############################
 
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf jasper-$Jasper_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf jasper-$Jasper_Version.tar.gz
   cd jasper-$Jasper_Version/
 
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
@@ -25279,7 +25294,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   ############################# HDF5 library for NetCDF4 & parallel functionality ############################
 
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf hdf5-$HDF5_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf hdf5-$HDF5_Version.tar.gz
   cd hdf5-$HDF5_Version
 
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --with-zlib=$DIR/grib2 --enable-hl --enable-fortran --enable-parallel 2>&1 | tee configure.log
@@ -25301,7 +25316,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   #Hard path for MPI added
   ##################################################################################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf pnetcdf-$Pnetcdf_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf pnetcdf-$Pnetcdf_Version.tar.gz
   cd pnetcdf-$Pnetcdf_Version
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --enable-static 2>&1 | tee configure.log
 
@@ -25317,7 +25332,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   ############################## Install NETCDF-C Library ############################
 
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf v$Netcdf_C_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf v$Netcdf_C_Version.tar.gz
   cd netcdf-c-$Netcdf_C_Version/
 
   # these variables need to be set for the NetCDF-C install to work
@@ -25342,7 +25357,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   ############################## NetCDF-Fortran library ############################
 
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf v$Netcdf_Fortran_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf v$Netcdf_Fortran_Version.tar.gz
   cd netcdf-fortran-$Netcdf_Fortran_Version/
 
   # these variables need to be set for the NetCDF-Fortran install to work
@@ -25362,8 +25377,8 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_NETCDF_MPI_tests.tar
   wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_tests.tar
 
-  LD_LIBRARY_PATH= tar -xvf Fortran_C_tests.tar -C "${WRF_FOLDER}"/Tests/Environment
-  LD_LIBRARY_PATH= tar -xvf Fortran_C_NETCDF_MPI_tests.tar -C "${WRF_FOLDER}"/Tests/Compatibility
+  env -u LD_LIBRARY_PATH  tar -xvf Fortran_C_tests.tar -C "${WRF_FOLDER}"/Tests/Environment
+  env -u LD_LIBRARY_PATH  tar -xvf Fortran_C_NETCDF_MPI_tests.tar -C "${WRF_FOLDER}"/Tests/Compatibility
 
   export one="1"
   echo " "
@@ -25486,16 +25501,16 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   #############################################################################
   if [[ $GRADS_PICK -eq 1 ]]; then
     cd "${WRF_FOLDER}"/Downloads
-    LD_LIBRARY_PATH= tar -xvzf cd "${WRF_FOLDER}"/Downloads
+    env -u LD_LIBRARY_PATH  tar -xvzf cd "${WRF_FOLDER}"/Downloads
     wget -c https://sourceforge.net/projects/opengrads/files/grads2/2.2.1.oga.1/Linux%20%2864%20Bits%29/opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz -C "${WRF_FOLDER}"/ -C "${WRF_FOLDER}"/
+    env -u LD_LIBRARY_PATH  tar -xvzf opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz -C "${WRF_FOLDER}"/ -C "${WRF_FOLDER}"/
     cd "${WRF_FOLDER}"/
     mv "${WRF_FOLDER}"/opengrads-2.2.1.oga.1 "${WRF_FOLDER}"/GrADS
     cd GrADS/Contents
     wget -c https://github.com/regisgrundig/SIMOP/blob/master/g2ctl.pl
     chmod +x g2ctl.pl
     wget -c https://sourceforge.net/projects/opengrads/files/wgrib2/0.1.9.4/wgrib2-v0.1.9.4-bin-x86_64-glibc2.5-linux-gnu.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf wgrib2-v0.1.9.4-bin-x86_64-glibc2.5-linux-gnu.tar.gz
+    env -u LD_LIBRARY_PATH  tar -xvzf wgrib2-v0.1.9.4-bin-x86_64-glibc2.5-linux-gnu.tar.gz
     cd wgrib2-v0.1.9.4/bin
     mv wgrib2 "${WRF_FOLDER}"/GrADS/Contents
     cd "${WRF_FOLDER}"/GrADS/Contents
@@ -25573,7 +25588,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   conda activate ncl_stable
 
   export HOME=$(
-    cd
+    cd ~ &&
     pwd
   )
   export DIR="${WRF_FOLDER}"/Libs
@@ -25662,7 +25677,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 
   cd "${WRF_FOLDER}"/Downloads
   wget -c https://github.com/wrf-model/WRF/releases/download/v${WRF_VERSION}/v${WRF_VERSION}.tar.gz -O WRF-${WRF_VERSION}.tar.gz
-  LD_LIBRARY_PATH= tar -xvzf WRF-${WRF_VERSION}.tar.gz -C "${WRF_FOLDER}"/
+  env -u LD_LIBRARY_PATH  tar -xvzf WRF-${WRF_VERSION}.tar.gz -C "${WRF_FOLDER}"/
 
   # If statment for changing folder name
   # Check if WRF directory exists
@@ -25732,7 +25747,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 
   cd "${WRF_FOLDER}"/Downloads
   wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v${WPS_VERSION}.tar.gz -O WPS-${WPS_VERSION}.tar.gz
-  LD_LIBRARY_PATH= tar -xvzf WPS-${WPS_VERSION}.tar.gz -C "${WRF_FOLDER}"/
+  env -u LD_LIBRARY_PATH  tar -xvzf WPS-${WPS_VERSION}.tar.gz -C "${WRF_FOLDER}"/
   # Check if WPS directory exists
   if [ -d "${WRF_FOLDER}/WPS" ]; then
     mv -f "${WRF_FOLDER}/WPS" "${WRF_FOLDER}/WPS-${WPS_VERSION}"
@@ -25795,7 +25810,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   ########################################################################
   cd "${WRF_FOLDER}"/Downloads
   mkdir "${WRF_FOLDER}"/WRFPLUS
-  LD_LIBRARY_PATH= tar -xvzf WRF-${WRF_VERSION}.tar.gz -C "${WRF_FOLDER}"/WRFPLUS
+  env -u LD_LIBRARY_PATH  tar -xvzf WRF-${WRF_VERSION}.tar.gz -C "${WRF_FOLDER}"/WRFPLUS
 
   # If statement for changing folder name inside WRFPLUS
   if [ -d "${WRF_FOLDER}/WRFPLUS/WRF" ]; then
@@ -25869,7 +25884,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   ########################################################################
   cd "${WRF_FOLDER}"/Downloads
   mkdir "${WRF_FOLDER}"/WRFDA
-  LD_LIBRARY_PATH= tar -xvzf WRF-${WRF_VERSION}.tar.gz -C "${WRF_FOLDER}"/WRFDA
+  env -u LD_LIBRARY_PATH  tar -xvzf WRF-${WRF_VERSION}.tar.gz -C "${WRF_FOLDER}"/WRFDA
 
   # If statement for changing folder name inside WRFDA
   if [ -d "${WRF_FOLDER}/WRFDA/WRF" ]; then
@@ -25947,10 +25962,10 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   echo "Mandatory WRF Preprocessing System (WPS) Geographical Input Data Mandatory Fields Downloads"
   echo " "
   wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_high_res_mandatory.tar.gz
-  LD_LIBRARY_PATH= tar -xvzf geog_high_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
+  env -u LD_LIBRARY_PATH  tar -xvzf geog_high_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
 
   wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_low_res_mandatory.tar.gz
-  LD_LIBRARY_PATH= tar -xvzf geog_low_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
+  env -u LD_LIBRARY_PATH  tar -xvzf geog_low_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
   mv "${WRF_FOLDER}"/GEOG/WPS_GEOG_LOW_RES/ "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
   if [ ${WPS_Specific_Applications} -eq 1 ]; then
@@ -25959,34 +25974,34 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
     echo " "
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_thompson28_chem.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_thompson28_chem.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_thompson28_chem.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_noahmp.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_noahmp.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_noahmp.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/irrigation.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf irrigation.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf irrigation.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_px.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_px.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_px.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_urban.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_urban.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_urban.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_ssib.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_ssib.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_ssib.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/lake_depth.tar.bz2
-    LD_LIBRARY_PATH= tar -xvf lake_depth.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf lake_depth.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/topobath_30s.tar.bz2
-    LD_LIBRARY_PATH= tar -xvf topobath_30s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf topobath_30s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/gsl_gwd.tar.bz2
-    LD_LIBRARY_PATH= tar -xvf gsl_gwd.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf gsl_gwd.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/cglc_modis_lcz_global.tar.gz
-    LD_LIBRARY_PATH= tar -xvf cglc_modis_lcz_global.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf cglc_modis_lcz_global.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
   fi
 
   if [ ${Optional_GEOG} -eq 1 ]; then
@@ -25995,22 +26010,22 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
     echo " "
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_older_than_2000.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_older_than_2000.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_older_than_2000.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s_with_lakes.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf modis_landuse_20class_15s_with_lakes.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf modis_landuse_20class_15s_with_lakes.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_alt_lsm.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_alt_lsm.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_alt_lsm.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/nlcd2006_ll_9s.tar.bz2
-    LD_LIBRARY_PATH= tar -xvf nlcd2006_ll_9s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf nlcd2006_ll_9s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/updated_Iceland_LU.tar.gz
-    LD_LIBRARY_PATH= tar -xvf updated_Iceland_LU.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf updated_Iceland_LU.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s.tar.bz2
-    LD_LIBRARY_PATH= tar -xvf modis_landuse_20class_15s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf modis_landuse_20class_15s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
   fi
 
 fi
@@ -26050,7 +26065,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "Int
   ##############################Directory Listing############################
 
   export HOME=$(
-    cd
+    cd ~ &&
     pwd
   )
   mkdir $HOME/WRF
@@ -26171,7 +26186,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "Int
   ############################# ZLib ############################
 
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf zlib-$Zlib_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf zlib-$Zlib_Version.tar.gz
   cd zlib-$Zlib_Version/
 
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
@@ -26185,7 +26200,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "Int
   echo " "
   ############################## MPICH ############################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf mpich-$Mpich_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf mpich-$Mpich_Version.tar.gz
   cd mpich-$Mpich_Version/
 
   F90= ./configure --prefix=$DIR/MPICH --with-device=ch3 FFLAGS="$fallow_argument $boz_argument " FCFLAGS="$fallow_argument $boz_argument " 2>&1 | tee configure.log
@@ -26211,7 +26226,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "Int
   export LDFLAGS=-L$DIR/grib2/lib
   export CPPFLAGS=-I$DIR/grib2/include
 
-  LD_LIBRARY_PATH= tar -xvzf libpng-$Libpng_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf libpng-$Libpng_Version.tar.gz
   cd libpng-$Libpng_Version/
 
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
@@ -26225,7 +26240,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "Int
   #############################JasPer ############################
 
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf jasper-$Jasper_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf jasper-$Jasper_Version.tar.gz
   cd jasper-$Jasper_Version/
 
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
@@ -26241,7 +26256,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "Int
   ############################# hdf5 library for netcdf4 functionality ############################
 
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf hdf5-$HDF5_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf hdf5-$HDF5_Version.tar.gz
   cd hdf5-$HDF5_Version
 
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --with-zlib=$DIR/grib2 --enable-hl --enable-fortran --enable-parallel 2>&1 | tee configure.log
@@ -26262,7 +26277,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "Int
   #Hard path for MPI added
   ##################################################################################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf pnetcdf-$Pnetcdf_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf pnetcdf-$Pnetcdf_Version.tar.gz
   cd pnetcdf-$Pnetcdf_Version
   export MPIFC=$DIR/MPICH/bin/mpifort
   export MPIF77=$DIR/MPICH/bin/mpifort
@@ -26282,7 +26297,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "Int
 
   ############################## Install NETCDF C Library ############################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf v$Netcdf_C_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf v$Netcdf_C_Version.tar.gz
   cd netcdf-c-$Netcdf_C_Version/
   export CPPFLAGS=-I$DIR/grib2/include
   export LDFLAGS="-L$DIR/grib2/lib -Wl,-rpath,$DIR/grib2/lib"
@@ -26304,7 +26319,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "Int
 
   ############################## NetCDF fortran library ############################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf v$Netcdf_Fortran_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf v$Netcdf_Fortran_Version.tar.gz
   cd netcdf-fortran-$Netcdf_Fortran_Version/
   export LD_LIBRARY_PATH=$DIR/NETCDF/lib:$LD_LIBRARY_PATH
   export CPPFLAGS="-I$DIR/NETCDF/include -I$DIR/grib2/include"
@@ -26326,8 +26341,8 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "Int
   wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_NETCDF_MPI_tests.tar
   wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_tests.tar
 
-  LD_LIBRARY_PATH= tar -xvf Fortran_C_tests.tar -C "${WRF_FOLDER}"/Tests/Environment
-  LD_LIBRARY_PATH= tar -xvf Fortran_C_NETCDF_MPI_tests.tar -C "${WRF_FOLDER}"/Tests/Compatibility
+  env -u LD_LIBRARY_PATH  tar -xvf Fortran_C_tests.tar -C "${WRF_FOLDER}"/Tests/Environment
+  env -u LD_LIBRARY_PATH  tar -xvf Fortran_C_NETCDF_MPI_tests.tar -C "${WRF_FOLDER}"/Tests/Compatibility
   export one="1"
   echo " "
   ############## Testing Environment #####
@@ -26536,7 +26551,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "Int
   export WRFIO_NCD_LARGE_FILE_SUPPORT=1
   cd "${WRF_FOLDER}"/Downloads
   wget -c https://github.com/wrf-model/WRF/releases/download/v${WRF_VERSION}/v${WRF_VERSION}.tar.gz -O WRF-${WRF_VERSION}.tar.gz
-  LD_LIBRARY_PATH= tar -xvzf WRF-${WRF_VERSION}.tar.gz -C "${WRF_FOLDER}"/
+  env -u LD_LIBRARY_PATH  tar -xvzf WRF-${WRF_VERSION}.tar.gz -C "${WRF_FOLDER}"/
 
   # If statment for changing folder name
   # Check if WRF directory exists
@@ -26601,7 +26616,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "Int
 
   cd "${WRF_FOLDER}"/Downloads
   wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v${WPS_VERSION}.tar.gz -O WPS-${WPS_VERSION}.tar.gz
-  LD_LIBRARY_PATH= tar -xvzf WPS-${WPS_VERSION}.tar.gz -C "${WRF_FOLDER}"/
+  env -u LD_LIBRARY_PATH  tar -xvzf WPS-${WPS_VERSION}.tar.gz -C "${WRF_FOLDER}"/
   # Check if WPS directory exists
   if [ -d "${WRF_FOLDER}/WPS" ]; then
     mv -f "${WRF_FOLDER}/WPS" "${WRF_FOLDER}/WPS-${WPS_VERSION}"
@@ -26659,7 +26674,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "Int
 
   cd "${WRF_FOLDER}"/Downloads
   mkdir "${WRF_FOLDER}"/WRFPLUS
-  LD_LIBRARY_PATH= tar -xvzf WRF-${WRF_VERSION}.tar.gz -C "${WRF_FOLDER}"/WRFPLUS
+  env -u LD_LIBRARY_PATH  tar -xvzf WRF-${WRF_VERSION}.tar.gz -C "${WRF_FOLDER}"/WRFPLUS
 
   # If statement for changing folder name inside WRFPLUS
   if [ -d "${WRF_FOLDER}/WRFPLUS/WRF" ]; then
@@ -26725,7 +26740,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "Int
 
   cd "${WRF_FOLDER}"/Downloads
   mkdir "${WRF_FOLDER}"/WRFDA
-  LD_LIBRARY_PATH= tar -xvzf WRF-${WRF_VERSION}.tar.gz -C "${WRF_FOLDER}"/WRFDA
+  env -u LD_LIBRARY_PATH  tar -xvzf WRF-${WRF_VERSION}.tar.gz -C "${WRF_FOLDER}"/WRFDA
 
   # If statement for changing folder name inside WRFDA
   if [ -d "${WRF_FOLDER}/WRFDA/WRF" ]; then
@@ -26798,10 +26813,10 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "Int
   echo "Mandatory WRF Preprocessing System (WPS) Geographical Input Data Mandatory Fields Downloads"
   echo " "
   wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_high_res_mandatory.tar.gz
-  LD_LIBRARY_PATH= tar -xvzf geog_high_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
+  env -u LD_LIBRARY_PATH  tar -xvzf geog_high_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
 
   wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_low_res_mandatory.tar.gz
-  LD_LIBRARY_PATH= tar -xvzf geog_low_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
+  env -u LD_LIBRARY_PATH  tar -xvzf geog_low_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
   mv "${WRF_FOLDER}"/GEOG/WPS_GEOG_LOW_RES/ "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
   if [ ${WPS_Specific_Applications} -eq 1 ]; then
@@ -26810,34 +26825,34 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "Int
     echo " "
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_thompson28_chem.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_thompson28_chem.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_thompson28_chem.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_noahmp.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_noahmp.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_noahmp.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/irrigation.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf irrigation.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf irrigation.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_px.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_px.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_px.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_urban.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_urban.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_urban.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_ssib.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_ssib.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_ssib.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/lake_depth.tar.bz2
-    LD_LIBRARY_PATH= tar -xvf lake_depth.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf lake_depth.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/topobath_30s.tar.bz2
-    LD_LIBRARY_PATH= tar -xvf topobath_30s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf topobath_30s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/gsl_gwd.tar.bz2
-    LD_LIBRARY_PATH= tar -xvf gsl_gwd.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf gsl_gwd.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/cglc_modis_lcz_global.tar.gz
-    LD_LIBRARY_PATH= tar -xvf cglc_modis_lcz_global.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf cglc_modis_lcz_global.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
   fi
 
@@ -26848,22 +26863,22 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "Int
     echo " "
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_older_than_2000.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_older_than_2000.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_older_than_2000.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s_with_lakes.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf modis_landuse_20class_15s_with_lakes.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf modis_landuse_20class_15s_with_lakes.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_alt_lsm.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_alt_lsm.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_alt_lsm.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/nlcd2006_ll_9s.tar.bz2
-    LD_LIBRARY_PATH= tar -xvf nlcd2006_ll_9s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf nlcd2006_ll_9s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/updated_Iceland_LU.tar.gz
-    LD_LIBRARY_PATH= tar -xvf updated_Iceland_LU.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf updated_Iceland_LU.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s.tar.bz2
-    LD_LIBRARY_PATH= tar -xvf modis_landuse_20class_15s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf modis_landuse_20class_15s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
   fi
 fi
@@ -26902,7 +26917,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "ARM
   ##############################Directory Listing############################
 
   export HOME=$(
-    cd
+    cd ~ &&
     pwd
   )
   mkdir $HOME/WRF
@@ -27037,7 +27052,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "ARM
   ############################# ZLib ############################
 
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf zlib-$Zlib_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf zlib-$Zlib_Version.tar.gz
   cd zlib-$Zlib_Version/
 
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
@@ -27051,7 +27066,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "ARM
   echo " "
   ############################## MPICH ############################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf mpich-$Mpich_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf mpich-$Mpich_Version.tar.gz
   cd mpich-$Mpich_Version/
 
   F90= ./configure --prefix=$DIR/MPICH --with-device=ch3 FFLAGS="$fallow_argument $boz_argument " FCFLAGS="$fallow_argument $boz_argument " 2>&1 | tee configure.log
@@ -27077,7 +27092,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "ARM
   export LDFLAGS=-L$DIR/grib2/lib
   export CPPFLAGS=-I$DIR/grib2/include
 
-  LD_LIBRARY_PATH= tar -xvzf libpng-$Libpng_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf libpng-$Libpng_Version.tar.gz
   cd libpng-$Libpng_Version/
 
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
@@ -27091,7 +27106,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "ARM
   #############################JasPer ############################
 
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf jasper-$Jasper_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf jasper-$Jasper_Version.tar.gz
   cd jasper-$Jasper_Version/
 
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
@@ -27107,7 +27122,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "ARM
   ############################# hdf5 library for netcdf4 functionality ############################
 
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf hdf5-$HDF5_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf hdf5-$HDF5_Version.tar.gz
   cd hdf5-$HDF5_Version
 
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --with-zlib=$DIR/grib2 --enable-hl --enable-fortran --enable-parallel 2>&1 | tee configure.log
@@ -27128,7 +27143,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "ARM
   #Hard path for MPI added
   ##################################################################################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf pnetcdf-$Pnetcdf_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf pnetcdf-$Pnetcdf_Version.tar.gz
   cd pnetcdf-$Pnetcdf_Version
 
   export MPIFC=$DIR/MPICH/bin/mpifort
@@ -27149,7 +27164,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "ARM
 
   ############################## Install NETCDF C Library ############################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf v$Netcdf_C_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf v$Netcdf_C_Version.tar.gz
   cd netcdf-c-$Netcdf_C_Version/
 
   export CPPFLAGS=-I$DIR/grib2/include
@@ -27171,7 +27186,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "ARM
 
   ############################## NetCDF fortran library ############################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf v$Netcdf_Fortran_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf v$Netcdf_Fortran_Version.tar.gz
   cd netcdf-fortran-$Netcdf_Fortran_Version/
 
   export LD_LIBRARY_PATH=$DIR/NETCDF/lib:$LD_LIBRARY_PATH
@@ -27193,8 +27208,8 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "ARM
   wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_NETCDF_MPI_tests.tar
   wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_tests.tar
 
-  LD_LIBRARY_PATH= tar -xvf Fortran_C_tests.tar -C "${WRF_FOLDER}"/Tests/Environment
-  LD_LIBRARY_PATH= tar -xvf Fortran_C_NETCDF_MPI_tests.tar -C "${WRF_FOLDER}"/Tests/Compatibility
+  env -u LD_LIBRARY_PATH  tar -xvf Fortran_C_tests.tar -C "${WRF_FOLDER}"/Tests/Environment
+  env -u LD_LIBRARY_PATH  tar -xvf Fortran_C_NETCDF_MPI_tests.tar -C "${WRF_FOLDER}"/Tests/Compatibility
   export one="1"
   echo " "
   ############## Testing Environment #####
@@ -27403,7 +27418,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "ARM
   export WRFIO_NCD_LARGE_FILE_SUPPORT=1
   cd "${WRF_FOLDER}"/Downloads
   wget -c https://github.com/wrf-model/WRF/releases/download/v${WRF_VERSION}/v${WRF_VERSION}.tar.gz -O WRF-${WRF_VERSION}.tar.gz
-  LD_LIBRARY_PATH= tar -xvzf WRF-${WRF_VERSION}.tar.gz -C "${WRF_FOLDER}"/
+  env -u LD_LIBRARY_PATH  tar -xvzf WRF-${WRF_VERSION}.tar.gz -C "${WRF_FOLDER}"/
 
   # If statment for changing folder name
   # Check if WRF directory exists
@@ -27465,7 +27480,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "ARM
 
   cd "${WRF_FOLDER}"/Downloads
   wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v${WPS_VERSION}.tar.gz -O WPS-${WPS_VERSION}.tar.gz
-  LD_LIBRARY_PATH= tar -xvzf WPS-${WPS_VERSION}.tar.gz -C "${WRF_FOLDER}"/
+  env -u LD_LIBRARY_PATH  tar -xvzf WPS-${WPS_VERSION}.tar.gz -C "${WRF_FOLDER}"/
   # Check if WPS directory exists
   if [ -d "${WRF_FOLDER}/WPS" ]; then
     mv -f "${WRF_FOLDER}/WPS" "${WRF_FOLDER}/WPS-${WPS_VERSION}"
@@ -27523,7 +27538,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "ARM
 
   cd "${WRF_FOLDER}"/Downloads
   mkdir "${WRF_FOLDER}"/WRFPLUS
-  LD_LIBRARY_PATH= tar -xvzf WRF-${WRF_VERSION}.tar.gz -C "${WRF_FOLDER}"/WRFPLUS
+  env -u LD_LIBRARY_PATH  tar -xvzf WRF-${WRF_VERSION}.tar.gz -C "${WRF_FOLDER}"/WRFPLUS
 
   # If statement for changing folder name inside WRFPLUS
   if [ -d "${WRF_FOLDER}/WRFPLUS/WRF" ]; then
@@ -27589,7 +27604,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "ARM
 
   cd "${WRF_FOLDER}"/Downloads
   mkdir "${WRF_FOLDER}"/WRFDA
-  LD_LIBRARY_PATH= tar -xvzf WRF-${WRF_VERSION}.tar.gz -C "${WRF_FOLDER}"/WRFDA
+  env -u LD_LIBRARY_PATH  tar -xvzf WRF-${WRF_VERSION}.tar.gz -C "${WRF_FOLDER}"/WRFDA
 
   # If statement for changing folder name inside WRFDA
   if [ -d "${WRF_FOLDER}/WRFDA/WRF" ]; then
@@ -27662,10 +27677,10 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "ARM
   echo "Mandatory WRF Preprocessing System (WPS) Geographical Input Data Mandatory Fields Downloads"
   echo " "
   wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_high_res_mandatory.tar.gz
-  LD_LIBRARY_PATH= tar -xvzf geog_high_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
+  env -u LD_LIBRARY_PATH  tar -xvzf geog_high_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
 
   wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_low_res_mandatory.tar.gz
-  LD_LIBRARY_PATH= tar -xvzf geog_low_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
+  env -u LD_LIBRARY_PATH  tar -xvzf geog_low_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
   mv "${WRF_FOLDER}"/GEOG/WPS_GEOG_LOW_RES/ "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
   if [ ${WPS_Specific_Applications} -eq 1 ]; then
@@ -27674,34 +27689,34 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "ARM
     echo " "
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_thompson28_chem.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_thompson28_chem.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_thompson28_chem.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_noahmp.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_noahmp.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_noahmp.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/irrigation.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf irrigation.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf irrigation.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_px.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_px.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_px.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_urban.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_urban.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_urban.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_ssib.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_ssib.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_ssib.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/lake_depth.tar.bz2
-    LD_LIBRARY_PATH= tar -xvf lake_depth.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf lake_depth.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/topobath_30s.tar.bz2
-    LD_LIBRARY_PATH= tar -xvf topobath_30s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf topobath_30s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/gsl_gwd.tar.bz2
-    LD_LIBRARY_PATH= tar -xvf gsl_gwd.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf gsl_gwd.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/cglc_modis_lcz_global.tar.gz
-    LD_LIBRARY_PATH= tar -xvf cglc_modis_lcz_global.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf cglc_modis_lcz_global.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
   fi
 
@@ -27712,22 +27727,22 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "ARM
     echo " "
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_older_than_2000.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_older_than_2000.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_older_than_2000.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s_with_lakes.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf modis_landuse_20class_15s_with_lakes.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf modis_landuse_20class_15s_with_lakes.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_alt_lsm.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_alt_lsm.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_alt_lsm.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/nlcd2006_ll_9s.tar.bz2
-    LD_LIBRARY_PATH= tar -xvf nlcd2006_ll_9s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf nlcd2006_ll_9s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/updated_Iceland_LU.tar.gz
-    LD_LIBRARY_PATH= tar -xvf updated_Iceland_LU.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf updated_Iceland_LU.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s.tar.bz2
-    LD_LIBRARY_PATH= tar -xvf modis_landuse_20class_15s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf modis_landuse_20class_15s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
   fi
 
@@ -27754,7 +27769,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   echo " "
   ##############################Directory Listing############################
   export HOME=$(
-    cd
+    cd ~ &&
     pwd
   )
 
@@ -27841,7 +27856,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   ############################# ZLib ############################
 
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf zlib-$Zlib_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf zlib-$Zlib_Version.tar.gz
   cd zlib-$Zlib_Version/
 
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
@@ -27856,7 +27871,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   ############################## MPICH ############################
   #F90= due to compiler issues with mpich install
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf mpich-$Mpich_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf mpich-$Mpich_Version.tar.gz
   cd mpich-$Mpich_Version/
 
   F90= ./configure --prefix=$DIR/MPICH --with-device=ch3 FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS 2>&1 | tee configure.log
@@ -27880,7 +27895,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   export LDFLAGS=-L$DIR/grib2/lib
   export CPPFLAGS=-I$DIR/grib2/include
 
-  LD_LIBRARY_PATH= tar -xvzf libpng-$Libpng_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf libpng-$Libpng_Version.tar.gz
   cd libpng-$Libpng_Version/
 
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
@@ -27893,7 +27908,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   echo " "
   #############################JasPer ############################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf jasper-$Jasper_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf jasper-$Jasper_Version.tar.gz
   cd jasper-$Jasper_Version/
 
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
@@ -27909,7 +27924,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   echo " "
   ############################# hdf5 library for netcdf4 functionality ############################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf hdf5-$HDF5_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf hdf5-$HDF5_Version.tar.gz
   cd hdf5-$HDF5_Version
 
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --with-zlib=$DIR/grib2 --enable-hl --enable-fortran --enable-parallel 2>&1 | tee configure.log
@@ -27929,7 +27944,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   #Hard path for MPI added
   ##################################################################################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf pnetcdf-$Pnetcdf_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf pnetcdf-$Pnetcdf_Version.tar.gz
   cd pnetcdf-$Pnetcdf_Version
 
   export MPIFC=$DIR/MPICH/bin/mpifort
@@ -27950,7 +27965,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 
   ############################## Install NETCDF C Library ############################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf v$Netcdf_C_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf v$Netcdf_C_Version.tar.gz
   cd netcdf-c-$Netcdf_C_Version/
   export CPPFLAGS=-I$DIR/grib2/include
   export LDFLAGS="-L$DIR/grib2/lib -Wl,-rpath,$DIR/grib2/lib"
@@ -27971,7 +27986,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   echo " "
   ############################## NetCDF fortran library ############################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf v$Netcdf_Fortran_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf v$Netcdf_Fortran_Version.tar.gz
   cd netcdf-fortran-$Netcdf_Fortran_Version/
   export LD_LIBRARY_PATH=$DIR/NETCDF/lib:$LD_LIBRARY_PATH
   export CPPFLAGS="-I$DIR/NETCDF/include -I$DIR/grib2/include"
@@ -27990,8 +28005,8 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_NETCDF_MPI_tests.tar
   wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_tests.tar
 
-  LD_LIBRARY_PATH= tar -xvf Fortran_C_tests.tar -C "${WRF_FOLDER}"/Tests/Environment
-  LD_LIBRARY_PATH= tar -xvf Fortran_C_NETCDF_MPI_tests.tar -C "${WRF_FOLDER}"/Tests/Compatibility
+  env -u LD_LIBRARY_PATH  tar -xvf Fortran_C_tests.tar -C "${WRF_FOLDER}"/Tests/Environment
+  env -u LD_LIBRARY_PATH  tar -xvf Fortran_C_NETCDF_MPI_tests.tar -C "${WRF_FOLDER}"/Tests/Compatibility
 
   export one="1"
   echo " "
@@ -28116,16 +28131,16 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   #############################################################################
   if [[ $GRADS_PICK -eq 1 ]]; then
     cd "${WRF_FOLDER}"/Downloads
-    LD_LIBRARY_PATH= tar -xvzf cd "${WRF_FOLDER}"/Downloads
+    env -u LD_LIBRARY_PATH  tar -xvzf cd "${WRF_FOLDER}"/Downloads
     wget -c https://sourceforge.net/projects/opengrads/files/grads2/2.2.1.oga.1/Linux%20%2864%20Bits%29/opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz -C "${WRF_FOLDER}"/ -C "${WRF_FOLDER}"/
+    env -u LD_LIBRARY_PATH  tar -xvzf opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz -C "${WRF_FOLDER}"/ -C "${WRF_FOLDER}"/
     cd "${WRF_FOLDER}"/
     mv "${WRF_FOLDER}"/opengrads-2.2.1.oga.1 "${WRF_FOLDER}"/GrADS
     cd GrADS/Contents
     wget -c https://github.com/regisgrundig/SIMOP/blob/master/g2ctl.pl
     chmod +x g2ctl.pl
     wget -c https://sourceforge.net/projects/opengrads/files/wgrib2/0.1.9.4/wgrib2-v0.1.9.4-bin-i686-glib2.5-linux-gnu.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf wgrib2-v0.1.9.4-bin-i686-glib2.5-linux-gnu.tar.gz
+    env -u LD_LIBRARY_PATH  tar -xvzf wgrib2-v0.1.9.4-bin-i686-glib2.5-linux-gnu.tar.gz
     cd wgrib2-v0.1.9.4/bin
     mv wgrib2 "${WRF_FOLDER}"/GrADS/Contents
     cd "${WRF_FOLDER}"/GrADS/Contents
@@ -28144,7 +28159,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   if [[ $GRADS_PICK -eq 2 ]]; then
     cd "${WRF_FOLDER}"/Downloads
     wget -c ftp://cola.gmu.edu/grads/2.2/grads-2.2.1-bin-RHL7.4-x86_64.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf grads-2.2.1-bin-RHL7.4-x86_64.tar.gz -C "${WRF_FOLDER}"
+    env -u LD_LIBRARY_PATH  tar -xvzf grads-2.2.1-bin-RHL7.4-x86_64.tar.gz -C "${WRF_FOLDER}"
     cd "${WRF_FOLDER}"/grads-2.2.1/bin
     chmod 775 *
 
@@ -28208,7 +28223,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   conda activate ncl_stable
 
   export HOME=$(
-    cd
+    cd ~ &&
     pwd
   )
   export DIR="${WRF_FOLDER}"/Libs
@@ -28282,7 +28297,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   ########################################################################
   cd "${WRF_FOLDER}"/Downloads
   wget -c https://github.com/wrf-model/WRF/releases/download/v${WRF_VERSION}/v${WRF_VERSION}.tar.gz -O WRF-${WRF_VERSION}.tar.gz
-  LD_LIBRARY_PATH= tar -xvzf WRF-${WRF_VERSION}.tar.gz -C "${WRF_FOLDER}"/
+  env -u LD_LIBRARY_PATH  tar -xvzf WRF-${WRF_VERSION}.tar.gz -C "${WRF_FOLDER}"/
 
   # If statment for changing folder name
   # Check if WRF directory exists
@@ -28348,7 +28363,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 
   cd "${WRF_FOLDER}"/Downloads
   wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v${WPS_VERSION}.tar.gz -O WPS-${WPS_VERSION}.tar.gz
-  LD_LIBRARY_PATH= tar -xvzf WPS-${WPS_VERSION}.tar.gz -C "${WRF_FOLDER}"/
+  env -u LD_LIBRARY_PATH  tar -xvzf WPS-${WPS_VERSION}.tar.gz -C "${WRF_FOLDER}"/
   # Check if WPS directory exists
   if [ -d "${WRF_FOLDER}/WPS" ]; then
     mv -f "${WRF_FOLDER}/WPS" "${WRF_FOLDER}/WPS-${WPS_VERSION}"
@@ -28405,7 +28420,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   ########################################################################
   cd "${WRF_FOLDER}"/Downloads
   mkdir "${WRF_FOLDER}"/WRFPLUS
-  LD_LIBRARY_PATH= tar -xvzf WRF-${WRF_VERSION}.tar.gz -C "${WRF_FOLDER}"/WRFPLUS
+  env -u LD_LIBRARY_PATH  tar -xvzf WRF-${WRF_VERSION}.tar.gz -C "${WRF_FOLDER}"/WRFPLUS
 
   # If statement for changing folder name inside WRFPLUS
   if [ -d "${WRF_FOLDER}/WRFPLUS/WRF" ]; then
@@ -28472,7 +28487,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   ########################################################################
   cd "${WRF_FOLDER}"/Downloads
   mkdir "${WRF_FOLDER}"/WRFDA
-  LD_LIBRARY_PATH= tar -xvzf WRF-${WRF_VERSION}.tar.gz -C "${WRF_FOLDER}"/WRFDA
+  env -u LD_LIBRARY_PATH  tar -xvzf WRF-${WRF_VERSION}.tar.gz -C "${WRF_FOLDER}"/WRFDA
 
   # If statement for changing folder name inside WRFDA
   if [ -d "${WRF_FOLDER}/WRFDA/WRF" ]; then
@@ -28548,10 +28563,10 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   echo "Mandatory WRF Preprocessing System (WPS) Geographical Input Data Mandatory Fields Downloads"
   echo " "
   wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_high_res_mandatory.tar.gz
-  LD_LIBRARY_PATH= tar -xvzf geog_high_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
+  env -u LD_LIBRARY_PATH  tar -xvzf geog_high_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
 
   wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_low_res_mandatory.tar.gz
-  LD_LIBRARY_PATH= tar -xvzf geog_low_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
+  env -u LD_LIBRARY_PATH  tar -xvzf geog_low_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
   mv "${WRF_FOLDER}"/GEOG/WPS_GEOG_LOW_RES/ "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
   if [ ${WPS_Specific_Applications} -eq 1 ]; then
@@ -28560,36 +28575,36 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
     echo " "
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_thompson28_chem.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_thompson28_chem.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_thompson28_chem.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_noahmp.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_noahmp.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_noahmp.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/irrigation.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf irrigation.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf irrigation.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
     mkdir "${WRF_FOLDER}"/GEOG/WPS_GEOG/irrigation
     mv "${WRF_FOLDER}"/GEOG/WPS_GEOG/fao "${WRF_FOLDER}"/GEOG/WPS_GEOG/irrigation
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_px.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_px.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_px.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_urban.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_urban.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_urban.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_ssib.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_ssib.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_ssib.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/lake_depth.tar.bz2
-    LD_LIBRARY_PATH= tar -xvf lake_depth.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf lake_depth.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/topobath_30s.tar.bz2
-    LD_LIBRARY_PATH= tar -xvf topobath_30s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf topobath_30s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/gsl_gwd.tar.bz2
-    LD_LIBRARY_PATH= tar -xvf gsl_gwd.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf gsl_gwd.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/cglc_modis_lcz_global.tar.gz
-    LD_LIBRARY_PATH= tar -xvf cglc_modis_lcz_global.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf cglc_modis_lcz_global.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
   fi
 
   if [ ${Optional_GEOG} -eq 1 ]; then
@@ -28598,22 +28613,22 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
     echo " "
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_older_than_2000.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_older_than_2000.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_older_than_2000.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s_with_lakes.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf modis_landuse_20class_15s_with_lakes.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf modis_landuse_20class_15s_with_lakes.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_alt_lsm.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_alt_lsm.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_alt_lsm.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/nlcd2006_ll_9s.tar.bz2
-    LD_LIBRARY_PATH= tar -xvf nlcd2006_ll_9s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf nlcd2006_ll_9s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/updated_Iceland_LU.tar.gz
-    LD_LIBRARY_PATH= tar -xvf updated_Iceland_LU.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf updated_Iceland_LU.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s.tar.bz2
-    LD_LIBRARY_PATH= tar -xvf modis_landuse_20class_15s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf modis_landuse_20class_15s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
   fi
 fi
 
@@ -28646,7 +28661,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRF_PICK" = "1" ]; then
   echo " "
   ##############################Directory Listing############################
   export HOME=$(
-    cd
+    cd ~ &&
     pwd
   )
 
@@ -28733,7 +28748,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRF_PICK" = "1" ]; then
   ############################# ZLib ############################
 
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf zlib-$Zlib_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf zlib-$Zlib_Version.tar.gz
   cd zlib-$Zlib_Version/
 
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
@@ -28748,7 +28763,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRF_PICK" = "1" ]; then
   ############################## MPICH ############################
   #F90= due to compiler issues with mpich install
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf mpich-$Mpich_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf mpich-$Mpich_Version.tar.gz
   cd mpich-$Mpich_Version/
 
   F90= ./configure --prefix=$DIR/MPICH --with-device=ch3 FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS 2>&1 | tee configure.log
@@ -28772,7 +28787,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRF_PICK" = "1" ]; then
   export LDFLAGS=-L$DIR/grib2/lib
   export CPPFLAGS=-I$DIR/grib2/include
 
-  LD_LIBRARY_PATH= tar -xvzf libpng-$Libpng_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf libpng-$Libpng_Version.tar.gz
   cd libpng-$Libpng_Version/
 
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
@@ -28785,7 +28800,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRF_PICK" = "1" ]; then
   echo " "
   #############################JasPer ############################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf jasper-$Jasper_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf jasper-$Jasper_Version.tar.gz
   cd jasper-$Jasper_Version/
 
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
@@ -28801,7 +28816,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRF_PICK" = "1" ]; then
   echo " "
   ############################# hdf5 library for netcdf4 functionality ############################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf hdf5-$HDF5_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf hdf5-$HDF5_Version.tar.gz
   cd hdf5-$HDF5_Version
 
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --with-zlib=$DIR/grib2 --enable-hl --enable-fortran --enable-parallel 2>&1 | tee configure.log
@@ -28821,7 +28836,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRF_PICK" = "1" ]; then
   #Hard path for MPI added
   ##################################################################################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf pnetcdf-$Pnetcdf_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf pnetcdf-$Pnetcdf_Version.tar.gz
   cd pnetcdf-$Pnetcdf_Version
   export MPIFC=$DIR/MPICH/bin/mpifort
   export MPIF77=$DIR/MPICH/bin/mpifort
@@ -28841,7 +28856,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRF_PICK" = "1" ]; then
 
   ############################## Install NETCDF C Library ############################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf v$Netcdf_C_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf v$Netcdf_C_Version.tar.gz
   cd netcdf-c-$Netcdf_C_Version/
   export CPPFLAGS=-I$DIR/grib2/include
   export LDFLAGS="-L$DIR/grib2/lib -Wl,-rpath,$DIR/grib2/lib"
@@ -28862,7 +28877,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRF_PICK" = "1" ]; then
   echo " "
   ############################## NetCDF fortran library ############################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf v$Netcdf_Fortran_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf v$Netcdf_Fortran_Version.tar.gz
   cd netcdf-fortran-$Netcdf_Fortran_Version/
   export LD_LIBRARY_PATH=$DIR/NETCDF/lib:$LD_LIBRARY_PATH
   export CPPFLAGS="-I$DIR/NETCDF/include -I$DIR/grib2/include"
@@ -28881,8 +28896,8 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRF_PICK" = "1" ]; then
   wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_NETCDF_MPI_tests.tar
   wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_tests.tar
 
-  LD_LIBRARY_PATH= tar -xvf Fortran_C_tests.tar -C "${WRF_FOLDER}"/Tests/Environment
-  LD_LIBRARY_PATH= tar -xvf Fortran_C_NETCDF_MPI_tests.tar -C "${WRF_FOLDER}"/Tests/Compatibility
+  env -u LD_LIBRARY_PATH  tar -xvf Fortran_C_tests.tar -C "${WRF_FOLDER}"/Tests/Environment
+  env -u LD_LIBRARY_PATH  tar -xvf Fortran_C_NETCDF_MPI_tests.tar -C "${WRF_FOLDER}"/Tests/Compatibility
 
   export one="1"
   echo " "
@@ -29007,16 +29022,16 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRF_PICK" = "1" ]; then
   #############################################################################
   if [[ $GRADS_PICK -eq 1 ]]; then
     cd "${WRF_FOLDER}"/Downloads
-    LD_LIBRARY_PATH= tar -xvzf cd "${WRF_FOLDER}"/Downloads
+    env -u LD_LIBRARY_PATH  tar -xvzf cd "${WRF_FOLDER}"/Downloads
     wget -c https://sourceforge.net/projects/opengrads/files/grads2/2.2.1.oga.1/Linux%20%2864%20Bits%29/opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz -C "${WRF_FOLDER}"/ -C "${WRF_FOLDER}"/
+    env -u LD_LIBRARY_PATH  tar -xvzf opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz -C "${WRF_FOLDER}"/ -C "${WRF_FOLDER}"/
     cd "${WRF_FOLDER}"/
     mv "${WRF_FOLDER}"/opengrads-2.2.1.oga.1 "${WRF_FOLDER}"/GrADS
     cd GrADS/Contents
     wget -c https://github.com/regisgrundig/SIMOP/blob/master/g2ctl.pl
     chmod +x g2ctl.pl
     wget -c https://sourceforge.net/projects/opengrads/files/wgrib2/0.1.9.4/wgrib2-v0.1.9.4-bin-i686-glib2.5-linux-gnu.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf wgrib2-v0.1.9.4-bin-i686-glib2.5-linux-gnu.tar.gz
+    env -u LD_LIBRARY_PATH  tar -xvzf wgrib2-v0.1.9.4-bin-i686-glib2.5-linux-gnu.tar.gz
     cd wgrib2-v0.1.9.4/bin
     mv wgrib2 "${WRF_FOLDER}"/GrADS/Contents
     cd "${WRF_FOLDER}"/GrADS/Contents
@@ -29035,7 +29050,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRF_PICK" = "1" ]; then
   if [[ $GRADS_PICK -eq 2 ]]; then
     cd "${WRF_FOLDER}"/Downloads
     wget -c ftp://cola.gmu.edu/grads/2.2/grads-2.2.1-bin-RHL7.4-x86_64.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf grads-2.2.1-bin-RHL7.4-x86_64.tar.gz -C "${WRF_FOLDER}"
+    env -u LD_LIBRARY_PATH  tar -xvzf grads-2.2.1-bin-RHL7.4-x86_64.tar.gz -C "${WRF_FOLDER}"
     cd "${WRF_FOLDER}"/grads-2.2.1/bin
     chmod 775 *
 
@@ -29098,7 +29113,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRF_PICK" = "1" ]; then
   conda activate ncl_stable
 
   export HOME=$(
-    cd
+    cd ~ &&
     pwd
   )
   export DIR="${WRF_FOLDER}"/Libs
@@ -29173,7 +29188,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRF_PICK" = "1" ]; then
   ########################################################################
   cd "${WRF_FOLDER}"/Downloads
   wget -c https://github.com/wrf-model/WRF/releases/download/v${WRF_VERSION}/v${WRF_VERSION}.tar.gz -O WRF-${WRF_VERSION}.tar.gz
-  LD_LIBRARY_PATH= tar -xvzf WRF-${WRF_VERSION}.tar.gz -C "${WRF_FOLDER}"/
+  env -u LD_LIBRARY_PATH  tar -xvzf WRF-${WRF_VERSION}.tar.gz -C "${WRF_FOLDER}"/
 
   # If statment for changing folder name
   # Check if WRF directory exists
@@ -29239,7 +29254,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRF_PICK" = "1" ]; then
 
   cd "${WRF_FOLDER}"/Downloads
   wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v${WPS_VERSION}.tar.gz -O WPS-${WPS_VERSION}.tar.gz
-  LD_LIBRARY_PATH= tar -xvzf WPS-${WPS_VERSION}.tar.gz -C "${WRF_FOLDER}"/
+  env -u LD_LIBRARY_PATH  tar -xvzf WPS-${WPS_VERSION}.tar.gz -C "${WRF_FOLDER}"/
   # Check if WPS directory exists
   if [ -d "${WRF_FOLDER}/WPS" ]; then
     mv -f "${WRF_FOLDER}/WPS" "${WRF_FOLDER}/WPS-${WPS_VERSION}"
@@ -29296,7 +29311,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRF_PICK" = "1" ]; then
   ########################################################################
   cd "${WRF_FOLDER}"/Downloads
   mkdir "${WRF_FOLDER}"/WRFPLUS
-  LD_LIBRARY_PATH= tar -xvzf WRF-${WRF_VERSION}.tar.gz -C "${WRF_FOLDER}"/WRFPLUS
+  env -u LD_LIBRARY_PATH  tar -xvzf WRF-${WRF_VERSION}.tar.gz -C "${WRF_FOLDER}"/WRFPLUS
 
   # If statement for changing folder name inside WRFPLUS
   if [ -d "${WRF_FOLDER}/WRFPLUS/WRF" ]; then
@@ -29363,7 +29378,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRF_PICK" = "1" ]; then
   ########################################################################
   cd "${WRF_FOLDER}"/Downloads
   mkdir "${WRF_FOLDER}"/WRFDA
-  LD_LIBRARY_PATH= tar -xvzf WRF-${WRF_VERSION}.tar.gz -C "${WRF_FOLDER}"/WRFDA
+  env -u LD_LIBRARY_PATH  tar -xvzf WRF-${WRF_VERSION}.tar.gz -C "${WRF_FOLDER}"/WRFDA
 
   # If statement for changing folder name inside WRFDA
   if [ -d "${WRF_FOLDER}/WRFDA/WRF" ]; then
@@ -29438,10 +29453,10 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRF_PICK" = "1" ]; then
   echo "Mandatory WRF Preprocessing System (WPS) Geographical Input Data Mandatory Fields Downloads"
   echo " "
   wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_high_res_mandatory.tar.gz
-  LD_LIBRARY_PATH= tar -xvzf geog_high_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
+  env -u LD_LIBRARY_PATH  tar -xvzf geog_high_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
 
   wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_low_res_mandatory.tar.gz
-  LD_LIBRARY_PATH= tar -xvzf geog_low_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
+  env -u LD_LIBRARY_PATH  tar -xvzf geog_low_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
   mv "${WRF_FOLDER}"/GEOG/WPS_GEOG_LOW_RES/ "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
   if [ ${WPS_Specific_Applications} -eq 1 ]; then
@@ -29450,36 +29465,36 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRF_PICK" = "1" ]; then
     echo " "
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_thompson28_chem.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_thompson28_chem.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_thompson28_chem.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_noahmp.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_noahmp.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_noahmp.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/irrigation.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf irrigation.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf irrigation.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
     mkdir "${WRF_FOLDER}"/GEOG/WPS_GEOG/irrigation
     mv "${WRF_FOLDER}"/GEOG/WPS_GEOG/fao "${WRF_FOLDER}"/GEOG/WPS_GEOG/irrigation
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_px.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_px.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_px.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_urban.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_urban.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_urban.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_ssib.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_ssib.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_ssib.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/lake_depth.tar.bz2
-    LD_LIBRARY_PATH= tar -xvf lake_depth.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf lake_depth.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/topobath_30s.tar.bz2
-    LD_LIBRARY_PATH= tar -xvf topobath_30s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf topobath_30s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/gsl_gwd.tar.bz2
-    LD_LIBRARY_PATH= tar -xvf gsl_gwd.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf gsl_gwd.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/cglc_modis_lcz_global.tar.gz
-    LD_LIBRARY_PATH= tar -xvf cglc_modis_lcz_global.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf cglc_modis_lcz_global.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
   fi
 
   if [ ${Optional_GEOG} -eq 1 ]; then
@@ -29488,22 +29503,22 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRF_PICK" = "1" ]; then
     echo " "
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_older_than_2000.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_older_than_2000.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_older_than_2000.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s_with_lakes.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf modis_landuse_20class_15s_with_lakes.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf modis_landuse_20class_15s_with_lakes.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_alt_lsm.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_alt_lsm.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_alt_lsm.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/nlcd2006_ll_9s.tar.bz2
-    LD_LIBRARY_PATH= tar -xvf nlcd2006_ll_9s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf nlcd2006_ll_9s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/updated_Iceland_LU.tar.gz
-    LD_LIBRARY_PATH= tar -xvf updated_Iceland_LU.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf updated_Iceland_LU.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s.tar.bz2
-    LD_LIBRARY_PATH= tar -xvf modis_landuse_20class_15s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf modis_landuse_20class_15s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
   fi
 fi
 
@@ -29585,7 +29600,7 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRF_PICK" ]; then
   ############################################################################
 
   export HOME=$(
-    cd
+    cd ~ &&
     pwd
   )
   export WRF_FOLDER=$HOME/WRF_Intel
@@ -29618,7 +29633,7 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRF_PICK" ]; then
   ############################# ZLib ############################
 
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf zlib-$Zlib_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf zlib-$Zlib_Version.tar.gz
   cd zlib-$Zlib_Version/
 
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
@@ -29638,7 +29653,7 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRF_PICK" ]; then
   export LDFLAGS=-L$DIR/grib2/lib
   export CPPFLAGS=-I$DIR/grib2/include
 
-  LD_LIBRARY_PATH= tar -xvzf libpng-$Libpng_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf libpng-$Libpng_Version.tar.gz
   cd libpng-$Libpng_Version/
 
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
@@ -29652,7 +29667,7 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRF_PICK" ]; then
   ############################# JasPer ############################
 
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf jasper-$Jasper_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf jasper-$Jasper_Version.tar.gz
   cd jasper-$Jasper_Version/
 
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
@@ -29670,7 +29685,7 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRF_PICK" ]; then
   ############################# HDF5 library for NetCDF4 & parallel functionality ############################
 
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf hdf5-$HDF5_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf hdf5-$HDF5_Version.tar.gz
   cd hdf5-$HDF5_Version
 
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --with-zlib=$DIR/grib2 --enable-hl --enable-fortran --enable-parallel 2>&1 | tee configure.log
@@ -29692,7 +29707,7 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRF_PICK" ]; then
   #Hard path for MPI added
   ##################################################################################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf pnetcdf-$Pnetcdf_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf pnetcdf-$Pnetcdf_Version.tar.gz
   cd pnetcdf-$Pnetcdf_Version
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --enable-static 2>&1 | tee configure.log
 
@@ -29709,7 +29724,7 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRF_PICK" ]; then
   ############################## Install NETCDF-C Library ############################
 
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf v$Netcdf_C_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf v$Netcdf_C_Version.tar.gz
   cd netcdf-c-$Netcdf_C_Version/
 
   # these variables need to be set for the NetCDF-C install to work
@@ -29734,7 +29749,7 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRF_PICK" ]; then
   ############################## NetCDF-Fortran library ############################
 
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf v$Netcdf_Fortran_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf v$Netcdf_Fortran_Version.tar.gz
   cd netcdf-fortran-$Netcdf_Fortran_Version/
 
   # these variables need to be set for the NetCDF-Fortran install to work
@@ -29754,8 +29769,8 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRF_PICK" ]; then
   wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_NETCDF_MPI_tests.tar
   wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_tests.tar
 
-  LD_LIBRARY_PATH= tar -xvf Fortran_C_tests.tar -C "${WRF_FOLDER}/Tests/Environment"
-  LD_LIBRARY_PATH= tar -xvf Fortran_C_NETCDF_MPI_tests.tar -C "${WRF_FOLDER}"/Tests/Compatibility
+  env -u LD_LIBRARY_PATH  tar -xvf Fortran_C_tests.tar -C "${WRF_FOLDER}/Tests/Environment"
+  env -u LD_LIBRARY_PATH  tar -xvf Fortran_C_NETCDF_MPI_tests.tar -C "${WRF_FOLDER}"/Tests/Compatibility
 
   export one="1"
   echo " "
@@ -29878,16 +29893,16 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRF_PICK" ]; then
   #############################################################################
   if [[ $GRADS_PICK -eq 1 ]]; then
     cd "${WRF_FOLDER}"/Downloads
-    LD_LIBRARY_PATH LD_LIBRARY_PATH= tar -xvzf cd "${WRF_FOLDER}"/Downloads
+    LD_LIBRARY_PATH env -u LD_LIBRARY_PATH  tar -xvzf cd "${WRF_FOLDER}"/Downloads
     wget -c https://sourceforge.net/projects/opengrads/files/grads2/2.2.1.oga.1/Linux%20%2864%20Bits%29/opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz -C "${WRF_FOLDER}"/ -C "${WRF_FOLDER}"/
+    env -u LD_LIBRARY_PATH  tar -xvzf opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz -C "${WRF_FOLDER}"/ -C "${WRF_FOLDER}"/
     cd "${WRF_FOLDER}"/
     mv "${WRF_FOLDER}"/opengrads-2.2.1.oga.1 "${WRF_FOLDER}"/GrADS
     cd GrADS/Contents
     wget -c https://github.com/regisgrundig/SIMOP/blob/master/g2ctl.pl
     chmod +x g2ctl.pl
     wget -c https://sourceforge.net/projects/opengrads/files/wgrib2/0.1.9.4/wgrib2-v0.1.9.4-bin-x86_64-glibc2.5-linux-gnu.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf wgrib2-v0.1.9.4-bin-x86_64-glibc2.5-linux-gnu.tar.gz
+    env -u LD_LIBRARY_PATH  tar -xvzf wgrib2-v0.1.9.4-bin-x86_64-glibc2.5-linux-gnu.tar.gz
     cd wgrib2-v0.1.9.4/bin
     mv wgrib2 "${WRF_FOLDER}"/GrADS/Contents
     cd "${WRF_FOLDER}"/GrADS/Contents
@@ -29904,7 +29919,7 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRF_PICK" ]; then
   if [[ $GRADS_PICK -eq 2 ]]; then
     cd "${WRF_FOLDER}"/Downloads
     wget -c ftp://cola.gmu.edu/grads/2.2/grads-2.2.1-bin-centos7.4-x86_64.tar.gz
-    LD_LIBRARY_PATH LD_LIBRARY_PATH= tar -xvzf grads-2.2.1-bin-centos7.4-x86_64.tar.gz -C "${WRF_FOLDER}"
+    LD_LIBRARY_PATH env -u LD_LIBRARY_PATH  tar -xvzf grads-2.2.1-bin-centos7.4-x86_64.tar.gz -C "${WRF_FOLDER}"
     cd "${WRF_FOLDER}"/grads-2.2.1/bin
     chmod 775 *
 
@@ -29966,7 +29981,7 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRF_PICK" ]; then
   conda activate ncl_stable
 
   export HOME=$(
-    cd
+    cd ~ &&
     pwd
   )
   export DIR="${WRF_FOLDER}"/Libs
@@ -30055,7 +30070,7 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRF_PICK" ]; then
 
   cd "${WRF_FOLDER}"/Downloads
   wget -c https://github.com/wrf-model/WRF/releases/download/v${WRF_VERSION}/v${WRF_VERSION}.tar.gz -O WRF-${WRF_VERSION}.tar.gz
-  LD_LIBRARY_PATH= tar -xvzf WRF-${WRF_VERSION}.tar.gz -C "${WRF_FOLDER}"/
+  env -u LD_LIBRARY_PATH  tar -xvzf WRF-${WRF_VERSION}.tar.gz -C "${WRF_FOLDER}"/
 
   # If statment for changing folder name
   # Check if WRF directory exists
@@ -30125,7 +30140,7 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRF_PICK" ]; then
 
   cd "${WRF_FOLDER}"/Downloads
   wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v${WPS_VERSION}.tar.gz -O WPS-${WPS_VERSION}.tar.gz
-  LD_LIBRARY_PATH= tar -xvzf WPS-${WPS_VERSION}.tar.gz -C "${WRF_FOLDER}"/
+  env -u LD_LIBRARY_PATH  tar -xvzf WPS-${WPS_VERSION}.tar.gz -C "${WRF_FOLDER}"/
   # Check if WPS directory exists
   if [ -d "${WRF_FOLDER}/WPS" ]; then
     mv -f "${WRF_FOLDER}/WPS" "${WRF_FOLDER}/WPS-${WPS_VERSION}"
@@ -30188,7 +30203,7 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRF_PICK" ]; then
   ########################################################################
   cd "${WRF_FOLDER}"/Downloads
   mkdir "${WRF_FOLDER}"/WRFPLUS
-  LD_LIBRARY_PATH= tar -xvzf WRF-${WRF_VERSION}.tar.gz -C "${WRF_FOLDER}"/WRFPLUS
+  env -u LD_LIBRARY_PATH  tar -xvzf WRF-${WRF_VERSION}.tar.gz -C "${WRF_FOLDER}"/WRFPLUS
 
   # If statement for changing folder name inside WRFPLUS
   if [ -d "${WRF_FOLDER}/WRFPLUS/WRF" ]; then
@@ -30262,7 +30277,7 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRF_PICK" ]; then
   ########################################################################
   cd "${WRF_FOLDER}"/Downloads
   mkdir "${WRF_FOLDER}"/WRFDA
-  LD_LIBRARY_PATH= tar -xvzf WRF-${WRF_VERSION}.tar.gz -C "${WRF_FOLDER}"/WRFDA
+  env -u LD_LIBRARY_PATH  tar -xvzf WRF-${WRF_VERSION}.tar.gz -C "${WRF_FOLDER}"/WRFDA
 
   # If statement for changing folder name inside WRFDA
   if [ -d "${WRF_FOLDER}/WRFDA/WRF" ]; then
@@ -30340,10 +30355,10 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRF_PICK" ]; then
   echo "Mandatory WRF Preprocessing System (WPS) Geographical Input Data Mandatory Fields Downloads"
   echo " "
   wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_high_res_mandatory.tar.gz
-  LD_LIBRARY_PATH= tar -xvzf geog_high_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
+  env -u LD_LIBRARY_PATH  tar -xvzf geog_high_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
 
   wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_low_res_mandatory.tar.gz
-  LD_LIBRARY_PATH= tar -xvzf geog_low_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
+  env -u LD_LIBRARY_PATH  tar -xvzf geog_low_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
   mv "${WRF_FOLDER}"/GEOG/WPS_GEOG_LOW_RES/ "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
   if [ ${WPS_Specific_Applications} -eq 1 ]; then
@@ -30352,34 +30367,34 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRF_PICK" ]; then
     echo " "
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_thompson28_chem.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_thompson28_chem.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_thompson28_chem.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_noahmp.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_noahmp.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_noahmp.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/irrigation.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf irrigation.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf irrigation.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_px.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_px.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_px.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_urban.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_urban.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_urban.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_ssib.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_ssib.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_ssib.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/lake_depth.tar.bz2
-    LD_LIBRARY_PATH= tar -xvf lake_depth.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf lake_depth.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/topobath_30s.tar.bz2
-    LD_LIBRARY_PATH= tar -xvf topobath_30s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf topobath_30s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/gsl_gwd.tar.bz2
-    LD_LIBRARY_PATH= tar -xvf gsl_gwd.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf gsl_gwd.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/cglc_modis_lcz_global.tar.gz
-    LD_LIBRARY_PATH= tar -xvf cglc_modis_lcz_global.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf cglc_modis_lcz_global.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
   fi
 
   if [ ${Optional_GEOG} -eq 1 ]; then
@@ -30388,22 +30403,22 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRF_PICK" ]; then
     echo " "
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_older_than_2000.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_older_than_2000.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_older_than_2000.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s_with_lakes.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf modis_landuse_20class_15s_with_lakes.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf modis_landuse_20class_15s_with_lakes.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_alt_lsm.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf geog_alt_lsm.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvzf geog_alt_lsm.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/nlcd2006_ll_9s.tar.bz2
-    LD_LIBRARY_PATH= tar -xvf nlcd2006_ll_9s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf nlcd2006_ll_9s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/updated_Iceland_LU.tar.gz
-    LD_LIBRARY_PATH= tar -xvf updated_Iceland_LU.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf updated_Iceland_LU.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
     wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s.tar.bz2
-    LD_LIBRARY_PATH= tar -xvf modis_landuse_20class_15s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+    env -u LD_LIBRARY_PATH  tar -xvf modis_landuse_20class_15s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
   fi
 
 fi
@@ -30442,7 +30457,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$COAWST_Pick" = "1" ]; then
   echo " "
   ##############################Directory Listing############################
   export HOME=$(
-    cd
+    cd ~ &&
     pwd
   )
 
@@ -30530,7 +30545,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$COAWST_Pick" = "1" ]; then
   ############################# ZLib ############################
 
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf zlib-$Zlib_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf zlib-$Zlib_Version.tar.gz
   cd zlib-$Zlib_Version/
 
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
@@ -30545,7 +30560,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$COAWST_Pick" = "1" ]; then
   ############################## MPICH ############################
   #F90= due to compiler issues with mpich install
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf mpich-$Mpich_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf mpich-$Mpich_Version.tar.gz
   cd mpich-$Mpich_Version/
 
   F90= ./configure --prefix=$DIR/MPICH --with-device=ch3 FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS 2>&1 | tee configure.log
@@ -30570,7 +30585,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$COAWST_Pick" = "1" ]; then
   export LDFLAGS=-L$DIR/grib2/lib
   export CPPFLAGS=-I$DIR/grib2/include
 
-  LD_LIBRARY_PATH= tar -xvzf libpng-$Libpng_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf libpng-$Libpng_Version.tar.gz
   cd libpng-$Libpng_Version/
 
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
@@ -30583,7 +30598,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$COAWST_Pick" = "1" ]; then
   echo " "
   #############################JasPer ############################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf jasper-$Jasper_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf jasper-$Jasper_Version.tar.gz
   cd jasper-$Jasper_Version/
 
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
@@ -30599,7 +30614,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$COAWST_Pick" = "1" ]; then
   echo " "
   ############################# hdf5 library for netcdf4 functionality ############################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf hdf5-$HDF5_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf hdf5-$HDF5_Version.tar.gz
   cd hdf5-$HDF5_Version
 
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --with-zlib=$DIR/grib2 --enable-hl --enable-fortran --enable-parallel 2>&1 | tee configure.log
@@ -30621,7 +30636,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$COAWST_Pick" = "1" ]; then
 
   ############################## Install NETCDF C Library ############################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf v$Netcdf_C_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf v$Netcdf_C_Version.tar.gz
   cd netcdf-c-$Netcdf_C_Version/
   export CPPFLAGS=-I$DIR/grib2/include
   export LDFLAGS="-L$DIR/grib2/lib -Wl,-rpath,$DIR/grib2/lib"
@@ -30642,7 +30657,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$COAWST_Pick" = "1" ]; then
   echo " "
   ############################## NetCDF fortran library ############################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf v$Netcdf_Fortran_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf v$Netcdf_Fortran_Version.tar.gz
   cd netcdf-fortran-$Netcdf_Fortran_Version/
   export LD_LIBRARY_PATH=$DIR/NETCDF/lib:$LD_LIBRARY_PATH
   export CPPFLAGS="-I$DIR/NETCDF/include -I$DIR/grib2/include"
@@ -30658,7 +30673,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$COAWST_Pick" = "1" ]; then
 
   ############################NetCDF CXX library############################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf v$Netcdf_CXX_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf v$Netcdf_CXX_Version.tar.gz
   cd netcdf-cxx4-$Netcdf_CXX_Version/
   export LD_LIBRARY_PATH=$DIR/NETCDF/lib:$LD_LIBRARY_PATH
   export CPPFLAGS="-I$DIR/NETCDF/include -I$DIR/grib2/include"
@@ -30679,8 +30694,8 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$COAWST_Pick" = "1" ]; then
   wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_NETCDF_MPI_tests.tar
   wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_tests.tar
 
-  LD_LIBRARY_PATH= tar -xvf Fortran_C_tests.tar -C "${WRF_FOLDER}"/Tests/Environment
-  LD_LIBRARY_PATH= tar -xvf Fortran_C_NETCDF_MPI_tests.tar -C "${WRF_FOLDER}"/Tests/Compatibility
+  env -u LD_LIBRARY_PATH  tar -xvf Fortran_C_tests.tar -C "${WRF_FOLDER}"/Tests/Environment
+  env -u LD_LIBRARY_PATH  tar -xvf Fortran_C_NETCDF_MPI_tests.tar -C "${WRF_FOLDER}"/Tests/Compatibility
 
   export one="1"
   echo " "
@@ -30879,7 +30894,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$COAWST_Pick" = "1" ]; then
   echo " "
   ##############################Directory Listing############################
   export HOME=$(
-    cd
+    cd ~ &&
     pwd
   )
 
@@ -30970,7 +30985,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$COAWST_Pick" = "1" ]; then
   ############################# ZLib ############################
 
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf zlib-$Zlib_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf zlib-$Zlib_Version.tar.gz
   cd zlib-$Zlib_Version/
 
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
@@ -30985,7 +31000,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$COAWST_Pick" = "1" ]; then
   ############################## MPICH ############################
   #F90= due to compiler issues with mpich install
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf mpich-$Mpich_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf mpich-$Mpich_Version.tar.gz
   cd mpich-$Mpich_Version/
 
   F90= ./configure --prefix=$DIR/MPICH --with-device=ch3 FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS 2>&1 | tee configure.log
@@ -31010,7 +31025,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$COAWST_Pick" = "1" ]; then
   export LDFLAGS=-L$DIR/grib2/lib
   export CPPFLAGS=-I$DIR/grib2/include
 
-  LD_LIBRARY_PATH= tar -xvzf libpng-$Libpng_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf libpng-$Libpng_Version.tar.gz
   cd libpng-$Libpng_Version/
 
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
@@ -31023,7 +31038,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$COAWST_Pick" = "1" ]; then
   echo " "
   #############################JasPer ############################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf jasper-$Jasper_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf jasper-$Jasper_Version.tar.gz
   cd jasper-$Jasper_Version/
 
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
@@ -31039,7 +31054,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$COAWST_Pick" = "1" ]; then
   echo " "
   ############################# hdf5 library for netcdf4 functionality ############################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf hdf5-$HDF5_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf hdf5-$HDF5_Version.tar.gz
   cd hdf5-$HDF5_Version
 
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --with-zlib=$DIR/grib2 --enable-hl --enable-fortran --enable-parallel 2>&1 | tee configure.log
@@ -31061,7 +31076,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$COAWST_Pick" = "1" ]; then
 
   ############################## Install NETCDF C Library ############################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf v$Netcdf_C_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf v$Netcdf_C_Version.tar.gz
   cd netcdf-c-$Netcdf_C_Version/
   export CPPFLAGS=-I$DIR/grib2/include
   export LDFLAGS="-L$DIR/grib2/lib -Wl,-rpath,$DIR/grib2/lib"
@@ -31082,7 +31097,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$COAWST_Pick" = "1" ]; then
   echo " "
   ############################## NetCDF fortran library ############################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf v$Netcdf_Fortran_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf v$Netcdf_Fortran_Version.tar.gz
   cd netcdf-fortran-$Netcdf_Fortran_Version/
   export LD_LIBRARY_PATH=$DIR/NETCDF/lib:$LD_LIBRARY_PATH
   export CPPFLAGS="-I$DIR/NETCDF/include -I$DIR/grib2/include"
@@ -31098,7 +31113,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$COAWST_Pick" = "1" ]; then
 
   ############################NetCDF CXX library############################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf v$Netcdf_CXX_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf v$Netcdf_CXX_Version.tar.gz
   cd netcdf-cxx4-$Netcdf_CXX_Version/
   export LD_LIBRARY_PATH=$DIR/NETCDF/lib:$LD_LIBRARY_PATH
   export CPPFLAGS="-I$DIR/NETCDF/include -I$DIR/grib2/include"
@@ -31119,8 +31134,8 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$COAWST_Pick" = "1" ]; then
   wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_NETCDF_MPI_tests.tar
   wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_tests.tar
 
-  LD_LIBRARY_PATH= tar -xvf Fortran_C_tests.tar -C "${WRF_FOLDER}"/Tests/Environment
-  LD_LIBRARY_PATH= tar -xvf Fortran_C_NETCDF_MPI_tests.tar -C "${WRF_FOLDER}"/Tests/Compatibility
+  env -u LD_LIBRARY_PATH  tar -xvf Fortran_C_tests.tar -C "${WRF_FOLDER}"/Tests/Environment
+  env -u LD_LIBRARY_PATH  tar -xvf Fortran_C_NETCDF_MPI_tests.tar -C "${WRF_FOLDER}"/Tests/Compatibility
 
   export one="1"
   echo " "
@@ -31245,16 +31260,16 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$COAWST_Pick" = "1" ]; then
   #############################################################################
   if [[ $GRADS_PICK -eq 1 ]]; then
     cd "${WRF_FOLDER}"/Downloads
-    LD_LIBRARY_PATH= tar -xvzf cd "${WRF_FOLDER}"/Downloads
+    env -u LD_LIBRARY_PATH  tar -xvzf cd "${WRF_FOLDER}"/Downloads
     wget -c https://sourceforge.net/projects/opengrads/files/grads2/2.2.1.oga.1/Linux%20%2864%20Bits%29/opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz -C "${WRF_FOLDER}"/ -C "${WRF_FOLDER}"/
+    env -u LD_LIBRARY_PATH  tar -xvzf opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz -C "${WRF_FOLDER}"/ -C "${WRF_FOLDER}"/
     cd "${WRF_FOLDER}"/
     mv "${WRF_FOLDER}"/opengrads-2.2.1.oga.1 "${WRF_FOLDER}"/GrADS
     cd GrADS/Contents
     wget -c https://github.com/regisgrundig/SIMOP/blob/master/g2ctl.pl
     chmod +x g2ctl.pl
     wget -c https://sourceforge.net/projects/opengrads/files/wgrib2/0.1.9.4/wgrib2-v0.1.9.4-bin-i686-glib2.5-linux-gnu.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf wgrib2-v0.1.9.4-bin-i686-glib2.5-linux-gnu.tar.gz
+    env -u LD_LIBRARY_PATH  tar -xvzf wgrib2-v0.1.9.4-bin-i686-glib2.5-linux-gnu.tar.gz
     cd wgrib2-v0.1.9.4/bin
     mv wgrib2 "${WRF_FOLDER}"/GrADS/Contents
     cd "${WRF_FOLDER}"/GrADS/Contents
@@ -31430,7 +31445,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$COAWST_Pick" = "1" ]; then
   echo " "
   ##############################Directory Listing############################
   export HOME=$(
-    cd
+    cd ~ &&
     pwd
   )
 
@@ -31521,7 +31536,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$COAWST_Pick" = "1" ]; then
   ############################# ZLib ############################
 
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf zlib-$Zlib_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf zlib-$Zlib_Version.tar.gz
   cd zlib-$Zlib_Version/
 
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
@@ -31536,7 +31551,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$COAWST_Pick" = "1" ]; then
   ############################## MPICH ############################
   #F90= due to compiler issues with mpich install
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf mpich-$Mpich_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf mpich-$Mpich_Version.tar.gz
   cd mpich-$Mpich_Version/
 
   F90= ./configure --prefix=$DIR/MPICH --with-device=ch3 FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS 2>&1 | tee configure.log
@@ -31561,7 +31576,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$COAWST_Pick" = "1" ]; then
   export LDFLAGS=-L$DIR/grib2/lib
   export CPPFLAGS=-I$DIR/grib2/include
 
-  LD_LIBRARY_PATH= tar -xvzf libpng-$Libpng_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf libpng-$Libpng_Version.tar.gz
   cd libpng-$Libpng_Version/
 
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
@@ -31574,7 +31589,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$COAWST_Pick" = "1" ]; then
   echo " "
   #############################JasPer ############################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf jasper-$Jasper_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf jasper-$Jasper_Version.tar.gz
   cd jasper-$Jasper_Version/
 
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 2>&1 | tee configure.log
@@ -31590,7 +31605,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$COAWST_Pick" = "1" ]; then
   echo " "
   ############################# hdf5 library for netcdf4 functionality ############################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf hdf5-$HDF5_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf hdf5-$HDF5_Version.tar.gz
   cd hdf5-$HDF5_Version
 
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --with-zlib=$DIR/grib2 --enable-hl --enable-fortran --enable-parallel 2>&1 | tee configure.log
@@ -31612,7 +31627,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$COAWST_Pick" = "1" ]; then
 
   ############################## Install NETCDF C Library ############################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf v$Netcdf_C_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf v$Netcdf_C_Version.tar.gz
   cd netcdf-c-$Netcdf_C_Version/
   export CPPFLAGS=-I$DIR/grib2/include
   export LDFLAGS="-L$DIR/grib2/lib -Wl,-rpath,$DIR/grib2/lib"
@@ -31633,7 +31648,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$COAWST_Pick" = "1" ]; then
   echo " "
   ############################## NetCDF fortran library ############################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf v$Netcdf_Fortran_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf v$Netcdf_Fortran_Version.tar.gz
   cd netcdf-fortran-$Netcdf_Fortran_Version/
   export LD_LIBRARY_PATH=$DIR/NETCDF/lib:$LD_LIBRARY_PATH
   export CPPFLAGS="-I$DIR/NETCDF/include -I$DIR/grib2/include"
@@ -31649,7 +31664,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$COAWST_Pick" = "1" ]; then
 
   ############################NetCDF CXX library############################
   cd "${WRF_FOLDER}"/Downloads
-  LD_LIBRARY_PATH= tar -xvzf v$Netcdf_CXX_Version.tar.gz
+  env -u LD_LIBRARY_PATH  tar -xvzf v$Netcdf_CXX_Version.tar.gz
   cd netcdf-cxx4-$Netcdf_CXX_Version/
   export LD_LIBRARY_PATH=$DIR/NETCDF/lib:$LD_LIBRARY_PATH
   export CPPFLAGS="-I$DIR/NETCDF/include -I$DIR/grib2/include"
@@ -31670,8 +31685,8 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$COAWST_Pick" = "1" ]; then
   wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_NETCDF_MPI_tests.tar
   wget -c https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/Fortran_C_tests.tar
 
-  LD_LIBRARY_PATH= tar -xvf Fortran_C_tests.tar -C "${WRF_FOLDER}"/Tests/Environment
-  LD_LIBRARY_PATH= tar -xvf Fortran_C_NETCDF_MPI_tests.tar -C "${WRF_FOLDER}"/Tests/Compatibility
+  env -u LD_LIBRARY_PATH  tar -xvf Fortran_C_tests.tar -C "${WRF_FOLDER}"/Tests/Environment
+  env -u LD_LIBRARY_PATH  tar -xvf Fortran_C_NETCDF_MPI_tests.tar -C "${WRF_FOLDER}"/Tests/Compatibility
 
   export one="1"
   echo " "
@@ -31796,16 +31811,16 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$COAWST_Pick" = "1" ]; then
   #############################################################################
   if [[ $GRADS_PICK -eq 1 ]]; then
     cd "${WRF_FOLDER}"/Downloads
-    LD_LIBRARY_PATH= tar -xvzf cd "${WRF_FOLDER}"/Downloads
+    env -u LD_LIBRARY_PATH  tar -xvzf cd "${WRF_FOLDER}"/Downloads
     wget -c https://sourceforge.net/projects/opengrads/files/grads2/2.2.1.oga.1/Linux%20%2864%20Bits%29/opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz -C "${WRF_FOLDER}"/ -C "${WRF_FOLDER}"/
+    env -u LD_LIBRARY_PATH  tar -xvzf opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz -C "${WRF_FOLDER}"/ -C "${WRF_FOLDER}"/
     cd "${WRF_FOLDER}"/
     mv "${WRF_FOLDER}"/opengrads-2.2.1.oga.1 "${WRF_FOLDER}"/GrADS
     cd GrADS/Contents
     wget -c https://github.com/regisgrundig/SIMOP/blob/master/g2ctl.pl
     chmod +x g2ctl.pl
     wget -c https://sourceforge.net/projects/opengrads/files/wgrib2/0.1.9.4/wgrib2-v0.1.9.4-bin-i686-glib2.5-linux-gnu.tar.gz
-    LD_LIBRARY_PATH= tar -xvzf wgrib2-v0.1.9.4-bin-i686-glib2.5-linux-gnu.tar.gz
+    env -u LD_LIBRARY_PATH  tar -xvzf wgrib2-v0.1.9.4-bin-i686-glib2.5-linux-gnu.tar.gz
     cd wgrib2-v0.1.9.4/bin
     mv wgrib2 "${WRF_FOLDER}"/GrADS/Contents
     cd "${WRF_FOLDER}"/GrADS/Contents
