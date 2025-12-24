@@ -1539,7 +1539,7 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$DTC_MET" = "1" ]; then
   wget -c https://github.com/dtcenter/MET/archive/refs/tags/v$met_Version_number.tar.gz
 
   cp compile_MET_all.sh "${WRF_FOLDER}"/MET-$met_Version_number
-  LD_LIBRARY_PATH= env -u LD_LIBRARY_PATH  tar -xvzf tar_files.met-v$met_VERSION_number.tgz -C "${WRF_FOLDER}"/MET-$met_Version_number
+  env -u LD_LIBRARY_PATH  tar -xvzf tar_files.met-v$met_VERSION_number.tgz -C "${WRF_FOLDER}"/MET-$met_Version_number
   cp v$met_Version_number.tar.gz "${WRF_FOLDER}"/MET-$met_Version_number/tar_files
   cd "${WRF_FOLDER}"/MET-$met_Version_number
 
@@ -1626,7 +1626,7 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$DTC_MET" = "1" ]; then
 
   cd "${WRF_FOLDER}"/METplus-$METPLUS_Version/Downloads
   wget -c https://github.com/dtcenter/METplus/archive/refs/tags/v$METPLUS_Version.tar.gz
-  LD_LIBRARY_PATH= env -u LD_LIBRARY_PATH  tar -xvzf v$METPLUS_Version.tar.gz -C "${WRF_FOLDER}"
+  env -u LD_LIBRARY_PATH  tar -xvzf v$METPLUS_Version.tar.gz -C "${WRF_FOLDER}"
 
   # Insatlllation of Model Evaluation Tools Plus
   cd "${WRF_FOLDER}"/METplus-$METPLUS_Version/parm/metplus_config
@@ -1639,7 +1639,7 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$DTC_MET" = "1" ]; then
 
   cd "${WRF_FOLDER}"/METplus-$METPLUS_Version/Downloads
   wget -c https://dtcenter.ucar.edu/dfiles/code/METplus/METplus_Data/v$METPLUS_DATA/sample_data-met_tool_wrapper.tgz
-  LD_LIBRARY_PATH= env -u LD_LIBRARY_PATH  tar -xvzf sample_data-met_tool_wrapper.tgz -C "${WRF_FOLDER}"/METplus-$METPLUS_Version/Sample_Data
+  env -u LD_LIBRARY_PATH  tar -xvzf sample_data-met_tool_wrapper.tgz -C "${WRF_FOLDER}"/METplus-$METPLUS_Version/Sample_Data
 
   # Testing if installation of MET & METPlus was sucessfull
   # If you see in terminal "METplus has successfully finished running."
@@ -2206,7 +2206,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
     done
   fi
   cd "${WRF_FOLDER}"/WPS-${WPS_VERSION}
-  LD_LIBRARY_PATH= ./clean -a
+  env -u LD_LIBRARY_PATH  ./clean -a
 
   if [ ${auto_config} -eq 1 ]; then
     echo 3 | ./configure 2>&1 | tee configure.log #Option 3 for gfortran and distributed memory
@@ -2843,7 +2843,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
     done
   fi
   cd "${WRF_FOLDER}"/WPS-${WPS_VERSION}
-  LD_LIBRARY_PATH= ./clean -a
+  env -u LD_LIBRARY_PATH  ./clean -a
 
   if [ ${auto_config} -eq 1 ]; then
     echo 3 | ./configure 2>&1 | tee configure.log #Option 3 for gfortran and distributed memory
@@ -3493,7 +3493,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$CMAQ_PICK" = "1" ]; then
     done
   fi
   cd "${WRF_FOLDER}"/WPS-${WPS_VERSION}
-  LD_LIBRARY_PATH= ./clean -a
+  env -u LD_LIBRARY_PATH  ./clean -a
 
   if [ ${auto_config} -eq 1 ]; then
     echo 3 | ./configure 2>&1 | tee configure.log #Option 3 for gfortran and distributed memory
@@ -4112,7 +4112,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
   git clone https://github.com/openwfm/WRF-SFIRE.git
 
   cd "${WRF_FOLDER}"/WRF-SFIRE/
-  LD_LIBRARY_PATH= ./clean -a # Clean old configuration files
+  env -u LD_LIBRARY_PATH  ./clean -a # Clean old configuration files
 
   if [ ${auto_config} -eq 1 ]; then
     (
@@ -4165,7 +4165,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
   git clone https://github.com/openwfm/WPS.git
 
   cd "${WRF_FOLDER}"/WPS
-  LD_LIBRARY_PATH= ./clean -a
+  env -u LD_LIBRARY_PATH  ./clean -a
 
   cd "${WRF_FOLDER}"/WPS
   if [ ${auto_config} -eq 1 ]; then
@@ -4789,7 +4789,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
   git clone https://github.com/openwfm/WRF-SFIRE.git
 
   cd "${WRF_FOLDER}"/WRF-SFIRE/
-  LD_LIBRARY_PATH= ./clean -a # Clean old configuration files
+  env -u LD_LIBRARY_PATH  ./clean -a # Clean old configuration files
 
   if [ ${auto_config} -eq 1 ]; then
     (
@@ -4842,7 +4842,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
   git clone https://github.com/openwfm/WPS.git
 
   cd "${WRF_FOLDER}"/WPS
-  LD_LIBRARY_PATH= ./clean -a
+  env -u LD_LIBRARY_PATH  ./clean -a
 
   cd "${WRF_FOLDER}"/WPS
   if [ ${auto_config} -eq 1 ]; then
@@ -5481,7 +5481,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$SFIRE_PICK" = "1" ]; then
   git clone https://github.com/openwfm/WRF-SFIRE.git
 
   cd "${WRF_FOLDER}"/WRF-SFIRE/
-  LD_LIBRARY_PATH= ./clean -a # Clean old configuration files
+  env -u LD_LIBRARY_PATH  ./clean -a # Clean old configuration files
 
   if [ ${auto_config} -eq 1 ]; then
     (
@@ -5533,7 +5533,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$SFIRE_PICK" = "1" ]; then
   git clone https://github.com/openwfm/WPS.git
 
   cd "${WRF_FOLDER}"/WPS
-  LD_LIBRARY_PATH= ./clean -a
+  env -u LD_LIBRARY_PATH  ./clean -a
 
   cd "${WRF_FOLDER}"/WPS
 
@@ -6297,7 +6297,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$MAC_CHIP" = "I
     done
   fi
   cd "${WRF_FOLDER}"/WPS-${WPS_VERSION}
-  LD_LIBRARY_PATH= ./clean -a
+  env -u LD_LIBRARY_PATH  ./clean -a
 
   if [ ${auto_config} -eq 1 ]; then
     echo 19 | ./configure 2>&1 | tee configure.log #Option 19 for gfortran and distributed memory
@@ -7065,7 +7065,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$MAC_CHIP" = "A
     done
   fi
   cd "${WRF_FOLDER}"/WPS-${WPS_VERSION}
-  LD_LIBRARY_PATH= ./clean -a
+  env -u LD_LIBRARY_PATH  ./clean -a
 
   if [ ${auto_config} -eq 1 ]; then
     echo 19 | ./configure 2>&1 | tee configure.log #Option 19 for gfortran and distributed memory
@@ -11777,7 +11777,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   git clone https://github.com/wrf-model/OBSGRID.git
   cd "${WRF_FOLDER}"/OBSGRID
 
-  LD_LIBRARY_PATH= ./clean -a
+  env -u LD_LIBRARY_PATH  ./clean -a
   source $Miniconda_Install_DIR/etc/profile.d/conda.sh
   conda activate ncl_stable
 
@@ -11818,7 +11818,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   else
     echo "obsgrid.exe is missing. Attempting to compile again..."
 
-    LD_LIBRARY_PATH= ./clean -a
+    env -u LD_LIBRARY_PATH  ./clean -a
     LD_LIBRARY_PATH= ./compile 2>&1 | tee compile.obsgrid.retry.log
 
     if [[ -x ./obsgrid.exe ]]; then
@@ -11987,7 +11987,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   source setEnvar.sh
   cd "${WRF_FOLDER}"/WRF-${WRF_VERSION}
 
-  LD_LIBRARY_PATH= ./clean -a
+  env -u LD_LIBRARY_PATH  ./clean -a
 
   if [ ${auto_config} -eq 1 ]; then
     (
@@ -12051,7 +12051,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
     done
   fi
   cd "${WRF_FOLDER}"/WPS-${WPS_VERSION}
-  LD_LIBRARY_PATH= ./clean -a
+  env -u LD_LIBRARY_PATH  ./clean -a
 
   if [ ${auto_config} -eq 1 ]; then
     echo 3 | ./configure 2>&1 | tee configure.log #Option 3 for gfortran and distributed memory
@@ -12643,7 +12643,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   git clone https://github.com/wrf-model/OBSGRID.git
   cd "${WRF_FOLDER}"/OBSGRID
 
-  LD_LIBRARY_PATH= ./clean -a
+  env -u LD_LIBRARY_PATH  ./clean -a
   source $Miniconda_Install_DIR/etc/profile.d/conda.sh
   conda activate ncl_stable
 
@@ -12687,7 +12687,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   else
     echo "obsgrid.exe is missing. Attempting to compile again..."
 
-    LD_LIBRARY_PATH= ./clean -a
+    env -u LD_LIBRARY_PATH  ./clean -a
     LD_LIBRARY_PATH= ./compile 2>&1 | tee compile.obsgrid.retry.log
 
     if [[ -x ./obsgrid.exe ]]; then
@@ -12865,7 +12865,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   source setEnvar.sh
   cd "${WRF_FOLDER}"/WRF-${WRF_VERSION}
 
-  LD_LIBRARY_PATH= ./clean -a
+  env -u LD_LIBRARY_PATH  ./clean -a
 
   ############################################################ NEEDS REVIEW IN FUTURE ##################################
   sed -i '34s\($x =~ "ifort")\($x =~ /ifort|intel/)\g' "${WRF_FOLDER}"/WRF-${WRF_VERSION}/hydro/wrf_hydro_config
@@ -12940,7 +12940,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
     done
   fi
   cd "${WRF_FOLDER}"/WPS-${WPS_VERSION}
-  LD_LIBRARY_PATH= ./clean -a
+  env -u LD_LIBRARY_PATH  ./clean -a
 
   sed -i '77s|real ::|integer ::|g' $"${WRF_FOLDER}"/WPS-${WPS_VERSION}/ungrib/src/rd_grib2.F
 
@@ -13713,7 +13713,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ] && [ "$MAC
   source setEnvar.sh
   cd "${WRF_FOLDER}"/WRF-${WRF_VERSION}
 
-  LD_LIBRARY_PATH= ./clean -a
+  env -u LD_LIBRARY_PATH  ./clean -a
 
   if [ ${auto_config} -eq 1 ]; then
     (echo 17 echo 1) | ./configure
@@ -13777,7 +13777,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ] && [ "$MAC
     done
   fi
   cd "${WRF_FOLDER}"/WPS-${WPS_VERSION}
-  LD_LIBRARY_PATH= ./clean -a
+  env -u LD_LIBRARY_PATH  ./clean -a
 
   if [ ${auto_config} -eq 1 ]; then
     echo 19 | ./configure 2>&1 | tee configure.log #Option 19 for gfortran and distributed memory
@@ -14554,7 +14554,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ] && [ "$MAC
   source setEnvar.sh
   cd "${WRF_FOLDER}"/WRF-${WRF_VERSION}
 
-  LD_LIBRARY_PATH= ./clean -a
+  env -u LD_LIBRARY_PATH  ./clean -a
 
   if [ ${auto_config} -eq 1 ]; then
     (echo 17 echo 1) | ./configure
@@ -14615,7 +14615,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ] && [ "$MAC
     done
   fi
   cd "${WRF_FOLDER}"/WPS-${WPS_VERSION}
-  LD_LIBRARY_PATH= ./clean -a
+  env -u LD_LIBRARY_PATH  ./clean -a
 
   if [ ${auto_config} -eq 1 ]; then
     echo 19 | ./configure 2>&1 | tee configure.log #Option 19 for gfortran and distributed memory
@@ -15200,7 +15200,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   git clone https://github.com/wrf-model/OBSGRID.git
   cd "${WRF_FOLDER}"/OBSGRID
 
-  LD_LIBRARY_PATH= ./clean -a
+  env -u LD_LIBRARY_PATH  ./clean -a
   source $Miniconda_Install_DIR/etc/profile.d/conda.sh
   conda activate ncl_stable
 
@@ -15242,7 +15242,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   else
     echo "obsgrid.exe is missing. Attempting to compile again..."
 
-    LD_LIBRARY_PATH= ./clean -a
+    env -u LD_LIBRARY_PATH  ./clean -a
     LD_LIBRARY_PATH= ./compile 2>&1 | tee compile.obsgrid.retry.log
 
     if [[ -x ./obsgrid.exe ]]; then
@@ -15397,7 +15397,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   source setEnvar.sh
   cd "${WRF_FOLDER}"/WRF-${WRF_VERSION}
 
-  LD_LIBRARY_PATH= ./clean -a
+  env -u LD_LIBRARY_PATH  ./clean -a
 
   if [ ${auto_config} -eq 1 ]; then
     (
@@ -15459,7 +15459,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
     done
   fi
   cd "${WRF_FOLDER}"/WPS-${WPS_VERSION}
-  LD_LIBRARY_PATH= ./clean -a
+  env -u LD_LIBRARY_PATH  ./clean -a
 
   if [ ${auto_config} -eq 1 ]; then
     echo 3 | ./configure 2>&1 | tee configure.log #Option 3 for gfortran and distributed memory
@@ -16194,7 +16194,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   source setEnvar.sh
   cd "${WRF_FOLDER}"/WRF-${WRF_VERSION}
 
-  LD_LIBRARY_PATH= ./clean -a
+  env -u LD_LIBRARY_PATH  ./clean -a
 
   if [ ${auto_config} -eq 1 ]; then
     (
@@ -16254,7 +16254,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
     done
   fi
   cd "${WRF_FOLDER}"/WPS-${WPS_VERSION}
-  LD_LIBRARY_PATH= ./clean -a
+  env -u LD_LIBRARY_PATH  ./clean -a
 
   if [ ${auto_config} -eq 1 ]; then
     echo 3 | ./configure 2>&1 | tee configure.log #Option 3 for gfortran and distributed memory
@@ -16976,7 +16976,7 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   source setEnvar.sh
   cd "${WRF_FOLDER}"/WRF-${WRF_VERSION}
 
-  LD_LIBRARY_PATH= ./clean -a
+  env -u LD_LIBRARY_PATH  ./clean -a
 
   ############################################################ NEEDS REVIEW IN FUTURE ##################################
   sed -i '34s\($x =~ "ifort")\($x =~ /ifort|intel/)\g' "${WRF_FOLDER}"/WRF-${WRF_VERSION}/hydro/wrf_hydro_config
@@ -17051,7 +17051,7 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
     done
   fi
   cd "${WRF_FOLDER}"/WPS-${WPS_VERSION}
-  LD_LIBRARY_PATH= ./clean -a
+  env -u LD_LIBRARY_PATH  ./clean -a
 
   if [ ${auto_config} -eq 1 ]; then
     echo 19 | ./configure 2>&1 | tee configure.log #Option 19 for intel and distributed memory
@@ -17653,7 +17653,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   git clone https://github.com/wrf-model/OBSGRID.git
   cd "${WRF_FOLDER}"/OBSGRID
 
-  LD_LIBRARY_PATH= ./clean -a
+  env -u LD_LIBRARY_PATH  ./clean -a
   source $Miniconda_Install_DIR/etc/profile.d/conda.sh
   conda activate ncl_stable
 
@@ -17695,7 +17695,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   else
     echo "obsgrid.exe is missing. Attempting to compile again..."
 
-    LD_LIBRARY_PATH= ./clean -a
+    env -u LD_LIBRARY_PATH  ./clean -a
     LD_LIBRARY_PATH= ./compile 2>&1 | tee compile.obsgrid.retry.log
 
     if [[ -x ./obsgrid.exe ]]; then
@@ -17770,7 +17770,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   export WRF_CHEM=1
   export WRFIO_NCD_LARGE_FILE_SUPPORT=1
 
-  LD_LIBRARY_PATH= ./clean -a
+  env -u LD_LIBRARY_PATH  ./clean -a
 
   if [ ${auto_config} -eq 1 ]; then
     echo 34 | ./configure wrfda 2>&1 | tee configure.log #Option 34 for gfortran/gcc and distribunted memory
@@ -18055,7 +18055,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   fi
   cd "${WRF_FOLDER}"/WRF-${WRF_VERSION}
 
-  LD_LIBRARY_PATH= ./clean -a
+  env -u LD_LIBRARY_PATH  ./clean -a
 
   sed -i '121s|$WKC_HOME/util/wkc/tuv_kpp FIRST ../../inc/|$WKC_HOME/util/wkc/tuv_kpp FIRST ../../../../inc/|g' "${WRF_FOLDER}"/WRF-${WRF_VERSION}/chem/KPP/compile_wkc
 
@@ -18140,7 +18140,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   env -u LD_LIBRARY_PATH  tar -xvzf WPS-${WPS_VERSION}.tar.gz -C "${WRF_FOLDER}"/
   cd "${WRF_FOLDER}"/WPS-${WPS_VERSION}
 
-  LD_LIBRARY_PATH= ./clean -a
+  env -u LD_LIBRARY_PATH  ./clean -a
 
   if [ ${auto_config} -eq 1 ]; then
     echo 3 | ./configure 2>&1 | tee configure.log #Option 3 for gfortran and distributed memory
@@ -18718,7 +18718,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   git clone https://github.com/wrf-model/OBSGRID.git
   cd "${WRF_FOLDER}"/OBSGRID
 
-  LD_LIBRARY_PATH= ./clean -a
+  env -u LD_LIBRARY_PATH  ./clean -a
   source $Miniconda_Install_DIR/etc/profile.d/conda.sh
   conda activate ncl_stable
 
@@ -18762,7 +18762,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   else
     echo "obsgrid.exe is missing. Attempting to compile again..."
 
-    LD_LIBRARY_PATH= ./clean -a
+    env -u LD_LIBRARY_PATH  ./clean -a
     LD_LIBRARY_PATH= ./compile 2>&1 | tee compile.obsgrid.retry.log
 
     if [[ -x ./obsgrid.exe ]]; then
@@ -18837,7 +18837,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   export WRF_CHEM=1
   export WRFIO_NCD_LARGE_FILE_SUPPORT=1
 
-  LD_LIBRARY_PATH= ./clean -a
+  env -u LD_LIBRARY_PATH  ./clean -a
 
   if [ ${auto_config} -eq 1 ]; then
     echo 78 | ./configure wrfda 2>&1 | tee configure.log #option 78 for intel and distribunted memory
@@ -19115,7 +19115,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   cd "${WRF_FOLDER}"/WRF-${WRF_VERSION}
 
   export WRFIO_NCD_LARGE_FILE_SUPPORT=1
-  LD_LIBRARY_PATH= ./clean -a
+  env -u LD_LIBRARY_PATH  ./clean -a
 
   sed -i '121s|$WKC_HOME/util/wkc/tuv_kpp FIRST ../../inc/|$WKC_HOME/util/wkc/tuv_kpp FIRST ../../../../inc/|g' "${WRF_FOLDER}"/WRF-${WRF_VERSION}/chem/KPP/compile_wkc
 
@@ -19216,7 +19216,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
     done
   fi
   cd "${WRF_FOLDER}"/WPS-${WPS_VERSION}
-  LD_LIBRARY_PATH= ./clean -a
+  env -u LD_LIBRARY_PATH  ./clean -a
 
   sed -i '77s|real ::|integer ::|g' $"${WRF_FOLDER}"/WPS-${WPS_VERSION}/ungrib/src/rd_grib2.F
 
@@ -19901,7 +19901,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$MAC_CHIP" = 
   fi
   cd "${WRF_FOLDER}"/WRF-${WRF_VERSION}
 
-  LD_LIBRARY_PATH= ./clean -a
+  env -u LD_LIBRARY_PATH  ./clean -a
 
   if [ ${auto_config} -eq 1 ]; then
     (echo 17 echo 1) | ./configure
@@ -19995,7 +19995,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$MAC_CHIP" = 
     done
   fi
   cd "${WRF_FOLDER}"/WPS-${WPS_VERSION}
-  LD_LIBRARY_PATH= ./clean -a
+  env -u LD_LIBRARY_PATH  ./clean -a
 
   if [ ${auto_config} -eq 1 ]; then
     echo 19 | ./configure 2>&1 | tee configure.log #Option 19 for gfortran and distributed memory
@@ -20062,7 +20062,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$MAC_CHIP" = 
   export WRF_CHEM=1
   export WRFIO_NCD_LARGE_FILE_SUPPORT=1
 
-  LD_LIBRARY_PATH= ./clean -a
+  env -u LD_LIBRARY_PATH  ./clean -a
 
   if [ ${auto_config} -eq 1 ]; then
     echo 17 | ./configure wrfda 2>&1 | tee configure.log #Option 17 for gfortran/gcc and distribunted memory
@@ -20760,7 +20760,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$MAC_CHIP" = 
   fi
   cd "${WRF_FOLDER}"/WRF-${WRF_VERSION}
 
-  LD_LIBRARY_PATH= ./clean -a
+  env -u LD_LIBRARY_PATH  ./clean -a
 
   if [ ${auto_config} -eq 1 ]; then
     (echo 17 echo 1) | ./configure
@@ -20854,7 +20854,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$MAC_CHIP" = 
     done
   fi
   cd "${WRF_FOLDER}"/WPS-${WPS_VERSION}
-  LD_LIBRARY_PATH= ./clean -a
+  env -u LD_LIBRARY_PATH  ./clean -a
 
   if [ ${auto_config} -eq 1 ]; then
     echo 19 | ./configure 2>&1 | tee configure.log #Option 19 for gfortran and distributed memory
@@ -20921,7 +20921,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$MAC_CHIP" = 
   export WRF_CHEM=1
   export WRFIO_NCD_LARGE_FILE_SUPPORT=1
 
-  LD_LIBRARY_PATH= ./clean -a
+  env -u LD_LIBRARY_PATH  ./clean -a
 
   if [ ${auto_config} -eq 1 ]; then
     echo 17 | ./configure wrfda 2>&1 | tee configure.log #Option 17 for gfortran/gcc and distribunted memory
@@ -21513,7 +21513,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   git clone https://github.com/wrf-model/OBSGRID.git
   cd "${WRF_FOLDER}"/OBSGRID
 
-  LD_LIBRARY_PATH= ./clean -a
+  env -u LD_LIBRARY_PATH  ./clean -a
   source $Miniconda_Install_DIR/etc/profile.d/conda.sh
   conda activate ncl_stable
 
@@ -21555,7 +21555,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   else
     echo "obsgrid.exe is missing. Attempting to compile again..."
 
-    LD_LIBRARY_PATH= ./clean -a
+    env -u LD_LIBRARY_PATH  ./clean -a
     LD_LIBRARY_PATH= ./compile 2>&1 | tee compile.obsgrid.retry.log
 
     if [[ -x ./obsgrid.exe ]]; then
@@ -21613,7 +21613,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   export WRF_CHEM=1
   export WRFIO_NCD_LARGE_FILE_SUPPORT=1
 
-  LD_LIBRARY_PATH= ./clean -a
+  env -u LD_LIBRARY_PATH  ./clean -a
 
   if [ ${auto_config} -eq 1 ]; then
     echo 34 | ./configure wrfda 2>&1 | tee configure.log #Option 34 for gfortran/gcc and distribunted memory
@@ -21895,7 +21895,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   fi
   cd "${WRF_FOLDER}"/WRF-${WRF_VERSION}
 
-  LD_LIBRARY_PATH= ./clean -a
+  env -u LD_LIBRARY_PATH  ./clean -a
 
   sed -i '121s|$WKC_HOME/util/wkc/tuv_kpp FIRST ../../inc/|$WKC_HOME/util/wkc/tuv_kpp FIRST ../../../../inc/|g' "${WRF_FOLDER}"/WRF-${WRF_VERSION}/chem/KPP/compile_wkc
 
@@ -21980,7 +21980,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   env -u LD_LIBRARY_PATH  tar -xvzf WPS-${WPS_VERSION}.tar.gz -C "${WRF_FOLDER}"/
   cd "${WRF_FOLDER}"/WPS-${WPS_VERSION}
 
-  LD_LIBRARY_PATH= ./clean -a
+  env -u LD_LIBRARY_PATH  ./clean -a
 
   if [ ${auto_config} -eq 1 ]; then
     echo 3 | ./configure 2>&1 | tee configure.log #Option 3 for gfortran and distributed memory
@@ -22549,7 +22549,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   git clone https://github.com/wrf-model/OBSGRID.git
   cd "${WRF_FOLDER}"/OBSGRID
 
-  LD_LIBRARY_PATH= ./clean -a
+  env -u LD_LIBRARY_PATH  ./clean -a
   source $Miniconda_Install_DIR/etc/profile.d/conda.sh
   conda activate ncl_stable
 
@@ -22591,7 +22591,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   else
     echo "obsgrid.exe is missing. Attempting to compile again..."
 
-    LD_LIBRARY_PATH= ./clean -a
+    env -u LD_LIBRARY_PATH  ./clean -a
     LD_LIBRARY_PATH= ./compile 2>&1 | tee compile.obsgrid.retry.log
 
     if [[ -x ./obsgrid.exe ]]; then
@@ -22647,7 +22647,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   export WRF_CHEM=1
   export WRFIO_NCD_LARGE_FILE_SUPPORT=1
 
-  LD_LIBRARY_PATH= ./clean -a
+  env -u LD_LIBRARY_PATH  ./clean -a
 
   if [ ${auto_config} -eq 1 ]; then
     echo 34 | ./configure wrfda 2>&1 | tee configure.log #Option 34 for gfortran/gcc and distribunted memory
@@ -22929,7 +22929,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   fi
   cd "${WRF_FOLDER}"/WRF-${WRF_VERSION}
 
-  LD_LIBRARY_PATH= ./clean -a
+  env -u LD_LIBRARY_PATH  ./clean -a
 
   sed -i '121s|$WKC_HOME/util/wkc/tuv_kpp FIRST ../../inc/|$WKC_HOME/util/wkc/tuv_kpp FIRST ../../../../inc/|g' "${WRF_FOLDER}"/WRF-${WRF_VERSION}/chem/KPP/compile_wkc
 
@@ -23014,7 +23014,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   env -u LD_LIBRARY_PATH  tar -xvzf WPS-${WPS_VERSION}.tar.gz -C "${WRF_FOLDER}"/
   cd "${WRF_FOLDER}"/WPS-${WPS_VERSION}
 
-  LD_LIBRARY_PATH= ./clean -a
+  env -u LD_LIBRARY_PATH  ./clean -a
 
   if [ ${auto_config} -eq 1 ]; then
     echo 3 | ./configure 2>&1 | tee configure.log #Option 3 for gfortran and distributed memory
@@ -23587,7 +23587,7 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" ]; then
   git clone https://github.com/wrf-model/OBSGRID.git
   cd "${WRF_FOLDER}"/OBSGRID
 
-  LD_LIBRARY_PATH= ./clean -a
+  env -u LD_LIBRARY_PATH  ./clean -a
   conda activate ncl_stable
 
   export HOME=$(
@@ -23630,7 +23630,7 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" ]; then
   else
     echo "obsgrid.exe is missing. Attempting to compile again..."
 
-    LD_LIBRARY_PATH= ./clean -a
+    env -u LD_LIBRARY_PATH  ./clean -a
     LD_LIBRARY_PATH= ./compile 2>&1 | tee compile.obsgrid.retry.log
 
     if [[ -x ./obsgrid.exe ]]; then
@@ -23705,7 +23705,7 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" ]; then
   export WRF_CHEM=1
   export WRFIO_NCD_LARGE_FILE_SUPPORT=1
 
-  LD_LIBRARY_PATH= ./clean -a
+  env -u LD_LIBRARY_PATH  ./clean -a
 
   if [ ${auto_config} -eq 1 ]; then
     echo 78 | ./configure wrfda 2>&1 | tee configure.log #option 78 for intel and distribunted memory
@@ -23984,7 +23984,7 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" ]; then
 
   export WRFIO_NCD_LARGE_FILE_SUPPORT=1
 
-  LD_LIBRARY_PATH= ./clean -a
+  env -u LD_LIBRARY_PATH  ./clean -a
 
   sed -i '121s|$WKC_HOME/util/wkc/tuv_kpp FIRST ../../inc/|$WKC_HOME/util/wkc/tuv_kpp FIRST ../../../../inc/|g' "${WRF_FOLDER}"/WRF-${WRF_VERSION}/chem/KPP/compile_wkc
 
@@ -24085,7 +24085,7 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" ]; then
     done
   fi
   cd "${WRF_FOLDER}"/WPS-${WPS_VERSION}
-  LD_LIBRARY_PATH= ./clean -a
+  env -u LD_LIBRARY_PATH  ./clean -a
 
   if [ ${auto_config} -eq 1 ]; then
     echo 19 | ./configure 2>&1 | tee configure.log #Option 19 for intel and distributed memory
@@ -24691,7 +24691,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   git clone https://github.com/wrf-model/OBSGRID.git
   cd "${WRF_FOLDER}"/OBSGRID
 
-  LD_LIBRARY_PATH= ./clean -a
+  env -u LD_LIBRARY_PATH  ./clean -a
   source $Miniconda_Install_DIR/etc/profile.d/conda.sh
   conda activate ncl_stable
 
@@ -24733,7 +24733,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   else
     echo "obsgrid.exe is missing. Attempting to compile again..."
 
-    LD_LIBRARY_PATH= ./clean -a
+    env -u LD_LIBRARY_PATH  ./clean -a
     LD_LIBRARY_PATH= ./compile 2>&1 | tee compile.obsgrid.retry.log
 
     if [[ -x ./obsgrid.exe ]]; then
@@ -24805,7 +24805,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 
   cd "${WRF_FOLDER}"/WRF-${WRF_VERSION}
   export WRFIO_NCD_LARGE_FILE_SUPPORT=1
-  LD_LIBRARY_PATH= ./clean -a
+  env -u LD_LIBRARY_PATH  ./clean -a
 
   if [ ${auto_config} -eq 1 ]; then
     (
@@ -24867,7 +24867,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
     done
   fi
   cd "${WRF_FOLDER}"/WPS-${WPS_VERSION}
-  LD_LIBRARY_PATH= ./clean -a
+  env -u LD_LIBRARY_PATH  ./clean -a
 
   if [ ${auto_config} -eq 1 ]; then
     echo 3 | ./configure 2>&1 | tee configure.log #Option 3 for gfortran and distributed memory
@@ -24930,7 +24930,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   rm -rf WRF-${WRF_VERSION}/
   export NETCDF=$DIR/NETCDF
   export HDF5=$DIR/grib2
-  LD_LIBRARY_PATH= ./clean -a
+  env -u LD_LIBRARY_PATH  ./clean -a
 
   if [ ${auto_config} -eq 1 ]; then
     echo 18 | ./configure wrfplus 2>&1 | tee configure.log #Option 18 for gfortran/gcc and distribunted memory
@@ -25000,7 +25000,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   export NETCDF=$DIR/NETCDF
   export HDF5=$DIR/grib2
   export WRFPLUS_DIR="${WRF_FOLDER}"/WRFPLUS
-  LD_LIBRARY_PATH= ./clean -a
+  env -u LD_LIBRARY_PATH  ./clean -a
 
   if [ ${auto_config} -eq 1 ]; then
     echo 18 | ./configure 4dvar 2>&1 | tee configure.log #Option 18 for gfortran/gcc and distribunted memory
@@ -25583,7 +25583,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   git clone https://github.com/wrf-model/OBSGRID.git
   cd "${WRF_FOLDER}"/OBSGRID
 
-  LD_LIBRARY_PATH= ./clean -a
+  env -u LD_LIBRARY_PATH  ./clean -a
   source $Miniconda_Install_DIR/etc/profile.d/conda.sh
   conda activate ncl_stable
 
@@ -25627,7 +25627,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   else
     echo "obsgrid.exe is missing. Attempting to compile again..."
 
-    LD_LIBRARY_PATH= ./clean -a
+    env -u LD_LIBRARY_PATH  ./clean -a
     LD_LIBRARY_PATH= ./compile 2>&1 | tee compile.obsgrid.retry.log
 
     if [[ -x ./obsgrid.exe ]]; then
@@ -25696,7 +25696,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 
   cd "${WRF_FOLDER}"/WRF-${WRF_VERSION}
   export WRFIO_NCD_LARGE_FILE_SUPPORT=1
-  LD_LIBRARY_PATH= ./clean -a
+  env -u LD_LIBRARY_PATH  ./clean -a
 
   if [ ${auto_config} -eq 1 ]; then
     (
@@ -25762,7 +25762,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
     done
   fi
   cd "${WRF_FOLDER}"/WPS-${WPS_VERSION}
-  LD_LIBRARY_PATH= ./clean -a
+  env -u LD_LIBRARY_PATH  ./clean -a
 
   sed -i '77s|real ::|integer ::|g' "${WRF_FOLDER}"/WPS-${WPS_VERSION}/ungrib/src/rd_grib2.F
 
@@ -25831,7 +25831,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   rm -rf WRF-${WRF_VERSION}/
   export NETCDF=$DIR/NETCDF
   export HDF5=$DIR/grib2
-  LD_LIBRARY_PATH= ./clean -a
+  env -u LD_LIBRARY_PATH  ./clean -a
 
   if [ ${auto_config} -eq 1 ]; then
     echo 40 | ./configure wrfplus 2>&1 | tee configure.log #Option 40 for intel and distribunted memory
@@ -25906,7 +25906,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   export NETCDF=$DIR/NETCDF
   export HDF5=$DIR/grib2
   export WRFPLUS_DIR="${WRF_FOLDER}"/WRFPLUS
-  LD_LIBRARY_PATH= ./clean -a
+  env -u LD_LIBRARY_PATH  ./clean -a
 
   if [ ${auto_config} -eq 1 ]; then
     echo 40 | ./configure 4dvar 2>&1 | tee configure.log #Option 40 for intel and distribunted memory
@@ -26570,7 +26570,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "Int
 
   cd "${WRF_FOLDER}"/WRF-${WRF_VERSION}
 
-  LD_LIBRARY_PATH= ./clean -a
+  env -u LD_LIBRARY_PATH  ./clean -a
 
   if [ ${auto_config} -eq 1 ]; then
     (
@@ -26631,7 +26631,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "Int
     done
   fi
   cd "${WRF_FOLDER}"/WPS-${WPS_VERSION}
-  LD_LIBRARY_PATH= ./clean -a
+  env -u LD_LIBRARY_PATH  ./clean -a
 
   if [ ${auto_config} -eq 1 ]; then
     echo 19 | ./configure 2>&1 | tee configure.log #Option 19 for gfortran and distributed memory
@@ -27437,7 +27437,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "ARM
 
   cd "${WRF_FOLDER}"/WRF-${WRF_VERSION}
 
-  LD_LIBRARY_PATH= ./clean -a
+  env -u LD_LIBRARY_PATH  ./clean -a
 
   if [ ${auto_config} -eq 1 ]; then
     (echo 17 echo 1) | ./configure
@@ -27495,7 +27495,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "ARM
     done
   fi
   cd "${WRF_FOLDER}"/WPS-${WPS_VERSION}
-  LD_LIBRARY_PATH= ./clean -a
+  env -u LD_LIBRARY_PATH  ./clean -a
 
   if [ ${auto_config} -eq 1 ]; then
     echo 19 | ./configure 2>&1 | tee configure.log #Option 19 for gfortran and distributed memory
@@ -28218,7 +28218,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   git clone https://github.com/wrf-model/OBSGRID.git
   cd "${WRF_FOLDER}"/OBSGRID
 
-  LD_LIBRARY_PATH= ./clean -a
+  env -u LD_LIBRARY_PATH  ./clean -a
   source $Miniconda_Install_DIR/etc/profile.d/conda.sh
   conda activate ncl_stable
 
@@ -28260,7 +28260,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   else
     echo "obsgrid.exe is missing. Attempting to compile again..."
 
-    LD_LIBRARY_PATH= ./clean -a
+    env -u LD_LIBRARY_PATH  ./clean -a
     LD_LIBRARY_PATH= ./compile 2>&1 | tee compile.obsgrid.retry.log
 
     if [[ -x ./obsgrid.exe ]]; then
@@ -28316,7 +28316,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 
   cd "${WRF_FOLDER}"/WRF-${WRF_VERSION}
   export WRFIO_NCD_LARGE_FILE_SUPPORT=1
-  LD_LIBRARY_PATH= ./clean -a
+  env -u LD_LIBRARY_PATH  ./clean -a
 
   if [ ${auto_config} -eq 1 ]; then
     (
@@ -28378,7 +28378,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
     done
   fi
   cd "${WRF_FOLDER}"/WPS-${WPS_VERSION}
-  LD_LIBRARY_PATH= ./clean -a
+  env -u LD_LIBRARY_PATH  ./clean -a
 
   if [ ${auto_config} -eq 1 ]; then
     echo 3 | ./configure 2>&1 | tee configure.log #Option 3 for gfortran and distributed memory
@@ -28441,7 +28441,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   rm -rf WRF-${WRF_VERSION}/
   export NETCDF=$DIR/NETCDF
   export HDF5=$DIR/grib2
-  LD_LIBRARY_PATH= ./clean -a
+  env -u LD_LIBRARY_PATH  ./clean -a
 
   if [ ${auto_config} -eq 1 ]; then
     echo 18 | ./configure wrfplus 2>&1 | tee configure.log #Option 18 for gfortran/gcc and distribunted memory
@@ -28509,7 +28509,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   export NETCDF=$DIR/NETCDF
   export HDF5=$DIR/grib2
   export WRFPLUS_DIR="${WRF_FOLDER}"/WRFPLUS
-  LD_LIBRARY_PATH= ./clean -a
+  env -u LD_LIBRARY_PATH  ./clean -a
 
   if [ ${auto_config} -eq 1 ]; then
     echo 18 | ./configure 4dvar 2>&1 | tee configure.log #Option 18 for gfortran/gcc and distribunted memory
@@ -29108,7 +29108,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRF_PICK" = "1" ]; then
   git clone https://github.com/wrf-model/OBSGRID.git
   cd "${WRF_FOLDER}"/OBSGRID
 
-  LD_LIBRARY_PATH= ./clean -a
+  env -u LD_LIBRARY_PATH  ./clean -a
   source $Miniconda_Install_DIR/etc/profile.d/conda.sh
   conda activate ncl_stable
 
@@ -29150,7 +29150,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRF_PICK" = "1" ]; then
   else
     echo "obsgrid.exe is missing. Attempting to compile again..."
 
-    LD_LIBRARY_PATH= ./clean -a
+    env -u LD_LIBRARY_PATH  ./clean -a
     LD_LIBRARY_PATH= ./compile 2>&1 | tee compile.obsgrid.retry.log
 
     if [[ -x ./obsgrid.exe ]]; then
@@ -29207,7 +29207,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRF_PICK" = "1" ]; then
 
   cd "${WRF_FOLDER}"/WRF-${WRF_VERSION}
   export WRFIO_NCD_LARGE_FILE_SUPPORT=1
-  LD_LIBRARY_PATH= ./clean -a
+  env -u LD_LIBRARY_PATH  ./clean -a
 
   if [ ${auto_config} -eq 1 ]; then
     (
@@ -29269,7 +29269,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRF_PICK" = "1" ]; then
     done
   fi
   cd "${WRF_FOLDER}"/WPS-${WPS_VERSION}
-  LD_LIBRARY_PATH= ./clean -a
+  env -u LD_LIBRARY_PATH  ./clean -a
 
   if [ ${auto_config} -eq 1 ]; then
     echo 3 | ./configure 2>&1 | tee configure.log #Option 3 for gfortran and distributed memory
@@ -29332,7 +29332,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRF_PICK" = "1" ]; then
   rm -rf WRF-${WRF_VERSION}/
   export NETCDF=$DIR/NETCDF
   export HDF5=$DIR/grib2
-  LD_LIBRARY_PATH= ./clean -a
+  env -u LD_LIBRARY_PATH  ./clean -a
 
   if [ ${auto_config} -eq 1 ]; then
     echo 18 | ./configure wrfplus 2>&1 | tee configure.log #Option 18 for gfortran/gcc and distribunted memory
@@ -29400,7 +29400,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRF_PICK" = "1" ]; then
   export NETCDF=$DIR/NETCDF
   export HDF5=$DIR/grib2
   export WRFPLUS_DIR="${WRF_FOLDER}"/WRFPLUS
-  LD_LIBRARY_PATH= ./clean -a
+  env -u LD_LIBRARY_PATH  ./clean -a
 
   if [ ${auto_config} -eq 1 ]; then
     echo 18 | ./configure 4dvar 2>&1 | tee configure.log #Option 18 for gfortran/gcc and distribunted memory
@@ -29977,7 +29977,7 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRF_PICK" ]; then
   git clone https://github.com/wrf-model/OBSGRID.git
   cd "${WRF_FOLDER}"/OBSGRID
 
-  LD_LIBRARY_PATH= ./clean -a
+  env -u LD_LIBRARY_PATH  ./clean -a
   conda activate ncl_stable
 
   export HOME=$(
@@ -30020,7 +30020,7 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRF_PICK" ]; then
   else
     echo "obsgrid.exe is missing. Attempting to compile again..."
 
-    LD_LIBRARY_PATH= ./clean -a
+    env -u LD_LIBRARY_PATH  ./clean -a
     LD_LIBRARY_PATH= ./compile 2>&1 | tee compile.obsgrid.retry.log
 
     if [[ -x ./obsgrid.exe ]]; then
@@ -30089,7 +30089,7 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRF_PICK" ]; then
 
   cd "${WRF_FOLDER}"/WRF-${WRF_VERSION}
   export WRFIO_NCD_LARGE_FILE_SUPPORT=1
-  LD_LIBRARY_PATH= ./clean -a
+  env -u LD_LIBRARY_PATH  ./clean -a
 
   if [ ${auto_config} -eq 1 ]; then
     (
@@ -30155,7 +30155,7 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRF_PICK" ]; then
     done
   fi
   cd "${WRF_FOLDER}"/WPS-${WPS_VERSION}
-  LD_LIBRARY_PATH= ./clean -a
+  env -u LD_LIBRARY_PATH  ./clean -a
 
   sed -i '77s|real ::|integer ::|g' "${WRF_FOLDER}"/WPS-${WPS_VERSION}/ungrib/src/rd_grib2.F
 
@@ -30224,7 +30224,7 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRF_PICK" ]; then
   rm -rf WRF-${WRF_VERSION}/
   export NETCDF=$DIR/NETCDF
   export HDF5=$DIR/grib2
-  LD_LIBRARY_PATH= ./clean -a
+  env -u LD_LIBRARY_PATH  ./clean -a
 
   if [ ${auto_config} -eq 1 ]; then
     echo 40 | ./configure wrfplus 2>&1 | tee configure.log #Option 40 for intel and distribunted memory
@@ -30299,7 +30299,7 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRF_PICK" ]; then
   export NETCDF=$DIR/NETCDF
   export HDF5=$DIR/grib2
   export WRFPLUS_DIR="${WRF_FOLDER}"/WRFPLUS
-  LD_LIBRARY_PATH= ./clean -a
+  env -u LD_LIBRARY_PATH  ./clean -a
 
   if [ ${auto_config} -eq 1 ]; then
     echo 40 | ./configure 4dvar 2>&1 | tee configure.log #Option 40 for intel and distribunted memory
