@@ -31972,7 +31972,7 @@ if [ "$WRFCHEM_TOOLS" = "1" ]; then
   if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 
     echo $PASSWD | sudo -S apt install git
-    cd "${WRF_FOLDER}"
+    cd "$HOME
     git clone https://github.com/HathewayWill/WRFCHEM-TOOLS-MOSIT.git
     cd WRFCHEM-TOOLS-MOSIT
     chmod 775 *.sh
@@ -31983,7 +31983,7 @@ if [ "$WRFCHEM_TOOLS" = "1" ]; then
   if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 
     echo $PASSWD | sudo -S apt install git
-    cd "${WRF_FOLDER}"
+    cd "$HOME
     git clone https://github.com/HathewayWill/WRFCHEM-TOOLS-MOSIT.git
     cd WRFCHEM-TOOLS-MOSIT
     chmod 775 *.sh
@@ -31994,7 +31994,7 @@ if [ "$WRFCHEM_TOOLS" = "1" ]; then
   if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 
     brew install git
-    cd "${WRF_FOLDER}"
+    cd "$HOME
     git clone https://github.com/HathewayWill/WRFCHEM-TOOLS-MOSIT.git
     cd WRFCHEM-TOOLS-MOSIT
     chmod 775 *.sh
@@ -32005,7 +32005,7 @@ if [ "$WRFCHEM_TOOLS" = "1" ]; then
   if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 
     echo $PASSWD | sudo -S dnf install git
-    cd "${WRF_FOLDER}"
+    cd "$HOME
     git clone https://github.com/HathewayWill/WRFCHEM-TOOLS-MOSIT.git
     cd WRFCHEM-TOOLS-MOSIT
     chmod 775 *.sh
@@ -32016,7 +32016,7 @@ if [ "$WRFCHEM_TOOLS" = "1" ]; then
   if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 
     echo $PASSWD | sudo -S dnf install git
-    cd "${WRF_FOLDER}"
+    cd "$HOME
     git clone https://github.com/HathewayWill/WRFCHEM-TOOLS-MOSIT.git
     cd WRFCHEM-TOOLS-MOSIT
     chmod 775 *.sh
