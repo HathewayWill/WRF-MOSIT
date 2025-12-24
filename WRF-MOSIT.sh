@@ -676,8 +676,8 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$DTC_MET" = "1" ]; then
   export MPICC=mpiicx
   export MPICXX=mpiicpx
   export CFLAGS="-fPIC -fPIE -O3 -Wno-implicit-function-declaration -Wno-incompatible-function-pointer-types -Wno-incompatible-function-pointer-types -Wno-unused-command-line-argument"
-  export FFLAGS="-m64"
-  export FCFLAGS="-m64"
+  export FFLAGS=""
+  export FCFLAGS=""
   export CXXFLAGS="-Wall -DHAVE_ISATTY"
   #########################
 
@@ -2029,9 +2029,9 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
 
   echo " "
   echo "Test 4"
-  $CC -c -m64 TEST_4_fortran+c_c.c
-  $FC -c -m64 TEST_4_fortran+c_f.f90
-  $FC -m64 TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
+  $CC -c  TEST_4_fortran+c_c.c
+  $FC -c  TEST_4_fortran+c_f.f90
+  $FC  TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
   ./a.out | tee env_test4.txt
   export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test4.txt | awk '{print$1}')
   if [ $TEST_PASS -ge 1 ]; then
@@ -2668,9 +2668,9 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
 
   echo " "
   echo "Test 4"
-  $CC -c -m64 TEST_4_fortran+c_c.c
-  $FC -c -m64 TEST_4_fortran+c_f.f90
-  $FC -m64 TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
+  $CC -c  TEST_4_fortran+c_c.c
+  $FC -c  TEST_4_fortran+c_f.f90
+  $FC  TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
   ./a.out | tee env_test4.txt
   export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test4.txt | awk '{print$1}')
   if [ $TEST_PASS -ge 1 ]; then
@@ -3317,9 +3317,9 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$CMAQ_PICK" = "1" ]; then
 
   echo " "
   echo "Test 4"
-  $CC -c -m64 TEST_4_fortran+c_c.c
-  $FC -c -m64 TEST_4_fortran+c_f.f90
-  $FC -m64 TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
+  $CC -c  TEST_4_fortran+c_c.c
+  $FC -c  TEST_4_fortran+c_f.f90
+  $FC  TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
   ./a.out | tee env_test4.txt
   export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test4.txt | awk '{print$1}')
   if [ $TEST_PASS -ge 1 ]; then
@@ -3921,9 +3921,9 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
 
   echo " "
   echo "Test 4"
-  $CC -c -m64 TEST_4_fortran+c_c.c
-  $FC -c -m64 TEST_4_fortran+c_f.f90
-  $FC -m64 TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
+  $CC -c  TEST_4_fortran+c_c.c
+  $FC -c  TEST_4_fortran+c_f.f90
+  $FC  TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
   ./a.out | tee env_test4.txt
   export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test4.txt | awk '{print$1}')
   if [ $TEST_PASS -ge 1 ]; then
@@ -4162,8 +4162,8 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
   #sed statements for issue with GNUv10+
 
   if [ $GCC_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GFORTRAN_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GPLUSPLUS_VERSION_MAJOR_VERSION -ge $version_10 ]; then
-    sed -i '70s/-frecord-marker=4/-frecord-marker=4 -m64 -fallow-argument-mismatch/g' "${WRF_FOLDER}"/WPS/configure.wps
-    sed -i '71s/-frecord-marker=4/-frecord-marker=4 -m64 -fallow-argument-mismatch/g' "${WRF_FOLDER}"/WPS/configure.wps
+    sed -i '70s/-frecord-marker=4/-frecord-marker=4  -fallow-argument-mismatch/g' "${WRF_FOLDER}"/WPS/configure.wps
+    sed -i '71s/-frecord-marker=4/-frecord-marker=4  -fallow-argument-mismatch/g' "${WRF_FOLDER}"/WPS/configure.wps
   fi
 
   LD_LIBRARY_PATH= ./compile 2>&1 | tee compile.wps.log
@@ -4595,9 +4595,9 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
 
   echo " "
   echo "Test 4"
-  $CC -c -m64 TEST_4_fortran+c_c.c
-  $FC -c -m64 TEST_4_fortran+c_f.f90
-  $FC -m64 TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
+  $CC -c  TEST_4_fortran+c_c.c
+  $FC -c  TEST_4_fortran+c_f.f90
+  $FC  TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
   ./a.out | tee env_test4.txt
   export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test4.txt | awk '{print$1}')
   if [ $TEST_PASS -ge 1 ]; then
@@ -4839,8 +4839,8 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
   #sed statements for issue with GNUv10+
 
   if [ $GCC_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GFORTRAN_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GPLUSPLUS_VERSION_MAJOR_VERSION -ge $version_10 ]; then
-    sed -i '70s/-frecord-marker=4/-frecord-marker=4 -m64 -fallow-argument-mismatch/g' "${WRF_FOLDER}"/WPS/configure.wps
-    sed -i '71s/-frecord-marker=4/-frecord-marker=4 -m64 -fallow-argument-mismatch/g' "${WRF_FOLDER}"/WPS/configure.wps
+    sed -i '70s/-frecord-marker=4/-frecord-marker=4  -fallow-argument-mismatch/g' "${WRF_FOLDER}"/WPS/configure.wps
+    sed -i '71s/-frecord-marker=4/-frecord-marker=4  -fallow-argument-mismatch/g' "${WRF_FOLDER}"/WPS/configure.wps
   fi
 
   LD_LIBRARY_PATH= ./compile 2>&1 | tee compile.wps.log
@@ -5285,9 +5285,9 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$SFIRE_PICK" = "1" ]; then
 
   echo " "
   echo "Test 4"
-  $CC -c -m64 TEST_4_fortran+c_c.c
-  $FC -c -m64 TEST_4_fortran+c_f.f90
-  $FC -m64 TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
+  $CC -c  TEST_4_fortran+c_c.c
+  $FC -c  TEST_4_fortran+c_f.f90
+  $FC  TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
   ./a.out | tee env_test4.txt
   export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test4.txt | awk '{print$1}')
   if [ $TEST_PASS -ge 1 ]; then
@@ -5531,8 +5531,8 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$SFIRE_PICK" = "1" ]; then
   #sed statements for issue with GNUv10+
 
   if [ $GCC_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GFORTRAN_VERSION_MAJOR_VERSION -ge $version_10 ] || [ $GPLUSPLUS_VERSION_MAJOR_VERSION -ge $version_10 ]; then
-    sed -i '70s/-frecord-marker=4/-frecord-marker=4 -m64 -fallow-argument-mismatch/g' "${WRF_FOLDER}"/WPS/configure.wps
-    sed -i '71s/-frecord-marker=4/-frecord-marker=4 -m64 -fallow-argument-mismatch/g' "${WRF_FOLDER}"/WPS/configure.wps
+    sed -i '70s/-frecord-marker=4/-frecord-marker=4  -fallow-argument-mismatch/g' "${WRF_FOLDER}"/WPS/configure.wps
+    sed -i '71s/-frecord-marker=4/-frecord-marker=4  -fallow-argument-mismatch/g' "${WRF_FOLDER}"/WPS/configure.wps
   fi
 
   LD_LIBRARY_PATH= ./compile 2>&1 | tee compile.wps.log
@@ -5828,7 +5828,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$MAC_CHIP" = "I
   LD_LIBRARY_PATH= tar -xvzf mpich-$Mpich_Version.tar.gz
   cd mpich-$Mpich_Version/
 
-  F90= ./configure --prefix=$DIR/MPICH --with-device=ch3 FFLAGS="$fallow_argument $boz_argument -m64" FCFLAGS="$fallow_argument $boz_argument -m64" 2>&1 | tee configure.log
+  F90= ./configure --prefix=$DIR/MPICH --with-device=ch3 FFLAGS="$fallow_argument $boz_argument " FCFLAGS="$fallow_argument $boz_argument " 2>&1 | tee configure.log
 
   make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
   make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
@@ -6053,9 +6053,9 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$MAC_CHIP" = "I
 
   echo " "
   echo "Test 4"
-  $CC -c -m64 TEST_4_fortran+c_c.c
-  $FC -c -m64 TEST_4_fortran+c_f.f90
-  $FC -m64 TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
+  $CC -c  TEST_4_fortran+c_c.c
+  $FC -c  TEST_4_fortran+c_f.f90
+  $FC  TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
   ./a.out | tee env_test4.txt
   export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test4.txt | awk '{print$1}')
   if [ $TEST_PASS -ge 1 ]; then
@@ -6596,7 +6596,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$MAC_CHIP" = "A
   LD_LIBRARY_PATH= tar -xvzf mpich-$Mpich_Version.tar.gz
   cd mpich-$Mpich_Version/
 
-  F90= ./configure --prefix=$DIR/MPICH --with-device=ch3 FFLAGS="$fallow_argument $boz_argument -m64" FCFLAGS="$fallow_argument $boz_argument -m64" 2>&1 | tee configure.log
+  F90= ./configure --prefix=$DIR/MPICH --with-device=ch3 FFLAGS="$fallow_argument $boz_argument " FCFLAGS="$fallow_argument $boz_argument " 2>&1 | tee configure.log
 
   make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
   make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
@@ -6821,9 +6821,9 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$MAC_CHIP" = "A
 
   echo " "
   echo "Test 4"
-  $CC -c -m64 TEST_4_fortran+c_c.c
-  $FC -c -m64 TEST_4_fortran+c_f.f90
-  $FC -m64 TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
+  $CC -c  TEST_4_fortran+c_c.c
+  $FC -c  TEST_4_fortran+c_f.f90
+  $FC  TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
   ./a.out | tee env_test4.txt
   export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test4.txt | awk '{print$1}')
   if [ $TEST_PASS -ge 1 ]; then
@@ -7310,7 +7310,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
   LD_LIBRARY_PATH= tar -xvzf mpich-$Mpich_Version.tar.gz
   cd mpich-$Mpich_Version/
 
-  F90= ./configure --prefix=$DIR/MPICH --with-device=ch3 FFLAGS="$fallow_argument $boz_argument -m64" FCFLAGS="$fallow_argument $boz_argument -m64" 2>&1 | tee configure.log
+  F90= ./configure --prefix=$DIR/MPICH --with-device=ch3 FFLAGS="$fallow_argument $boz_argument " FCFLAGS="$fallow_argument $boz_argument " 2>&1 | tee configure.log
 
   make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
   make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
@@ -7496,9 +7496,9 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 
   echo " "
   echo "Test 4"
-  $CC -c -m64 TEST_4_fortran+c_c.c
-  $FC -c -m64 TEST_4_fortran+c_f.f90
-  $FC -m64 TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
+  $CC -c  TEST_4_fortran+c_c.c
+  $FC -c  TEST_4_fortran+c_f.f90
+  $FC  TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
   ./a.out | tee env_test4.txt
   export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test4.txt | awk '{print$1}')
   if [ $TEST_PASS -ge 1 ]; then
@@ -8055,9 +8055,9 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; the
 
   echo " "
   echo "Test 4"
-  $CC -c -m64 TEST_4_fortran+c_c.c
-  $FC -c -m64 TEST_4_fortran+c_f.f90
-  $FC -m64 TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
+  $CC -c  TEST_4_fortran+c_c.c
+  $FC -c  TEST_4_fortran+c_f.f90
+  $FC  TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
   ./a.out | tee env_test4.txt
   export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test4.txt | awk '{print$1}')
   if [ $TEST_PASS -ge 1 ]; then
@@ -8488,7 +8488,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ] && [ "$
   LD_LIBRARY_PATH= tar -xvzf mpich-$Mpich_Version.tar.gz
   cd mpich-$Mpich_Version/
 
-  F90= ./configure --prefix=$DIR/MPICH --with-device=ch3 FFLAGS="$fallow_argument $boz_argument -m64" FCFLAGS="$fallow_argument $boz_argument -m64" 2>&1 | tee configure.log
+  F90= ./configure --prefix=$DIR/MPICH --with-device=ch3 FFLAGS="$fallow_argument $boz_argument " FCFLAGS="$fallow_argument $boz_argument " 2>&1 | tee configure.log
 
   make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
   make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
@@ -8687,9 +8687,9 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ] && [ "$
 
   echo " "
   echo "Test 4"
-  $CC -c -m64 TEST_4_fortran+c_c.c
-  $FC -c -m64 TEST_4_fortran+c_f.f90
-  $FC -m64 TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
+  $CC -c  TEST_4_fortran+c_c.c
+  $FC -c  TEST_4_fortran+c_f.f90
+  $FC  TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
   ./a.out | tee env_test4.txt
   export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test4.txt | awk '{print$1}')
   if [ $TEST_PASS -ge 1 ]; then
@@ -9145,7 +9145,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ] && [ "$
   LD_LIBRARY_PATH= tar -xvzf mpich-$Mpich_Version.tar.gz
   cd mpich-$Mpich_Version/
 
-  F90= ./configure --prefix=$DIR/MPICH --with-device=ch3 FFLAGS="$fallow_argument $boz_argument -m64" FCFLAGS="$fallow_argument $boz_argument -m64" 2>&1 | tee configure.log
+  F90= ./configure --prefix=$DIR/MPICH --with-device=ch3 FFLAGS="$fallow_argument $boz_argument " FCFLAGS="$fallow_argument $boz_argument " 2>&1 | tee configure.log
 
   make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
   make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
@@ -9344,9 +9344,9 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ] && [ "$
 
   echo " "
   echo "Test 4"
-  $CC -c -m64 TEST_4_fortran+c_c.c
-  $FC -c -m64 TEST_4_fortran+c_f.f90
-  $FC -m64 TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
+  $CC -c  TEST_4_fortran+c_c.c
+  $FC -c  TEST_4_fortran+c_f.f90
+  $FC  TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
   ./a.out | tee env_test4.txt
   export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test4.txt | awk '{print$1}')
   if [ $TEST_PASS -ge 1 ]; then
@@ -9923,9 +9923,9 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 
   echo " "
   echo "Test 4"
-  $CC -c -m64 TEST_4_fortran+c_c.c
-  $FC -c -m64 TEST_4_fortran+c_f.f90
-  $FC -m64 TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
+  $CC -c  TEST_4_fortran+c_c.c
+  $FC -c  TEST_4_fortran+c_f.f90
+  $FC  TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
   ./a.out | tee env_test4.txt
   export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test4.txt | awk '{print$1}')
   if [ $TEST_PASS -ge 1 ]; then
@@ -10499,9 +10499,9 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
 
   echo " "
   echo "Test 4"
-  $CC -c -m64 TEST_4_fortran+c_c.c
-  $FC -c -m64 TEST_4_fortran+c_f.f90
-  $FC -m64 TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
+  $CC -c  TEST_4_fortran+c_c.c
+  $FC -c  TEST_4_fortran+c_f.f90
+  $FC  TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
   ./a.out | tee env_test4.txt
   export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test4.txt | awk '{print$1}')
   if [ $TEST_PASS -ge 1 ]; then
@@ -10793,8 +10793,8 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" ]; then
   export MPICC=mpiicx
   export MPICXX=mpiicpx
   export CFLAGS="-fPIC -fPIE -O3 -Wno-implicit-function-declaration -Wno-incompatible-function-pointer-types -Wno-incompatible-function-pointer-types -Wno-unused-command-line-argument"
-  export FFLAGS="-m64"
-  export FCFLAGS="-m64"
+  export FFLAGS=""
+  export FCFLAGS=""
 
   ############################# CPU Core Management ####################################
 
@@ -11044,9 +11044,9 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" ]; then
 
   echo " "
   echo "Test 4"
-  $CC -c -m64 TEST_4_fortran+c_c.c
-  $FC -c -m64 TEST_4_fortran+c_f.f90
-  $FC -m64 TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
+  $CC -c  TEST_4_fortran+c_c.c
+  $FC -c  TEST_4_fortran+c_f.f90
+  $FC  TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
   ./a.out | tee env_test4.txt
   export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test4.txt | awk '{print$1}')
   if [ $TEST_PASS -ge 1 ]; then
@@ -11436,7 +11436,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   LD_LIBRARY_PATH= tar -xvzf mpich-$Mpich_Version.tar.gz
   cd mpich-$Mpich_Version/
 
-  F90= ./configure --prefix=$DIR/MPICH --with-device=ch3 FFLAGS="$fallow_argument $boz_argument -m64" FCFLAGS="$fallow_argument $boz_argument -m64" 2>&1 | tee configure.log
+  F90= ./configure --prefix=$DIR/MPICH --with-device=ch3 FFLAGS="$fallow_argument $boz_argument " FCFLAGS="$fallow_argument $boz_argument " 2>&1 | tee configure.log
 
   make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
   make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
@@ -11622,9 +11622,9 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 
   echo " "
   echo "Test 4"
-  $CC -c -m64 TEST_4_fortran+c_c.c
-  $FC -c -m64 TEST_4_fortran+c_f.f90
-  $FC -m64 TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
+  $CC -c  TEST_4_fortran+c_c.c
+  $FC -c  TEST_4_fortran+c_f.f90
+  $FC  TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
   ./a.out | tee env_test4.txt
   export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test4.txt | awk '{print$1}')
   if [ $TEST_PASS -ge 1 ]; then
@@ -12213,8 +12213,8 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   export MPICC=mpiicx
   export MPICXX=mpiicpx
   export CFLAGS="-fPIC -fPIE -O3 -Wno-implicit-function-declaration -Wno-incompatible-function-pointer-types -Wno-incompatible-function-pointer-types -Wno-unused-command-line-argument"
-  export FFLAGS="-m64"
-  export FCFLAGS="-m64"
+  export FFLAGS=""
+  export FCFLAGS=""
   ############################# CPU Core Management ####################################
 
   export CPU_CORE=$(nproc) # number of available threads on system
@@ -12359,8 +12359,8 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   export MPICC=mpiicx
   export MPICXX=mpiicpx
   export CFLAGS="-fPIC -fPIE -O3 -Wno-implicit-function-declaration -Wno-incompatible-function-pointer-types -Wno-incompatible-function-pointer-types -Wno-unused-command-line-argument"
-  export FFLAGS="-m64"
-  export FCFLAGS="-m64"
+  export FFLAGS=""
+  export FCFLAGS=""
   CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --enable-static 2>&1 | tee configure.log
 
   make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
@@ -12475,9 +12475,9 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 
   echo " "
   echo "Test 4"
-  $CC -c -m64 TEST_4_fortran+c_c.c
-  $FC -c -m64 TEST_4_fortran+c_f.f90
-  $FC -m64 TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
+  $CC -c  TEST_4_fortran+c_c.c
+  $FC -c  TEST_4_fortran+c_f.f90
+  $FC  TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
   ./a.out | tee env_test4.txt
   export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test4.txt | awk '{print$1}')
   if [ $TEST_PASS -ge 1 ]; then
@@ -13226,7 +13226,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ] && [ "$MAC
   LD_LIBRARY_PATH= tar -xvzf mpich-$Mpich_Version.tar.gz
   cd mpich-$Mpich_Version/
 
-  F90= ./configure --prefix=$DIR/MPICH --with-device=ch3 FFLAGS="$fallow_argument $boz_argument -m64" FCFLAGS="$fallow_argument $boz_argument -m64" 2>&1 | tee configure.log
+  F90= ./configure --prefix=$DIR/MPICH --with-device=ch3 FFLAGS="$fallow_argument $boz_argument " FCFLAGS="$fallow_argument $boz_argument " 2>&1 | tee configure.log
 
   make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
   make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
@@ -13423,9 +13423,9 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ] && [ "$MAC
 
   echo " "
   echo "Test 4"
-  $CC -c -m64 TEST_4_fortran+c_c.c
-  $FC -c -m64 TEST_4_fortran+c_f.f90
-  $FC -m64 TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
+  $CC -c  TEST_4_fortran+c_c.c
+  $FC -c  TEST_4_fortran+c_f.f90
+  $FC  TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
   ./a.out | tee env_test4.txt
   export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test4.txt | awk '{print$1}')
   if [ $TEST_PASS -ge 1 ]; then
@@ -14067,7 +14067,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ] && [ "$MAC
   LD_LIBRARY_PATH= tar -xvzf mpich-$Mpich_Version.tar.gz
   cd mpich-$Mpich_Version/
 
-  F90= ./configure --prefix=$DIR/MPICH --with-device=ch3 FFLAGS="$fallow_argument $boz_argument -m64" FCFLAGS="$fallow_argument $boz_argument -m64" 2>&1 | tee configure.log
+  F90= ./configure --prefix=$DIR/MPICH --with-device=ch3 FFLAGS="$fallow_argument $boz_argument " FCFLAGS="$fallow_argument $boz_argument " 2>&1 | tee configure.log
 
   make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
   make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
@@ -14264,9 +14264,9 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ] && [ "$MAC
 
   echo " "
   echo "Test 4"
-  $CC -c -m64 TEST_4_fortran+c_c.c
-  $FC -c -m64 TEST_4_fortran+c_f.f90
-  $FC -m64 TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
+  $CC -c  TEST_4_fortran+c_c.c
+  $FC -c  TEST_4_fortran+c_f.f90
+  $FC  TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
   ./a.out | tee env_test4.txt
   export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test4.txt | awk '{print$1}')
   if [ $TEST_PASS -ge 1 ]; then
@@ -15028,9 +15028,9 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 
   echo " "
   echo "Test 4"
-  $CC -c -m64 TEST_4_fortran+c_c.c
-  $FC -c -m64 TEST_4_fortran+c_f.f90
-  $FC -m64 TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
+  $CC -c  TEST_4_fortran+c_c.c
+  $FC -c  TEST_4_fortran+c_f.f90
+  $FC  TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
   ./a.out | tee env_test4.txt
   export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test4.txt | awk '{print$1}')
   if [ $TEST_PASS -ge 1 ]; then
@@ -15880,9 +15880,9 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 
   echo " "
   echo "Test 4"
-  $CC -c -m64 TEST_4_fortran+c_c.c
-  $FC -c -m64 TEST_4_fortran+c_f.f90
-  $FC -m64 TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
+  $CC -c  TEST_4_fortran+c_c.c
+  $FC -c  TEST_4_fortran+c_f.f90
+  $FC  TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
   ./a.out | tee env_test4.txt
   export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test4.txt | awk '{print$1}')
   if [ $TEST_PASS -ge 1 ]; then
@@ -16405,8 +16405,8 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   export MPICC=mpiicx
   export MPICXX=mpiicpx
   export CFLAGS="-fPIC -fPIE -O3 -Wno-implicit-function-declaration -Wno-incompatible-function-pointer-types -Wno-incompatible-function-pointer-types -Wno-unused-command-line-argument"
-  export FFLAGS="-m64"
-  export FCFLAGS="-m64"
+  export FFLAGS=""
+  export FCFLAGS=""
 
   ############################# CPU Core Management ####################################
 
@@ -16656,9 +16656,9 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 
   echo " "
   echo "Test 4"
-  $CC -c -m64 TEST_4_fortran+c_c.c
-  $FC -c -m64 TEST_4_fortran+c_f.f90
-  $FC -m64 TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
+  $CC -c  TEST_4_fortran+c_c.c
+  $FC -c  TEST_4_fortran+c_f.f90
+  $FC  TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
   ./a.out | tee env_test4.txt
   export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test4.txt | awk '{print$1}')
   if [ $TEST_PASS -ge 1 ]; then
@@ -17297,7 +17297,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   LD_LIBRARY_PATH= tar -xvzf mpich-$Mpich_Version.tar.gz
   cd mpich-$Mpich_Version/
 
-  F90= ./configure --prefix=$DIR/MPICH --with-device=ch3 FFLAGS="$fallow_argument $boz_argument -m64" FCFLAGS="$fallow_argument $boz_argument -m64" 2>&1 | tee configure.log
+  F90= ./configure --prefix=$DIR/MPICH --with-device=ch3 FFLAGS="$fallow_argument $boz_argument " FCFLAGS="$fallow_argument $boz_argument " 2>&1 | tee configure.log
 
   make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
   make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
@@ -17482,9 +17482,9 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 
   echo " "
   echo "Test 4"
-  $CC -c -m64 TEST_4_fortran+c_c.c
-  $FC -c -m64 TEST_4_fortran+c_f.f90
-  $FC -m64 TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
+  $CC -c  TEST_4_fortran+c_c.c
+  $FC -c  TEST_4_fortran+c_f.f90
+  $FC  TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
   ./a.out | tee env_test4.txt
   export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test4.txt | awk '{print$1}')
   if [ $TEST_PASS -ge 1 ]; then
@@ -18303,8 +18303,8 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   export MPICC=mpiicx
   export MPICXX=mpiicpx
   export CFLAGS="-fPIC -fPIE -O3 -Wno-implicit-function-declaration -Wno-incompatible-function-pointer-types -Wno-incompatible-function-pointer-types -Wno-unused-command-line-argument"
-  export FFLAGS="-m64"
-  export FCFLAGS="-m64"
+  export FFLAGS=""
+  export FCFLAGS=""
   ############################# CPU Core Management ####################################
 
   export CPU_CORE=$(nproc) # number of available threads on system
@@ -18553,9 +18553,9 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 
   echo " "
   echo "Test 4"
-  $CC -c -m64 TEST_4_fortran+c_c.c
-  $FC -c -m64 TEST_4_fortran+c_f.f90
-  $FC -m64 TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
+  $CC -c  TEST_4_fortran+c_c.c
+  $FC -c  TEST_4_fortran+c_f.f90
+  $FC  TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
   ./a.out | tee env_test4.txt
   export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test4.txt | awk '{print$1}')
   if [ $TEST_PASS -ge 1 ]; then
@@ -19499,7 +19499,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$MAC_CHIP" = 
   LD_LIBRARY_PATH= tar -xvzf mpich-$Mpich_Version.tar.gz
   cd mpich-$Mpich_Version/
 
-  F90= ./configure --prefix=$DIR/MPICH --with-device=ch3 FFLAGS="$fallow_argument $boz_argument -m64" FCFLAGS="$fallow_argument $boz_argument -m64" 2>&1 | tee configure.log
+  F90= ./configure --prefix=$DIR/MPICH --with-device=ch3 FFLAGS="$fallow_argument $boz_argument " FCFLAGS="$fallow_argument $boz_argument " 2>&1 | tee configure.log
 
   make -j $CPU_QUARTER_EVEN 2>&1 | tee install.log
   make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
@@ -19697,9 +19697,9 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$MAC_CHIP" = 
 
   echo " "
   echo "Test 4"
-  $CC -c -m64 TEST_4_fortran+c_c.c
-  $FC -c -m64 TEST_4_fortran+c_f.f90
-  $FC -m64 TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
+  $CC -c  TEST_4_fortran+c_c.c
+  $FC -c  TEST_4_fortran+c_f.f90
+  $FC  TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
   ./a.out | tee env_test4.txt
   export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test4.txt | awk '{print$1}')
   if [ $TEST_PASS -ge 1 ]; then
@@ -20358,7 +20358,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$MAC_CHIP" = 
   LD_LIBRARY_PATH= tar -xvzf mpich-$Mpich_Version.tar.gz
   cd mpich-$Mpich_Version/
 
-  F90= ./configure --prefix=$DIR/MPICH --with-device=ch3 FFLAGS="$fallow_argument $boz_argument -m64" FCFLAGS="$fallow_argument $boz_argument -m64" 2>&1 | tee configure.log
+  F90= ./configure --prefix=$DIR/MPICH --with-device=ch3 FFLAGS="$fallow_argument $boz_argument " FCFLAGS="$fallow_argument $boz_argument " 2>&1 | tee configure.log
 
   make -j $CPU_QUARTER_EVEN 2>&1 | tee install.log
   make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
@@ -20556,9 +20556,9 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$MAC_CHIP" = 
 
   echo " "
   echo "Test 4"
-  $CC -c -m64 TEST_4_fortran+c_c.c
-  $FC -c -m64 TEST_4_fortran+c_f.f90
-  $FC -m64 TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
+  $CC -c  TEST_4_fortran+c_c.c
+  $FC -c  TEST_4_fortran+c_f.f90
+  $FC  TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
   ./a.out | tee env_test4.txt
   export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test4.txt | awk '{print$1}')
   if [ $TEST_PASS -ge 1 ]; then
@@ -21342,9 +21342,9 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 
   echo " "
   echo "Test 4"
-  $CC -c -m64 TEST_4_fortran+c_c.c
-  $FC -c -m64 TEST_4_fortran+c_f.f90
-  $FC -m64 TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
+  $CC -c  TEST_4_fortran+c_c.c
+  $FC -c  TEST_4_fortran+c_f.f90
+  $FC  TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
   ./a.out | tee env_test4.txt
   export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test4.txt | awk '{print$1}')
   if [ $TEST_PASS -ge 1 ]; then
@@ -22403,9 +22403,9 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 
   echo " "
   echo "Test 4"
-  $CC -c -m64 TEST_4_fortran+c_c.c
-  $FC -c -m64 TEST_4_fortran+c_f.f90
-  $FC -m64 TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
+  $CC -c  TEST_4_fortran+c_c.c
+  $FC -c  TEST_4_fortran+c_f.f90
+  $FC  TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
   ./a.out | tee env_test4.txt
   export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test4.txt | awk '{print$1}')
   if [ $TEST_PASS -ge 1 ]; then
@@ -23166,8 +23166,8 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" ]; then
   export MPICC=mpiicx
   export MPICXX=mpiicpx
   export CFLAGS="-fPIC -fPIE -O3 -Wno-implicit-function-declaration -Wno-incompatible-function-pointer-types -Wno-incompatible-function-pointer-types -Wno-unused-command-line-argument"
-  export FFLAGS="-m64"
-  export FCFLAGS="-m64"
+  export FFLAGS=""
+  export FCFLAGS=""
 
   ############################# CPU Core Management ####################################
 
@@ -23417,9 +23417,9 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" ]; then
 
   echo " "
   echo "Test 4"
-  $CC -c -m64 TEST_4_fortran+c_c.c
-  $FC -c -m64 TEST_4_fortran+c_f.f90
-  $FC -m64 TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
+  $CC -c  TEST_4_fortran+c_c.c
+  $FC -c  TEST_4_fortran+c_f.f90
+  $FC  TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
   ./a.out | tee env_test4.txt
   export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test4.txt | awk '{print$1}')
   if [ $TEST_PASS -ge 1 ]; then
@@ -24523,9 +24523,9 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 
   echo " "
   echo "Test 4"
-  $CC -c -m64 TEST_4_fortran+c_c.c
-  $FC -c -m64 TEST_4_fortran+c_f.f90
-  $FC -m64 TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
+  $CC -c  TEST_4_fortran+c_c.c
+  $FC -c  TEST_4_fortran+c_f.f90
+  $FC  TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
   ./a.out | tee env_test4.txt
   export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test4.txt | awk '{print$1}')
   if [ $TEST_PASS -ge 1 ]; then
@@ -25168,8 +25168,8 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   export MPICC=mpiicx
   export MPICXX=mpiicpx
   export CFLAGS="-fPIC -fPIE -O3 -Wno-implicit-function-declaration -Wno-incompatible-function-pointer-types -Wno-incompatible-function-pointer-types -Wno-unused-command-line-argument"
-  export FFLAGS="-m64"
-  export FCFLAGS="-m64"
+  export FFLAGS=""
+  export FCFLAGS=""
   ############################# CPU Core Management ####################################
 
   export CPU_CORE=$(nproc) # number of available threads on system
@@ -25416,9 +25416,9 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 
   echo " "
   echo "Test 4"
-  $CC -c -m64 TEST_4_fortran+c_c.c
-  $FC -c -m64 TEST_4_fortran+c_f.f90
-  $FC -m64 TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
+  $CC -c  TEST_4_fortran+c_c.c
+  $FC -c  TEST_4_fortran+c_f.f90
+  $FC  TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
   ./a.out | tee env_test4.txt
   export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test4.txt | awk '{print$1}')
   if [ $TEST_PASS -ge 1 ]; then
@@ -26188,7 +26188,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "Int
   LD_LIBRARY_PATH= tar -xvzf mpich-$Mpich_Version.tar.gz
   cd mpich-$Mpich_Version/
 
-  F90= ./configure --prefix=$DIR/MPICH --with-device=ch3 FFLAGS="$fallow_argument $boz_argument -m64" FCFLAGS="$fallow_argument $boz_argument -m64" 2>&1 | tee configure.log
+  F90= ./configure --prefix=$DIR/MPICH --with-device=ch3 FFLAGS="$fallow_argument $boz_argument " FCFLAGS="$fallow_argument $boz_argument " 2>&1 | tee configure.log
 
   make -j $CPU_QUARTER_EVEN 2>&1 | tee install.log
   make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
@@ -26379,9 +26379,9 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "Int
 
   echo " "
   echo "Test 4"
-  $CC -c -m64 TEST_4_fortran+c_c.c
-  $FC -c -m64 TEST_4_fortran+c_f.f90
-  $FC -m64 TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
+  $CC -c  TEST_4_fortran+c_c.c
+  $FC -c  TEST_4_fortran+c_f.f90
+  $FC  TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
   ./a.out | tee env_test4.txt
   export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test4.txt | awk '{print$1}')
   if [ $TEST_PASS -ge 1 ]; then
@@ -27054,7 +27054,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "ARM
   LD_LIBRARY_PATH= tar -xvzf mpich-$Mpich_Version.tar.gz
   cd mpich-$Mpich_Version/
 
-  F90= ./configure --prefix=$DIR/MPICH --with-device=ch3 FFLAGS="$fallow_argument $boz_argument -m64" FCFLAGS="$fallow_argument $boz_argument -m64" 2>&1 | tee configure.log
+  F90= ./configure --prefix=$DIR/MPICH --with-device=ch3 FFLAGS="$fallow_argument $boz_argument " FCFLAGS="$fallow_argument $boz_argument " 2>&1 | tee configure.log
 
   make -j $CPU_QUARTER_EVEN 2>&1 | tee make.log
   make -j $CPU_QUARTER_EVEN install 2>&1 | tee make.install.log
@@ -27246,9 +27246,9 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "ARM
 
   echo " "
   echo "Test 4"
-  $CC -c -m64 TEST_4_fortran+c_c.c
-  $FC -c -m64 TEST_4_fortran+c_f.f90
-  $FC -m64 TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
+  $CC -c  TEST_4_fortran+c_c.c
+  $FC -c  TEST_4_fortran+c_f.f90
+  $FC  TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
   ./a.out | tee env_test4.txt
   export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test4.txt | awk '{print$1}')
   if [ $TEST_PASS -ge 1 ]; then
@@ -28046,9 +28046,9 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 
   echo " "
   echo "Test 4"
-  $CC -c -m64 TEST_4_fortran+c_c.c
-  $FC -c -m64 TEST_4_fortran+c_f.f90
-  $FC -m64 TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
+  $CC -c  TEST_4_fortran+c_c.c
+  $FC -c  TEST_4_fortran+c_f.f90
+  $FC  TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
   ./a.out | tee env_test4.txt
   export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test4.txt | awk '{print$1}')
   if [ $TEST_PASS -ge 1 ]; then
@@ -28937,9 +28937,9 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRF_PICK" = "1" ]; then
 
   echo " "
   echo "Test 4"
-  $CC -c -m64 TEST_4_fortran+c_c.c
-  $FC -c -m64 TEST_4_fortran+c_f.f90
-  $FC -m64 TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
+  $CC -c  TEST_4_fortran+c_c.c
+  $FC -c  TEST_4_fortran+c_f.f90
+  $FC  TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
   ./a.out | tee env_test4.txt
   export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test4.txt | awk '{print$1}')
   if [ $TEST_PASS -ge 1 ]; then
@@ -29557,8 +29557,8 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRF_PICK" ]; then
   export MPICC=mpiicx
   export MPICXX=mpiicpx
   export CFLAGS="-fPIC -fPIE -O3 -Wno-implicit-function-declaration -Wno-incompatible-function-pointer-types -Wno-incompatible-function-pointer-types -Wno-unused-command-line-argument"
-  export FFLAGS="-m64"
-  export FCFLAGS="-m64"
+  export FFLAGS=""
+  export FCFLAGS=""
 
   ############################# CPU Core Management ####################################
 
@@ -29808,9 +29808,9 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRF_PICK" ]; then
 
   echo " "
   echo "Test 4"
-  $CC -c -m64 TEST_4_fortran+c_c.c
-  $FC -c -m64 TEST_4_fortran+c_f.f90
-  $FC -m64 TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
+  $CC -c  TEST_4_fortran+c_c.c
+  $FC -c  TEST_4_fortran+c_f.f90
+  $FC  TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
   ./a.out | tee env_test4.txt
   export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test4.txt | awk '{print$1}')
   if [ $TEST_PASS -ge 1 ]; then
@@ -30735,9 +30735,9 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$COAWST_Pick" = "1" ]; then
 
   echo " "
   echo "Test 4"
-  $CC -c -m64 TEST_4_fortran+c_c.c
-  $FC -c -m64 TEST_4_fortran+c_f.f90
-  $FC -m64 TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
+  $CC -c  TEST_4_fortran+c_c.c
+  $FC -c  TEST_4_fortran+c_f.f90
+  $FC  TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
   ./a.out | tee env_test4.txt
   export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test4.txt | awk '{print$1}')
   if [ $TEST_PASS -ge 1 ]; then
@@ -31175,9 +31175,9 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$COAWST_Pick" = "1" ]; then
 
   echo " "
   echo "Test 4"
-  $CC -c -m64 TEST_4_fortran+c_c.c
-  $FC -c -m64 TEST_4_fortran+c_f.f90
-  $FC -m64 TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
+  $CC -c  TEST_4_fortran+c_c.c
+  $FC -c  TEST_4_fortran+c_f.f90
+  $FC  TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
   ./a.out | tee env_test4.txt
   export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test4.txt | awk '{print$1}')
   if [ $TEST_PASS -ge 1 ]; then
@@ -31726,9 +31726,9 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$COAWST_Pick" = "1" ]; then
 
   echo " "
   echo "Test 4"
-  $CC -c -m64 TEST_4_fortran+c_c.c
-  $FC -c -m64 TEST_4_fortran+c_f.f90
-  $FC -m64 TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
+  $CC -c  TEST_4_fortran+c_c.c
+  $FC -c  TEST_4_fortran+c_f.f90
+  $FC  TEST_4_fortran+c_f.o TEST_4_fortran+c_c.o
   ./a.out | tee env_test4.txt
   export TEST_PASS=$(grep -w -o -c "SUCCESS" env_test4.txt | awk '{print$1}')
   if [ $TEST_PASS -ge 1 ]; then
