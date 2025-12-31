@@ -17828,62 +17828,38 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	# Clean out non-apt flex installations
 	########################################
 	# --------------------------------------------------------
-	# Ensure flex + libfl are available (apt/dnf preferred)
-	#   - flex binary present
-	#   - runtime loader can see libfl.so.2 (shared runtime)
-	#   - linker can resolve -lfl (dev/link, needed by KPP)
-	# Also export:
-	#   FLEX, YACC, FLEX_LIB_DIR (+ LDFLAGS/LD_LIBRARY_PATH/LIBS)
+	# Ensure flex + libfl.so.2 are available (apt/dnf preferred)
+	# Then set FLEX_LIB_DIR using Debian/Ubuntu multiarch (or a safe find fallback)
 	# --------------------------------------------------------
 
-	cc_cmd() { echo "${CC:-cc}"; }
-
-	# Can the linker actually resolve -lfl? (KPP needs this)
-	can_link_lfl() {
-		local cc
-		cc="$(cc_cmd)"
-		echo 'int main(void){return 0;}' |
-			"$cc" -x c - -o /tmp/.try_lfl.$$ -lfl >/dev/null 2>&1
-		local rc=$?
-		rm -f /tmp/.try_lfl.$$ 2>/dev/null || true
-		return $rc
-	}
-
-	# Runtime loader visibility for libfl.so.2
-	have_runtime_libfl_so2() {
-		if command -v ldconfig >/dev/null 2>&1; then
-			ldconfig -p 2>/dev/null | grep -qE '(^|\s)libfl\.so\.2(\s|$)'
-			return $?
-		fi
-		# Fallback if ldconfig isn't present
-		find /usr /lib /usr/local -type f -name 'libfl.so.2*' 2>/dev/null | grep -q .
-	}
-
 	need_flex_install() {
-		# flex binary missing => need install
+		# flex binary missing OR runtime lib missing
 		command -v flex >/dev/null 2>&1 || return 0
 
-		# If we cannot link -lfl, we need the dev package (libfl-dev / flex-devel)
-		can_link_lfl || return 0
+		# Check if dynamic loader can see libfl.so.2
+		if ldconfig -p 2>/dev/null | grep -q 'libfl\.so\.2'; then
+			return 1
+		fi
 
-		# If runtime shared lib isn't visible, we need runtime package (libfl2, etc.)
-		have_runtime_libfl_so2 || return 0
+		# Fallback checks if ldconfig isn't available / doesn't list it
+		if find /usr /lib /usr/local -type f -name 'libfl.so.2*' 2>/dev/null | grep -q .; then
+			return 1
+		fi
 
-		return 1
+		return 0
 	}
 
 	install_flex_via_pkgmgr() {
 		if command -v apt-get >/dev/null 2>&1; then
 			echo "[flex] Using apt-get to install flex/libfl..."
 			echo "$PASSWD" | sudo -S apt-get update
-			# flex => binary, libfl2 => runtime libfl.so.2, libfl-dev => link libfl.so (or libfl.a)
+			# flex provides the flex binary; libfl2 provides libfl.so.2; libfl-dev provides link libfl.so (nice-to-have)
 			echo "$PASSWD" | sudo -S apt-get install -y flex libfl2 libfl-dev
 			echo "$PASSWD" | sudo -S ldconfig || true
 			return 0
 		elif command -v dnf >/dev/null 2>&1; then
 			echo "[flex] Using dnf to install flex..."
-			# RPM distros may split link libs into flex-devel; try both
-			echo "$PASSWD" | sudo -S dnf -y install flex flex-devel || echo "$PASSWD" | sudo -S dnf -y install flex
+			echo "$PASSWD" | sudo -S dnf -y install flex
 			echo "$PASSWD" | sudo -S ldconfig || true
 			return 0
 		else
@@ -17923,53 +17899,56 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 
 	# Main logic: try pkg mgr first; source build only if still missing
 	if need_flex_install; then
-		echo "[flex] flex/libfl not fully detected. Attempting install via package manager..."
+		echo "[flex] flex/libfl.so.2 not detected. Attempting install via package manager..."
 		if ! install_flex_via_pkgmgr; then
 			echo "[flex] Package-manager install not possible/failed; falling back to source build."
 			build_flex_from_source
 		fi
-	else
-		echo "[flex] flex and libfl already present; skipping installation."
-	fi
 
-	# Verify after install
-	if ! command -v flex >/dev/null 2>&1; then
-		echo "[flex] ERROR: flex still not found after install."
-		exit 1
-	fi
-	if ! can_link_lfl; then
-		echo "[flex] ERROR: cannot link with -lfl (missing libfl-dev / flex-devel)."
-		exit 1
-	fi
-	if ! have_runtime_libfl_so2; then
-		echo "[flex] ERROR: libfl.so.2 still not found after install (missing runtime libfl2 / equivalent)."
-		exit 1
+		# Verify after install
+		if ! command -v flex >/dev/null 2>&1; then
+			echo "[flex] ERROR: flex still not found after install."
+			exit 1
+		fi
+		if ! (ldconfig -p 2>/dev/null | grep -q 'libfl\.so\.2' ||
+			find /usr /lib /usr/local -type f -name 'libfl.so.2*' 2>/dev/null | grep -q .); then
+			echo "[flex] ERROR: libfl.so.2 still not found after install."
+			exit 1
+		fi
+	else
+		echo "[flex] flex and libfl.so.2 already present; skipping installation."
 	fi
 
 	# Point WRF/KPP to system flex
 	export FLEX="$(command -v flex)"
 	export YACC="${YACC:-/usr/bin/yacc -d}"
 
-	# Export FLEX_LIB_DIR (prefer compiler path; fall back to find)
-	FLEX_LIB_PATH="$("$(cc_cmd)" -print-file-name=libfl.so 2>/dev/null)"
-	if [[ -z "$FLEX_LIB_PATH" || "$FLEX_LIB_PATH" == "libfl.so" || ! -e "$FLEX_LIB_PATH" ]]; then
-		FLEX_LIB_PATH="$("$(cc_cmd)" -print-file-name=libfl.a 2>/dev/null)"
-	fi
-	if [[ -z "$FLEX_LIB_PATH" || "$FLEX_LIB_PATH" == "libfl.a" || ! -e "$FLEX_LIB_PATH" ]]; then
-		FLEX_LIB_PATH="$(find /usr /lib /usr/local -type f \( -name "libfl.a" -o -name "libfl.so" \) 2>/dev/null | head -n 1)"
-	fi
-
-	if [[ -n "$FLEX_LIB_PATH" && -e "$FLEX_LIB_PATH" ]]; then
-		export FLEX_LIB_DIR="$(dirname "$FLEX_LIB_PATH")"
-		echo "[flex] FLEX_LIB_DIR set to $FLEX_LIB_DIR (from $FLEX_LIB_PATH)"
-
-		# Make it visible to build + runtime without overwriting your existing flags
-		export LDFLAGS="-L${FLEX_LIB_DIR} ${LDFLAGS:-}"
-		export LD_LIBRARY_PATH="${FLEX_LIB_DIR}:${LD_LIBRARY_PATH:-}"
-		export LIBS="-lfl ${LIBS:-}"
+	# --------------------------------------------------------
+	# Set FLEX_LIB_DIR (simple + correct on Ubuntu/Debian; safe fallback otherwise)
+	# --------------------------------------------------------
+	if command -v dpkg-architecture >/dev/null 2>&1; then
+		export FLEX_LIB_DIR="/usr/lib/$(dpkg-architecture -qDEB_HOST_MULTIARCH)"
 	else
-		echo "[flex] WARNING: Could not determine FLEX_LIB_DIR; relying on default system paths."
+		FLEX_LIB_PATH="$(
+			find /lib /usr/lib /usr/local/lib /lib64 /usr/lib64 \
+				-maxdepth 3 -type f \( -name 'libfl.so' -o -name 'libfl.a' -o -name 'libfl.so.2' \) \
+				2>/dev/null | head -n 1
+		)"
+
+		if [[ -n "$FLEX_LIB_PATH" ]]; then
+			export FLEX_LIB_DIR="$(dirname "$FLEX_LIB_PATH")"
+		else
+			echo "[flex] ERROR: could not find libfl (libfl.so/libfl.a/libfl.so.2)"
+			exit 1
+		fi
 	fi
+
+	echo "[flex] FLEX_LIB_DIR=$FLEX_LIB_DIR"
+
+	# Optional: wire into flags (doesn't overwrite existing values)
+	export LDFLAGS="-L${FLEX_LIB_DIR} ${LDFLAGS:-}"
+	export LD_LIBRARY_PATH="${FLEX_LIB_DIR}:${LD_LIBRARY_PATH:-}"
+	export LIBS="-lfl ${LIBS:-}"
 
 	# --------------------------------------------------------
 	# Setting up WRF-CHEM/KPP environment
@@ -18846,62 +18825,38 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	# Clean out non-apt flex installations
 	########################################
 	# --------------------------------------------------------
-	# Ensure flex + libfl are available (apt/dnf preferred)
-	#   - flex binary present
-	#   - runtime loader can see libfl.so.2 (shared runtime)
-	#   - linker can resolve -lfl (dev/link, needed by KPP)
-	# Also export:
-	#   FLEX, YACC, FLEX_LIB_DIR (+ LDFLAGS/LD_LIBRARY_PATH/LIBS)
+	# Ensure flex + libfl.so.2 are available (apt/dnf preferred)
+	# Then set FLEX_LIB_DIR using Debian/Ubuntu multiarch (or a safe find fallback)
 	# --------------------------------------------------------
 
-	cc_cmd() { echo "${CC:-cc}"; }
-
-	# Can the linker actually resolve -lfl? (KPP needs this)
-	can_link_lfl() {
-		local cc
-		cc="$(cc_cmd)"
-		echo 'int main(void){return 0;}' |
-			"$cc" -x c - -o /tmp/.try_lfl.$$ -lfl >/dev/null 2>&1
-		local rc=$?
-		rm -f /tmp/.try_lfl.$$ 2>/dev/null || true
-		return $rc
-	}
-
-	# Runtime loader visibility for libfl.so.2
-	have_runtime_libfl_so2() {
-		if command -v ldconfig >/dev/null 2>&1; then
-			ldconfig -p 2>/dev/null | grep -qE '(^|\s)libfl\.so\.2(\s|$)'
-			return $?
-		fi
-		# Fallback if ldconfig isn't present
-		find /usr /lib /usr/local -type f -name 'libfl.so.2*' 2>/dev/null | grep -q .
-	}
-
 	need_flex_install() {
-		# flex binary missing => need install
+		# flex binary missing OR runtime lib missing
 		command -v flex >/dev/null 2>&1 || return 0
 
-		# If we cannot link -lfl, we need the dev package (libfl-dev / flex-devel)
-		can_link_lfl || return 0
+		# Check if dynamic loader can see libfl.so.2
+		if ldconfig -p 2>/dev/null | grep -q 'libfl\.so\.2'; then
+			return 1
+		fi
 
-		# If runtime shared lib isn't visible, we need runtime package (libfl2, etc.)
-		have_runtime_libfl_so2 || return 0
+		# Fallback checks if ldconfig isn't available / doesn't list it
+		if find /usr /lib /usr/local -type f -name 'libfl.so.2*' 2>/dev/null | grep -q .; then
+			return 1
+		fi
 
-		return 1
+		return 0
 	}
 
 	install_flex_via_pkgmgr() {
 		if command -v apt-get >/dev/null 2>&1; then
 			echo "[flex] Using apt-get to install flex/libfl..."
 			echo "$PASSWD" | sudo -S apt-get update
-			# flex => binary, libfl2 => runtime libfl.so.2, libfl-dev => link libfl.so (or libfl.a)
+			# flex provides the flex binary; libfl2 provides libfl.so.2; libfl-dev provides link libfl.so (nice-to-have)
 			echo "$PASSWD" | sudo -S apt-get install -y flex libfl2 libfl-dev
 			echo "$PASSWD" | sudo -S ldconfig || true
 			return 0
 		elif command -v dnf >/dev/null 2>&1; then
 			echo "[flex] Using dnf to install flex..."
-			# RPM distros may split link libs into flex-devel; try both
-			echo "$PASSWD" | sudo -S dnf -y install flex flex-devel || echo "$PASSWD" | sudo -S dnf -y install flex
+			echo "$PASSWD" | sudo -S dnf -y install flex
 			echo "$PASSWD" | sudo -S ldconfig || true
 			return 0
 		else
@@ -18941,53 +18896,56 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 
 	# Main logic: try pkg mgr first; source build only if still missing
 	if need_flex_install; then
-		echo "[flex] flex/libfl not fully detected. Attempting install via package manager..."
+		echo "[flex] flex/libfl.so.2 not detected. Attempting install via package manager..."
 		if ! install_flex_via_pkgmgr; then
 			echo "[flex] Package-manager install not possible/failed; falling back to source build."
 			build_flex_from_source
 		fi
-	else
-		echo "[flex] flex and libfl already present; skipping installation."
-	fi
 
-	# Verify after install
-	if ! command -v flex >/dev/null 2>&1; then
-		echo "[flex] ERROR: flex still not found after install."
-		exit 1
-	fi
-	if ! can_link_lfl; then
-		echo "[flex] ERROR: cannot link with -lfl (missing libfl-dev / flex-devel)."
-		exit 1
-	fi
-	if ! have_runtime_libfl_so2; then
-		echo "[flex] ERROR: libfl.so.2 still not found after install (missing runtime libfl2 / equivalent)."
-		exit 1
+		# Verify after install
+		if ! command -v flex >/dev/null 2>&1; then
+			echo "[flex] ERROR: flex still not found after install."
+			exit 1
+		fi
+		if ! (ldconfig -p 2>/dev/null | grep -q 'libfl\.so\.2' ||
+			find /usr /lib /usr/local -type f -name 'libfl.so.2*' 2>/dev/null | grep -q .); then
+			echo "[flex] ERROR: libfl.so.2 still not found after install."
+			exit 1
+		fi
+	else
+		echo "[flex] flex and libfl.so.2 already present; skipping installation."
 	fi
 
 	# Point WRF/KPP to system flex
 	export FLEX="$(command -v flex)"
 	export YACC="${YACC:-/usr/bin/yacc -d}"
 
-	# Export FLEX_LIB_DIR (prefer compiler path; fall back to find)
-	FLEX_LIB_PATH="$("$(cc_cmd)" -print-file-name=libfl.so 2>/dev/null)"
-	if [[ -z "$FLEX_LIB_PATH" || "$FLEX_LIB_PATH" == "libfl.so" || ! -e "$FLEX_LIB_PATH" ]]; then
-		FLEX_LIB_PATH="$("$(cc_cmd)" -print-file-name=libfl.a 2>/dev/null)"
-	fi
-	if [[ -z "$FLEX_LIB_PATH" || "$FLEX_LIB_PATH" == "libfl.a" || ! -e "$FLEX_LIB_PATH" ]]; then
-		FLEX_LIB_PATH="$(find /usr /lib /usr/local -type f \( -name "libfl.a" -o -name "libfl.so" \) 2>/dev/null | head -n 1)"
-	fi
-
-	if [[ -n "$FLEX_LIB_PATH" && -e "$FLEX_LIB_PATH" ]]; then
-		export FLEX_LIB_DIR="$(dirname "$FLEX_LIB_PATH")"
-		echo "[flex] FLEX_LIB_DIR set to $FLEX_LIB_DIR (from $FLEX_LIB_PATH)"
-
-		# Make it visible to build + runtime without overwriting your existing flags
-		export LDFLAGS="-L${FLEX_LIB_DIR} ${LDFLAGS:-}"
-		export LD_LIBRARY_PATH="${FLEX_LIB_DIR}:${LD_LIBRARY_PATH:-}"
-		export LIBS="-lfl ${LIBS:-}"
+	# --------------------------------------------------------
+	# Set FLEX_LIB_DIR (simple + correct on Ubuntu/Debian; safe fallback otherwise)
+	# --------------------------------------------------------
+	if command -v dpkg-architecture >/dev/null 2>&1; then
+		export FLEX_LIB_DIR="/usr/lib/$(dpkg-architecture -qDEB_HOST_MULTIARCH)"
 	else
-		echo "[flex] WARNING: Could not determine FLEX_LIB_DIR; relying on default system paths."
+		FLEX_LIB_PATH="$(
+			find /lib /usr/lib /usr/local/lib /lib64 /usr/lib64 \
+				-maxdepth 3 -type f \( -name 'libfl.so' -o -name 'libfl.a' -o -name 'libfl.so.2' \) \
+				2>/dev/null | head -n 1
+		)"
+
+		if [[ -n "$FLEX_LIB_PATH" ]]; then
+			export FLEX_LIB_DIR="$(dirname "$FLEX_LIB_PATH")"
+		else
+			echo "[flex] ERROR: could not find libfl (libfl.so/libfl.a/libfl.so.2)"
+			exit 1
+		fi
 	fi
+
+	echo "[flex] FLEX_LIB_DIR=$FLEX_LIB_DIR"
+
+	# Optional: wire into flags (doesn't overwrite existing values)
+	export LDFLAGS="-L${FLEX_LIB_DIR} ${LDFLAGS:-}"
+	export LD_LIBRARY_PATH="${FLEX_LIB_DIR}:${LD_LIBRARY_PATH:-}"
+	export LIBS="-lfl ${LIBS:-}"
 
 	# --------------------------------------------------------
 	# Setting up WRF-CHEM/KPP environment
@@ -21581,62 +21539,38 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	# Clean out non-apt flex installations
 	########################################
 	# --------------------------------------------------------
-	# Ensure flex + libfl are available (apt/dnf preferred)
-	#   - flex binary present
-	#   - runtime loader can see libfl.so.2 (shared runtime)
-	#   - linker can resolve -lfl (dev/link, needed by KPP)
-	# Also export:
-	#   FLEX, YACC, FLEX_LIB_DIR (+ LDFLAGS/LD_LIBRARY_PATH/LIBS)
+	# Ensure flex + libfl.so.2 are available (apt/dnf preferred)
+	# Then set FLEX_LIB_DIR using Debian/Ubuntu multiarch (or a safe find fallback)
 	# --------------------------------------------------------
 
-	cc_cmd() { echo "${CC:-cc}"; }
-
-	# Can the linker actually resolve -lfl? (KPP needs this)
-	can_link_lfl() {
-		local cc
-		cc="$(cc_cmd)"
-		echo 'int main(void){return 0;}' |
-			"$cc" -x c - -o /tmp/.try_lfl.$$ -lfl >/dev/null 2>&1
-		local rc=$?
-		rm -f /tmp/.try_lfl.$$ 2>/dev/null || true
-		return $rc
-	}
-
-	# Runtime loader visibility for libfl.so.2
-	have_runtime_libfl_so2() {
-		if command -v ldconfig >/dev/null 2>&1; then
-			ldconfig -p 2>/dev/null | grep -qE '(^|\s)libfl\.so\.2(\s|$)'
-			return $?
-		fi
-		# Fallback if ldconfig isn't present
-		find /usr /lib /usr/local -type f -name 'libfl.so.2*' 2>/dev/null | grep -q .
-	}
-
 	need_flex_install() {
-		# flex binary missing => need install
+		# flex binary missing OR runtime lib missing
 		command -v flex >/dev/null 2>&1 || return 0
 
-		# If we cannot link -lfl, we need the dev package (libfl-dev / flex-devel)
-		can_link_lfl || return 0
+		# Check if dynamic loader can see libfl.so.2
+		if ldconfig -p 2>/dev/null | grep -q 'libfl\.so\.2'; then
+			return 1
+		fi
 
-		# If runtime shared lib isn't visible, we need runtime package (libfl2, etc.)
-		have_runtime_libfl_so2 || return 0
+		# Fallback checks if ldconfig isn't available / doesn't list it
+		if find /usr /lib /usr/local -type f -name 'libfl.so.2*' 2>/dev/null | grep -q .; then
+			return 1
+		fi
 
-		return 1
+		return 0
 	}
 
 	install_flex_via_pkgmgr() {
 		if command -v apt-get >/dev/null 2>&1; then
 			echo "[flex] Using apt-get to install flex/libfl..."
 			echo "$PASSWD" | sudo -S apt-get update
-			# flex => binary, libfl2 => runtime libfl.so.2, libfl-dev => link libfl.so (or libfl.a)
+			# flex provides the flex binary; libfl2 provides libfl.so.2; libfl-dev provides link libfl.so (nice-to-have)
 			echo "$PASSWD" | sudo -S apt-get install -y flex libfl2 libfl-dev
 			echo "$PASSWD" | sudo -S ldconfig || true
 			return 0
 		elif command -v dnf >/dev/null 2>&1; then
 			echo "[flex] Using dnf to install flex..."
-			# RPM distros may split link libs into flex-devel; try both
-			echo "$PASSWD" | sudo -S dnf -y install flex flex-devel || echo "$PASSWD" | sudo -S dnf -y install flex
+			echo "$PASSWD" | sudo -S dnf -y install flex
 			echo "$PASSWD" | sudo -S ldconfig || true
 			return 0
 		else
@@ -21676,53 +21610,56 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 
 	# Main logic: try pkg mgr first; source build only if still missing
 	if need_flex_install; then
-		echo "[flex] flex/libfl not fully detected. Attempting install via package manager..."
+		echo "[flex] flex/libfl.so.2 not detected. Attempting install via package manager..."
 		if ! install_flex_via_pkgmgr; then
 			echo "[flex] Package-manager install not possible/failed; falling back to source build."
 			build_flex_from_source
 		fi
-	else
-		echo "[flex] flex and libfl already present; skipping installation."
-	fi
 
-	# Verify after install
-	if ! command -v flex >/dev/null 2>&1; then
-		echo "[flex] ERROR: flex still not found after install."
-		exit 1
-	fi
-	if ! can_link_lfl; then
-		echo "[flex] ERROR: cannot link with -lfl (missing libfl-dev / flex-devel)."
-		exit 1
-	fi
-	if ! have_runtime_libfl_so2; then
-		echo "[flex] ERROR: libfl.so.2 still not found after install (missing runtime libfl2 / equivalent)."
-		exit 1
+		# Verify after install
+		if ! command -v flex >/dev/null 2>&1; then
+			echo "[flex] ERROR: flex still not found after install."
+			exit 1
+		fi
+		if ! (ldconfig -p 2>/dev/null | grep -q 'libfl\.so\.2' ||
+			find /usr /lib /usr/local -type f -name 'libfl.so.2*' 2>/dev/null | grep -q .); then
+			echo "[flex] ERROR: libfl.so.2 still not found after install."
+			exit 1
+		fi
+	else
+		echo "[flex] flex and libfl.so.2 already present; skipping installation."
 	fi
 
 	# Point WRF/KPP to system flex
 	export FLEX="$(command -v flex)"
 	export YACC="${YACC:-/usr/bin/yacc -d}"
 
-	# Export FLEX_LIB_DIR (prefer compiler path; fall back to find)
-	FLEX_LIB_PATH="$("$(cc_cmd)" -print-file-name=libfl.so 2>/dev/null)"
-	if [[ -z "$FLEX_LIB_PATH" || "$FLEX_LIB_PATH" == "libfl.so" || ! -e "$FLEX_LIB_PATH" ]]; then
-		FLEX_LIB_PATH="$("$(cc_cmd)" -print-file-name=libfl.a 2>/dev/null)"
-	fi
-	if [[ -z "$FLEX_LIB_PATH" || "$FLEX_LIB_PATH" == "libfl.a" || ! -e "$FLEX_LIB_PATH" ]]; then
-		FLEX_LIB_PATH="$(find /usr /lib /usr/local -type f \( -name "libfl.a" -o -name "libfl.so" \) 2>/dev/null | head -n 1)"
-	fi
-
-	if [[ -n "$FLEX_LIB_PATH" && -e "$FLEX_LIB_PATH" ]]; then
-		export FLEX_LIB_DIR="$(dirname "$FLEX_LIB_PATH")"
-		echo "[flex] FLEX_LIB_DIR set to $FLEX_LIB_DIR (from $FLEX_LIB_PATH)"
-
-		# Make it visible to build + runtime without overwriting your existing flags
-		export LDFLAGS="-L${FLEX_LIB_DIR} ${LDFLAGS:-}"
-		export LD_LIBRARY_PATH="${FLEX_LIB_DIR}:${LD_LIBRARY_PATH:-}"
-		export LIBS="-lfl ${LIBS:-}"
+	# --------------------------------------------------------
+	# Set FLEX_LIB_DIR (simple + correct on Ubuntu/Debian; safe fallback otherwise)
+	# --------------------------------------------------------
+	if command -v dpkg-architecture >/dev/null 2>&1; then
+		export FLEX_LIB_DIR="/usr/lib/$(dpkg-architecture -qDEB_HOST_MULTIARCH)"
 	else
-		echo "[flex] WARNING: Could not determine FLEX_LIB_DIR; relying on default system paths."
+		FLEX_LIB_PATH="$(
+			find /lib /usr/lib /usr/local/lib /lib64 /usr/lib64 \
+				-maxdepth 3 -type f \( -name 'libfl.so' -o -name 'libfl.a' -o -name 'libfl.so.2' \) \
+				2>/dev/null | head -n 1
+		)"
+
+		if [[ -n "$FLEX_LIB_PATH" ]]; then
+			export FLEX_LIB_DIR="$(dirname "$FLEX_LIB_PATH")"
+		else
+			echo "[flex] ERROR: could not find libfl (libfl.so/libfl.a/libfl.so.2)"
+			exit 1
+		fi
 	fi
+
+	echo "[flex] FLEX_LIB_DIR=$FLEX_LIB_DIR"
+
+	# Optional: wire into flags (doesn't overwrite existing values)
+	export LDFLAGS="-L${FLEX_LIB_DIR} ${LDFLAGS:-}"
+	export LD_LIBRARY_PATH="${FLEX_LIB_DIR}:${LD_LIBRARY_PATH:-}"
+	export LIBS="-lfl ${LIBS:-}"
 
 	# --------------------------------------------------------
 	# Setting up WRF-CHEM/KPP environment
@@ -22571,62 +22508,38 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	# Clean out non-apt flex installations
 	########################################
 	# --------------------------------------------------------
-	# Ensure flex + libfl are available (apt/dnf preferred)
-	#   - flex binary present
-	#   - runtime loader can see libfl.so.2 (shared runtime)
-	#   - linker can resolve -lfl (dev/link, needed by KPP)
-	# Also export:
-	#   FLEX, YACC, FLEX_LIB_DIR (+ LDFLAGS/LD_LIBRARY_PATH/LIBS)
+	# Ensure flex + libfl.so.2 are available (apt/dnf preferred)
+	# Then set FLEX_LIB_DIR using Debian/Ubuntu multiarch (or a safe find fallback)
 	# --------------------------------------------------------
 
-	cc_cmd() { echo "${CC:-cc}"; }
-
-	# Can the linker actually resolve -lfl? (KPP needs this)
-	can_link_lfl() {
-		local cc
-		cc="$(cc_cmd)"
-		echo 'int main(void){return 0;}' |
-			"$cc" -x c - -o /tmp/.try_lfl.$$ -lfl >/dev/null 2>&1
-		local rc=$?
-		rm -f /tmp/.try_lfl.$$ 2>/dev/null || true
-		return $rc
-	}
-
-	# Runtime loader visibility for libfl.so.2
-	have_runtime_libfl_so2() {
-		if command -v ldconfig >/dev/null 2>&1; then
-			ldconfig -p 2>/dev/null | grep -qE '(^|\s)libfl\.so\.2(\s|$)'
-			return $?
-		fi
-		# Fallback if ldconfig isn't present
-		find /usr /lib /usr/local -type f -name 'libfl.so.2*' 2>/dev/null | grep -q .
-	}
-
 	need_flex_install() {
-		# flex binary missing => need install
+		# flex binary missing OR runtime lib missing
 		command -v flex >/dev/null 2>&1 || return 0
 
-		# If we cannot link -lfl, we need the dev package (libfl-dev / flex-devel)
-		can_link_lfl || return 0
+		# Check if dynamic loader can see libfl.so.2
+		if ldconfig -p 2>/dev/null | grep -q 'libfl\.so\.2'; then
+			return 1
+		fi
 
-		# If runtime shared lib isn't visible, we need runtime package (libfl2, etc.)
-		have_runtime_libfl_so2 || return 0
+		# Fallback checks if ldconfig isn't available / doesn't list it
+		if find /usr /lib /usr/local -type f -name 'libfl.so.2*' 2>/dev/null | grep -q .; then
+			return 1
+		fi
 
-		return 1
+		return 0
 	}
 
 	install_flex_via_pkgmgr() {
 		if command -v apt-get >/dev/null 2>&1; then
 			echo "[flex] Using apt-get to install flex/libfl..."
 			echo "$PASSWD" | sudo -S apt-get update
-			# flex => binary, libfl2 => runtime libfl.so.2, libfl-dev => link libfl.so (or libfl.a)
+			# flex provides the flex binary; libfl2 provides libfl.so.2; libfl-dev provides link libfl.so (nice-to-have)
 			echo "$PASSWD" | sudo -S apt-get install -y flex libfl2 libfl-dev
 			echo "$PASSWD" | sudo -S ldconfig || true
 			return 0
 		elif command -v dnf >/dev/null 2>&1; then
 			echo "[flex] Using dnf to install flex..."
-			# RPM distros may split link libs into flex-devel; try both
-			echo "$PASSWD" | sudo -S dnf -y install flex flex-devel || echo "$PASSWD" | sudo -S dnf -y install flex
+			echo "$PASSWD" | sudo -S dnf -y install flex
 			echo "$PASSWD" | sudo -S ldconfig || true
 			return 0
 		else
@@ -22666,53 +22579,56 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 
 	# Main logic: try pkg mgr first; source build only if still missing
 	if need_flex_install; then
-		echo "[flex] flex/libfl not fully detected. Attempting install via package manager..."
+		echo "[flex] flex/libfl.so.2 not detected. Attempting install via package manager..."
 		if ! install_flex_via_pkgmgr; then
 			echo "[flex] Package-manager install not possible/failed; falling back to source build."
 			build_flex_from_source
 		fi
-	else
-		echo "[flex] flex and libfl already present; skipping installation."
-	fi
 
-	# Verify after install
-	if ! command -v flex >/dev/null 2>&1; then
-		echo "[flex] ERROR: flex still not found after install."
-		exit 1
-	fi
-	if ! can_link_lfl; then
-		echo "[flex] ERROR: cannot link with -lfl (missing libfl-dev / flex-devel)."
-		exit 1
-	fi
-	if ! have_runtime_libfl_so2; then
-		echo "[flex] ERROR: libfl.so.2 still not found after install (missing runtime libfl2 / equivalent)."
-		exit 1
+		# Verify after install
+		if ! command -v flex >/dev/null 2>&1; then
+			echo "[flex] ERROR: flex still not found after install."
+			exit 1
+		fi
+		if ! (ldconfig -p 2>/dev/null | grep -q 'libfl\.so\.2' ||
+			find /usr /lib /usr/local -type f -name 'libfl.so.2*' 2>/dev/null | grep -q .); then
+			echo "[flex] ERROR: libfl.so.2 still not found after install."
+			exit 1
+		fi
+	else
+		echo "[flex] flex and libfl.so.2 already present; skipping installation."
 	fi
 
 	# Point WRF/KPP to system flex
 	export FLEX="$(command -v flex)"
 	export YACC="${YACC:-/usr/bin/yacc -d}"
 
-	# Export FLEX_LIB_DIR (prefer compiler path; fall back to find)
-	FLEX_LIB_PATH="$("$(cc_cmd)" -print-file-name=libfl.so 2>/dev/null)"
-	if [[ -z "$FLEX_LIB_PATH" || "$FLEX_LIB_PATH" == "libfl.so" || ! -e "$FLEX_LIB_PATH" ]]; then
-		FLEX_LIB_PATH="$("$(cc_cmd)" -print-file-name=libfl.a 2>/dev/null)"
-	fi
-	if [[ -z "$FLEX_LIB_PATH" || "$FLEX_LIB_PATH" == "libfl.a" || ! -e "$FLEX_LIB_PATH" ]]; then
-		FLEX_LIB_PATH="$(find /usr /lib /usr/local -type f \( -name "libfl.a" -o -name "libfl.so" \) 2>/dev/null | head -n 1)"
-	fi
-
-	if [[ -n "$FLEX_LIB_PATH" && -e "$FLEX_LIB_PATH" ]]; then
-		export FLEX_LIB_DIR="$(dirname "$FLEX_LIB_PATH")"
-		echo "[flex] FLEX_LIB_DIR set to $FLEX_LIB_DIR (from $FLEX_LIB_PATH)"
-
-		# Make it visible to build + runtime without overwriting your existing flags
-		export LDFLAGS="-L${FLEX_LIB_DIR} ${LDFLAGS:-}"
-		export LD_LIBRARY_PATH="${FLEX_LIB_DIR}:${LD_LIBRARY_PATH:-}"
-		export LIBS="-lfl ${LIBS:-}"
+	# --------------------------------------------------------
+	# Set FLEX_LIB_DIR (simple + correct on Ubuntu/Debian; safe fallback otherwise)
+	# --------------------------------------------------------
+	if command -v dpkg-architecture >/dev/null 2>&1; then
+		export FLEX_LIB_DIR="/usr/lib/$(dpkg-architecture -qDEB_HOST_MULTIARCH)"
 	else
-		echo "[flex] WARNING: Could not determine FLEX_LIB_DIR; relying on default system paths."
+		FLEX_LIB_PATH="$(
+			find /lib /usr/lib /usr/local/lib /lib64 /usr/lib64 \
+				-maxdepth 3 -type f \( -name 'libfl.so' -o -name 'libfl.a' -o -name 'libfl.so.2' \) \
+				2>/dev/null | head -n 1
+		)"
+
+		if [[ -n "$FLEX_LIB_PATH" ]]; then
+			export FLEX_LIB_DIR="$(dirname "$FLEX_LIB_PATH")"
+		else
+			echo "[flex] ERROR: could not find libfl (libfl.so/libfl.a/libfl.so.2)"
+			exit 1
+		fi
 	fi
+
+	echo "[flex] FLEX_LIB_DIR=$FLEX_LIB_DIR"
+
+	# Optional: wire into flags (doesn't overwrite existing values)
+	export LDFLAGS="-L${FLEX_LIB_DIR} ${LDFLAGS:-}"
+	export LD_LIBRARY_PATH="${FLEX_LIB_DIR}:${LD_LIBRARY_PATH:-}"
+	export LIBS="-lfl ${LIBS:-}"
 
 	# --------------------------------------------------------
 	# Setting up WRF-CHEM/KPP environment
@@ -23582,62 +23498,38 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" ]; then
 	# Clean out non-apt flex installations
 	########################################
 	# --------------------------------------------------------
-	# Ensure flex + libfl are available (apt/dnf preferred)
-	#   - flex binary present
-	#   - runtime loader can see libfl.so.2 (shared runtime)
-	#   - linker can resolve -lfl (dev/link, needed by KPP)
-	# Also export:
-	#   FLEX, YACC, FLEX_LIB_DIR (+ LDFLAGS/LD_LIBRARY_PATH/LIBS)
+	# Ensure flex + libfl.so.2 are available (apt/dnf preferred)
+	# Then set FLEX_LIB_DIR using Debian/Ubuntu multiarch (or a safe find fallback)
 	# --------------------------------------------------------
 
-	cc_cmd() { echo "${CC:-cc}"; }
-
-	# Can the linker actually resolve -lfl? (KPP needs this)
-	can_link_lfl() {
-		local cc
-		cc="$(cc_cmd)"
-		echo 'int main(void){return 0;}' |
-			"$cc" -x c - -o /tmp/.try_lfl.$$ -lfl >/dev/null 2>&1
-		local rc=$?
-		rm -f /tmp/.try_lfl.$$ 2>/dev/null || true
-		return $rc
-	}
-
-	# Runtime loader visibility for libfl.so.2
-	have_runtime_libfl_so2() {
-		if command -v ldconfig >/dev/null 2>&1; then
-			ldconfig -p 2>/dev/null | grep -qE '(^|\s)libfl\.so\.2(\s|$)'
-			return $?
-		fi
-		# Fallback if ldconfig isn't present
-		find /usr /lib /usr/local -type f -name 'libfl.so.2*' 2>/dev/null | grep -q .
-	}
-
 	need_flex_install() {
-		# flex binary missing => need install
+		# flex binary missing OR runtime lib missing
 		command -v flex >/dev/null 2>&1 || return 0
 
-		# If we cannot link -lfl, we need the dev package (libfl-dev / flex-devel)
-		can_link_lfl || return 0
+		# Check if dynamic loader can see libfl.so.2
+		if ldconfig -p 2>/dev/null | grep -q 'libfl\.so\.2'; then
+			return 1
+		fi
 
-		# If runtime shared lib isn't visible, we need runtime package (libfl2, etc.)
-		have_runtime_libfl_so2 || return 0
+		# Fallback checks if ldconfig isn't available / doesn't list it
+		if find /usr /lib /usr/local -type f -name 'libfl.so.2*' 2>/dev/null | grep -q .; then
+			return 1
+		fi
 
-		return 1
+		return 0
 	}
 
 	install_flex_via_pkgmgr() {
 		if command -v apt-get >/dev/null 2>&1; then
 			echo "[flex] Using apt-get to install flex/libfl..."
 			echo "$PASSWD" | sudo -S apt-get update
-			# flex => binary, libfl2 => runtime libfl.so.2, libfl-dev => link libfl.so (or libfl.a)
+			# flex provides the flex binary; libfl2 provides libfl.so.2; libfl-dev provides link libfl.so (nice-to-have)
 			echo "$PASSWD" | sudo -S apt-get install -y flex libfl2 libfl-dev
 			echo "$PASSWD" | sudo -S ldconfig || true
 			return 0
 		elif command -v dnf >/dev/null 2>&1; then
 			echo "[flex] Using dnf to install flex..."
-			# RPM distros may split link libs into flex-devel; try both
-			echo "$PASSWD" | sudo -S dnf -y install flex flex-devel || echo "$PASSWD" | sudo -S dnf -y install flex
+			echo "$PASSWD" | sudo -S dnf -y install flex
 			echo "$PASSWD" | sudo -S ldconfig || true
 			return 0
 		else
@@ -23677,53 +23569,56 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" ]; then
 
 	# Main logic: try pkg mgr first; source build only if still missing
 	if need_flex_install; then
-		echo "[flex] flex/libfl not fully detected. Attempting install via package manager..."
+		echo "[flex] flex/libfl.so.2 not detected. Attempting install via package manager..."
 		if ! install_flex_via_pkgmgr; then
 			echo "[flex] Package-manager install not possible/failed; falling back to source build."
 			build_flex_from_source
 		fi
-	else
-		echo "[flex] flex and libfl already present; skipping installation."
-	fi
 
-	# Verify after install
-	if ! command -v flex >/dev/null 2>&1; then
-		echo "[flex] ERROR: flex still not found after install."
-		exit 1
-	fi
-	if ! can_link_lfl; then
-		echo "[flex] ERROR: cannot link with -lfl (missing libfl-dev / flex-devel)."
-		exit 1
-	fi
-	if ! have_runtime_libfl_so2; then
-		echo "[flex] ERROR: libfl.so.2 still not found after install (missing runtime libfl2 / equivalent)."
-		exit 1
+		# Verify after install
+		if ! command -v flex >/dev/null 2>&1; then
+			echo "[flex] ERROR: flex still not found after install."
+			exit 1
+		fi
+		if ! (ldconfig -p 2>/dev/null | grep -q 'libfl\.so\.2' ||
+			find /usr /lib /usr/local -type f -name 'libfl.so.2*' 2>/dev/null | grep -q .); then
+			echo "[flex] ERROR: libfl.so.2 still not found after install."
+			exit 1
+		fi
+	else
+		echo "[flex] flex and libfl.so.2 already present; skipping installation."
 	fi
 
 	# Point WRF/KPP to system flex
 	export FLEX="$(command -v flex)"
 	export YACC="${YACC:-/usr/bin/yacc -d}"
 
-	# Export FLEX_LIB_DIR (prefer compiler path; fall back to find)
-	FLEX_LIB_PATH="$("$(cc_cmd)" -print-file-name=libfl.so 2>/dev/null)"
-	if [[ -z "$FLEX_LIB_PATH" || "$FLEX_LIB_PATH" == "libfl.so" || ! -e "$FLEX_LIB_PATH" ]]; then
-		FLEX_LIB_PATH="$("$(cc_cmd)" -print-file-name=libfl.a 2>/dev/null)"
-	fi
-	if [[ -z "$FLEX_LIB_PATH" || "$FLEX_LIB_PATH" == "libfl.a" || ! -e "$FLEX_LIB_PATH" ]]; then
-		FLEX_LIB_PATH="$(find /usr /lib /usr/local -type f \( -name "libfl.a" -o -name "libfl.so" \) 2>/dev/null | head -n 1)"
-	fi
-
-	if [[ -n "$FLEX_LIB_PATH" && -e "$FLEX_LIB_PATH" ]]; then
-		export FLEX_LIB_DIR="$(dirname "$FLEX_LIB_PATH")"
-		echo "[flex] FLEX_LIB_DIR set to $FLEX_LIB_DIR (from $FLEX_LIB_PATH)"
-
-		# Make it visible to build + runtime without overwriting your existing flags
-		export LDFLAGS="-L${FLEX_LIB_DIR} ${LDFLAGS:-}"
-		export LD_LIBRARY_PATH="${FLEX_LIB_DIR}:${LD_LIBRARY_PATH:-}"
-		export LIBS="-lfl ${LIBS:-}"
+	# --------------------------------------------------------
+	# Set FLEX_LIB_DIR (simple + correct on Ubuntu/Debian; safe fallback otherwise)
+	# --------------------------------------------------------
+	if command -v dpkg-architecture >/dev/null 2>&1; then
+		export FLEX_LIB_DIR="/usr/lib/$(dpkg-architecture -qDEB_HOST_MULTIARCH)"
 	else
-		echo "[flex] WARNING: Could not determine FLEX_LIB_DIR; relying on default system paths."
+		FLEX_LIB_PATH="$(
+			find /lib /usr/lib /usr/local/lib /lib64 /usr/lib64 \
+				-maxdepth 3 -type f \( -name 'libfl.so' -o -name 'libfl.a' -o -name 'libfl.so.2' \) \
+				2>/dev/null | head -n 1
+		)"
+
+		if [[ -n "$FLEX_LIB_PATH" ]]; then
+			export FLEX_LIB_DIR="$(dirname "$FLEX_LIB_PATH")"
+		else
+			echo "[flex] ERROR: could not find libfl (libfl.so/libfl.a/libfl.so.2)"
+			exit 1
+		fi
 	fi
+
+	echo "[flex] FLEX_LIB_DIR=$FLEX_LIB_DIR"
+
+	# Optional: wire into flags (doesn't overwrite existing values)
+	export LDFLAGS="-L${FLEX_LIB_DIR} ${LDFLAGS:-}"
+	export LD_LIBRARY_PATH="${FLEX_LIB_DIR}:${LD_LIBRARY_PATH:-}"
+	export LIBS="-lfl ${LIBS:-}"
 
 	# --------------------------------------------------------
 	# Setting up WRF-CHEM/KPP environment
