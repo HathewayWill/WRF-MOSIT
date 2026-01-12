@@ -404,7 +404,7 @@ done
 echo "Beginning Installation"
 echo ""
 ############################# Chose GrADS or OpenGrADS #########################
-PS3="Enter your choice: \nFor aarch64 builds please select GrADS"
+PS3=$'Enter your choice:\nFor aarch64 builds please select GrADS\n> '
 options=("OpenGrADS" "GrADS")
 select opt in "${options[@]}"; do
   case $opt in
@@ -424,7 +424,7 @@ select opt in "${options[@]}"; do
   esac
 done
 
-echo""
+echo ""
 
 ##################################### Auto Configuration Test ##################
 PS3="Enter your choice (1 or 2): "
