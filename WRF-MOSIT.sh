@@ -36419,6 +36419,4 @@ echo -e "This is not only a matter of respect and academic integrity, but also a
 echo " "
 echo -e "\e[31mCitation: Hatheway, W., Snoun, H., ur Rehman, H., & Mwanthi, A. WRF-MOSIT: a modular and cross-platform tool for configuring and installing the WRF model [Computer software]. https://doi.org/10.1007/s12145-023-01136-y]\e[0m"
 
-echo " "
-read -p "Press enter to continue"
 
