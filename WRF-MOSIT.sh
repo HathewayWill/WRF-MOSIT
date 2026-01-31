@@ -22343,7 +22343,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 
   if [ ${auto_config} -eq 1 ]; then
     (
-      echo 3
+      echo 78
       echo 1
     ) | ./configure
 
