@@ -5,6 +5,7 @@ ulimit -s unlimited
 if [ -n "$CONDA_DEFAULT_ENV" ]; then
 	echo "CONDA_DEFAULT_ENV is active: $CONDA_DEFAULT_ENV"
 	echo "Turning off $CONDA_DEFAULT_ENV"
+	conda init
 	conda deactivate
 	conda deactivate
 else
