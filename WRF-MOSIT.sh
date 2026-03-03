@@ -19,18 +19,18 @@ START=$(date +"%s")
 ############################### Version Numbers ##########################
 # For Ease of updating
 ##########################################################################
-export METPLUS_Version=6.2.0
-export met_Version_number=12.2.0
+export METPLUS_Version=6.2.1
+export met_Version_number=12.2.1
 export met_VERSION_number=12.2
 export METPLUS_DATA=6.2
 
-export Zlib_Version=1.3.1
-export Mpich_Version=4.3.2
-export Libpng_Version=1.6.51
+export Zlib_Version=1.3.2
+export Mpich_Version=5.0.0
+export Libpng_Version=1.6.55
 export Jasper_Version=1.900.1
 export HDF5_Version=1.14.6
 export Pnetcdf_Version=1.14.1
-export Netcdf_C_Version=4.9.3
+export Netcdf_C_Version=4.10.0
 export Netcdf_Fortran_Version=4.6.2
 export Netcdf_CXX_Version=4.3.1
 
