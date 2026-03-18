@@ -365,7 +365,7 @@ conda activate *environment_name*
 #### Estimated Run Time ~ 60 to 120 Minutes @ 10mbps download speed.
 - Intel compilers take slightly more time to install packages.
 ---
-### Special thanks to:
+### Special thanks to the following people for contributions to code and advising:
 - University of Zadar's Ivan T. - Youtube's meteoadriatic
 - GitHub user jamal919
 - University of Manchester's  Doug L.
