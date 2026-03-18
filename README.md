@@ -373,7 +373,7 @@ conda activate *environment_name*
 - University of Tunis El Manar's Hosni S.
 - GSL's Jordan S.
 - NCAR's Mary B., Christine W., Soren R., & Carl D.
-- DTC's Tara J.,Julie P., George M., & John H.
+- DTC's Tara J., Julie P., George M., & John H.
 - UCAR's Katelyn F., Jim B., Jordan P., Kevin M.,
 ---
 #### Citation:
