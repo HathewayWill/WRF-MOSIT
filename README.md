@@ -368,7 +368,8 @@ conda activate *environment_name*
 ### Special thanks to:
 - University of Zadar's Ivan T. - Youtube's meteoadriatic
 - GitHub user jamal919
-- University of Manchester's  Doug L
+- University of Manchester's  Doug L.
+- Institute of Water & Flood Management (BUET)'s Yeamin R.
 - University of Tunis El Manar's Hosni S.
 - GSL's Jordan S.
 - NCAR's Mary B., Christine W., Soren R., & Carl D.
