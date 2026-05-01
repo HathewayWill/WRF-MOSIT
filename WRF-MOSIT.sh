@@ -674,6 +674,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$DTC_MET" = "1" ]; then
 
 	#
 	# install the Intel compilers
+	echo $PASSWD | sudo -S apt -y install intel-oneapi-toolkit
 	echo $PASSWD | sudo -S apt -y install intel-basekit
 	echo $PASSWD | sudo -S apt -y install intel-hpckit
 	echo $PASSWD | sudo -S apt -y install intel-oneapi-python
@@ -9281,6 +9282,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; the
 	echo "$PASSWD" | sudo -S apt -y install bison build-essential byacc cmake csh curl default-jdk default-jre flex libfl-dev g++ gawk gcc gettext gfortran git ksh libcurl4-gnutls-dev libjpeg-dev libncurses6 libncursesw5-dev libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev libxml-libxml-perl m4 make ncview pipenv pkg-config python3 python3-dev python3-pip python3-dateutil tcsh unzip xauth xorg time ghostscript less libbz2-dev libc6-dev libffi-dev libgdbm-dev libopenblas-dev libreadline-dev libssl-dev libtiff-dev libgeotiff-dev tk-dev vim wget
 
 	# install the Intel compilers
+	echo $PASSWD | sudo -S apt -y install intel-oneapi-toolkit
 	echo $PASSWD | sudo -S apt -y install intel-basekit
 	echo $PASSWD | sudo -S apt -y install intel-hpckit
 	echo $PASSWD | sudo -S apt -y install intel-oneapi-python
@@ -14556,6 +14558,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 	echo "$PASSWD" | sudo -S apt -y install bison build-essential byacc cmake csh curl default-jdk default-jre flex libfl-dev g++ gawk gcc gettext gfortran git ksh libcurl4-gnutls-dev libjpeg-dev libncurses6 libncursesw5-dev libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev libxml-libxml-perl m4 make ncview pipenv pkg-config python3 python3-dev python3-pip python3-dateutil tcsh unzip xauth xorg time ghostscript less libbz2-dev libc6-dev libffi-dev libgdbm-dev libopenblas-dev libreadline-dev libssl-dev libtiff-dev libgeotiff-dev tk-dev vim wget
 
 	# install the Intel compilers
+	echo $PASSWD | sudo -S apt -y install intel-oneapi-toolkit
 	echo $PASSWD | sudo -S apt -y install intel-basekit
 	echo $PASSWD | sudo -S apt -y install intel-hpckit
 	echo $PASSWD | sudo -S apt -y install intel-oneapi-python
@@ -21509,6 +21512,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	echo "$PASSWD" | sudo -S apt -y install bison build-essential byacc cmake csh curl default-jdk default-jre flex libfl-dev g++ gawk gcc gettext gfortran git ksh libcurl4-gnutls-dev libjpeg-dev libncurses6 libncursesw5-dev libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev libxml-libxml-perl m4 make ncview pipenv pkg-config python3 python3-dev python3-pip python3-dateutil tcsh unzip xauth xorg time ghostscript less libbz2-dev libc6-dev libffi-dev libgdbm-dev libopenblas-dev libreadline-dev libssl-dev libtiff-dev libgeotiff-dev tk-dev vim wget
 
 	# install the Intel compilers
+	echo $PASSWD | sudo -S apt -y install intel-oneapi-toolkit
 	echo $PASSWD | sudo -S apt -y install intel-basekit
 	echo $PASSWD | sudo -S apt -y install intel-hpckit
 	echo $PASSWD | sudo -S apt -y install intel-oneapi-python
@@ -28852,6 +28856,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	echo "$PASSWD" | sudo -S apt -y install bison build-essential byacc cmake csh curl default-jdk default-jre flex libfl-dev g++ gawk gcc gettext gfortran git ksh libcurl4-gnutls-dev libjpeg-dev libncurses6 libncursesw5-dev libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev libxml-libxml-perl m4 make ncview pipenv pkg-config python3 python3-dev python3-pip python3-dateutil tcsh unzip xauth xorg time ghostscript less libbz2-dev libc6-dev libffi-dev libgdbm-dev libopenblas-dev libreadline-dev libssl-dev libtiff-dev libgeotiff-dev tk-dev vim wget
 
 	# install the Intel compilers
+	echo $PASSWD | sudo -S apt -y install intel-oneapi-toolkit
 	echo $PASSWD | sudo -S apt -y install intel-basekit
 	echo $PASSWD | sudo -S apt -y install intel-hpckit
 	echo $PASSWD | sudo -S apt -y install intel-oneapi-python
