@@ -699,8 +699,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$DTC_MET" = "1" ]; then
 	export MPIF90=mpiifx
 	export MPICC=mpiicx
 	export MPICXX=mpiicpx
-	export CFLAGS="-fPIC -fPIE -O3 -Wno-implicit-function-declaration -Wno-incompatible-function-pointer-types -Wno-incompatible-function-pointer-types -Wno-unused-command-line-argument"
-	export FFLAGS=""
+	export CFLAGS="-fPIC -fPIE -O2 -Wno-error=incompatible-pointer-types -Wno-incompatible-pointer-types -Wno-implicit-function-declaration -Wno-unused-command-line-argument" export FFLAGS=""
 	export FCFLAGS=""
 	export CXXFLAGS="-Wall -DHAVE_ISATTY"
 	#########################
@@ -9310,8 +9309,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; the
 	export MPIF90=mpiifx
 	export MPICC=mpiicx
 	export MPICXX=mpiicpx
-	export CFLAGS="-fPIC -fPIE -O3 -Wno-implicit-function-declaration -Wno-incompatible-function-pointer-types -Wno-incompatible-function-pointer-types -Wno-unused-command-line-argument"
-	############################# CPU Core Management ####################################
+	export CFLAGS="-fPIC -fPIE -O2 -Wno-error=incompatible-pointer-types -Wno-incompatible-pointer-types -Wno-implicit-function-declaration -Wno-unused-command-line-argument" ############################# CPU Core Management ####################################
 
 	export CPU_CORE=$(nproc) # number of available threads on system
 	export CPU_6CORE="6"
@@ -12285,8 +12283,7 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" ]; then
 	export MPIF90=mpiifx
 	export MPICC=mpiicx
 	export MPICXX=mpiicpx
-	export CFLAGS="-fPIC -fPIE -O3 -Wno-implicit-function-declaration -Wno-incompatible-function-pointer-types -Wno-incompatible-function-pointer-types -Wno-unused-command-line-argument"
-	export FFLAGS=""
+	export CFLAGS="-fPIC -fPIE -O2 -Wno-error=incompatible-pointer-types -Wno-incompatible-pointer-types -Wno-implicit-function-declaration -Wno-unused-command-line-argument" export FFLAGS=""
 	export FCFLAGS=""
 
 	############################# CPU Core Management ####################################
@@ -14586,8 +14583,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 	export MPIF90=mpiifx
 	export MPICC=mpiicx
 	export MPICXX=mpiicpx
-	export CFLAGS="-fPIC -fPIE -O3 -Wno-implicit-function-declaration -Wno-incompatible-function-pointer-types -Wno-incompatible-function-pointer-types -Wno-unused-command-line-argument"
-	export FFLAGS=""
+	export CFLAGS="-fPIC -fPIE -O2 -Wno-error=incompatible-pointer-types -Wno-incompatible-pointer-types -Wno-implicit-function-declaration -Wno-unused-command-line-argument" export FFLAGS=""
 	export FCFLAGS=""
 	############################# CPU Core Management ####################################
 
@@ -14732,8 +14728,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 	export MPIF90=mpiifx
 	export MPICC=mpiicx
 	export MPICXX=mpiicpx
-	export CFLAGS="-fPIC -fPIE -O3 -Wno-implicit-function-declaration -Wno-incompatible-function-pointer-types -Wno-incompatible-function-pointer-types -Wno-unused-command-line-argument"
-	export FFLAGS=""
+	export CFLAGS="-fPIC -fPIE -O2 -Wno-error=incompatible-pointer-types -Wno-incompatible-pointer-types -Wno-implicit-function-declaration -Wno-unused-command-line-argument" export FFLAGS=""
 	export FCFLAGS=""
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --enable-static 2>&1 | tee configure.log
 
@@ -18783,8 +18778,7 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 	export MPIF90=mpiifx
 	export MPICC=mpiicx
 	export MPICXX=mpiicpx
-	export CFLAGS="-fPIC -fPIE -O3 -Wno-implicit-function-declaration -Wno-incompatible-function-pointer-types -Wno-incompatible-function-pointer-types -Wno-unused-command-line-argument"
-	export FFLAGS=""
+	export CFLAGS="-fPIC -fPIE -O2 -Wno-error=incompatible-pointer-types -Wno-incompatible-pointer-types -Wno-implicit-function-declaration -Wno-unused-command-line-argument" export FFLAGS=""
 	export FCFLAGS=""
 
 	############################# CPU Core Management ####################################
@@ -21540,8 +21534,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	export MPIF90=mpiifx
 	export MPICC=mpiicx
 	export MPICXX=mpiicpx
-	export CFLAGS="-fPIC -fPIE -O3 -Wno-implicit-function-declaration -Wno-incompatible-function-pointer-types -Wno-incompatible-function-pointer-types -Wno-unused-command-line-argument"
-	export FFLAGS=""
+	export CFLAGS="-fPIC -fPIE -O2 -Wno-error=incompatible-pointer-types -Wno-incompatible-pointer-types -Wno-implicit-function-declaration -Wno-unused-command-line-argument" export FFLAGS=""
 	export FCFLAGS=""
 	############################# CPU Core Management ####################################
 
@@ -26086,8 +26079,7 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" ]; then
 	export MPIF90=mpiifx
 	export MPICC=mpiicx
 	export MPICXX=mpiicpx
-	export CFLAGS="-fPIC -fPIE -O3 -Wno-implicit-function-declaration -Wno-incompatible-function-pointer-types -Wno-incompatible-function-pointer-types -Wno-unused-command-line-argument"
-	export FFLAGS=""
+	export CFLAGS="-fPIC -fPIE -O2 -Wno-error=incompatible-pointer-types -Wno-incompatible-pointer-types -Wno-implicit-function-declaration -Wno-unused-command-line-argument" export FFLAGS=""
 	export FCFLAGS=""
 
 	############################# CPU Core Management ####################################
@@ -28885,8 +28877,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	export MPIF90=mpiifx
 	export MPICC=mpiicx
 	export MPICXX=mpiicpx
-	export CFLAGS="-fPIC -fPIE -O3 -Wno-implicit-function-declaration -Wno-incompatible-function-pointer-types -Wno-incompatible-function-pointer-types -Wno-unused-command-line-argument"
-	export FFLAGS=""
+	export CFLAGS="-fPIC -fPIE -O2 -Wno-error=incompatible-pointer-types -Wno-incompatible-pointer-types -Wno-implicit-function-declaration -Wno-unused-command-line-argument" export FFLAGS=""
 	export FCFLAGS=""
 	############################# CPU Core Management ####################################
 
@@ -33279,8 +33270,7 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRF_PICK" ]; then
 	export MPIF90=mpiifx
 	export MPICC=mpiicx
 	export MPICXX=mpiicpx
-	export CFLAGS="-fPIC -fPIE -O3 -Wno-implicit-function-declaration -Wno-incompatible-function-pointer-types -Wno-incompatible-function-pointer-types -Wno-unused-command-line-argument"
-	export FFLAGS=""
+	export CFLAGS="-fPIC -fPIE -O2 -Wno-error=incompatible-pointer-types -Wno-incompatible-pointer-types -Wno-implicit-function-declaration -Wno-unused-command-line-argument" export FFLAGS=""
 	export FCFLAGS=""
 
 	############################# CPU Core Management ####################################
