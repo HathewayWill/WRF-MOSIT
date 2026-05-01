@@ -1,26 +1,3 @@
-### WRF-MOSIT is currently undergoing maintaince due to Intel's latest update:
-
-
-
-### "With the 2026.0 Release, the Intel® oneAPI Base Toolkit (Base Kit) and Intel® oneAPI HPC Toolkit have been combined into the Intel® oneAPI Toolkit. 
-
-### Intel® oneAPI Toolkit is a comprehensive set of tools and libraries for building high‑performance, data‑centric applications across diverse architectures using SYCL*. It combines an industry‑leading C++ compiler, optimized domain‑specific libraries, and advanced analysis tools to build, optimize, and scale workloads ranging from traditional HPC to AI and machine learning. 
-
-### Note:
-
-### Intel® oneAPI Data Analytics Library (oneDAL) is not included in the Intel® oneAPI Toolkit installer package but the compatible versions are available as stand-alone release for separate download 
-
-### Intel® oneAPI Deep Neural Network Library (oneDNN) is not included in the Intel® Deep Learning installer package but the compatible versions are available as stand-alone release for separate download. 
-
-"
-
-
-
-### With this latest update WRF-MOSIT cannot install any new builds on intel compilers until I figure out the new file paths.  So if you are doing a fresh installation please choose GNU.
-
-
-
-
 
 ### Citation:
 Hatheway, W., Snoun, H., ur Rehman, H. et al. WRF-MOSIT: a modular and cross-platform tool for configuring and installing the WRF model. Earth Sci Inform (2023). https://doi.org/10.1007/s12145-023-01136-y
