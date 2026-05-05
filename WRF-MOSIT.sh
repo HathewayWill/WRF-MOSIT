@@ -675,8 +675,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$DTC_MET" = "1" ]; then
 	#
 	# install the Intel compilers
 	echo $PASSWD | sudo -S apt -y install intel-oneapi-toolkit
-	echo $PASSWD | sudo -S apt -y install intel-basekit
-	echo $PASSWD | sudo -S apt -y install intel-hpckit
+
 	echo $PASSWD | sudo -S apt -y install intel-oneapi-python
 	/opt/intel/oneapi/intelpython/python3.12/bin/python3 -m pip install python-dateutil
 
@@ -9282,8 +9281,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; the
 
 	# install the Intel compilers
 	echo $PASSWD | sudo -S apt -y install intel-oneapi-toolkit
-	echo $PASSWD | sudo -S apt -y install intel-basekit
-	echo $PASSWD | sudo -S apt -y install intel-hpckit
+
 	echo $PASSWD | sudo -S apt -y install intel-oneapi-python
 	/opt/intel/oneapi/intelpython/python3.12/bin/python3 -m pip install python-dateutil
 
@@ -14556,8 +14554,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 
 	# install the Intel compilers
 	echo $PASSWD | sudo -S apt -y install intel-oneapi-toolkit
-	echo $PASSWD | sudo -S apt -y install intel-basekit
-	echo $PASSWD | sudo -S apt -y install intel-hpckit
+
 	echo $PASSWD | sudo -S apt -y install intel-oneapi-python
 	/opt/intel/oneapi/intelpython/python3.12/bin/python3 -m pip install python-dateutil
 
@@ -21507,8 +21504,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 
 	# install the Intel compilers
 	echo $PASSWD | sudo -S apt -y install intel-oneapi-toolkit
-	echo $PASSWD | sudo -S apt -y install intel-basekit
-	echo $PASSWD | sudo -S apt -y install intel-hpckit
+
 	echo $PASSWD | sudo -S apt -y install intel-oneapi-python
 	/opt/intel/oneapi/intelpython/python3.12/bin/python3 -m pip install python-dateutil
 
@@ -28849,8 +28845,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 
 	# install the Intel compilers
 	echo $PASSWD | sudo -S apt -y install intel-oneapi-toolkit
-	echo $PASSWD | sudo -S apt -y install intel-basekit
-	echo $PASSWD | sudo -S apt -y install intel-hpckit
+
 	echo $PASSWD | sudo -S apt -y install intel-oneapi-python
 	/opt/intel/oneapi/intelpython/python3.12/bin/python3 -m pip install python-dateutil
 
