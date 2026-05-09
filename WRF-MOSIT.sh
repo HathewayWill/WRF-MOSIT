@@ -689,19 +689,19 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$DTC_MET" = "1" ]; then
 
 	# some of the libraries we install below need one or more of these variables
 	export CC=icx
-	export CXX=icpx
-	export FC=ifx
-	export F77=ifx
-	export F90=ifx
-	export MPIFC=mpiifx
-	export MPIF77=mpiifx
-	export MPIF90=mpiifx
-	export MPICC=mpiicx
-	export MPICXX=mpiicpx
-	export CFLAGS="-fPIC -fPIE -O2 -Wno-error=incompatible-pointer-types -Wno-incompatible-pointer-types -Wno-implicit-function-declaration -Wno-unused-command-line-argument" 
-	export FFLAGS=""
-	export FCFLAGS=""
-	export CXXFLAGS="-Wall -DHAVE_ISATTY"
+  	export CXX=icpx
+  	export FC=ifx
+  	export F77=ifx
+  	export F90=ifx
+  	export MPIFC=mpiifx
+  	export MPIF77=mpiifx
+  	export MPIF90=mpiifx
+  	export MPICC=mpiicx
+  	export MPICXX=mpiicpx
+  	export CFLAGS="-fPIC -fPIE -O3 -Wno-implicit-function-declaration -Wno-incompatible-function-pointer-types -Wno-unused-command-line-argument"
+  	export FFLAGS=""
+  	export FCFLAGS=""
+  	export CXXFLAGS="-Wall -DHAVE_ISATTY"
 	#########################
 
 	#Downloading latest dateutil due to python3.8 running old version.
@@ -9308,7 +9308,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; the
 	export MPIF90=mpiifx
 	export MPICC=mpiicx
 	export MPICXX=mpiicpx
-	export CFLAGS="-fPIC -fPIE -O2 -Wno-error=incompatible-pointer-types -Wno-incompatible-pointer-types -Wno-implicit-function-declaration -Wno-unused-command-line-argument" ############################# CPU Core Management ####################################
+	export CFLAGS="-fPIC -fPIE -O3 -Wno-incompatible-pointer-types -Wno-implicit-function-declaration -Wno-unused-command-line-argument" ############################# CPU Core Management ####################################
 
 	export CPU_CORE=$(nproc) # number of available threads on system
 	export CPU_6CORE="6"
@@ -9790,7 +9790,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; the
 
 fi
 
-if [ "$SYSTEMOS" = "MacOS" ] && if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ] && [ "$MAC_CHIP" = "Intel" ]; then
+if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ] && [ "$MAC_CHIP" = "Intel" ]; then
 
 	## WRF installation with parallel process.
 	# Download and install required library and data files for WRF.
@@ -10437,7 +10437,7 @@ if [ "$SYSTEMOS" = "MacOS" ] && if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_
 
 fi
 
-if [ "$SYSTEMOS" = "MacOS" ] && if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ] && [ "$MAC_CHIP" = "ARM" ]; then
+if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ] && [ "$MAC_CHIP" = "ARM" ]; then
 
 	## WRF installation with parallel process.
 	# Download and install required library and data files for WRF.
@@ -12282,7 +12282,7 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" ]; then
 	export MPIF90=mpiifx
 	export MPICC=mpiicx
 	export MPICXX=mpiicpx
-	export CFLAGS="-fPIC -fPIE -O2 -Wno-error=incompatible-pointer-types -Wno-incompatible-pointer-types -Wno-implicit-function-declaration -Wno-unused-command-line-argument"
+	export CFLAGS="-fPIC -fPIE -O3 -Wno-incompatible-pointer-types -Wno-implicit-function-declaration -Wno-unused-command-line-argument"
  	export FFLAGS=""
 
 	export FCFLAGS=""
@@ -14583,7 +14583,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 	export MPIF90=mpiifx
 	export MPICC=mpiicx
 	export MPICXX=mpiicpx
-	export CFLAGS="-fPIC -fPIE -O2 -Wno-error=incompatible-pointer-types -Wno-incompatible-pointer-types -Wno-implicit-function-declaration -Wno-unused-command-line-argument"
+	export CFLAGS="-fPIC -fPIE -O3 -Wno-incompatible-pointer-types -Wno-implicit-function-declaration -Wno-unused-command-line-argument"
  	export FFLAGS=""
 
 	export FCFLAGS=""
@@ -14730,7 +14730,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 	export MPIF90=mpiifx
 	export MPICC=mpiicx
 	export MPICXX=mpiicpx
-	export CFLAGS="-fPIC -fPIE -O2 -Wno-error=incompatible-pointer-types -Wno-incompatible-pointer-types -Wno-implicit-function-declaration -Wno-unused-command-line-argument"
+	export CFLAGS="-fPIC -fPIE -O3 -Wno-incompatible-pointer-types -Wno-implicit-function-declaration -Wno-unused-command-line-argument"
  	export FFLAGS=""
 
 	export FCFLAGS=""
@@ -15420,7 +15420,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 
 fi
 
-if [ "$SYSTEMOS" = "MacOS" ] && if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ] && [ "$MAC_CHIP" = "Intel" ]; then
+if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ] && [ "$MAC_CHIP" = "Intel" ]; then
 
 	#############################basic package managment############################
 
@@ -16251,7 +16251,7 @@ if [ "$SYSTEMOS" = "MacOS" ] && if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_
 
 fi
 
-if [ "$SYSTEMOS" = "MacOS" ] && if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ] && [ "$MAC_CHIP" = "ARM" ]; then
+if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ] && [ "$MAC_CHIP" = "ARM" ]; then
 
 	#############################basic package managment############################
 
@@ -18782,7 +18782,7 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 	export MPIF90=mpiifx
 	export MPICC=mpiicx
 	export MPICXX=mpiicpx
-	export CFLAGS="-fPIC -fPIE -O2 -Wno-error=incompatible-pointer-types -Wno-incompatible-pointer-types -Wno-implicit-function-declaration -Wno-unused-command-line-argument"
+	export CFLAGS="-fPIC -fPIE -O3 -Wno-incompatible-pointer-types -Wno-implicit-function-declaration -Wno-unused-command-line-argument"
  	export FFLAGS=""
 
 	export FCFLAGS=""
@@ -21539,7 +21539,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	export MPIF90=mpiifx
 	export MPICC=mpiicx
 	export MPICXX=mpiicpx
-	export CFLAGS="-fPIC -fPIE -O2 -Wno-error=incompatible-pointer-types -Wno-incompatible-pointer-types -Wno-implicit-function-declaration -Wno-unused-command-line-argument"
+	export CFLAGS="-fPIC -fPIE -O3 -Wno-incompatible-pointer-types -Wno-implicit-function-declaration -Wno-unused-command-line-argument"
  	export FFLAGS=""
 
 	export FCFLAGS=""
@@ -22453,7 +22453,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 
 fi
 
-if [ "$SYSTEMOS" = "MacOS" ] && if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$MAC_CHIP" = "Intel" ]; then
+if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$MAC_CHIP" = "Intel" ]; then
 
 	#############################basic package managment############################
 	brew cleanup -s
@@ -23302,7 +23302,7 @@ if [ "$SYSTEMOS" = "MacOS" ] && if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_P
 
 fi
 
-if [ "$SYSTEMOS" = "MacOS" ] && if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$MAC_CHIP" = "ARM" ]; then
+if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$MAC_CHIP" = "ARM" ]; then
 
 	#############################basic package managment############################
 	brew cleanup -s
@@ -26086,7 +26086,7 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" ]; then
 	export MPIF90=mpiifx
 	export MPICC=mpiicx
 	export MPICXX=mpiicpx
-	export CFLAGS="-fPIC -fPIE -O2 -Wno-error=incompatible-pointer-types -Wno-incompatible-pointer-types -Wno-implicit-function-declaration -Wno-unused-command-line-argument"
+	export CFLAGS="-fPIC -fPIE -O3 -Wno-incompatible-pointer-types -Wno-implicit-function-declaration -Wno-unused-command-line-argument"
  	export FFLAGS=""
 
 	export FCFLAGS=""
@@ -28885,7 +28885,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	export MPIF90=mpiifx
 	export MPICC=mpiicx
 	export MPICXX=mpiicpx
-	export CFLAGS="-fPIC -fPIE -O2 -Wno-error=incompatible-pointer-types -Wno-incompatible-pointer-types -Wno-implicit-function-declaration -Wno-unused-command-line-argument"
+	export CFLAGS="-fPIC -fPIE -O3 -Wno-incompatible-pointer-types -Wno-implicit-function-declaration -Wno-unused-command-line-argument"
  	export FFLAGS=""
 	export FCFLAGS=""
 	############################# CPU Core Management ####################################
@@ -29734,7 +29734,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 
 fi
 
-if [ "$SYSTEMOS" = "MacOS" ] && if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "Intel" ]; then
+if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "Intel" ]; then
 
 	#############################basic package managment############################
 	brew cleanup -s
@@ -30588,7 +30588,7 @@ if [ "$SYSTEMOS" = "MacOS" ] && if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK"
 	fi
 fi
 
-if [ "$SYSTEMOS" = "MacOS" ] && if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "ARM" ]; then
+if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "ARM" ]; then
 	#############################basic package managment############################
 	brew cleanup -s
 	brew update
@@ -33279,7 +33279,7 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRF_PICK" ]; then
 	export MPIF90=mpiifx
 	export MPICC=mpiicx
 	export MPICXX=mpiicpx
-	export CFLAGS="-fPIC -fPIE -O2 -Wno-error=incompatible-pointer-types -Wno-incompatible-pointer-types -Wno-implicit-function-declaration -Wno-unused-command-line-argument"
+	export CFLAGS="-fPIC -fPIE -O3 -Wno-incompatible-pointer-types -Wno-implicit-function-declaration -Wno-unused-command-line-argument"
  	export FFLAGS=""
 
 	export FCFLAGS=""
