@@ -25,8 +25,8 @@ export met_VERSION_number=12.2
 export METPLUS_DATA=6.2
 
 export Zlib_Version=1.3.2
-export Mpich_Version=5.0.0
-export Libpng_Version=1.6.55
+export Mpich_Version=5.0.1
+export Libpng_Version=1.6.58
 export Jasper_Version=1.900.1
 export HDF5_Version=1.14.6
 export Pnetcdf_Version=1.14.1
@@ -698,7 +698,8 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$DTC_MET" = "1" ]; then
 	export MPIF90=mpiifx
 	export MPICC=mpiicx
 	export MPICXX=mpiicpx
-	export CFLAGS="-fPIC -fPIE -O2 -Wno-error=incompatible-pointer-types -Wno-incompatible-pointer-types -Wno-implicit-function-declaration -Wno-unused-command-line-argument" export FFLAGS=""
+	export CFLAGS="-fPIC -fPIE -O2 -Wno-error=incompatible-pointer-types -Wno-incompatible-pointer-types -Wno-implicit-function-declaration -Wno-unused-command-line-argument" 
+	export FFLAGS=""
 	export FCFLAGS=""
 	export CXXFLAGS="-Wall -DHAVE_ISATTY"
 	#########################
@@ -9789,7 +9790,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; the
 
 fi
 
-if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ] && [ "$MAC_CHIP" = "Intel" ]; then
+if [ "$SYSTEMOS" = "MacOS" ] && if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ] && [ "$MAC_CHIP" = "Intel" ]; then
 
 	## WRF installation with parallel process.
 	# Download and install required library and data files for WRF.
@@ -10436,7 +10437,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ] && [ "$
 
 fi
 
-if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ] && [ "$MAC_CHIP" = "ARM" ]; then
+if [ "$SYSTEMOS" = "MacOS" ] && if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ] && [ "$MAC_CHIP" = "ARM" ]; then
 
 	## WRF installation with parallel process.
 	# Download and install required library and data files for WRF.
@@ -12281,7 +12282,9 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" ]; then
 	export MPIF90=mpiifx
 	export MPICC=mpiicx
 	export MPICXX=mpiicpx
-	export CFLAGS="-fPIC -fPIE -O2 -Wno-error=incompatible-pointer-types -Wno-incompatible-pointer-types -Wno-implicit-function-declaration -Wno-unused-command-line-argument" export FFLAGS=""
+	export CFLAGS="-fPIC -fPIE -O2 -Wno-error=incompatible-pointer-types -Wno-incompatible-pointer-types -Wno-implicit-function-declaration -Wno-unused-command-line-argument"
+ 	export FFLAGS=""
+
 	export FCFLAGS=""
 
 	############################# CPU Core Management ####################################
@@ -14580,7 +14583,9 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 	export MPIF90=mpiifx
 	export MPICC=mpiicx
 	export MPICXX=mpiicpx
-	export CFLAGS="-fPIC -fPIE -O2 -Wno-error=incompatible-pointer-types -Wno-incompatible-pointer-types -Wno-implicit-function-declaration -Wno-unused-command-line-argument" export FFLAGS=""
+	export CFLAGS="-fPIC -fPIE -O2 -Wno-error=incompatible-pointer-types -Wno-incompatible-pointer-types -Wno-implicit-function-declaration -Wno-unused-command-line-argument"
+ 	export FFLAGS=""
+
 	export FCFLAGS=""
 	############################# CPU Core Management ####################################
 
@@ -14725,7 +14730,9 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 	export MPIF90=mpiifx
 	export MPICC=mpiicx
 	export MPICXX=mpiicpx
-	export CFLAGS="-fPIC -fPIE -O2 -Wno-error=incompatible-pointer-types -Wno-incompatible-pointer-types -Wno-implicit-function-declaration -Wno-unused-command-line-argument" export FFLAGS=""
+	export CFLAGS="-fPIC -fPIE -O2 -Wno-error=incompatible-pointer-types -Wno-incompatible-pointer-types -Wno-implicit-function-declaration -Wno-unused-command-line-argument"
+ 	export FFLAGS=""
+
 	export FCFLAGS=""
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --enable-static 2>&1 | tee configure.log
 
@@ -15413,7 +15420,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 
 fi
 
-if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ] && [ "$MAC_CHIP" = "Intel" ]; then
+if [ "$SYSTEMOS" = "MacOS" ] && if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ] && [ "$MAC_CHIP" = "Intel" ]; then
 
 	#############################basic package managment############################
 
@@ -16244,7 +16251,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ] && [ "$MAC
 
 fi
 
-if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ] && [ "$MAC_CHIP" = "ARM" ]; then
+if [ "$SYSTEMOS" = "MacOS" ] && if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ] && [ "$MAC_CHIP" = "ARM" ]; then
 
 	#############################basic package managment############################
 
@@ -18775,7 +18782,9 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 	export MPIF90=mpiifx
 	export MPICC=mpiicx
 	export MPICXX=mpiicpx
-	export CFLAGS="-fPIC -fPIE -O2 -Wno-error=incompatible-pointer-types -Wno-incompatible-pointer-types -Wno-implicit-function-declaration -Wno-unused-command-line-argument" export FFLAGS=""
+	export CFLAGS="-fPIC -fPIE -O2 -Wno-error=incompatible-pointer-types -Wno-incompatible-pointer-types -Wno-implicit-function-declaration -Wno-unused-command-line-argument"
+ 	export FFLAGS=""
+
 	export FCFLAGS=""
 
 	############################# CPU Core Management ####################################
@@ -20135,7 +20144,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$aarch64" !=
 		./configure wrfda 2>&1 | tee configure.log #Option 18 for gfortran/gcc and distribunted memory
 	fi
 	echo " "
-	LD_LIBRARY_PATH= ./compile -j 4 all_wrfvar 2>&1 | tee compile.chem.wrfvar.log
+	LD_LIBRARY_PATH= ./compile -j 2 all_wrfvar 2>&1 | tee compile.chem.wrfvar.log
 	echo " "
 
 	# IF statement to check that all files were created.
@@ -21097,7 +21106,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$aarch64" = 
 		./configure wrfda 2>&1 | tee configure.log #Option 18 for gfortran/gcc and distribunted memory
 	fi
 	echo " "
-	LD_LIBRARY_PATH= ./compile -j 4 all_wrfvar 2>&1 | tee compile.chem.wrfvar.log
+	LD_LIBRARY_PATH= ./compile -j 2 all_wrfvar 2>&1 | tee compile.chem.wrfvar.log
 	echo " "
 
 	# IF statement to check that all files were created.
@@ -21530,7 +21539,9 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	export MPIF90=mpiifx
 	export MPICC=mpiicx
 	export MPICXX=mpiicpx
-	export CFLAGS="-fPIC -fPIE -O2 -Wno-error=incompatible-pointer-types -Wno-incompatible-pointer-types -Wno-implicit-function-declaration -Wno-unused-command-line-argument" export FFLAGS=""
+	export CFLAGS="-fPIC -fPIE -O2 -Wno-error=incompatible-pointer-types -Wno-incompatible-pointer-types -Wno-implicit-function-declaration -Wno-unused-command-line-argument"
+ 	export FFLAGS=""
+
 	export FCFLAGS=""
 	############################# CPU Core Management ####################################
 
@@ -22063,7 +22074,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	sed -i '136s|mpif90 -f90=$(SFC)|mpiifx|g' "${WRF_FOLDER}"/WRFDA/configure.wrf
 	sed -i '137s|mpicc -cc=$(SCC)|mpiicx|g' "${WRF_FOLDER}"/WRFDA/configure.wrf
 
-	LD_LIBRARY_PATH= ./compile -j 4 all_wrfvar 2>&1 | tee compile.chem.wrfvar.log
+	LD_LIBRARY_PATH= ./compile -j 2 all_wrfvar 2>&1 | tee compile.chem.wrfvar.log
 	echo " "
 
 	# IF statement to check that all files were created.
@@ -22442,7 +22453,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 
 fi
 
-if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$MAC_CHIP" = "Intel" ]; then
+if [ "$SYSTEMOS" = "MacOS" ] && if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$MAC_CHIP" = "Intel" ]; then
 
 	#############################basic package managment############################
 	brew cleanup -s
@@ -23176,7 +23187,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$MAC_CHIP" = 
 		./configure wrfda 2>&1 | tee configure.log #Option 17 for gfortran/gcc and distribunted memory
 	fi
 	echo " "
-	LD_LIBRARY_PATH= ./compile -j 4 all_wrfvar 2>&1 | tee compile.chem.wrfvar.log
+	LD_LIBRARY_PATH= ./compile -j 2 all_wrfvar 2>&1 | tee compile.chem.wrfvar.log
 	echo " "
 
 	# IF statement to check that all files were created.
@@ -23291,7 +23302,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$MAC_CHIP" = 
 
 fi
 
-if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$MAC_CHIP" = "ARM" ]; then
+if [ "$SYSTEMOS" = "MacOS" ] && if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$MAC_CHIP" = "ARM" ]; then
 
 	#############################basic package managment############################
 	brew cleanup -s
@@ -24036,7 +24047,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$MAC_CHIP" = 
 		./configure wrfda 2>&1 | tee configure.log #Option 17 for gfortran/gcc and distribunted memory
 	fi
 	echo " "
-	LD_LIBRARY_PATH= ./compile -j 4 all_wrfvar 2>&1 | tee compile.chem.wrfvar.log
+	LD_LIBRARY_PATH= ./compile -j 2 all_wrfvar 2>&1 | tee compile.chem.wrfvar.log
 	echo " "
 
 	# IF statement to check that all files were created.
@@ -24729,7 +24740,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 		./configure wrfda 2>&1 | tee configure.log #Option 18 for gfortran/gcc and distribunted memory
 	fi
 	echo " "
-	LD_LIBRARY_PATH= ./compile -j 4 all_wrfvar 2>&1 | tee compile.chem.wrfvar.log
+	LD_LIBRARY_PATH= ./compile -j 2 all_wrfvar 2>&1 | tee compile.chem.wrfvar.log
 	echo " "
 
 	# IF statement to check that all files were created.
@@ -25657,7 +25668,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 		./configure wrfda 2>&1 | tee configure.log #Option 18 for gfortran/gcc and distribunted memory
 	fi
 	echo " "
-	LD_LIBRARY_PATH= ./compile -j 4 all_wrfvar 2>&1 | tee compile.chem.wrfvar.log
+	LD_LIBRARY_PATH= ./compile -j 2 all_wrfvar 2>&1 | tee compile.chem.wrfvar.log
 	echo " "
 
 	# IF statement to check that all files were created.
@@ -26075,7 +26086,9 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" ]; then
 	export MPIF90=mpiifx
 	export MPICC=mpiicx
 	export MPICXX=mpiicpx
-	export CFLAGS="-fPIC -fPIE -O2 -Wno-error=incompatible-pointer-types -Wno-incompatible-pointer-types -Wno-implicit-function-declaration -Wno-unused-command-line-argument" export FFLAGS=""
+	export CFLAGS="-fPIC -fPIE -O2 -Wno-error=incompatible-pointer-types -Wno-incompatible-pointer-types -Wno-implicit-function-declaration -Wno-unused-command-line-argument"
+ 	export FFLAGS=""
+
 	export FCFLAGS=""
 
 	############################# CPU Core Management ####################################
@@ -26613,7 +26626,7 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" ]; then
 	sed -i '136s|mpif90 -f90=$(SFC)|mpiifx|g' "${WRF_FOLDER}"/WRFDA/configure.wrf
 	sed -i '137s|mpicc -cc=$(SCC)|mpiicx|g' "${WRF_FOLDER}"/WRFDA/configure.wrf
 
-	LD_LIBRARY_PATH= ./compile -j 4 all_wrfvar 2>&1 | tee compile.chem.wrfvar.log
+	LD_LIBRARY_PATH= ./compile -j 2 all_wrfvar 2>&1 | tee compile.chem.wrfvar.log
 	echo " "
 
 	# IF statement to check that all files were created.
@@ -27727,7 +27740,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$aarch64" != "1"
 		./configure wrfplus 2>&1 | tee configure.log #Option 18 for gfortran/gcc and distribunted memory
 	fi
 	echo " "
-	LD_LIBRARY_PATH= ./compile -j $CPU_QUARTER_EVEN wrfplus 2>&1 | tee compile.wrfplus.log
+	LD_LIBRARY_PATH= ./compile -j 2 wrfplus 2>&1 | tee compile.wrfplus.log
 	export WRFPLUS_DIR="${WRF_FOLDER}"/WRFPLUS
 
 	echo " "
@@ -27742,7 +27755,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$aarch64" != "1"
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
 		cd "${WRF_FOLDER}"/WRFPLUS/
-		LD_LIBRARY_PATH= ./compile -j $CPU_QUARTER_EVEN wrfplus 2>&1 | tee compile.wrfplus.log
+		LD_LIBRARY_PATH= ./compile -j 2 wrfplus 2>&1 | tee compile.wrfplus.log
 		cd "${WRF_FOLDER}"/WRFPLUS/main
 		n=$(ls ./wrfplus.exe | wc -l)
 		if (($n == 1)); then
@@ -28628,7 +28641,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$aarch64" = "1" 
 		./configure wrfplus 2>&1 | tee configure.log #Option 18 for gfortran/gcc and distribunted memory
 	fi
 	echo " "
-	LD_LIBRARY_PATH= ./compile -j $CPU_QUARTER_EVEN wrfplus 2>&1 | tee compile.wrfplus.log
+	LD_LIBRARY_PATH= ./compile -j 2 wrfplus 2>&1 | tee compile.wrfplus.log
 	export WRFPLUS_DIR="${WRF_FOLDER}"/WRFPLUS
 
 	echo " "
@@ -28643,7 +28656,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$aarch64" = "1" 
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
 		cd "${WRF_FOLDER}"/WRFPLUS/
-		LD_LIBRARY_PATH= ./compile -j $CPU_QUARTER_EVEN wrfplus 2>&1 | tee compile.wrfplus.log
+		LD_LIBRARY_PATH= ./compile -j 2 wrfplus 2>&1 | tee compile.wrfplus.log
 		cd "${WRF_FOLDER}"/WRFPLUS/main
 		n=$(ls ./wrfplus.exe | wc -l)
 		if (($n == 1)); then
@@ -28872,7 +28885,8 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	export MPIF90=mpiifx
 	export MPICC=mpiicx
 	export MPICXX=mpiicpx
-	export CFLAGS="-fPIC -fPIE -O2 -Wno-error=incompatible-pointer-types -Wno-incompatible-pointer-types -Wno-implicit-function-declaration -Wno-unused-command-line-argument" export FFLAGS=""
+	export CFLAGS="-fPIC -fPIE -O2 -Wno-error=incompatible-pointer-types -Wno-incompatible-pointer-types -Wno-implicit-function-declaration -Wno-unused-command-line-argument"
+ 	export FFLAGS=""
 	export FCFLAGS=""
 	############################# CPU Core Management ####################################
 
@@ -29533,7 +29547,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	sed -i '136s|mpif90 -f90=$(SFC)|mpiifx|g' "${WRF_FOLDER}"/WRFPLUS/configure.wrf
 	sed -i '137s|mpicc -cc=$(SCC)|mpiicx|g' "${WRF_FOLDER}"/WRFPLUS/configure.wrf
 
-	LD_LIBRARY_PATH= ./compile -j $CPU_QUARTER_EVEN wrfplus 2>&1 | tee wrfplus1.compile.log
+	LD_LIBRARY_PATH= ./compile -j 2 wrfplus 2>&1 | tee wrfplus1.compile.log
 
 	export WRFPLUS_DIR="${WRF_FOLDER}"/WRFPLUS
 
@@ -29549,7 +29563,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
 		cd "${WRF_FOLDER}"/WRFPLUS/
-		LD_LIBRARY_PATH= ./compile -j $CPU_QUARTER_EVEN wrfplus 2>&1 | tee compile.wrfplus2.log
+		LD_LIBRARY_PATH= ./compile -j 2 wrfplus 2>&1 | tee compile.wrfplus2.log
 		cd "${WRF_FOLDER}"/WRFPLUS/main
 		n=$(ls ./wrfplus.exe | wc -l)
 		if (($n == 1)); then
@@ -29720,7 +29734,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 
 fi
 
-if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "Intel" ]; then
+if [ "$SYSTEMOS" = "MacOS" ] && if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "Intel" ]; then
 
 	#############################basic package managment############################
 	brew cleanup -s
@@ -30406,7 +30420,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "Int
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
 		cd "${WRF_FOLDER}"/WRFPLUS/
-		LD_LIBRARY_PATH= ./compile -j $CPU_QUARTER_EVEN wrfplus 2>&1 | tee compile.wrfplus2.log
+		LD_LIBRARY_PATH= ./compile -j 2 wrfplus 2>&1 | tee compile.wrfplus2.log
 		cd "${WRF_FOLDER}"/WRFPLUS/main
 		n=$(ls ./wrfplus.exe | wc -l)
 		if (($n == 1)); then
@@ -30574,7 +30588,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "Int
 	fi
 fi
 
-if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "ARM" ]; then
+if [ "$SYSTEMOS" = "MacOS" ] && if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "ARM" ]; then
 	#############################basic package managment############################
 	brew cleanup -s
 	brew update
@@ -31271,7 +31285,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$MAC_CHIP" = "ARM
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
 		cd "${WRF_FOLDER}"/WRFPLUS/
-		LD_LIBRARY_PATH= ./compile -j $CPU_QUARTER_EVEN wrfplus 2>&1 | tee compile.wrfplus2.log
+		LD_LIBRARY_PATH= ./compile -j 2 wrfplus 2>&1 | tee compile.wrfplus2.log
 		cd "${WRF_FOLDER}"/WRFPLUS/main
 		n=$(ls ./wrfplus.exe | wc -l)
 		if (($n == 1)); then
@@ -32142,7 +32156,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 		./configure wrfplus 2>&1 | tee configure.log #Option 18 for gfortran/gcc and distribunted memory
 	fi
 	echo " "
-	LD_LIBRARY_PATH= ./compile -j $CPU_QUARTER_EVEN wrfplus 2>&1 | tee compile.wrfplus.log
+	LD_LIBRARY_PATH= ./compile -j 2 wrfplus 2>&1 | tee compile.wrfplus.log
 	export WRFPLUS_DIR="${WRF_FOLDER}"/WRFPLUS
 
 	echo " "
@@ -32156,7 +32170,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
 		cd "${WRF_FOLDER}"/WRFPLUS/
-		LD_LIBRARY_PATH= ./compile -j $CPU_QUARTER_EVEN wrfplus 2>&1 | tee compile.wrfplus2.log
+		LD_LIBRARY_PATH= ./compile -j 2 wrfplus 2>&1 | tee compile.wrfplus2.log
 		cd "${WRF_FOLDER}"/WRFPLUS/main
 		n=$(ls ./wrfplus.exe | wc -l)
 		if (($n == 1)); then
@@ -33034,7 +33048,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRF_PICK" = "1" ]; then
 		./configure wrfplus 2>&1 | tee configure.log #Option 18 for gfortran/gcc and distribunted memory
 	fi
 	echo " "
-	LD_LIBRARY_PATH= ./compile -j $CPU_QUARTER_EVEN wrfplus 2>&1 | tee compile.wrfplus.log
+	LD_LIBRARY_PATH= ./compile -j 2 wrfplus 2>&1 | tee compile.wrfplus.log
 	export WRFPLUS_DIR="${WRF_FOLDER}"/WRFPLUS
 
 	echo " "
@@ -33048,7 +33062,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRF_PICK" = "1" ]; then
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
 		cd "${WRF_FOLDER}"/WRFPLUS/
-		LD_LIBRARY_PATH= ./compile -j $CPU_QUARTER_EVEN wrfplus 2>&1 | tee compile.wrfplus2.log
+		LD_LIBRARY_PATH= ./compile -j 2 wrfplus 2>&1 | tee compile.wrfplus2.log
 		cd "${WRF_FOLDER}"/WRFPLUS/main
 		n=$(ls ./wrfplus.exe | wc -l)
 		if (($n == 1)); then
@@ -33265,7 +33279,9 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRF_PICK" ]; then
 	export MPIF90=mpiifx
 	export MPICC=mpiicx
 	export MPICXX=mpiicpx
-	export CFLAGS="-fPIC -fPIE -O2 -Wno-error=incompatible-pointer-types -Wno-incompatible-pointer-types -Wno-implicit-function-declaration -Wno-unused-command-line-argument" export FFLAGS=""
+	export CFLAGS="-fPIC -fPIE -O2 -Wno-error=incompatible-pointer-types -Wno-incompatible-pointer-types -Wno-implicit-function-declaration -Wno-unused-command-line-argument"
+ 	export FFLAGS=""
+
 	export FCFLAGS=""
 
 	############################# CPU Core Management ####################################
@@ -33930,7 +33946,7 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRF_PICK" ]; then
 	sed -i '136s|mpif90 -f90=$(SFC)|mpiifx|g' "${WRF_FOLDER}"/WRFPLUS/configure.wrf
 	sed -i '137s|mpicc -cc=$(SCC)|mpiicx|g' "${WRF_FOLDER}"/WRFPLUS/configure.wrf
 
-	LD_LIBRARY_PATH= ./compile -j $CPU_QUARTER_EVEN wrfplus 2>&1 | tee wrfplus1.compile.log
+	LD_LIBRARY_PATH= ./compile -j 2 wrfplus 2>&1 | tee wrfplus1.compile.log
 
 	export WRFPLUS_DIR="${WRF_FOLDER}"/WRFPLUS
 
@@ -33946,7 +33962,7 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRF_PICK" ]; then
 		echo "Missing one or more expected files."
 		echo "Running compiler again"
 		cd "${WRF_FOLDER}"/WRFPLUS/
-		LD_LIBRARY_PATH= ./compile -j $CPU_QUARTER_EVEN wrfplus 2>&1 | tee compile.wrfplus2.log
+		LD_LIBRARY_PATH= ./compile -j 2 wrfplus 2>&1 | tee compile.wrfplus2.log
 		cd "${WRF_FOLDER}"/WRFPLUS/main
 		n=$(ls ./wrfplus.exe | wc -l)
 		if (($n == 1)); then
