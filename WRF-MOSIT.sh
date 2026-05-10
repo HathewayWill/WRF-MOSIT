@@ -221,11 +221,13 @@ if [ "$SYSTEMBIT" = "64" ] && [ "$SYSTEMOS" = "Linux" ]; then
 			case $yn in
 			Intel)
 				echo "Intel is selected for installation."
+				unset Ubuntu_64bit_GNU
 				export Ubuntu_64bit_Intel=1
 				break
 				;;
 			GNU)
 				echo "GNU is selected for installation."
+				unset Ubuntu_64bit_Intel
 				export Ubuntu_64bit_GNU=1
 				break
 				;;
@@ -689,19 +691,19 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$DTC_MET" = "1" ]; then
 
 	# some of the libraries we install below need one or more of these variables
 	export CC=icx
-  	export CXX=icpx
-  	export FC=ifx
-  	export F77=ifx
-  	export F90=ifx
-  	export MPIFC=mpiifx
-  	export MPIF77=mpiifx
-  	export MPIF90=mpiifx
-  	export MPICC=mpiicx
-  	export MPICXX=mpiicpx
-  	export CFLAGS="-fPIC -fPIE -O3 -Wno-implicit-function-declaration -Wno-incompatible-function-pointer-types -Wno-unused-command-line-argument"
-  	export FFLAGS=""
-  	export FCFLAGS=""
-  	export CXXFLAGS="-Wall -DHAVE_ISATTY"
+	export CXX=icpx
+	export FC=ifx
+	export F77=ifx
+	export F90=ifx
+	export MPIFC=mpiifx
+	export MPIF77=mpiifx
+	export MPIF90=mpiifx
+	export MPICC=mpiicx
+	export MPICXX=mpiicpx
+	export CFLAGS="-fPIC -fPIE -O3 -Wno-implicit-function-declaration -Wno-incompatible-function-pointer-types -Wno-unused-command-line-argument"
+	export FFLAGS=""
+	export FCFLAGS=""
+	export CXXFLAGS="-Wall -DHAVE_ISATTY"
 	#########################
 
 	#Downloading latest dateutil due to python3.8 running old version.
@@ -2495,6 +2497,9 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/cglc_modis_lcz_global.tar.gz
 		env -u LD_LIBRARY_PATH tar -xvf cglc_modis_lcz_global.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+
+		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/slucm_distributed_drag.tar.gz
+		env -u LD_LIBRARY_PATH tar -xvf slucm_distributed_drag.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 	fi
 
 	if [ ${Optional_GEOG} -eq 1 ]; then
@@ -3133,6 +3138,9 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/cglc_modis_lcz_global.tar.gz
 		env -u LD_LIBRARY_PATH tar -xvf cglc_modis_lcz_global.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+
+		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/slucm_distributed_drag.tar.gz
+		env -u LD_LIBRARY_PATH tar -xvf slucm_distributed_drag.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
 	fi
 
@@ -3784,6 +3792,9 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$CMAQ_PICK" = "1" ]; then
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/cglc_modis_lcz_global.tar.gz
 		env -u LD_LIBRARY_PATH tar -xvf cglc_modis_lcz_global.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+
+		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/slucm_distributed_drag.tar.gz
+		env -u LD_LIBRARY_PATH tar -xvf slucm_distributed_drag.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 	fi
 
 	if [ ${Optional_GEOG} -eq 1 ]; then
@@ -6518,6 +6529,9 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$SFIRE_PICK" = "1" ]; then
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/cglc_modis_lcz_global.tar.gz
 		env -u LD_LIBRARY_PATH tar -xvf cglc_modis_lcz_global.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+
+		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/slucm_distributed_drag.tar.gz
+		env -u LD_LIBRARY_PATH tar -xvf slucm_distributed_drag.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 	fi
 
 	if [ ${Optional_GEOG} -eq 1 ]; then
@@ -7272,6 +7286,9 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$MAC_CHIP" = "I
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/cglc_modis_lcz_global.tar.gz
 		env -u LD_LIBRARY_PATH tar -xvf cglc_modis_lcz_global.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+
+		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/slucm_distributed_drag.tar.gz
+		env -u LD_LIBRARY_PATH tar -xvf slucm_distributed_drag.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 	fi
 
 	if [ ${Optional_GEOG} -eq 1 ]; then
@@ -8041,6 +8058,9 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$MAC_CHIP" = "A
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/cglc_modis_lcz_global.tar.gz
 		env -u LD_LIBRARY_PATH tar -xvf cglc_modis_lcz_global.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+
+		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/slucm_distributed_drag.tar.gz
+		env -u LD_LIBRARY_PATH tar -xvf slucm_distributed_drag.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 	fi
 
 	if [ ${Optional_GEOG} -eq 1 ]; then
@@ -12283,7 +12303,7 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" ]; then
 	export MPICC=mpiicx
 	export MPICXX=mpiicpx
 	export CFLAGS="-fPIC -fPIE -O3 -Wno-incompatible-pointer-types -Wno-implicit-function-declaration -Wno-unused-command-line-argument"
- 	export FFLAGS=""
+	export FFLAGS=""
 
 	export FCFLAGS=""
 
@@ -13632,6 +13652,9 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ] && [ "$aa
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/cglc_modis_lcz_global.tar.gz
 		env -u LD_LIBRARY_PATH tar -xvf cglc_modis_lcz_global.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+
+		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/slucm_distributed_drag.tar.gz
+		env -u LD_LIBRARY_PATH tar -xvf slucm_distributed_drag.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 	fi
 
 	if [ ${Optional_GEOG} -eq 1 ]; then
@@ -14494,6 +14517,9 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ] && [ "$aa
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/cglc_modis_lcz_global.tar.gz
 		env -u LD_LIBRARY_PATH tar -xvf cglc_modis_lcz_global.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+
+		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/slucm_distributed_drag.tar.gz
+		env -u LD_LIBRARY_PATH tar -xvf slucm_distributed_drag.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 	fi
 
 	if [ ${Optional_GEOG} -eq 1 ]; then
@@ -14584,7 +14610,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 	export MPICC=mpiicx
 	export MPICXX=mpiicpx
 	export CFLAGS="-fPIC -fPIE -O3 -Wno-incompatible-pointer-types -Wno-implicit-function-declaration -Wno-unused-command-line-argument"
- 	export FFLAGS=""
+	export FFLAGS=""
 
 	export FCFLAGS=""
 	############################# CPU Core Management ####################################
@@ -14731,7 +14757,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 	export MPICC=mpiicx
 	export MPICXX=mpiicpx
 	export CFLAGS="-fPIC -fPIE -O3 -Wno-incompatible-pointer-types -Wno-implicit-function-declaration -Wno-unused-command-line-argument"
- 	export FFLAGS=""
+	export FFLAGS=""
 
 	export FCFLAGS=""
 	CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --enable-static 2>&1 | tee configure.log
@@ -15392,6 +15418,9 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/cglc_modis_lcz_global.tar.gz
 		env -u LD_LIBRARY_PATH tar -xvf cglc_modis_lcz_global.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+
+		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/slucm_distributed_drag.tar.gz
+		env -u LD_LIBRARY_PATH tar -xvf slucm_distributed_drag.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 	fi
 
 	if [ ${Optional_GEOG} -eq 1 ]; then
@@ -16223,6 +16252,9 @@ if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COU
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/cglc_modis_lcz_global.tar.gz
 		env -u LD_LIBRARY_PATH tar -xvf cglc_modis_lcz_global.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+
+		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/slucm_distributed_drag.tar.gz
+		env -u LD_LIBRARY_PATH tar -xvf slucm_distributed_drag.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 	fi
 
 	if [ ${Optional_GEOG} -eq 1 ]; then
@@ -17062,6 +17094,9 @@ if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COU
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/cglc_modis_lcz_global.tar.gz
 		env -u LD_LIBRARY_PATH tar -xvf cglc_modis_lcz_global.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+
+		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/slucm_distributed_drag.tar.gz
+		env -u LD_LIBRARY_PATH tar -xvf slucm_distributed_drag.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 	fi
 
 	if [ ${Optional_GEOG} -eq 1 ]; then
@@ -17910,6 +17945,9 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/cglc_modis_lcz_global.tar.gz
 		env -u LD_LIBRARY_PATH tar -xvf cglc_modis_lcz_global.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+
+		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/slucm_distributed_drag.tar.gz
+		env -u LD_LIBRARY_PATH tar -xvf slucm_distributed_drag.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 	fi
 
 	if [ ${Optional_GEOG} -eq 1 ]; then
@@ -18706,6 +18744,9 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/cglc_modis_lcz_global.tar.gz
 		env -u LD_LIBRARY_PATH tar -xvf cglc_modis_lcz_global.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+
+		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/slucm_distributed_drag.tar.gz
+		env -u LD_LIBRARY_PATH tar -xvf slucm_distributed_drag.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 	fi
 
 	if [ ${Optional_GEOG} -eq 1 ]; then
@@ -18783,7 +18824,7 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 	export MPICC=mpiicx
 	export MPICXX=mpiicpx
 	export CFLAGS="-fPIC -fPIE -O3 -Wno-incompatible-pointer-types -Wno-implicit-function-declaration -Wno-unused-command-line-argument"
- 	export FFLAGS=""
+	export FFLAGS=""
 
 	export FCFLAGS=""
 
@@ -19507,6 +19548,9 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/cglc_modis_lcz_global.tar.gz
 		env -u LD_LIBRARY_PATH tar -xvf cglc_modis_lcz_global.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+
+		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/slucm_distributed_drag.tar.gz
+		env -u LD_LIBRARY_PATH tar -xvf slucm_distributed_drag.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 	fi
 
 	if [ ${Optional_GEOG} -eq 1 ]; then
@@ -20486,6 +20530,9 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$aarch64" !=
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/cglc_modis_lcz_global.tar.gz
 		env -u LD_LIBRARY_PATH tar -xvf cglc_modis_lcz_global.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+
+		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/slucm_distributed_drag.tar.gz
+		env -u LD_LIBRARY_PATH tar -xvf slucm_distributed_drag.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 	fi
 
 	if [ ${Optional_GEOG} -eq 1 ]; then
@@ -21449,6 +21496,9 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$aarch64" = 
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/cglc_modis_lcz_global.tar.gz
 		env -u LD_LIBRARY_PATH tar -xvf cglc_modis_lcz_global.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+
+		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/slucm_distributed_drag.tar.gz
+		env -u LD_LIBRARY_PATH tar -xvf slucm_distributed_drag.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 	fi
 
 	if [ ${Optional_GEOG} -eq 1 ]; then
@@ -21540,7 +21590,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 	export MPICC=mpiicx
 	export MPICXX=mpiicpx
 	export CFLAGS="-fPIC -fPIE -O3 -Wno-incompatible-pointer-types -Wno-implicit-function-declaration -Wno-unused-command-line-argument"
- 	export FFLAGS=""
+	export FFLAGS=""
 
 	export FCFLAGS=""
 	############################# CPU Core Management ####################################
@@ -22425,6 +22475,9 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/cglc_modis_lcz_global.tar.gz
 		env -u LD_LIBRARY_PATH tar -xvf cglc_modis_lcz_global.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+
+		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/slucm_distributed_drag.tar.gz
+		env -u LD_LIBRARY_PATH tar -xvf slucm_distributed_drag.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 	fi
 
 	if [ ${Optional_GEOG} -eq 1 ]; then
@@ -23271,6 +23324,9 @@ if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/cglc_modis_lcz_global.tar.gz
 		env -u LD_LIBRARY_PATH tar -xvf cglc_modis_lcz_global.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+
+		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/slucm_distributed_drag.tar.gz
+		env -u LD_LIBRARY_PATH tar -xvf slucm_distributed_drag.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
 	fi
 
@@ -24131,6 +24187,9 @@ if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/cglc_modis_lcz_global.tar.gz
 		env -u LD_LIBRARY_PATH tar -xvf cglc_modis_lcz_global.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+
+		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/slucm_distributed_drag.tar.gz
+		env -u LD_LIBRARY_PATH tar -xvf slucm_distributed_drag.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
 	fi
 
@@ -25082,6 +25141,9 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/cglc_modis_lcz_global.tar.gz
 		env -u LD_LIBRARY_PATH tar -xvf cglc_modis_lcz_global.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+
+		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/slucm_distributed_drag.tar.gz
+		env -u LD_LIBRARY_PATH tar -xvf slucm_distributed_drag.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 	fi
 
 	if [ ${Optional_GEOG} -eq 1 ]; then
@@ -26010,6 +26072,9 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/cglc_modis_lcz_global.tar.gz
 		env -u LD_LIBRARY_PATH tar -xvf cglc_modis_lcz_global.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+
+		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/slucm_distributed_drag.tar.gz
+		env -u LD_LIBRARY_PATH tar -xvf slucm_distributed_drag.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 	fi
 
 	if [ ${Optional_GEOG} -eq 1 ]; then
@@ -26087,7 +26152,7 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" ]; then
 	export MPICC=mpiicx
 	export MPICXX=mpiicpx
 	export CFLAGS="-fPIC -fPIE -O3 -Wno-incompatible-pointer-types -Wno-implicit-function-declaration -Wno-unused-command-line-argument"
- 	export FFLAGS=""
+	export FFLAGS=""
 
 	export FCFLAGS=""
 
@@ -26977,6 +27042,9 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" ]; then
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/cglc_modis_lcz_global.tar.gz
 		env -u LD_LIBRARY_PATH tar -xvf cglc_modis_lcz_global.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+
+		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/slucm_distributed_drag.tar.gz
+		env -u LD_LIBRARY_PATH tar -xvf slucm_distributed_drag.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 	fi
 
 	if [ ${Optional_GEOG} -eq 1 ]; then
@@ -27894,6 +27962,9 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$aarch64" != "1"
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/cglc_modis_lcz_global.tar.gz
 		env -u LD_LIBRARY_PATH tar -xvf cglc_modis_lcz_global.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+
+		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/slucm_distributed_drag.tar.gz
+		env -u LD_LIBRARY_PATH tar -xvf slucm_distributed_drag.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 	fi
 
 	if [ ${Optional_GEOG} -eq 1 ]; then
@@ -28795,6 +28866,9 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$aarch64" = "1" 
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/cglc_modis_lcz_global.tar.gz
 		env -u LD_LIBRARY_PATH tar -xvf cglc_modis_lcz_global.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+
+		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/slucm_distributed_drag.tar.gz
+		env -u LD_LIBRARY_PATH tar -xvf slucm_distributed_drag.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 	fi
 
 	if [ ${Optional_GEOG} -eq 1 ]; then
@@ -28886,7 +28960,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 	export MPICC=mpiicx
 	export MPICXX=mpiicpx
 	export CFLAGS="-fPIC -fPIE -O3 -Wno-incompatible-pointer-types -Wno-implicit-function-declaration -Wno-unused-command-line-argument"
- 	export FFLAGS=""
+	export FFLAGS=""
 	export FCFLAGS=""
 	############################# CPU Core Management ####################################
 
@@ -29706,6 +29780,9 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/cglc_modis_lcz_global.tar.gz
 		env -u LD_LIBRARY_PATH tar -xvf cglc_modis_lcz_global.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+
+		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/slucm_distributed_drag.tar.gz
+		env -u LD_LIBRARY_PATH tar -xvf slucm_distributed_drag.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 	fi
 
 	if [ ${Optional_GEOG} -eq 1 ]; then
@@ -30558,6 +30635,9 @@ if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = 
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/cglc_modis_lcz_global.tar.gz
 		env -u LD_LIBRARY_PATH tar -xvf cglc_modis_lcz_global.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+
+		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/slucm_distributed_drag.tar.gz
+		env -u LD_LIBRARY_PATH tar -xvf slucm_distributed_drag.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
 	fi
 
@@ -31423,6 +31503,9 @@ if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = 
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/cglc_modis_lcz_global.tar.gz
 		env -u LD_LIBRARY_PATH tar -xvf cglc_modis_lcz_global.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+
+		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/slucm_distributed_drag.tar.gz
+		env -u LD_LIBRARY_PATH tar -xvf slucm_distributed_drag.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
 	fi
 
@@ -32312,6 +32395,9 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/cglc_modis_lcz_global.tar.gz
 		env -u LD_LIBRARY_PATH tar -xvf cglc_modis_lcz_global.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+
+		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/slucm_distributed_drag.tar.gz
+		env -u LD_LIBRARY_PATH tar -xvf slucm_distributed_drag.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 	fi
 
 	if [ ${Optional_GEOG} -eq 1 ]; then
@@ -33203,6 +33289,9 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRF_PICK" = "1" ]; then
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/cglc_modis_lcz_global.tar.gz
 		env -u LD_LIBRARY_PATH tar -xvf cglc_modis_lcz_global.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+
+		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/slucm_distributed_drag.tar.gz
+		env -u LD_LIBRARY_PATH tar -xvf slucm_distributed_drag.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 	fi
 
 	if [ ${Optional_GEOG} -eq 1 ]; then
@@ -33280,7 +33369,7 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRF_PICK" ]; then
 	export MPICC=mpiicx
 	export MPICXX=mpiicpx
 	export CFLAGS="-fPIC -fPIE -O3 -Wno-incompatible-pointer-types -Wno-implicit-function-declaration -Wno-unused-command-line-argument"
- 	export FFLAGS=""
+	export FFLAGS=""
 
 	export FCFLAGS=""
 
@@ -34105,6 +34194,9 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRF_PICK" ]; then
 
 		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/cglc_modis_lcz_global.tar.gz
 		env -u LD_LIBRARY_PATH tar -xvf cglc_modis_lcz_global.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
+
+		wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/slucm_distributed_drag.tar.gz
+		env -u LD_LIBRARY_PATH tar -xvf slucm_distributed_drag.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 	fi
 
 	if [ ${Optional_GEOG} -eq 1 ]; then
