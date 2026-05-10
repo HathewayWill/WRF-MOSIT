@@ -60,8 +60,8 @@ Update this path accordingly when configuring your environment variables or runn
 ### Installed Version Information
 
 ```bash
-export METPLUS_Version=6.2.0
-export met_Version_number=12.2.0
+export METPLUS_Version=6.2.1
+export met_Version_number=12.2.1
 export met_VERSION_number=12.2
 export METPLUS_DATA=6.2
 export WRF_VERSION=4.7.1
@@ -81,25 +81,25 @@ export CMAQ_VERSION=5.5
 ### Libraries Installed (Latest libraries as of 11/01/2025)
 - Libraries are manually installed in sub-folders utilizing either Intel or GNU Compilers.
     - Libraries installed with GNU compilers
-        - zlib (1.3.1)
-        - MPICH (4.3.2)
-        - libpng (1.6.39)
+        - zlib (1.3.2)
+        - MPICH (5.0.1)
+        - libpng (1.6.58)
         - JasPer (1.900.1)
         - HDF5 (1.14.6)
         - PHDF5 (1.14.6)
         - Parallel-NetCDF (1.14.1)
-        - NetCDF-C (4.9.3)
+        - NetCDF-C (4.10.0)
         - NetCDF-Fortran (4.6.2)
         - NetCDF-CXX (4.3.1)
         - Miniconda
     - Libraries installed with Intel compilers
-        - zlib (1.3.1)
-        - libpng (1.6.39)
+        - zlib (1.3.2)
+        - libpng (1.6.58)
         - JasPer (1.900.1)
         - HDF5 (1.14.6)
         - PHDF5 (1.14.6)
         - Parallel-NetCDF (1.14.1)
-        - NetCDF-C (4.9.3)
+        - NetCDF-C (4.10.0)
         - NetCDF-Fortran (4.6.2)
         - Miniconda
         - Intel-Basekit
