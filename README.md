@@ -133,7 +133,7 @@ export CMAQ_VERSION=5.5
 - WRF-SFIRE
     - WRF-SFIRE v2
     - WPS v4.2
-
+- COAWST
 ---
 ### Pre/Post Processing Packages Installed
 - WRF
