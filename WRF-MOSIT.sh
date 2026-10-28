@@ -324,7 +324,7 @@ echo "Testing for storage space for installation."
 # Cross-platform disk space check (Linux + macOS)
 
 HOME_DIR="${HOME}"
-REQUIRED_GB=350
+REQUIRED_GB=300
 REQUIRED_KB=$((REQUIRED_GB * 1024 * 1024)) # 350 GB in KiB
 
 # df -k prints sizes in 1K blocks on both GNU (Linux) and BSD (macOS)
@@ -662,15 +662,20 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$DTC_MET" = "1" ]; then
 
 	release_version=$(lsb_release -r -s)
 
-	# Compare the release version
-	if [ "$release_version" = "24.04" ]; then
-		# Install Emacs without recommended packages
-		echo $PASSWD | sudo -S apt install emacs --no-install-recommends -y
-	else
-		# Attempt to install Emacs if the release version is not 24.04
-		echo "The release version is not 24.04, attempting to install Emacs."
-		echo $PASSWD | sudo -S apt install emacs -y
-	fi
+if dpkg --compare-versions "$release_version" ge "22.04"; then
+    # Ubuntu 22.04 or newer
+    echo "Ubuntu $release_version detected."
+    echo "Installing Emacs without recommended packages."
+    printf '%s
+' "$PASSWD" | sudo -S apt-get install -y \
+        --no-install-recommends emacs
+else
+    # Ubuntu older than 22.04
+    echo "Ubuntu $release_version detected."
+    echo "Installing Emacs with standard dependencies."
+    printf '%s
+' "$PASSWD" | sudo -S apt-get install -y emacs
+fi
 
 	echo "$PASSWD" | sudo -S apt -y install bison build-essential byacc cmake csh curl default-jdk default-jre flex libfl-dev g++ gawk gcc gettext gfortran git ksh libcurl4-gnutls-dev libjpeg-dev libncurses6 libncursesw5-dev libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev libxml-libxml-perl m4 make ncview pipenv pkg-config python3 python3-dev python3-pip python3-dateutil tcsh unzip xauth xorg time ghostscript less libbz2-dev libc6-dev libffi-dev libgdbm-dev libopenblas-dev libreadline-dev libssl-dev libtiff-dev libgeotiff-dev tk-dev vim wget
 
@@ -889,15 +894,20 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$DTC_MET" = "1" ] && [ "$aarch64" != "1" 
 
 	release_version=$(lsb_release -r -s)
 
-	# Compare the release version
-	if [ "$release_version" = "24.04" ]; then
-		# Install Emacs without recommended packages
-		echo $PASSWD | sudo -S apt install emacs --no-install-recommends -y
-	else
-		# Attempt to install Emacs if the release version is not 24.04
-		echo "The release version is not 24.04, attempting to install Emacs."
-		echo $PASSWD | sudo -S apt install emacs -y
-	fi
+if dpkg --compare-versions "$release_version" ge "22.04"; then
+    # Ubuntu 22.04 or newer
+    echo "Ubuntu $release_version detected."
+    echo "Installing Emacs without recommended packages."
+    printf '%s
+' "$PASSWD" | sudo -S apt-get install -y \
+        --no-install-recommends emacs
+else
+    # Ubuntu older than 22.04
+    echo "Ubuntu $release_version detected."
+    echo "Installing Emacs with standard dependencies."
+    printf '%s
+' "$PASSWD" | sudo -S apt-get install -y emacs
+fi
 
 	echo "$PASSWD" | sudo -S apt -y install bison build-essential byacc cmake csh curl default-jdk default-jre flex libfl-dev g++ gawk gcc gettext gfortran git ksh libcurl4-gnutls-dev libjpeg-dev libncurses6 libncursesw5-dev libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev libxml-libxml-perl m4 make ncview pipenv pkg-config python3 python3-dev python3-pip python3-dateutil tcsh unzip xauth xorg time ghostscript less libbz2-dev libc6-dev libffi-dev libgdbm-dev libopenblas-dev libreadline-dev libssl-dev libtiff-dev libgeotiff-dev tk-dev vim wget
 
@@ -1092,15 +1102,20 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$DTC_MET" = "1" ] && [ "$aarch64" = "1" ]
 
 	release_version=$(lsb_release -r -s)
 
-	# Compare the release version
-	if [ "$release_version" = "24.04" ]; then
-		# Install Emacs without recommended packages
-		echo $PASSWD | sudo -S apt install emacs --no-install-recommends -y
-	else
-		# Attempt to install Emacs if the release version is not 24.04
-		echo "The release version is not 24.04, attempting to install Emacs."
-		echo $PASSWD | sudo -S apt install emacs -y
-	fi
+if dpkg --compare-versions "$release_version" ge "22.04"; then
+    # Ubuntu 22.04 or newer
+    echo "Ubuntu $release_version detected."
+    echo "Installing Emacs without recommended packages."
+    printf '%s
+' "$PASSWD" | sudo -S apt-get install -y \
+        --no-install-recommends emacs
+else
+    # Ubuntu older than 22.04
+    echo "Ubuntu $release_version detected."
+    echo "Installing Emacs with standard dependencies."
+    printf '%s
+' "$PASSWD" | sudo -S apt-get install -y emacs
+fi
 
 	echo "$PASSWD" | sudo -S apt -y install bison build-essential byacc cmake csh curl default-jdk default-jre flex libfl-dev g++ gawk gcc gettext gfortran git ksh libcurl4-gnutls-dev libjpeg-dev libncurses6 libncursesw5-dev libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev libxml-libxml-perl m4 make ncview pipenv pkg-config python3 python3-dev python3-pip python3-dateutil tcsh unzip xauth xorg time ghostscript less libbz2-dev libc6-dev libffi-dev libgdbm-dev libopenblas-dev libreadline-dev libssl-dev libtiff-dev libgeotiff-dev tk-dev vim wget
 
@@ -1915,15 +1930,20 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
 
 	release_version=$(lsb_release -r -s)
 
-	# Compare the release version
-	if [ "$release_version" = "24.04" ]; then
-		# Install Emacs without recommended packages
-		echo $PASSWD | sudo -S apt install emacs --no-install-recommends -y
-	else
-		# Attempt to install Emacs if the release version is not 24.04
-		echo "The release version is not 24.04, attempting to install Emacs."
-		echo $PASSWD | sudo -S apt install emacs -y
-	fi
+if dpkg --compare-versions "$release_version" ge "22.04"; then
+    # Ubuntu 22.04 or newer
+    echo "Ubuntu $release_version detected."
+    echo "Installing Emacs without recommended packages."
+    printf '%s
+' "$PASSWD" | sudo -S apt-get install -y \
+        --no-install-recommends emacs
+else
+    # Ubuntu older than 22.04
+    echo "Ubuntu $release_version detected."
+    echo "Installing Emacs with standard dependencies."
+    printf '%s
+' "$PASSWD" | sudo -S apt-get install -y emacs
+fi
 
 	echo "$PASSWD" | sudo -S apt -y install bison build-essential byacc cmake csh curl default-jdk default-jre flex libfl-dev g++ gawk gcc gettext gfortran git ksh libcurl4-gnutls-dev libjpeg-dev libncurses6 libncursesw5-dev libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev libxml-libxml-perl m4 make ncview pipenv pkg-config python3 python3-dev python3-pip python3-dateutil tcsh unzip xauth xorg time ghostscript less libbz2-dev libc6-dev libffi-dev libgdbm-dev libopenblas-dev libreadline-dev libssl-dev libtiff-dev libgeotiff-dev tk-dev vim wget
 
@@ -3858,15 +3878,20 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$aarch64" != "
 
 	release_version=$(lsb_release -r -s)
 
-	# Compare the release version
-	if [ "$release_version" = "24.04" ]; then
-		# Install Emacs without recommended packages
-		echo $PASSWD | sudo -S apt install emacs --no-install-recommends -y
-	else
-		# Attempt to install Emacs if the release version is not 24.04
-		echo "The release version is not 24.04, attempting to install Emacs."
-		echo $PASSWD | sudo -S apt install emacs -y
-	fi
+if dpkg --compare-versions "$release_version" ge "22.04"; then
+    # Ubuntu 22.04 or newer
+    echo "Ubuntu $release_version detected."
+    echo "Installing Emacs without recommended packages."
+    printf '%s
+' "$PASSWD" | sudo -S apt-get install -y \
+        --no-install-recommends emacs
+else
+    # Ubuntu older than 22.04
+    echo "Ubuntu $release_version detected."
+    echo "Installing Emacs with standard dependencies."
+    printf '%s
+' "$PASSWD" | sudo -S apt-get install -y emacs
+fi
 
 	echo "$PASSWD" | sudo -S apt -y install bison build-essential byacc cmake csh curl default-jdk default-jre flex libfl-dev g++ gawk gcc gettext gfortran git ksh libcurl4-gnutls-dev libjpeg-dev libncurses6 libncursesw5-dev libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev libxml-libxml-perl m4 make ncview pipenv pkg-config python3 python3-dev python3-pip python3-dateutil tcsh unzip xauth xorg time ghostscript less libbz2-dev libc6-dev libffi-dev libgdbm-dev libopenblas-dev libreadline-dev libssl-dev libtiff-dev libgeotiff-dev tk-dev vim wget
 
@@ -4527,15 +4552,20 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$aarch64" = "1
 
 	release_version=$(lsb_release -r -s)
 
-	# Compare the release version
-	if [ "$release_version" = "24.04" ]; then
-		# Install Emacs without recommended packages
-		echo $PASSWD | sudo -S apt install emacs --no-install-recommends -y
-	else
-		# Attempt to install Emacs if the release version is not 24.04
-		echo "The release version is not 24.04, attempting to install Emacs."
-		echo $PASSWD | sudo -S apt install emacs -y
-	fi
+if dpkg --compare-versions "$release_version" ge "22.04"; then
+    # Ubuntu 22.04 or newer
+    echo "Ubuntu $release_version detected."
+    echo "Installing Emacs without recommended packages."
+    printf '%s
+' "$PASSWD" | sudo -S apt-get install -y \
+        --no-install-recommends emacs
+else
+    # Ubuntu older than 22.04
+    echo "Ubuntu $release_version detected."
+    echo "Installing Emacs with standard dependencies."
+    printf '%s
+' "$PASSWD" | sudo -S apt-get install -y emacs
+fi
 
 	echo "$PASSWD" | sudo -S apt -y install bison build-essential byacc cmake csh curl default-jdk default-jre flex libfl-dev g++ gawk gcc gettext gfortran git ksh libcurl4-gnutls-dev libjpeg-dev libncurses6 libncursesw5-dev libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev libxml-libxml-perl m4 make ncview pipenv pkg-config python3 python3-dev python3-pip python3-dateutil tcsh unzip xauth xorg time ghostscript less libbz2-dev libc6-dev libffi-dev libgdbm-dev libopenblas-dev libreadline-dev libssl-dev libtiff-dev libgeotiff-dev tk-dev vim wget
 
@@ -8121,15 +8151,20 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ] && [ "
 
 	release_version=$(lsb_release -r -s)
 
-	# Compare the release version
-	if [ "$release_version" = "24.04" ]; then
-		# Install Emacs without recommended packages
-		echo $PASSWD | sudo -S apt install emacs --no-install-recommends -y
-	else
-		# Attempt to install Emacs if the release version is not 24.04
-		echo "The release version is not 24.04, attempting to install Emacs."
-		echo $PASSWD | sudo -S apt install emacs -y
-	fi
+if dpkg --compare-versions "$release_version" ge "22.04"; then
+    # Ubuntu 22.04 or newer
+    echo "Ubuntu $release_version detected."
+    echo "Installing Emacs without recommended packages."
+    printf '%s
+' "$PASSWD" | sudo -S apt-get install -y \
+        --no-install-recommends emacs
+else
+    # Ubuntu older than 22.04
+    echo "Ubuntu $release_version detected."
+    echo "Installing Emacs with standard dependencies."
+    printf '%s
+' "$PASSWD" | sudo -S apt-get install -y emacs
+fi
 
 	echo "$PASSWD" | sudo -S apt -y install bison build-essential byacc cmake csh curl default-jdk default-jre flex libfl-dev g++ gawk gcc gettext gfortran git ksh libcurl4-gnutls-dev libjpeg-dev libncurses6 libncursesw5-dev libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev libxml-libxml-perl m4 make ncview pipenv pkg-config python3 python3-dev python3-pip python3-dateutil tcsh unzip xauth xorg time ghostscript less libbz2-dev libc6-dev libffi-dev libgdbm-dev libopenblas-dev libreadline-dev libssl-dev libtiff-dev libgeotiff-dev tk-dev vim wget
 
@@ -8701,15 +8736,20 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ] && [ "
 
 	release_version=$(lsb_release -r -s)
 
-	# Compare the release version
-	if [ "$release_version" = "24.04" ]; then
-		# Install Emacs without recommended packages
-		echo $PASSWD | sudo -S apt install emacs --no-install-recommends -y
-	else
-		# Attempt to install Emacs if the release version is not 24.04
-		echo "The release version is not 24.04, attempting to install Emacs."
-		echo $PASSWD | sudo -S apt install emacs -y
-	fi
+if dpkg --compare-versions "$release_version" ge "22.04"; then
+    # Ubuntu 22.04 or newer
+    echo "Ubuntu $release_version detected."
+    echo "Installing Emacs without recommended packages."
+    printf '%s
+' "$PASSWD" | sudo -S apt-get install -y \
+        --no-install-recommends emacs
+else
+    # Ubuntu older than 22.04
+    echo "Ubuntu $release_version detected."
+    echo "Installing Emacs with standard dependencies."
+    printf '%s
+' "$PASSWD" | sudo -S apt-get install -y emacs
+fi
 
 	echo "$PASSWD" | sudo -S apt -y install bison build-essential byacc cmake csh curl default-jdk default-jre flex libfl-dev g++ gawk gcc gettext gfortran git ksh libcurl4-gnutls-dev libjpeg-dev libncurses6 libncursesw5-dev libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev libxml-libxml-perl m4 make ncview pipenv pkg-config python3 python3-dev python3-pip python3-dateutil tcsh unzip xauth xorg time ghostscript less libbz2-dev libc6-dev libffi-dev libgdbm-dev libopenblas-dev libreadline-dev libssl-dev libtiff-dev libgeotiff-dev tk-dev vim wget
 
@@ -9293,15 +9333,20 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; the
 
 	release_version=$(lsb_release -r -s)
 
-	# Compare the release version
-	if [ "$release_version" = "24.04" ]; then
-		# Install Emacs without recommended packages
-		echo $PASSWD | sudo -S apt install emacs --no-install-recommends -y
-	else
-		# Attempt to install Emacs if the release version is not 24.04
-		echo "The release version is not 24.04, attempting to install Emacs."
-		echo $PASSWD | sudo -S apt install emacs -y
-	fi
+if dpkg --compare-versions "$release_version" ge "22.04"; then
+    # Ubuntu 22.04 or newer
+    echo "Ubuntu $release_version detected."
+    echo "Installing Emacs without recommended packages."
+    printf '%s
+' "$PASSWD" | sudo -S apt-get install -y \
+        --no-install-recommends emacs
+else
+    # Ubuntu older than 22.04
+    echo "Ubuntu $release_version detected."
+    echo "Installing Emacs with standard dependencies."
+    printf '%s
+' "$PASSWD" | sudo -S apt-get install -y emacs
+fi
 
 	echo "$PASSWD" | sudo -S apt -y install bison build-essential byacc cmake csh curl default-jdk default-jre flex libfl-dev g++ gawk gcc gettext gfortran git ksh libcurl4-gnutls-dev libjpeg-dev libncurses6 libncursesw5-dev libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev libxml-libxml-perl m4 make ncview pipenv pkg-config python3 python3-dev python3-pip python3-dateutil tcsh unzip xauth xorg time ghostscript less libbz2-dev libc6-dev libffi-dev libgdbm-dev libopenblas-dev libreadline-dev libssl-dev libtiff-dev libgeotiff-dev tk-dev vim wget
 
@@ -12834,15 +12879,20 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ] && [ "$aa
 
 	release_version=$(lsb_release -r -s)
 
-	# Compare the release version
-	if [ "$release_version" = "24.04" ]; then
-		# Install Emacs without recommended packages
-		echo $PASSWD | sudo -S apt install emacs --no-install-recommends -y
-	else
-		# Attempt to install Emacs if the release version is not 24.04
-		echo "The release version is not 24.04, attempting to install Emacs."
-		echo $PASSWD | sudo -S apt install emacs -y
-	fi
+if dpkg --compare-versions "$release_version" ge "22.04"; then
+    # Ubuntu 22.04 or newer
+    echo "Ubuntu $release_version detected."
+    echo "Installing Emacs without recommended packages."
+    printf '%s
+' "$PASSWD" | sudo -S apt-get install -y \
+        --no-install-recommends emacs
+else
+    # Ubuntu older than 22.04
+    echo "Ubuntu $release_version detected."
+    echo "Installing Emacs with standard dependencies."
+    printf '%s
+' "$PASSWD" | sudo -S apt-get install -y emacs
+fi
 
 	echo "$PASSWD" | sudo -S apt -y install bison build-essential byacc cmake csh curl default-jdk default-jre flex libfl-dev g++ gawk gcc gettext gfortran git ksh libcurl4-gnutls-dev libjpeg-dev libncurses6 libncursesw5-dev libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev libxml-libxml-perl m4 make ncview pipenv pkg-config python3 python3-dev python3-pip python3-dateutil tcsh unzip xauth xorg time ghostscript less libbz2-dev libc6-dev libffi-dev libgdbm-dev libopenblas-dev libreadline-dev libssl-dev libtiff-dev libgeotiff-dev tk-dev vim wget
 
@@ -13696,15 +13746,20 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ] && [ "$aa
 
 	release_version=$(lsb_release -r -s)
 
-	# Compare the release version
-	if [ "$release_version" = "24.04" ]; then
-		# Install Emacs without recommended packages
-		echo $PASSWD | sudo -S apt install emacs --no-install-recommends -y
-	else
-		# Attempt to install Emacs if the release version is not 24.04
-		echo "The release version is not 24.04, attempting to install Emacs."
-		echo $PASSWD | sudo -S apt install emacs -y
-	fi
+if dpkg --compare-versions "$release_version" ge "22.04"; then
+    # Ubuntu 22.04 or newer
+    echo "Ubuntu $release_version detected."
+    echo "Installing Emacs without recommended packages."
+    printf '%s
+' "$PASSWD" | sudo -S apt-get install -y \
+        --no-install-recommends emacs
+else
+    # Ubuntu older than 22.04
+    echo "Ubuntu $release_version detected."
+    echo "Installing Emacs with standard dependencies."
+    printf '%s
+' "$PASSWD" | sudo -S apt-get install -y emacs
+fi
 
 	echo "$PASSWD" | sudo -S apt -y install bison build-essential byacc cmake csh curl default-jdk default-jre flex libfl-dev g++ gawk gcc gettext gfortran git ksh libcurl4-gnutls-dev libjpeg-dev libncurses6 libncursesw5-dev libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev libxml-libxml-perl m4 make ncview pipenv pkg-config python3 python3-dev python3-pip python3-dateutil tcsh unzip xauth xorg time ghostscript less libbz2-dev libc6-dev libffi-dev libgdbm-dev libopenblas-dev libreadline-dev libssl-dev libtiff-dev libgeotiff-dev tk-dev vim wget
 
@@ -14572,15 +14627,20 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 
 	release_version=$(lsb_release -r -s)
 
-	# Compare the release version
-	if [ "$release_version" = "24.04" ]; then
-		# Install Emacs without recommended packages
-		echo $PASSWD | sudo -S apt install emacs --no-install-recommends -y
-	else
-		# Attempt to install Emacs if the release version is not 24.04
-		echo "The release version is not 24.04, attempting to install Emacs."
-		echo $PASSWD | sudo -S apt install emacs -y
-	fi
+if dpkg --compare-versions "$release_version" ge "22.04"; then
+    # Ubuntu 22.04 or newer
+    echo "Ubuntu $release_version detected."
+    echo "Installing Emacs without recommended packages."
+    printf '%s
+' "$PASSWD" | sudo -S apt-get install -y \
+        --no-install-recommends emacs
+else
+    # Ubuntu older than 22.04
+    echo "Ubuntu $release_version detected."
+    echo "Installing Emacs with standard dependencies."
+    printf '%s
+' "$PASSWD" | sudo -S apt-get install -y emacs
+fi
 
 	echo "$PASSWD" | sudo -S apt -y install bison build-essential byacc cmake csh curl default-jdk default-jre flex libfl-dev g++ gawk gcc gettext gfortran git ksh libcurl4-gnutls-dev libjpeg-dev libncurses6 libncursesw5-dev libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev libxml-libxml-perl m4 make ncview pipenv pkg-config python3 python3-dev python3-pip python3-dateutil tcsh unzip xauth xorg time ghostscript less libbz2-dev libc6-dev libffi-dev libgdbm-dev libopenblas-dev libreadline-dev libssl-dev libtiff-dev libgeotiff-dev tk-dev vim wget
 
@@ -19596,15 +19656,20 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$aarch64" !=
 
 	release_version=$(lsb_release -r -s)
 
-	# Compare the release version
-	if [ "$release_version" = "24.04" ]; then
-		# Install Emacs without recommended packages
-		echo $PASSWD | sudo -S apt install emacs --no-install-recommends -y
-	else
-		# Attempt to install Emacs if the release version is not 24.04
-		echo "The release version is not 24.04, attempting to install Emacs."
-		echo $PASSWD | sudo -S apt install emacs -y
-	fi
+if dpkg --compare-versions "$release_version" ge "22.04"; then
+    # Ubuntu 22.04 or newer
+    echo "Ubuntu $release_version detected."
+    echo "Installing Emacs without recommended packages."
+    printf '%s
+' "$PASSWD" | sudo -S apt-get install -y \
+        --no-install-recommends emacs
+else
+    # Ubuntu older than 22.04
+    echo "Ubuntu $release_version detected."
+    echo "Installing Emacs with standard dependencies."
+    printf '%s
+' "$PASSWD" | sudo -S apt-get install -y emacs
+fi
 
 	echo "$PASSWD" | sudo -S apt -y install bison build-essential byacc cmake csh curl default-jdk default-jre flex libfl-dev g++ gawk gcc gettext gfortran git ksh libcurl4-gnutls-dev libjpeg-dev libncurses6 libncursesw5-dev libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev libxml-libxml-perl m4 make ncview pipenv pkg-config python3 python3-dev python3-pip python3-dateutil tcsh unzip xauth xorg time ghostscript less libbz2-dev libc6-dev libffi-dev libgdbm-dev libopenblas-dev libreadline-dev libssl-dev libtiff-dev libgeotiff-dev tk-dev vim wget
 
@@ -20560,15 +20625,20 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$aarch64" = 
 
 	release_version=$(lsb_release -r -s)
 
-	# Compare the release version
-	if [ "$release_version" = "24.04" ]; then
-		# Install Emacs without recommended packages
-		echo $PASSWD | sudo -S apt install emacs --no-install-recommends -y
-	else
-		# Attempt to install Emacs if the release version is not 24.04
-		echo "The release version is not 24.04, attempting to install Emacs."
-		echo $PASSWD | sudo -S apt install emacs -y
-	fi
+if dpkg --compare-versions "$release_version" ge "22.04"; then
+    # Ubuntu 22.04 or newer
+    echo "Ubuntu $release_version detected."
+    echo "Installing Emacs without recommended packages."
+    printf '%s
+' "$PASSWD" | sudo -S apt-get install -y \
+        --no-install-recommends emacs
+else
+    # Ubuntu older than 22.04
+    echo "Ubuntu $release_version detected."
+    echo "Installing Emacs with standard dependencies."
+    printf '%s
+' "$PASSWD" | sudo -S apt-get install -y emacs
+fi
 
 	echo "$PASSWD" | sudo -S apt -y install bison build-essential byacc cmake csh curl default-jdk default-jre flex libfl-dev g++ gawk gcc gettext gfortran git ksh libcurl4-gnutls-dev libjpeg-dev libncurses6 libncursesw5-dev libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev libxml-libxml-perl m4 make ncview pipenv pkg-config python3 python3-dev python3-pip python3-dateutil tcsh unzip xauth xorg time ghostscript less libbz2-dev libc6-dev libffi-dev libgdbm-dev libopenblas-dev libreadline-dev libssl-dev libtiff-dev libgeotiff-dev tk-dev vim wget
 
@@ -21537,15 +21607,20 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 
 	release_version=$(lsb_release -r -s)
 
-	# Compare the release version
-	if [ "$release_version" = "24.04" ]; then
-		# Install Emacs without recommended packages
-		echo $PASSWD | sudo -S apt install emacs --no-install-recommends -y
-	else
-		# Attempt to install Emacs if the release version is not 24.04
-		echo "The release version is not 24.04, attempting to install Emacs."
-		echo $PASSWD | sudo -S apt install emacs -y
-	fi
+if dpkg --compare-versions "$release_version" ge "22.04"; then
+    # Ubuntu 22.04 or newer
+    echo "Ubuntu $release_version detected."
+    echo "Installing Emacs without recommended packages."
+    printf '%s
+' "$PASSWD" | sudo -S apt-get install -y \
+        --no-install-recommends emacs
+else
+    # Ubuntu older than 22.04
+    echo "Ubuntu $release_version detected."
+    echo "Installing Emacs with standard dependencies."
+    printf '%s
+' "$PASSWD" | sudo -S apt-get install -y emacs
+fi
 
 	echo "$PASSWD" | sudo -S apt -y install bison build-essential byacc cmake csh curl default-jdk default-jre flex libfl-dev g++ gawk gcc gettext gfortran git ksh libcurl4-gnutls-dev libjpeg-dev libncurses6 libncursesw5-dev libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev libxml-libxml-perl m4 make ncview pipenv pkg-config python3 python3-dev python3-pip python3-dateutil tcsh unzip xauth xorg time ghostscript less libbz2-dev libc6-dev libffi-dev libgdbm-dev libopenblas-dev libreadline-dev libssl-dev libtiff-dev libgeotiff-dev tk-dev vim wget
 
@@ -27081,15 +27156,20 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$aarch64" != "1"
 
 	release_version=$(lsb_release -r -s)
 
-	# Compare the release version
-	if [ "$release_version" = "24.04" ]; then
-		# Install Emacs without recommended packages
-		echo $PASSWD | sudo -S apt install emacs --no-install-recommends -y
-	else
-		# Attempt to install Emacs if the release version is not 24.04
-		echo "The release version is not 24.04, attempting to install Emacs."
-		echo $PASSWD | sudo -S apt install emacs -y
-	fi
+if dpkg --compare-versions "$release_version" ge "22.04"; then
+    # Ubuntu 22.04 or newer
+    echo "Ubuntu $release_version detected."
+    echo "Installing Emacs without recommended packages."
+    printf '%s
+' "$PASSWD" | sudo -S apt-get install -y \
+        --no-install-recommends emacs
+else
+    # Ubuntu older than 22.04
+    echo "Ubuntu $release_version detected."
+    echo "Installing Emacs with standard dependencies."
+    printf '%s
+' "$PASSWD" | sudo -S apt-get install -y emacs
+fi
 
 	echo "$PASSWD" | sudo -S apt -y install bison build-essential byacc cmake csh curl default-jdk default-jre flex libfl-dev g++ gawk gcc gettext gfortran git ksh libcurl4-gnutls-dev libjpeg-dev libncurses6 libncursesw5-dev libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev libxml-libxml-perl m4 make ncview pipenv pkg-config python3 python3-dev python3-pip python3-dateutil tcsh unzip xauth xorg time ghostscript less libbz2-dev libc6-dev libffi-dev libgdbm-dev libopenblas-dev libreadline-dev libssl-dev libtiff-dev libgeotiff-dev tk-dev vim wget
 
@@ -27982,15 +28062,20 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$aarch64" = "1" 
 
 	release_version=$(lsb_release -r -s)
 
-	# Compare the release version
-	if [ "$release_version" = "24.04" ]; then
-		# Install Emacs without recommended packages
-		echo $PASSWD | sudo -S apt install emacs --no-install-recommends -y
-	else
-		# Attempt to install Emacs if the release version is not 24.04
-		echo "The release version is not 24.04, attempting to install Emacs."
-		echo $PASSWD | sudo -S apt install emacs -y
-	fi
+if dpkg --compare-versions "$release_version" ge "22.04"; then
+    # Ubuntu 22.04 or newer
+    echo "Ubuntu $release_version detected."
+    echo "Installing Emacs without recommended packages."
+    printf '%s
+' "$PASSWD" | sudo -S apt-get install -y \
+        --no-install-recommends emacs
+else
+    # Ubuntu older than 22.04
+    echo "Ubuntu $release_version detected."
+    echo "Installing Emacs with standard dependencies."
+    printf '%s
+' "$PASSWD" | sudo -S apt-get install -y emacs
+fi
 
 	echo "$PASSWD" | sudo -S apt -y install bison build-essential byacc cmake csh curl default-jdk default-jre flex libfl-dev g++ gawk gcc gettext gfortran git ksh libcurl4-gnutls-dev libjpeg-dev libncurses6 libncursesw5-dev libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev libxml-libxml-perl m4 make ncview pipenv pkg-config python3 python3-dev python3-pip python3-dateutil tcsh unzip xauth xorg time ghostscript less libbz2-dev libc6-dev libffi-dev libgdbm-dev libopenblas-dev libreadline-dev libssl-dev libtiff-dev libgeotiff-dev tk-dev vim wget
 
@@ -28896,15 +28981,20 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 
 	release_version=$(lsb_release -r -s)
 
-	# Compare the release version
-	if [ "$release_version" = "24.04" ]; then
-		# Install Emacs without recommended packages
-		echo $PASSWD | sudo -S apt install emacs --no-install-recommends -y
-	else
-		# Attempt to install Emacs if the release version is not 24.04
-		echo "The release version is not 24.04, attempting to install Emacs."
-		echo $PASSWD | sudo -S apt install emacs -y
-	fi
+if dpkg --compare-versions "$release_version" ge "22.04"; then
+    # Ubuntu 22.04 or newer
+    echo "Ubuntu $release_version detected."
+    echo "Installing Emacs without recommended packages."
+    printf '%s
+' "$PASSWD" | sudo -S apt-get install -y \
+        --no-install-recommends emacs
+else
+    # Ubuntu older than 22.04
+    echo "Ubuntu $release_version detected."
+    echo "Installing Emacs with standard dependencies."
+    printf '%s
+' "$PASSWD" | sudo -S apt-get install -y emacs
+fi
 
 	echo "$PASSWD" | sudo -S apt -y install bison build-essential byacc cmake csh curl default-jdk default-jre flex libfl-dev g++ gawk gcc gettext gfortran git ksh libcurl4-gnutls-dev libjpeg-dev libncurses6 libncursesw5-dev libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev libxml-libxml-perl m4 make ncview pipenv pkg-config python3 python3-dev python3-pip python3-dateutil tcsh unzip xauth xorg time ghostscript less libbz2-dev libc6-dev libffi-dev libgdbm-dev libopenblas-dev libreadline-dev libssl-dev libtiff-dev libgeotiff-dev tk-dev vim wget
 
@@ -34212,15 +34302,20 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$COAWST_PICK" = "1" ] && [ "$aarch64" != 
 
 	release_version=$(lsb_release -r -s)
 
-	# Compare the release version
-	if [ "$release_version" = "24.04" ]; then
-		# Install Emacs without recommended packages
-		echo $PASSWD | sudo -S apt install emacs --no-install-recommends -y
-	else
-		# Attempt to install Emacs if the release version is not 24.04
-		echo "The release version is not 24.04, attempting to install Emacs."
-		echo $PASSWD | sudo -S apt install emacs -y
-	fi
+if dpkg --compare-versions "$release_version" ge "22.04"; then
+    # Ubuntu 22.04 or newer
+    echo "Ubuntu $release_version detected."
+    echo "Installing Emacs without recommended packages."
+    printf '%s
+' "$PASSWD" | sudo -S apt-get install -y \
+        --no-install-recommends emacs
+else
+    # Ubuntu older than 22.04
+    echo "Ubuntu $release_version detected."
+    echo "Installing Emacs with standard dependencies."
+    printf '%s
+' "$PASSWD" | sudo -S apt-get install -y emacs
+fi
 
 	echo "$PASSWD" | sudo -S apt -y install bison build-essential byacc cmake csh curl default-jdk default-jre flex libfl-dev g++ gawk gcc gettext gfortran git ksh libcurl4-gnutls-dev libjpeg-dev libncurses6 libncursesw5-dev libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev libxml-libxml-perl m4 make ncview pipenv pkg-config python3 python3-dev python3-pip python3-dateutil tcsh unzip xauth xorg time ghostscript less libbz2-dev libc6-dev libffi-dev libgdbm-dev libopenblas-dev libreadline-dev libssl-dev libtiff-dev libgeotiff-dev tk-dev vim wget
 
@@ -34650,15 +34745,20 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$COAWST_PICK" = "1" ] && [ "$aarch64" = "
 
 	release_version=$(lsb_release -r -s)
 
-	# Compare the release version
-	if [ "$release_version" = "24.04" ]; then
-		# Install Emacs without recommended packages
-		echo $PASSWD | sudo -S apt install emacs --no-install-recommends -y
-	else
-		# Attempt to install Emacs if the release version is not 24.04
-		echo "The release version is not 24.04, attempting to install Emacs."
-		echo $PASSWD | sudo -S apt install emacs -y
-	fi
+if dpkg --compare-versions "$release_version" ge "22.04"; then
+    # Ubuntu 22.04 or newer
+    echo "Ubuntu $release_version detected."
+    echo "Installing Emacs without recommended packages."
+    printf '%s
+' "$PASSWD" | sudo -S apt-get install -y \
+        --no-install-recommends emacs
+else
+    # Ubuntu older than 22.04
+    echo "Ubuntu $release_version detected."
+    echo "Installing Emacs with standard dependencies."
+    printf '%s
+' "$PASSWD" | sudo -S apt-get install -y emacs
+fi
 
 	echo "$PASSWD" | sudo -S apt -y install bison build-essential byacc cmake csh curl default-jdk default-jre flex libfl-dev g++ gawk gcc gettext gfortran git ksh libcurl4-gnutls-dev libjpeg-dev libncurses6 libncursesw5-dev libpixman-1-dev libpng-dev libtool libxml2 libxml2-dev libxml-libxml-perl m4 make ncview pipenv pkg-config python3 python3-dev python3-pip python3-dateutil tcsh unzip xauth xorg time ghostscript less libbz2-dev libc6-dev libffi-dev libgdbm-dev libopenblas-dev libreadline-dev libssl-dev libtiff-dev libgeotiff-dev tk-dev vim wget
 
