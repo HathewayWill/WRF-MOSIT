@@ -66,7 +66,7 @@ export met_VERSION_number=12.2
 export METPLUS_DATA=6.2
 export WRF_VERSION=4.8.0
 export WPS_VERSION=4.7.0
-export CMAQ_VERSION=5.5
+export CMAQ_VERSION=6.0
 ```
 
 ---
@@ -127,8 +127,8 @@ export CMAQ_VERSION=5.5
     - WPS v4.7.0
     - OBSGRID (Conda Installed - NCAR Command Language) 
 - WRF-CMAQ
-    - WRF v4.5.0
-    - CMAQ v5.5
+    - WRF v4.8.0
+    - CMAQ v6.0
     - WPS v4.7.0
 - WRF-SFIRE
     - WRF-SFIRE v2
