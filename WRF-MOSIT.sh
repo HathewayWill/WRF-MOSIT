@@ -1464,12 +1464,68 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$DTC_MET" = "1" ]; then
   echo $PASSWD | sudo -S dnf install epel-release -y
   echo $PASSWD | sudo -S dnf -y update
   echo $PASSWD | sudo -S dnf -y upgrade
-  echo $PASSWD | sudo -S dnf -y install byacc bzip2 bzip2-devel cairo-devel cmake cpp curl curl-devel flex flex-devel fontconfig fontconfig-devel gcc gcc-c++ gcc-gfortran git ksh libjpeg libjpeg-devel libstdc++ libstdc++-devel libX11 libX11-devel libXaw libXaw-devel libXext-devel libXmu libXmu-devel libXrender libXrender-devel libXt libXt-devel libxml2 libxml2-devel libgeotiff libgeotiff-devel libtiff libtiff-devel m4 nfs-utils perl 'perl(XML::LibXML)' pkgconfig pixman pixman-devel python3 python3-devel tcsh time unzip wget
-  echo $PASSWD | sudo -S dnf install -y java java-devel
-  echo $PASSWD | sudo -S dnf install -y java-17-openjdk-devel java-17-openjdk
-  echo $PASSWD | sudo -S dnf install -y java-21-openjdk-devel java-21-openjdk
+ 
+  echo "$PASSWD" | sudo -S dnf -y install byacc
+  echo "$PASSWD" | sudo -S dnf -y install bzip2
+  echo "$PASSWD" | sudo -S dnf -y install bzip2-devel
+  echo "$PASSWD" | sudo -S dnf -y install cairo-devel
+  echo "$PASSWD" | sudo -S dnf -y install cmake
+  echo "$PASSWD" | sudo -S dnf -y install cpp
+  echo "$PASSWD" | sudo -S dnf -y install curl
+  echo "$PASSWD" | sudo -S dnf -y install curl-devel
+  echo "$PASSWD" | sudo -S dnf -y install flex
+  echo "$PASSWD" | sudo -S dnf -y install flex-devel
+  echo "$PASSWD" | sudo -S dnf -y install fontconfig
+  echo "$PASSWD" | sudo -S dnf -y install fontconfig-devel
+  echo "$PASSWD" | sudo -S dnf -y install gcc
+  echo "$PASSWD" | sudo -S dnf -y install gcc-c++
+  echo "$PASSWD" | sudo -S dnf -y install gcc-gfortran
+  echo "$PASSWD" | sudo -S dnf -y install git
+  echo "$PASSWD" | sudo -S dnf -y install ksh
+  echo "$PASSWD" | sudo -S dnf -y install libjpeg
+  echo "$PASSWD" | sudo -S dnf -y install libjpeg-devel
+  echo "$PASSWD" | sudo -S dnf -y install libstdc++
+  echo "$PASSWD" | sudo -S dnf -y install libstdc++-devel
+  echo "$PASSWD" | sudo -S dnf -y install libX11
+  echo "$PASSWD" | sudo -S dnf -y install libX11-devel
+  echo "$PASSWD" | sudo -S dnf -y install libXaw
+  echo "$PASSWD" | sudo -S dnf -y install libXaw-devel
+  echo "$PASSWD" | sudo -S dnf -y install libXext-devel
+  echo "$PASSWD" | sudo -S dnf -y install libXmu
+  echo "$PASSWD" | sudo -S dnf -y install libXmu-devel
+  echo "$PASSWD" | sudo -S dnf -y install libXrender
+  echo "$PASSWD" | sudo -S dnf -y install libXrender-devel
+  echo "$PASSWD" | sudo -S dnf -y install libXt
+  echo "$PASSWD" | sudo -S dnf -y install libXt-devel
+  echo "$PASSWD" | sudo -S dnf -y install libxml2
+  echo "$PASSWD" | sudo -S dnf -y install libxml2-devel
+  echo "$PASSWD" | sudo -S dnf -y install libgeotiff
+  echo "$PASSWD" | sudo -S dnf -y install libgeotiff-devel
+  echo "$PASSWD" | sudo -S dnf -y install libtiff
+  echo "$PASSWD" | sudo -S dnf -y install libtiff-devel
+  echo "$PASSWD" | sudo -S dnf -y install m4
+  echo "$PASSWD" | sudo -S dnf -y install nfs-utils
+  echo "$PASSWD" | sudo -S dnf -y install perl
+  echo "$PASSWD" | sudo -S dnf -y install 'perl(XML::LibXML)'
+  echo "$PASSWD" | sudo -S dnf -y install pkgconfig
+  echo "$PASSWD" | sudo -S dnf -y install pixman
+  echo "$PASSWD" | sudo -S dnf -y install pixman-devel
+  echo "$PASSWD" | sudo -S dnf -y install python3
+  echo "$PASSWD" | sudo -S dnf -y install python3-devel
+  echo "$PASSWD" | sudo -S dnf -y install tcsh
+  echo "$PASSWD" | sudo -S dnf -y install time
+  echo "$PASSWD" | sudo -S dnf -y install unzip
+  echo "$PASSWD" | sudo -S dnf -y install wget
 
-  echo $PASSWD | sudo -S dnf -y install python3-dateutil
+  echo "$PASSWD" | sudo -S dnf -y install java
+  echo "$PASSWD" | sudo -S dnf -y install java-devel
+
+  echo "$PASSWD" | sudo -S dnf -y install java-17-openjdk-devel
+  echo "$PASSWD" | sudo -S dnf -y install java-17-openjdk
+
+  echo "$PASSWD" | sudo -S dnf -y install java-21-openjdk-devel
+  echo "$PASSWD" | sudo -S dnf -y install java-21-openjdk
+
   echo $PASSWD | sudo -S dnf -y groupinstall "Development Tools"
   echo $PASSWD | sudo -S dnf -y update
   echo $PASSWD | sudo -S dnf -y upgrade
@@ -1670,15 +1726,72 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$DTC_MET" = "1" ]; then
   echo $PASSWD | sudo -S dnf install epel-release -y
   echo $PASSWD | sudo -S dnf -y update
   echo $PASSWD | sudo -S dnf -y upgrade
-  echo $PASSWD | sudo -S dnf -y install byacc bzip2 bzip2-devel cairo-devel cmake cpp curl curl-devel flex flex-devel fontconfig fontconfig-devel gcc gcc-c++ gcc-gfortran git ksh libjpeg libjpeg-devel libstdc++ libstdc++-devel libX11 libX11-devel libXaw libXaw-devel libXext-devel libXmu libXmu-devel libXrender libXrender-devel libXt libXt-devel libxml2 libxml2-devel libgeotiff libgeotiff-devel libtiff libtiff-devel m4 nfs-utils perl 'perl(XML::LibXML)' pkgconfig pixman pixman-devel python3 python3-devel tcsh time unzip wget
-  echo $PASSWD | sudo -S dnf install -y java java-devel
-  echo $PASSWD | sudo -S dnf install -y java-17-openjdk-devel java-17-openjdk
-  echo $PASSWD | sudo -S dnf install -y java-21-openjdk-devel java-21-openjdk
 
-  echo $PASSWD | sudo -S dnf -y install python3-dateutil
+  echo "$PASSWD" | sudo -S dnf -y install byacc
+  echo "$PASSWD" | sudo -S dnf -y install bzip2
+  echo "$PASSWD" | sudo -S dnf -y install bzip2-devel
+  echo "$PASSWD" | sudo -S dnf -y install cairo-devel
+  echo "$PASSWD" | sudo -S dnf -y install cmake
+  echo "$PASSWD" | sudo -S dnf -y install cpp
+  echo "$PASSWD" | sudo -S dnf -y install curl
+  echo "$PASSWD" | sudo -S dnf -y install curl-devel
+  echo "$PASSWD" | sudo -S dnf -y install flex
+  echo "$PASSWD" | sudo -S dnf -y install flex-devel
+  echo "$PASSWD" | sudo -S dnf -y install fontconfig
+  echo "$PASSWD" | sudo -S dnf -y install fontconfig-devel
+  echo "$PASSWD" | sudo -S dnf -y install gcc
+  echo "$PASSWD" | sudo -S dnf -y install gcc-c++
+  echo "$PASSWD" | sudo -S dnf -y install gcc-gfortran
+  echo "$PASSWD" | sudo -S dnf -y install git
+  echo "$PASSWD" | sudo -S dnf -y install ksh
+  echo "$PASSWD" | sudo -S dnf -y install libjpeg
+  echo "$PASSWD" | sudo -S dnf -y install libjpeg-devel
+  echo "$PASSWD" | sudo -S dnf -y install libstdc++
+  echo "$PASSWD" | sudo -S dnf -y install libstdc++-devel
+  echo "$PASSWD" | sudo -S dnf -y install libX11
+  echo "$PASSWD" | sudo -S dnf -y install libX11-devel
+  echo "$PASSWD" | sudo -S dnf -y install libXaw
+  echo "$PASSWD" | sudo -S dnf -y install libXaw-devel
+  echo "$PASSWD" | sudo -S dnf -y install libXext-devel
+  echo "$PASSWD" | sudo -S dnf -y install libXmu
+  echo "$PASSWD" | sudo -S dnf -y install libXmu-devel
+  echo "$PASSWD" | sudo -S dnf -y install libXrender
+  echo "$PASSWD" | sudo -S dnf -y install libXrender-devel
+  echo "$PASSWD" | sudo -S dnf -y install libXt
+  echo "$PASSWD" | sudo -S dnf -y install libXt-devel
+  echo "$PASSWD" | sudo -S dnf -y install libxml2
+  echo "$PASSWD" | sudo -S dnf -y install libxml2-devel
+  echo "$PASSWD" | sudo -S dnf -y install libgeotiff
+  echo "$PASSWD" | sudo -S dnf -y install libgeotiff-devel
+  echo "$PASSWD" | sudo -S dnf -y install libtiff
+  echo "$PASSWD" | sudo -S dnf -y install libtiff-devel
+  echo "$PASSWD" | sudo -S dnf -y install m4
+  echo "$PASSWD" | sudo -S dnf -y install nfs-utils
+  echo "$PASSWD" | sudo -S dnf -y install perl
+  echo "$PASSWD" | sudo -S dnf -y install 'perl(XML::LibXML)'
+  echo "$PASSWD" | sudo -S dnf -y install pkgconfig
+  echo "$PASSWD" | sudo -S dnf -y install pixman
+  echo "$PASSWD" | sudo -S dnf -y install pixman-devel
+  echo "$PASSWD" | sudo -S dnf -y install python3
+  echo "$PASSWD" | sudo -S dnf -y install python3-devel
+  echo "$PASSWD" | sudo -S dnf -y install tcsh
+  echo "$PASSWD" | sudo -S dnf -y install time
+  echo "$PASSWD" | sudo -S dnf -y install unzip
+  echo "$PASSWD" | sudo -S dnf -y install wget
+
+  echo "$PASSWD" | sudo -S dnf -y install java
+  echo "$PASSWD" | sudo -S dnf -y install java-devel
+
+  echo "$PASSWD" | sudo -S dnf -y install java-17-openjdk-devel
+  echo "$PASSWD" | sudo -S dnf -y install java-17-openjdk
+
+  echo "$PASSWD" | sudo -S dnf -y install java-21-openjdk-devel
+  echo "$PASSWD" | sudo -S dnf -y install java-21-openjdk
+
   echo $PASSWD | sudo -S dnf -y groupinstall "Development Tools"
   echo $PASSWD | sudo -S dnf -y update
   echo $PASSWD | sudo -S dnf -y upgrade
+  echo " "
   echo " "
 
   echo "old version of GNU detected"
@@ -1873,9 +1986,72 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$DTC_MET" = "1" ]; then
   echo $PASSWD | sudo -S dnf install dnf -y
   echo $PASSWD | sudo -S dnf -y update
   echo $PASSWD | sudo -S dnf -y upgrade
-  echo $PASSWD | sudo -S dnf install -y bison cmake curl flex gcc-gfortran ghostscript git less bzip2-devel glibc-devel libffi-devel libcurl-devel libjpeg-turbo-devel ncurses-devel pixman-devel readline-devel libtiff-devel m4 tk-devel unzip vim wget make gcc gcc-c++ redhat-rpm-config
-  echo $PASSWD | sudo -S dnf -y install python3-dateutil
+
+  echo "$PASSWD" | sudo -S dnf -y install byacc
+  echo "$PASSWD" | sudo -S dnf -y install bzip2
+  echo "$PASSWD" | sudo -S dnf -y install bzip2-devel
+  echo "$PASSWD" | sudo -S dnf -y install cairo-devel
+  echo "$PASSWD" | sudo -S dnf -y install cmake
+  echo "$PASSWD" | sudo -S dnf -y install cpp
+  echo "$PASSWD" | sudo -S dnf -y install curl
+  echo "$PASSWD" | sudo -S dnf -y install curl-devel
+  echo "$PASSWD" | sudo -S dnf -y install flex
+  echo "$PASSWD" | sudo -S dnf -y install flex-devel
+  echo "$PASSWD" | sudo -S dnf -y install fontconfig
+  echo "$PASSWD" | sudo -S dnf -y install fontconfig-devel
+  echo "$PASSWD" | sudo -S dnf -y install gcc
+  echo "$PASSWD" | sudo -S dnf -y install gcc-c++
+  echo "$PASSWD" | sudo -S dnf -y install gcc-gfortran
+  echo "$PASSWD" | sudo -S dnf -y install git
+  echo "$PASSWD" | sudo -S dnf -y install ksh
+  echo "$PASSWD" | sudo -S dnf -y install libjpeg
+  echo "$PASSWD" | sudo -S dnf -y install libjpeg-devel
+  echo "$PASSWD" | sudo -S dnf -y install libstdc++
+  echo "$PASSWD" | sudo -S dnf -y install libstdc++-devel
+  echo "$PASSWD" | sudo -S dnf -y install libX11
+  echo "$PASSWD" | sudo -S dnf -y install libX11-devel
+  echo "$PASSWD" | sudo -S dnf -y install libXaw
+  echo "$PASSWD" | sudo -S dnf -y install libXaw-devel
+  echo "$PASSWD" | sudo -S dnf -y install libXext-devel
+  echo "$PASSWD" | sudo -S dnf -y install libXmu
+  echo "$PASSWD" | sudo -S dnf -y install libXmu-devel
+  echo "$PASSWD" | sudo -S dnf -y install libXrender
+  echo "$PASSWD" | sudo -S dnf -y install libXrender-devel
+  echo "$PASSWD" | sudo -S dnf -y install libXt
+  echo "$PASSWD" | sudo -S dnf -y install libXt-devel
+  echo "$PASSWD" | sudo -S dnf -y install libxml2
+  echo "$PASSWD" | sudo -S dnf -y install libxml2-devel
+  echo "$PASSWD" | sudo -S dnf -y install libgeotiff
+  echo "$PASSWD" | sudo -S dnf -y install libgeotiff-devel
+  echo "$PASSWD" | sudo -S dnf -y install libtiff
+  echo "$PASSWD" | sudo -S dnf -y install libtiff-devel
+  echo "$PASSWD" | sudo -S dnf -y install m4
+  echo "$PASSWD" | sudo -S dnf -y install nfs-utils
+  echo "$PASSWD" | sudo -S dnf -y install perl
+  echo "$PASSWD" | sudo -S dnf -y install 'perl(XML::LibXML)'
+  echo "$PASSWD" | sudo -S dnf -y install pkgconfig
+  echo "$PASSWD" | sudo -S dnf -y install pixman
+  echo "$PASSWD" | sudo -S dnf -y install pixman-devel
+  echo "$PASSWD" | sudo -S dnf -y install python3
+  echo "$PASSWD" | sudo -S dnf -y install python3-devel
+  echo "$PASSWD" | sudo -S dnf -y install tcsh
+  echo "$PASSWD" | sudo -S dnf -y install time
+  echo "$PASSWD" | sudo -S dnf -y install unzip
+  echo "$PASSWD" | sudo -S dnf -y install wget
+
+  echo "$PASSWD" | sudo -S dnf -y install java
+  echo "$PASSWD" | sudo -S dnf -y install java-devel
+
+  echo "$PASSWD" | sudo -S dnf -y install java-17-openjdk-devel
+  echo "$PASSWD" | sudo -S dnf -y install java-17-openjdk
+
+  echo "$PASSWD" | sudo -S dnf -y install java-21-openjdk-devel
+  echo "$PASSWD" | sudo -S dnf -y install java-21-openjdk
+
   echo $PASSWD | sudo -S dnf -y groupinstall "Development Tools"
+  echo $PASSWD | sudo -S dnf -y update
+  echo $PASSWD | sudo -S dnf -y upgrade
+  echo " "
 
   # download the key to system keyring; this and the following echo command are
   # needed in order to install the Intel compilers
