@@ -611,6 +611,31 @@ done
 
 echo ""
 
+# WRF nesting modes are available only for WRF-ARW.
+if [ "$WRF_PICK" = "1" ]; then
+  echo "Select the nesting mode for WRF-ARW:"
+  echo "1) Basic nesting"
+  echo "2) Preset moves"
+  echo "3) Vortex following nest"
+  PS3="Enter your choice (1, 2, or 3): "
+  nesting_options=("Basic nesting" "Preset moves" "Vortex following nest")
+
+  select nesting_choice in "${nesting_options[@]}"; do
+    case $REPLY in
+      1 | 2 | 3)
+        export WRF_NESTING_OPTION="$REPLY"
+        echo "WRF-ARW nesting mode selected: ${nesting_options[$((REPLY - 1))]}"
+        break
+        ;;
+      *)
+        echo "Invalid selection. Please choose 1, 2, or 3."
+        ;;
+    esac
+  done
+fi
+
+echo ""
+
 ################################# WRF-CHEM Tools Test ##################
 if [ "$WRFCHEM_PICK" = "1" ]; then
   echo "NCAR's WRF-CHEM Tools Install"
@@ -22169,233 +22194,220 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$aarch64" = 
   ################################ OpenGrADS ##################################
   #Verison 2.2.1 32bit of Linux
   # #############################################################################
-  # if [[ $GRADS_PICK -eq 1 ]]; then
+  if [[ $GRADS_PICK -eq 1 ]]; then
 
-  cd "${WRF_FOLDER}"/Downloads
-  env -u LD_LIBRARY_PATH tar -xzf cd "${WRF_FOLDER}"/Downloads
-  wget -c https://sourceforge.net/projects/opengrads/files/grads2/2.2.1.oga.1/Linux%20%2864%20Bits%29/opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz
-  env -u LD_LIBRARY_PATH tar -xzf opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz -C "${WRF_FOLDER}"/ -C "${WRF_FOLDER}"/
+    cd "${WRF_FOLDER}"/Downloads
+    env -u LD_LIBRARY_PATH tar -xzf cd "${WRF_FOLDER}"/Downloads
+    wget -c https://sourceforge.net/projects/opengrads/files/grads2/2.2.1.oga.1/Linux%20%2864%20Bits%29/opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz
+    env -u LD_LIBRARY_PATH tar -xzf opengrads-2.2.1.oga.1-bundle-x86_64-pc-linux-gnu-glibc_2.17.tar.gz -C "${WRF_FOLDER}"/ -C "${WRF_FOLDER}"/
+    cd "${WRF_FOLDER}"/
+    mv "${WRF_FOLDER}"/opengrads-2.2.1.oga.1 "${WRF_FOLDER}"/GrADS
+    cd GrADS/Contents
+    wget -c https://github.com/regisgrundig/SIMOP/blob/master/g2ctl.pl
+    chmod +x g2ctl.pl
+    wget -c https://sourceforge.net/projects/opengrads/files/wgrib2/0.1.9.4/wgrib2-v0.1.9.4-bin-i686-glib2.5-linux-gnu.tar.gz
+    env -u LD_LIBRARY_PATH tar -xzf wgrib2-v0.1.9.4-bin-i686-glib2.5-linux-gnu.tar.gz
+    cd wgrib2-v0.1.9.4/bin
+    mv wgrib2 "${WRF_FOLDER}"/GrADS/Contents
+    cd "${WRF_FOLDER}"/GrADS/Contents
+    rm wgrib2-v0.1.9.4-bin-i686-glib2.5-linux-gnu.tar.gz
+    rm -r wgrib2-v0.1.9.4
+
+    export PATH="${WRF_FOLDER}"/GrADS/Contents:$PATH
+  fi
+
+  echo " "
+
+  ################################## GrADS ###############################
+  # Version  2.2.1
+  # Sublibs library instructions: http://cola.gmu.edu/grads/gadoc/supplibs2.html
+  # GrADS instructions: http://cola.gmu.edu/grads/downloads.php
+  ########################################################################
+  if [[ $GRADS_PICK -eq 2 ]]; then
+
+    echo $PASSWD | sudo -S apt -y install grads
+
+  fi
+
+  ##################### NCAR COMMAND LANGUAGE           ##################
+  ########### NCL compiled via Conda                    ##################
+  ########### This is the preferred method by NCAR      ##################
+  ########### https://www.ncl.ucar.edu/index.shtml      ##################
+  echo " "
+  #Installing Miniconda3 to WRF directory and updating libraries
+  echo $PASSWD | sudo -S apt -y install python3-zstandard python3-zstd
+
+  export Miniconda_Install_DIR="${WRF_FOLDER}"/miniconda3
+
+  mkdir -p $Miniconda_Install_DIR
+
+  wget -c https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O $Miniconda_Install_DIR/miniconda.sh
+  bash $Miniconda_Install_DIR/miniconda.sh -b -u -p $Miniconda_Install_DIR
+
+  rm -rf $Miniconda_Install_DIR/miniconda.sh
+
+  export PATH="${WRF_FOLDER}"/miniconda3/bin:$PATH
+
+  source $Miniconda_Install_DIR/etc/profile.d/conda.sh
+
+  $Miniconda_Install_DIR/bin/conda init bash
+
+  conda tos accept
+  conda config --add channels conda-forge
+  conda config --set auto_activate_base false
+  conda update -n root --all -y
+
+  echo " "
+  #Installing NCL via Conda
+  source $Miniconda_Install_DIR/etc/profile.d/conda.sh
+
+  conda create -n ncl_stable -c conda-forge ncl -y
+  conda activate ncl_stable
+
+  conda deactivate
+  conda deactivate
+  conda deactivate
+
+  echo " "
+
+  ############################OBSGRID###############################
+  ## OBSGRID
+  ## Downloaded from git tagged releases
+  ## Option #2
+  ########################################################################
   cd "${WRF_FOLDER}"/
-  mv "${WRF_FOLDER}"/opengrads-2.2.1.oga.1 "${WRF_FOLDER}"/GrADS
-  cd GrADS/Contents
-  wget -c https://github.com/regisgrundig/SIMOP/blob/master/g2ctl.pl
-  chmod +x g2ctl.pl
-  wget -c https://sourceforge.net/projects/opengrads/files/wgrib2/0.1.9.4/wgrib2-v0.1.9.4-bin-i686-glib2.5-linux-gnu.tar.gz
-  env -u LD_LIBRARY_PATH tar -xzf wgrib2-v0.1.9.4-bin-i686-glib2.5-linux-gnu.tar.gz
-  cd wgrib2-v0.1.9.4/bin
-  mv wgrib2 "${WRF_FOLDER}"/GrADS/Contents
-  cd "${WRF_FOLDER}"/GrADS/Contents
-  rm wgrib2-v0.1.9.4-bin-i686-glib2.5-linux-gnu.tar.gz
-  rm -r wgrib2-v0.1.9.4
-
-  export PATH="${WRF_FOLDER}"/GrADS/Contents:$PATH
-
-fi
-
-echo " "
-
-################################## GrADS ###############################
-# Version  2.2.1
-# Sublibs library instructions: http://cola.gmu.edu/grads/gadoc/supplibs2.html
-# GrADS instructions: http://cola.gmu.edu/grads/downloads.php
-########################################################################
-if [[ $GRADS_PICK -eq 2 ]]; then
-
-  echo $PASSWD | sudo -S apt -y install grads
-
-fi
-
-##################### NCAR COMMAND LANGUAGE           ##################
-########### NCL compiled via Conda                    ##################
-########### This is the preferred method by NCAR      ##################
-########### https://www.ncl.ucar.edu/index.shtml      ##################
-echo " "
-#Installing Miniconda3 to WRF directory and updating libraries
-echo $PASSWD | sudo -S apt -y install python3-zstandard python3-zstd
-
-export Miniconda_Install_DIR="${WRF_FOLDER}"/miniconda3
-
-mkdir -p $Miniconda_Install_DIR
-
-wget -c https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O $Miniconda_Install_DIR/miniconda.sh
-bash $Miniconda_Install_DIR/miniconda.sh -b -u -p $Miniconda_Install_DIR
-
-rm -rf $Miniconda_Install_DIR/miniconda.sh
-
-export PATH="${WRF_FOLDER}"/miniconda3/bin:$PATH
-
-source $Miniconda_Install_DIR/etc/profile.d/conda.sh
-
-$Miniconda_Install_DIR/bin/conda init bash
-
-conda tos accept
-conda config --add channels conda-forge
-conda config --set auto_activate_base false
-conda update -n root --all -y
-
-echo " "
-#Installing NCL via Conda
-source $Miniconda_Install_DIR/etc/profile.d/conda.sh
-
-conda create -n ncl_stable -c conda-forge ncl -y
-conda activate ncl_stable
-
-conda deactivate
-conda deactivate
-conda deactivate
-
-echo " "
-
-############################OBSGRID###############################
-## OBSGRID
-## Downloaded from git tagged releases
-## Option #2
-########################################################################
-cd "${WRF_FOLDER}"/
-git clone https://github.com/wrf-model/OBSGRID.git
-cd "${WRF_FOLDER}"/OBSGRID
-
-./clean -a
-source $Miniconda_Install_DIR/etc/profile.d/conda.sh
-conda activate ncl_stable
-
-export HOME=$(
-  cd ~ \
-    && pwd
-)
-export DIR="${WRF_FOLDER}"/Libs
-export NETCDF=$DIR/NETCDF
-
-if [ ${auto_config} -eq 1 ]; then
-  echo 2 | ./configure 2>&1 | tee configure.log #Option 2 for gfortran/gcc and distribunted memory
-else
-  ./configure 2>&1 | tee configure.log #Option 2 for gfortran/gcc and distribunted memory
-fi
-
-sed -i '27s/-lnetcdf -lnetcdff/ -lnetcdff -lnetcdf/g' configure.oa
-
-sed -i '31s/-lncarg -lncarg_gks -lncarg_c -lX11 -lm -lcairo/-lncarg -lncarg_gks -lncarg_c -lX11 -lm -lcairo -lfontconfig -lpixman-1 -lfreetype -lhdf5 -lhdf5_hl /g' configure.oa
-
-sed -i '39s/-frecord-marker=4/-frecord-marker=4 ${fallow_argument} /g' configure.oa
-
-sed -i '44s/=	/=	${fallow_argument} /g' configure.oa
-
-sed -i '45s/-C -P -traditional/-P -traditional/g' configure.oa
-
-echo " "
-
-./compile 2>&1 | tee compile.obsgrid.log
-
-conda deactivate
-conda deactivate
-conda deactivate
-
-# IF statement to check that all files were created.
-if [[ -x ./obsgrid.exe ]]; then
-  echo "obsgrid.exe found."
-  read -r -t 5 -p "Finished installing OBSGRID. I am going to wait for 5 seconds only ..."
-else
-  echo "obsgrid.exe is missing. Attempting to compile again..."
+  git clone https://github.com/wrf-model/OBSGRID.git
+  cd "${WRF_FOLDER}"/OBSGRID
 
   ./clean -a
-  ./compile 2>&1 | tee compile.obsgrid.retry.log
+  source $Miniconda_Install_DIR/etc/profile.d/conda.sh
+  conda activate ncl_stable
 
-  if [[ -x ./obsgrid.exe ]]; then
-    echo "obsgrid.exe successfully created after recompilation."
-    read -r -t 5 -p "Finished retrying OBSGRID compile. I am going to wait for 5 seconds only ..."
+  export HOME=$(
+    cd ~ \
+      && pwd
+  )
+  export DIR="${WRF_FOLDER}"/Libs
+  export NETCDF=$DIR/NETCDF
+
+  if [ ${auto_config} -eq 1 ]; then
+    echo 2 | ./configure 2>&1 | tee configure.log #Option 2 for gfortran/gcc and distribunted memory
   else
-    echo "Still missing obsgrid.exe after recompile. Exiting the script."
-    read -r -p "Please contact script authors for assistance. Press 'Enter' to exit."
-    exit 1
+    ./configure 2>&1 | tee configure.log #Option 2 for gfortran/gcc and distribunted memory
   fi
-fi
 
-echo " "
+  sed -i '27s/-lnetcdf -lnetcdff/ -lnetcdff -lnetcdf/g' configure.oa
 
-##################### WRF Python           ##################
-########### WRf-Python compiled via Conda  ##################
-########### This is the preferred method by NCAR      ##################
-##### https://wrf-python.readthedocs.io/en/latest/installation.html  ##################
-source $Miniconda_Install_DIR/etc/profile.d/conda.sh
-conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
+  sed -i '31s/-lncarg -lncarg_gks -lncarg_c -lX11 -lm -lcairo/-lncarg -lncarg_gks -lncarg_c -lX11 -lm -lcairo -lfontconfig -lpixman-1 -lfreetype -lhdf5 -lhdf5_hl /g' configure.oa
 
-echo " "
+  sed -i '39s/-frecord-marker=4/-frecord-marker=4 ${fallow_argument} /g' configure.oa
 
-######################### Climate Data Operators ############
-######################### CDO compiled via Conda ###########
-####################### This is the preferred method #######
-################### https://bairdlangenbrunner.github.io/python-for-climate-scientists/conda/setting-up-conda-environments.html #######################
+  sed -i '44s/=	/=	${fallow_argument} /g' configure.oa
 
-source $Miniconda_Install_DIR/etc/profile.d/conda.sh
+  sed -i '45s/-C -P -traditional/-P -traditional/g' configure.oa
 
-conda create --name cdo_stable -y
-conda activate cdo_stable
-conda install -c conda-forge cdo -y
-conda update --all -y
-conda deactivate
-conda deactivate
-conda deactivate
+  echo " "
 
-############################WRFDA 3DVAR###############################
-## WRFDA v${WPS_VERSION} 3DVAR
-## Downloaded from git tagged releases
-## Does not include RTTOV Libarary for radiation data.  If wanted will need to install library then reconfigure
-##Note: if you intend to run both 3DVAR and 4DVAR experiments, it is not necessary to compile the code twice.
-#Option 3 for gfortran/gcc and distribunted memory
-########################################################################
-cd "${WRF_FOLDER}"/Downloads
-wget -c https://github.com/wrf-model/WRF/releases/download/v${WRF_VERSION}/v${WRF_VERSION}.tar.gz -O WRF-${WRF_VERSION}.tar.gz
-mkdir -p "${WRF_FOLDER}"/WRFDA
-env -u LD_LIBRARY_PATH tar -xzf WRF-${WRF_VERSION}.tar.gz -C "${WRF_FOLDER}"/WRFDA
+  ./compile 2>&1 | tee compile.obsgrid.log
 
-# If statement for changing folder name inside WRFDA
-if [ -d "${WRF_FOLDER}/WRFDA/WRF" ]; then
-  mv -f "${WRF_FOLDER}/WRFDA/WRF" "${WRF_FOLDER}/WRFDA/WRF-${WRF_VERSION}"
+  conda deactivate
+  conda deactivate
+  conda deactivate
 
-else
-  for dir in "${WRF_FOLDER}/WRFDA"/WRFV*; do
-    if [ -d "$dir" ]; then
-      mv -f "$dir" "${WRF_FOLDER}/WRFDA/WRF-${WRF_VERSION}"
-      break
+  # IF statement to check that all files were created.
+  if [[ -x ./obsgrid.exe ]]; then
+    echo "obsgrid.exe found."
+    read -r -t 5 -p "Finished installing OBSGRID. I am going to wait for 5 seconds only ..."
+  else
+    echo "obsgrid.exe is missing. Attempting to compile again..."
+
+    ./clean -a
+    ./compile 2>&1 | tee compile.obsgrid.retry.log
+
+    if [[ -x ./obsgrid.exe ]]; then
+      echo "obsgrid.exe successfully created after recompilation."
+      read -r -t 5 -p "Finished retrying OBSGRID compile. I am going to wait for 5 seconds only ..."
+    else
+      echo "Still missing obsgrid.exe after recompile. Exiting the script."
+      read -r -p "Please contact script authors for assistance. Press 'Enter' to exit."
+      exit 1
     fi
-  done
-fi
-cd "${WRF_FOLDER}"/WRFDA/WRF-${WRF_VERSION}
+  fi
 
-mv * "${WRF_FOLDER}"/WRFDA
-cd "${WRF_FOLDER}"/WRFDA
-rm -rf WRF-${WRF_VERSION}/
-cd "${WRF_FOLDER}"/WRFDA
+  echo " "
 
-ulimit -s unlimited
-export WRF_CHEM=1
-export WRFIO_NCD_LARGE_FILE_SUPPORT=1
-rm -f var/da/da_minimisation/da_residual.inc
+  ##################### WRF Python           ##################
+  ########### WRf-Python compiled via Conda  ##################
+  ########### This is the preferred method by NCAR      ##################
+  ##### https://wrf-python.readthedocs.io/en/latest/installation.html  ##################
+  source $Miniconda_Install_DIR/etc/profile.d/conda.sh
+  conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
-./clean -a
+  echo " "
 
-if [ ${auto_config} -eq 1 ]; then
-  echo 3 | ./configure wrfda 2>&1 | tee configure.log #Option 34 for gfortran/gcc and distribunted memory
-else
-  ./configure wrfda 2>&1 | tee configure.log #Option 18 for gfortran/gcc and distribunted memory
-fi
-echo " "
-./compile -j 2 all_wrfvar 2>&1 | tee compile.chem.wrfvar.log
-echo " "
+  ######################### Climate Data Operators ############
+  ######################### CDO compiled via Conda ###########
+  ####################### This is the preferred method #######
+  ################### https://bairdlangenbrunner.github.io/python-for-climate-scientists/conda/setting-up-conda-environments.html #######################
 
-# IF statement to check that all files were created.
-cd "${WRF_FOLDER}"/WRFDA/var/da
-n=$(ls ./*.exe | wc -l)
-cd "${WRF_FOLDER}"/WRFDA/var/obsproc/src
-m=$(ls ./*.exe | wc -l)
-if ((($n == 43) && ($m == 1))); then
-  echo "All expected files created."
-  read -r -t 5 -p "Finished installing WRFDA. I am going to wait for 5 seconds only ..."
-else
-  echo "Missing one or more expected files."
-  echo "Running compiler again"
+  source $Miniconda_Install_DIR/etc/profile.d/conda.sh
+
+  conda create --name cdo_stable -y
+  conda activate cdo_stable
+  conda install -c conda-forge cdo -y
+  conda update --all -y
+  conda deactivate
+  conda deactivate
+  conda deactivate
+
+  ############################WRFDA 3DVAR###############################
+  ## WRFDA v${WPS_VERSION} 3DVAR
+  ## Downloaded from git tagged releases
+  ## Does not include RTTOV Libarary for radiation data.  If wanted will need to install library then reconfigure
+  ##Note: if you intend to run both 3DVAR and 4DVAR experiments, it is not necessary to compile the code twice.
+  #Option 3 for gfortran/gcc and distribunted memory
+  ########################################################################
+  cd "${WRF_FOLDER}"/Downloads
+  wget -c https://github.com/wrf-model/WRF/releases/download/v${WRF_VERSION}/v${WRF_VERSION}.tar.gz -O WRF-${WRF_VERSION}.tar.gz
+  mkdir -p "${WRF_FOLDER}"/WRFDA
+  env -u LD_LIBRARY_PATH tar -xzf WRF-${WRF_VERSION}.tar.gz -C "${WRF_FOLDER}"/WRFDA
+
+  # If statement for changing folder name inside WRFDA
+  if [ -d "${WRF_FOLDER}/WRFDA/WRF" ]; then
+    mv -f "${WRF_FOLDER}/WRFDA/WRF" "${WRF_FOLDER}/WRFDA/WRF-${WRF_VERSION}"
+
+  else
+    for dir in "${WRF_FOLDER}/WRFDA"/WRFV*; do
+      if [ -d "$dir" ]; then
+        mv -f "$dir" "${WRF_FOLDER}/WRFDA/WRF-${WRF_VERSION}"
+        break
+      fi
+    done
+  fi
+  cd "${WRF_FOLDER}"/WRFDA/WRF-${WRF_VERSION}
+
+  mv * "${WRF_FOLDER}"/WRFDA
   cd "${WRF_FOLDER}"/WRFDA
-  ./compile -j 2 all_wrfvar 2>&1 | tee compile.chem.wrfvar2.log
+  rm -rf WRF-${WRF_VERSION}/
+  cd "${WRF_FOLDER}"/WRFDA
+
+  ulimit -s unlimited
+  export WRF_CHEM=1
+  export WRFIO_NCD_LARGE_FILE_SUPPORT=1
+  rm -f var/da/da_minimisation/da_residual.inc
+
+  ./clean -a
+
+  if [ ${auto_config} -eq 1 ]; then
+    echo 3 | ./configure wrfda 2>&1 | tee configure.log #Option 34 for gfortran/gcc and distribunted memory
+  else
+    ./configure wrfda 2>&1 | tee configure.log #Option 18 for gfortran/gcc and distribunted memory
+  fi
+  echo " "
+  ./compile -j 2 all_wrfvar 2>&1 | tee compile.chem.wrfvar.log
+  echo " "
+
+  # IF statement to check that all files were created.
   cd "${WRF_FOLDER}"/WRFDA/var/da
   n=$(ls ./*.exe | wc -l)
   cd "${WRF_FOLDER}"/WRFDA/var/obsproc/src
@@ -22404,238 +22416,235 @@ else
     echo "All expected files created."
     read -r -t 5 -p "Finished installing WRFDA. I am going to wait for 5 seconds only ..."
   else
-    read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
-    exit
+    echo "Missing one or more expected files."
+    echo "Running compiler again"
+    cd "${WRF_FOLDER}"/WRFDA
+    ./compile -j 2 all_wrfvar 2>&1 | tee compile.chem.wrfvar2.log
+    cd "${WRF_FOLDER}"/WRFDA/var/da
+    n=$(ls ./*.exe | wc -l)
+    cd "${WRF_FOLDER}"/WRFDA/var/obsproc/src
+    m=$(ls ./*.exe | wc -l)
+    if ((($n == 43) && ($m == 1))); then
+      echo "All expected files created."
+      read -r -t 5 -p "Finished installing WRFDA. I am going to wait for 5 seconds only ..."
+    else
+      read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
+      exit
+    fi
   fi
-fi
 
-echo " "
+  echo " "
 
-############################ WRFCHEM #################################
-## WRF CHEM v${WPS_VERSION}
-## Downloaded from git tagged releases
-# option 34, option 1 for gfortran and distributed memory w/basic nesting
-# If the script comes back asking to locate a file (libfl.a)
-# Use locate command to find file. in a new terminal and then copy that location
-#locate *name of file*
-#Optimization set to 0 due to buffer overflow dump
-#sed -i -e 's/="-O"/="-O0/' configure_kpp
-# io_form_boundary
-# io_form_history
-# io_form_auxinput2
-# io_form_auxhist2
-# Note that you need set nocolons = .true. in the section &time_control of namelist.input
-########################################################################
-#Setting up WRF-CHEM/KPP########################################
-# Always build flex from source
-########################################
-# --------------------------------------------------------
-# Always build and install flex 2.6.4 from source,
-# then set FLEX_LIB_DIR using Debian/Ubuntu multiarch
-# (or a safe find fallback).
-# --------------------------------------------------------
+  ############################ WRFCHEM #################################
+  ## WRF CHEM v${WPS_VERSION}
+  ## Downloaded from git tagged releases
+  # option 34, option 1 for gfortran and distributed memory w/basic nesting
+  # If the script comes back asking to locate a file (libfl.a)
+  # Use locate command to find file. in a new terminal and then copy that location
+  #locate *name of file*
+  #Optimization set to 0 due to buffer overflow dump
+  #sed -i -e 's/="-O"/="-O0/' configure_kpp
+  # io_form_boundary
+  # io_form_history
+  # io_form_auxinput2
+  # io_form_auxhist2
+  # Note that you need set nocolons = .true. in the section &time_control of namelist.input
+  ########################################################################
+  #Setting up WRF-CHEM/KPP########################################
+  # Always build flex from source
+  ########################################
+  # --------------------------------------------------------
+  # Always build and install flex 2.6.4 from source,
+  # then set FLEX_LIB_DIR using Debian/Ubuntu multiarch
+  # (or a safe find fallback).
+  # --------------------------------------------------------
 
-build_flex_from_source() {
-  echo "[flex] Building flex 2.6.4 from source..."
+  build_flex_from_source() {
+    echo "[flex] Building flex 2.6.4 from source..."
 
-  # Clean old custom installs in WRF tree
-  rm -rf "${WRF_FOLDER}/Libs/flex-2.6.4" 2> /dev/null || true
-  rm -rf /tmp/flex-2.6.4 /tmp/flex-2.6.4.tar.gz 2> /dev/null || true
+    # Clean old custom installs in WRF tree
+    rm -rf "${WRF_FOLDER}/Libs/flex-2.6.4" 2> /dev/null || true
+    rm -rf /tmp/flex-2.6.4 /tmp/flex-2.6.4.tar.gz 2> /dev/null || true
 
-  # Remove typical /usr/local flex files (not managed by apt/dnf)
-  echo "$PASSWD" | sudo -S bash -c '
+    # Remove typical /usr/local flex files (not managed by apt/dnf)
+    echo "$PASSWD" | sudo -S bash -c '
     rm -f /usr/local/bin/flex
     rm -f /usr/local/lib/libfl.a /usr/local/lib/libfl.so /usr/local/lib/libfl.so.*
     rm -f /usr/local/lib64/libfl.a /usr/local/lib64/libfl.so /usr/local/lib64/libfl.so.*
     rm -f /usr/local/include/FlexLexer.h
   '
 
-  cd /tmp || exit 1
-  wget -q https://github.com/westes/flex/releases/download/v2.6.4/flex-2.6.4.tar.gz
-  if [ ! -f flex-2.6.4.tar.gz ]; then
-    echo "[flex] ERROR: failed to download flex-2.6.4.tar.gz"
-    exit 1
-  fi
-
-  tar -xzf flex-2.6.4.tar.gz
-  cd flex-2.6.4 || exit 1
-
-  # IMPORTANT: avoid polluting flex build with WRF's exported flags
-  unset CPPFLAGS CFLAGS CXXFLAGS FCFLAGS LDFLAGS LIBS
-
-  ./configure --prefix=/usr --enable-shared 2>&1 | tee "${WRF_FOLDER}/Downloads/flex.configure.log"
-  make -j"$(nproc 2> /dev/null || echo 2)" 2>&1 | tee "${WRF_FOLDER}/Downloads/flex.make.log"
-  echo "$PASSWD" | sudo -S make install
-  echo "$PASSWD" | sudo -S ldconfig || true
-
-  # Verify after install
-  if ! command -v flex > /dev/null 2>&1; then
-    echo "[flex] ERROR: flex still not found after source install."
-    exit 1
-  fi
-  if ! (ldconfig -p 2> /dev/null | grep -q 'libfl\.so\.2' \
-    || find /usr /lib /usr/local -type f -name 'libfl.so.2*' 2> /dev/null | grep -q .); then
-    echo "[flex] ERROR: libfl.so.2 still not found after source install."
-    exit 1
-  fi
-
-  echo "[flex] Source build complete: $(flex --version 2> /dev/null || echo flex)"
-}
-
-# Always do it
-build_flex_from_source
-
-# Point WRF/KPP to system flex
-export FLEX="$(command -v flex)"
-export YACC="${YACC:-/usr/bin/yacc -d}"
-
-# --------------------------------------------------------
-# Set FLEX_LIB_DIR (simple + correct on Ubuntu/Debian; safe fallback otherwise)
-# --------------------------------------------------------
-if command -v dpkg-architecture > /dev/null 2>&1; then
-  export FLEX_LIB_DIR="/usr/lib/$(dpkg-architecture -qDEB_HOST_MULTIARCH)"
-else
-  FLEX_LIB_PATH="$(
-    find /lib /usr/lib /usr/local/lib /lib64 /usr/lib64 \
-      -maxdepth 3 -type f \( -name 'libfl.so' -o -name 'libfl.a' -o -name 'libfl.so.2' \) \
-      2> /dev/null | head -n 1
-  )"
-
-  if [[ -n "$FLEX_LIB_PATH" ]]; then
-    export FLEX_LIB_DIR="$(dirname "$FLEX_LIB_PATH")"
-  else
-    echo "[flex] ERROR: could not find libfl (libfl.so/libfl.a/libfl.so.2)"
-    exit 1
-  fi
-fi
-
-echo "[flex] FLEX_LIB_DIR=$FLEX_LIB_DIR"
-
-# --------------------------------------------------------
-# Setting up WRF-CHEM/KPP environment
-# --------------------------------------------------------
-cd "${WRF_FOLDER}"/Downloads
-
-ulimit -s unlimited
-export WRF_EM_CORE=1
-export WRF_NMM_CORE=0
-export WRF_CHEM=1
-export WRF_KPP=1
-
-export KPP_HOME="${WRF_FOLDER}"/WRF-${WRF_VERSION}/chem/KPP/kpp/kpp-2.1
-export WRF_SRC_ROOT_DIR="${WRF_FOLDER}"/WRF-${WRF_VERSION}
-export PATH=$KPP_HOME/bin:$PATH
-export SED=/usr/bin/sed
-export WRFIO_NCD_LARGE_FILE_SUPPORT=1
-
-#Downloading WRF code
-
-cd "${WRF_FOLDER}"/Downloads
-wget -c https://github.com/wrf-model/WRF/releases/download/v${WRF_VERSION}/v${WRF_VERSION}.tar.gz -O WRF-${WRF_VERSION}.tar.gz
-env -u LD_LIBRARY_PATH tar -xzf WRF-${WRF_VERSION}.tar.gz -C "${WRF_FOLDER}"/
-
-# If statment for changing folder name
-# Check if WRF directory exists
-if [ -d "${WRF_FOLDER}/WRF" ]; then
-  mv -f "${WRF_FOLDER}/WRF" "${WRF_FOLDER}/WRF-${WRF_VERSION}"
-
-# Else, check for any folder matching WRFV*
-else
-  for dir in "${WRF_FOLDER}"/WRFV*; do
-    if [ -d "$dir" ]; then
-      mv -f "$dir" "${WRF_FOLDER}/WRF-${WRF_VERSION}"
-      break
+    cd /tmp || exit 1
+    wget -q https://github.com/westes/flex/releases/download/v2.6.4/flex-2.6.4.tar.gz
+    if [ ! -f flex-2.6.4.tar.gz ]; then
+      echo "[flex] ERROR: failed to download flex-2.6.4.tar.gz"
+      exit 1
     fi
-  done
-fi
-cd "${WRF_FOLDER}"/WRF-${WRF_VERSION}
 
-./clean -a
+    tar -xzf flex-2.6.4.tar.gz
+    cd flex-2.6.4 || exit 1
 
-if [ ${auto_config} -eq 1 ]; then
-  (
-    echo 34
-    echo 1
-  ) | ./configure
+    # IMPORTANT: avoid polluting flex build with WRF's exported flags
+    unset CPPFLAGS CFLAGS CXXFLAGS FCFLAGS LDFLAGS LIBS
 
-else
-  ./configure 2>&1 | tee configure.log #Option 34 gfortran compiler with distributed memory option 1 for basic nesting
-fi
+    ./configure --prefix=/usr --enable-shared 2>&1 | tee "${WRF_FOLDER}/Downloads/flex.configure.log"
+    make -j"$(nproc 2> /dev/null || echo 2)" 2>&1 | tee "${WRF_FOLDER}/Downloads/flex.make.log"
+    echo "$PASSWD" | sudo -S make install
+    echo "$PASSWD" | sudo -S ldconfig || true
 
-# Prevents: scan.l: fatal error: y.tab.h: No such file or directory
-# Generate the KPP parser and scanner.
-(
-  cd "${KPP_HOME}/src"
-  bison -y -d scan.y
-  "${FLEX}" scan.l
-)
+    # Verify after install
+    if ! command -v flex > /dev/null 2>&1; then
+      echo "[flex] ERROR: flex still not found after source install."
+      exit 1
+    fi
+    if ! (ldconfig -p 2> /dev/null | grep -q 'libfl\.so\.2' \
+      || find /usr /lib /usr/local -type f -name 'libfl.so.2*' 2> /dev/null | grep -q .); then
+      echo "[flex] ERROR: libfl.so.2 still not found after source install."
+      exit 1
+    fi
 
-# Prepare the MPI communication generator before building Registry.
-cat tools/gen_comms_warning external/RSL_LITE/gen_comms.c \
-  > tools/gen_comms.c
+    echo "[flex] Source build complete: $(flex --version 2> /dev/null || echo flex)"
+  }
 
-# Remove any Registry executable built with the communication stub.
-rm -f tools/gen_comms.o tools/registry
+  # Always do it
+  build_flex_from_source
 
-# Build the Registry tool with the RSL_LITE communication generator.
-make toolsdir WRF_PLUS_CORE=0 WRF_NMM_CORE=0 \
-  2>&1 | tee build.registry.log
+  # Point WRF/KPP to system flex
+  export FLEX="$(command -v flex)"
+  export YACC="${YACC:-/usr/bin/yacc -d}"
 
-# Generate the Registry includes needed by the KPP coupler.
-./tools/registry -DDA_CORE=0 -DEM_CORE=1 -DNMM_CORE=0 \
-  -DDM_PARALLEL -DWRF_CHEM -DBUILD_CHEM=1 \
-  Registry/Registry.EM_CHEM \
-  2>&1 | tee registry.generate.log
+  # --------------------------------------------------------
+  # Set FLEX_LIB_DIR (simple + correct on Ubuntu/Debian; safe fallback otherwise)
+  # --------------------------------------------------------
+  if command -v dpkg-architecture > /dev/null 2>&1; then
+    export FLEX_LIB_DIR="/usr/lib/$(dpkg-architecture -qDEB_HOST_MULTIARCH)"
+  else
+    FLEX_LIB_PATH="$(
+      find /lib /usr/lib /usr/local/lib /lib64 /usr/lib64 \
+        -maxdepth 3 -type f \( -name 'libfl.so' -o -name 'libfl.a' -o -name 'libfl.so.2' \) \
+        2> /dev/null | head -n 1
+    )"
 
-# Ensure the KPP coupler runs.
-touch chem/KPP/util/run_wkc
+    if [[ -n "$FLEX_LIB_PATH" ]]; then
+      export FLEX_LIB_DIR="$(dirname "$FLEX_LIB_PATH")"
+    else
+      echo "[flex] ERROR: could not find libfl (libfl.so/libfl.a/libfl.so.2)"
+      exit 1
+    fi
+  fi
 
-./compile -j 2 em_real 2>&1 | tee compile.wrf1.log
+  echo "[flex] FLEX_LIB_DIR=$FLEX_LIB_DIR"
 
-# IF statement to check that all files were created.
-cd "${WRF_FOLDER}"/WRF-${WRF_VERSION}/main
-n=$(ls ./*.exe | wc -l)
-if (($n >= 3)); then
-  echo "All expected files created."
-  read -r -t 5 -p "Finished installing WRF. I am going to wait for 5 seconds only ..."
-else
-  echo "Missing one or more expected files."
-  echo "Running compiler again"
+  # --------------------------------------------------------
+  # Setting up WRF-CHEM/KPP environment
+  # --------------------------------------------------------
+  cd "${WRF_FOLDER}"/Downloads
+
+  ulimit -s unlimited
+  export WRF_EM_CORE=1
+  export WRF_NMM_CORE=0
+  export WRF_CHEM=1
+  export WRF_KPP=1
+
+  export KPP_HOME="${WRF_FOLDER}"/WRF-${WRF_VERSION}/chem/KPP/kpp/kpp-2.1
+  export WRF_SRC_ROOT_DIR="${WRF_FOLDER}"/WRF-${WRF_VERSION}
+  export PATH=$KPP_HOME/bin:$PATH
+  export SED=/usr/bin/sed
+  export WRFIO_NCD_LARGE_FILE_SUPPORT=1
+
+  #Downloading WRF code
+
+  cd "${WRF_FOLDER}"/Downloads
+  wget -c https://github.com/wrf-model/WRF/releases/download/v${WRF_VERSION}/v${WRF_VERSION}.tar.gz -O WRF-${WRF_VERSION}.tar.gz
+  env -u LD_LIBRARY_PATH tar -xzf WRF-${WRF_VERSION}.tar.gz -C "${WRF_FOLDER}"/
+
+  # If statment for changing folder name
+  # Check if WRF directory exists
+  if [ -d "${WRF_FOLDER}/WRF" ]; then
+    mv -f "${WRF_FOLDER}/WRF" "${WRF_FOLDER}/WRF-${WRF_VERSION}"
+
+  # Else, check for any folder matching WRFV*
+  else
+    for dir in "${WRF_FOLDER}"/WRFV*; do
+      if [ -d "$dir" ]; then
+        mv -f "$dir" "${WRF_FOLDER}/WRF-${WRF_VERSION}"
+        break
+      fi
+    done
+  fi
   cd "${WRF_FOLDER}"/WRF-${WRF_VERSION}
-  ./compile -j 2 em_real 2>&1 | tee compile.wrf2.log
+
+  ./clean -a
+
+  if [ ${auto_config} -eq 1 ]; then
+    (
+      echo 34
+      echo 1
+    ) | ./configure
+
+  else
+    ./configure 2>&1 | tee configure.log #Option 34 gfortran compiler with distributed memory option 1 for basic nesting
+  fi
+
+  # Prevents: scan.l: fatal error: y.tab.h: No such file or directory
+  # Generate the KPP parser and scanner.
+  (
+    cd "${KPP_HOME}/src"
+    bison -y -d scan.y
+    "${FLEX}" scan.l
+  )
+
+  # Prepare the MPI communication generator before building Registry.
+  cat tools/gen_comms_warning external/RSL_LITE/gen_comms.c \
+    > tools/gen_comms.c
+
+  # Remove any Registry executable built with the communication stub.
+  rm -f tools/gen_comms.o tools/registry
+
+  # Build the Registry tool with the RSL_LITE communication generator.
+  make toolsdir WRF_PLUS_CORE=0 WRF_NMM_CORE=0 \
+    2>&1 | tee build.registry.log
+
+  # Generate the Registry includes needed by the KPP coupler.
+  ./tools/registry -DDA_CORE=0 -DEM_CORE=1 -DNMM_CORE=0 \
+    -DDM_PARALLEL -DWRF_CHEM -DBUILD_CHEM=1 \
+    Registry/Registry.EM_CHEM \
+    2>&1 | tee registry.generate.log
+
+  # Ensure the KPP coupler runs.
+  touch chem/KPP/util/run_wkc
+
+  ./compile -j 2 em_real 2>&1 | tee compile.wrf1.log
+
+  # IF statement to check that all files were created.
   cd "${WRF_FOLDER}"/WRF-${WRF_VERSION}/main
   n=$(ls ./*.exe | wc -l)
   if (($n >= 3)); then
     echo "All expected files created."
     read -r -t 5 -p "Finished installing WRF. I am going to wait for 5 seconds only ..."
   else
-    read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
-    exit
+    echo "Missing one or more expected files."
+    echo "Running compiler again"
+    cd "${WRF_FOLDER}"/WRF-${WRF_VERSION}
+    ./compile -j 2 em_real 2>&1 | tee compile.wrf2.log
+    cd "${WRF_FOLDER}"/WRF-${WRF_VERSION}/main
+    n=$(ls ./*.exe | wc -l)
+    if (($n >= 3)); then
+      echo "All expected files created."
+      read -r -t 5 -p "Finished installing WRF. I am going to wait for 5 seconds only ..."
+    else
+      read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
+      exit
+    fi
   fi
-fi
 
-cd "${WRF_FOLDER}"/WRF-${WRF_VERSION}
-./compile -j 2 emi_conv 2>&1 | tee compile.emis.log
-
-cd "${WRF_FOLDER}"/WRF-${WRF_VERSION}/chem
-
-if [[ -f convert_emiss.exe ]]; then
-  echo "All expected files created."
-
-  # Create symbolic link in the main directory
-  ln -sf "${WRF_FOLDER}/WRF-${WRF_VERSION}/chem/convert_emiss.exe" "${WRF_FOLDER}/WRF-${WRF_VERSION}/main/convert_emiss.exe"
-
-  echo "Symbolic link created in main/"
-  read -r -t 5 -p "Finished installing WRF. I am going to wait for 5 seconds only ..."
-else
-  echo "Missing one or more expected files."
-  echo "Running compiler again"
   cd "${WRF_FOLDER}"/WRF-${WRF_VERSION}
-  ./compile -j 2 emi_conv 2>&1 | tee compile.emis2.log
+  ./compile -j 2 emi_conv 2>&1 | tee compile.emis.log
 
   cd "${WRF_FOLDER}"/WRF-${WRF_VERSION}/chem
+
   if [[ -f convert_emiss.exe ]]; then
-    echo "All expected files created after recompilation."
+    echo "All expected files created."
 
     # Create symbolic link in the main directory
     ln -sf "${WRF_FOLDER}/WRF-${WRF_VERSION}/chem/convert_emiss.exe" "${WRF_FOLDER}/WRF-${WRF_VERSION}/main/convert_emiss.exe"
@@ -22643,80 +22652,95 @@ else
     echo "Symbolic link created in main/"
     read -r -t 5 -p "Finished installing WRF. I am going to wait for 5 seconds only ..."
   else
-    read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
-    exit
+    echo "Missing one or more expected files."
+    echo "Running compiler again"
+    cd "${WRF_FOLDER}"/WRF-${WRF_VERSION}
+    ./compile -j 2 emi_conv 2>&1 | tee compile.emis2.log
+
+    cd "${WRF_FOLDER}"/WRF-${WRF_VERSION}/chem
+    if [[ -f convert_emiss.exe ]]; then
+      echo "All expected files created after recompilation."
+
+      # Create symbolic link in the main directory
+      ln -sf "${WRF_FOLDER}/WRF-${WRF_VERSION}/chem/convert_emiss.exe" "${WRF_FOLDER}/WRF-${WRF_VERSION}/main/convert_emiss.exe"
+
+      echo "Symbolic link created in main/"
+      read -r -t 5 -p "Finished installing WRF. I am going to wait for 5 seconds only ..."
+    else
+      read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
+      exit
+    fi
   fi
-fi
 
-export WRF_DIR="${WRF_FOLDER}"/WRF-${WRF_VERSION}
+  export WRF_DIR="${WRF_FOLDER}"/WRF-${WRF_VERSION}
 
-############################WPS#####################################
-## WPS v${WPS_VERSION}
-## Downloaded from git tagged releases
-#Option 3 for gfortran and distributed memory
-########################################################################
+  ############################WPS#####################################
+  ## WPS v${WPS_VERSION}
+  ## Downloaded from git tagged releases
+  #Option 3 for gfortran and distributed memory
+  ########################################################################
 
-cd "${WRF_FOLDER}"/Downloads
-wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v${WPS_VERSION}.tar.gz -O WPS-${WPS_VERSION}.tar.gz
-env -u LD_LIBRARY_PATH tar -xzf WPS-${WPS_VERSION}.tar.gz -C "${WRF_FOLDER}"/
-cd "${WRF_FOLDER}"/WPS-${WPS_VERSION}
+  cd "${WRF_FOLDER}"/Downloads
+  wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v${WPS_VERSION}.tar.gz -O WPS-${WPS_VERSION}.tar.gz
+  env -u LD_LIBRARY_PATH tar -xzf WPS-${WPS_VERSION}.tar.gz -C "${WRF_FOLDER}"/
+  cd "${WRF_FOLDER}"/WPS-${WPS_VERSION}
 
-./clean -a
-sed -i '192s/x86_64/x86_64 aarch64/g' "${WRF_FOLDER}"/WPS-${WPS_VERSION}/arch/configure.defaults
+  ./clean -a
+  sed -i '192s/x86_64/x86_64 aarch64/g' "${WRF_FOLDER}"/WPS-${WPS_VERSION}/arch/configure.defaults
 
-if [ ${auto_config} -eq 1 ]; then
-  echo 3 | ./configure 2>&1 | tee configure.log #Option 3 for gfortran and distributed memory
-else
-  ./configure 2>&1 | tee configure.log #Option 3 gfortran compiler with distributed memory
-fi
-./compile 2>&1 | tee compile.wps.log
+  if [ ${auto_config} -eq 1 ]; then
+    echo 3 | ./configure 2>&1 | tee configure.log #Option 3 for gfortran and distributed memory
+  else
+    ./configure 2>&1 | tee configure.log #Option 3 gfortran compiler with distributed memory
+  fi
+  ./compile 2>&1 | tee compile.wps.log
 
-echo " "
+  echo " "
 
-# IF statement to check that all files were created.
-cd "${WRF_FOLDER}"/WPS-${WPS_VERSION}
-n=$(ls ./*.exe | wc -l)
-if (($n == 3)); then
-  echo "All expected files created."
-  read -r -t 5 -p "Finished installing WPS. I am going to wait for 5 seconds only ..."
-else
-  echo "Missing one or more expected files."
-  echo "Running compiler again"
-  ./compile 2>&1 | tee compile.wps2.log
+  # IF statement to check that all files were created.
   cd "${WRF_FOLDER}"/WPS-${WPS_VERSION}
   n=$(ls ./*.exe | wc -l)
   if (($n == 3)); then
     echo "All expected files created."
     read -r -t 5 -p "Finished installing WPS. I am going to wait for 5 seconds only ..."
   else
-    read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
-    exit
+    echo "Missing one or more expected files."
+    echo "Running compiler again"
+    ./compile 2>&1 | tee compile.wps2.log
+    cd "${WRF_FOLDER}"/WPS-${WPS_VERSION}
+    n=$(ls ./*.exe | wc -l)
+    if (($n == 3)); then
+      echo "All expected files created."
+      read -r -t 5 -p "Finished installing WPS. I am going to wait for 5 seconds only ..."
+    else
+      read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
+      exit
+    fi
   fi
-fi
 
-echo " "
+  echo " "
 
-######################## Static Geography Data inc/ Optional ####################
-# http://www2.mmm.ucar.edu/wrf/users/download/get_sources_wps_geog.html
-# These files are large so if you only need certain ones comment the others off
-# All files downloaded and untarred is 200GB
-# https://www2.mmm.ucar.edu/wrf/users/download/get_sources_wps_geog.html
-#################################################################################
-cd "${WRF_FOLDER}"/Downloads
-mkdir "${WRF_FOLDER}"/GEOG
-mkdir "${WRF_FOLDER}"/GEOG/WPS_GEOG
+  ######################## Static Geography Data inc/ Optional ####################
+  # http://www2.mmm.ucar.edu/wrf/users/download/get_sources_wps_geog.html
+  # These files are large so if you only need certain ones comment the others off
+  # All files downloaded and untarred is 200GB
+  # https://www2.mmm.ucar.edu/wrf/users/download/get_sources_wps_geog.html
+  #################################################################################
+  cd "${WRF_FOLDER}"/Downloads
+  mkdir "${WRF_FOLDER}"/GEOG
+  mkdir "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
-echo " "
-echo "Mandatory WRF Preprocessing System (WPS) Geographical Input Data Mandatory Fields Downloads"
-echo " "
-wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_high_res_mandatory.tar.gz
-env -u LD_LIBRARY_PATH tar -xzf geog_high_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
+  echo " "
+  echo "Mandatory WRF Preprocessing System (WPS) Geographical Input Data Mandatory Fields Downloads"
+  echo " "
+  wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_high_res_mandatory.tar.gz
+  env -u LD_LIBRARY_PATH tar -xzf geog_high_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
 
-wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_low_res_mandatory.tar.gz
-env -u LD_LIBRARY_PATH tar -xzf geog_low_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
-mv "${WRF_FOLDER}"/GEOG/WPS_GEOG_LOW_RES/ "${WRF_FOLDER}"/GEOG/WPS_GEOG
+  wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_low_res_mandatory.tar.gz
+  env -u LD_LIBRARY_PATH tar -xzf geog_low_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
+  mv "${WRF_FOLDER}"/GEOG/WPS_GEOG_LOW_RES/ "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
-if [ ${WPS_Specific_Applications} -eq 1 ]; then
+  if [ ${WPS_Specific_Applications} -eq 1 ]; then
   echo " "
   echo " WPS Geographical Input Data Mandatory for Specific Applications"
   echo " "
@@ -22750,9 +22774,9 @@ if [ ${WPS_Specific_Applications} -eq 1 ]; then
   wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/cglc_modis_lcz_global.tar.gz
   env -u LD_LIBRARY_PATH tar -xvf cglc_modis_lcz_global.tar.gz -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
-fi
+  fi
 
-if [ ${Optional_GEOG} -eq 1 ]; then
+  if [ ${Optional_GEOG} -eq 1 ]; then
 
   echo " "
   echo "Optional WPS Geographical Input Data"
@@ -22776,6 +22800,7 @@ if [ ${Optional_GEOG} -eq 1 ]; then
   wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/modis_landuse_20class_15s.tar.bz2
   env -u LD_LIBRARY_PATH tar -xvf modis_landuse_20class_15s.tar.bz2 -C "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
+  fi
 fi
 
 if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
@@ -29221,7 +29246,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$aarch64" != "1"
   if [ ${auto_config} -eq 1 ]; then
     (
       echo 34
-      echo 1
+      echo "$WRF_NESTING_OPTION"
     ) | ./configure
 
   else
@@ -30168,7 +30193,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$aarch64" = "1" 
   if [ ${auto_config} -eq 1 ]; then
     (
       echo 34
-      echo 1
+      echo "$WRF_NESTING_OPTION"
     ) | ./configure
 
   else
@@ -31111,7 +31136,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   if [ ${auto_config} -eq 1 ]; then
     (
       echo 78
-      echo 1
+      echo "$WRF_NESTING_OPTION"
     ) | ./configure
 
   else
@@ -31985,7 +32010,7 @@ if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = 
   if [ ${auto_config} -eq 1 ]; then
     (
       echo 17
-      echo 1
+      echo "$WRF_NESTING_OPTION"
     ) | ./configure
 
   else
@@ -32851,7 +32876,7 @@ if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = 
   ./clean -a
 
   if [ ${auto_config} -eq 1 ]; then
-    (echo 17 echo 1) | ./configure
+    (echo 17 echo "$WRF_NESTING_OPTION") | ./configure
 
   else
     ./configure 2>&1 | tee configure.log #Option 17 gfortran compiler with distributed memory option 1 for basic nesting
@@ -33787,7 +33812,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   if [ ${auto_config} -eq 1 ]; then
     (
       echo 34
-      echo 1
+      echo "$WRF_NESTING_OPTION"
     ) | ./configure
 
   else
@@ -34732,7 +34757,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRF_PICK" = "1" ]; then
   if [ ${auto_config} -eq 1 ]; then
     (
       echo 34
-      echo 1
+      echo "$WRF_NESTING_OPTION"
     ) | ./configure
 
   else
@@ -35614,7 +35639,7 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRF_PICK" ]; then
   if [ ${auto_config} -eq 1 ]; then
     (
       echo 78
-      echo 1
+      echo "$WRF_NESTING_OPTION"
     ) | ./configure
 
   else
@@ -36430,7 +36455,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$COAWST_PICK" = "1" ] && [ "$aarch64" != 
   chmod 775 *.sh
 
   ./build_coawst.sh -j 2 2>&1 | tee build_coawst.log
-  
+
   if [ $? -eq 0 ] && [ -e "coawstM" ]; then
     echo "Script ran successfully and coawstM exists."
   else
@@ -36924,7 +36949,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$COAWST_PICK" = "1" ] && [ "$aarch64" = "
   chmod 775 *.sh
 
   ./build_coawst.sh -j 2 2>&1 | tee build_coawst.log
-  
+
   if [ $? -eq 0 ] && [ -e "coawstM" ]; then
     echo "Script ran successfully and coawstM exists."
   else
@@ -37528,7 +37553,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$COAWST_PICK" = "1" ]; then
   chmod 775 *.sh
 
   ./build_coawst.sh -j 2 2>&1 | tee build_coawst.log
-  
+
   if [ $? -eq 0 ] && [ -e "coawstM" ]; then
     echo "Script ran successfully and coawstM exists."
   else
@@ -38140,7 +38165,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$COAWST_PICK" = "1" ]; then
   chmod 775 *.sh
 
   ./build_coawst.sh -j 2 2>&1 | tee build_coawst.log
-  
+
   if [ $? -eq 0 ] && [ -e "coawstM" ]; then
     echo "Script ran successfully and coawstM exists."
   else
