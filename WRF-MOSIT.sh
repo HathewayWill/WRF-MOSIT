@@ -2506,7 +2506,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
   export MPIF90=$DIR/MPICH/bin/mpifort
   export MPICC=$DIR/MPICH/bin/mpicc
   export MPICXX=$DIR/MPICH/bin/mpicxx
-  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --enable-static --enable-shared 2>&1 | tee configure.log
+  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --enable-static 2>&1 | tee configure.log
 
   make -j 2 2>&1 | tee make.log
   make -j 2 install 2>&1 | tee make.install.log
@@ -2879,7 +2879,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
 
   wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_low_res_mandatory.tar.gz
   env -u LD_LIBRARY_PATH tar -xzf geog_low_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
-  mv "${WRF_FOLDER}"/GEOG/WPS_GEOG_LOW_RES/ "${WRF_FOLDER}"/GEOG/WPS_GEOG
+  mv "${WRF_FOLDER}"/GEOG/WPS_GEOG_LOW_RES/* "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
   if [ ${WPS_Specific_Applications} -eq 1 ]; then
     echo " "
@@ -3206,7 +3206,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
   export MPIF90=mpifort
   export MPICC=mpicc
   export MPICXX=$DIR/MPICH/bin/mpicxx
-  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --enable-static --enable-shared 2>&1 | tee configure.log
+  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --enable-static 2>&1 | tee configure.log
 
   make -j 2 2>&1 | tee make.log
   make -j 2 install 2>&1 | tee make.install.log
@@ -3227,7 +3227,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
   export LIBS="-lhdf5_hl -lhdf5 -lz -lcurl -lgfortran -lgcc -lm -ldl -lpnetcdf"
   echo $CFLAGS
 
-  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-shared --enable-pnetcdf --enable-cdf5 --enable-parallel-tests --enable-logging 2>&1 | tee configure.log
+  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-pnetcdf --enable-cdf5 --enable-parallel-tests --enable-logging 2>&1 | tee configure.log
 
   make -j 2 2>&1 | tee make.log
   make -j 2 install 2>&1 | tee make.install.log
@@ -3251,7 +3251,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
   export LDFLAGS="-L$DIR/NETCDF/lib -L$DIR/grib2/lib -Wl,-rpath,$DIR/NETCDF/lib -Wl,-rpath,$DIR/grib2/lib"
   export LIBS="-lnetcdf -lpnetcdf -lcurl -lhdf5_hl -lhdf5 -lz -lm -ldl -lgcc -lgfortran"
   echo $CFLAGS
-  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-shared --enable-parallel-tests --enable-logging --enable-hdf5 2>&1 | tee configure.log
+  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-parallel-tests --enable-logging --enable-hdf5 2>&1 | tee configure.log
 
   make -j 2 2>&1 | tee make.log
   make -j 2 install 2>&1 | tee make.install.log
@@ -3587,7 +3587,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
 
   wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_low_res_mandatory.tar.gz
   env -u LD_LIBRARY_PATH tar -xzf geog_low_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
-  mv "${WRF_FOLDER}"/GEOG/WPS_GEOG_LOW_RES/ "${WRF_FOLDER}"/GEOG/WPS_GEOG
+  mv "${WRF_FOLDER}"/GEOG/WPS_GEOG_LOW_RES/* "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
   if [ ${WPS_Specific_Applications} -eq 1 ]; then
     echo " "
@@ -3925,7 +3925,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$CMAQ_PICK" = "1" ]; then
   export MPIF90=mpifort
   export MPICC=mpicc
   export MPICXX=$DIR/MPICH/bin/mpicxx
-  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --enable-static --enable-shared 2>&1 | tee configure.log
+  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --enable-static 2>&1 | tee configure.log
 
   make -j 2 2>&1 | tee make.log
   make -j 2 install 2>&1 | tee make.install.log
@@ -3946,7 +3946,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$CMAQ_PICK" = "1" ]; then
   export LIBS="-lhdf5_hl -lhdf5 -lz -lcurl -lgfortran -lgcc -lm -ldl -lpnetcdf"
   echo $CFLAGS
 
-  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-shared --enable-pnetcdf --enable-cdf5 --enable-parallel-tests --enable-logging 2>&1 | tee configure.log
+  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-pnetcdf --enable-cdf5 --enable-parallel-tests --enable-logging 2>&1 | tee configure.log
 
   make -j 2 2>&1 | tee make.log
   make -j 2 install 2>&1 | tee make.install.log
@@ -3970,7 +3970,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$CMAQ_PICK" = "1" ]; then
   export LDFLAGS="-L$DIR/NETCDF/lib -L$DIR/grib2/lib -Wl,-rpath,$DIR/NETCDF/lib -Wl,-rpath,$DIR/grib2/lib"
   export LIBS="-lnetcdf -lpnetcdf -lcurl -lhdf5_hl -lhdf5 -lz -lm -ldl -lgcc -lgfortran"
   echo $CFLAGS
-  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-shared --enable-parallel-tests --enable-logging --enable-hdf5 2>&1 | tee configure.log
+  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-parallel-tests --enable-logging --enable-hdf5 2>&1 | tee configure.log
 
   make -j 2 2>&1 | tee make.log
   make -j 2 install 2>&1 | tee make.install.log
@@ -4306,7 +4306,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$CMAQ_PICK" = "1" ]; then
 
   wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_low_res_mandatory.tar.gz
   env -u LD_LIBRARY_PATH tar -xzf geog_low_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
-  mv "${WRF_FOLDER}"/GEOG/WPS_GEOG_LOW_RES/ "${WRF_FOLDER}"/GEOG/WPS_GEOG
+  mv "${WRF_FOLDER}"/GEOG/WPS_GEOG_LOW_RES/* "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
   if [ ${WPS_Specific_Applications} -eq 1 ]; then
     echo " "
@@ -4642,7 +4642,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$aarch64" != "
   export MPIF90=$DIR/MPICH/bin/mpifort
   export MPICC=$DIR/MPICH/bin/mpicc
   export MPICXX=$DIR/MPICH/bin/mpicxx
-  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --enable-static --enable-shared 2>&1 | tee configure.log
+  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --enable-static 2>&1 | tee configure.log
 
   make -j 2 2>&1 | tee make.log
   make -j 2 install 2>&1 | tee make.install.log
@@ -5088,7 +5088,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$aarch64" != "
 
   wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_low_res_mandatory.tar.gz
   env -u LD_LIBRARY_PATH tar -xzf geog_low_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
-  mv "${WRF_FOLDER}"/GEOG/WPS_GEOG_LOW_RES/ "${WRF_FOLDER}"/GEOG/WPS_GEOG
+  mv "${WRF_FOLDER}"/GEOG/WPS_GEOG_LOW_RES/* "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
   if [ ${WPS_Specific_Applications} -eq 1 ]; then
     echo " "
@@ -5400,7 +5400,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$aarch64" = "1
   export MPIF90=$DIR/MPICH/bin/mpifort
   export MPICC=$DIR/MPICH/bin/mpicc
   export MPICXX=$DIR/MPICH/bin/mpicxx
-  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --enable-static --enable-shared 2>&1 | tee configure.log
+  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --enable-static 2>&1 | tee configure.log
 
   make -j 2 2>&1 | tee make.log
   make -j 2 install 2>&1 | tee make.install.log
@@ -5846,7 +5846,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$aarch64" = "1
 
   wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_low_res_mandatory.tar.gz
   env -u LD_LIBRARY_PATH tar -xzf geog_low_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
-  mv "${WRF_FOLDER}"/GEOG/WPS_GEOG_LOW_RES/ "${WRF_FOLDER}"/GEOG/WPS_GEOG
+  mv "${WRF_FOLDER}"/GEOG/WPS_GEOG_LOW_RES/* "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
   if [ ${WPS_Specific_Applications} -eq 1 ]; then
     echo " "
@@ -6165,7 +6165,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
   export MPIF90=$DIR/MPICH/bin/mpifort
   export MPICC=$DIR/MPICH/bin/mpicc
   export MPICXX=$DIR/MPICH/bin/mpicxx
-  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --enable-static --enable-shared 2>&1 | tee configure.log
+  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --enable-static 2>&1 | tee configure.log
 
   make -j 2 2>&1 | tee make.log
   make -j 2 install 2>&1 | tee make.install.log
@@ -6181,7 +6181,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
   export CPPFLAGS=-I$DIR/grib2/include
   export LDFLAGS="-L$DIR/grib2/lib -Wl,-rpath,$DIR/grib2/lib"
   export LIBS="-lhdf5_hl -lhdf5 -lz -lcurl -lgfortran -lgcc -lm -ldl -lpnetcdf"
-  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-shared --enable-pnetcdf --enable-cdf5 --enable-parallel-tests --enable-logging 2>&1 | tee configure.log
+  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-pnetcdf --enable-cdf5 --enable-parallel-tests --enable-logging 2>&1 | tee configure.log
 
   make -j 2 2>&1 | tee make.log
   make -j 2 install 2>&1 | tee make.install.log
@@ -6203,7 +6203,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
   export CPPFLAGS="-I$DIR/NETCDF/include -I$DIR/grib2/include"
   export LDFLAGS="-L$DIR/NETCDF/lib -L$DIR/grib2/lib -Wl,-rpath,$DIR/NETCDF/lib -Wl,-rpath,$DIR/grib2/lib"
   export LIBS="-lnetcdf -lpnetcdf -lcurl -lhdf5_hl -lhdf5 -lz -lm -ldl -lgcc -lgfortran"
-  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-shared --enable-parallel-tests --enable-logging --enable-hdf5 2>&1 | tee configure.log
+  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-parallel-tests --enable-logging --enable-hdf5 2>&1 | tee configure.log
 
   make -j 2 2>&1 | tee make.log
   make -j 2 install 2>&1 | tee make.install.log
@@ -6615,7 +6615,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
 
   wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_low_res_mandatory.tar.gz
   env -u LD_LIBRARY_PATH tar -xzf geog_low_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
-  mv "${WRF_FOLDER}"/GEOG/WPS_GEOG_LOW_RES/ "${WRF_FOLDER}"/GEOG/WPS_GEOG
+  mv "${WRF_FOLDER}"/GEOG/WPS_GEOG_LOW_RES/* "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
   if [ ${WPS_Specific_Applications} -eq 1 ]; then
     echo " "
@@ -6947,7 +6947,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$SFIRE_PICK" = "1" ]; then
   export MPIF90=$DIR/MPICH/bin/mpifort
   export MPICC=$DIR/MPICH/bin/mpicc
   export MPICXX=$DIR/MPICH/bin/mpicxx
-  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --enable-static --enable-shared 2>&1 | tee configure.log
+  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --enable-static 2>&1 | tee configure.log
 
   make -j 2 2>&1 | tee make.log
   make -j 2 install 2>&1 | tee make.install.log
@@ -6963,7 +6963,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$SFIRE_PICK" = "1" ]; then
   export CPPFLAGS=-I$DIR/grib2/include
   export LDFLAGS="-L$DIR/grib2/lib -Wl,-rpath,$DIR/grib2/lib"
   export LIBS="-lhdf5_hl -lhdf5 -lz -lcurl -lgfortran -lgcc -lm -ldl -lpnetcdf"
-  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-shared --enable-pnetcdf --enable-cdf5 --enable-parallel-tests --enable-logging 2>&1 | tee configure.log
+  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-pnetcdf --enable-cdf5 --enable-parallel-tests --enable-logging 2>&1 | tee configure.log
 
   make -j 2 2>&1 | tee make.log
   make -j 2 install 2>&1 | tee make.install.log
@@ -6985,7 +6985,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$SFIRE_PICK" = "1" ]; then
   export CPPFLAGS="-I$DIR/NETCDF/include -I$DIR/grib2/include"
   export LDFLAGS="-L$DIR/NETCDF/lib -L$DIR/grib2/lib -Wl,-rpath,$DIR/NETCDF/lib -Wl,-rpath,$DIR/grib2/lib"
   export LIBS="-lnetcdf -lpnetcdf -lcurl -lhdf5_hl -lhdf5 -lz -lm -ldl -lgcc -lgfortran"
-  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-shared --enable-parallel-tests --enable-logging --enable-hdf5 2>&1 | tee configure.log
+  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-parallel-tests --enable-logging --enable-hdf5 2>&1 | tee configure.log
 
   make -j 2 2>&1 | tee make.log
   make -j 2 install 2>&1 | tee make.install.log
@@ -7400,7 +7400,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$SFIRE_PICK" = "1" ]; then
 
   wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_low_res_mandatory.tar.gz
   env -u LD_LIBRARY_PATH tar -xzf geog_low_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
-  mv "${WRF_FOLDER}"/GEOG/WPS_GEOG_LOW_RES/ "${WRF_FOLDER}"/GEOG/WPS_GEOG
+  mv "${WRF_FOLDER}"/GEOG/WPS_GEOG_LOW_RES/* "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
   if [ ${WPS_Specific_Applications} -eq 1 ]; then
     echo " "
@@ -7734,7 +7734,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$MAC_CHIP" = "I
   export MPICXX=$DIR/MPICH/bin/mpicxx
 
   # drop --disable-utils (not recognized)
-  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS="-std=gnu99 $CFLAGS" FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --enable-static --enable-shared 2>&1 | tee configure.log
+  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS="-std=gnu99 $CFLAGS" FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --enable-static 2>&1 | tee configure.log
 
   # build only libraries
   make -j 2 2>&1 | tee make.log
@@ -7758,7 +7758,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$MAC_CHIP" = "I
   export LDFLAGS="-L$DIR/grib2/lib -Wl,-rpath,$DIR/grib2/lib"
   export LIBS="-lhdf5_hl -lhdf5 -lz -lcurl -lgfortran -lgcc -lm -ldl -lpnetcdf"
 
-  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-shared --enable-pnetcdf --enable-cdf5 --enable-parallel-tests --enable-logging 2>&1 | tee configure.log
+  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-pnetcdf --enable-cdf5 --enable-parallel-tests --enable-logging 2>&1 | tee configure.log
 
   make -j 2 2>&1 | tee make.log
   make -j 2 install 2>&1 | tee make.install.log
@@ -7782,7 +7782,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$MAC_CHIP" = "I
   export LDFLAGS="-L$DIR/NETCDF/lib -L$DIR/grib2/lib -Wl,-rpath,$DIR/NETCDF/lib -Wl,-rpath,$DIR/grib2/lib"
   export LIBS="-lnetcdf -lpnetcdf -lcurl -lhdf5_hl -lhdf5 -lz -lm -ldl -lgcc -lgfortran"
 
-  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-shared --enable-parallel-tests --enable-logging --enable-hdf5 2>&1 | tee configure.log
+  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-parallel-tests --enable-logging --enable-hdf5 2>&1 | tee configure.log
 
   make -j 2 2>&1 | tee make.log
   make -j 2 install 2>&1 | tee make.install.log
@@ -8224,7 +8224,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$MAC_CHIP" = "I
 
   wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_low_res_mandatory.tar.gz
   env -u LD_LIBRARY_PATH tar -xzf geog_low_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
-  mv "${WRF_FOLDER}"/GEOG/WPS_GEOG_LOW_RES/ "${WRF_FOLDER}"/GEOG/WPS_GEOG
+  mv "${WRF_FOLDER}"/GEOG/WPS_GEOG_LOW_RES/* "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
   if [ ${WPS_Specific_Applications} -eq 1 ]; then
     echo " "
@@ -8573,7 +8573,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$MAC_CHIP" = "A
   export MPICXX=$DIR/MPICH/bin/mpicxx
 
   # drop --disable-utils (not recognized)
-  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS="-std=gnu99 $CFLAGS" FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --enable-static --enable-shared 2>&1 | tee configure.log
+  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS="-std=gnu99 $CFLAGS" FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --enable-static 2>&1 | tee configure.log
 
   # build only libraries
   make -j 2 2>&1 | tee make.log
@@ -8597,7 +8597,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$MAC_CHIP" = "A
   export LDFLAGS="-L$DIR/grib2/lib -Wl,-rpath,$DIR/grib2/lib"
   export LIBS="-lhdf5_hl -lhdf5 -lz -lcurl -lgfortran -lgcc -lm -ldl -lpnetcdf"
 
-  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-shared --enable-pnetcdf --enable-cdf5 --enable-parallel-tests --enable-logging 2>&1 | tee configure.log
+  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-pnetcdf --enable-cdf5 --enable-parallel-tests --enable-logging 2>&1 | tee configure.log
 
   make -j 2 2>&1 | tee make.log
   make -j 2 install 2>&1 | tee make.install.log
@@ -8621,7 +8621,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$MAC_CHIP" = "A
   export LDFLAGS="-L$DIR/NETCDF/lib -L$DIR/grib2/lib -Wl,-rpath,$DIR/NETCDF/lib -Wl,-rpath,$DIR/grib2/lib"
   export LIBS="-lnetcdf -lpnetcdf -lcurl -lhdf5_hl -lhdf5 -lz -lm -ldl -lgcc -lgfortran"
 
-  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-shared --enable-parallel-tests --enable-logging --enable-hdf5 2>&1 | tee configure.log
+  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-parallel-tests --enable-logging --enable-hdf5 2>&1 | tee configure.log
 
   make -j 2 2>&1 | tee make.log
   make -j 2 install 2>&1 | tee make.install.log
@@ -9064,7 +9064,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$MAC_CHIP" = "A
 
   wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_low_res_mandatory.tar.gz
   env -u LD_LIBRARY_PATH tar -xzf geog_low_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
-  mv "${WRF_FOLDER}"/GEOG/WPS_GEOG_LOW_RES/ "${WRF_FOLDER}"/GEOG/WPS_GEOG
+  mv "${WRF_FOLDER}"/GEOG/WPS_GEOG_LOW_RES/* "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
   if [ ${WPS_Specific_Applications} -eq 1 ]; then
     echo " "
@@ -9401,7 +9401,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ] && [ "
   export MPIF90=$DIR/MPICH/bin/mpifort
   export MPICC=$DIR/MPICH/bin/mpicc
   export MPICXX=$DIR/MPICH/bin/mpicxx
-  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --enable-static --enable-shared 2>&1 | tee configure.log
+  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --enable-static 2>&1 | tee configure.log
 
   make -j 2 2>&1 | tee make.log
   make -j 2 install 2>&1 | tee make.install.log
@@ -9420,7 +9420,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ] && [ "
   export LDFLAGS="-L$DIR/grib2/lib -Wl,-rpath,$DIR/grib2/lib"
   export LIBS="-lhdf5_hl -lhdf5 -lz -lcurl -lgfortran -lgcc -lm -ldl -lpnetcdf"
 
-  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-shared --enable-pnetcdf --enable-cdf5 --enable-parallel-tests --enable-logging 2>&1 | tee configure.log
+  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-pnetcdf --enable-cdf5 --enable-parallel-tests --enable-logging 2>&1 | tee configure.log
 
   make -j 2 2>&1 | tee make.log
   make -j 2 install 2>&1 | tee make.install.log
@@ -9443,7 +9443,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ] && [ "
   export LDFLAGS="-L$DIR/NETCDF/lib -L$DIR/grib2/lib -Wl,-rpath,$DIR/NETCDF/lib -Wl,-rpath,$DIR/grib2/lib"
   export LIBS="-lnetcdf -lpnetcdf -lcurl -lhdf5_hl -lhdf5 -lz -lm -ldl -lgcc -lgfortran"
 
-  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-shared --enable-parallel-tests --enable-logging --enable-hdf5 2>&1 | tee configure.log
+  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-parallel-tests --enable-logging --enable-hdf5 2>&1 | tee configure.log
 
   make -j 2 2>&1 | tee make.log
   make -j 2 install 2>&1 | tee make.install.log
@@ -10011,7 +10011,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ] && [ "
   export MPIF90=$DIR/MPICH/bin/mpifort
   export MPICC=$DIR/MPICH/bin/mpicc
   export MPICXX=$DIR/MPICH/bin/mpicxx
-  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --enable-static --enable-shared 2>&1 | tee configure.log
+  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --enable-static 2>&1 | tee configure.log
 
   make -j 2 2>&1 | tee make.log
   make -j 2 install 2>&1 | tee make.install.log
@@ -10030,7 +10030,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ] && [ "
   export LDFLAGS="-L$DIR/grib2/lib -Wl,-rpath,$DIR/grib2/lib"
   export LIBS="-lhdf5_hl -lhdf5 -lz -lcurl -lgfortran -lgcc -lm -ldl -lpnetcdf"
 
-  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-shared --enable-pnetcdf --enable-cdf5 --enable-parallel-tests --enable-logging 2>&1 | tee configure.log
+  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-pnetcdf --enable-cdf5 --enable-parallel-tests --enable-logging 2>&1 | tee configure.log
 
   make -j 2 2>&1 | tee make.log
   make -j 2 install 2>&1 | tee make.install.log
@@ -10053,7 +10053,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ] && [ "
   export LDFLAGS="-L$DIR/NETCDF/lib -L$DIR/grib2/lib -Wl,-rpath,$DIR/NETCDF/lib -Wl,-rpath,$DIR/grib2/lib"
   export LIBS="-lnetcdf -lpnetcdf -lcurl -lhdf5_hl -lhdf5 -lz -lm -ldl -lgcc -lgfortran"
 
-  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-shared --enable-parallel-tests --enable-logging --enable-hdf5 2>&1 | tee configure.log
+  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-parallel-tests --enable-logging --enable-hdf5 2>&1 | tee configure.log
 
   make -j 2 2>&1 | tee make.log
   make -j 2 install 2>&1 | tee make.install.log
@@ -10600,7 +10600,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; the
   cd "${WRF_FOLDER}"/Downloads
   env -u LD_LIBRARY_PATH tar -xzf pnetcdf-$Pnetcdf_Version.tar.gz
   cd pnetcdf-$Pnetcdf_Version
-  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --enable-static --enable-shared 2>&1 | tee configure.log
+  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --enable-static 2>&1 | tee configure.log
 
   make -j 2 2>&1 | tee make.log
   make -j 2 install 2>&1 | tee make.install.log
@@ -10619,7 +10619,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; the
   export LDFLAGS="-L$DIR/grib2/lib -Wl,-rpath,$DIR/grib2/lib"
   export LIBS="-lhdf5_hl -lhdf5 -lz -lcurl -lgcc -lm -ldl -lpnetcdf"
 
-  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --with-zlib=$DIR/grib2 --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-shared --enable-pnetcdf --enable-cdf5 --enable-parallel-tests --enable-logging 2>&1 | tee configure.log
+  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --with-zlib=$DIR/grib2 --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-pnetcdf --enable-cdf5 --enable-parallel-tests --enable-logging 2>&1 | tee configure.log
 
   make -j 2 2>&1 | tee make.log
   make -j 2 install 2>&1 | tee make.install.log
@@ -10642,7 +10642,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; the
   export LDFLAGS="-L$DIR/NETCDF/lib -L$DIR/grib2/lib -Wl,-rpath,$DIR/NETCDF/lib -Wl,-rpath,$DIR/grib2/lib"
   export LIBS="-lnetcdf -lpnetcdf -lm -lcurl -lhdf5_hl -lhdf5 -lz -ldl"
 
-  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-shared --enable-parallel-tests --enable-logging --enable-hdf5 2>&1 | tee configure.log
+  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-parallel-tests --enable-logging --enable-hdf5 2>&1 | tee configure.log
 
   make -j 2 2>&1 | tee make.log
   make -j 2 install 2>&1 | tee make.install.log
@@ -11208,7 +11208,7 @@ if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STA
   export MPICXX=$DIR/MPICH/bin/mpicxx
 
   # drop --disable-utils (not recognized)
-  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS="-std=gnu99 $CFLAGS" FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --enable-static --enable-shared 2>&1 | tee configure.log
+  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS="-std=gnu99 $CFLAGS" FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --enable-static 2>&1 | tee configure.log
 
   # build only libraries
   make -j 2 2>&1 | tee make.log
@@ -11232,7 +11232,7 @@ if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STA
   export LDFLAGS="-L$DIR/grib2/lib -Wl,-rpath,$DIR/grib2/lib"
   export LIBS="-lhdf5_hl -lhdf5 -lz -lcurl -lgfortran -lgcc -lm -ldl -lpnetcdf"
 
-  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-shared --enable-pnetcdf --enable-cdf5 --enable-parallel-tests --enable-logging 2>&1 | tee configure.log
+  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-pnetcdf --enable-cdf5 --enable-parallel-tests --enable-logging 2>&1 | tee configure.log
 
   make -j 2 2>&1 | tee make.log
   make -j 2 install 2>&1 | tee make.install.log
@@ -11256,7 +11256,7 @@ if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STA
   export LDFLAGS="-L$DIR/NETCDF/lib -L$DIR/grib2/lib -Wl,-rpath,$DIR/NETCDF/lib -Wl,-rpath,$DIR/grib2/lib"
   export LIBS="-lnetcdf -lpnetcdf -lcurl -lhdf5_hl -lhdf5 -lz -lm -ldl -lgcc -lgfortran"
 
-  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-shared --enable-parallel-tests --enable-logging --enable-hdf5 2>&1 | tee configure.log
+  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-parallel-tests --enable-logging --enable-hdf5 2>&1 | tee configure.log
 
   make -j 2 2>&1 | tee make.log
   make -j 2 install 2>&1 | tee make.install.log
@@ -11837,7 +11837,7 @@ if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STA
   export MPICXX=$DIR/MPICH/bin/mpicxx
 
   # drop --disable-utils (not recognized)
-  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS="-std=gnu99 $CFLAGS" FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --enable-static --enable-shared 2>&1 | tee configure.log
+  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS="-std=gnu99 $CFLAGS" FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --enable-static 2>&1 | tee configure.log
 
   # build only libraries
   make -j 2 2>&1 | tee make.log
@@ -11861,7 +11861,7 @@ if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STA
   export LDFLAGS="-L$DIR/grib2/lib -Wl,-rpath,$DIR/grib2/lib"
   export LIBS="-lhdf5_hl -lhdf5 -lz -lcurl -lgfortran -lgcc -lm -ldl -lpnetcdf"
 
-  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-shared --enable-pnetcdf --enable-cdf5 --enable-parallel-tests --enable-logging 2>&1 | tee configure.log
+  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-pnetcdf --enable-cdf5 --enable-parallel-tests --enable-logging 2>&1 | tee configure.log
 
   make -j 2 2>&1 | tee make.log
   make -j 2 install 2>&1 | tee make.install.log
@@ -11885,7 +11885,7 @@ if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STA
   export LDFLAGS="-L$DIR/NETCDF/lib -L$DIR/grib2/lib -Wl,-rpath,$DIR/NETCDF/lib -Wl,-rpath,$DIR/grib2/lib"
   export LIBS="-lnetcdf -lpnetcdf -lcurl -lhdf5_hl -lhdf5 -lz -lm -ldl -lgcc -lgfortran"
 
-  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-shared --enable-parallel-tests --enable-logging --enable-hdf5 2>&1 | tee configure.log
+  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-parallel-tests --enable-logging --enable-hdf5 2>&1 | tee configure.log
 
   make -j 2 2>&1 | tee make.log
   make -j 2 install 2>&1 | tee make.install.log
@@ -12450,7 +12450,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
   export MPIF90=$DIR/MPICH/bin/mpifort
   export MPICC=$DIR/MPICH/bin/mpicc
   export MPICXX=$DIR/MPICH/bin/mpicxx
-  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --enable-static --enable-shared 2>&1 | tee configure.log
+  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --enable-static 2>&1 | tee configure.log
 
   make -j 2 2>&1 | tee make.log
   make -j 2 install 2>&1 | tee make.install.log
@@ -12469,7 +12469,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
   export LDFLAGS="-L$DIR/grib2/lib -Wl,-rpath,$DIR/grib2/lib"
   export LIBS="-lhdf5_hl -lhdf5 -lz -lcurl -lgfortran -lgcc -lm -ldl -lpnetcdf"
 
-  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-shared --enable-pnetcdf --enable-cdf5 --enable-parallel-tests --enable-logging 2>&1 | tee configure.log
+  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-pnetcdf --enable-cdf5 --enable-parallel-tests --enable-logging 2>&1 | tee configure.log
 
   make -j 2 2>&1 | tee make.log
   make -j 2 install 2>&1 | tee make.install.log
@@ -12492,7 +12492,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
   export LDFLAGS="-L$DIR/NETCDF/lib -L$DIR/grib2/lib -Wl,-rpath,$DIR/NETCDF/lib -Wl,-rpath,$DIR/grib2/lib"
   export LIBS="-lnetcdf -lpnetcdf -lcurl -lhdf5_hl -lhdf5 -lz -lm -ldl -lgcc -lgfortran"
 
-  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-shared --enable-parallel-tests --enable-logging --enable-hdf5 2>&1 | tee configure.log
+  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-parallel-tests --enable-logging --enable-hdf5 2>&1 | tee configure.log
 
   make -j 2 2>&1 | tee make.log
   make -j 2 install 2>&1 | tee make.install.log
@@ -13062,7 +13062,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
   export MPIF90=$DIR/MPICH/bin/mpifort
   export MPICC=$DIR/MPICH/bin/mpicc
   export MPICXX=$DIR/MPICH/bin/mpicxx
-  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --enable-static --enable-shared 2>&1 | tee configure.log
+  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --enable-static 2>&1 | tee configure.log
 
   make -j 2 2>&1 | tee make.log
   make -j 2 install 2>&1 | tee make.install.log
@@ -13081,7 +13081,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
   export LDFLAGS="-L$DIR/grib2/lib -Wl,-rpath,$DIR/grib2/lib"
   export LIBS="-lhdf5_hl -lhdf5 -lz -lcurl -lgfortran -lgcc -lm -ldl -lpnetcdf"
 
-  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-shared --enable-pnetcdf --enable-cdf5 --enable-parallel-tests --enable-logging 2>&1 | tee configure.log
+  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-pnetcdf --enable-cdf5 --enable-parallel-tests --enable-logging 2>&1 | tee configure.log
 
   make -j 2 2>&1 | tee make.log
   make -j 2 install 2>&1 | tee make.install.log
@@ -13104,7 +13104,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
   export LDFLAGS="-L$DIR/NETCDF/lib -L$DIR/grib2/lib -Wl,-rpath,$DIR/NETCDF/lib -Wl,-rpath,$DIR/grib2/lib"
   export LIBS="-lnetcdf -lpnetcdf -lcurl -lhdf5_hl -lhdf5 -lz -lm -ldl -lgcc -lgfortran"
 
-  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-shared --enable-parallel-tests --enable-logging --enable-hdf5 2>&1 | tee configure.log
+  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-parallel-tests --enable-logging --enable-hdf5 2>&1 | tee configure.log
 
   make -j 2 2>&1 | tee make.log
   make -j 2 install 2>&1 | tee make.install.log
@@ -13582,7 +13582,7 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" ]; then
   cd "${WRF_FOLDER}"/Downloads
   env -u LD_LIBRARY_PATH tar -xzf pnetcdf-$Pnetcdf_Version.tar.gz
   cd pnetcdf-$Pnetcdf_Version
-  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --enable-static --enable-shared 2>&1 | tee configure.log
+  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --enable-static 2>&1 | tee configure.log
 
   make -j 2 2>&1 | tee make.log
   make -j 2 install 2>&1 | tee make.install.log
@@ -13605,7 +13605,7 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" ]; then
   export LDFLAGS="-L$DIR/grib2/lib -Wl,-rpath,$DIR/grib2/lib"
   export LIBS="-lhdf5_hl -lhdf5 -lz -lcurl -lgcc -lm -ldl -lpnetcdf"
 
-  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-shared --enable-pnetcdf --enable-cdf5 --enable-parallel-tests --enable-logging 2>&1 | tee configure.log
+  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-pnetcdf --enable-cdf5 --enable-parallel-tests --enable-logging 2>&1 | tee configure.log
 
   make -j 2 2>&1 | tee make.log
   make -j 2 install 2>&1 | tee make.install.log
@@ -14196,7 +14196,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ] && [ "$aa
   export MPIF90=$DIR/MPICH/bin/mpifort
   export MPICC=$DIR/MPICH/bin/mpicc
   export MPICXX=$DIR/MPICH/bin/mpicxx
-  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --enable-static --enable-shared 2>&1 | tee configure.log
+  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --enable-static 2>&1 | tee configure.log
 
   make -j 2 2>&1 | tee make.log
   make -j 2 install 2>&1 | tee make.install.log
@@ -14215,7 +14215,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ] && [ "$aa
   export LDFLAGS="-L$DIR/grib2/lib -Wl,-rpath,$DIR/grib2/lib"
   export LIBS="-lhdf5_hl -lhdf5 -lz -lcurl -lgfortran -lgcc -lm -ldl -lpnetcdf"
 
-  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-shared --enable-pnetcdf --enable-cdf5 --enable-parallel-tests --enable-logging 2>&1 | tee configure.log
+  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-pnetcdf --enable-cdf5 --enable-parallel-tests --enable-logging 2>&1 | tee configure.log
 
   make -j 2 2>&1 | tee make.log
   make -j 2 install 2>&1 | tee make.install.log
@@ -14238,7 +14238,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ] && [ "$aa
   export LDFLAGS="-L$DIR/NETCDF/lib -L$DIR/grib2/lib -Wl,-rpath,$DIR/NETCDF/lib -Wl,-rpath,$DIR/grib2/lib"
   export LIBS="-lnetcdf -lpnetcdf -lcurl -lhdf5_hl -lhdf5 -lz -lm -ldl -lgcc -lgfortran"
 
-  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-shared --enable-parallel-tests --enable-logging --enable-hdf5 2>&1 | tee configure.log
+  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-parallel-tests --enable-logging --enable-hdf5 2>&1 | tee configure.log
 
   make -j 2 2>&1 | tee make.log
   make -j 2 install 2>&1 | tee make.install.log
@@ -14783,7 +14783,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ] && [ "$aa
 
   wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_low_res_mandatory.tar.gz
   env -u LD_LIBRARY_PATH tar -xzf geog_low_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
-  mv "${WRF_FOLDER}"/GEOG/WPS_GEOG_LOW_RES/ "${WRF_FOLDER}"/GEOG/WPS_GEOG
+  mv "${WRF_FOLDER}"/GEOG/WPS_GEOG_LOW_RES/* "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
   if [ ${WPS_Specific_Applications} -eq 1 ]; then
     echo " "
@@ -15101,7 +15101,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ] && [ "$aa
   export MPIF90=$DIR/MPICH/bin/mpifort
   export MPICC=$DIR/MPICH/bin/mpicc
   export MPICXX=$DIR/MPICH/bin/mpicxx
-  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --enable-static --enable-shared 2>&1 | tee configure.log
+  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --enable-static 2>&1 | tee configure.log
 
   make -j 2 2>&1 | tee make.log
   make -j 2 install 2>&1 | tee make.install.log
@@ -15120,7 +15120,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ] && [ "$aa
   export LDFLAGS="-L$DIR/grib2/lib -Wl,-rpath,$DIR/grib2/lib"
   export LIBS="-lhdf5_hl -lhdf5 -lz -lcurl -lgfortran -lgcc -lm -ldl -lpnetcdf"
 
-  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-shared --enable-pnetcdf --enable-cdf5 --enable-parallel-tests --enable-logging 2>&1 | tee configure.log
+  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-pnetcdf --enable-cdf5 --enable-parallel-tests --enable-logging 2>&1 | tee configure.log
 
   make -j 2 2>&1 | tee make.log
   make -j 2 install 2>&1 | tee make.install.log
@@ -15143,7 +15143,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ] && [ "$aa
   export LDFLAGS="-L$DIR/NETCDF/lib -L$DIR/grib2/lib -Wl,-rpath,$DIR/NETCDF/lib -Wl,-rpath,$DIR/grib2/lib"
   export LIBS="-lnetcdf -lpnetcdf -lcurl -lhdf5_hl -lhdf5 -lz -lm -ldl -lgcc -lgfortran"
 
-  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-shared --enable-parallel-tests --enable-logging --enable-hdf5 2>&1 | tee configure.log
+  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-parallel-tests --enable-logging --enable-hdf5 2>&1 | tee configure.log
 
   make -j 2 2>&1 | tee make.log
   make -j 2 install 2>&1 | tee make.install.log
@@ -15690,7 +15690,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ] && [ "$aa
 
   wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_low_res_mandatory.tar.gz
   env -u LD_LIBRARY_PATH tar -xzf geog_low_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
-  mv "${WRF_FOLDER}"/GEOG/WPS_GEOG_LOW_RES/ "${WRF_FOLDER}"/GEOG/WPS_GEOG
+  mv "${WRF_FOLDER}"/GEOG/WPS_GEOG_LOW_RES/* "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
   if [ ${WPS_Specific_Applications} -eq 1 ]; then
     echo " "
@@ -16015,7 +16015,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   export FFLAGS=""
   export FCFLAGS=""
 
-  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --enable-static --enable-shared 2>&1 | tee configure.log
+  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --enable-static 2>&1 | tee configure.log
 
   make -j 2 2>&1 | tee make.log
   make -j 2 install 2>&1 | tee make.install.log
@@ -16037,7 +16037,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   export LDFLAGS="-L$DIR/grib2/lib -Wl,-rpath,$DIR/grib2/lib"
   export LIBS="-lhdf5_hl -lhdf5 -lz -lcurl -lm -ldl"
 
-  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-shared --enable-pnetcdf --enable-cdf5 --enable-parallel-tests --enable-logging 2>&1 | tee configure.log
+  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-pnetcdf --enable-cdf5 --enable-parallel-tests --enable-logging 2>&1 | tee configure.log
 
   make -j 2 2>&1 | tee make.log
   make -j 2 install 2>&1 | tee make.install.log
@@ -16630,7 +16630,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 
   wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_low_res_mandatory.tar.gz
   env -u LD_LIBRARY_PATH tar -xzf geog_low_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
-  mv "${WRF_FOLDER}"/GEOG/WPS_GEOG_LOW_RES/ "${WRF_FOLDER}"/GEOG/WPS_GEOG
+  mv "${WRF_FOLDER}"/GEOG/WPS_GEOG_LOW_RES/* "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
   if [ ${WPS_Specific_Applications} -eq 1 ]; then
     echo " "
@@ -16958,7 +16958,7 @@ if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COU
   export MPICXX=$DIR/MPICH/bin/mpicxx
 
   # drop --disable-utils (not recognized)
-  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS="-std=gnu99 $CFLAGS" FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --enable-static --enable-shared 2>&1 | tee configure.log
+  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS="-std=gnu99 $CFLAGS" FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --enable-static 2>&1 | tee configure.log
 
   # build only libraries
   make -j 2 2>&1 | tee make.log
@@ -16982,7 +16982,7 @@ if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COU
   export LDFLAGS="-L$DIR/grib2/lib -Wl,-rpath,$DIR/grib2/lib"
   export LIBS="-lhdf5_hl -lhdf5 -lz -lcurl -lgcc -lm -ldl -lpnetcdf"
 
-  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-shared --enable-pnetcdf --enable-cdf5 --enable-parallel-tests --enable-logging 2>&1 | tee configure.log
+  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-pnetcdf --enable-cdf5 --enable-parallel-tests --enable-logging 2>&1 | tee configure.log
 
   make -j 2 2>&1 | tee make.log
   make -j 2 install 2>&1 | tee make.install.log
@@ -17006,7 +17006,7 @@ if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COU
   export LDFLAGS="-L$DIR/NETCDF/lib -L$DIR/grib2/lib -Wl,-rpath,$DIR/NETCDF/lib -Wl,-rpath,$DIR/grib2/lib"
   export LIBS="-lnetcdf -lpnetcdf -lcurl -lhdf5_hl -lhdf5 -lz -lm -ldl -lgcc"
 
-  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-shared --enable-parallel-tests --enable-logging --enable-hdf5 2>&1 | tee configure.log
+  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-parallel-tests --enable-logging --enable-hdf5 2>&1 | tee configure.log
 
   make -j 2 2>&1 | tee make.log
   make -j 2 install 2>&1 | tee make.install.log
@@ -17461,7 +17461,7 @@ if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COU
 
   wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_low_res_mandatory.tar.gz
   env -u LD_LIBRARY_PATH tar -xzf geog_low_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
-  mv "${WRF_FOLDER}"/GEOG/WPS_GEOG_LOW_RES/ "${WRF_FOLDER}"/GEOG/WPS_GEOG
+  mv "${WRF_FOLDER}"/GEOG/WPS_GEOG_LOW_RES/* "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
   if [ ${WPS_Specific_Applications} -eq 1 ]; then
     echo " "
@@ -17800,7 +17800,7 @@ if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COU
   export MPICXX=$DIR/MPICH/bin/mpicxx
 
   # drop --disable-utils (not recognized)
-  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS="-std=gnu99 $CFLAGS" FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --enable-static --enable-shared 2>&1 | tee configure.log
+  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS="-std=gnu99 $CFLAGS" FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --enable-static 2>&1 | tee configure.log
 
   # build only libraries
   make -j 2 2>&1 | tee make.log
@@ -17824,7 +17824,7 @@ if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COU
   export LDFLAGS="-L$DIR/grib2/lib -Wl,-rpath,$DIR/grib2/lib"
   export LIBS="-lhdf5_hl -lhdf5 -lz -lcurl -lgfortran -lgcc -lm -ldl -lpnetcdf"
 
-  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-shared --enable-pnetcdf --enable-cdf5 --enable-parallel-tests --enable-logging 2>&1 | tee configure.log
+  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-pnetcdf --enable-cdf5 --enable-parallel-tests --enable-logging 2>&1 | tee configure.log
 
   make -j 2 2>&1 | tee make.log
   make -j 2 install 2>&1 | tee make.install.log
@@ -17848,7 +17848,7 @@ if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COU
   export LDFLAGS="-L$DIR/NETCDF/lib -L$DIR/grib2/lib -Wl,-rpath,$DIR/NETCDF/lib -Wl,-rpath,$DIR/grib2/lib"
   export LIBS="-lnetcdf -lpnetcdf -lcurl -lhdf5_hl -lhdf5 -lz -lm -ldl -lgcc -lgfortran"
 
-  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-shared --enable-parallel-tests --enable-logging --enable-hdf5 2>&1 | tee configure.log
+  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-parallel-tests --enable-logging --enable-hdf5 2>&1 | tee configure.log
 
   make -j 2 2>&1 | tee make.log
   make -j 2 install 2>&1 | tee make.install.log
@@ -18302,7 +18302,7 @@ if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COU
 
   wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_low_res_mandatory.tar.gz
   env -u LD_LIBRARY_PATH tar -xzf geog_low_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
-  mv "${WRF_FOLDER}"/GEOG/WPS_GEOG_LOW_RES/ "${WRF_FOLDER}"/GEOG/WPS_GEOG
+  mv "${WRF_FOLDER}"/GEOG/WPS_GEOG_LOW_RES/* "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
   if [ ${WPS_Specific_Applications} -eq 1 ]; then
     echo " "
@@ -18626,7 +18626,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   export MPIF90=$DIR/MPICH/bin/mpifort
   export MPICC=$DIR/MPICH/bin/mpicc
   export MPICXX=$DIR/MPICH/bin/mpicxx
-  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --enable-static --enable-shared 2>&1 | tee configure.log
+  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --enable-static 2>&1 | tee configure.log
 
   make -j 2 2>&1 | tee make.log
   make -j 2 install 2>&1 | tee make.install.log
@@ -18645,7 +18645,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   export LDFLAGS="-L$DIR/grib2/lib -Wl,-rpath,$DIR/grib2/lib"
   export LIBS="-lhdf5_hl -lhdf5 -lz -lcurl -lgfortran -lgcc -lm -ldl -lpnetcdf"
 
-  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-shared --enable-pnetcdf --enable-cdf5 --enable-parallel-tests --enable-logging 2>&1 | tee configure.log
+  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-pnetcdf --enable-cdf5 --enable-parallel-tests --enable-logging 2>&1 | tee configure.log
 
   make -j 2 2>&1 | tee make.log
   make -j 2 install 2>&1 | tee make.install.log
@@ -18668,7 +18668,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   export LDFLAGS="-L$DIR/NETCDF/lib -L$DIR/grib2/lib -Wl,-rpath,$DIR/NETCDF/lib -Wl,-rpath,$DIR/grib2/lib"
   export LIBS="-lnetcdf -lpnetcdf -lcurl -lhdf5_hl -lhdf5 -lz -lm -ldl -lgcc -lgfortran"
 
-  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-shared --enable-parallel-tests --enable-logging --enable-hdf5 2>&1 | tee configure.log
+  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-parallel-tests --enable-logging --enable-hdf5 2>&1 | tee configure.log
 
   make -j 2 2>&1 | tee make.log
   make -j 2 install 2>&1 | tee make.install.log
@@ -19202,7 +19202,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 
   wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_low_res_mandatory.tar.gz
   env -u LD_LIBRARY_PATH tar -xzf geog_low_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
-  mv "${WRF_FOLDER}"/GEOG/WPS_GEOG_LOW_RES/ "${WRF_FOLDER}"/GEOG/WPS_GEOG
+  mv "${WRF_FOLDER}"/GEOG/WPS_GEOG_LOW_RES/* "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
   if [ ${WPS_Specific_Applications} -eq 1 ]; then
     echo " "
@@ -19535,7 +19535,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   export MPIF90=$DIR/MPICH/bin/mpifort
   export MPICC=$DIR/MPICH/bin/mpicc
   export MPICXX=$DIR/MPICH/bin/mpicxx
-  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --enable-static --enable-shared 2>&1 | tee configure.log
+  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --enable-static 2>&1 | tee configure.log
 
   make -j 2 2>&1 | tee make.log
   make -j 2 install 2>&1 | tee make.install.log
@@ -19554,7 +19554,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   export LDFLAGS="-L$DIR/grib2/lib -Wl,-rpath,$DIR/grib2/lib"
   export LIBS="-lhdf5_hl -lhdf5 -lz -lcurl -lgfortran -lgcc -lm -ldl -lpnetcdf"
 
-  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-shared --enable-pnetcdf --enable-cdf5 --enable-parallel-tests --enable-logging 2>&1 | tee configure.log
+  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-pnetcdf --enable-cdf5 --enable-parallel-tests --enable-logging 2>&1 | tee configure.log
 
   make -j 2 2>&1 | tee make.log
   make -j 2 install 2>&1 | tee make.install.log
@@ -19577,7 +19577,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   export LDFLAGS="-L$DIR/NETCDF/lib -L$DIR/grib2/lib -Wl,-rpath,$DIR/NETCDF/lib -Wl,-rpath,$DIR/grib2/lib"
   export LIBS="-lnetcdf -lpnetcdf -lcurl -lhdf5_hl -lhdf5 -lz -lm -ldl -lgcc -lgfortran"
 
-  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-shared --enable-parallel-tests --enable-logging --enable-hdf5 2>&1 | tee configure.log
+  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-parallel-tests --enable-logging --enable-hdf5 2>&1 | tee configure.log
 
   make -j 2 2>&1 | tee make.log
   make -j 2 install 2>&1 | tee make.install.log
@@ -20054,7 +20054,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 
   wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_low_res_mandatory.tar.gz
   env -u LD_LIBRARY_PATH tar -xzf geog_low_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
-  mv "${WRF_FOLDER}"/GEOG/WPS_GEOG_LOW_RES/ "${WRF_FOLDER}"/GEOG/WPS_GEOG
+  mv "${WRF_FOLDER}"/GEOG/WPS_GEOG_LOW_RES/* "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
   if [ ${WPS_Specific_Applications} -eq 1 ]; then
     echo " "
@@ -20307,7 +20307,7 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   cd "${WRF_FOLDER}"/Downloads
   env -u LD_LIBRARY_PATH tar -xzf pnetcdf-$Pnetcdf_Version.tar.gz
   cd pnetcdf-$Pnetcdf_Version
-  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --enable-static --enable-shared 2>&1 | tee configure.log
+  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --enable-static 2>&1 | tee configure.log
 
   make -j 2 2>&1 | tee make.log
   make -j 2 install 2>&1 | tee make.install.log
@@ -20330,7 +20330,7 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   export LDFLAGS="-L$DIR/grib2/lib -Wl,-rpath,$DIR/grib2/lib"
   export LIBS="-lhdf5_hl -lhdf5 -lz -lcurl -lgcc -lm -ldl -lpnetcdf"
 
-  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-shared --enable-pnetcdf --enable-cdf5 --enable-parallel-tests --enable-logging 2>&1 | tee configure.log
+  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-pnetcdf --enable-cdf5 --enable-parallel-tests --enable-logging 2>&1 | tee configure.log
 
   make -j 2 2>&1 | tee make.log
   make -j 2 install 2>&1 | tee make.install.log
@@ -20852,7 +20852,7 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 
   wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_low_res_mandatory.tar.gz
   env -u LD_LIBRARY_PATH tar -xzf geog_low_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
-  mv "${WRF_FOLDER}"/GEOG/WPS_GEOG_LOW_RES/ "${WRF_FOLDER}"/GEOG/WPS_GEOG
+  mv "${WRF_FOLDER}"/GEOG/WPS_GEOG_LOW_RES/* "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
   if [ ${WPS_Specific_Applications} -eq 1 ]; then
     echo " "
@@ -21186,7 +21186,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$aarch64" !=
   export MPIF90=$DIR/MPICH/bin/mpifort
   export MPICC=$DIR/MPICH/bin/mpicc
   export MPICXX=$DIR/MPICH/bin/mpicxx
-  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --enable-static --enable-shared 2>&1 | tee configure.log
+  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --enable-static 2>&1 | tee configure.log
 
   make -j 2 2>&1 | tee make.log
   make -j 2 install 2>&1 | tee make.install.log
@@ -21205,7 +21205,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$aarch64" !=
   export LDFLAGS="-L$DIR/grib2/lib -Wl,-rpath,$DIR/grib2/lib"
   export LIBS="-lhdf5_hl -lhdf5 -lz -lcurl -lgfortran -lgcc -lm -ldl -lpnetcdf"
 
-  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-shared --enable-pnetcdf --enable-cdf5 --enable-parallel-tests --enable-logging 2>&1 | tee configure.log
+  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-pnetcdf --enable-cdf5 --enable-parallel-tests --enable-logging 2>&1 | tee configure.log
 
   make -j 2 2>&1 | tee make.log
   make -j 2 install 2>&1 | tee make.install.log
@@ -21228,7 +21228,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$aarch64" !=
   export LDFLAGS="-L$DIR/NETCDF/lib -L$DIR/grib2/lib -Wl,-rpath,$DIR/NETCDF/lib -Wl,-rpath,$DIR/grib2/lib"
   export LIBS="-lnetcdf -lpnetcdf -lcurl -lhdf5_hl -lhdf5 -lz -lm -ldl -lgcc -lgfortran"
 
-  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-shared --enable-parallel-tests --enable-logging --enable-hdf5 2>&1 | tee configure.log
+  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-parallel-tests --enable-logging --enable-hdf5 2>&1 | tee configure.log
 
   make -j 2 2>&1 | tee make.log
   make -j 2 install 2>&1 | tee make.install.log
@@ -21656,7 +21656,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$aarch64" !=
     # IMPORTANT: avoid polluting flex build with WRF's exported flags
     unset CPPFLAGS CFLAGS CXXFLAGS FCFLAGS LDFLAGS LIBS
 
-    ./configure --prefix=/usr --enable-shared 2>&1 | tee "${WRF_FOLDER}/Downloads/flex.configure.log"
+    ./configure --prefix=/usr 2>&1 | tee "${WRF_FOLDER}/Downloads/flex.configure.log"
     make -j"$(nproc 2> /dev/null || echo 2)" 2>&1 | tee "${WRF_FOLDER}/Downloads/flex.make.log"
     echo "$PASSWD" | sudo -S make install
     echo "$PASSWD" | sudo -S ldconfig || true
@@ -21878,7 +21878,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$aarch64" !=
 
   wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_low_res_mandatory.tar.gz
   env -u LD_LIBRARY_PATH tar -xzf geog_low_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
-  mv "${WRF_FOLDER}"/GEOG/WPS_GEOG_LOW_RES/ "${WRF_FOLDER}"/GEOG/WPS_GEOG
+  mv "${WRF_FOLDER}"/GEOG/WPS_GEOG_LOW_RES/* "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
   if [ ${WPS_Specific_Applications} -eq 1 ]; then
     echo " "
@@ -22194,7 +22194,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$aarch64" = 
   export MPIF90=$DIR/MPICH/bin/mpifort
   export MPICC=$DIR/MPICH/bin/mpicc
   export MPICXX=$DIR/MPICH/bin/mpicxx
-  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --enable-static --enable-shared 2>&1 | tee configure.log
+  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --enable-static 2>&1 | tee configure.log
 
   make -j 2 2>&1 | tee make.log
   make -j 2 install 2>&1 | tee make.install.log
@@ -22213,7 +22213,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$aarch64" = 
   export LDFLAGS="-L$DIR/grib2/lib -Wl,-rpath,$DIR/grib2/lib"
   export LIBS="-lhdf5_hl -lhdf5 -lz -lcurl -lgfortran -lgcc -lm -ldl -lpnetcdf"
 
-  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-shared --enable-pnetcdf --enable-cdf5 --enable-parallel-tests --enable-logging 2>&1 | tee configure.log
+  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-pnetcdf --enable-cdf5 --enable-parallel-tests --enable-logging 2>&1 | tee configure.log
 
   make -j 2 2>&1 | tee make.log
   make -j 2 install 2>&1 | tee make.install.log
@@ -22236,7 +22236,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$aarch64" = 
   export LDFLAGS="-L$DIR/NETCDF/lib -L$DIR/grib2/lib -Wl,-rpath,$DIR/NETCDF/lib -Wl,-rpath,$DIR/grib2/lib"
   export LIBS="-lnetcdf -lpnetcdf -lcurl -lhdf5_hl -lhdf5 -lz -lm -ldl -lgcc -lgfortran"
 
-  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-shared --enable-parallel-tests --enable-logging --enable-hdf5 2>&1 | tee configure.log
+  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-parallel-tests --enable-logging --enable-hdf5 2>&1 | tee configure.log
 
   make -j 2 2>&1 | tee make.log
   make -j 2 install 2>&1 | tee make.install.log
@@ -22663,7 +22663,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$aarch64" = 
     # IMPORTANT: avoid polluting flex build with WRF's exported flags
     unset CPPFLAGS CFLAGS CXXFLAGS FCFLAGS LDFLAGS LIBS
 
-    ./configure --prefix=/usr --enable-shared 2>&1 | tee "${WRF_FOLDER}/Downloads/flex.configure.log"
+    ./configure --prefix=/usr 2>&1 | tee "${WRF_FOLDER}/Downloads/flex.configure.log"
     make -j"$(nproc 2> /dev/null || echo 2)" 2>&1 | tee "${WRF_FOLDER}/Downloads/flex.make.log"
     echo "$PASSWD" | sudo -S make install
     echo "$PASSWD" | sudo -S ldconfig || true
@@ -22914,7 +22914,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$aarch64" = 
 
   wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_low_res_mandatory.tar.gz
   env -u LD_LIBRARY_PATH tar -xzf geog_low_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
-  mv "${WRF_FOLDER}"/GEOG/WPS_GEOG_LOW_RES/ "${WRF_FOLDER}"/GEOG/WPS_GEOG
+  mv "${WRF_FOLDER}"/GEOG/WPS_GEOG_LOW_RES/* "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
   if [ ${WPS_Specific_Applications} -eq 1 ]; then
   echo " "
@@ -23226,7 +23226,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   cd "${WRF_FOLDER}"/Downloads
   env -u LD_LIBRARY_PATH tar -xzf pnetcdf-$Pnetcdf_Version.tar.gz
   cd pnetcdf-$Pnetcdf_Version
-  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --enable-static --enable-shared 2>&1 | tee configure.log
+  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --enable-static 2>&1 | tee configure.log
 
   make -j 2 2>&1 | tee make.log
   make -j 2 install 2>&1 | tee make.install.log
@@ -23248,7 +23248,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   export LDFLAGS="-L$DIR/grib2/lib -Wl,-rpath,$DIR/grib2/lib"
   export LIBS="-lhdf5_hl -lhdf5 -lz -lcurl -lgcc -lm -ldl -lpnetcdf"
 
-  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-shared --enable-pnetcdf --enable-cdf5 --enable-parallel-tests --enable-logging 2>&1 | tee configure.log
+  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-pnetcdf --enable-cdf5 --enable-parallel-tests --enable-logging 2>&1 | tee configure.log
 
   make -j 2 2>&1 | tee make.log
   make -j 2 install 2>&1 | tee make.install.log
@@ -23275,7 +23275,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   export LDFLAGS="-L$DIR/NETCDF/lib -L$DIR/grib2/lib -Wl,-rpath,$DIR/NETCDF/lib -Wl,-rpath,$DIR/grib2/lib"
   export LIBS="-lnetcdf -lpnetcdf -lcurl -lhdf5_hl -lhdf5 -lz -lm -ldl -lgcc"
 
-  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-shared --enable-parallel-tests --enable-logging --enable-hdf5 2>&1 | tee configure.log
+  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-parallel-tests --enable-logging --enable-hdf5 2>&1 | tee configure.log
 
   make -j 2 2>&1 | tee make.log
   make -j 2 install 2>&1 | tee make.install.log
@@ -23696,7 +23696,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
     # IMPORTANT: avoid polluting flex build with WRF's exported flags
     unset CPPFLAGS CFLAGS CXXFLAGS FCFLAGS LDFLAGS LIBS
 
-    ./configure --prefix=/usr --enable-shared 2>&1 | tee "${WRF_FOLDER}/Downloads/flex.configure.log"
+    ./configure --prefix=/usr 2>&1 | tee "${WRF_FOLDER}/Downloads/flex.configure.log"
     make -j"$(nproc 2> /dev/null || echo 2)" 2>&1 | tee "${WRF_FOLDER}/Downloads/flex.make.log"
     echo "$PASSWD" | sudo -S make install
     echo "$PASSWD" | sudo -S ldconfig || true
@@ -23963,7 +23963,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 
   wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_low_res_mandatory.tar.gz
   env -u LD_LIBRARY_PATH tar -xzf geog_low_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
-  mv "${WRF_FOLDER}"/GEOG/WPS_GEOG_LOW_RES/ "${WRF_FOLDER}"/GEOG/WPS_GEOG
+  mv "${WRF_FOLDER}"/GEOG/WPS_GEOG_LOW_RES/* "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
   if [ ${WPS_Specific_Applications} -eq 1 ]; then
     echo " "
@@ -24288,7 +24288,7 @@ if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK
   export MPICXX=$DIR/MPICH/bin/mpicxx
 
   # drop --disable-utils (not recognized)
-  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS="-std=gnu99 $CFLAGS" FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --enable-static --enable-shared 2>&1 | tee configure.log
+  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS="-std=gnu99 $CFLAGS" FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --enable-static 2>&1 | tee configure.log
 
   # build only libraries
   make -j 2 2>&1 | tee make.log
@@ -24312,7 +24312,7 @@ if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK
   export LDFLAGS="-L$DIR/grib2/lib -Wl,-rpath,$DIR/grib2/lib"
   export LIBS="-lhdf5_hl -lhdf5 -lz -lcurl -lgfortran -lgcc -lm -ldl -lpnetcdf"
 
-  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-shared --enable-pnetcdf --enable-cdf5 --enable-parallel-tests --enable-logging 2>&1 | tee configure.log
+  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-pnetcdf --enable-cdf5 --enable-parallel-tests --enable-logging 2>&1 | tee configure.log
 
   make -j 2 2>&1 | tee make.log
   make -j 2 install 2>&1 | tee make.install.log
@@ -24336,7 +24336,7 @@ if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK
   export LDFLAGS="-L$DIR/NETCDF/lib -L$DIR/grib2/lib -Wl,-rpath,$DIR/NETCDF/lib -Wl,-rpath,$DIR/grib2/lib"
   export LIBS="-lnetcdf -lpnetcdf -lcurl -lhdf5_hl -lhdf5 -lz -lm -ldl -lgcc -lgfortran"
 
-  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-shared --enable-parallel-tests --enable-logging --enable-hdf5 2>&1 | tee configure.log
+  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-parallel-tests --enable-logging --enable-hdf5 2>&1 | tee configure.log
 
   make -j 2 2>&1 | tee make.log
   make -j 2 install 2>&1 | tee make.install.log
@@ -24810,7 +24810,7 @@ if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK
 
   wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_low_res_mandatory.tar.gz
   env -u LD_LIBRARY_PATH tar -xzf geog_low_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
-  mv "${WRF_FOLDER}"/GEOG/WPS_GEOG_LOW_RES/ "${WRF_FOLDER}"/GEOG/WPS_GEOG
+  mv "${WRF_FOLDER}"/GEOG/WPS_GEOG_LOW_RES/* "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
   if [ ${WPS_Specific_Applications} -eq 1 ]; then
     echo " "
@@ -25148,7 +25148,7 @@ if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK
   export MPICXX=$DIR/MPICH/bin/mpicxx
 
   # drop --disable-utils (not recognized)
-  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS="-std=gnu99 $CFLAGS" FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --enable-static --enable-shared 2>&1 | tee configure.log
+  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS="-std=gnu99 $CFLAGS" FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --enable-static 2>&1 | tee configure.log
 
   # build only libraries
   make -j 2 2>&1 | tee make.log
@@ -25172,7 +25172,7 @@ if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK
   export LDFLAGS="-L$DIR/grib2/lib -Wl,-rpath,$DIR/grib2/lib"
   export LIBS="-lhdf5_hl -lhdf5 -lz -lcurl -lgfortran -lgcc -lm -ldl -lpnetcdf"
 
-  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-shared --enable-pnetcdf --enable-cdf5 --enable-parallel-tests --enable-logging 2>&1 | tee configure.log
+  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-pnetcdf --enable-cdf5 --enable-parallel-tests --enable-logging 2>&1 | tee configure.log
 
   make -j 2 2>&1 | tee make.log
   make -j 2 install 2>&1 | tee make.install.log
@@ -25196,7 +25196,7 @@ if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK
   export LDFLAGS="-L$DIR/NETCDF/lib -L$DIR/grib2/lib -Wl,-rpath,$DIR/NETCDF/lib -Wl,-rpath,$DIR/grib2/lib"
   export LIBS="-lnetcdf -lpnetcdf -lcurl -lhdf5_hl -lhdf5 -lz -lm -ldl -lgcc -lgfortran"
 
-  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-shared --enable-parallel-tests --enable-logging --enable-hdf5 2>&1 | tee configure.log
+  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-parallel-tests --enable-logging --enable-hdf5 2>&1 | tee configure.log
 
   make -j 2 2>&1 | tee make.log
   make -j 2 install 2>&1 | tee make.install.log
@@ -25670,7 +25670,7 @@ if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK
 
   wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_low_res_mandatory.tar.gz
   env -u LD_LIBRARY_PATH tar -xzf geog_low_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
-  mv "${WRF_FOLDER}"/GEOG/WPS_GEOG_LOW_RES/ "${WRF_FOLDER}"/GEOG/WPS_GEOG
+  mv "${WRF_FOLDER}"/GEOG/WPS_GEOG_LOW_RES/* "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
   if [ ${WPS_Specific_Applications} -eq 1 ]; then
     echo " "
@@ -25997,7 +25997,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   export MPIF90=$DIR/MPICH/bin/mpifort
   export MPICC=$DIR/MPICH/bin/mpicc
   export MPICXX=$DIR/MPICH/bin/mpicxx
-  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --enable-static --enable-shared 2>&1 | tee configure.log
+  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --enable-static 2>&1 | tee configure.log
 
   make -j 2 2>&1 | tee make.log
   make -j 2 install 2>&1 | tee make.install.log
@@ -26016,7 +26016,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   export LDFLAGS="-L$DIR/grib2/lib -Wl,-rpath,$DIR/grib2/lib"
   export LIBS="-lhdf5_hl -lhdf5 -lz -lcurl -lgfortran -lgcc -lm -ldl -lpnetcdf"
 
-  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-shared --enable-pnetcdf --enable-cdf5 --enable-parallel-tests --enable-logging 2>&1 | tee configure.log
+  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-pnetcdf --enable-cdf5 --enable-parallel-tests --enable-logging 2>&1 | tee configure.log
 
   make -j 2 2>&1 | tee make.log
   make -j 2 install 2>&1 | tee make.install.log
@@ -26039,7 +26039,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   export LDFLAGS="-L$DIR/NETCDF/lib -L$DIR/grib2/lib -Wl,-rpath,$DIR/NETCDF/lib -Wl,-rpath,$DIR/grib2/lib"
   export LIBS="-lnetcdf -lpnetcdf -lcurl -lhdf5_hl -lhdf5 -lz -lm -ldl -lgcc -lgfortran"
 
-  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-shared --enable-parallel-tests --enable-logging --enable-hdf5 2>&1 | tee configure.log
+  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-parallel-tests --enable-logging --enable-hdf5 2>&1 | tee configure.log
 
   make -j 2 2>&1 | tee make.log
   make -j 2 install 2>&1 | tee make.install.log
@@ -26450,7 +26450,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
     # IMPORTANT: avoid polluting flex build with WRF's exported flags
     unset CPPFLAGS CFLAGS CXXFLAGS FCFLAGS LDFLAGS LIBS
 
-    ./configure --prefix=/usr --enable-shared 2>&1 | tee "${WRF_FOLDER}/Downloads/flex.configure.log"
+    ./configure --prefix=/usr 2>&1 | tee "${WRF_FOLDER}/Downloads/flex.configure.log"
     make -j"$(nproc 2> /dev/null || echo 2)" 2>&1 | tee "${WRF_FOLDER}/Downloads/flex.make.log"
     echo "$PASSWD" | sudo -S make install
     echo "$PASSWD" | sudo -S ldconfig || true
@@ -26699,7 +26699,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 
   wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_low_res_mandatory.tar.gz
   env -u LD_LIBRARY_PATH tar -xzf geog_low_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
-  mv "${WRF_FOLDER}"/GEOG/WPS_GEOG_LOW_RES/ "${WRF_FOLDER}"/GEOG/WPS_GEOG
+  mv "${WRF_FOLDER}"/GEOG/WPS_GEOG_LOW_RES/* "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
   if [ ${WPS_Specific_Applications} -eq 1 ]; then
     echo " "
@@ -27033,7 +27033,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   export MPIF90=$DIR/MPICH/bin/mpifort
   export MPICC=$DIR/MPICH/bin/mpicc
   export MPICXX=$DIR/MPICH/bin/mpicxx
-  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --enable-static --enable-shared 2>&1 | tee configure.log
+  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --enable-static 2>&1 | tee configure.log
 
   make -j 2 2>&1 | tee make.log
   make -j 2 install 2>&1 | tee make.install.log
@@ -27052,7 +27052,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   export LDFLAGS="-L$DIR/grib2/lib -Wl,-rpath,$DIR/grib2/lib"
   export LIBS="-lhdf5_hl -lhdf5 -lz -lcurl -lgfortran -lgcc -lm -ldl -lpnetcdf"
 
-  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-shared --enable-pnetcdf --enable-cdf5 --enable-parallel-tests --enable-logging 2>&1 | tee configure.log
+  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-pnetcdf --enable-cdf5 --enable-parallel-tests --enable-logging 2>&1 | tee configure.log
 
   make -j 2 2>&1 | tee make.log
   make -j 2 install 2>&1 | tee make.install.log
@@ -27075,7 +27075,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   export CPPFLAGS="-I$DIR/NETCDF/include -I$DIR/grib2/include"
   export LDFLAGS="-L$DIR/NETCDF/lib -L$DIR/grib2/lib -Wl,-rpath,$DIR/NETCDF/lib -Wl,-rpath,$DIR/grib2/lib"
   export LIBS="-lnetcdf -lpnetcdf -lcurl -lhdf5_hl -lhdf5 -lz -lm -ldl -lgcc -lgfortran"
-  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-shared --enable-parallel-tests --enable-logging --enable-hdf5 2>&1 | tee configure.log
+  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-parallel-tests --enable-logging --enable-hdf5 2>&1 | tee configure.log
 
   make -j 2 2>&1 | tee make.log
   make -j 2 install 2>&1 | tee make.install.log
@@ -27459,7 +27459,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRFCHEM_PICK" = "1" ]; then
     # IMPORTANT: avoid polluting flex build with WRF's exported flags
     unset CPPFLAGS CFLAGS CXXFLAGS FCFLAGS LDFLAGS LIBS
 
-    ./configure --prefix=/usr --enable-shared 2>&1 | tee "${WRF_FOLDER}/Downloads/flex.configure.log"
+    ./configure --prefix=/usr 2>&1 | tee "${WRF_FOLDER}/Downloads/flex.configure.log"
     make -j"$(nproc 2> /dev/null || echo 2)" 2>&1 | tee "${WRF_FOLDER}/Downloads/flex.make.log"
     echo "$PASSWD" | sudo -S make install
     echo "$PASSWD" | sudo -S ldconfig || true
@@ -27708,7 +27708,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRFCHEM_PICK" = "1" ]; then
 
   wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_low_res_mandatory.tar.gz
   env -u LD_LIBRARY_PATH tar -xzf geog_low_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
-  mv "${WRF_FOLDER}"/GEOG/WPS_GEOG_LOW_RES/ "${WRF_FOLDER}"/GEOG/WPS_GEOG
+  mv "${WRF_FOLDER}"/GEOG/WPS_GEOG_LOW_RES/* "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
   if [ ${WPS_Specific_Applications} -eq 1 ]; then
     echo " "
@@ -27961,7 +27961,7 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" ]; then
   cd "${WRF_FOLDER}"/Downloads
   env -u LD_LIBRARY_PATH tar -xzf pnetcdf-$Pnetcdf_Version.tar.gz
   cd pnetcdf-$Pnetcdf_Version
-  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --enable-static --enable-shared 2>&1 | tee configure.log
+  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --enable-static 2>&1 | tee configure.log
 
   make -j 2 2>&1 | tee make.log
   make -j 2 install 2>&1 | tee make.install.log
@@ -27984,7 +27984,7 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" ]; then
   export LDFLAGS="-L$DIR/grib2/lib -Wl,-rpath,$DIR/grib2/lib"
   export LIBS="-lhdf5_hl -lhdf5 -lz -lcurl -lgcc -lm -ldl -lpnetcdf"
 
-  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-shared --enable-pnetcdf --enable-cdf5 --enable-parallel-tests --enable-logging 2>&1 | tee configure.log
+  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-pnetcdf --enable-cdf5 --enable-parallel-tests --enable-logging 2>&1 | tee configure.log
 
   make -j 2 2>&1 | tee make.log
   make -j 2 install 2>&1 | tee make.install.log
@@ -28435,7 +28435,7 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" ]; then
     # IMPORTANT: avoid polluting flex build with WRF's exported flags
     unset CPPFLAGS CFLAGS CXXFLAGS FCFLAGS LDFLAGS LIBS
 
-    ./configure --prefix=/usr --enable-shared 2>&1 | tee "${WRF_FOLDER}/Downloads/flex.configure.log"
+    ./configure --prefix=/usr 2>&1 | tee "${WRF_FOLDER}/Downloads/flex.configure.log"
     make -j"$(nproc 2> /dev/null || echo 2)" 2>&1 | tee "${WRF_FOLDER}/Downloads/flex.make.log"
     echo "$PASSWD" | sudo -S make install
     echo "$PASSWD" | sudo -S ldconfig || true
@@ -28703,7 +28703,7 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" ]; then
 
   wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_low_res_mandatory.tar.gz
   env -u LD_LIBRARY_PATH tar -xzf geog_low_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
-  mv "${WRF_FOLDER}"/GEOG/WPS_GEOG_LOW_RES/ "${WRF_FOLDER}"/GEOG/WPS_GEOG
+  mv "${WRF_FOLDER}"/GEOG/WPS_GEOG_LOW_RES/* "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
   if [ ${WPS_Specific_Applications} -eq 1 ]; then
     echo " "
@@ -29042,7 +29042,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$aarch64" != "1"
   export MPIF90=$DIR/MPICH/bin/mpifort
   export MPICC=$DIR/MPICH/bin/mpicc
   export MPICXX=$DIR/MPICH/bin/mpicxx
-  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --enable-static --enable-shared 2>&1 | tee configure.log
+  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --enable-static 2>&1 | tee configure.log
 
   make -j 2 2>&1 | tee make.log
   make -j 2 install 2>&1 | tee make.install.log
@@ -29061,7 +29061,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$aarch64" != "1"
   export LDFLAGS="-L$DIR/grib2/lib -Wl,-rpath,$DIR/grib2/lib"
   export LIBS="-lhdf5_hl -lhdf5 -lz -lcurl -lgfortran -lgcc -lm -ldl -lpnetcdf"
 
-  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-shared --enable-pnetcdf --enable-cdf5 --enable-parallel-tests --enable-logging 2>&1 | tee configure.log
+  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-pnetcdf --enable-cdf5 --enable-parallel-tests --enable-logging 2>&1 | tee configure.log
 
   make -j 2 2>&1 | tee make.log
   make -j 2 install 2>&1 | tee make.install.log
@@ -29084,7 +29084,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$aarch64" != "1"
   export LDFLAGS="-L$DIR/NETCDF/lib -L$DIR/grib2/lib -Wl,-rpath,$DIR/NETCDF/lib -Wl,-rpath,$DIR/grib2/lib"
   export LIBS="-lnetcdf -lpnetcdf -lcurl -lhdf5_hl -lhdf5 -lz -lm -ldl -lgcc -lgfortran"
 
-  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-shared --enable-parallel-tests --enable-logging --enable-hdf5 2>&1 | tee configure.log
+  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-parallel-tests --enable-logging --enable-hdf5 2>&1 | tee configure.log
 
   make -j 2 2>&1 | tee make.log
   make -j 2 install 2>&1 | tee make.install.log
@@ -29668,7 +29668,8 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$aarch64" != "1"
 
   wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_low_res_mandatory.tar.gz
   env -u LD_LIBRARY_PATH tar -xzf geog_low_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
-  mv "${WRF_FOLDER}"/GEOG/WPS_GEOG_LOW_RES/ "${WRF_FOLDER}"/GEOG/WPS_GEOG
+  mv "${WRF_FOLDER}"/GEOG/WPS_GEOG_LOW_RES/* "${WRF_FOLDER}"/GEOG/WPS_GEOG
+ 
 
   if [ ${WPS_Specific_Applications} -eq 1 ]; then
     echo " "
@@ -29989,7 +29990,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$aarch64" = "1" 
   export MPIF90=$DIR/MPICH/bin/mpifort
   export MPICC=$DIR/MPICH/bin/mpicc
   export MPICXX=$DIR/MPICH/bin/mpicxx
-  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --enable-static --enable-shared 2>&1 | tee configure.log
+  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --enable-static 2>&1 | tee configure.log
 
   make -j 2 2>&1 | tee make.log
   make -j 2 install 2>&1 | tee make.install.log
@@ -30008,7 +30009,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$aarch64" = "1" 
   export LDFLAGS="-L$DIR/grib2/lib -Wl,-rpath,$DIR/grib2/lib"
   export LIBS="-lhdf5_hl -lhdf5 -lz -lcurl -lgfortran -lgcc -lm -ldl -lpnetcdf"
 
-  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-shared --enable-pnetcdf --enable-cdf5 --enable-parallel-tests --enable-logging 2>&1 | tee configure.log
+  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-pnetcdf --enable-cdf5 --enable-parallel-tests --enable-logging 2>&1 | tee configure.log
 
   make -j 2 2>&1 | tee make.log
   make -j 2 install 2>&1 | tee make.install.log
@@ -30031,7 +30032,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$aarch64" = "1" 
   export LDFLAGS="-L$DIR/NETCDF/lib -L$DIR/grib2/lib -Wl,-rpath,$DIR/NETCDF/lib -Wl,-rpath,$DIR/grib2/lib"
   export LIBS="-lnetcdf -lpnetcdf -lcurl -lhdf5_hl -lhdf5 -lz -lm -ldl -lgcc -lgfortran"
 
-  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-shared --enable-parallel-tests --enable-logging --enable-hdf5 2>&1 | tee configure.log
+  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-parallel-tests --enable-logging --enable-hdf5 2>&1 | tee configure.log
 
   make -j 2 2>&1 | tee make.log
   make -j 2 install 2>&1 | tee make.install.log
@@ -30616,7 +30617,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$aarch64" = "1" 
 
   wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_low_res_mandatory.tar.gz
   env -u LD_LIBRARY_PATH tar -xzf geog_low_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
-  mv "${WRF_FOLDER}"/GEOG/WPS_GEOG_LOW_RES/ "${WRF_FOLDER}"/GEOG/WPS_GEOG
+  mv "${WRF_FOLDER}"/GEOG/WPS_GEOG_LOW_RES/* "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
   if [ ${WPS_Specific_Applications} -eq 1 ]; then
     echo " "
@@ -30928,7 +30929,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   cd "${WRF_FOLDER}"/Downloads
   env -u LD_LIBRARY_PATH tar -xzf pnetcdf-$Pnetcdf_Version.tar.gz
   cd pnetcdf-$Pnetcdf_Version
-  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --enable-static --enable-shared 2>&1 | tee configure.log
+  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --enable-static 2>&1 | tee configure.log
 
   make -j 2 2>&1 | tee make.log
   make -j 2 install 2>&1 | tee make.install.log
@@ -30950,7 +30951,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   export LDFLAGS="-L$DIR/grib2/lib -Wl,-rpath,$DIR/grib2/lib"
   export LIBS="-lhdf5_hl -lhdf5 -lz -lcurl -lgcc -lm -ldl -lpnetcdf"
 
-  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-shared --enable-pnetcdf --enable-cdf5 --enable-parallel-tests --enable-logging 2>&1 | tee configure.log
+  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-pnetcdf --enable-cdf5 --enable-parallel-tests --enable-logging 2>&1 | tee configure.log
 
   make -j 2 2>&1 | tee make.log
   make -j 2 install 2>&1 | tee make.install.log
@@ -31575,7 +31576,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 
   wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_low_res_mandatory.tar.gz
   env -u LD_LIBRARY_PATH tar -xzf geog_low_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
-  mv "${WRF_FOLDER}"/GEOG/WPS_GEOG_LOW_RES/ "${WRF_FOLDER}"/GEOG/WPS_GEOG
+  mv "${WRF_FOLDER}"/GEOG/WPS_GEOG_LOW_RES/* "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
   if [ ${WPS_Specific_Applications} -eq 1 ]; then
     echo " "
@@ -31894,7 +31895,7 @@ if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = 
   export MPIF90=$DIR/MPICH/bin/mpifort
   export MPICC=$DIR/MPICH/bin/mpicc
   export MPICXX=$DIR/MPICH/bin/mpicxx
-  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --enable-static --enable-shared 2>&1 | tee configure.log
+  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --enable-static 2>&1 | tee configure.log
 
   make -j 2 2>&1 | tee make.log
   make -j 2 install 2>&1 | tee make.install.log
@@ -31913,7 +31914,7 @@ if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = 
   export LDFLAGS="-L$DIR/grib2/lib -Wl,-rpath,$DIR/grib2/lib"
   export LIBS="-lhdf5_hl -lhdf5 -lz -lcurl -lgfortran -lgcc -lm -ldl -lpnetcdf"
 
-  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-shared --enable-pnetcdf --enable-cdf5 --enable-parallel-tests --enable-logging 2>&1 | tee configure.log
+  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-pnetcdf --enable-cdf5 --enable-parallel-tests --enable-logging 2>&1 | tee configure.log
 
   make -j 2 2>&1 | tee make.log
   make -j 2 install 2>&1 | tee make.install.log
@@ -31937,7 +31938,7 @@ if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = 
   export LDFLAGS="-L$DIR/NETCDF/lib -L$DIR/grib2/lib -Wl,-rpath,$DIR/NETCDF/lib -Wl,-rpath,$DIR/grib2/lib"
   export LIBS="-lnetcdf -lpnetcdf -lcurl -lhdf5_hl -lhdf5 -lz -lm -ldl -lgcc -lgfortran"
 
-  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-shared --enable-parallel-tests --enable-logging --enable-hdf5 2>&1 | tee configure.log
+  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-parallel-tests --enable-logging --enable-hdf5 2>&1 | tee configure.log
 
   make -j 2 2>&1 | tee make.log
   make -j 2 install 2>&1 | tee make.install.log
@@ -32428,7 +32429,7 @@ if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = 
 
   wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_low_res_mandatory.tar.gz
   env -u LD_LIBRARY_PATH tar -xzf geog_low_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
-  mv "${WRF_FOLDER}"/GEOG/WPS_GEOG_LOW_RES/ "${WRF_FOLDER}"/GEOG/WPS_GEOG
+  mv "${WRF_FOLDER}"/GEOG/WPS_GEOG_LOW_RES/* "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
   if [ ${WPS_Specific_Applications} -eq 1 ]; then
     echo " "
@@ -32762,7 +32763,7 @@ if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = 
   export MPIF90=$DIR/MPICH/bin/mpifort
   export MPICC=$DIR/MPICH/bin/mpicc
   export MPICXX=$DIR/MPICH/bin/mpicxx
-  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --enable-static --enable-shared 2>&1 | tee configure.log
+  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --enable-static 2>&1 | tee configure.log
 
   make -j 2 2>&1 | tee make.log
   make -j 2 install 2>&1 | tee make.install.log
@@ -32781,7 +32782,7 @@ if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = 
   export CPPFLAGS=-I$DIR/grib2/include
   export LDFLAGS="-L$DIR/grib2/lib -Wl,-rpath,$DIR/grib2/lib"
   export LIBS="-lhdf5_hl -lhdf5 -lz -lcurl -lgfortran -lgcc -lm -ldl -lpnetcdf"
-  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-shared --enable-pnetcdf --enable-cdf5 --enable-parallel-tests --enable-logging 2>&1 | tee configure.log
+  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-pnetcdf --enable-cdf5 --enable-parallel-tests --enable-logging 2>&1 | tee configure.log
 
   make -j 2 2>&1 | tee make.log
   make -j 2 install 2>&1 | tee make.install.log
@@ -32805,7 +32806,7 @@ if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = 
   export CPPFLAGS="-I$DIR/NETCDF/include -I$DIR/grib2/include"
   export LDFLAGS="-L$DIR/NETCDF/lib -L$DIR/grib2/lib -Wl,-rpath,$DIR/NETCDF/lib -Wl,-rpath,$DIR/grib2/lib"
   export LIBS="-lnetcdf -lpnetcdf -lcurl -lhdf5_hl -lhdf5 -lz -lm -ldl -lgcc -lgfortran"
-  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-shared --enable-parallel-tests --enable-logging --enable-hdf5 2>&1 | tee configure.log
+  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-parallel-tests --enable-logging --enable-hdf5 2>&1 | tee configure.log
 
   make -j 2 2>&1 | tee make.log
   make -j 2 install 2>&1 | tee make.install.log
@@ -33293,7 +33294,7 @@ if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = 
 
   wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_low_res_mandatory.tar.gz
   env -u LD_LIBRARY_PATH tar -xzf geog_low_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
-  mv "${WRF_FOLDER}"/GEOG/WPS_GEOG_LOW_RES/ "${WRF_FOLDER}"/GEOG/WPS_GEOG
+  mv "${WRF_FOLDER}"/GEOG/WPS_GEOG_LOW_RES/* "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
   if [ ${WPS_Specific_Applications} -eq 1 ]; then
     echo " "
@@ -33620,7 +33621,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   export MPIF90=$DIR/MPICH/bin/mpifort
   export MPICC=$DIR/MPICH/bin/mpicc
   export MPICXX=$DIR/MPICH/bin/mpicxx
-  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --enable-static --enable-shared 2>&1 | tee configure.log
+  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --enable-static 2>&1 | tee configure.log
 
   make -j 2 2>&1 | tee make.log
   make -j 2 install 2>&1 | tee make.install.log
@@ -33639,7 +33640,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   export LDFLAGS="-L$DIR/grib2/lib -Wl,-rpath,$DIR/grib2/lib"
   export LIBS="-lhdf5_hl -lhdf5 -lz -lcurl -lgfortran -lgcc -lm -ldl -lpnetcdf"
 
-  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-shared --enable-pnetcdf --enable-cdf5 --enable-parallel-tests --enable-logging 2>&1 | tee configure.log
+  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-pnetcdf --enable-cdf5 --enable-parallel-tests --enable-logging 2>&1 | tee configure.log
 
   make -j 2 2>&1 | tee make.log
   make -j 2 install 2>&1 | tee make.install.log
@@ -33662,7 +33663,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   export LDFLAGS="-L$DIR/NETCDF/lib -L$DIR/grib2/lib -Wl,-rpath,$DIR/NETCDF/lib -Wl,-rpath,$DIR/grib2/lib"
   export LIBS="-lnetcdf -lpnetcdf -lcurl -lhdf5_hl -lhdf5 -lz -lm -ldl -lgcc -lgfortran"
 
-  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-shared --enable-parallel-tests --enable-logging --enable-hdf5 2>&1 | tee configure.log
+  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-parallel-tests --enable-logging --enable-hdf5 2>&1 | tee configure.log
 
   make -j 2 2>&1 | tee make.log
   make -j 2 install 2>&1 | tee make.install.log
@@ -34232,7 +34233,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
 
   wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_low_res_mandatory.tar.gz
   env -u LD_LIBRARY_PATH tar -xzf geog_low_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
-  mv "${WRF_FOLDER}"/GEOG/WPS_GEOG_LOW_RES/ "${WRF_FOLDER}"/GEOG/WPS_GEOG
+  mv "${WRF_FOLDER}"/GEOG/WPS_GEOG_LOW_RES/* "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
   if [ ${WPS_Specific_Applications} -eq 1 ]; then
     echo " "
@@ -34565,7 +34566,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRF_PICK" = "1" ]; then
   export MPIF90=$DIR/MPICH/bin/mpifort
   export MPICC=$DIR/MPICH/bin/mpicc
   export MPICXX=$DIR/MPICH/bin/mpicxx
-  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --enable-static --enable-shared 2>&1 | tee configure.log
+  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --enable-static 2>&1 | tee configure.log
 
   make -j 2 2>&1 | tee make.log
   make -j 2 install 2>&1 | tee make.install.log
@@ -34584,7 +34585,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRF_PICK" = "1" ]; then
   export LDFLAGS="-L$DIR/grib2/lib -Wl,-rpath,$DIR/grib2/lib"
   export LIBS="-lhdf5_hl -lhdf5 -lz -lcurl -lgfortran -lgcc -lm -ldl -lpnetcdf"
 
-  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-shared --enable-pnetcdf --enable-cdf5 --enable-parallel-tests --enable-logging 2>&1 | tee configure.log
+  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-pnetcdf --enable-cdf5 --enable-parallel-tests --enable-logging 2>&1 | tee configure.log
 
   make -j 2 2>&1 | tee make.log
   make -j 2 install 2>&1 | tee make.install.log
@@ -34607,7 +34608,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRF_PICK" = "1" ]; then
   export LDFLAGS="-L$DIR/NETCDF/lib -L$DIR/grib2/lib -Wl,-rpath,$DIR/NETCDF/lib -Wl,-rpath,$DIR/grib2/lib"
   export LIBS="-lnetcdf -lpnetcdf -lcurl -lhdf5_hl -lhdf5 -lz -lm -ldl -lgcc -lgfortran"
 
-  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-shared --enable-parallel-tests --enable-logging --enable-hdf5 2>&1 | tee configure.log
+  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-parallel-tests --enable-logging --enable-hdf5 2>&1 | tee configure.log
 
   make -j 2 2>&1 | tee make.log
   make -j 2 install 2>&1 | tee make.install.log
@@ -35176,7 +35177,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRF_PICK" = "1" ]; then
 
   wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_low_res_mandatory.tar.gz
   env -u LD_LIBRARY_PATH tar -xzf geog_low_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
-  mv "${WRF_FOLDER}"/GEOG/WPS_GEOG_LOW_RES/ "${WRF_FOLDER}"/GEOG/WPS_GEOG
+  mv "${WRF_FOLDER}"/GEOG/WPS_GEOG_LOW_RES/* "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
   if [ ${WPS_Specific_Applications} -eq 1 ]; then
     echo " "
@@ -35429,7 +35430,7 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRF_PICK" ]; then
   cd "${WRF_FOLDER}"/Downloads
   env -u LD_LIBRARY_PATH tar -xzf pnetcdf-$Pnetcdf_Version.tar.gz
   cd pnetcdf-$Pnetcdf_Version
-  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --enable-static --enable-shared 2>&1 | tee configure.log
+  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/grib2 --enable-static 2>&1 | tee configure.log
 
   make -j 2 2>&1 | tee make.log
   make -j 2 install 2>&1 | tee make.install.log
@@ -35452,7 +35453,7 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRF_PICK" ]; then
   export LDFLAGS="-L$DIR/grib2/lib -Wl,-rpath,$DIR/grib2/lib"
   export LIBS="-lhdf5_hl -lhdf5 -lz -lcurl -lgcc -lm -ldl -lpnetcdf"
 
-  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-shared --enable-pnetcdf --enable-cdf5 --enable-parallel-tests --enable-logging 2>&1 | tee configure.log
+  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-pnetcdf --enable-cdf5 --enable-parallel-tests --enable-logging 2>&1 | tee configure.log
 
   make -j 2 2>&1 | tee make.log
   make -j 2 install 2>&1 | tee make.install.log
@@ -36078,7 +36079,7 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRF_PICK" ]; then
 
   wget -c https://www2.mmm.ucar.edu/wrf/src/wps_files/geog_low_res_mandatory.tar.gz
   env -u LD_LIBRARY_PATH tar -xzf geog_low_res_mandatory.tar.gz -C "${WRF_FOLDER}"/GEOG/
-  mv "${WRF_FOLDER}"/GEOG/WPS_GEOG_LOW_RES/ "${WRF_FOLDER}"/GEOG/WPS_GEOG
+  mv "${WRF_FOLDER}"/GEOG/WPS_GEOG_LOW_RES/* "${WRF_FOLDER}"/GEOG/WPS_GEOG
 
   if [ ${WPS_Specific_Applications} -eq 1 ]; then
     echo " "
@@ -36411,7 +36412,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$COAWST_PICK" = "1" ] && [ "$aarch64" != 
   export LDFLAGS="-L$DIR/grib2/lib -Wl,-rpath,$DIR/grib2/lib"
   export LIBS="-lhdf5_hl -lhdf5 -lz -lcurl -lgfortran -lgcc -lm -ldl"
 
-  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-shared --enable-cdf5 --enable-parallel-tests --enable-logging 2>&1 | tee configure.log
+  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-cdf5 --enable-parallel-tests --enable-logging 2>&1 | tee configure.log
 
   make -j 2 2>&1 | tee make.log
   make -j 2 install 2>&1 | tee make.install.log
@@ -36433,7 +36434,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$COAWST_PICK" = "1" ] && [ "$aarch64" != 
   export LDFLAGS="-L$DIR/NETCDF/lib -L$DIR/grib2/lib -Wl,-rpath,$DIR/NETCDF/lib -Wl,-rpath,$DIR/grib2/lib"
   export LIBS="-lnetcdf -lcurl -lhdf5_hl -lhdf5 -lz -lm -ldl -lgcc -lgfortran"
 
-  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-shared --enable-parallel-tests --enable-logging --enable-hdf5 2>&1 | tee configure.log
+  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-parallel-tests --enable-logging --enable-hdf5 2>&1 | tee configure.log
 
   make -j 2 2>&1 | tee make.log
   make -j 2 install 2>&1 | tee make.install.log
@@ -36449,7 +36450,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$COAWST_PICK" = "1" ] && [ "$aarch64" != 
   export LDFLAGS="-L$DIR/NETCDF/lib -L$DIR/grib2/lib -Wl,-rpath,$DIR/NETCDF/lib -Wl,-rpath,$DIR/grib2/lib"
   export LIBS="-lnetcdff -lnetcdf  -lcurl -lhdf5_hl -lhdf5 -lz -lm -ldl -lgcc -lgfortran"
 
-  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-shared --enable-parallel-tests --enable-logging --enable-hdf5 2>&1 | tee configure.log
+  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-parallel-tests --enable-logging --enable-hdf5 2>&1 | tee configure.log
 
   make -j 2 2>&1 | tee make.log
   make -j 2 install 2>&1 | tee make.install.log
@@ -36905,7 +36906,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$COAWST_PICK" = "1" ] && [ "$aarch64" = "
   export LDFLAGS="-L$DIR/grib2/lib -Wl,-rpath,$DIR/grib2/lib"
   export LIBS="-lhdf5_hl -lhdf5 -lz -lcurl -lgfortran -lgcc -lm -ldl"
 
-  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-shared --enable-cdf5 --enable-parallel-tests --enable-logging 2>&1 | tee configure.log
+  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-cdf5 --enable-parallel-tests --enable-logging 2>&1 | tee configure.log
 
   make -j 2 2>&1 | tee make.log
   make -j 2 install 2>&1 | tee make.install.log
@@ -36927,7 +36928,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$COAWST_PICK" = "1" ] && [ "$aarch64" = "
   export LDFLAGS="-L$DIR/NETCDF/lib -L$DIR/grib2/lib -Wl,-rpath,$DIR/NETCDF/lib -Wl,-rpath,$DIR/grib2/lib"
   export LIBS="-lnetcdf -lcurl -lhdf5_hl -lhdf5 -lz -lm -ldl -lgcc -lgfortran"
 
-  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-shared --enable-parallel-tests --enable-logging --enable-hdf5 2>&1 | tee configure.log
+  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-parallel-tests --enable-logging --enable-hdf5 2>&1 | tee configure.log
 
   make -j 2 2>&1 | tee make.log
   make -j 2 install 2>&1 | tee make.install.log
@@ -36943,7 +36944,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$COAWST_PICK" = "1" ] && [ "$aarch64" = "
   export LDFLAGS="-L$DIR/NETCDF/lib -L$DIR/grib2/lib -Wl,-rpath,$DIR/NETCDF/lib -Wl,-rpath,$DIR/grib2/lib"
   export LIBS="-lnetcdff -lnetcdf  -lcurl -lhdf5_hl -lhdf5 -lz -lm -ldl -lgcc -lgfortran"
 
-  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-shared --enable-parallel-tests --enable-logging --enable-hdf5 2>&1 | tee configure.log
+  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-parallel-tests --enable-logging --enable-hdf5 2>&1 | tee configure.log
 
   make -j 2 2>&1 | tee make.log
   make -j 2 install 2>&1 | tee make.install.log
@@ -37408,7 +37409,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$COAWST_PICK" = "1" ]; then
   export LDFLAGS="-L$DIR/grib2/lib -Wl,-rpath,$DIR/grib2/lib"
   export LIBS="-lhdf5_hl -lhdf5 -lz -lcurl -lgfortran -lgcc -lm -ldl"
 
-  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-shared --enable-cdf5 --enable-parallel-tests --enable-logging 2>&1 | tee configure.log
+  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-cdf5 --enable-parallel-tests --enable-logging 2>&1 | tee configure.log
 
   make -j 2 2>&1 | tee make.log
   make -j 2 install 2>&1 | tee make.install.log
@@ -37430,7 +37431,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$COAWST_PICK" = "1" ]; then
   export LDFLAGS="-L$DIR/NETCDF/lib -L$DIR/grib2/lib -Wl,-rpath,$DIR/NETCDF/lib -Wl,-rpath,$DIR/grib2/lib"
   export LIBS="-lnetcdf -lcurl -lhdf5_hl -lhdf5 -lz -lm -ldl -lgcc -lgfortran"
 
-  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-shared --enable-parallel-tests --enable-logging --enable-hdf5 2>&1 | tee configure.log
+  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-parallel-tests --enable-logging --enable-hdf5 2>&1 | tee configure.log
 
   make -j 2 2>&1 | tee make.log
   make -j 2 install 2>&1 | tee make.install.log
@@ -37446,7 +37447,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$COAWST_PICK" = "1" ]; then
   export LDFLAGS="-L$DIR/NETCDF/lib -L$DIR/grib2/lib -Wl,-rpath,$DIR/NETCDF/lib -Wl,-rpath,$DIR/grib2/lib"
   export LIBS="-lnetcdff -lnetcdf  -lcurl -lhdf5_hl -lhdf5 -lz -lm -ldl -lgcc -lgfortran"
 
-  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-shared --enable-parallel-tests --enable-logging --enable-hdf5 2>&1 | tee configure.log
+  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-parallel-tests --enable-logging --enable-hdf5 2>&1 | tee configure.log
 
   make -j 2 2>&1 | tee make.log
   make -j 2 install 2>&1 | tee make.install.log
@@ -38020,7 +38021,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$COAWST_PICK" = "1" ]; then
   export LDFLAGS="-L$DIR/grib2/lib -Wl,-rpath,$DIR/grib2/lib"
   export LIBS="-lhdf5_hl -lhdf5 -lz -lcurl -lgfortran -lgcc -lm -ldl"
 
-  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-shared --enable-cdf5 --enable-parallel-tests --enable-logging 2>&1 | tee configure.log
+  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --disable-dap --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-cdf5 --enable-parallel-tests --enable-logging 2>&1 | tee configure.log
 
   make -j 2 2>&1 | tee make.log
   make -j 2 install 2>&1 | tee make.install.log
@@ -38042,7 +38043,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$COAWST_PICK" = "1" ]; then
   export LDFLAGS="-L$DIR/NETCDF/lib -L$DIR/grib2/lib -Wl,-rpath,$DIR/NETCDF/lib -Wl,-rpath,$DIR/grib2/lib"
   export LIBS="-lnetcdf -lcurl -lhdf5_hl -lhdf5 -lz -lm -ldl -lgcc -lgfortran"
 
-  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-shared --enable-parallel-tests --enable-logging --enable-hdf5 2>&1 | tee configure.log
+  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-parallel-tests --enable-logging --enable-hdf5 2>&1 | tee configure.log
 
   make -j 2 2>&1 | tee make.log
   make -j 2 install 2>&1 | tee make.install.log
@@ -38058,7 +38059,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$COAWST_PICK" = "1" ]; then
   export LDFLAGS="-L$DIR/NETCDF/lib -L$DIR/grib2/lib -Wl,-rpath,$DIR/NETCDF/lib -Wl,-rpath,$DIR/grib2/lib"
   export LIBS="-lnetcdff -lnetcdf  -lcurl -lhdf5_hl -lhdf5 -lz -lm -ldl -lgcc -lgfortran"
 
-  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-shared --enable-parallel-tests --enable-logging --enable-hdf5 2>&1 | tee configure.log
+  CC=$MPICC FC=$MPIFC F77=$MPIF77 F90=$MPIF90 CXX=$MPICXX CFLAGS=$CFLAGS FFLAGS=$FFLAGS FCFLAGS=$FCFLAGS ./configure --prefix=$DIR/NETCDF --enable-netcdf-4 --enable-netcdf4 --enable-static --enable-parallel-tests --enable-logging --enable-hdf5 2>&1 | tee configure.log
 
   make -j 2 2>&1 | tee make.log
   make -j 2 install 2>&1 | tee make.install.log
@@ -38434,6 +38435,10 @@ if [ "$WRFCHEM_TOOLS" = "1" ]; then
 fi
 
 #####################################BASH Script Finished##############################
+cd "${WRF_FOLDER}"/Downloads
+rm -rf *.tar *.tar.gz *tar.bz2
+
+
 
 cd $HOME
 end=$(date)
