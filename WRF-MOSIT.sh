@@ -29552,6 +29552,8 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$aarch64" != "1"
   echo " "
   ./compile -j 2 wrfplus 2>&1 | tee compile.wrfplus.log
   export WRFPLUS_DIR="${WRF_FOLDER}"/WRFPLUS
+  ./clean -a
+  rm -f "${WRF_FOLDER}"/WRFDA/var/da/da_minimisation/da_residual.inc
 
   echo " "
 
@@ -29612,7 +29614,9 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$aarch64" != "1"
   export NETCDF=$DIR/NETCDF
   export HDF5=$DIR/grib2
   export WRFPLUS_DIR="${WRF_FOLDER}"/WRFPLUS
+  rm -f "${WRF_FOLDER}"/WRFDA/var/da/da_minimisation/da_residual.inc
   ./clean -a
+
 
   if [ ${auto_config} -eq 1 ]; then
     echo 18 | ./configure 4dvar 2>&1 | tee configure.log #Option 18 for gfortran/gcc and distribunted memory
@@ -30501,6 +30505,8 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$aarch64" = "1" 
   echo " "
   ./compile -j 2 wrfplus 2>&1 | tee compile.wrfplus.log
   export WRFPLUS_DIR="${WRF_FOLDER}"/WRFPLUS
+  ./clean -a
+  rm -f "${WRF_FOLDER}"/WRFDA/var/da/da_minimisation/da_residual.inc
 
   echo " "
 
@@ -30561,6 +30567,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$aarch64" = "1" 
   export NETCDF=$DIR/NETCDF
   export HDF5=$DIR/grib2
   export WRFPLUS_DIR="${WRF_FOLDER}"/WRFPLUS
+  rm -f "${WRF_FOLDER}"/WRFDA/var/da/da_minimisation/da_residual.inc
   ./clean -a
 
   if [ ${auto_config} -eq 1 ]; then
@@ -31456,6 +31463,8 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   ./compile -j 2 wrfplus 2>&1 | tee wrfplus1.compile.log
 
   export WRFPLUS_DIR="${WRF_FOLDER}"/WRFPLUS
+  ./clean -a
+  rm -f "${WRF_FOLDER}"/WRFDA/var/da/da_minimisation/da_residual.inc
 
   echo " "
 
@@ -31516,6 +31525,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   export NETCDF=$DIR/NETCDF
   export HDF5=$DIR/grib2
   export WRFPLUS_DIR="${WRF_FOLDER}"/WRFPLUS
+  rm -f "${WRF_FOLDER}"/WRFDA/var/da/da_minimisation/da_residual.inc
   ./clean -a
 
   if [ ${auto_config} -eq 1 ]; then
@@ -32316,6 +32326,8 @@ if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = 
 
   ./compile wrfplus 2>&1 | tee compile.wrfplus.log
   export WRFPLUS_DIR="${WRF_FOLDER}"/WRFPLUS
+  ./clean -a
+  rm -f "${WRF_FOLDER}"/WRFDA/var/da/da_minimisation/da_residual.inc
 
   # IF statement to check that all files were created.
   cd "${WRF_FOLDER}"/WRFPLUS/main
@@ -32374,6 +32386,8 @@ if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = 
   export NETCDF=$DIR/NETCDF
   export HDF5=$DIR/grib2
   export WRFPLUS_DIR="${WRF_FOLDER}"/WRFPLUS
+  ./clean -a
+  rm -f "${WRF_FOLDER}"/WRFDA/var/da/da_minimisation/da_residual.inc
 
   if [ ${auto_config} -eq 1 ]; then
     echo 10 | ./configure 4dvar 2>&1 | tee configure.log #Option 18 for gfortran/gcc and distribunted memory
@@ -33181,6 +33195,8 @@ if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = 
 
   ./compile wrfplus 2>&1 | tee compile.wrfplus.log
   export WRFPLUS_DIR="${WRF_FOLDER}"/WRFPLUS
+  ./clean -a
+  rm -f "${WRF_FOLDER}"/WRFDA/var/da/da_minimisation/da_residual.inc
 
   # IF statement to check that all files were created.
   cd "${WRF_FOLDER}"/WRFPLUS/main
@@ -33239,6 +33255,8 @@ if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = 
   export NETCDF=$DIR/NETCDF
   export HDF5=$DIR/grib2
   export WRFPLUS_DIR="${WRF_FOLDER}"/WRFPLUS
+  ./clean -a
+  rm -f "${WRF_FOLDER}"/WRFDA/var/da/da_minimisation/da_residual.inc
 
   if [ ${auto_config} -eq 1 ]; then
     echo 10 | ./configure 4dvar 2>&1 | tee configure.log #Option 18 for gfortran/gcc and distribunted memory
@@ -34119,6 +34137,8 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   echo " "
   ./compile -j 2 wrfplus 2>&1 | tee compile.wrfplus.log
   export WRFPLUS_DIR="${WRF_FOLDER}"/WRFPLUS
+  ./clean -a
+  rm -f "${WRF_FOLDER}"/WRFDA/var/da/da_minimisation/da_residual.inc
 
   echo " "
   # IF statement to check that all files were created.
@@ -34177,6 +34197,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   export NETCDF=$DIR/NETCDF
   export HDF5=$DIR/grib2
   export WRFPLUS_DIR="${WRF_FOLDER}"/WRFPLUS
+  rm -f "${WRF_FOLDER}"/WRFDA/var/da/da_minimisation/da_residual.inc
   ./clean -a
 
   if [ ${auto_config} -eq 1 ]; then
@@ -35064,6 +35085,8 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRF_PICK" = "1" ]; then
   echo " "
   ./compile -j 2 wrfplus 2>&1 | tee compile.wrfplus.log
   export WRFPLUS_DIR="${WRF_FOLDER}"/WRFPLUS
+  ./clean -a
+  rm -f "${WRF_FOLDER}"/WRFDA/var/da/da_minimisation/da_residual.inc
 
   echo " "
   # IF statement to check that all files were created.
@@ -35122,6 +35145,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRF_PICK" = "1" ]; then
   export NETCDF=$DIR/NETCDF
   export HDF5=$DIR/grib2
   export WRFPLUS_DIR="${WRF_FOLDER}"/WRFPLUS
+  rm -f "${WRF_FOLDER}"/WRFDA/var/da/da_minimisation/da_residual.inc
   ./clean -a
 
   if [ ${auto_config} -eq 1 ]; then
@@ -35959,6 +35983,8 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRF_PICK" ]; then
   ./compile -j 2 wrfplus 2>&1 | tee wrfplus1.compile.log
 
   export WRFPLUS_DIR="${WRF_FOLDER}"/WRFPLUS
+  ./clean -a
+  rm -f "${WRF_FOLDER}"/WRFDA/var/da/da_minimisation/da_residual.inc
 
   echo " "
 
@@ -36019,6 +36045,7 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRF_PICK" ]; then
   export NETCDF=$DIR/NETCDF
   export HDF5=$DIR/grib2
   export WRFPLUS_DIR="${WRF_FOLDER}"/WRFPLUS
+  rm -f "${WRF_FOLDER}"/WRFDA/var/da/da_minimisation/da_residual.inc
   ./clean -a
 
   if [ ${auto_config} -eq 1 ]; then
