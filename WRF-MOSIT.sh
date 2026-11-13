@@ -31454,6 +31454,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
     ./configure wrfplus 2>&1 | tee configure.log #Option 40 for intel and distribunted memory
   fi
   echo " "
+  rm -f "${WRF_FOLDER}"/WRFDA/var/da/da_minimisation/da_residual.inc
 
   sed -i '136s|mpif90 -f90=$(SFC)|mpiifx|g' "${WRF_FOLDER}"/WRFPLUS/configure.wrf
   sed -i '137s|mpicc -cc=$(SCC)|mpiicx|g' "${WRF_FOLDER}"/WRFPLUS/configure.wrf
@@ -31461,8 +31462,6 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   ./compile -j 2 wrfplus 2>&1 | tee wrfplus1.compile.log
 
   export WRFPLUS_DIR="${WRF_FOLDER}"/WRFPLUS
-  ./clean -a
-  rm -f "${WRF_FOLDER}"/WRFDA/var/da/da_minimisation/da_residual.inc
 
   echo " "
 
@@ -35975,11 +35974,12 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRF_PICK" ]; then
   sed -i '136s|mpif90 -f90=$(SFC)|mpiifx|g' "${WRF_FOLDER}"/WRFPLUS/configure.wrf
   sed -i '137s|mpicc -cc=$(SCC)|mpiicx|g' "${WRF_FOLDER}"/WRFPLUS/configure.wrf
 
+
+
+
   ./compile -j 2 wrfplus 2>&1 | tee wrfplus1.compile.log
 
   export WRFPLUS_DIR="${WRF_FOLDER}"/WRFPLUS
-  ./clean -a
-  rm -f "${WRF_FOLDER}"/WRFDA/var/da/da_minimisation/da_residual.inc
 
   echo " "
 
