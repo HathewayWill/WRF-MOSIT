@@ -29552,8 +29552,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$aarch64" != "1"
   echo " "
   ./compile -j 2 wrfplus 2>&1 | tee compile.wrfplus.log
   export WRFPLUS_DIR="${WRF_FOLDER}"/WRFPLUS
-  ./clean -a
-  rm -f "${WRF_FOLDER}"/WRFDA/var/da/da_minimisation/da_residual.inc
+
 
   echo " "
 
@@ -30505,8 +30504,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$aarch64" = "1" 
   echo " "
   ./compile -j 2 wrfplus 2>&1 | tee compile.wrfplus.log
   export WRFPLUS_DIR="${WRF_FOLDER}"/WRFPLUS
-  ./clean -a
-  rm -f "${WRF_FOLDER}"/WRFDA/var/da/da_minimisation/da_residual.inc
+
 
   echo " "
 
@@ -34137,8 +34135,6 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   echo " "
   ./compile -j 2 wrfplus 2>&1 | tee compile.wrfplus.log
   export WRFPLUS_DIR="${WRF_FOLDER}"/WRFPLUS
-  ./clean -a
-  rm -f "${WRF_FOLDER}"/WRFDA/var/da/da_minimisation/da_residual.inc
 
   echo " "
   # IF statement to check that all files were created.
@@ -35085,8 +35081,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRF_PICK" = "1" ]; then
   echo " "
   ./compile -j 2 wrfplus 2>&1 | tee compile.wrfplus.log
   export WRFPLUS_DIR="${WRF_FOLDER}"/WRFPLUS
-  ./clean -a
-  rm -f "${WRF_FOLDER}"/WRFDA/var/da/da_minimisation/da_residual.inc
+
 
   echo " "
   # IF statement to check that all files were created.
