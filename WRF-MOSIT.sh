@@ -4912,8 +4912,8 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$aarch64" != "
   conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
   ######################### Climate Data Operators ############
-  ######################### CDO compiled via Conda ###########
-  ####################### This is the preferred method #######
+  # CDO compiled via Conda 
+  # This is the preferred method #######
   ################### https://bairdlangenbrunner.github.io/python-for-climate-scientists/conda/setting-up-conda-environments.html #######################
 
   source $Miniconda_Install_DIR/etc/profile.d/conda.sh
@@ -4927,6 +4927,11 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$aarch64" != "
   conda deactivate
 
   echo " "
+  
+  ####################### NCVIEW ############################
+  # NcView compiled via Conda
+  ###########################################################
+  conda create -n ncview -c conda-forge ncview -y
 
   ############################ WRF-SFIRE  #################################
   ## WRF-SFIRE
@@ -6439,8 +6444,8 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
   echo " "
 
   ######################### Climate Data Operators ############
-  ######################### CDO compiled via Conda ###########
-  ####################### This is the preferred method #######
+  # CDO compiled via Conda 
+  # This is the preferred method #######
   ################### https://bairdlangenbrunner.github.io/python-for-climate-scientists/conda/setting-up-conda-environments.html #######################
 
   source $Miniconda_Install_DIR/etc/profile.d/conda.sh
@@ -6454,6 +6459,11 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
   conda deactivate
 
   echo " "
+  
+  ####################### NCVIEW ############################
+  # NcView compiled via Conda
+  ###########################################################
+  conda create -n ncview -c conda-forge ncview -y
 
   ############################ WRF-SFIRE  #################################
   ## WRF-SFIRE
@@ -7223,8 +7233,8 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$SFIRE_PICK" = "1" ]; then
   echo " "
 
   ######################### Climate Data Operators ############
-  ######################### CDO compiled via Conda ###########
-  ####################### This is the preferred method #######
+  # CDO compiled via Conda 
+  # This is the preferred method #######
   ################### https://bairdlangenbrunner.github.io/python-for-climate-scientists/conda/setting-up-conda-environments.html #######################
 
   source $Miniconda_Install_DIR/etc/profile.d/conda.sh
@@ -7238,6 +7248,11 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$SFIRE_PICK" = "1" ]; then
   conda deactivate
 
   echo " "
+  
+  ####################### NCVIEW ############################
+  # NcView compiled via Conda
+  ###########################################################
+  conda create -n ncview -c conda-forge ncview -y
 
   ############################ WRF-SFIRE  #################################
   ## WRF-SFIRE
@@ -8007,8 +8022,8 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$MAC_CHIP" = "I
   conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
   ######################### Climate Data Operators ############
-  ######################### CDO compiled via Conda ###########
-  ####################### This is the preferred method #######
+  # CDO compiled via Conda 
+  # This is the preferred method #######
   ################### https://bairdlangenbrunner.github.io/python-for-climate-scientists/conda/setting-up-conda-environments.html #######################
 
   source $Miniconda_Install_DIR/etc/profile.d/conda.sh
@@ -8022,6 +8037,11 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$MAC_CHIP" = "I
   conda deactivate
 
   echo " "
+  
+  ####################### NCVIEW ############################
+  # NcView compiled via Conda
+  ###########################################################
+  conda create -n ncview -c conda-forge ncview -y
 
   ############################ WRF-SFIRE #################################
   ## WRF-SFIRE
@@ -8846,8 +8866,8 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$MAC_CHIP" = "A
   conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
   ######################### Climate Data Operators ############
-  ######################### CDO compiled via Conda ###########
-  ####################### This is the preferred method #######
+  # CDO compiled via Conda 
+  # This is the preferred method #######
   ################### https://bairdlangenbrunner.github.io/python-for-climate-scientists/conda/setting-up-conda-environments.html #######################
 
   source $Miniconda_Install_DIR/etc/profile.d/conda.sh
@@ -8861,6 +8881,11 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$MAC_CHIP" = "A
   conda deactivate
 
   echo " "
+  
+  ####################### NCVIEW ############################
+  # NcView compiled via Conda
+  ###########################################################
+  conda create -n ncview -c conda-forge ncview -y
 
   ############################ WRF-SFIRE #################################
   ## WRF-SFIRE
@@ -9733,8 +9758,8 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ] && [ "
   conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
   ######################### Climate Data Operators ############
-  ######################### CDO compiled via Conda ###########
-  ####################### This is the preferred method #######
+  # CDO compiled via Conda 
+  # This is the preferred method #######
   ################### https://bairdlangenbrunner.github.io/python-for-climate-scientists/conda/setting-up-conda-environments.html #######################
 
   source $Miniconda_Install_DIR/etc/profile.d/conda.sh
@@ -9748,6 +9773,11 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ] && [ "
   conda deactivate
 
   echo " "
+  
+  ####################### NCVIEW ############################
+  # NcView compiled via Conda
+  ###########################################################
+  conda create -n ncview -c conda-forge ncview -y
 
   #####################################BASH Script Finished##############################
   echo "WRF HYDRO Standalone sucessfully configured and compiled"
@@ -14524,8 +14554,8 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ] && [ "$aa
   conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
   ######################### Climate Data Operators ############
-  ######################### CDO compiled via Conda ###########
-  ####################### This is the preferred method #######
+  # CDO compiled via Conda 
+  # This is the preferred method #######
   ################### https://bairdlangenbrunner.github.io/python-for-climate-scientists/conda/setting-up-conda-environments.html #######################
 
   source $Miniconda_Install_DIR/etc/profile.d/conda.sh
@@ -14539,6 +14569,11 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ] && [ "$aa
   conda deactivate
 
   echo " "
+  
+  ####################### NCVIEW ############################
+  # NcView compiled via Conda
+  ###########################################################
+  conda create -n ncview -c conda-forge ncview -y
 
   ########################## WRF Hydro GIS PreProcessor ##############################
   #  Compiled with Conda
@@ -16350,8 +16385,8 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
   ######################### Climate Data Operators ############
-  ######################### CDO compiled via Conda ###########
-  ####################### This is the preferred method #######
+  # CDO compiled via Conda 
+  # This is the preferred method #######
   ################### https://bairdlangenbrunner.github.io/python-for-climate-scientists/conda/setting-up-conda-environments.html #######################
 
   source $Miniconda_Install_DIR/etc/profile.d/conda.sh
@@ -16365,6 +16400,11 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   conda deactivate
 
   echo " "
+  
+  ####################### NCVIEW ############################
+  # NcView compiled via Conda
+  ###########################################################
+  conda create -n ncview -c conda-forge ncview -y
 
   ########################## WRF Hydro GIS PreProcessor ##############################
   #  Compiled with Conda
@@ -17204,8 +17244,8 @@ if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COU
   conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
   ######################### Climate Data Operators ############
-  ######################### CDO compiled via Conda ###########
-  ####################### This is the preferred method #######
+  # CDO compiled via Conda 
+  # This is the preferred method #######
   ################### https://bairdlangenbrunner.github.io/python-for-climate-scientists/conda/setting-up-conda-environments.html #######################
 
   source $Miniconda_Install_DIR/etc/profile.d/conda.sh
@@ -17219,6 +17259,11 @@ if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COU
   conda deactivate
 
   echo " "
+  
+  ####################### NCVIEW ############################
+  # NcView compiled via Conda
+  ###########################################################
+  conda create -n ncview -c conda-forge ncview -y
 
   ########################## WRF Hydro GIS PreProcessor ##############################
   #  Compiled with Conda
@@ -18046,8 +18091,8 @@ if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COU
   conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
   ######################### Climate Data Operators ############
-  ######################### CDO compiled via Conda ###########
-  ####################### This is the preferred method #######
+  # CDO compiled via Conda 
+  # This is the preferred method #######
   ################### https://bairdlangenbrunner.github.io/python-for-climate-scientists/conda/setting-up-conda-environments.html #######################
 
   source $Miniconda_Install_DIR/etc/profile.d/conda.sh
@@ -18061,6 +18106,11 @@ if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COU
   conda deactivate
 
   echo " "
+  
+  ####################### NCVIEW ############################
+  # NcView compiled via Conda
+  ###########################################################
+  conda create -n ncview -c conda-forge ncview -y
 
   ########################## WRF Hydro GIS PreProcessor ##############################
   #  Compiled with Conda
@@ -20574,8 +20624,8 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
   ######################### Climate Data Operators ############
-  ######################### CDO compiled via Conda ###########
-  ####################### This is the preferred method #######
+  # CDO compiled via Conda 
+  # This is the preferred method #######
   ################### https://bairdlangenbrunner.github.io/python-for-climate-scientists/conda/setting-up-conda-environments.html #######################
 
   source $Miniconda_Install_DIR/etc/profile.d/conda.sh
@@ -20589,6 +20639,11 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   conda deactivate
 
   echo " "
+  
+  ####################### NCVIEW ############################
+  # NcView compiled via Conda
+  ###########################################################
+  conda create -n ncview -c conda-forge ncview -y
 
   ########################## WRF Hydro GIS PreProcessor ##############################
   #  Compiled with Conda
@@ -23558,8 +23613,8 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
   ######################### Climate Data Operators ############
-  ######################### CDO compiled via Conda ###########
-  ####################### This is the preferred method #######
+  # CDO compiled via Conda 
+  # This is the preferred method #######
   ################### https://bairdlangenbrunner.github.io/python-for-climate-scientists/conda/setting-up-conda-environments.html #######################
 
   source $Miniconda_Install_DIR/etc/profile.d/conda.sh
@@ -23573,6 +23628,11 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   conda deactivate
 
   echo " "
+  
+  ####################### NCVIEW ############################
+  # NcView compiled via Conda
+  ###########################################################
+  conda create -n ncview -c conda-forge ncview -y
 
   ############################WRFDA 3DVAR###############################
   ## WRFDA v${WPS_VERSION} 3DVAR
@@ -24535,8 +24595,8 @@ if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK
   conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
   ######################### Climate Data Operators ############
-  ######################### CDO compiled via Conda ###########
-  ####################### This is the preferred method #######
+  # CDO compiled via Conda 
+  # This is the preferred method #######
   ################### https://bairdlangenbrunner.github.io/python-for-climate-scientists/conda/setting-up-conda-environments.html #######################
 
   source $Miniconda_Install_DIR/etc/profile.d/conda.sh
@@ -24550,6 +24610,11 @@ if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK
   conda deactivate
 
   echo " "
+  
+  ####################### NCVIEW ############################
+  # NcView compiled via Conda
+  ###########################################################
+  conda create -n ncview -c conda-forge ncview -y
 
   ############################ WRFCHEM #################################
   ## WRF CHEM v${WPS_VERSION}
@@ -25395,8 +25460,8 @@ if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK
   conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
   ######################### Climate Data Operators ############
-  ######################### CDO compiled via Conda ###########
-  ####################### This is the preferred method #######
+  # CDO compiled via Conda 
+  # This is the preferred method #######
   ################### https://bairdlangenbrunner.github.io/python-for-climate-scientists/conda/setting-up-conda-environments.html #######################
 
   source $Miniconda_Install_DIR/etc/profile.d/conda.sh
@@ -25410,6 +25475,11 @@ if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK
   conda deactivate
 
   echo " "
+  
+  ####################### NCVIEW ############################
+  # NcView compiled via Conda
+  ###########################################################
+  conda create -n ncview -c conda-forge ncview -y
 
   ############################ WRFCHEM #################################
   ## WRF CHEM v${WPS_VERSION}
@@ -28297,8 +28367,8 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" ]; then
   conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
   ######################### Climate Data Operators ############
-  ######################### CDO compiled via Conda ###########
-  ####################### This is the preferred method #######
+  # CDO compiled via Conda 
+  # This is the preferred method #######
   ################### https://bairdlangenbrunner.github.io/python-for-climate-scientists/conda/setting-up-conda-environments.html #######################
 
   source $Miniconda_Install_DIR/etc/profile.d/conda.sh
@@ -28312,6 +28382,11 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" ]; then
   conda deactivate
 
   echo " "
+  
+  ####################### NCVIEW ############################
+  # NcView compiled via Conda
+  ###########################################################
+  conda create -n ncview -c conda-forge ncview -y
 
   ############################WRFDA 3DVAR###############################
   ## WRFDA v${WPS_VERSION} 3DVAR
@@ -29368,8 +29443,8 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$aarch64" != "1"
   conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
   ######################### Climate Data Operators ############
-  ######################### CDO compiled via Conda ###########
-  ####################### This is the preferred method #######
+  # CDO compiled via Conda 
+  # This is the preferred method #######
   ################### https://bairdlangenbrunner.github.io/python-for-climate-scientists/conda/setting-up-conda-environments.html #######################
 
   source $Miniconda_Install_DIR/etc/profile.d/conda.sh
@@ -29383,6 +29458,11 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$aarch64" != "1"
   conda deactivate
 
   echo " "
+  
+  ####################### NCVIEW ############################
+  # NcView compiled via Conda
+  ###########################################################
+  conda create -n ncview -c conda-forge ncview -y
 
   ############################ WRF #################################
   ## WRF v${WPS_VERSION}
@@ -31267,8 +31347,8 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
   ######################### Climate Data Operators ############
-  ######################### CDO compiled via Conda ###########
-  ####################### This is the preferred method #######
+  # CDO compiled via Conda 
+  # This is the preferred method #######
   ################### https://bairdlangenbrunner.github.io/python-for-climate-scientists/conda/setting-up-conda-environments.html #######################
 
   source $Miniconda_Install_DIR/etc/profile.d/conda.sh
@@ -31282,6 +31362,11 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   conda deactivate
 
   echo " "
+  
+  ####################### NCVIEW ############################
+  # NcView compiled via Conda
+  ###########################################################
+  conda create -n ncview -c conda-forge ncview -y
 
   ############################ WRF #################################
   ## WRF v${WPS_VERSION}
@@ -32144,8 +32229,8 @@ if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = 
   conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
   ######################### Climate Data Operators ############
-  ######################### CDO compiled via Conda ###########
-  ####################### This is the preferred method #######
+  # CDO compiled via Conda 
+  # This is the preferred method #######
   ################### https://bairdlangenbrunner.github.io/python-for-climate-scientists/conda/setting-up-conda-environments.html #######################
 
   source $Miniconda_Install_DIR/etc/profile.d/conda.sh
@@ -32159,6 +32244,11 @@ if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = 
   conda deactivate
 
   echo " "
+  
+  ####################### NCVIEW ############################
+  # NcView compiled via Conda
+  ###########################################################
+  conda create -n ncview -c conda-forge ncview -y
 
   ############################ WRF #################################
   ## WRF v${WPS_VERSION}
@@ -33016,8 +33106,8 @@ if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = 
   conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
   ######################### Climate Data Operators ############
-  ######################### CDO compiled via Conda ###########
-  ####################### This is the preferred method #######
+  # CDO compiled via Conda 
+  # This is the preferred method #######
   ################### https://bairdlangenbrunner.github.io/python-for-climate-scientists/conda/setting-up-conda-environments.html #######################
 
   source $Miniconda_Install_DIR/etc/profile.d/conda.sh
@@ -33031,6 +33121,11 @@ if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = 
   conda deactivate
 
   echo " "
+  
+  ####################### NCVIEW ############################
+  # NcView compiled via Conda
+  ###########################################################
+  conda create -n ncview -c conda-forge ncview -y
 
   ############################ WRF #################################
   ## WRF v${WPS_VERSION}
@@ -35783,8 +35878,8 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRF_PICK" ]; then
   conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
   ######################### Climate Data Operators ############
-  ######################### CDO compiled via Conda ###########
-  ####################### This is the preferred method #######
+  # CDO compiled via Conda 
+  # This is the preferred method #######
   ################### https://bairdlangenbrunner.github.io/python-for-climate-scientists/conda/setting-up-conda-environments.html #######################
 
   source $Miniconda_Install_DIR/etc/profile.d/conda.sh
@@ -35798,6 +35893,11 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRF_PICK" ]; then
   conda deactivate
 
   echo " "
+  
+  ####################### NCVIEW ############################
+  # NcView compiled via Conda
+  ###########################################################
+  conda create -n ncview -c conda-forge ncview -y
 
   ############################ WRF #################################
   ## WRF v${WPS_VERSION}
@@ -37689,8 +37789,8 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$COAWST_PICK" = "1" ]; then
   conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
   ######################### Climate Data Operators ############
-  ######################### CDO compiled via Conda ###########
-  ####################### This is the preferred method #######
+  # CDO compiled via Conda 
+  # This is the preferred method #######
   ################### https://bairdlangenbrunner.github.io/python-for-climate-scientists/conda/setting-up-conda-environments.html #######################
 
   source $Miniconda_Install_DIR/etc/profile.d/conda.sh
@@ -37704,6 +37804,11 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$COAWST_PICK" = "1" ]; then
   conda deactivate
 
   echo " "
+  
+  ####################### NCVIEW ############################
+  # NcView compiled via Conda
+  ###########################################################
+  conda create -n ncview -c conda-forge ncview -y
 
   ########################COAWST 3.9###################################
   ########################COAWST 3.9###################################
@@ -38301,8 +38406,8 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$COAWST_PICK" = "1" ]; then
   conda env create -f $HOME/WRF-MOSIT/wrf-python-stable.yml
 
   ######################### Climate Data Operators ############
-  ######################### CDO compiled via Conda ###########
-  ####################### This is the preferred method #######
+  # CDO compiled via Conda 
+  # This is the preferred method #######
   ################### https://bairdlangenbrunner.github.io/python-for-climate-scientists/conda/setting-up-conda-environments.html #######################
 
   source $Miniconda_Install_DIR/etc/profile.d/conda.sh
@@ -38316,6 +38421,11 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$COAWST_PICK" = "1" ]; then
   conda deactivate
 
   echo " "
+  
+  ####################### NCVIEW ############################
+  # NcView compiled via Conda
+  ###########################################################
+  conda create -n ncview -c conda-forge ncview -y
 
   ########################COAWST 3.9###################################
   ########################COAWST 3.9###################################
