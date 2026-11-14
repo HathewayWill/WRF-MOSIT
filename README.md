@@ -22,7 +22,7 @@ This is a BASH script that provides options to install the following Weather Res
     - Linux Debian Distro (Ubuntu, Mint, etc)
     - Windows Subsystem for Linux (Debian Distro, Ubuntu, Mint, etc)
     - Linux Fedora Distro (Centos, Rocky Linux, RHL, etc)
-- 350 Gigabyte (GB) of free storage space
+- 300 Gigabyte (GB) of free storage space
 ---
 ### Minimum Reccomended System Configuration
 - 16GB or more RAM
@@ -143,6 +143,7 @@ export CMAQ_VERSION=6.0
     - OpenGrADS 
     - GrADS 
     - NCAR Command Langauge (Conda installed)
+    - ncview (Conda installed)
     - Climate Data Operators (Conda installed)
       
 - WRF-CHEM
@@ -152,6 +153,7 @@ export CMAQ_VERSION=6.0
     - OpenGrADS
     - GrADS
     - NCAR Command Langauge (Conda installed)
+    - ncview (Conda installed)
     - Climate Data Operators (Conda installed)
     - Prep-Chem-SRC v1.5 (GNU only)
     - WRF CHEM Tools
@@ -178,6 +180,7 @@ export CMAQ_VERSION=6.0
     - OpenGrADS
     - GrADS
     - NCAR Command Langauge (Conda installed)
+    - ncview (Conda installed)
     - Climate Data Operators (Conda installed)
     - WRF-GIS-Preprocessor (Conda installed)
       
@@ -188,6 +191,7 @@ export CMAQ_VERSION=6.0
     - OpenGrADS
     - GrADS
     - NCAR Command Langauge (Conda installed)
+    - ncview (Conda installed)
     - Climate Data Operators (Conda installed)
   
 - WRF-CMAQ
@@ -197,6 +201,7 @@ export CMAQ_VERSION=6.0
     - OpenGrADS
     - GrADS
     - NCAR Command Langauge (Conda installed)
+    - ncview (Conda installed)
     - Climate Data Operators (Conda installed)
 
 - COAWST
@@ -206,6 +211,7 @@ export CMAQ_VERSION=6.0
     - OpenGrADS
     - GrADS
     - NCAR Command Langauge (Conda installed)
+    - ncview (Conda installed)
     - Climate Data Operators (Conda installed)
 
 ---
@@ -314,6 +320,7 @@ The WRF-MOSIT installation includes several pre-configured **Conda environments*
 | `ncl_stable`     | `$HOME/<WRF software name>/miniconda3/envs/ncl_stable` | Environment for **NCAR Command Language (NCL)** – used for advanced scientific visualization and analysis of atmospheric data. |
 | `wrf-python`     | `$HOME/<WRF software name>/miniconda3/envs/wrf-python` | Environment for **WRF-Python** – a Python package for post-processing WRF model output using NumPy and Matplotlib-compatible interfaces. |
 | `wrfh_gis_env`     | `$HOME/<WRF software name>/miniconda3/envs/wrfh_gis_env` | Environment for **WRF-GIS-Preprocessor** – The WRF-Hydro GIS Pre-processor provides various scripts and tools for building the geospatial input files for running a WRF-Hydro simulation. |
+| `ncview`     | `$HOME/<WRF software name>/miniconda3/envs/ncview` | Environment for **ncview** |
 
 > These environments ensure tool stability and avoid dependency conflicts by isolating the tools in their own environments. You can activate them using:
 
