@@ -1,15 +1,34 @@
 cff-version: 1.2.0
-message: "If you use this software in your work, please cite it using these metadata."
-title: "WRF-MOSIT: a modular and cross-platform tool for configuring and installing the WRF model"
+message: >-
+  If you use WRF-MOSIT in research or a publication, please cite the
+  peer-reviewed WRF-MOSIT paper listed below.
+type: software
+title: "WRF-MOSIT: WRF Multi Operational System Install Toolkit"
+version: "2.0.0"
 authors:
-- family-names: "Hatheway"
-given-names: "W."
-- family-names: "Snoun"
-given-names: "H."
-- family-names: "ur Rehman"
-given-names: "H."
-- family-names: "Mwanthi"
-given-names: "A."
-journal: "Earth Science Informatics"
-year: 2023
-doi: "10.1007/s12145-023-01136-y"
+  - family-names: Hatheway
+    given-names: W.
+  - family-names: Snoun
+    given-names: H.
+  - family-names: ur Rehman
+    given-names: H.
+  - family-names: Mwanthi
+    given-names: A.
+repository-code: "https://github.com/HathewayWill/WRF-MOSIT"
+url: "https://github.com/HathewayWill/WRF-MOSIT"
+license: GPL-3.0-only
+preferred-citation:
+  type: article
+  title: "WRF-MOSIT: a modular and cross-platform tool for configuring and installing the WRF model"
+  authors:
+    - family-names: Hatheway
+      given-names: W.
+    - family-names: Snoun
+      given-names: H.
+    - family-names: ur Rehman
+      given-names: H.
+    - family-names: Mwanthi
+      given-names: A.
+  journal: "Earth Science Informatics"
+  year: 2023
+  doi: "10.1007/s12145-023-01136-y"
