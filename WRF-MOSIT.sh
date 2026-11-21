@@ -44791,7 +44791,7 @@ if [ "$WRFCHEM_TOOLS" = "1" ]; then
     chmod 775 *.sh
     # Run the separate WRF-Chem Tools installer in a clean environment
     # while passing only the values its entry point expects.
-    env -i PASSWD="$PASSWD" Ubuntu_64bit_GNU="$Ubuntu_64bit_GNU" ./WRFCHEM_TOOLS_MOSIT.sh "$PASSWD" "$Ubuntu_64bit_GNU"
+    env -i HOME="$HOME" PATH="$PATH" PASSWD="$PASSWD" Ubuntu_64bit_GNU="$Ubuntu_64bit_GNU" ./WRFCHEM_TOOLS_MOSIT.sh "$PASSWD" "$Ubuntu_64bit_GNU"
     cd $HOME
   fi
 
@@ -44804,7 +44804,7 @@ if [ "$WRFCHEM_TOOLS" = "1" ]; then
     chmod 775 *.sh
     # Run the separate WRF-Chem Tools installer in a clean environment
     # while passing only the values its entry point expects.
-    env -i PASSWD="$PASSWD" Ubuntu_64bit_Intel="$Ubuntu_64bit_Intel" ./WRFCHEM_TOOLS_MOSIT.sh "$PASSWD" "$Ubuntu_64bit_Intel"
+    env -i HOME="$HOME" PATH="$PATH" PASSWD="$PASSWD" Ubuntu_64bit_Intel="$Ubuntu_64bit_Intel" ./WRFCHEM_TOOLS_MOSIT.sh "$PASSWD" "$Ubuntu_64bit_Intel"
     cd $HOME
   fi
 
@@ -44817,7 +44817,7 @@ if [ "$WRFCHEM_TOOLS" = "1" ]; then
     chmod 775 *.sh
     # Run the separate WRF-Chem Tools installer in a clean environment
     # while passing only the values its entry point expects.
-    env -i PASSWD="$PASSWD" macos_64bit_GNU="$macos_64bit_GNU" ./WRFCHEM_TOOLS_MOSIT.sh "$PASSWD" "$macos_64bit_GNU"
+    env -i HOME="$HOME" PATH="$PATH" PASSWD="$PASSWD" macos_64bit_GNU="$macos_64bit_GNU" ./WRFCHEM_TOOLS_MOSIT.sh "$PASSWD" "$macos_64bit_GNU"
     cd $HOME
   fi
 
@@ -44830,7 +44830,7 @@ if [ "$WRFCHEM_TOOLS" = "1" ]; then
     chmod 775 *.sh
     # Run the separate WRF-Chem Tools installer in a clean environment
     # while passing only the values its entry point expects.
-    env -i PASSWD="$PASSWD" RHL_64bit_GNU="$RHL_64bit_GNU" ./WRFCHEM_TOOLS_MOSIT.sh "$PASSWD" "$RHL_64bit_GNU"
+    env -i HOME="$HOME" PATH="$PATH" PASSWD="$PASSWD" RHL_64bit_GNU="$RHL_64bit_GNU" ./WRFCHEM_TOOLS_MOSIT.sh "$PASSWD" "$RHL_64bit_GNU"
     cd $HOME
   fi
 
@@ -44843,7 +44843,7 @@ if [ "$WRFCHEM_TOOLS" = "1" ]; then
     chmod 775 *.sh
     # Run the separate WRF-Chem Tools installer in a clean environment
     # while passing only the values its entry point expects.
-    env -i PASSWD="$PASSWD" RHL_64bit_GNU="$RHL_64bit_GNU" ./WRFCHEM_TOOLS_MOSIT.sh "$PASSWD" "$RHL_64bit_GNU"
+    env -i HOME="$HOME" PATH="$PATH" PASSWD="$PASSWD" RHL_64bit_GNU="$RHL_64bit_GNU" ./WRFCHEM_TOOLS_MOSIT.sh "$PASSWD" "$RHL_64bit_GNU"
     cd $HOME
   fi
 
