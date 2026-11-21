@@ -1,4 +1,33 @@
 #!/bin/bash
+
+# ============================================================================
+# Terminal Failure Handling
+# ============================================================================
+# Display fatal installation errors and keep an interactive terminal visible
+# until Enter is pressed. A successful exit or user cancellation does not pause.
+# Avoid waiting in noninteractive jobs without an attached terminal.
+wrf_mosit_pause_on_failure() {
+  local exit_status=$?
+
+  # User interrupts and ordinary cancellations should close normally.
+  if (( exit_status == 0 || exit_status == 130 || exit_status == 143 )); then
+    return 0
+  fi
+
+  printf '\n============================================================\n' >&2
+  printf 'WRF-MOSIT installation stopped with exit status %s\n' "$exit_status" >&2
+  printf 'Review the error above and any configure.log or compile.log.\n' >&2
+  printf '============================================================\n' >&2
+
+  if [[ -t 0 ]]; then
+    read -r -p 'Press Enter to close this terminal... ' _ || true
+  elif [[ -r /dev/tty && -w /dev/tty ]]; then
+    printf 'Press Enter to close this terminal... ' > /dev/tty
+    IFS= read -r _ < /dev/tty || true
+  fi
+}
+trap wrf_mosit_pause_on_failure EXIT
+
 ulimit -s unlimited
 
 ################################################################################
@@ -825,7 +854,7 @@ if [ "$SYSTEMOS" = "RHL" ]; then
   # Check for 32-bit RHL system
   if [ "$SYSTEMBIT" = "32" ]; then
     echo "Your system is not compatible with this script."
-    exit
+    exit 1
   fi
 
   # Check for 64-bit RHL system
@@ -917,7 +946,7 @@ fi
 # Check for 32-bit Linux system
 if [ "$SYSTEMBIT" = "32" ] && [ "$SYSTEMOS" = "Linux" ]; then
   echo "Your system is not compatible with this script."
-  exit
+  exit 1
 fi
 
 ################################################################################
@@ -927,7 +956,7 @@ fi
 # Check for 32-bit macOS system
 if [ "$SYSTEMBIT" = "32" ] && [ "$SYSTEMOS" = "MacOS" ]; then
   echo "Your system is not compatible with this script."
-  exit
+  exit 1
 fi
 
 # Check for 64-bit Intel-based macOS system
@@ -3383,7 +3412,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
     else
       echo "Missing one or more expected files. Exiting the script."
       read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
-      exit
+      exit 1
     fi
     echo " "
 
@@ -3427,7 +3456,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
       echo "Enviroment Test 1 Passed"
     else
       echo "Environment Compiler Test 1 Failed"
-      exit
+      exit 1
     fi
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
 
@@ -3440,7 +3469,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
       echo "Enviroment Test 2 Passed"
     else
       echo "Environment Compiler Test 2 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -3454,7 +3483,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
       echo "Enviroment Test 3 Passed"
     else
       echo "Environment Compiler Test 3 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -3470,7 +3499,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
       echo "Enviroment Test 4 Passed"
     else
       echo "Environment Compiler Test 4 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -3501,7 +3530,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
       echo "Compatibility Test 1 Passed"
     else
       echo "Compatibility Compiler Test 1 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -3521,7 +3550,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
       echo "Compatibility Test 2 Passed"
     else
       echo "Compatibility Compiler Test 2 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -3619,7 +3648,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
   else
     echo "Missing one or more expected files. Exiting the script."
     read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
-    exit
+    exit 1
   fi
   echo " "
 
@@ -3674,7 +3703,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
   else
     echo "Missing one or more expected files. Exiting the script."
     read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
-    exit
+    exit 1
   fi
   echo " "
 
@@ -4191,7 +4220,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
     else
       echo "Missing one or more expected files. Exiting the script."
       read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
-      exit
+      exit 1
     fi
     echo " "
 
@@ -4235,7 +4264,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
       echo "Enviroment Test 1 Passed"
     else
       echo "Environment Compiler Test 1 Failed"
-      exit
+      exit 1
     fi
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
 
@@ -4248,7 +4277,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
       echo "Enviroment Test 2 Passed"
     else
       echo "Environment Compiler Test 2 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -4262,7 +4291,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
       echo "Enviroment Test 3 Passed"
     else
       echo "Environment Compiler Test 3 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -4278,7 +4307,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
       echo "Enviroment Test 4 Passed"
     else
       echo "Environment Compiler Test 4 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -4309,7 +4338,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
       echo "Compatibility Test 1 Passed"
     else
       echo "Compatibility Compiler Test 1 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -4329,7 +4358,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
       echo "Compatibility Test 2 Passed"
     else
       echo "Compatibility Compiler Test 2 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -4427,7 +4456,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
   else
     echo "Missing one or more expected files. Exiting the script."
     read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
-    exit
+    exit 1
   fi
   echo " "
 
@@ -4482,7 +4511,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
   else
     echo "Missing one or more expected files. Exiting the script."
     read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
-    exit
+    exit 1
   fi
   echo " "
 
@@ -5010,7 +5039,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$CMAQ_PICK" = "1" ]; then
     else
       echo "Missing one or more expected files. Exiting the script."
       read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
-      exit
+      exit 1
     fi
     echo " "
 
@@ -5054,7 +5083,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$CMAQ_PICK" = "1" ]; then
       echo "Enviroment Test 1 Passed"
     else
       echo "Environment Compiler Test 1 Failed"
-      exit
+      exit 1
     fi
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
 
@@ -5067,7 +5096,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$CMAQ_PICK" = "1" ]; then
       echo "Enviroment Test 2 Passed"
     else
       echo "Environment Compiler Test 2 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -5081,7 +5110,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$CMAQ_PICK" = "1" ]; then
       echo "Enviroment Test 3 Passed"
     else
       echo "Environment Compiler Test 3 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -5097,7 +5126,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$CMAQ_PICK" = "1" ]; then
       echo "Enviroment Test 4 Passed"
     else
       echo "Environment Compiler Test 4 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -5128,7 +5157,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$CMAQ_PICK" = "1" ]; then
       echo "Compatibility Test 1 Passed"
     else
       echo "Compatibility Compiler Test 1 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -5148,7 +5177,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$CMAQ_PICK" = "1" ]; then
       echo "Compatibility Test 2 Passed"
     else
       echo "Compatibility Compiler Test 2 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -5246,7 +5275,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$CMAQ_PICK" = "1" ]; then
   else
     echo "Missing one or more expected files. Exiting the script."
     read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
-    exit
+    exit 1
   fi
   echo " "
 
@@ -5301,7 +5330,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$CMAQ_PICK" = "1" ]; then
   else
     echo "Missing one or more expected files. Exiting the script."
     read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
-    exit
+    exit 1
   fi
   echo " "
 
@@ -5826,7 +5855,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$aarch64" != "
       echo "Enviroment Test 1 Passed"
     else
       echo "Environment Compiler Test 1 Failed"
-      exit
+      exit 1
     fi
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
 
@@ -5839,7 +5868,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$aarch64" != "
       echo "Enviroment Test 2 Passed"
     else
       echo "Environment Compiler Test 2 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -5853,7 +5882,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$aarch64" != "
       echo "Enviroment Test 3 Passed"
     else
       echo "Environment Compiler Test 3 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -5869,7 +5898,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$aarch64" != "
       echo "Enviroment Test 4 Passed"
     else
       echo "Environment Compiler Test 4 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -5900,7 +5929,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$aarch64" != "
       echo "Compatibility Test 1 Passed"
     else
       echo "Compatibility Compiler Test 1 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -5920,7 +5949,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$aarch64" != "
       echo "Compatibility Test 2 Passed"
     else
       echo "Compatibility Compiler Test 2 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -6112,7 +6141,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$aarch64" != "
       read -r -t 5 -p "Finished installing WRF. I am going to wait for 5 seconds only ..."
     else
       read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
-      exit
+      exit 1
     fi
   fi
 
@@ -6148,7 +6177,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$aarch64" != "
       read -r -t 5 -p "Finished installing WRF-SFIRE. I am going to wait for 5 seconds only ..."
     else
       read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
-      exit
+      exit 1
     fi
   fi
 
@@ -6210,7 +6239,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$aarch64" != "
       read -r -t 5 -p "Finished installing WPS. I am going to wait for 5 seconds only ..."
     else
       read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
-      exit
+      exit 1
     fi
   fi
 
@@ -6710,7 +6739,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$aarch64" = "1
       echo "Enviroment Test 1 Passed"
     else
       echo "Environment Compiler Test 1 Failed"
-      exit
+      exit 1
     fi
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
 
@@ -6723,7 +6752,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$aarch64" = "1
       echo "Enviroment Test 2 Passed"
     else
       echo "Environment Compiler Test 2 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -6737,7 +6766,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$aarch64" = "1
       echo "Enviroment Test 3 Passed"
     else
       echo "Environment Compiler Test 3 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -6753,7 +6782,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$aarch64" = "1
       echo "Enviroment Test 4 Passed"
     else
       echo "Environment Compiler Test 4 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -6784,7 +6813,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$aarch64" = "1
       echo "Compatibility Test 1 Passed"
     else
       echo "Compatibility Compiler Test 1 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -6804,7 +6833,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$aarch64" = "1
       echo "Compatibility Test 2 Passed"
     else
       echo "Compatibility Compiler Test 2 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -6997,7 +7026,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$aarch64" = "1
       read -r -t 5 -p "Finished installing WRF. I am going to wait for 5 seconds only ..."
     else
       read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
-      exit
+      exit 1
     fi
   fi
 
@@ -7033,7 +7062,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$aarch64" = "1
       read -r -t 5 -p "Finished installing WRF-SFIRE. I am going to wait for 5 seconds only ..."
     else
       read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
-      exit
+      exit 1
     fi
   fi
 
@@ -7095,7 +7124,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$aarch64" = "1
       read -r -t 5 -p "Finished installing WPS. I am going to wait for 5 seconds only ..."
     else
       read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
-      exit
+      exit 1
     fi
   fi
 
@@ -7603,7 +7632,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
       echo "Enviroment Test 1 Passed"
     else
       echo "Environment Compiler Test 1 Failed"
-      exit
+      exit 1
     fi
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
 
@@ -7616,7 +7645,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
       echo "Enviroment Test 2 Passed"
     else
       echo "Environment Compiler Test 2 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -7630,7 +7659,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
       echo "Enviroment Test 3 Passed"
     else
       echo "Environment Compiler Test 3 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -7646,7 +7675,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
       echo "Enviroment Test 4 Passed"
     else
       echo "Environment Compiler Test 4 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -7677,7 +7706,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
       echo "Compatibility Test 1 Passed"
     else
       echo "Compatibility Compiler Test 1 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -7697,7 +7726,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
       echo "Compatibility Test 2 Passed"
     else
       echo "Compatibility Compiler Test 2 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -7892,7 +7921,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
       read -r -t 5 -p "Finished installing WRF. I am going to wait for 5 seconds only ..."
     else
       read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
-      exit
+      exit 1
     fi
   fi
 
@@ -7928,7 +7957,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
       read -r -t 5 -p "Finished installing WRF-SFIRE. I am going to wait for 5 seconds only ..."
     else
       read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
-      exit
+      exit 1
     fi
   fi
 
@@ -7990,7 +8019,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ]; then
       read -r -t 5 -p "Finished installing WPS. I am going to wait for 5 seconds only ..."
     else
       read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
-      exit
+      exit 1
     fi
   fi
 
@@ -8511,7 +8540,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$SFIRE_PICK" = "1" ]; then
       echo "Enviroment Test 1 Passed"
     else
       echo "Environment Compiler Test 1 Failed"
-      exit
+      exit 1
     fi
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
 
@@ -8524,7 +8553,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$SFIRE_PICK" = "1" ]; then
       echo "Enviroment Test 2 Passed"
     else
       echo "Environment Compiler Test 2 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -8538,7 +8567,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$SFIRE_PICK" = "1" ]; then
       echo "Enviroment Test 3 Passed"
     else
       echo "Environment Compiler Test 3 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -8554,7 +8583,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$SFIRE_PICK" = "1" ]; then
       echo "Enviroment Test 4 Passed"
     else
       echo "Environment Compiler Test 4 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -8585,7 +8614,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$SFIRE_PICK" = "1" ]; then
       echo "Compatibility Test 1 Passed"
     else
       echo "Compatibility Compiler Test 1 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -8605,7 +8634,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$SFIRE_PICK" = "1" ]; then
       echo "Compatibility Test 2 Passed"
     else
       echo "Compatibility Compiler Test 2 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -8802,7 +8831,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$SFIRE_PICK" = "1" ]; then
       read -r -t 5 -p "Finished installing WRF. I am going to wait for 5 seconds only ..."
     else
       read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
-      exit
+      exit 1
     fi
   fi
 
@@ -8838,7 +8867,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$SFIRE_PICK" = "1" ]; then
       read -r -t 5 -p "Finished installing WRF-SFIRE. I am going to wait for 5 seconds only ..."
     else
       read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
-      exit
+      exit 1
     fi
   fi
 
@@ -8901,7 +8930,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$SFIRE_PICK" = "1" ]; then
       read -r -t 5 -p "Finished installing WPS. I am going to wait for 5 seconds only ..."
     else
       read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
-      exit
+      exit 1
     fi
   fi
 
@@ -9445,7 +9474,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$MAC_CHIP" = "I
       echo "Enviroment Test 1 Passed"
     else
       echo "Environment Compiler Test 1 Failed"
-      exit
+      exit 1
     fi
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
 
@@ -9458,7 +9487,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$MAC_CHIP" = "I
       echo "Enviroment Test 2 Passed"
     else
       echo "Environment Compiler Test 2 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -9472,7 +9501,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$MAC_CHIP" = "I
       echo "Enviroment Test 3 Passed"
     else
       echo "Environment Compiler Test 3 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -9488,7 +9517,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$MAC_CHIP" = "I
       echo "Enviroment Test 4 Passed"
     else
       echo "Environment Compiler Test 4 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -9519,7 +9548,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$MAC_CHIP" = "I
       echo "Compatibility Test 1 Passed"
     else
       echo "Compatibility Compiler Test 1 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -9539,7 +9568,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$MAC_CHIP" = "I
       echo "Compatibility Test 2 Passed"
     else
       echo "Compatibility Compiler Test 2 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -10419,7 +10448,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$MAC_CHIP" = "A
       echo "Enviroment Test 1 Passed"
     else
       echo "Environment Compiler Test 1 Failed"
-      exit
+      exit 1
     fi
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
 
@@ -10432,7 +10461,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$MAC_CHIP" = "A
       echo "Enviroment Test 2 Passed"
     else
       echo "Environment Compiler Test 2 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -10446,7 +10475,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$MAC_CHIP" = "A
       echo "Enviroment Test 3 Passed"
     else
       echo "Environment Compiler Test 3 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -10462,7 +10491,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$MAC_CHIP" = "A
       echo "Enviroment Test 4 Passed"
     else
       echo "Environment Compiler Test 4 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -10493,7 +10522,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$MAC_CHIP" = "A
       echo "Compatibility Test 1 Passed"
     else
       echo "Compatibility Compiler Test 1 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -10513,7 +10542,7 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$MAC_CHIP" = "A
       echo "Compatibility Test 2 Passed"
     else
       echo "Compatibility Compiler Test 2 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -11349,7 +11378,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ] && [ "
       echo "Enviroment Test 1 Passed"
     else
       echo "Environment Compiler Test 1 Failed"
-      exit
+      exit 1
     fi
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
 
@@ -11362,7 +11391,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ] && [ "
       echo "Enviroment Test 2 Passed"
     else
       echo "Environment Compiler Test 2 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -11376,7 +11405,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ] && [ "
       echo "Enviroment Test 3 Passed"
     else
       echo "Environment Compiler Test 3 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -11392,7 +11421,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ] && [ "
       echo "Enviroment Test 4 Passed"
     else
       echo "Environment Compiler Test 4 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -11423,7 +11452,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ] && [ "
       echo "Compatibility Test 1 Passed"
     else
       echo "Compatibility Compiler Test 1 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -11443,7 +11472,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ] && [ "
       echo "Compatibility Test 2 Passed"
     else
       echo "Compatibility Compiler Test 2 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -12047,7 +12076,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ] && [ "
       echo "Enviroment Test 1 Passed"
     else
       echo "Environment Compiler Test 1 Failed"
-      exit
+      exit 1
     fi
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
 
@@ -12060,7 +12089,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ] && [ "
       echo "Enviroment Test 2 Passed"
     else
       echo "Environment Compiler Test 2 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -12074,7 +12103,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ] && [ "
       echo "Enviroment Test 3 Passed"
     else
       echo "Environment Compiler Test 3 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -12090,7 +12119,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ] && [ "
       echo "Enviroment Test 4 Passed"
     else
       echo "Environment Compiler Test 4 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -12121,7 +12150,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ] && [ "
       echo "Compatibility Test 1 Passed"
     else
       echo "Compatibility Compiler Test 1 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -12141,7 +12170,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ] && [ "
       echo "Compatibility Test 2 Passed"
     else
       echo "Compatibility Compiler Test 2 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -12714,7 +12743,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; the
       echo "Enviroment Test 1 Passed"
     else
       echo "Environment Compiler Test 1 Failed"
-      exit
+      exit 1
     fi
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
 
@@ -12727,7 +12756,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; the
       echo "Enviroment Test 2 Passed"
     else
       echo "Environment Compiler Test 2 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -12741,7 +12770,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; the
       echo "Enviroment Test 3 Passed"
     else
       echo "Environment Compiler Test 3 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -12757,7 +12786,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; the
       echo "Enviroment Test 4 Passed"
     else
       echo "Environment Compiler Test 4 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -12788,7 +12817,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; the
       echo "Compatibility Test 1 Passed"
     else
       echo "Compatibility Compiler Test 1 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -12808,7 +12837,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; the
       echo "Compatibility Test 2 Passed"
     else
       echo "Compatibility Compiler Test 2 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -13415,7 +13444,7 @@ if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STA
       echo "Enviroment Test 1 Passed"
     else
       echo "Environment Compiler Test 1 Failed"
-      exit
+      exit 1
     fi
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
 
@@ -13428,7 +13457,7 @@ if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STA
       echo "Enviroment Test 2 Passed"
     else
       echo "Environment Compiler Test 2 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -13442,7 +13471,7 @@ if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STA
       echo "Enviroment Test 3 Passed"
     else
       echo "Environment Compiler Test 3 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -13458,7 +13487,7 @@ if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STA
       echo "Enviroment Test 4 Passed"
     else
       echo "Environment Compiler Test 4 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -13489,7 +13518,7 @@ if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STA
       echo "Compatibility Test 1 Passed"
     else
       echo "Compatibility Compiler Test 1 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -13509,7 +13538,7 @@ if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STA
       echo "Compatibility Test 2 Passed"
     else
       echo "Compatibility Compiler Test 2 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -14121,7 +14150,7 @@ if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STA
       echo "Enviroment Test 1 Passed"
     else
       echo "Environment Compiler Test 1 Failed"
-      exit
+      exit 1
     fi
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
 
@@ -14134,7 +14163,7 @@ if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STA
       echo "Enviroment Test 2 Passed"
     else
       echo "Environment Compiler Test 2 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -14148,7 +14177,7 @@ if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STA
       echo "Enviroment Test 3 Passed"
     else
       echo "Environment Compiler Test 3 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -14164,7 +14193,7 @@ if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STA
       echo "Enviroment Test 4 Passed"
     else
       echo "Environment Compiler Test 4 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -14195,7 +14224,7 @@ if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STA
       echo "Compatibility Test 1 Passed"
     else
       echo "Compatibility Compiler Test 1 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -14215,7 +14244,7 @@ if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STA
       echo "Compatibility Test 2 Passed"
     else
       echo "Compatibility Compiler Test 2 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -14803,7 +14832,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
       echo "Enviroment Test 1 Passed"
     else
       echo "Environment Compiler Test 1 Failed"
-      exit
+      exit 1
     fi
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
 
@@ -14816,7 +14845,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
       echo "Enviroment Test 2 Passed"
     else
       echo "Environment Compiler Test 2 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -14830,7 +14859,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
       echo "Enviroment Test 3 Passed"
     else
       echo "Environment Compiler Test 3 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -14846,7 +14875,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
       echo "Enviroment Test 4 Passed"
     else
       echo "Environment Compiler Test 4 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -14877,7 +14906,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
       echo "Compatibility Test 1 Passed"
     else
       echo "Compatibility Compiler Test 1 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -14897,7 +14926,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
       echo "Compatibility Test 2 Passed"
     else
       echo "Compatibility Compiler Test 2 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -15499,7 +15528,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
       echo "Enviroment Test 1 Passed"
     else
       echo "Environment Compiler Test 1 Failed"
-      exit
+      exit 1
     fi
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
 
@@ -15512,7 +15541,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
       echo "Enviroment Test 2 Passed"
     else
       echo "Environment Compiler Test 2 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -15526,7 +15555,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
       echo "Enviroment Test 3 Passed"
     else
       echo "Environment Compiler Test 3 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -15542,7 +15571,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
       echo "Enviroment Test 4 Passed"
     else
       echo "Environment Compiler Test 4 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -15573,7 +15602,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
       echo "Compatibility Test 1 Passed"
     else
       echo "Compatibility Compiler Test 1 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -15593,7 +15622,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
       echo "Compatibility Test 2 Passed"
     else
       echo "Compatibility Compiler Test 2 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -16100,7 +16129,7 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" ]; then
       echo "Enviroment Test 1 Passed"
     else
       echo "Environment Compiler Test 1 Failed"
-      exit
+      exit 1
     fi
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
 
@@ -16113,7 +16142,7 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" ]; then
       echo "Enviroment Test 2 Passed"
     else
       echo "Environment Compiler Test 2 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -16127,7 +16156,7 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" ]; then
       echo "Enviroment Test 3 Passed"
     else
       echo "Environment Compiler Test 3 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -16143,7 +16172,7 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" ]; then
       echo "Enviroment Test 4 Passed"
     else
       echo "Environment Compiler Test 4 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -16174,7 +16203,7 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" ]; then
       echo "Compatibility Test 1 Passed"
     else
       echo "Compatibility Compiler Test 1 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -16194,7 +16223,7 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" ]; then
       echo "Compatibility Test 2 Passed"
     else
       echo "Compatibility Compiler Test 2 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -16795,7 +16824,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ] && [ "$aa
       echo "Enviroment Test 1 Passed"
     else
       echo "Environment Compiler Test 1 Failed"
-      exit
+      exit 1
     fi
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
 
@@ -16808,7 +16837,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ] && [ "$aa
       echo "Enviroment Test 2 Passed"
     else
       echo "Environment Compiler Test 2 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -16822,7 +16851,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ] && [ "$aa
       echo "Enviroment Test 3 Passed"
     else
       echo "Environment Compiler Test 3 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -16838,7 +16867,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ] && [ "$aa
       echo "Enviroment Test 4 Passed"
     else
       echo "Environment Compiler Test 4 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -16869,7 +16898,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ] && [ "$aa
       echo "Compatibility Test 1 Passed"
     else
       echo "Compatibility Compiler Test 1 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -16889,7 +16918,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ] && [ "$aa
       echo "Compatibility Test 2 Passed"
     else
       echo "Compatibility Compiler Test 2 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -17287,7 +17316,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ] && [ "$aa
       read -r -t 5 -p "Finished installing WRF. I am going to wait for 5 seconds only ..."
     else
       read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
-      exit
+      exit 1
     fi
   fi
 
@@ -17353,7 +17382,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ] && [ "$aa
       read -r -t 5 -p "Finished installing WPS. I am going to wait for 5 seconds only ..."
     else
       read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
-      exit
+      exit 1
     fi
   fi
 
@@ -17844,7 +17873,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ] && [ "$aa
       echo "Enviroment Test 1 Passed"
     else
       echo "Environment Compiler Test 1 Failed"
-      exit
+      exit 1
     fi
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
 
@@ -17857,7 +17886,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ] && [ "$aa
       echo "Enviroment Test 2 Passed"
     else
       echo "Environment Compiler Test 2 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -17871,7 +17900,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ] && [ "$aa
       echo "Enviroment Test 3 Passed"
     else
       echo "Environment Compiler Test 3 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -17887,7 +17916,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ] && [ "$aa
       echo "Enviroment Test 4 Passed"
     else
       echo "Environment Compiler Test 4 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -17918,7 +17947,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ] && [ "$aa
       echo "Compatibility Test 1 Passed"
     else
       echo "Compatibility Compiler Test 1 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -17938,7 +17967,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ] && [ "$aa
       echo "Compatibility Test 2 Passed"
     else
       echo "Compatibility Compiler Test 2 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -18334,7 +18363,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ] && [ "$aa
       read -r -t 5 -p "Finished installing WRF. I am going to wait for 5 seconds only ..."
     else
       read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
-      exit
+      exit 1
     fi
   fi
 
@@ -18402,7 +18431,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ] && [ "$aa
       read -r -t 5 -p "Finished installing WPS. I am going to wait for 5 seconds only ..."
     else
       read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
-      exit
+      exit 1
     fi
   fi
 
@@ -18898,7 +18927,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
       echo "Enviroment Test 1 Passed"
     else
       echo "Environment Compiler Test 1 Failed"
-      exit
+      exit 1
     fi
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
 
@@ -18911,7 +18940,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
       echo "Enviroment Test 2 Passed"
     else
       echo "Environment Compiler Test 2 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -18925,7 +18954,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
       echo "Enviroment Test 3 Passed"
     else
       echo "Environment Compiler Test 3 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -18941,7 +18970,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
       echo "Enviroment Test 4 Passed"
     else
       echo "Environment Compiler Test 4 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -18972,7 +19001,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
       echo "Compatibility Test 1 Passed"
     else
       echo "Compatibility Compiler Test 1 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -18992,7 +19021,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
       echo "Compatibility Test 2 Passed"
     else
       echo "Compatibility Compiler Test 2 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -19408,7 +19437,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
       read -r -t 5 -p "Finished installing WRF. I am going to wait for 5 seconds only ..."
     else
       read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
-      exit
+      exit 1
     fi
   fi
 
@@ -19479,7 +19508,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
       read -r -t 5 -p "Finished installing WPS. I am going to wait for 5 seconds only ..."
     else
       read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
-      exit
+      exit 1
     fi
   fi
 
@@ -19988,7 +20017,7 @@ if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COU
       echo "Enviroment Test 1 Passed"
     else
       echo "Environment Compiler Test 1 Failed"
-      exit
+      exit 1
     fi
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
 
@@ -20001,7 +20030,7 @@ if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COU
       echo "Enviroment Test 2 Passed"
     else
       echo "Environment Compiler Test 2 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -20015,7 +20044,7 @@ if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COU
       echo "Enviroment Test 3 Passed"
     else
       echo "Environment Compiler Test 3 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -20031,7 +20060,7 @@ if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COU
       echo "Enviroment Test 4 Passed"
     else
       echo "Environment Compiler Test 4 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -20062,7 +20091,7 @@ if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COU
       echo "Compatibility Test 1 Passed"
     else
       echo "Compatibility Compiler Test 1 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -20082,7 +20111,7 @@ if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COU
       echo "Compatibility Test 2 Passed"
     else
       echo "Compatibility Compiler Test 2 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -20372,7 +20401,7 @@ if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COU
       read -r -t 5 -p "Finished installing WRF. I am going to wait for 5 seconds only ..."
     else
       read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
-      exit
+      exit 1
     fi
   fi
 
@@ -20438,7 +20467,7 @@ if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COU
       read -r -t 5 -p "Finished installing WPS. I am going to wait for 5 seconds only ..."
     else
       read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
-      exit
+      exit 1
     fi
   fi
 
@@ -20958,7 +20987,7 @@ if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COU
       echo "Enviroment Test 1 Passed"
     else
       echo "Environment Compiler Test 1 Failed"
-      exit
+      exit 1
     fi
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
 
@@ -20971,7 +21000,7 @@ if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COU
       echo "Enviroment Test 2 Passed"
     else
       echo "Environment Compiler Test 2 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -20985,7 +21014,7 @@ if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COU
       echo "Enviroment Test 3 Passed"
     else
       echo "Environment Compiler Test 3 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -21001,7 +21030,7 @@ if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COU
       echo "Enviroment Test 4 Passed"
     else
       echo "Environment Compiler Test 4 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -21032,7 +21061,7 @@ if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COU
       echo "Compatibility Test 1 Passed"
     else
       echo "Compatibility Compiler Test 1 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -21052,7 +21081,7 @@ if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COU
       echo "Compatibility Test 2 Passed"
     else
       echo "Compatibility Compiler Test 2 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -21342,7 +21371,7 @@ if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COU
       read -r -t 5 -p "Finished installing WRF. I am going to wait for 5 seconds only ..."
     else
       read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
-      exit
+      exit 1
     fi
   fi
 
@@ -21407,7 +21436,7 @@ if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COU
       read -r -t 5 -p "Finished installing WPS. I am going to wait for 5 seconds only ..."
     else
       read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
-      exit
+      exit 1
     fi
   fi
 
@@ -21905,7 +21934,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
       echo "Enviroment Test 1 Passed"
     else
       echo "Environment Compiler Test 1 Failed"
-      exit
+      exit 1
     fi
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
 
@@ -21918,7 +21947,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
       echo "Enviroment Test 2 Passed"
     else
       echo "Environment Compiler Test 2 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -21932,7 +21961,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
       echo "Enviroment Test 3 Passed"
     else
       echo "Environment Compiler Test 3 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -21948,7 +21977,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
       echo "Enviroment Test 4 Passed"
     else
       echo "Environment Compiler Test 4 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -21979,7 +22008,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
       echo "Compatibility Test 1 Passed"
     else
       echo "Compatibility Compiler Test 1 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -21999,7 +22028,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
       echo "Compatibility Test 2 Passed"
     else
       echo "Compatibility Compiler Test 2 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -22381,7 +22410,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
       read -r -t 5 -p "Finished installing WRF. I am going to wait for 5 seconds only ..."
     else
       read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
-      exit
+      exit 1
     fi
   fi
 
@@ -22447,7 +22476,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
       read -r -t 5 -p "Finished installing WPS. I am going to wait for 5 seconds only ..."
     else
       read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
-      exit
+      exit 1
     fi
   fi
 
@@ -22953,7 +22982,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
       echo "Enviroment Test 1 Passed"
     else
       echo "Environment Compiler Test 1 Failed"
-      exit
+      exit 1
     fi
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
 
@@ -22966,7 +22995,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
       echo "Enviroment Test 2 Passed"
     else
       echo "Environment Compiler Test 2 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -22980,7 +23009,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
       echo "Enviroment Test 3 Passed"
     else
       echo "Environment Compiler Test 3 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -22996,7 +23025,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
       echo "Enviroment Test 4 Passed"
     else
       echo "Environment Compiler Test 4 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -23027,7 +23056,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
       echo "Compatibility Test 1 Passed"
     else
       echo "Compatibility Compiler Test 1 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -23047,7 +23076,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
       echo "Compatibility Test 2 Passed"
     else
       echo "Compatibility Compiler Test 2 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -23361,7 +23390,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
       read -r -t 5 -p "Finished installing WRF. I am going to wait for 5 seconds only ..."
     else
       read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
-      exit
+      exit 1
     fi
   fi
 
@@ -23427,7 +23456,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
       read -r -t 5 -p "Finished installing WPS. I am going to wait for 5 seconds only ..."
     else
       read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
-      exit
+      exit 1
     fi
   fi
 
@@ -23852,7 +23881,7 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
       echo "Enviroment Test 1 Passed"
     else
       echo "Environment Compiler Test 1 Failed"
-      exit
+      exit 1
     fi
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
 
@@ -23865,7 +23894,7 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
       echo "Enviroment Test 2 Passed"
     else
       echo "Environment Compiler Test 2 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -23879,7 +23908,7 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
       echo "Enviroment Test 3 Passed"
     else
       echo "Environment Compiler Test 3 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -23895,7 +23924,7 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
       echo "Enviroment Test 4 Passed"
     else
       echo "Environment Compiler Test 4 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -23926,7 +23955,7 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
       echo "Compatibility Test 1 Passed"
     else
       echo "Compatibility Compiler Test 1 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -23946,7 +23975,7 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
       echo "Compatibility Test 2 Passed"
     else
       echo "Compatibility Compiler Test 2 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -24280,7 +24309,7 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
       read -r -t 5 -p "Finished installing WRF. I am going to wait for 5 seconds only ..."
     else
       read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
-      exit
+      exit 1
     fi
   fi
 
@@ -24351,7 +24380,7 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
       read -r -t 5 -p "Finished installing WPS. I am going to wait for 5 seconds only ..."
     else
       read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
-      exit
+      exit 1
     fi
   fi
 
@@ -24860,7 +24889,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$aarch64" !=
       echo "Enviroment Test 1 Passed"
     else
       echo "Environment Compiler Test 1 Failed"
-      exit
+      exit 1
     fi
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
 
@@ -24873,7 +24902,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$aarch64" !=
       echo "Enviroment Test 2 Passed"
     else
       echo "Environment Compiler Test 2 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -24887,7 +24916,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$aarch64" !=
       echo "Enviroment Test 3 Passed"
     else
       echo "Environment Compiler Test 3 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -24903,7 +24932,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$aarch64" !=
       echo "Enviroment Test 4 Passed"
     else
       echo "Environment Compiler Test 4 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -24934,7 +24963,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$aarch64" !=
       echo "Compatibility Test 1 Passed"
     else
       echo "Compatibility Compiler Test 1 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -24954,7 +24983,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$aarch64" !=
       echo "Compatibility Test 2 Passed"
     else
       echo "Compatibility Compiler Test 2 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -25252,7 +25281,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$aarch64" !=
       read -r -t 5 -p "Finished installing WRFDA. I am going to wait for 5 seconds only ..."
     else
       read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
-      exit
+      exit 1
     fi
   fi
 
@@ -25442,7 +25471,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$aarch64" !=
       read -r -t 5 -p "Finished installing WRF. I am going to wait for 5 seconds only ..."
     else
       read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
-      exit
+      exit 1
     fi
   fi
 
@@ -25478,7 +25507,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$aarch64" !=
       read -r -t 5 -p "Finished installing WRF. I am going to wait for 5 seconds only ..."
     else
       read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
-      exit
+      exit 1
     fi
   fi
 
@@ -25535,7 +25564,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$aarch64" !=
       read -r -t 5 -p "Finished installing WPS. I am going to wait for 5 seconds only ..."
     else
       read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
-      exit
+      exit 1
     fi
   fi
 
@@ -26023,7 +26052,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$aarch64" = 
       echo "Enviroment Test 1 Passed"
     else
       echo "Environment Compiler Test 1 Failed"
-      exit
+      exit 1
     fi
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
 
@@ -26036,7 +26065,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$aarch64" = 
       echo "Enviroment Test 2 Passed"
     else
       echo "Environment Compiler Test 2 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -26050,7 +26079,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$aarch64" = 
       echo "Enviroment Test 3 Passed"
     else
       echo "Environment Compiler Test 3 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -26066,7 +26095,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$aarch64" = 
       echo "Enviroment Test 4 Passed"
     else
       echo "Environment Compiler Test 4 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -26097,7 +26126,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$aarch64" = 
       echo "Compatibility Test 1 Passed"
     else
       echo "Compatibility Compiler Test 1 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -26117,7 +26146,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$aarch64" = 
       echo "Compatibility Test 2 Passed"
     else
       echo "Compatibility Compiler Test 2 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -26415,7 +26444,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$aarch64" = 
       read -r -t 5 -p "Finished installing WRFDA. I am going to wait for 5 seconds only ..."
     else
       read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
-      exit
+      exit 1
     fi
   fi
 
@@ -26633,7 +26662,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$aarch64" = 
       read -r -t 5 -p "Finished installing WRF. I am going to wait for 5 seconds only ..."
     else
       read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
-      exit
+      exit 1
     fi
   fi
 
@@ -26669,7 +26698,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$aarch64" = 
       read -r -t 5 -p "Finished installing WRF. I am going to wait for 5 seconds only ..."
     else
       read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
-      exit
+      exit 1
     fi
   fi
 
@@ -26727,7 +26756,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$aarch64" = 
       read -r -t 5 -p "Finished installing WPS. I am going to wait for 5 seconds only ..."
     else
       read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
-      exit
+      exit 1
     fi
   fi
 
@@ -27211,7 +27240,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
       echo "Enviroment Test 1 Passed"
     else
       echo "Environment Compiler Test 1 Failed"
-      exit
+      exit 1
     fi
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
 
@@ -27224,7 +27253,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
       echo "Enviroment Test 2 Passed"
     else
       echo "Environment Compiler Test 2 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -27238,7 +27267,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
       echo "Enviroment Test 3 Passed"
     else
       echo "Environment Compiler Test 3 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -27254,7 +27283,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
       echo "Enviroment Test 4 Passed"
     else
       echo "Environment Compiler Test 4 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -27285,7 +27314,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
       echo "Compatibility Test 1 Passed"
     else
       echo "Compatibility Compiler Test 1 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -27305,7 +27334,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
       echo "Compatibility Test 2 Passed"
     else
       echo "Compatibility Compiler Test 2 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -27606,7 +27635,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
       read -r -t 5 -p "Finished installing WRFDA. I am going to wait for 5 seconds only ..."
     else
       read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
-      exit
+      exit 1
     fi
   fi
   echo " "
@@ -27813,7 +27842,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
       read -r -t 5 -p "Finished installing WRF. I am going to wait for 5 seconds only ..."
     else
       read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
-      exit
+      exit 1
     fi
   fi
 
@@ -27849,7 +27878,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
       read -r -t 5 -p "Finished installing WRF. I am going to wait for 5 seconds only ..."
     else
       read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
-      exit
+      exit 1
     fi
   fi
 
@@ -27923,7 +27952,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
       read -r -t 5 -p "Finished installing WPS. I am going to wait for 5 seconds only ..."
     else
       read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
-      exit
+      exit 1
     fi
   fi
 
@@ -28430,7 +28459,7 @@ if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK
       echo "Enviroment Test 1 Passed"
     else
       echo "Environment Compiler Test 1 Failed"
-      exit
+      exit 1
     fi
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
 
@@ -28443,7 +28472,7 @@ if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK
       echo "Enviroment Test 2 Passed"
     else
       echo "Environment Compiler Test 2 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -28457,7 +28486,7 @@ if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK
       echo "Enviroment Test 3 Passed"
     else
       echo "Environment Compiler Test 3 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -28473,7 +28502,7 @@ if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK
       echo "Enviroment Test 4 Passed"
     else
       echo "Environment Compiler Test 4 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -28504,7 +28533,7 @@ if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK
       echo "Compatibility Test 1 Passed"
     else
       echo "Compatibility Compiler Test 1 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -28524,7 +28553,7 @@ if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK
       echo "Compatibility Test 2 Passed"
     else
       echo "Compatibility Compiler Test 2 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -28721,7 +28750,7 @@ if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK
       read -r -t 5 -p "Finished installing WRF. I am going to wait for 5 seconds only ..."
     else
       read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
-      exit
+      exit 1
     fi
   fi
 
@@ -28757,7 +28786,7 @@ if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK
       read -r -t 5 -p "Finished installing WRF. I am going to wait for 5 seconds only ..."
     else
       read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
-      exit
+      exit 1
     fi
   fi
 
@@ -28825,7 +28854,7 @@ if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK
       read -r -t 5 -p "Finished installing WPS. I am going to wait for 5 seconds only ..."
     else
       read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
-      exit
+      exit 1
     fi
   fi
 
@@ -28913,7 +28942,7 @@ if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK
       read -r -t 5 -p "Finished installing WRFDA. I am going to wait for 5 seconds only ..."
     else
       read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
-      exit
+      exit 1
     fi
   fi
   echo " "
@@ -29432,7 +29461,7 @@ if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK
       echo "Enviroment Test 1 Passed"
     else
       echo "Environment Compiler Test 1 Failed"
-      exit
+      exit 1
     fi
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
 
@@ -29445,7 +29474,7 @@ if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK
       echo "Enviroment Test 2 Passed"
     else
       echo "Environment Compiler Test 2 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -29459,7 +29488,7 @@ if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK
       echo "Enviroment Test 3 Passed"
     else
       echo "Environment Compiler Test 3 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -29475,7 +29504,7 @@ if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK
       echo "Enviroment Test 4 Passed"
     else
       echo "Environment Compiler Test 4 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -29506,7 +29535,7 @@ if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK
       echo "Compatibility Test 1 Passed"
     else
       echo "Compatibility Compiler Test 1 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -29526,7 +29555,7 @@ if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK
       echo "Compatibility Test 2 Passed"
     else
       echo "Compatibility Compiler Test 2 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -29723,7 +29752,7 @@ if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK
       read -r -t 5 -p "Finished installing WRF. I am going to wait for 5 seconds only ..."
     else
       read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
-      exit
+      exit 1
     fi
   fi
 
@@ -29759,7 +29788,7 @@ if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK
       read -r -t 5 -p "Finished installing WRF. I am going to wait for 5 seconds only ..."
     else
       read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
-      exit
+      exit 1
     fi
   fi
 
@@ -29827,7 +29856,7 @@ if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK
       read -r -t 5 -p "Finished installing WPS. I am going to wait for 5 seconds only ..."
     else
       read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
-      exit
+      exit 1
     fi
   fi
 
@@ -29915,7 +29944,7 @@ if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK
       read -r -t 5 -p "Finished installing WRFDA. I am going to wait for 5 seconds only ..."
     else
       read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
-      exit
+      exit 1
     fi
   fi
   echo " "
@@ -30415,7 +30444,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
       echo "Enviroment Test 1 Passed"
     else
       echo "Environment Compiler Test 1 Failed"
-      exit
+      exit 1
     fi
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
 
@@ -30428,7 +30457,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
       echo "Enviroment Test 2 Passed"
     else
       echo "Environment Compiler Test 2 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -30442,7 +30471,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
       echo "Enviroment Test 3 Passed"
     else
       echo "Environment Compiler Test 3 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -30458,7 +30487,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
       echo "Enviroment Test 4 Passed"
     else
       echo "Environment Compiler Test 4 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -30489,7 +30518,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
       echo "Compatibility Test 1 Passed"
     else
       echo "Compatibility Compiler Test 1 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -30509,7 +30538,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
       echo "Compatibility Test 2 Passed"
     else
       echo "Compatibility Compiler Test 2 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -30787,7 +30816,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
       read -r -t 5 -p "Finished installing WRFDA. I am going to wait for 5 seconds only ..."
     else
       read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
-      exit
+      exit 1
     fi
   fi
   echo " "
@@ -31002,7 +31031,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
       read -r -t 5 -p "Finished installing WRF. I am going to wait for 5 seconds only ..."
     else
       read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
-      exit
+      exit 1
     fi
   fi
 
@@ -31038,7 +31067,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
       read -r -t 5 -p "Finished installing WRF. I am going to wait for 5 seconds only ..."
     else
       read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
-      exit
+      exit 1
     fi
   fi
 
@@ -31095,7 +31124,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
       read -r -t 5 -p "Finished installing WPS. I am going to wait for 5 seconds only ..."
     else
       read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
-      exit
+      exit 1
     fi
   fi
 
@@ -31603,7 +31632,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRFCHEM_PICK" = "1" ]; then
       echo "Enviroment Test 1 Passed"
     else
       echo "Environment Compiler Test 1 Failed"
-      exit
+      exit 1
     fi
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
 
@@ -31616,7 +31645,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRFCHEM_PICK" = "1" ]; then
       echo "Enviroment Test 2 Passed"
     else
       echo "Environment Compiler Test 2 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -31630,7 +31659,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRFCHEM_PICK" = "1" ]; then
       echo "Enviroment Test 3 Passed"
     else
       echo "Environment Compiler Test 3 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -31646,7 +31675,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRFCHEM_PICK" = "1" ]; then
       echo "Enviroment Test 4 Passed"
     else
       echo "Environment Compiler Test 4 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -31677,7 +31706,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRFCHEM_PICK" = "1" ]; then
       echo "Compatibility Test 1 Passed"
     else
       echo "Compatibility Compiler Test 1 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -31697,7 +31726,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRFCHEM_PICK" = "1" ]; then
       echo "Compatibility Test 2 Passed"
     else
       echo "Compatibility Compiler Test 2 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -31946,7 +31975,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRFCHEM_PICK" = "1" ]; then
       read -r -t 5 -p "Finished installing WRFDA. I am going to wait for 5 seconds only ..."
     else
       read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
-      exit
+      exit 1
     fi
   fi
   echo " "
@@ -32161,7 +32190,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRFCHEM_PICK" = "1" ]; then
       read -r -t 5 -p "Finished installing WRF. I am going to wait for 5 seconds only ..."
     else
       read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
-      exit
+      exit 1
     fi
   fi
 
@@ -32197,7 +32226,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRFCHEM_PICK" = "1" ]; then
       read -r -t 5 -p "Finished installing WRF. I am going to wait for 5 seconds only ..."
     else
       read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
-      exit
+      exit 1
     fi
   fi
 
@@ -32254,7 +32283,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRFCHEM_PICK" = "1" ]; then
       read -r -t 5 -p "Finished installing WPS. I am going to wait for 5 seconds only ..."
     else
       read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
-      exit
+      exit 1
     fi
   fi
 
@@ -32679,7 +32708,7 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" ]; then
       echo "Enviroment Test 1 Passed"
     else
       echo "Environment Compiler Test 1 Failed"
-      exit
+      exit 1
     fi
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
 
@@ -32692,7 +32721,7 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" ]; then
       echo "Enviroment Test 2 Passed"
     else
       echo "Environment Compiler Test 2 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -32706,7 +32735,7 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" ]; then
       echo "Enviroment Test 3 Passed"
     else
       echo "Environment Compiler Test 3 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -32722,7 +32751,7 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" ]; then
       echo "Enviroment Test 4 Passed"
     else
       echo "Environment Compiler Test 4 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -32753,7 +32782,7 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" ]; then
       echo "Compatibility Test 1 Passed"
     else
       echo "Compatibility Compiler Test 1 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -32773,7 +32802,7 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" ]; then
       echo "Compatibility Test 2 Passed"
     else
       echo "Compatibility Compiler Test 2 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -33078,7 +33107,7 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" ]; then
       read -r -t 5 -p "Finished installing WRFDA. I am going to wait for 5 seconds only ..."
     else
       read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
-      exit
+      exit 1
     fi
   fi
   echo " "
@@ -33289,7 +33318,7 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" ]; then
       read -r -t 5 -p "Finished installing WRF. I am going to wait for 5 seconds only ..."
     else
       read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
-      exit
+      exit 1
     fi
   fi
 
@@ -33325,7 +33354,7 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" ]; then
       read -r -t 5 -p "Finished installing WRF. I am going to wait for 5 seconds only ..."
     else
       read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
-      exit
+      exit 1
     fi
   fi
 
@@ -33397,7 +33426,7 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" ]; then
       read -r -t 5 -p "Finished installing WPS. I am going to wait for 5 seconds only ..."
     else
       read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
-      exit
+      exit 1
     fi
   fi
 
@@ -33914,7 +33943,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$aarch64" != "1"
       echo "Enviroment Test 1 Passed"
     else
       echo "Environment Compiler Test 1 Failed"
-      exit
+      exit 1
     fi
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
 
@@ -33927,7 +33956,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$aarch64" != "1"
       echo "Enviroment Test 2 Passed"
     else
       echo "Environment Compiler Test 2 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -33941,7 +33970,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$aarch64" != "1"
       echo "Enviroment Test 3 Passed"
     else
       echo "Environment Compiler Test 3 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -33957,7 +33986,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$aarch64" != "1"
       echo "Enviroment Test 4 Passed"
     else
       echo "Environment Compiler Test 4 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -33988,7 +34017,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$aarch64" != "1"
       echo "Compatibility Test 1 Passed"
     else
       echo "Compatibility Compiler Test 1 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -34008,7 +34037,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$aarch64" != "1"
       echo "Compatibility Test 2 Passed"
     else
       echo "Compatibility Compiler Test 2 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -34310,7 +34339,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$aarch64" != "1"
       read -r -t 5 -p "Finished installing WRF. I am going to wait for 5 seconds only ..."
     else
       read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
-      exit
+      exit 1
     fi
   fi
 
@@ -34376,7 +34405,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$aarch64" != "1"
       read -r -t 5 -p "Finished installing WPS. I am going to wait for 5 seconds only ..."
     else
       read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
-      exit
+      exit 1
     fi
   fi
 
@@ -34453,7 +34482,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$aarch64" != "1"
     else
       echo "Missing one or more expected files."
       read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
-      exit
+      exit 1
     fi
   fi
 
@@ -34537,7 +34566,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$aarch64" != "1"
       read -r -t 5 -p "Finished installing WRFDA. I am going to wait for 5 seconds only ..."
     else
       read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
-      exit
+      exit 1
     fi
   fi
   echo " "
@@ -35031,7 +35060,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$aarch64" = "1" 
       echo "Enviroment Test 1 Passed"
     else
       echo "Environment Compiler Test 1 Failed"
-      exit
+      exit 1
     fi
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
 
@@ -35044,7 +35073,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$aarch64" = "1" 
       echo "Enviroment Test 2 Passed"
     else
       echo "Environment Compiler Test 2 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -35058,7 +35087,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$aarch64" = "1" 
       echo "Enviroment Test 3 Passed"
     else
       echo "Environment Compiler Test 3 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -35074,7 +35103,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$aarch64" = "1" 
       echo "Enviroment Test 4 Passed"
     else
       echo "Environment Compiler Test 4 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -35105,7 +35134,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$aarch64" = "1" 
       echo "Compatibility Test 1 Passed"
     else
       echo "Compatibility Compiler Test 1 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -35125,7 +35154,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$aarch64" = "1" 
       echo "Compatibility Test 2 Passed"
     else
       echo "Compatibility Compiler Test 2 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -35418,7 +35447,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$aarch64" = "1" 
       read -r -t 5 -p "Finished installing WRF. I am going to wait for 5 seconds only ..."
     else
       read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
-      exit
+      exit 1
     fi
   fi
 
@@ -35485,7 +35514,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$aarch64" = "1" 
       read -r -t 5 -p "Finished installing WPS. I am going to wait for 5 seconds only ..."
     else
       read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
-      exit
+      exit 1
     fi
   fi
 
@@ -35562,7 +35591,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$aarch64" = "1" 
     else
       echo "Missing one or more expected files."
       read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
-      exit
+      exit 1
     fi
   fi
 
@@ -35646,7 +35675,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$aarch64" = "1" 
       read -r -t 5 -p "Finished installing WRFDA. I am going to wait for 5 seconds only ..."
     else
       read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
-      exit
+      exit 1
     fi
   fi
   echo " "
@@ -36128,7 +36157,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
       echo "Enviroment Test 1 Passed"
     else
       echo "Environment Compiler Test 1 Failed"
-      exit
+      exit 1
     fi
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
 
@@ -36141,7 +36170,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
       echo "Enviroment Test 2 Passed"
     else
       echo "Environment Compiler Test 2 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -36155,7 +36184,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
       echo "Enviroment Test 3 Passed"
     else
       echo "Environment Compiler Test 3 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -36171,7 +36200,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
       echo "Enviroment Test 4 Passed"
     else
       echo "Environment Compiler Test 4 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -36202,7 +36231,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
       echo "Compatibility Test 1 Passed"
     else
       echo "Compatibility Compiler Test 1 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -36222,7 +36251,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
       echo "Compatibility Test 2 Passed"
     else
       echo "Compatibility Compiler Test 2 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -36526,7 +36555,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
       read -r -t 5 -p "Finished installing WRF. I am going to wait for 5 seconds only ..."
     else
       read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
-      exit
+      exit 1
     fi
   fi
 
@@ -36596,7 +36625,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
       read -r -t 5 -p "Finished installing WPS. I am going to wait for 5 seconds only ..."
     else
       read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
-      exit
+      exit 1
     fi
   fi
 
@@ -36679,7 +36708,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
     else
       echo "Missing one or more expected files."
       read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
-      exit
+      exit 1
     fi
   fi
 
@@ -36767,7 +36796,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
       read -r -t 5 -p "Finished installing WRFDA. I am going to wait for 5 seconds only ..."
     else
       read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
-      exit
+      exit 1
     fi
   fi
   echo " "
@@ -37260,7 +37289,7 @@ if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = 
       echo "Enviroment Test 1 Passed"
     else
       echo "Environment Compiler Test 1 Failed"
-      exit
+      exit 1
     fi
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
 
@@ -37273,7 +37302,7 @@ if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = 
       echo "Enviroment Test 2 Passed"
     else
       echo "Environment Compiler Test 2 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -37287,7 +37316,7 @@ if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = 
       echo "Enviroment Test 3 Passed"
     else
       echo "Environment Compiler Test 3 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -37303,7 +37332,7 @@ if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = 
       echo "Enviroment Test 4 Passed"
     else
       echo "Environment Compiler Test 4 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -37334,7 +37363,7 @@ if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = 
       echo "Compatibility Test 1 Passed"
     else
       echo "Compatibility Compiler Test 1 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -37354,7 +37383,7 @@ if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = 
       echo "Compatibility Test 2 Passed"
     else
       echo "Compatibility Compiler Test 2 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -37543,7 +37572,7 @@ if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = 
       read -r -t 5 -p "Finished installing WRF. I am going to wait for 5 seconds only ..."
     else
       read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
-      exit
+      exit 1
     fi
   fi
   echo " "
@@ -37608,7 +37637,7 @@ if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = 
       read -r -t 5 -p "Finished installing WPS. I am going to wait for 5 seconds only ..."
     else
       read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
-      exit
+      exit 1
     fi
   fi
   echo " "
@@ -37685,7 +37714,7 @@ if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = 
     else
       echo "Missing one or more expected files."
       read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
-      exit
+      exit 1
     fi
   fi
 
@@ -37768,7 +37797,7 @@ if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = 
       read -r -t 5 -p "Finished installing WRFDA. I am going to wait for 5 seconds only ..."
     else
       read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
-      exit
+      exit 1
     fi
   fi
 
@@ -38279,7 +38308,7 @@ if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = 
       echo "Enviroment Test 1 Passed"
     else
       echo "Environment Compiler Test 1 Failed"
-      exit
+      exit 1
     fi
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
 
@@ -38292,7 +38321,7 @@ if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = 
       echo "Enviroment Test 2 Passed"
     else
       echo "Environment Compiler Test 2 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -38306,7 +38335,7 @@ if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = 
       echo "Enviroment Test 3 Passed"
     else
       echo "Environment Compiler Test 3 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -38322,7 +38351,7 @@ if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = 
       echo "Enviroment Test 4 Passed"
     else
       echo "Environment Compiler Test 4 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -38353,7 +38382,7 @@ if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = 
       echo "Compatibility Test 1 Passed"
     else
       echo "Compatibility Compiler Test 1 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -38373,7 +38402,7 @@ if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = 
       echo "Compatibility Test 2 Passed"
     else
       echo "Compatibility Compiler Test 2 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -38562,7 +38591,7 @@ if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = 
       read -r -t 5 -p "Finished installing WRF. I am going to wait for 5 seconds only ..."
     else
       read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
-      exit
+      exit 1
     fi
   fi
   echo " "
@@ -38627,7 +38656,7 @@ if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = 
       read -r -t 5 -p "Finished installing WPS. I am going to wait for 5 seconds only ..."
     else
       read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
-      exit
+      exit 1
     fi
   fi
   echo " "
@@ -38704,7 +38733,7 @@ if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = 
     else
       echo "Missing one or more expected files."
       read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
-      exit
+      exit 1
     fi
   fi
 
@@ -38787,7 +38816,7 @@ if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = 
       read -r -t 5 -p "Finished installing WRFDA. I am going to wait for 5 seconds only ..."
     else
       read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
-      exit
+      exit 1
     fi
   fi
 
@@ -39288,7 +39317,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
       echo "Enviroment Test 1 Passed"
     else
       echo "Environment Compiler Test 1 Failed"
-      exit
+      exit 1
     fi
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
 
@@ -39301,7 +39330,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
       echo "Enviroment Test 2 Passed"
     else
       echo "Environment Compiler Test 2 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -39315,7 +39344,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
       echo "Enviroment Test 3 Passed"
     else
       echo "Environment Compiler Test 3 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -39331,7 +39360,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
       echo "Enviroment Test 4 Passed"
     else
       echo "Environment Compiler Test 4 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -39362,7 +39391,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
       echo "Compatibility Test 1 Passed"
     else
       echo "Compatibility Compiler Test 1 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -39382,7 +39411,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
       echo "Compatibility Test 2 Passed"
     else
       echo "Compatibility Compiler Test 2 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -39669,7 +39698,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
       read -r -t 5 -p "Finished installing WRF. I am going to wait for 5 seconds only ..."
     else
       read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
-      exit
+      exit 1
     fi
   fi
 
@@ -39735,7 +39764,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
       read -r -t 5 -p "Finished installing WPS. I am going to wait for 5 seconds only ..."
     else
       read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
-      exit
+      exit 1
     fi
   fi
 
@@ -39811,7 +39840,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
     else
       echo "Missing one or more expected files."
       read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
-      exit
+      exit 1
     fi
   fi
 
@@ -39894,7 +39923,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
       read -r -t 5 -p "Finished installing WRFDA. I am going to wait for 5 seconds only ..."
     else
       read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
-      exit
+      exit 1
     fi
   fi
   echo " "
@@ -40400,7 +40429,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRF_PICK" = "1" ]; then
       echo "Enviroment Test 1 Passed"
     else
       echo "Environment Compiler Test 1 Failed"
-      exit
+      exit 1
     fi
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
 
@@ -40413,7 +40442,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRF_PICK" = "1" ]; then
       echo "Enviroment Test 2 Passed"
     else
       echo "Environment Compiler Test 2 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -40427,7 +40456,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRF_PICK" = "1" ]; then
       echo "Enviroment Test 3 Passed"
     else
       echo "Environment Compiler Test 3 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -40443,7 +40472,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRF_PICK" = "1" ]; then
       echo "Enviroment Test 4 Passed"
     else
       echo "Environment Compiler Test 4 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -40474,7 +40503,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRF_PICK" = "1" ]; then
       echo "Compatibility Test 1 Passed"
     else
       echo "Compatibility Compiler Test 1 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -40494,7 +40523,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRF_PICK" = "1" ]; then
       echo "Compatibility Test 2 Passed"
     else
       echo "Compatibility Compiler Test 2 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -40781,7 +40810,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRF_PICK" = "1" ]; then
       read -r -t 5 -p "Finished installing WRF. I am going to wait for 5 seconds only ..."
     else
       read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
-      exit
+      exit 1
     fi
   fi
 
@@ -40847,7 +40876,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRF_PICK" = "1" ]; then
       read -r -t 5 -p "Finished installing WPS. I am going to wait for 5 seconds only ..."
     else
       read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
-      exit
+      exit 1
     fi
   fi
 
@@ -40923,7 +40952,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRF_PICK" = "1" ]; then
     else
       echo "Missing one or more expected files."
       read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
-      exit
+      exit 1
     fi
   fi
 
@@ -41005,7 +41034,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRF_PICK" = "1" ]; then
       read -r -t 5 -p "Finished installing WRFDA. I am going to wait for 5 seconds only ..."
     else
       read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
-      exit
+      exit 1
     fi
   fi
   echo " "
@@ -41429,7 +41458,7 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRF_PICK" ]; then
       echo "Enviroment Test 1 Passed"
     else
       echo "Environment Compiler Test 1 Failed"
-      exit
+      exit 1
     fi
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
 
@@ -41442,7 +41471,7 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRF_PICK" ]; then
       echo "Enviroment Test 2 Passed"
     else
       echo "Environment Compiler Test 2 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -41456,7 +41485,7 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRF_PICK" ]; then
       echo "Enviroment Test 3 Passed"
     else
       echo "Environment Compiler Test 3 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -41472,7 +41501,7 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRF_PICK" ]; then
       echo "Enviroment Test 4 Passed"
     else
       echo "Environment Compiler Test 4 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -41503,7 +41532,7 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRF_PICK" ]; then
       echo "Compatibility Test 1 Passed"
     else
       echo "Compatibility Compiler Test 1 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -41523,7 +41552,7 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRF_PICK" ]; then
       echo "Compatibility Test 2 Passed"
     else
       echo "Compatibility Compiler Test 2 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -41828,7 +41857,7 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRF_PICK" ]; then
       read -r -t 5 -p "Finished installing WRF. I am going to wait for 5 seconds only ..."
     else
       read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
-      exit
+      exit 1
     fi
   fi
 
@@ -41898,7 +41927,7 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRF_PICK" ]; then
       read -r -t 5 -p "Finished installing WPS. I am going to wait for 5 seconds only ..."
     else
       read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
-      exit
+      exit 1
     fi
   fi
 
@@ -41980,7 +42009,7 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRF_PICK" ]; then
     else
       echo "Missing one or more expected files."
       read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
-      exit
+      exit 1
     fi
   fi
 
@@ -42068,7 +42097,7 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRF_PICK" ]; then
       read -r -t 5 -p "Finished installing WRFDA. I am going to wait for 5 seconds only ..."
     else
       read -r -p "Please contact script authors for assistance, press 'Enter' to exit script."
-      exit
+      exit 1
     fi
   fi
   echo " "
@@ -42575,7 +42604,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$COAWST_PICK" = "1" ] && [ "$aarch64" != 
       echo "Enviroment Test 1 Passed"
     else
       echo "Environment Compiler Test 1 Failed"
-      exit
+      exit 1
     fi
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
 
@@ -42588,7 +42617,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$COAWST_PICK" = "1" ] && [ "$aarch64" != 
       echo "Enviroment Test 2 Passed"
     else
       echo "Environment Compiler Test 2 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -42602,7 +42631,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$COAWST_PICK" = "1" ] && [ "$aarch64" != 
       echo "Enviroment Test 3 Passed"
     else
       echo "Environment Compiler Test 3 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -42618,7 +42647,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$COAWST_PICK" = "1" ] && [ "$aarch64" != 
       echo "Enviroment Test 4 Passed"
     else
       echo "Environment Compiler Test 4 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -42649,7 +42678,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$COAWST_PICK" = "1" ] && [ "$aarch64" != 
       echo "Compatibility Test 1 Passed"
     else
       echo "Compatibility Compiler Test 1 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -42669,7 +42698,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$COAWST_PICK" = "1" ] && [ "$aarch64" != 
       echo "Compatibility Test 2 Passed"
     else
       echo "Compatibility Compiler Test 2 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -43145,7 +43174,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$COAWST_PICK" = "1" ] && [ "$aarch64" = "
       echo "Enviroment Test 1 Passed"
     else
       echo "Environment Compiler Test 1 Failed"
-      exit
+      exit 1
     fi
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
 
@@ -43158,7 +43187,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$COAWST_PICK" = "1" ] && [ "$aarch64" = "
       echo "Enviroment Test 2 Passed"
     else
       echo "Environment Compiler Test 2 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -43172,7 +43201,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$COAWST_PICK" = "1" ] && [ "$aarch64" = "
       echo "Enviroment Test 3 Passed"
     else
       echo "Environment Compiler Test 3 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -43188,7 +43217,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$COAWST_PICK" = "1" ] && [ "$aarch64" = "
       echo "Enviroment Test 4 Passed"
     else
       echo "Environment Compiler Test 4 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -43219,7 +43248,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$COAWST_PICK" = "1" ] && [ "$aarch64" = "
       echo "Compatibility Test 1 Passed"
     else
       echo "Compatibility Compiler Test 1 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -43239,7 +43268,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$COAWST_PICK" = "1" ] && [ "$aarch64" = "
       echo "Compatibility Test 2 Passed"
     else
       echo "Compatibility Compiler Test 2 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -43724,7 +43753,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$COAWST_PICK" = "1" ]; then
       echo "Enviroment Test 1 Passed"
     else
       echo "Environment Compiler Test 1 Failed"
-      exit
+      exit 1
     fi
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
 
@@ -43737,7 +43766,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$COAWST_PICK" = "1" ]; then
       echo "Enviroment Test 2 Passed"
     else
       echo "Environment Compiler Test 2 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -43751,7 +43780,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$COAWST_PICK" = "1" ]; then
       echo "Enviroment Test 3 Passed"
     else
       echo "Environment Compiler Test 3 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -43767,7 +43796,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$COAWST_PICK" = "1" ]; then
       echo "Enviroment Test 4 Passed"
     else
       echo "Environment Compiler Test 4 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -43798,7 +43827,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$COAWST_PICK" = "1" ]; then
       echo "Compatibility Test 1 Passed"
     else
       echo "Compatibility Compiler Test 1 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -43818,7 +43847,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$COAWST_PICK" = "1" ]; then
       echo "Compatibility Test 2 Passed"
     else
       echo "Compatibility Compiler Test 2 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -44432,7 +44461,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$COAWST_PICK" = "1" ]; then
       echo "Enviroment Test 1 Passed"
     else
       echo "Environment Compiler Test 1 Failed"
-      exit
+      exit 1
     fi
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
 
@@ -44445,7 +44474,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$COAWST_PICK" = "1" ]; then
       echo "Enviroment Test 2 Passed"
     else
       echo "Environment Compiler Test 2 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -44459,7 +44488,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$COAWST_PICK" = "1" ]; then
       echo "Enviroment Test 3 Passed"
     else
       echo "Environment Compiler Test 3 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -44475,7 +44504,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$COAWST_PICK" = "1" ]; then
       echo "Enviroment Test 4 Passed"
     else
       echo "Environment Compiler Test 4 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -44506,7 +44535,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$COAWST_PICK" = "1" ]; then
       echo "Compatibility Test 1 Passed"
     else
       echo "Compatibility Compiler Test 1 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
@@ -44526,7 +44555,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$COAWST_PICK" = "1" ]; then
       echo "Compatibility Test 2 Passed"
     else
       echo "Compatibility Compiler Test 2 Failed"
-      exit
+      exit 1
     fi
     echo " "
     read -r -t 3 -p "I am going to wait for 3 seconds only ..."
