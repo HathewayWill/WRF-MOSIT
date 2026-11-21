@@ -112,7 +112,7 @@ sudo apt install -y git
 git clone https://github.com/HathewayWill/WRF-MOSIT.git
 cd "$HOME/WRF-MOSIT"
 chmod +x WRF-MOSIT.sh
-./WRF-MOSIT.sh 2>&1 | tee WRF_MOSIT.log
+bash ./WRF-MOSIT.sh 2>&1 | tee WRF_MOSIT.log
 ```
 
 ### RHEL, Rocky Linux, Fedora, and related systems
@@ -123,7 +123,7 @@ sudo dnf install -y git
 git clone https://github.com/HathewayWill/WRF-MOSIT.git
 cd "$HOME/WRF-MOSIT"
 chmod +x WRF-MOSIT.sh
-./WRF-MOSIT.sh 2>&1 | tee WRF_MOSIT.log
+bash ./WRF-MOSIT.sh 2>&1 | tee WRF_MOSIT.log
 ```
 
 For distributions using `yum` instead of `dnf`, use the available package manager to install Git.
@@ -138,7 +138,7 @@ brew install git
 git clone https://github.com/HathewayWill/WRF-MOSIT.git
 cd "$HOME/WRF-MOSIT"
 chmod +x WRF-MOSIT.sh
-./WRF-MOSIT.sh 2>&1 | tee WRF_MOSIT.log
+bash ./WRF-MOSIT.sh 2>&1 | tee WRF_MOSIT.log
 ```
 
 The installer contains additional macOS prerequisite checks. GNU is the selectable compiler family for macOS branches; do not choose an Intel oneAPI Linux configuration on macOS.
