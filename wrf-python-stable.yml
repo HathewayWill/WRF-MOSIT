@@ -10,6 +10,8 @@ channels:
 dependencies:
   # Python and WRF-aware scientific I/O
   - python=3.11.5
+  # wrf-python 1.3.4.1 imports pkg_resources, removed in setuptools 81+.
+  - "setuptools<81"
   - wrf-python=1.3.4.1
   - netcdf4=1.6.3
   - hdf5=1.12.2
@@ -21,10 +23,13 @@ dependencies:
   - pandas=1.5.3
   - xarray=2023.3.0
   - cartopy=0.23.0
+  # Required by the installed wrf-python distribution metadata.
+  - basemap
   - shapely=1.8.5
   - metpy=1.5.1
   - geopandas=0.14.0
   - fiona=1.9.5
+  # PROJ is resolved with Cartopy/pyproj; do not force an untested version.
   - bokeh=3.2.2
   - pillow=9.4.0
   - requests=2.28.2
