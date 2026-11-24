@@ -200,7 +200,7 @@ $HOME/WRF_Intel/Libs/wrf-libraries.yaml
 The installer validates compatibility and creates a separate destination such as:
 
 ```text
-$HOME/WRF_Intel_WRFCHEM_4.8.0/
+$HOME/WRF_Intel_WRFCHEM_4.8.1/
 ```
 
 Library-directory aliases point to the already installed scientific libraries. WRF model sources and executables are compiled into the new model directory. **Keep the original library source installed.** Removing or relocating it can break installations linked to that stack.
@@ -231,7 +231,7 @@ The default version variables in the uploaded v2.0.0 installer are:
 
 | Component | Default in script |
 | --- | --- |
-| WRF | `4.8.0` |
+| WRF | `4.8.1` |
 | WPS | `4.7.0` |
 | CMAQ | `6.0` |
 | WRF-Hydro Croton test case | `5.4.0` |
@@ -278,7 +278,7 @@ A typical installation contains some of these locations, depending on the select
 │   └── wrf-libraries.yaml  # Eligible fresh ARW/Chem/Hydro builds only
 ├── GEOG/
 │   └── WPS_GEOG/           # New geographical data or link to an existing set
-├── WRF-4.8.0/              # WRF source tree when applicable
+├── WRF-4.8.1/              # WRF source tree when applicable
 ├── WPS-4.7.0/              # WPS source tree when applicable
 ├── WRFDA/                  # Data assimilation when applicable
 └── OBSGRID/                # Objective analysis preprocessing when applicable
@@ -351,7 +351,7 @@ The script accepts `--time-index`, `--vmin`, `--vmax`, and `--no-flip-y`. It req
 
 **Scope limitations:** These tests do not establish that every operating-system/compiler/model/nesting combination is validated. Specifically, Linux ARM64, all macOS branches, WRF-CMAQ, COAWST, every WRF-SFIRE path, moving/vortex-following nesting, and optional DTC MET may require additional regression testing and environment-specific adjustments.
 
-**WRF-Chem KPP:** A mechanism-specific CBM4 diagnostic was observed during WRF-Chem 4.8.0 KPP processing. The overall WRF-Chem executable build completed in that run, but the CBM4 mechanism should not be treated as validated on that basis. Development discussion: https://forum.mmm.ucar.edu/threads/wrf-4-8-0-wrf-chem-kpp-build-order-failures-and-cbm4-missing-m-diagnostic.29361/
+**WRF-Chem KPP:** A mechanism-specific CBM4 diagnostic was observed during WRF-Chem 4.8.1 KPP processing. The overall WRF-Chem executable build completed in that run, but the CBM4 mechanism should not be treated as validated on that basis. Development discussion: https://forum.mmm.ucar.edu/threads/wrf-4-8-0-wrf-chem-kpp-build-order-failures-and-cbm4-missing-m-diagnostic.29361/
 
 **Third-party sources:** WRF-MOSIT downloads and compiles upstream software, which can change independently of this repository. Package availability, download URLs, toolchain incompatibilities, and external scientific software errors may affect installation. Preserve logs when reporting issues.
 
