@@ -698,7 +698,7 @@ export Netcdf_C_Version=4.10.0
 export Netcdf_Fortran_Version=4.6.2
 export Netcdf_CXX_Version=4.3.1
 
-export WRF_VERSION=4.8.0
+export WRF_VERSION=4.8.1
 export WPS_VERSION=4.7.0
 export CMAQ_VERSION=6.0
 
