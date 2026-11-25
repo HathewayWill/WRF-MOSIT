@@ -3664,22 +3664,9 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
   cd "${WRF_FOLDER}"/Downloads
   # Fetch WPS independently of WRF so each version is explicit;
   # the subsequent configure step uses the matching WRF_DIR.
-  wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v${WPS_VERSION}.tar.gz -O WPS-${WPS_VERSION}.tar.gz
-  env -u LD_LIBRARY_PATH tar -xzf WPS-${WPS_VERSION}.tar.gz -C "${WRF_FOLDER}"/
-  # Keep WPS in its versioned directory without moving it onto itself.
-  if [ -d "${WRF_FOLDER}/WPS-${WPS_VERSION}" ]; then
-    echo "WPS-${WPS_VERSION} directory already exists; skipping rename."
-  elif [ -d "${WRF_FOLDER}/WPS" ]; then
-    mv -f "${WRF_FOLDER}/WPS" "${WRF_FOLDER}/WPS-${WPS_VERSION}"
-  else
-    for dir in "${WRF_FOLDER}"/WPSV* "${WRF_FOLDER}"/WPS-*; do
-      if [ -d "$dir" ]; then
-        mv -f "$dir" "${WRF_FOLDER}/WPS-${WPS_VERSION}"
-        break
-      fi
-    done
-  fi
-  cd "${WRF_FOLDER}"/WPS-${WPS_VERSION}
+  # Keep WPS in its versioned directory by cloning directly into it.
+  git clone --branch "v${WPS_VERSION}" --recurse-submodules https://github.com/wrf-model/WPS.git "${WRF_FOLDER}"/WPS-${WPS_VERSION} || exit 1
+  cd "${WRF_FOLDER}"/WPS-${WPS_VERSION} || exit 1
   ./clean -a
 
   # Automatic configuration feeds the preselected platform/model
@@ -4472,22 +4459,9 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$CMAQ_PICK" = "1" ]; then
   cd "${WRF_FOLDER}"/Downloads
   # Fetch WPS independently of WRF so each version is explicit;
   # the subsequent configure step uses the matching WRF_DIR.
-  wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v${WPS_VERSION}.tar.gz -O WPS-${WPS_VERSION}.tar.gz
-  env -u LD_LIBRARY_PATH tar -xzf WPS-${WPS_VERSION}.tar.gz -C "${WRF_FOLDER}"/
-  # Keep WPS in its versioned directory without moving it onto itself.
-  if [ -d "${WRF_FOLDER}/WPS-${WPS_VERSION}" ]; then
-    echo "WPS-${WPS_VERSION} directory already exists; skipping rename."
-  elif [ -d "${WRF_FOLDER}/WPS" ]; then
-    mv -f "${WRF_FOLDER}/WPS" "${WRF_FOLDER}/WPS-${WPS_VERSION}"
-  else
-    for dir in "${WRF_FOLDER}"/WPSV* "${WRF_FOLDER}"/WPS-*; do
-      if [ -d "$dir" ]; then
-        mv -f "$dir" "${WRF_FOLDER}/WPS-${WPS_VERSION}"
-        break
-      fi
-    done
-  fi
-  cd "${WRF_FOLDER}"/WPS-${WPS_VERSION}
+  # Keep WPS in its versioned directory by cloning directly into it.
+  git clone --branch "v${WPS_VERSION}" --recurse-submodules https://github.com/wrf-model/WPS.git "${WRF_FOLDER}"/WPS-${WPS_VERSION} || exit 1
+  cd "${WRF_FOLDER}"/WPS-${WPS_VERSION} || exit 1
   ./clean -a
 
   # Automatic configuration feeds the preselected platform/model
@@ -5291,22 +5265,9 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$CMAQ_PICK" = "1" ]; then
   cd "${WRF_FOLDER}"/Downloads
   # Fetch WPS independently of WRF so each version is explicit;
   # the subsequent configure step uses the matching WRF_DIR.
-  wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v${WPS_VERSION}.tar.gz -O WPS-${WPS_VERSION}.tar.gz
-  env -u LD_LIBRARY_PATH tar -xzf WPS-${WPS_VERSION}.tar.gz -C "${WRF_FOLDER}"/
-  # Keep WPS in its versioned directory without moving it onto itself.
-  if [ -d "${WRF_FOLDER}/WPS-${WPS_VERSION}" ]; then
-    echo "WPS-${WPS_VERSION} directory already exists; skipping rename."
-  elif [ -d "${WRF_FOLDER}/WPS" ]; then
-    mv -f "${WRF_FOLDER}/WPS" "${WRF_FOLDER}/WPS-${WPS_VERSION}"
-  else
-    for dir in "${WRF_FOLDER}"/WPSV* "${WRF_FOLDER}"/WPS-*; do
-      if [ -d "$dir" ]; then
-        mv -f "$dir" "${WRF_FOLDER}/WPS-${WPS_VERSION}"
-        break
-      fi
-    done
-  fi
-  cd "${WRF_FOLDER}"/WPS-${WPS_VERSION}
+  # Keep WPS in its versioned directory by cloning directly into it.
+  git clone --branch "v${WPS_VERSION}" --recurse-submodules https://github.com/wrf-model/WPS.git "${WRF_FOLDER}"/WPS-${WPS_VERSION} || exit 1
+  cd "${WRF_FOLDER}"/WPS-${WPS_VERSION} || exit 1
   ./clean -a
 
   # Automatic configuration feeds the preselected platform/model
@@ -9815,24 +9776,9 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$MAC_CHIP" = "I
   cd "${WRF_FOLDER}"/Downloads
   # Fetch WPS independently of WRF so each version is explicit;
   # the subsequent configure step uses the matching WRF_DIR.
-  wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v${WPS_VERSION}.tar.gz -O WPS-${WPS_VERSION}.tar.gz
-  env -u LD_LIBRARY_PATH tar -xzf WPS-${WPS_VERSION}.tar.gz -C "${WRF_FOLDER}"/
-
-  # Keep WPS in its versioned directory without moving it onto itself.
-  if [ -d "${WRF_FOLDER}/WPS-${WPS_VERSION}" ]; then
-    echo "WPS-${WPS_VERSION} directory already exists; skipping rename."
-  elif [ -d "${WRF_FOLDER}/WPS" ]; then
-    mv -f "${WRF_FOLDER}/WPS" "${WRF_FOLDER}/WPS-${WPS_VERSION}"
-  else
-    for dir in "${WRF_FOLDER}"/WPSV* "${WRF_FOLDER}"/WPS-*; do
-      if [ -d "$dir" ]; then
-        mv -f "$dir" "${WRF_FOLDER}/WPS-${WPS_VERSION}"
-        break
-      fi
-    done
-  fi
-
-  cd "${WRF_FOLDER}"/WPS-${WPS_VERSION}
+  # Keep WPS in its versioned directory by cloning directly into it.
+  git clone --branch "v${WPS_VERSION}" --recurse-submodules https://github.com/wrf-model/WPS.git "${WRF_FOLDER}"/WPS-${WPS_VERSION} || exit 1
+  cd "${WRF_FOLDER}"/WPS-${WPS_VERSION} || exit 1
   ./clean -a
 
   # ----------------------------------------------------------------------
@@ -10789,24 +10735,9 @@ if [ "$macos_64bit_GNU" = "1" ] && [ "$SFIRE_PICK" = "1" ] && [ "$MAC_CHIP" = "A
   cd "${WRF_FOLDER}"/Downloads
   # Fetch WPS independently of WRF so each version is explicit;
   # the subsequent configure step uses the matching WRF_DIR.
-  wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v${WPS_VERSION}.tar.gz -O WPS-${WPS_VERSION}.tar.gz
-  env -u LD_LIBRARY_PATH tar -xzf WPS-${WPS_VERSION}.tar.gz -C "${WRF_FOLDER}"/
-
-  # Keep WPS in its versioned directory without moving it onto itself.
-  if [ -d "${WRF_FOLDER}/WPS-${WPS_VERSION}" ]; then
-    echo "WPS-${WPS_VERSION} directory already exists; skipping rename."
-  elif [ -d "${WRF_FOLDER}/WPS" ]; then
-    mv -f "${WRF_FOLDER}/WPS" "${WRF_FOLDER}/WPS-${WPS_VERSION}"
-  else
-    for dir in "${WRF_FOLDER}"/WPSV* "${WRF_FOLDER}"/WPS-*; do
-      if [ -d "$dir" ]; then
-        mv -f "$dir" "${WRF_FOLDER}/WPS-${WPS_VERSION}"
-        break
-      fi
-    done
-  fi
-
-  cd "${WRF_FOLDER}"/WPS-${WPS_VERSION}
+  # Keep WPS in its versioned directory by cloning directly into it.
+  git clone --branch "v${WPS_VERSION}" --recurse-submodules https://github.com/wrf-model/WPS.git "${WRF_FOLDER}"/WPS-${WPS_VERSION} || exit 1
+  cd "${WRF_FOLDER}"/WPS-${WPS_VERSION} || exit 1
   ./clean -a
 
   # ----------------------------------------------------------------------
@@ -11502,7 +11433,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ] && [ "
   cd "${WRF_FOLDER}/Hydro-Basecode"
 
   # Clone the WRF-Hydro repository and set up the build
-  git clone https://github.com/NCAR/wrf_hydro_nwm_public.git
+  git clone --recurse-submodules https://github.com/NCAR/wrf_hydro_nwm_public.git || exit 1
   cd wrf_hydro_nwm_public
   mkdir -p build
   cd build
@@ -12200,7 +12131,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ] && [ "
   cd "${WRF_FOLDER}/Hydro-Basecode"
 
   # Clone the WRF-Hydro repository and set up the build
-  git clone https://github.com/NCAR/wrf_hydro_nwm_public.git
+  git clone --recurse-submodules https://github.com/NCAR/wrf_hydro_nwm_public.git || exit 1
   cd wrf_hydro_nwm_public
   mkdir -p build
   cd build
@@ -12870,7 +12801,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; the
   cd "${WRF_FOLDER}/Hydro-Basecode"
 
   # Clone the WRF-Hydro repository and set up the build
-  git clone https://github.com/NCAR/wrf_hydro_nwm_public.git
+  git clone --recurse-submodules https://github.com/NCAR/wrf_hydro_nwm_public.git || exit 1
   cd wrf_hydro_nwm_public
   mkdir -p build
   cd build
@@ -13591,7 +13522,7 @@ if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STA
   cd "${WRF_FOLDER}/Hydro-Basecode"
 
   # Clone the WRF-Hydro repository and set up the build
-  git clone https://github.com/NCAR/wrf_hydro_nwm_public.git
+  git clone --recurse-submodules https://github.com/NCAR/wrf_hydro_nwm_public.git || exit 1
   cd wrf_hydro_nwm_public
   mkdir -p build
   cd build
@@ -14298,7 +14229,7 @@ if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STA
   cd "${WRF_FOLDER}/Hydro-Basecode"
 
   # Clone the WRF-Hydro repository and set up the build
-  git clone https://github.com/NCAR/wrf_hydro_nwm_public.git
+  git clone --recurse-submodules https://github.com/NCAR/wrf_hydro_nwm_public.git || exit 1
   cd wrf_hydro_nwm_public
   mkdir -p build
   cd build
@@ -14955,7 +14886,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
   cd "${WRF_FOLDER}/Hydro-Basecode"
 
   # Clone the WRF-Hydro repository and set up the build
-  git clone https://github.com/NCAR/wrf_hydro_nwm_public.git
+  git clone --recurse-submodules https://github.com/NCAR/wrf_hydro_nwm_public.git || exit 1
   cd wrf_hydro_nwm_public
   mkdir -p build
   cd build
@@ -15652,7 +15583,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRFHYDRO_STANDALONE_PICK" = "1" ]; then
   cd "${WRF_FOLDER}/Hydro-Basecode"
 
   # Clone the WRF-Hydro repository and set up the build
-  git clone https://github.com/NCAR/wrf_hydro_nwm_public.git
+  git clone --recurse-submodules https://github.com/NCAR/wrf_hydro_nwm_public.git || exit 1
   cd wrf_hydro_nwm_public
   mkdir -p build
   cd build
@@ -16256,7 +16187,7 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRFHYDRO_STANDALONE_PICK" ]; then
   cd "${WRF_FOLDER}/Hydro-Basecode"
 
   # Clone the WRF-Hydro repository and set up the build
-  git clone https://github.com/NCAR/wrf_hydro_nwm_public.git
+  git clone --recurse-submodules https://github.com/NCAR/wrf_hydro_nwm_public.git || exit 1
   cd wrf_hydro_nwm_public
   mkdir -p build
   cd build
@@ -17165,7 +17096,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ] && [ "$aa
   cd "${WRF_FOLDER}/Hydro-Basecode"
 
   # Clone the WRF-Hydro repository and set up the build
-  git clone https://github.com/NCAR/wrf_hydro_nwm_public.git
+  git clone --recurse-submodules https://github.com/NCAR/wrf_hydro_nwm_public.git || exit 1
   cd wrf_hydro_nwm_public
   mkdir -p build
   cd build
@@ -17239,25 +17170,11 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ] && [ "$aa
   cd "${WRF_FOLDER}"/Downloads
   # Retrieve the exact WRF source version selected for this install.
   # The source is staged separately from the reusable library prefix.
-  wget -c https://github.com/wrf-model/WRF/releases/download/v${WRF_VERSION}/v${WRF_VERSION}.tar.gz -O WRF-${WRF_VERSION}.tar.gz
-  env -u LD_LIBRARY_PATH tar -xzf WRF-${WRF_VERSION}.tar.gz -C "${WRF_FOLDER}"/
-
-  # If statment for changing folder name
-  # Check if WRF directory exists
-  if [ -d "${WRF_FOLDER}/WRF" ]; then
-    mv -f "${WRF_FOLDER}/WRF" "${WRF_FOLDER}/WRF-${WRF_VERSION}"
-
-  # Else, check for any folder matching WRFV*
-  else
-    for dir in "${WRF_FOLDER}"/WRFV*; do
-      if [ -d "$dir" ]; then
-        mv -f "$dir" "${WRF_FOLDER}/WRF-${WRF_VERSION}"
-        break
-      fi
-    done
-  fi
-
-  cd "${WRF_FOLDER}"/WRF-${WRF_VERSION}
+  # Clone directly into the versioned WRF directory.
+  # Initialize all release-pinned submodules during the clone.
+  # No extracted-directory rename is required.
+  git clone --branch "v${WRF_VERSION}" --recurse-submodules https://github.com/wrf-model/WRF.git "${WRF_FOLDER}"/WRF-${WRF_VERSION} || exit 1
+  cd "${WRF_FOLDER}"/WRF-${WRF_VERSION} || exit 1
   # Enable WRF support for larger NetCDF output files.
   export WRFIO_NCD_LARGE_FILE_SUPPORT=1
 
@@ -17333,22 +17250,9 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ] && [ "$aa
   cd "${WRF_FOLDER}"/Downloads
   # Fetch WPS independently of WRF so each version is explicit;
   # the subsequent configure step uses the matching WRF_DIR.
-  wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v${WPS_VERSION}.tar.gz -O WPS-${WPS_VERSION}.tar.gz
-  env -u LD_LIBRARY_PATH tar -xzf WPS-${WPS_VERSION}.tar.gz -C "${WRF_FOLDER}"/
-  # Keep WPS in its versioned directory without moving it onto itself.
-  if [ -d "${WRF_FOLDER}/WPS-${WPS_VERSION}" ]; then
-    echo "WPS-${WPS_VERSION} directory already exists; skipping rename."
-  elif [ -d "${WRF_FOLDER}/WPS" ]; then
-    mv -f "${WRF_FOLDER}/WPS" "${WRF_FOLDER}/WPS-${WPS_VERSION}"
-  else
-    for dir in "${WRF_FOLDER}"/WPSV* "${WRF_FOLDER}"/WPS-*; do
-      if [ -d "$dir" ]; then
-        mv -f "$dir" "${WRF_FOLDER}/WPS-${WPS_VERSION}"
-        break
-      fi
-    done
-  fi
-  cd "${WRF_FOLDER}"/WPS-${WPS_VERSION}
+  # Keep WPS in its versioned directory by cloning directly into it.
+  git clone --branch "v${WPS_VERSION}" --recurse-submodules https://github.com/wrf-model/WPS.git "${WRF_FOLDER}"/WPS-${WPS_VERSION} || exit 1
+  cd "${WRF_FOLDER}"/WPS-${WPS_VERSION} || exit 1
   ./clean -a
 
   # Automatic configuration feeds the preselected platform/model
@@ -18212,7 +18116,7 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ] && [ "$aa
   cd "${WRF_FOLDER}/Hydro-Basecode"
 
   # Clone the WRF-Hydro repository and set up the build
-  git clone https://github.com/NCAR/wrf_hydro_nwm_public.git
+  git clone --recurse-submodules https://github.com/NCAR/wrf_hydro_nwm_public.git || exit 1
   cd wrf_hydro_nwm_public
   mkdir -p build
   cd build
@@ -18286,25 +18190,11 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ] && [ "$aa
   cd "${WRF_FOLDER}"/Downloads
   # Retrieve the exact WRF source version selected for this install.
   # The source is staged separately from the reusable library prefix.
-  wget -c https://github.com/wrf-model/WRF/releases/download/v${WRF_VERSION}/v${WRF_VERSION}.tar.gz -O WRF-${WRF_VERSION}.tar.gz
-  env -u LD_LIBRARY_PATH tar -xzf WRF-${WRF_VERSION}.tar.gz -C "${WRF_FOLDER}"/
-
-  # If statment for changing folder name
-  # Check if WRF directory exists
-  if [ -d "${WRF_FOLDER}/WRF" ]; then
-    mv -f "${WRF_FOLDER}/WRF" "${WRF_FOLDER}/WRF-${WRF_VERSION}"
-
-  # Else, check for any folder matching WRFV*
-  else
-    for dir in "${WRF_FOLDER}"/WRFV*; do
-      if [ -d "$dir" ]; then
-        mv -f "$dir" "${WRF_FOLDER}/WRF-${WRF_VERSION}"
-        break
-      fi
-    done
-  fi
-
-  cd "${WRF_FOLDER}"/WRF-${WRF_VERSION}
+  # Clone directly into the versioned WRF directory.
+  # Initialize all release-pinned submodules during the clone.
+  # No extracted-directory rename is required.
+  git clone --branch "v${WRF_VERSION}" --recurse-submodules https://github.com/wrf-model/WRF.git "${WRF_FOLDER}"/WRF-${WRF_VERSION} || exit 1
+  cd "${WRF_FOLDER}"/WRF-${WRF_VERSION} || exit 1
   # Enable WRF support for larger NetCDF output files.
   export WRFIO_NCD_LARGE_FILE_SUPPORT=1
 
@@ -18380,22 +18270,9 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ] && [ "$aa
   cd "${WRF_FOLDER}"/Downloads
   # Fetch WPS independently of WRF so each version is explicit;
   # the subsequent configure step uses the matching WRF_DIR.
-  wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v${WPS_VERSION}.tar.gz -O WPS-${WPS_VERSION}.tar.gz
-  env -u LD_LIBRARY_PATH tar -xzf WPS-${WPS_VERSION}.tar.gz -C "${WRF_FOLDER}"/
-  # Keep WPS in its versioned directory without moving it onto itself.
-  if [ -d "${WRF_FOLDER}/WPS-${WPS_VERSION}" ]; then
-    echo "WPS-${WPS_VERSION} directory already exists; skipping rename."
-  elif [ -d "${WRF_FOLDER}/WPS" ]; then
-    mv -f "${WRF_FOLDER}/WPS" "${WRF_FOLDER}/WPS-${WPS_VERSION}"
-  else
-    for dir in "${WRF_FOLDER}"/WPSV* "${WRF_FOLDER}"/WPS-*; do
-      if [ -d "$dir" ]; then
-        mv -f "$dir" "${WRF_FOLDER}/WPS-${WPS_VERSION}"
-        break
-      fi
-    done
-  fi
-  cd "${WRF_FOLDER}"/WPS-${WPS_VERSION}
+  # Keep WPS in its versioned directory by cloning directly into it.
+  git clone --branch "v${WPS_VERSION}" --recurse-submodules https://github.com/wrf-model/WPS.git "${WRF_FOLDER}"/WPS-${WPS_VERSION} || exit 1
+  cd "${WRF_FOLDER}"/WPS-${WPS_VERSION} || exit 1
   ./clean -a
 
   sed -i '192s/x86_64/x86_64 aarch64/g' "${WRF_FOLDER}"/WPS-${WPS_VERSION}/arch/configure.defaults
@@ -19273,7 +19150,7 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   cd "${WRF_FOLDER}/Hydro-Basecode"
 
   # Clone the WRF-Hydro repository and set up the build
-  git clone https://github.com/NCAR/wrf_hydro_nwm_public.git
+  git clone --recurse-submodules https://github.com/NCAR/wrf_hydro_nwm_public.git || exit 1
   cd wrf_hydro_nwm_public
   mkdir -p build
   cd build
@@ -19349,25 +19226,11 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 
   # Retrieve the exact WRF source version selected for this install.
   # The source is staged separately from the reusable library prefix.
-  wget -c https://github.com/wrf-model/WRF/releases/download/v${WRF_VERSION}/v${WRF_VERSION}.tar.gz -O WRF-${WRF_VERSION}.tar.gz
-  env -u LD_LIBRARY_PATH tar -xzf WRF-${WRF_VERSION}.tar.gz -C "${WRF_FOLDER}"/
-
-  # If statment for changing folder name
-  # Check if WRF directory exists
-  if [ -d "${WRF_FOLDER}/WRF" ]; then
-    mv -f "${WRF_FOLDER}/WRF" "${WRF_FOLDER}/WRF-${WRF_VERSION}"
-
-  # Else, check for any folder matching WRFV*
-  else
-    for dir in "${WRF_FOLDER}"/WRFV*; do
-      if [ -d "$dir" ]; then
-        mv -f "$dir" "${WRF_FOLDER}/WRF-${WRF_VERSION}"
-        break
-      fi
-    done
-  fi
-
-  cd "${WRF_FOLDER}"/WRF-${WRF_VERSION}
+  # Clone directly into the versioned WRF directory.
+  # Initialize all release-pinned submodules during the clone.
+  # No extracted-directory rename is required.
+  git clone --branch "v${WRF_VERSION}" --recurse-submodules https://github.com/wrf-model/WRF.git "${WRF_FOLDER}"/WRF-${WRF_VERSION} || exit 1
+  cd "${WRF_FOLDER}"/WRF-${WRF_VERSION} || exit 1
 
   # Enable WRF support for larger NetCDF output files.
   export WRFIO_NCD_LARGE_FILE_SUPPORT=1
@@ -19455,22 +19318,9 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   cd "${WRF_FOLDER}"/Downloads
   # Fetch WPS independently of WRF so each version is explicit;
   # the subsequent configure step uses the matching WRF_DIR.
-  wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v${WPS_VERSION}.tar.gz -O WPS-${WPS_VERSION}.tar.gz
-  env -u LD_LIBRARY_PATH tar -xzf WPS-${WPS_VERSION}.tar.gz -C "${WRF_FOLDER}"/
-  # Keep WPS in its versioned directory without moving it onto itself.
-  if [ -d "${WRF_FOLDER}/WPS-${WPS_VERSION}" ]; then
-    echo "WPS-${WPS_VERSION} directory already exists; skipping rename."
-  elif [ -d "${WRF_FOLDER}/WPS" ]; then
-    mv -f "${WRF_FOLDER}/WPS" "${WRF_FOLDER}/WPS-${WPS_VERSION}"
-  else
-    for dir in "${WRF_FOLDER}"/WPSV* "${WRF_FOLDER}"/WPS-*; do
-      if [ -d "$dir" ]; then
-        mv -f "$dir" "${WRF_FOLDER}/WPS-${WPS_VERSION}"
-        break
-      fi
-    done
-  fi
-  cd "${WRF_FOLDER}"/WPS-${WPS_VERSION}
+  # Keep WPS in its versioned directory by cloning directly into it.
+  git clone --branch "v${WPS_VERSION}" --recurse-submodules https://github.com/wrf-model/WPS.git "${WRF_FOLDER}"/WPS-${WPS_VERSION} || exit 1
+  cd "${WRF_FOLDER}"/WPS-${WPS_VERSION} || exit 1
   ./clean -a
 
   # Automatic configuration feeds the preselected platform/model
@@ -20256,7 +20106,7 @@ if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COU
   cd "${WRF_FOLDER}/Hydro-Basecode"
 
   # Clone the WRF-Hydro repository and set up the build
-  git clone https://github.com/NCAR/wrf_hydro_nwm_public.git
+  git clone --recurse-submodules https://github.com/NCAR/wrf_hydro_nwm_public.git || exit 1
   cd wrf_hydro_nwm_public
   mkdir -p build
   cd build
@@ -20325,25 +20175,11 @@ if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COU
   cd "${WRF_FOLDER}"/Downloads
   # Retrieve the exact WRF source version selected for this install.
   # The source is staged separately from the reusable library prefix.
-  wget -c https://github.com/wrf-model/WRF/releases/download/v${WRF_VERSION}/v${WRF_VERSION}.tar.gz -O WRF-${WRF_VERSION}.tar.gz
-  env -u LD_LIBRARY_PATH tar -xzf WRF-${WRF_VERSION}.tar.gz -C "${WRF_FOLDER}"/
-
-  # If statment for changing folder name
-  # Check if WRF directory exists
-  if [ -d "${WRF_FOLDER}/WRF" ]; then
-    mv -f "${WRF_FOLDER}/WRF" "${WRF_FOLDER}/WRF-${WRF_VERSION}"
-
-  # Else, check for any folder matching WRFV*
-  else
-    for dir in "${WRF_FOLDER}"/WRFV*; do
-      if [ -d "$dir" ]; then
-        mv -f "$dir" "${WRF_FOLDER}/WRF-${WRF_VERSION}"
-        break
-      fi
-    done
-  fi
-
-  cd "${WRF_FOLDER}"/WRF-${WRF_VERSION}
+  # Clone directly into the versioned WRF directory.
+  # Initialize all release-pinned submodules during the clone.
+  # No extracted-directory rename is required.
+  git clone --branch "v${WRF_VERSION}" --recurse-submodules https://github.com/wrf-model/WRF.git "${WRF_FOLDER}"/WRF-${WRF_VERSION} || exit 1
+  cd "${WRF_FOLDER}"/WRF-${WRF_VERSION} || exit 1
   # Enable WRF support for larger NetCDF output files.
   export WRFIO_NCD_LARGE_FILE_SUPPORT=1
 
@@ -20419,22 +20255,9 @@ if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COU
   cd "${WRF_FOLDER}"/Downloads
   # Fetch WPS independently of WRF so each version is explicit;
   # the subsequent configure step uses the matching WRF_DIR.
-  wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v${WPS_VERSION}.tar.gz -O WPS-${WPS_VERSION}.tar.gz
-  env -u LD_LIBRARY_PATH tar -xzf WPS-${WPS_VERSION}.tar.gz -C "${WRF_FOLDER}"/
-  # Keep WPS in its versioned directory without moving it onto itself.
-  if [ -d "${WRF_FOLDER}/WPS-${WPS_VERSION}" ]; then
-    echo "WPS-${WPS_VERSION} directory already exists; skipping rename."
-  elif [ -d "${WRF_FOLDER}/WPS" ]; then
-    mv -f "${WRF_FOLDER}/WPS" "${WRF_FOLDER}/WPS-${WPS_VERSION}"
-  else
-    for dir in "${WRF_FOLDER}"/WPSV* "${WRF_FOLDER}"/WPS-*; do
-      if [ -d "$dir" ]; then
-        mv -f "$dir" "${WRF_FOLDER}/WPS-${WPS_VERSION}"
-        break
-      fi
-    done
-  fi
-  cd "${WRF_FOLDER}"/WPS-${WPS_VERSION}
+  # Keep WPS in its versioned directory by cloning directly into it.
+  git clone --branch "v${WPS_VERSION}" --recurse-submodules https://github.com/wrf-model/WPS.git "${WRF_FOLDER}"/WPS-${WPS_VERSION} || exit 1
+  cd "${WRF_FOLDER}"/WPS-${WPS_VERSION} || exit 1
   ./clean -a
 
   # Automatic configuration feeds the preselected platform/model
@@ -21226,7 +21049,7 @@ if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COU
   cd "${WRF_FOLDER}/Hydro-Basecode"
 
   # Clone the WRF-Hydro repository and set up the build
-  git clone https://github.com/NCAR/wrf_hydro_nwm_public.git
+  git clone --recurse-submodules https://github.com/NCAR/wrf_hydro_nwm_public.git || exit 1
   cd wrf_hydro_nwm_public
   mkdir -p build
   cd build
@@ -21295,25 +21118,11 @@ if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COU
   cd "${WRF_FOLDER}"/Downloads
   # Retrieve the exact WRF source version selected for this install.
   # The source is staged separately from the reusable library prefix.
-  wget -c https://github.com/wrf-model/WRF/releases/download/v${WRF_VERSION}/v${WRF_VERSION}.tar.gz -O WRF-${WRF_VERSION}.tar.gz
-  env -u LD_LIBRARY_PATH tar -xzf WRF-${WRF_VERSION}.tar.gz -C "${WRF_FOLDER}"/
-
-  # If statment for changing folder name
-  # Check if WRF directory exists
-  if [ -d "${WRF_FOLDER}/WRF" ]; then
-    mv -f "${WRF_FOLDER}/WRF" "${WRF_FOLDER}/WRF-${WRF_VERSION}"
-
-  # Else, check for any folder matching WRFV*
-  else
-    for dir in "${WRF_FOLDER}"/WRFV*; do
-      if [ -d "$dir" ]; then
-        mv -f "$dir" "${WRF_FOLDER}/WRF-${WRF_VERSION}"
-        break
-      fi
-    done
-  fi
-
-  cd "${WRF_FOLDER}"/WRF-${WRF_VERSION}
+  # Clone directly into the versioned WRF directory.
+  # Initialize all release-pinned submodules during the clone.
+  # No extracted-directory rename is required.
+  git clone --branch "v${WRF_VERSION}" --recurse-submodules https://github.com/wrf-model/WRF.git "${WRF_FOLDER}"/WRF-${WRF_VERSION} || exit 1
+  cd "${WRF_FOLDER}"/WRF-${WRF_VERSION} || exit 1
   # Enable WRF support for larger NetCDF output files.
   export WRFIO_NCD_LARGE_FILE_SUPPORT=1
 
@@ -21388,22 +21197,9 @@ if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COU
   cd "${WRF_FOLDER}"/Downloads
   # Fetch WPS independently of WRF so each version is explicit;
   # the subsequent configure step uses the matching WRF_DIR.
-  wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v${WPS_VERSION}.tar.gz -O WPS-${WPS_VERSION}.tar.gz
-  env -u LD_LIBRARY_PATH tar -xzf WPS-${WPS_VERSION}.tar.gz -C "${WRF_FOLDER}"/
-  # Keep WPS in its versioned directory without moving it onto itself.
-  if [ -d "${WRF_FOLDER}/WPS-${WPS_VERSION}" ]; then
-    echo "WPS-${WPS_VERSION} directory already exists; skipping rename."
-  elif [ -d "${WRF_FOLDER}/WPS" ]; then
-    mv -f "${WRF_FOLDER}/WPS" "${WRF_FOLDER}/WPS-${WPS_VERSION}"
-  else
-    for dir in "${WRF_FOLDER}"/WPSV* "${WRF_FOLDER}"/WPS-*; do
-      if [ -d "$dir" ]; then
-        mv -f "$dir" "${WRF_FOLDER}/WPS-${WPS_VERSION}"
-        break
-      fi
-    done
-  fi
-  cd "${WRF_FOLDER}"/WPS-${WPS_VERSION}
+  # Keep WPS in its versioned directory by cloning directly into it.
+  git clone --branch "v${WPS_VERSION}" --recurse-submodules https://github.com/wrf-model/WPS.git "${WRF_FOLDER}"/WPS-${WPS_VERSION} || exit 1
+  cd "${WRF_FOLDER}"/WPS-${WPS_VERSION} || exit 1
   ./clean -a
 
   # Automatic configuration feeds the preselected platform/model
@@ -22259,7 +22055,7 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   cd "${WRF_FOLDER}/Hydro-Basecode"
 
   # Clone the WRF-Hydro repository and set up the build
-  git clone https://github.com/NCAR/wrf_hydro_nwm_public.git
+  git clone --recurse-submodules https://github.com/NCAR/wrf_hydro_nwm_public.git || exit 1
   cd wrf_hydro_nwm_public
   mkdir -p build
   cd build
@@ -22333,25 +22129,11 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   cd "${WRF_FOLDER}"/Downloads
   # Retrieve the exact WRF source version selected for this install.
   # The source is staged separately from the reusable library prefix.
-  wget -c https://github.com/wrf-model/WRF/releases/download/v${WRF_VERSION}/v${WRF_VERSION}.tar.gz -O WRF-${WRF_VERSION}.tar.gz
-  env -u LD_LIBRARY_PATH tar -xzf WRF-${WRF_VERSION}.tar.gz -C "${WRF_FOLDER}"/
-
-  # If statment for changing folder name
-  # Check if WRF directory exists
-  if [ -d "${WRF_FOLDER}/WRF" ]; then
-    mv -f "${WRF_FOLDER}/WRF" "${WRF_FOLDER}/WRF-${WRF_VERSION}"
-
-  # Else, check for any folder matching WRFV*
-  else
-    for dir in "${WRF_FOLDER}"/WRFV*; do
-      if [ -d "$dir" ]; then
-        mv -f "$dir" "${WRF_FOLDER}/WRF-${WRF_VERSION}"
-        break
-      fi
-    done
-  fi
-
-  cd "${WRF_FOLDER}"/WRF-${WRF_VERSION}
+  # Clone directly into the versioned WRF directory.
+  # Initialize all release-pinned submodules during the clone.
+  # No extracted-directory rename is required.
+  git clone --branch "v${WRF_VERSION}" --recurse-submodules https://github.com/wrf-model/WRF.git "${WRF_FOLDER}"/WRF-${WRF_VERSION} || exit 1
+  cd "${WRF_FOLDER}"/WRF-${WRF_VERSION} || exit 1
   # Enable WRF support for larger NetCDF output files.
   export WRFIO_NCD_LARGE_FILE_SUPPORT=1
 
@@ -22427,22 +22209,9 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   cd "${WRF_FOLDER}"/Downloads
   # Fetch WPS independently of WRF so each version is explicit;
   # the subsequent configure step uses the matching WRF_DIR.
-  wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v${WPS_VERSION}.tar.gz -O WPS-${WPS_VERSION}.tar.gz
-  env -u LD_LIBRARY_PATH tar -xzf WPS-${WPS_VERSION}.tar.gz -C "${WRF_FOLDER}"/
-  # Keep WPS in its versioned directory without moving it onto itself.
-  if [ -d "${WRF_FOLDER}/WPS-${WPS_VERSION}" ]; then
-    echo "WPS-${WPS_VERSION} directory already exists; skipping rename."
-  elif [ -d "${WRF_FOLDER}/WPS" ]; then
-    mv -f "${WRF_FOLDER}/WPS" "${WRF_FOLDER}/WPS-${WPS_VERSION}"
-  else
-    for dir in "${WRF_FOLDER}"/WPSV* "${WRF_FOLDER}"/WPS-*; do
-      if [ -d "$dir" ]; then
-        mv -f "$dir" "${WRF_FOLDER}/WPS-${WPS_VERSION}"
-        break
-      fi
-    done
-  fi
-  cd "${WRF_FOLDER}"/WPS-${WPS_VERSION}
+  # Keep WPS in its versioned directory by cloning directly into it.
+  git clone --branch "v${WPS_VERSION}" --recurse-submodules https://github.com/wrf-model/WPS.git "${WRF_FOLDER}"/WPS-${WPS_VERSION} || exit 1
+  cd "${WRF_FOLDER}"/WPS-${WPS_VERSION} || exit 1
   ./clean -a
 
   # Automatic configuration feeds the preselected platform/model
@@ -23242,7 +23011,7 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   cd "${WRF_FOLDER}/Hydro-Basecode"
 
   # Clone the WRF-Hydro repository and set up the build
-  git clone https://github.com/NCAR/wrf_hydro_nwm_public.git
+  git clone --recurse-submodules https://github.com/NCAR/wrf_hydro_nwm_public.git || exit 1
   cd wrf_hydro_nwm_public
   mkdir -p build
   cd build
@@ -23316,25 +23085,11 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   cd "${WRF_FOLDER}"/Downloads
   # Retrieve the exact WRF source version selected for this install.
   # The source is staged separately from the reusable library prefix.
-  wget -c https://github.com/wrf-model/WRF/releases/download/v${WRF_VERSION}/v${WRF_VERSION}.tar.gz -O WRF-${WRF_VERSION}.tar.gz
-  env -u LD_LIBRARY_PATH tar -xzf WRF-${WRF_VERSION}.tar.gz -C "${WRF_FOLDER}"/
-
-  # If statment for changing folder name
-  # Check if WRF directory exists
-  if [ -d "${WRF_FOLDER}/WRF" ]; then
-    mv -f "${WRF_FOLDER}/WRF" "${WRF_FOLDER}/WRF-${WRF_VERSION}"
-
-  # Else, check for any folder matching WRFV*
-  else
-    for dir in "${WRF_FOLDER}"/WRFV*; do
-      if [ -d "$dir" ]; then
-        mv -f "$dir" "${WRF_FOLDER}/WRF-${WRF_VERSION}"
-        break
-      fi
-    done
-  fi
-
-  cd "${WRF_FOLDER}"/WRF-${WRF_VERSION}
+  # Clone directly into the versioned WRF directory.
+  # Initialize all release-pinned submodules during the clone.
+  # No extracted-directory rename is required.
+  git clone --branch "v${WRF_VERSION}" --recurse-submodules https://github.com/wrf-model/WRF.git "${WRF_FOLDER}"/WRF-${WRF_VERSION} || exit 1
+  cd "${WRF_FOLDER}"/WRF-${WRF_VERSION} || exit 1
   # Enable WRF support for larger NetCDF output files.
   export WRFIO_NCD_LARGE_FILE_SUPPORT=1
 
@@ -23407,22 +23162,9 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   cd "${WRF_FOLDER}"/Downloads
   # Fetch WPS independently of WRF so each version is explicit;
   # the subsequent configure step uses the matching WRF_DIR.
-  wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v${WPS_VERSION}.tar.gz -O WPS-${WPS_VERSION}.tar.gz
-  env -u LD_LIBRARY_PATH tar -xzf WPS-${WPS_VERSION}.tar.gz -C "${WRF_FOLDER}"/
-  # Keep WPS in its versioned directory without moving it onto itself.
-  if [ -d "${WRF_FOLDER}/WPS-${WPS_VERSION}" ]; then
-    echo "WPS-${WPS_VERSION} directory already exists; skipping rename."
-  elif [ -d "${WRF_FOLDER}/WPS" ]; then
-    mv -f "${WRF_FOLDER}/WPS" "${WRF_FOLDER}/WPS-${WPS_VERSION}"
-  else
-    for dir in "${WRF_FOLDER}"/WPSV* "${WRF_FOLDER}"/WPS-*; do
-      if [ -d "$dir" ]; then
-        mv -f "$dir" "${WRF_FOLDER}/WPS-${WPS_VERSION}"
-        break
-      fi
-    done
-  fi
-  cd "${WRF_FOLDER}"/WPS-${WPS_VERSION}
+  # Keep WPS in its versioned directory by cloning directly into it.
+  git clone --branch "v${WPS_VERSION}" --recurse-submodules https://github.com/wrf-model/WPS.git "${WRF_FOLDER}"/WPS-${WPS_VERSION} || exit 1
+  cd "${WRF_FOLDER}"/WPS-${WPS_VERSION} || exit 1
   ./clean -a
 
   # Automatic configuration feeds the preselected platform/model
@@ -24149,7 +23891,7 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   cd "${WRF_FOLDER}/Hydro-Basecode"
 
   # Clone the WRF-Hydro repository and set up the build
-  git clone https://github.com/NCAR/wrf_hydro_nwm_public.git
+  git clone --recurse-submodules https://github.com/NCAR/wrf_hydro_nwm_public.git || exit 1
   cd wrf_hydro_nwm_public
   mkdir -p build
   cd build
@@ -24225,25 +23967,11 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
 
   # Retrieve the exact WRF source version selected for this install.
   # The source is staged separately from the reusable library prefix.
-  wget -c https://github.com/wrf-model/WRF/releases/download/v${WRF_VERSION}/v${WRF_VERSION}.tar.gz -O WRF-${WRF_VERSION}.tar.gz
-  env -u LD_LIBRARY_PATH tar -xzf WRF-${WRF_VERSION}.tar.gz -C "${WRF_FOLDER}"/
-
-  # If statment for changing folder name
-  # Check if WRF directory exists
-  if [ -d "${WRF_FOLDER}/WRF" ]; then
-    mv -f "${WRF_FOLDER}/WRF" "${WRF_FOLDER}/WRF-${WRF_VERSION}"
-
-  # Else, check for any folder matching WRFV*
-  else
-    for dir in "${WRF_FOLDER}"/WRFV*; do
-      if [ -d "$dir" ]; then
-        mv -f "$dir" "${WRF_FOLDER}/WRF-${WRF_VERSION}"
-        break
-      fi
-    done
-  fi
-
-  cd "${WRF_FOLDER}"/WRF-${WRF_VERSION}
+  # Clone directly into the versioned WRF directory.
+  # Initialize all release-pinned submodules during the clone.
+  # No extracted-directory rename is required.
+  git clone --branch "v${WRF_VERSION}" --recurse-submodules https://github.com/wrf-model/WRF.git "${WRF_FOLDER}"/WRF-${WRF_VERSION} || exit 1
+  cd "${WRF_FOLDER}"/WRF-${WRF_VERSION} || exit 1
 
   # Enable WRF support for larger NetCDF output files.
   export WRFIO_NCD_LARGE_FILE_SUPPORT=1
@@ -24327,22 +24055,9 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRFHYDRO_COUPLED_PICK" = "1" ]; then
   cd "${WRF_FOLDER}"/Downloads
   # Fetch WPS independently of WRF so each version is explicit;
   # the subsequent configure step uses the matching WRF_DIR.
-  wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v${WPS_VERSION}.tar.gz -O WPS-${WPS_VERSION}.tar.gz
-  env -u LD_LIBRARY_PATH tar -xzf WPS-${WPS_VERSION}.tar.gz -C "${WRF_FOLDER}"/
-  # Keep WPS in its versioned directory without moving it onto itself.
-  if [ -d "${WRF_FOLDER}/WPS-${WPS_VERSION}" ]; then
-    echo "WPS-${WPS_VERSION} directory already exists; skipping rename."
-  elif [ -d "${WRF_FOLDER}/WPS" ]; then
-    mv -f "${WRF_FOLDER}/WPS" "${WRF_FOLDER}/WPS-${WPS_VERSION}"
-  else
-    for dir in "${WRF_FOLDER}"/WPSV* "${WRF_FOLDER}"/WPS-*; do
-      if [ -d "$dir" ]; then
-        mv -f "$dir" "${WRF_FOLDER}/WPS-${WPS_VERSION}"
-        break
-      fi
-    done
-  fi
-  cd "${WRF_FOLDER}"/WPS-${WPS_VERSION}
+  # Keep WPS in its versioned directory by cloning directly into it.
+  git clone --branch "v${WPS_VERSION}" --recurse-submodules https://github.com/wrf-model/WPS.git "${WRF_FOLDER}"/WPS-${WPS_VERSION} || exit 1
+  cd "${WRF_FOLDER}"/WPS-${WPS_VERSION} || exit 1
   ./clean -a
 
   # Automatic configuration feeds the preselected platform/model
@@ -25211,28 +24926,9 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$aarch64" !=
   cd "${WRF_FOLDER}"/Downloads
   # Retrieve the exact WRF source version selected for this install.
   # The source is staged separately from the reusable library prefix.
-  wget -c https://github.com/wrf-model/WRF/releases/download/v${WRF_VERSION}/v${WRF_VERSION}.tar.gz -O WRF-${WRF_VERSION}.tar.gz
-  mkdir -p "${WRF_FOLDER}"/WRFDA
-  env -u LD_LIBRARY_PATH tar -xzf WRF-${WRF_VERSION}.tar.gz -C "${WRF_FOLDER}"/WRFDA
-
-  # If statement for changing folder name inside WRFDA
-  if [ -d "${WRF_FOLDER}/WRFDA/WRF" ]; then
-    mv -f "${WRF_FOLDER}/WRFDA/WRF" "${WRF_FOLDER}/WRFDA/WRF-${WRF_VERSION}"
-
-  else
-    for dir in "${WRF_FOLDER}/WRFDA"/WRFV*; do
-      if [ -d "$dir" ]; then
-        mv -f "$dir" "${WRF_FOLDER}/WRFDA/WRF-${WRF_VERSION}"
-        break
-      fi
-    done
-  fi
-  cd "${WRF_FOLDER}"/WRFDA/WRF-${WRF_VERSION}
-
-  mv * "${WRF_FOLDER}"/WRFDA
-  cd "${WRF_FOLDER}"/WRFDA
-  rm -rf WRF-${WRF_VERSION}/
-  cd "${WRF_FOLDER}"/WRFDA
+  # Clone directly into the independent WRFDA directory.
+  git clone --branch "v${WRF_VERSION}" --recurse-submodules https://github.com/wrf-model/WRF.git "${WRF_FOLDER}"/WRFDA || exit 1
+  cd "${WRF_FOLDER}"/WRFDA || exit 1
 
   ulimit -s unlimited
   export WRF_CHEM=1
@@ -25412,24 +25108,11 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$aarch64" !=
   cd "${WRF_FOLDER}"/Downloads
   # Retrieve the exact WRF source version selected for this install.
   # The source is staged separately from the reusable library prefix.
-  wget -c https://github.com/wrf-model/WRF/releases/download/v${WRF_VERSION}/v${WRF_VERSION}.tar.gz -O WRF-${WRF_VERSION}.tar.gz
-  env -u LD_LIBRARY_PATH tar -xzf WRF-${WRF_VERSION}.tar.gz -C "${WRF_FOLDER}"/
-
-  # If statment for changing folder name
-  # Check if WRF directory exists
-  if [ -d "${WRF_FOLDER}/WRF" ]; then
-    mv -f "${WRF_FOLDER}/WRF" "${WRF_FOLDER}/WRF-${WRF_VERSION}"
-
-  # Else, check for any folder matching WRFV*
-  else
-    for dir in "${WRF_FOLDER}"/WRFV*; do
-      if [ -d "$dir" ]; then
-        mv -f "$dir" "${WRF_FOLDER}/WRF-${WRF_VERSION}"
-        break
-      fi
-    done
-  fi
-  cd "${WRF_FOLDER}"/WRF-${WRF_VERSION}
+  # Clone directly into the versioned WRF directory.
+  # Initialize all release-pinned submodules during the clone.
+  # No extracted-directory rename is required.
+  git clone --branch "v${WRF_VERSION}" --recurse-submodules https://github.com/wrf-model/WRF.git "${WRF_FOLDER}"/WRF-${WRF_VERSION} || exit 1
+  cd "${WRF_FOLDER}"/WRF-${WRF_VERSION} || exit 1
 
   ./clean -a
 
@@ -25526,9 +25209,8 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$aarch64" !=
   cd "${WRF_FOLDER}"/Downloads
   # Fetch WPS independently of WRF so each version is explicit;
   # the subsequent configure step uses the matching WRF_DIR.
-  wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v${WPS_VERSION}.tar.gz -O WPS-${WPS_VERSION}.tar.gz
-  env -u LD_LIBRARY_PATH tar -xzf WPS-${WPS_VERSION}.tar.gz -C "${WRF_FOLDER}"/
-  cd "${WRF_FOLDER}"/WPS-${WPS_VERSION}
+  git clone --branch "v${WPS_VERSION}" --recurse-submodules https://github.com/wrf-model/WPS.git "${WRF_FOLDER}"/WPS-${WPS_VERSION} || exit 1
+  cd "${WRF_FOLDER}"/WPS-${WPS_VERSION} || exit 1
 
   ./clean -a
 
@@ -26374,28 +26056,9 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$aarch64" = 
   cd "${WRF_FOLDER}"/Downloads
   # Retrieve the exact WRF source version selected for this install.
   # The source is staged separately from the reusable library prefix.
-  wget -c https://github.com/wrf-model/WRF/releases/download/v${WRF_VERSION}/v${WRF_VERSION}.tar.gz -O WRF-${WRF_VERSION}.tar.gz
-  mkdir -p "${WRF_FOLDER}"/WRFDA
-  env -u LD_LIBRARY_PATH tar -xzf WRF-${WRF_VERSION}.tar.gz -C "${WRF_FOLDER}"/WRFDA
-
-  # If statement for changing folder name inside WRFDA
-  if [ -d "${WRF_FOLDER}/WRFDA/WRF" ]; then
-    mv -f "${WRF_FOLDER}/WRFDA/WRF" "${WRF_FOLDER}/WRFDA/WRF-${WRF_VERSION}"
-
-  else
-    for dir in "${WRF_FOLDER}/WRFDA"/WRFV*; do
-      if [ -d "$dir" ]; then
-        mv -f "$dir" "${WRF_FOLDER}/WRFDA/WRF-${WRF_VERSION}"
-        break
-      fi
-    done
-  fi
-  cd "${WRF_FOLDER}"/WRFDA/WRF-${WRF_VERSION}
-
-  mv * "${WRF_FOLDER}"/WRFDA
-  cd "${WRF_FOLDER}"/WRFDA
-  rm -rf WRF-${WRF_VERSION}/
-  cd "${WRF_FOLDER}"/WRFDA
+  # Clone directly into the independent WRFDA directory.
+  git clone --branch "v${WRF_VERSION}" --recurse-submodules https://github.com/wrf-model/WRF.git "${WRF_FOLDER}"/WRFDA || exit 1
+  cd "${WRF_FOLDER}"/WRFDA || exit 1
 
   ulimit -s unlimited
   export WRF_CHEM=1
@@ -26575,24 +26238,11 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$aarch64" = 
   cd "${WRF_FOLDER}"/Downloads
   # Retrieve the exact WRF source version selected for this install.
   # The source is staged separately from the reusable library prefix.
-  wget -c https://github.com/wrf-model/WRF/releases/download/v${WRF_VERSION}/v${WRF_VERSION}.tar.gz -O WRF-${WRF_VERSION}.tar.gz
-  env -u LD_LIBRARY_PATH tar -xzf WRF-${WRF_VERSION}.tar.gz -C "${WRF_FOLDER}"/
-
-  # If statment for changing folder name
-  # Check if WRF directory exists
-  if [ -d "${WRF_FOLDER}/WRF" ]; then
-    mv -f "${WRF_FOLDER}/WRF" "${WRF_FOLDER}/WRF-${WRF_VERSION}"
-
-  # Else, check for any folder matching WRFV*
-  else
-    for dir in "${WRF_FOLDER}"/WRFV*; do
-      if [ -d "$dir" ]; then
-        mv -f "$dir" "${WRF_FOLDER}/WRF-${WRF_VERSION}"
-        break
-      fi
-    done
-  fi
-  cd "${WRF_FOLDER}"/WRF-${WRF_VERSION}
+  # Clone directly into the versioned WRF directory.
+  # Initialize all release-pinned submodules during the clone.
+  # No extracted-directory rename is required.
+  git clone --branch "v${WRF_VERSION}" --recurse-submodules https://github.com/wrf-model/WRF.git "${WRF_FOLDER}"/WRF-${WRF_VERSION} || exit 1
+  cd "${WRF_FOLDER}"/WRF-${WRF_VERSION} || exit 1
 
   ./clean -a
 
@@ -26717,9 +26367,8 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ] && [ "$aarch64" = 
   cd "${WRF_FOLDER}"/Downloads
   # Fetch WPS independently of WRF so each version is explicit;
   # the subsequent configure step uses the matching WRF_DIR.
-  wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v${WPS_VERSION}.tar.gz -O WPS-${WPS_VERSION}.tar.gz
-  env -u LD_LIBRARY_PATH tar -xzf WPS-${WPS_VERSION}.tar.gz -C "${WRF_FOLDER}"/
-  cd "${WRF_FOLDER}"/WPS-${WPS_VERSION}
+  git clone --branch "v${WPS_VERSION}" --recurse-submodules https://github.com/wrf-model/WPS.git "${WRF_FOLDER}"/WPS-${WPS_VERSION} || exit 1
+  cd "${WRF_FOLDER}"/WPS-${WPS_VERSION} || exit 1
 
   ./clean -a
   sed -i '192s/x86_64/x86_64 aarch64/g' "${WRF_FOLDER}"/WPS-${WPS_VERSION}/arch/configure.defaults
@@ -27562,26 +27211,9 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   cd "${WRF_FOLDER}"/Downloads
   # Retrieve the exact WRF source version selected for this install.
   # The source is staged separately from the reusable library prefix.
-  wget -c https://github.com/wrf-model/WRF/releases/download/v${WRF_VERSION}/v${WRF_VERSION}.tar.gz -O WRF-${WRF_VERSION}.tar.gz
-  mkdir -p "${WRF_FOLDER}"/WRFDA
-  env -u LD_LIBRARY_PATH tar -xzf WRF-${WRF_VERSION}.tar.gz -C "${WRF_FOLDER}"/WRFDA
-  # If statement for changing folder name inside WRFDA
-  if [ -d "${WRF_FOLDER}/WRFDA/WRF" ]; then
-    mv -f "${WRF_FOLDER}/WRFDA/WRF" "${WRF_FOLDER}/WRFDA/WRF-${WRF_VERSION}"
-
-  else
-    for dir in "${WRF_FOLDER}/WRFDA"/WRFV*; do
-      if [ -d "$dir" ]; then
-        mv -f "$dir" "${WRF_FOLDER}/WRFDA/WRF-${WRF_VERSION}"
-        break
-      fi
-    done
-  fi
-  cd "${WRF_FOLDER}"/WRFDA/WRF-${WRF_VERSION}
-  mv * "${WRF_FOLDER}"/WRFDA
-  cd "${WRF_FOLDER}"/WRFDA
-  rm -rf WRF-${WRF_VERSION}/
-  cd "${WRF_FOLDER}"/WRFDA
+  # Clone directly into the independent WRFDA directory.
+  git clone --branch "v${WRF_VERSION}" --recurse-submodules https://github.com/wrf-model/WRF.git "${WRF_FOLDER}"/WRFDA || exit 1
+  cd "${WRF_FOLDER}"/WRFDA || exit 1
 
   ulimit -s unlimited
   export WRF_CHEM=1
@@ -27755,24 +27387,11 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   cd "${WRF_FOLDER}"/Downloads
   # Retrieve the exact WRF source version selected for this install.
   # The source is staged separately from the reusable library prefix.
-  wget -c https://github.com/wrf-model/WRF/releases/download/v${WRF_VERSION}/v${WRF_VERSION}.tar.gz -O WRF-${WRF_VERSION}.tar.gz
-  env -u LD_LIBRARY_PATH tar -xzf WRF-${WRF_VERSION}.tar.gz -C "${WRF_FOLDER}"/
-
-  # If statment for changing folder name
-  # Check if WRF directory exists
-  if [ -d "${WRF_FOLDER}/WRF" ]; then
-    mv -f "${WRF_FOLDER}/WRF" "${WRF_FOLDER}/WRF-${WRF_VERSION}"
-
-  # Else, check for any folder matching WRFV*
-  else
-    for dir in "${WRF_FOLDER}"/WRFV*; do
-      if [ -d "$dir" ]; then
-        mv -f "$dir" "${WRF_FOLDER}/WRF-${WRF_VERSION}"
-        break
-      fi
-    done
-  fi
-  cd "${WRF_FOLDER}"/WRF-${WRF_VERSION}
+  # Clone directly into the versioned WRF directory.
+  # Initialize all release-pinned submodules during the clone.
+  # No extracted-directory rename is required.
+  git clone --branch "v${WRF_VERSION}" --recurse-submodules https://github.com/wrf-model/WRF.git "${WRF_FOLDER}"/WRF-${WRF_VERSION} || exit 1
+  cd "${WRF_FOLDER}"/WRF-${WRF_VERSION} || exit 1
 
   ./clean -a
 
@@ -27897,22 +27516,9 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   cd "${WRF_FOLDER}"/Downloads
   # Fetch WPS independently of WRF so each version is explicit;
   # the subsequent configure step uses the matching WRF_DIR.
-  wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v${WPS_VERSION}.tar.gz -O WPS-${WPS_VERSION}.tar.gz
-  env -u LD_LIBRARY_PATH tar -xzf WPS-${WPS_VERSION}.tar.gz -C "${WRF_FOLDER}"/
-  # Keep WPS in its versioned directory without moving it onto itself.
-  if [ -d "${WRF_FOLDER}/WPS-${WPS_VERSION}" ]; then
-    echo "WPS-${WPS_VERSION} directory already exists; skipping rename."
-  elif [ -d "${WRF_FOLDER}/WPS" ]; then
-    mv -f "${WRF_FOLDER}/WPS" "${WRF_FOLDER}/WPS-${WPS_VERSION}"
-  else
-    for dir in "${WRF_FOLDER}"/WPSV* "${WRF_FOLDER}"/WPS-*; do
-      if [ -d "$dir" ]; then
-        mv -f "$dir" "${WRF_FOLDER}/WPS-${WPS_VERSION}"
-        break
-      fi
-    done
-  fi
-  cd "${WRF_FOLDER}"/WPS-${WPS_VERSION}
+  # Keep WPS in its versioned directory by cloning directly into it.
+  git clone --branch "v${WPS_VERSION}" --recurse-submodules https://github.com/wrf-model/WPS.git "${WRF_FOLDER}"/WPS-${WPS_VERSION} || exit 1
+  cd "${WRF_FOLDER}"/WPS-${WPS_VERSION} || exit 1
   ./clean -a
 
   sed -i '192s/x86_64/x86_64 aarch64/g' "${WRF_FOLDER}"/WPS-${WPS_VERSION}/arch/configure.defaults
@@ -28692,24 +28298,11 @@ if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK
   cd "${WRF_FOLDER}"/Downloads
   # Retrieve the exact WRF source version selected for this install.
   # The source is staged separately from the reusable library prefix.
-  wget -c https://github.com/wrf-model/WRF/releases/download/v${WRF_VERSION}/v${WRF_VERSION}.tar.gz -O WRF-${WRF_VERSION}.tar.gz
-  env -u LD_LIBRARY_PATH tar -xzf WRF-${WRF_VERSION}.tar.gz -C "${WRF_FOLDER}"/
-
-  # If statment for changing folder name
-  # Check if WRF directory exists
-  if [ -d "${WRF_FOLDER}/WRF" ]; then
-    mv -f "${WRF_FOLDER}/WRF" "${WRF_FOLDER}/WRF-${WRF_VERSION}"
-
-  # Else, check for any folder matching WRFV*
-  else
-    for dir in "${WRF_FOLDER}"/WRFV*; do
-      if [ -d "$dir" ]; then
-        mv -f "$dir" "${WRF_FOLDER}/WRF-${WRF_VERSION}"
-        break
-      fi
-    done
-  fi
-  cd "${WRF_FOLDER}"/WRF-${WRF_VERSION}
+  # Clone directly into the versioned WRF directory.
+  # Initialize all release-pinned submodules during the clone.
+  # No extracted-directory rename is required.
+  git clone --branch "v${WRF_VERSION}" --recurse-submodules https://github.com/wrf-model/WRF.git "${WRF_FOLDER}"/WRF-${WRF_VERSION} || exit 1
+  cd "${WRF_FOLDER}"/WRF-${WRF_VERSION} || exit 1
 
   ./clean -a
 
@@ -28805,22 +28398,9 @@ if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK
   cd "${WRF_FOLDER}"/Downloads
   # Fetch WPS independently of WRF so each version is explicit;
   # the subsequent configure step uses the matching WRF_DIR.
-  wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v${WPS_VERSION}.tar.gz -O WPS-${WPS_VERSION}.tar.gz
-  env -u LD_LIBRARY_PATH tar -xzf WPS-${WPS_VERSION}.tar.gz -C "${WRF_FOLDER}"/
-  # Keep WPS in its versioned directory without moving it onto itself.
-  if [ -d "${WRF_FOLDER}/WPS-${WPS_VERSION}" ]; then
-    echo "WPS-${WPS_VERSION} directory already exists; skipping rename."
-  elif [ -d "${WRF_FOLDER}/WPS" ]; then
-    mv -f "${WRF_FOLDER}/WPS" "${WRF_FOLDER}/WPS-${WPS_VERSION}"
-  else
-    for dir in "${WRF_FOLDER}"/WPSV* "${WRF_FOLDER}"/WPS-*; do
-      if [ -d "$dir" ]; then
-        mv -f "$dir" "${WRF_FOLDER}/WPS-${WPS_VERSION}"
-        break
-      fi
-    done
-  fi
-  cd "${WRF_FOLDER}"/WPS-${WPS_VERSION}
+  # Keep WPS in its versioned directory by cloning directly into it.
+  git clone --branch "v${WPS_VERSION}" --recurse-submodules https://github.com/wrf-model/WPS.git "${WRF_FOLDER}"/WPS-${WPS_VERSION} || exit 1
+  cd "${WRF_FOLDER}"/WPS-${WPS_VERSION} || exit 1
   ./clean -a
 
   # Automatic configuration feeds the preselected platform/model
@@ -28874,26 +28454,9 @@ if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK
   cd "${WRF_FOLDER}"/Downloads
   # Retrieve the exact WRF source version selected for this install.
   # The source is staged separately from the reusable library prefix.
-  wget -c https://github.com/wrf-model/WRF/releases/download/v${WRF_VERSION}/v${WRF_VERSION}.tar.gz -O WRF-${WRF_VERSION}.tar.gz
-  mkdir -p "${WRF_FOLDER}"/WRFDA
-  env -u LD_LIBRARY_PATH tar -xzf WRF-${WRF_VERSION}.tar.gz -C "${WRF_FOLDER}"/WRFDA
-  # If statement for changing folder name inside WRFDA
-  if [ -d "${WRF_FOLDER}/WRFDA/WRF" ]; then
-    mv -f "${WRF_FOLDER}/WRFDA/WRF" "${WRF_FOLDER}/WRFDA/WRF-${WRF_VERSION}"
-
-  else
-    for dir in "${WRF_FOLDER}/WRFDA"/WRFV*; do
-      if [ -d "$dir" ]; then
-        mv -f "$dir" "${WRF_FOLDER}/WRFDA/WRF-${WRF_VERSION}"
-        break
-      fi
-    done
-  fi
-  cd "${WRF_FOLDER}"/WRFDA/WRF-${WRF_VERSION}
-  mv * "${WRF_FOLDER}"/WRFDA
-  cd "${WRF_FOLDER}"/WRFDA
-  rm -rf WRF-${WRF_VERSION}/
-  cd "${WRF_FOLDER}"/WRFDA
+  # Clone directly into the independent WRFDA directory.
+  git clone --branch "v${WRF_VERSION}" --recurse-submodules https://github.com/wrf-model/WRF.git "${WRF_FOLDER}"/WRFDA || exit 1
+  cd "${WRF_FOLDER}"/WRFDA || exit 1
 
   ulimit -s unlimited
   export WRF_CHEM=1
@@ -29694,24 +29257,11 @@ if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK
   cd "${WRF_FOLDER}"/Downloads
   # Retrieve the exact WRF source version selected for this install.
   # The source is staged separately from the reusable library prefix.
-  wget -c https://github.com/wrf-model/WRF/releases/download/v${WRF_VERSION}/v${WRF_VERSION}.tar.gz -O WRF-${WRF_VERSION}.tar.gz
-  env -u LD_LIBRARY_PATH tar -xzf WRF-${WRF_VERSION}.tar.gz -C "${WRF_FOLDER}"/
-
-  # If statment for changing folder name
-  # Check if WRF directory exists
-  if [ -d "${WRF_FOLDER}/WRF" ]; then
-    mv -f "${WRF_FOLDER}/WRF" "${WRF_FOLDER}/WRF-${WRF_VERSION}"
-
-  # Else, check for any folder matching WRFV*
-  else
-    for dir in "${WRF_FOLDER}"/WRFV*; do
-      if [ -d "$dir" ]; then
-        mv -f "$dir" "${WRF_FOLDER}/WRF-${WRF_VERSION}"
-        break
-      fi
-    done
-  fi
-  cd "${WRF_FOLDER}"/WRF-${WRF_VERSION}
+  # Clone directly into the versioned WRF directory.
+  # Initialize all release-pinned submodules during the clone.
+  # No extracted-directory rename is required.
+  git clone --branch "v${WRF_VERSION}" --recurse-submodules https://github.com/wrf-model/WRF.git "${WRF_FOLDER}"/WRF-${WRF_VERSION} || exit 1
+  cd "${WRF_FOLDER}"/WRF-${WRF_VERSION} || exit 1
 
   ./clean -a
 
@@ -29807,22 +29357,9 @@ if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK
   cd "${WRF_FOLDER}"/Downloads
   # Fetch WPS independently of WRF so each version is explicit;
   # the subsequent configure step uses the matching WRF_DIR.
-  wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v${WPS_VERSION}.tar.gz -O WPS-${WPS_VERSION}.tar.gz
-  env -u LD_LIBRARY_PATH tar -xzf WPS-${WPS_VERSION}.tar.gz -C "${WRF_FOLDER}"/
-  # Keep WPS in its versioned directory without moving it onto itself.
-  if [ -d "${WRF_FOLDER}/WPS-${WPS_VERSION}" ]; then
-    echo "WPS-${WPS_VERSION} directory already exists; skipping rename."
-  elif [ -d "${WRF_FOLDER}/WPS" ]; then
-    mv -f "${WRF_FOLDER}/WPS" "${WRF_FOLDER}/WPS-${WPS_VERSION}"
-  else
-    for dir in "${WRF_FOLDER}"/WPSV* "${WRF_FOLDER}"/WPS-*; do
-      if [ -d "$dir" ]; then
-        mv -f "$dir" "${WRF_FOLDER}/WPS-${WPS_VERSION}"
-        break
-      fi
-    done
-  fi
-  cd "${WRF_FOLDER}"/WPS-${WPS_VERSION}
+  # Keep WPS in its versioned directory by cloning directly into it.
+  git clone --branch "v${WPS_VERSION}" --recurse-submodules https://github.com/wrf-model/WPS.git "${WRF_FOLDER}"/WPS-${WPS_VERSION} || exit 1
+  cd "${WRF_FOLDER}"/WPS-${WPS_VERSION} || exit 1
   ./clean -a
 
   # Automatic configuration feeds the preselected platform/model
@@ -29876,26 +29413,9 @@ if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK
   cd "${WRF_FOLDER}"/Downloads
   # Retrieve the exact WRF source version selected for this install.
   # The source is staged separately from the reusable library prefix.
-  wget -c https://github.com/wrf-model/WRF/releases/download/v${WRF_VERSION}/v${WRF_VERSION}.tar.gz -O WRF-${WRF_VERSION}.tar.gz
-  mkdir -p "${WRF_FOLDER}"/WRFDA
-  env -u LD_LIBRARY_PATH tar -xzf WRF-${WRF_VERSION}.tar.gz -C "${WRF_FOLDER}"/WRFDA
-  # If statement for changing folder name inside WRFDA
-  if [ -d "${WRF_FOLDER}/WRFDA/WRF" ]; then
-    mv -f "${WRF_FOLDER}/WRFDA/WRF" "${WRF_FOLDER}/WRFDA/WRF-${WRF_VERSION}"
-
-  else
-    for dir in "${WRF_FOLDER}/WRFDA"/WRFV*; do
-      if [ -d "$dir" ]; then
-        mv -f "$dir" "${WRF_FOLDER}/WRFDA/WRF-${WRF_VERSION}"
-        break
-      fi
-    done
-  fi
-  cd "${WRF_FOLDER}"/WRFDA/WRF-${WRF_VERSION}
-  mv * "${WRF_FOLDER}"/WRFDA
-  cd "${WRF_FOLDER}"/WRFDA
-  rm -rf WRF-${WRF_VERSION}/
-  cd "${WRF_FOLDER}"/WRFDA
+  # Clone directly into the independent WRFDA directory.
+  git clone --branch "v${WRF_VERSION}" --recurse-submodules https://github.com/wrf-model/WRF.git "${WRF_FOLDER}"/WRFDA || exit 1
+  cd "${WRF_FOLDER}"/WRFDA || exit 1
 
   ulimit -s unlimited
   export WRF_CHEM=1
@@ -30748,26 +30268,9 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   cd "${WRF_FOLDER}"/Downloads
   # Retrieve the exact WRF source version selected for this install.
   # The source is staged separately from the reusable library prefix.
-  wget -c https://github.com/wrf-model/WRF/releases/download/v${WRF_VERSION}/v${WRF_VERSION}.tar.gz -O WRF-${WRF_VERSION}.tar.gz
-  mkdir -p "${WRF_FOLDER}"/WRFDA
-  env -u LD_LIBRARY_PATH tar -xzf WRF-${WRF_VERSION}.tar.gz -C "${WRF_FOLDER}"/WRFDA
-  # If statement for changing folder name inside WRFDA
-  if [ -d "${WRF_FOLDER}/WRFDA/WRF" ]; then
-    mv -f "${WRF_FOLDER}/WRFDA/WRF" "${WRF_FOLDER}/WRFDA/WRF-${WRF_VERSION}"
-
-  else
-    for dir in "${WRF_FOLDER}/WRFDA"/WRFV*; do
-      if [ -d "$dir" ]; then
-        mv -f "$dir" "${WRF_FOLDER}/WRFDA/WRF-${WRF_VERSION}"
-        break
-      fi
-    done
-  fi
-  cd "${WRF_FOLDER}"/WRFDA/WRF-${WRF_VERSION}
-  mv * "${WRF_FOLDER}"/WRFDA
-  cd "${WRF_FOLDER}"/WRFDA
-  rm -rf WRF-${WRF_VERSION}/
-  cd "${WRF_FOLDER}"/WRFDA
+  # Clone directly into the independent WRFDA directory.
+  git clone --branch "v${WRF_VERSION}" --recurse-submodules https://github.com/wrf-model/WRF.git "${WRF_FOLDER}"/WRFDA || exit 1
+  cd "${WRF_FOLDER}"/WRFDA || exit 1
 
   ulimit -s unlimited
   export WRF_CHEM=1
@@ -30945,23 +30448,11 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   cd "${WRF_FOLDER}"/Downloads
   # Retrieve the exact WRF source version selected for this install.
   # The source is staged separately from the reusable library prefix.
-  wget -c https://github.com/wrf-model/WRF/releases/download/v${WRF_VERSION}/v${WRF_VERSION}.tar.gz -O WRF-${WRF_VERSION}.tar.gz
-  env -u LD_LIBRARY_PATH tar -xzf WRF-${WRF_VERSION}.tar.gz -C "${WRF_FOLDER}"/
-  # If statment for changing folder name
-  # Check if WRF directory exists
-  if [ -d "${WRF_FOLDER}/WRF" ]; then
-    mv -f "${WRF_FOLDER}/WRF" "${WRF_FOLDER}/WRF-${WRF_VERSION}"
-
-  # Else, check for any folder matching WRFV*
-  else
-    for dir in "${WRF_FOLDER}"/WRFV*; do
-      if [ -d "$dir" ]; then
-        mv -f "$dir" "${WRF_FOLDER}/WRF-${WRF_VERSION}"
-        break
-      fi
-    done
-  fi
-  cd "${WRF_FOLDER}"/WRF-${WRF_VERSION}
+  # Clone directly into the versioned WRF directory.
+  # Initialize all release-pinned submodules during the clone.
+  # No extracted-directory rename is required.
+  git clone --branch "v${WRF_VERSION}" --recurse-submodules https://github.com/wrf-model/WRF.git "${WRF_FOLDER}"/WRF-${WRF_VERSION} || exit 1
+  cd "${WRF_FOLDER}"/WRF-${WRF_VERSION} || exit 1
 
   ./clean -a
 
@@ -31086,9 +30577,8 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   cd "${WRF_FOLDER}"/Downloads
   # Fetch WPS independently of WRF so each version is explicit;
   # the subsequent configure step uses the matching WRF_DIR.
-  wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v${WPS_VERSION}.tar.gz -O WPS-${WPS_VERSION}.tar.gz
-  env -u LD_LIBRARY_PATH tar -xzf WPS-${WPS_VERSION}.tar.gz -C "${WRF_FOLDER}"/
-  cd "${WRF_FOLDER}"/WPS-${WPS_VERSION}
+  git clone --branch "v${WPS_VERSION}" --recurse-submodules https://github.com/wrf-model/WPS.git "${WRF_FOLDER}"/WPS-${WPS_VERSION} || exit 1
+  cd "${WRF_FOLDER}"/WPS-${WPS_VERSION} || exit 1
 
   ./clean -a
 
@@ -31907,26 +31397,9 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   cd "${WRF_FOLDER}"/Downloads
   # Retrieve the exact WRF source version selected for this install.
   # The source is staged separately from the reusable library prefix.
-  wget -c https://github.com/wrf-model/WRF/releases/download/v${WRF_VERSION}/v${WRF_VERSION}.tar.gz -O WRF-${WRF_VERSION}.tar.gz
-  mkdir -p "${WRF_FOLDER}"/WRFDA
-  env -u LD_LIBRARY_PATH tar -xzf WRF-${WRF_VERSION}.tar.gz -C "${WRF_FOLDER}"/WRFDA
-  # If statement for changing folder name inside WRFDA
-  if [ -d "${WRF_FOLDER}/WRFDA/WRF" ]; then
-    mv -f "${WRF_FOLDER}/WRFDA/WRF" "${WRF_FOLDER}/WRFDA/WRF-${WRF_VERSION}"
-
-  else
-    for dir in "${WRF_FOLDER}/WRFDA"/WRFV*; do
-      if [ -d "$dir" ]; then
-        mv -f "$dir" "${WRF_FOLDER}/WRFDA/WRF-${WRF_VERSION}"
-        break
-      fi
-    done
-  fi
-  cd "${WRF_FOLDER}"/WRFDA/WRF-${WRF_VERSION}
-  mv * "${WRF_FOLDER}"/WRFDA
-  cd "${WRF_FOLDER}"/WRFDA
-  rm -rf WRF-${WRF_VERSION}/
-  cd "${WRF_FOLDER}"/WRFDA
+  # Clone directly into the independent WRFDA directory.
+  git clone --branch "v${WRF_VERSION}" --recurse-submodules https://github.com/wrf-model/WRF.git "${WRF_FOLDER}"/WRFDA || exit 1
+  cd "${WRF_FOLDER}"/WRFDA || exit 1
 
   ulimit -s unlimited
   export WRF_CHEM=1
@@ -32104,23 +31577,11 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   cd "${WRF_FOLDER}"/Downloads
   # Retrieve the exact WRF source version selected for this install.
   # The source is staged separately from the reusable library prefix.
-  wget -c https://github.com/wrf-model/WRF/releases/download/v${WRF_VERSION}/v${WRF_VERSION}.tar.gz -O WRF-${WRF_VERSION}.tar.gz
-  env -u LD_LIBRARY_PATH tar -xzf WRF-${WRF_VERSION}.tar.gz -C "${WRF_FOLDER}"/
-  # If statment for changing folder name
-  # Check if WRF directory exists
-  if [ -d "${WRF_FOLDER}/WRF" ]; then
-    mv -f "${WRF_FOLDER}/WRF" "${WRF_FOLDER}/WRF-${WRF_VERSION}"
-
-  # Else, check for any folder matching WRFV*
-  else
-    for dir in "${WRF_FOLDER}"/WRFV*; do
-      if [ -d "$dir" ]; then
-        mv -f "$dir" "${WRF_FOLDER}/WRF-${WRF_VERSION}"
-        break
-      fi
-    done
-  fi
-  cd "${WRF_FOLDER}"/WRF-${WRF_VERSION}
+  # Clone directly into the versioned WRF directory.
+  # Initialize all release-pinned submodules during the clone.
+  # No extracted-directory rename is required.
+  git clone --branch "v${WRF_VERSION}" --recurse-submodules https://github.com/wrf-model/WRF.git "${WRF_FOLDER}"/WRF-${WRF_VERSION} || exit 1
+  cd "${WRF_FOLDER}"/WRF-${WRF_VERSION} || exit 1
 
   ./clean -a
 
@@ -32245,9 +31706,8 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRFCHEM_PICK" = "1" ]; then
   cd "${WRF_FOLDER}"/Downloads
   # Fetch WPS independently of WRF so each version is explicit;
   # the subsequent configure step uses the matching WRF_DIR.
-  wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v${WPS_VERSION}.tar.gz -O WPS-${WPS_VERSION}.tar.gz
-  env -u LD_LIBRARY_PATH tar -xzf WPS-${WPS_VERSION}.tar.gz -C "${WRF_FOLDER}"/
-  cd "${WRF_FOLDER}"/WPS-${WPS_VERSION}
+  git clone --branch "v${WPS_VERSION}" --recurse-submodules https://github.com/wrf-model/WPS.git "${WRF_FOLDER}"/WPS-${WPS_VERSION} || exit 1
+  cd "${WRF_FOLDER}"/WPS-${WPS_VERSION} || exit 1
 
   ./clean -a
 
@@ -33034,26 +32494,9 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" ]; then
   cd "${WRF_FOLDER}"/Downloads
   # Retrieve the exact WRF source version selected for this install.
   # The source is staged separately from the reusable library prefix.
-  wget -c https://github.com/wrf-model/WRF/releases/download/v${WRF_VERSION}/v${WRF_VERSION}.tar.gz -O WRF-${WRF_VERSION}.tar.gz
-  mkdir -p "${WRF_FOLDER}"/WRFDA
-  env -u LD_LIBRARY_PATH tar -xzf WRF-${WRF_VERSION}.tar.gz -C "${WRF_FOLDER}"/WRFDA
-  # If statement for changing folder name inside WRFDA
-  if [ -d "${WRF_FOLDER}/WRFDA/WRF" ]; then
-    mv -f "${WRF_FOLDER}/WRFDA/WRF" "${WRF_FOLDER}/WRFDA/WRF-${WRF_VERSION}"
-
-  else
-    for dir in "${WRF_FOLDER}/WRFDA"/WRFV*; do
-      if [ -d "$dir" ]; then
-        mv -f "$dir" "${WRF_FOLDER}/WRFDA/WRF-${WRF_VERSION}"
-        break
-      fi
-    done
-  fi
-  cd "${WRF_FOLDER}"/WRFDA/WRF-${WRF_VERSION}
-  mv * "${WRF_FOLDER}"/WRFDA
-  cd "${WRF_FOLDER}"/WRFDA
-  rm -rf WRF-${WRF_VERSION}/
-  cd "${WRF_FOLDER}"/WRFDA
+  # Clone directly into the independent WRFDA directory.
+  git clone --branch "v${WRF_VERSION}" --recurse-submodules https://github.com/wrf-model/WRF.git "${WRF_FOLDER}"/WRFDA || exit 1
+  cd "${WRF_FOLDER}"/WRFDA || exit 1
 
   ulimit -s unlimited
   export WRF_CHEM=1
@@ -33225,23 +32668,11 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" ]; then
   cd "${WRF_FOLDER}"/Downloads
   # Retrieve the exact WRF source version selected for this install.
   # The source is staged separately from the reusable library prefix.
-  wget -c https://github.com/wrf-model/WRF/releases/download/v${WRF_VERSION}/v${WRF_VERSION}.tar.gz -O WRF-${WRF_VERSION}.tar.gz
-  env -u LD_LIBRARY_PATH tar -xzf WRF-${WRF_VERSION}.tar.gz -C "${WRF_FOLDER}"/
-  # If statment for changing folder name
-  # Check if WRF directory exists
-  if [ -d "${WRF_FOLDER}/WRF" ]; then
-    mv -f "${WRF_FOLDER}/WRF" "${WRF_FOLDER}/WRF-${WRF_VERSION}"
-
-  # Else, check for any folder matching WRFV*
-  else
-    for dir in "${WRF_FOLDER}"/WRFV*; do
-      if [ -d "$dir" ]; then
-        mv -f "$dir" "${WRF_FOLDER}/WRF-${WRF_VERSION}"
-        break
-      fi
-    done
-  fi
-  cd "${WRF_FOLDER}"/WRF-${WRF_VERSION}
+  # Clone directly into the versioned WRF directory.
+  # Initialize all release-pinned submodules during the clone.
+  # No extracted-directory rename is required.
+  git clone --branch "v${WRF_VERSION}" --recurse-submodules https://github.com/wrf-model/WRF.git "${WRF_FOLDER}"/WRF-${WRF_VERSION} || exit 1
+  cd "${WRF_FOLDER}"/WRF-${WRF_VERSION} || exit 1
 
   # Enable WRF support for larger NetCDF output files.
   export WRFIO_NCD_LARGE_FILE_SUPPORT=1
@@ -33373,22 +32804,9 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRFCHEM_PICK" ]; then
   cd "${WRF_FOLDER}"/Downloads
   # Fetch WPS independently of WRF so each version is explicit;
   # the subsequent configure step uses the matching WRF_DIR.
-  wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v${WPS_VERSION}.tar.gz -O WPS-${WPS_VERSION}.tar.gz
-  env -u LD_LIBRARY_PATH tar -xzf WPS-${WPS_VERSION}.tar.gz -C "${WRF_FOLDER}"/
-  # Keep WPS in its versioned directory without moving it onto itself.
-  if [ -d "${WRF_FOLDER}/WPS-${WPS_VERSION}" ]; then
-    echo "WPS-${WPS_VERSION} directory already exists; skipping rename."
-  elif [ -d "${WRF_FOLDER}/WPS" ]; then
-    mv -f "${WRF_FOLDER}/WPS" "${WRF_FOLDER}/WPS-${WPS_VERSION}"
-  else
-    for dir in "${WRF_FOLDER}"/WPSV* "${WRF_FOLDER}"/WPS-*; do
-      if [ -d "$dir" ]; then
-        mv -f "$dir" "${WRF_FOLDER}/WPS-${WPS_VERSION}"
-        break
-      fi
-    done
-  fi
-  cd "${WRF_FOLDER}"/WPS-${WPS_VERSION}
+  # Keep WPS in its versioned directory by cloning directly into it.
+  git clone --branch "v${WPS_VERSION}" --recurse-submodules https://github.com/wrf-model/WPS.git "${WRF_FOLDER}"/WPS-${WPS_VERSION} || exit 1
+  cd "${WRF_FOLDER}"/WPS-${WPS_VERSION} || exit 1
   ./clean -a
 
   # Automatic configuration feeds the preselected platform/model
@@ -34275,25 +33693,11 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$aarch64" != "1"
   cd "${WRF_FOLDER}"/Downloads
   # Retrieve the exact WRF source version selected for this install.
   # The source is staged separately from the reusable library prefix.
-  wget -c https://github.com/wrf-model/WRF/releases/download/v${WRF_VERSION}/v${WRF_VERSION}.tar.gz -O WRF-${WRF_VERSION}.tar.gz
-  env -u LD_LIBRARY_PATH tar -xzf WRF-${WRF_VERSION}.tar.gz -C "${WRF_FOLDER}"/
-
-  # If statment for changing folder name
-  # Check if WRF directory exists
-  if [ -d "${WRF_FOLDER}/WRF" ]; then
-    mv -f "${WRF_FOLDER}/WRF" "${WRF_FOLDER}/WRF-${WRF_VERSION}"
-
-  # Else, check for any folder matching WRFV*
-  else
-    for dir in "${WRF_FOLDER}"/WRFV*; do
-      if [ -d "$dir" ]; then
-        mv -f "$dir" "${WRF_FOLDER}/WRF-${WRF_VERSION}"
-        break
-      fi
-    done
-  fi
-
-  cd "${WRF_FOLDER}"/WRF-${WRF_VERSION}
+  # Clone directly into the versioned WRF directory.
+  # Initialize all release-pinned submodules during the clone.
+  # No extracted-directory rename is required.
+  git clone --branch "v${WRF_VERSION}" --recurse-submodules https://github.com/wrf-model/WRF.git "${WRF_FOLDER}"/WRF-${WRF_VERSION} || exit 1
+  cd "${WRF_FOLDER}"/WRF-${WRF_VERSION} || exit 1
   # Enable WRF support for larger NetCDF output files.
   export WRFIO_NCD_LARGE_FILE_SUPPORT=1
   ./clean -a
@@ -34356,22 +33760,9 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$aarch64" != "1"
   cd "${WRF_FOLDER}"/Downloads
   # Fetch WPS independently of WRF so each version is explicit;
   # the subsequent configure step uses the matching WRF_DIR.
-  wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v${WPS_VERSION}.tar.gz -O WPS-${WPS_VERSION}.tar.gz
-  env -u LD_LIBRARY_PATH tar -xzf WPS-${WPS_VERSION}.tar.gz -C "${WRF_FOLDER}"/
-  # Keep WPS in its versioned directory without moving it onto itself.
-  if [ -d "${WRF_FOLDER}/WPS-${WPS_VERSION}" ]; then
-    echo "WPS-${WPS_VERSION} directory already exists; skipping rename."
-  elif [ -d "${WRF_FOLDER}/WPS" ]; then
-    mv -f "${WRF_FOLDER}/WPS" "${WRF_FOLDER}/WPS-${WPS_VERSION}"
-  else
-    for dir in "${WRF_FOLDER}"/WPSV* "${WRF_FOLDER}"/WPS-*; do
-      if [ -d "$dir" ]; then
-        mv -f "$dir" "${WRF_FOLDER}/WPS-${WPS_VERSION}"
-        break
-      fi
-    done
-  fi
-  cd "${WRF_FOLDER}"/WPS-${WPS_VERSION}
+  # Keep WPS in its versioned directory by cloning directly into it.
+  git clone --branch "v${WPS_VERSION}" --recurse-submodules https://github.com/wrf-model/WPS.git "${WRF_FOLDER}"/WPS-${WPS_VERSION} || exit 1
+  cd "${WRF_FOLDER}"/WPS-${WPS_VERSION} || exit 1
   ./clean -a
 
   # Automatic configuration feeds the preselected platform/model
@@ -34424,26 +33815,9 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$aarch64" != "1"
   # Option 18 for gfortran/gcc and distributed memory
   # ----------------------------------------------------------------------
   cd "${WRF_FOLDER}"/Downloads
-  mkdir "${WRF_FOLDER}"/WRFPLUS
-  env -u LD_LIBRARY_PATH tar -xzf WRF-${WRF_VERSION}.tar.gz -C "${WRF_FOLDER}"/WRFPLUS
-
-  # If statement for changing folder name inside WRFPLUS
-  if [ -d "${WRF_FOLDER}/WRFPLUS/WRF" ]; then
-    mv -f "${WRF_FOLDER}/WRFPLUS/WRF" "${WRF_FOLDER}/WRFPLUS/WRF-${WRF_VERSION}"
-
-  else
-    for dir in "${WRF_FOLDER}/WRFPLUS"/WRFV*; do
-      if [ -d "$dir" ]; then
-        mv -f "$dir" "${WRF_FOLDER}/WRFPLUS/WRF-${WRF_VERSION}"
-        break
-      fi
-    done
-  fi
-
-  cd "${WRF_FOLDER}"/WRFPLUS/WRF-${WRF_VERSION}
-  mv * "${WRF_FOLDER}"/WRFPLUS
-  cd "${WRF_FOLDER}"/WRFPLUS
-  rm -rf WRF-${WRF_VERSION}/
+  # Clone directly into the independent WRFPLUS directory.
+  git clone --branch "v${WRF_VERSION}" --recurse-submodules https://github.com/wrf-model/WRF.git "${WRF_FOLDER}"/WRFPLUS || exit 1
+  cd "${WRF_FOLDER}"/WRFPLUS || exit 1
   export NETCDF=$DIR/NETCDF
   export HDF5=$DIR/grib2
   ./clean -a
@@ -34501,26 +33875,9 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$aarch64" != "1"
   # Option 18 for gfortran/gcc and distributed memory
   # ----------------------------------------------------------------------
   cd "${WRF_FOLDER}"/Downloads
-  mkdir "${WRF_FOLDER}"/WRFDA
-  env -u LD_LIBRARY_PATH tar -xzf WRF-${WRF_VERSION}.tar.gz -C "${WRF_FOLDER}"/WRFDA
-
-  # If statement for changing folder name inside WRFDA
-  if [ -d "${WRF_FOLDER}/WRFDA/WRF" ]; then
-    mv -f "${WRF_FOLDER}/WRFDA/WRF" "${WRF_FOLDER}/WRFDA/WRF-${WRF_VERSION}"
-
-  else
-    for dir in "${WRF_FOLDER}/WRFDA"/WRFV*; do
-      if [ -d "$dir" ]; then
-        mv -f "$dir" "${WRF_FOLDER}/WRFDA/WRF-${WRF_VERSION}"
-        break
-      fi
-    done
-  fi
-
-  cd "${WRF_FOLDER}"/WRFDA/WRF-${WRF_VERSION}
-  mv * "${WRF_FOLDER}"/WRFDA
-  cd "${WRF_FOLDER}"/WRFDA
-  rm -rf WRF-${WRF_VERSION}/
+  # Clone directly into the independent WRFDA directory.
+  git clone --branch "v${WRF_VERSION}" --recurse-submodules https://github.com/wrf-model/WRF.git "${WRF_FOLDER}"/WRFDA || exit 1
+  cd "${WRF_FOLDER}"/WRFDA || exit 1
   export NETCDF=$DIR/NETCDF
   export HDF5=$DIR/grib2
   export WRFPLUS_DIR="${WRF_FOLDER}"/WRFPLUS
@@ -35383,25 +34740,11 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$aarch64" = "1" 
   cd "${WRF_FOLDER}"/Downloads
   # Retrieve the exact WRF source version selected for this install.
   # The source is staged separately from the reusable library prefix.
-  wget -c https://github.com/wrf-model/WRF/releases/download/v${WRF_VERSION}/v${WRF_VERSION}.tar.gz -O WRF-${WRF_VERSION}.tar.gz
-  env -u LD_LIBRARY_PATH tar -xzf WRF-${WRF_VERSION}.tar.gz -C "${WRF_FOLDER}"/
-
-  # If statment for changing folder name
-  # Check if WRF directory exists
-  if [ -d "${WRF_FOLDER}/WRF" ]; then
-    mv -f "${WRF_FOLDER}/WRF" "${WRF_FOLDER}/WRF-${WRF_VERSION}"
-
-  # Else, check for any folder matching WRFV*
-  else
-    for dir in "${WRF_FOLDER}"/WRFV*; do
-      if [ -d "$dir" ]; then
-        mv -f "$dir" "${WRF_FOLDER}/WRF-${WRF_VERSION}"
-        break
-      fi
-    done
-  fi
-
-  cd "${WRF_FOLDER}"/WRF-${WRF_VERSION}
+  # Clone directly into the versioned WRF directory.
+  # Initialize all release-pinned submodules during the clone.
+  # No extracted-directory rename is required.
+  git clone --branch "v${WRF_VERSION}" --recurse-submodules https://github.com/wrf-model/WRF.git "${WRF_FOLDER}"/WRF-${WRF_VERSION} || exit 1
+  cd "${WRF_FOLDER}"/WRF-${WRF_VERSION} || exit 1
   # Enable WRF support for larger NetCDF output files.
   export WRFIO_NCD_LARGE_FILE_SUPPORT=1
   ./clean -a
@@ -35464,22 +34807,9 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$aarch64" = "1" 
   cd "${WRF_FOLDER}"/Downloads
   # Fetch WPS independently of WRF so each version is explicit;
   # the subsequent configure step uses the matching WRF_DIR.
-  wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v${WPS_VERSION}.tar.gz -O WPS-${WPS_VERSION}.tar.gz
-  env -u LD_LIBRARY_PATH tar -xzf WPS-${WPS_VERSION}.tar.gz -C "${WRF_FOLDER}"/
-  # Keep WPS in its versioned directory without moving it onto itself.
-  if [ -d "${WRF_FOLDER}/WPS-${WPS_VERSION}" ]; then
-    echo "WPS-${WPS_VERSION} directory already exists; skipping rename."
-  elif [ -d "${WRF_FOLDER}/WPS" ]; then
-    mv -f "${WRF_FOLDER}/WPS" "${WRF_FOLDER}/WPS-${WPS_VERSION}"
-  else
-    for dir in "${WRF_FOLDER}"/WPSV* "${WRF_FOLDER}"/WPS-*; do
-      if [ -d "$dir" ]; then
-        mv -f "$dir" "${WRF_FOLDER}/WPS-${WPS_VERSION}"
-        break
-      fi
-    done
-  fi
-  cd "${WRF_FOLDER}"/WPS-${WPS_VERSION}
+  # Keep WPS in its versioned directory by cloning directly into it.
+  git clone --branch "v${WPS_VERSION}" --recurse-submodules https://github.com/wrf-model/WPS.git "${WRF_FOLDER}"/WPS-${WPS_VERSION} || exit 1
+  cd "${WRF_FOLDER}"/WPS-${WPS_VERSION} || exit 1
   ./clean -a
   sed -i '192s/x86_64/x86_64 aarch64/g' "${WRF_FOLDER}"/WPS-${WPS_VERSION}/arch/configure.defaults
 
@@ -35533,26 +34863,9 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$aarch64" = "1" 
   # Option 4 for gfortran/gcc and distributed memory
   # ----------------------------------------------------------------------
   cd "${WRF_FOLDER}"/Downloads
-  mkdir "${WRF_FOLDER}"/WRFPLUS
-  env -u LD_LIBRARY_PATH tar -xzf WRF-${WRF_VERSION}.tar.gz -C "${WRF_FOLDER}"/WRFPLUS
-
-  # If statement for changing folder name inside WRFPLUS
-  if [ -d "${WRF_FOLDER}/WRFPLUS/WRF" ]; then
-    mv -f "${WRF_FOLDER}/WRFPLUS/WRF" "${WRF_FOLDER}/WRFPLUS/WRF-${WRF_VERSION}"
-
-  else
-    for dir in "${WRF_FOLDER}/WRFPLUS"/WRFV*; do
-      if [ -d "$dir" ]; then
-        mv -f "$dir" "${WRF_FOLDER}/WRFPLUS/WRF-${WRF_VERSION}"
-        break
-      fi
-    done
-  fi
-
-  cd "${WRF_FOLDER}"/WRFPLUS/WRF-${WRF_VERSION}
-  mv * "${WRF_FOLDER}"/WRFPLUS
-  cd "${WRF_FOLDER}"/WRFPLUS
-  rm -rf WRF-${WRF_VERSION}/
+  # Clone directly into the independent WRFPLUS directory.
+  git clone --branch "v${WRF_VERSION}" --recurse-submodules https://github.com/wrf-model/WRF.git "${WRF_FOLDER}"/WRFPLUS || exit 1
+  cd "${WRF_FOLDER}"/WRFPLUS || exit 1
   export NETCDF=$DIR/NETCDF
   export HDF5=$DIR/grib2
   ./clean -a
@@ -35610,26 +34923,9 @@ if [ "$Ubuntu_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ] && [ "$aarch64" = "1" 
   # Option 18 for gfortran/gcc and distributed memory
   # ----------------------------------------------------------------------
   cd "${WRF_FOLDER}"/Downloads
-  mkdir "${WRF_FOLDER}"/WRFDA
-  env -u LD_LIBRARY_PATH tar -xzf WRF-${WRF_VERSION}.tar.gz -C "${WRF_FOLDER}"/WRFDA
-
-  # If statement for changing folder name inside WRFDA
-  if [ -d "${WRF_FOLDER}/WRFDA/WRF" ]; then
-    mv -f "${WRF_FOLDER}/WRFDA/WRF" "${WRF_FOLDER}/WRFDA/WRF-${WRF_VERSION}"
-
-  else
-    for dir in "${WRF_FOLDER}/WRFDA"/WRFV*; do
-      if [ -d "$dir" ]; then
-        mv -f "$dir" "${WRF_FOLDER}/WRFDA/WRF-${WRF_VERSION}"
-        break
-      fi
-    done
-  fi
-
-  cd "${WRF_FOLDER}"/WRFDA/WRF-${WRF_VERSION}
-  mv * "${WRF_FOLDER}"/WRFDA
-  cd "${WRF_FOLDER}"/WRFDA
-  rm -rf WRF-${WRF_VERSION}/
+  # Clone directly into the independent WRFDA directory.
+  git clone --branch "v${WRF_VERSION}" --recurse-submodules https://github.com/wrf-model/WRF.git "${WRF_FOLDER}"/WRFDA || exit 1
+  cd "${WRF_FOLDER}"/WRFDA || exit 1
   export NETCDF=$DIR/NETCDF
   export HDF5=$DIR/grib2
   export WRFPLUS_DIR="${WRF_FOLDER}"/WRFPLUS
@@ -36487,25 +35783,11 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   cd "${WRF_FOLDER}"/Downloads
   # Retrieve the exact WRF source version selected for this install.
   # The source is staged separately from the reusable library prefix.
-  wget -c https://github.com/wrf-model/WRF/releases/download/v${WRF_VERSION}/v${WRF_VERSION}.tar.gz -O WRF-${WRF_VERSION}.tar.gz
-  env -u LD_LIBRARY_PATH tar -xzf WRF-${WRF_VERSION}.tar.gz -C "${WRF_FOLDER}"/
-
-  # If statment for changing folder name
-  # Check if WRF directory exists
-  if [ -d "${WRF_FOLDER}/WRF" ]; then
-    mv -f "${WRF_FOLDER}/WRF" "${WRF_FOLDER}/WRF-${WRF_VERSION}"
-
-  # Else, check for any folder matching WRFV*
-  else
-    for dir in "${WRF_FOLDER}"/WRFV*; do
-      if [ -d "$dir" ]; then
-        mv -f "$dir" "${WRF_FOLDER}/WRF-${WRF_VERSION}"
-        break
-      fi
-    done
-  fi
-
-  cd "${WRF_FOLDER}"/WRF-${WRF_VERSION}
+  # Clone directly into the versioned WRF directory.
+  # Initialize all release-pinned submodules during the clone.
+  # No extracted-directory rename is required.
+  git clone --branch "v${WRF_VERSION}" --recurse-submodules https://github.com/wrf-model/WRF.git "${WRF_FOLDER}"/WRF-${WRF_VERSION} || exit 1
+  cd "${WRF_FOLDER}"/WRF-${WRF_VERSION} || exit 1
   # Enable WRF support for larger NetCDF output files.
   export WRFIO_NCD_LARGE_FILE_SUPPORT=1
   ./clean -a
@@ -36572,22 +35854,9 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   cd "${WRF_FOLDER}"/Downloads
   # Fetch WPS independently of WRF so each version is explicit;
   # the subsequent configure step uses the matching WRF_DIR.
-  wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v${WPS_VERSION}.tar.gz -O WPS-${WPS_VERSION}.tar.gz
-  env -u LD_LIBRARY_PATH tar -xzf WPS-${WPS_VERSION}.tar.gz -C "${WRF_FOLDER}"/
-  # Keep WPS in its versioned directory without moving it onto itself.
-  if [ -d "${WRF_FOLDER}/WPS-${WPS_VERSION}" ]; then
-    echo "WPS-${WPS_VERSION} directory already exists; skipping rename."
-  elif [ -d "${WRF_FOLDER}/WPS" ]; then
-    mv -f "${WRF_FOLDER}/WPS" "${WRF_FOLDER}/WPS-${WPS_VERSION}"
-  else
-    for dir in "${WRF_FOLDER}"/WPSV* "${WRF_FOLDER}"/WPS-*; do
-      if [ -d "$dir" ]; then
-        mv -f "$dir" "${WRF_FOLDER}/WPS-${WPS_VERSION}"
-        break
-      fi
-    done
-  fi
-  cd "${WRF_FOLDER}"/WPS-${WPS_VERSION}
+  # Keep WPS in its versioned directory by cloning directly into it.
+  git clone --branch "v${WPS_VERSION}" --recurse-submodules https://github.com/wrf-model/WPS.git "${WRF_FOLDER}"/WPS-${WPS_VERSION} || exit 1
+  cd "${WRF_FOLDER}"/WPS-${WPS_VERSION} || exit 1
   ./clean -a
 
   # Automatic configuration feeds the preselected platform/model
@@ -36644,26 +35913,9 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   # Option 40 for intel and distributed memory
   # ----------------------------------------------------------------------
   cd "${WRF_FOLDER}"/Downloads
-  mkdir "${WRF_FOLDER}"/WRFPLUS
-  env -u LD_LIBRARY_PATH tar -xzf WRF-${WRF_VERSION}.tar.gz -C "${WRF_FOLDER}"/WRFPLUS
-
-  # If statement for changing folder name inside WRFPLUS
-  if [ -d "${WRF_FOLDER}/WRFPLUS/WRF" ]; then
-    mv -f "${WRF_FOLDER}/WRFPLUS/WRF" "${WRF_FOLDER}/WRFPLUS/WRF-${WRF_VERSION}"
-
-  else
-    for dir in "${WRF_FOLDER}/WRFPLUS"/WRFV*; do
-      if [ -d "$dir" ]; then
-        mv -f "$dir" "${WRF_FOLDER}/WRFPLUS/WRF-${WRF_VERSION}"
-        break
-      fi
-    done
-  fi
-
-  cd "${WRF_FOLDER}"/WRFPLUS/WRF-${WRF_VERSION}
-  mv * "${WRF_FOLDER}"/WRFPLUS
-  cd "${WRF_FOLDER}"/WRFPLUS
-  rm -rf WRF-${WRF_VERSION}/
+  # Clone directly into the independent WRFPLUS directory.
+  git clone --branch "v${WRF_VERSION}" --recurse-submodules https://github.com/wrf-model/WRF.git "${WRF_FOLDER}"/WRFPLUS || exit 1
+  cd "${WRF_FOLDER}"/WRFPLUS || exit 1
   export NETCDF=$DIR/NETCDF
   export HDF5=$DIR/grib2
   ./clean -a
@@ -36727,26 +35979,9 @@ if [ "$Ubuntu_64bit_Intel" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   # Option 40 for intel and distributed memory
   # ----------------------------------------------------------------------
   cd "${WRF_FOLDER}"/Downloads
-  mkdir "${WRF_FOLDER}"/WRFDA
-  env -u LD_LIBRARY_PATH tar -xzf WRF-${WRF_VERSION}.tar.gz -C "${WRF_FOLDER}"/WRFDA
-
-  # If statement for changing folder name inside WRFDA
-  if [ -d "${WRF_FOLDER}/WRFDA/WRF" ]; then
-    mv -f "${WRF_FOLDER}/WRFDA/WRF" "${WRF_FOLDER}/WRFDA/WRF-${WRF_VERSION}"
-
-  else
-    for dir in "${WRF_FOLDER}/WRFDA"/WRFV*; do
-      if [ -d "$dir" ]; then
-        mv -f "$dir" "${WRF_FOLDER}/WRFDA/WRF-${WRF_VERSION}"
-        break
-      fi
-    done
-  fi
-
-  cd "${WRF_FOLDER}"/WRFDA/WRF-${WRF_VERSION}
-  mv * "${WRF_FOLDER}"/WRFDA
-  cd "${WRF_FOLDER}"/WRFDA
-  rm -rf WRF-${WRF_VERSION}/
+  # Clone directly into the independent WRFDA directory.
+  git clone --branch "v${WRF_VERSION}" --recurse-submodules https://github.com/wrf-model/WRF.git "${WRF_FOLDER}"/WRFDA || exit 1
+  cd "${WRF_FOLDER}"/WRFDA || exit 1
   export NETCDF=$DIR/NETCDF
   export HDF5=$DIR/grib2
   export WRFPLUS_DIR="${WRF_FOLDER}"/WRFPLUS
@@ -37509,25 +36744,11 @@ if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = 
   cd "${WRF_FOLDER}"/Downloads
   # Retrieve the exact WRF source version selected for this install.
   # The source is staged separately from the reusable library prefix.
-  wget -c https://github.com/wrf-model/WRF/releases/download/v${WRF_VERSION}/v${WRF_VERSION}.tar.gz -O WRF-${WRF_VERSION}.tar.gz
-  env -u LD_LIBRARY_PATH tar -xzf WRF-${WRF_VERSION}.tar.gz -C "${WRF_FOLDER}"/
-
-  # If statment for changing folder name
-  # Check if WRF directory exists
-  if [ -d "${WRF_FOLDER}/WRF" ]; then
-    mv -f "${WRF_FOLDER}/WRF" "${WRF_FOLDER}/WRF-${WRF_VERSION}"
-
-  # Else, check for any folder matching WRFV*
-  else
-    for dir in "${WRF_FOLDER}"/WRFV*; do
-      if [ -d "$dir" ]; then
-        mv -f "$dir" "${WRF_FOLDER}/WRF-${WRF_VERSION}"
-        break
-      fi
-    done
-  fi
-
-  cd "${WRF_FOLDER}"/WRF-${WRF_VERSION}
+  # Clone directly into the versioned WRF directory.
+  # Initialize all release-pinned submodules during the clone.
+  # No extracted-directory rename is required.
+  git clone --branch "v${WRF_VERSION}" --recurse-submodules https://github.com/wrf-model/WRF.git "${WRF_FOLDER}"/WRF-${WRF_VERSION} || exit 1
+  cd "${WRF_FOLDER}"/WRF-${WRF_VERSION} || exit 1
 
   ./clean -a
 
@@ -37588,22 +36809,9 @@ if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = 
   cd "${WRF_FOLDER}"/Downloads
   # Fetch WPS independently of WRF so each version is explicit;
   # the subsequent configure step uses the matching WRF_DIR.
-  wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v${WPS_VERSION}.tar.gz -O WPS-${WPS_VERSION}.tar.gz
-  env -u LD_LIBRARY_PATH tar -xzf WPS-${WPS_VERSION}.tar.gz -C "${WRF_FOLDER}"/
-  # Keep WPS in its versioned directory without moving it onto itself.
-  if [ -d "${WRF_FOLDER}/WPS-${WPS_VERSION}" ]; then
-    echo "WPS-${WPS_VERSION} directory already exists; skipping rename."
-  elif [ -d "${WRF_FOLDER}/WPS" ]; then
-    mv -f "${WRF_FOLDER}/WPS" "${WRF_FOLDER}/WPS-${WPS_VERSION}"
-  else
-    for dir in "${WRF_FOLDER}"/WPSV* "${WRF_FOLDER}"/WPS-*; do
-      if [ -d "$dir" ]; then
-        mv -f "$dir" "${WRF_FOLDER}/WPS-${WPS_VERSION}"
-        break
-      fi
-    done
-  fi
-  cd "${WRF_FOLDER}"/WPS-${WPS_VERSION}
+  # Keep WPS in its versioned directory by cloning directly into it.
+  git clone --branch "v${WPS_VERSION}" --recurse-submodules https://github.com/wrf-model/WPS.git "${WRF_FOLDER}"/WPS-${WPS_VERSION} || exit 1
+  cd "${WRF_FOLDER}"/WPS-${WPS_VERSION} || exit 1
   ./clean -a
 
   # Automatic configuration feeds the preselected platform/model
@@ -37657,26 +36865,9 @@ if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = 
   # ----------------------------------------------------------------------
 
   cd "${WRF_FOLDER}"/Downloads
-  mkdir "${WRF_FOLDER}"/WRFPLUS
-  env -u LD_LIBRARY_PATH tar -xzf WRF-${WRF_VERSION}.tar.gz -C "${WRF_FOLDER}"/WRFPLUS
-
-  # If statement for changing folder name inside WRFPLUS
-  if [ -d "${WRF_FOLDER}/WRFPLUS/WRF" ]; then
-    mv -f "${WRF_FOLDER}/WRFPLUS/WRF" "${WRF_FOLDER}/WRFPLUS/WRF-${WRF_VERSION}"
-
-  else
-    for dir in "${WRF_FOLDER}/WRFPLUS"/WRFV*; do
-      if [ -d "$dir" ]; then
-        mv -f "$dir" "${WRF_FOLDER}/WRFPLUS/WRF-${WRF_VERSION}"
-        break
-      fi
-    done
-  fi
-
-  cd "${WRF_FOLDER}"/WRFPLUS/WRF-${WRF_VERSION}
-  mv * "${WRF_FOLDER}"/WRFPLUS
-  cd "${WRF_FOLDER}"/WRFPLUS
-  rm -rf WRF-${WRF_VERSION}/
+  # Clone directly into the independent WRFPLUS directory.
+  git clone --branch "v${WRF_VERSION}" --recurse-submodules https://github.com/wrf-model/WRF.git "${WRF_FOLDER}"/WRFPLUS || exit 1
+  cd "${WRF_FOLDER}"/WRFPLUS || exit 1
   export NETCDF=$DIR/NETCDF
   export HDF5=$DIR/grib2
 
@@ -37733,26 +36924,9 @@ if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = 
   # ----------------------------------------------------------------------
 
   cd "${WRF_FOLDER}"/Downloads
-  mkdir "${WRF_FOLDER}"/WRFDA
-  env -u LD_LIBRARY_PATH tar -xzf WRF-${WRF_VERSION}.tar.gz -C "${WRF_FOLDER}"/WRFDA
-
-  # If statement for changing folder name inside WRFDA
-  if [ -d "${WRF_FOLDER}/WRFDA/WRF" ]; then
-    mv -f "${WRF_FOLDER}/WRFDA/WRF" "${WRF_FOLDER}/WRFDA/WRF-${WRF_VERSION}"
-
-  else
-    for dir in "${WRF_FOLDER}/WRFDA"/WRFV*; do
-      if [ -d "$dir" ]; then
-        mv -f "$dir" "${WRF_FOLDER}/WRFDA/WRF-${WRF_VERSION}"
-        break
-      fi
-    done
-  fi
-
-  cd "${WRF_FOLDER}"/WRFDA/WRF-${WRF_VERSION}
-  mv * "${WRF_FOLDER}"/WRFDA
-  cd "${WRF_FOLDER}"/WRFDA
-  rm -rf WRF-${WRF_VERSION}/
+  # Clone directly into the independent WRFDA directory.
+  git clone --branch "v${WRF_VERSION}" --recurse-submodules https://github.com/wrf-model/WRF.git "${WRF_FOLDER}"/WRFDA || exit 1
+  cd "${WRF_FOLDER}"/WRFDA || exit 1
   export NETCDF=$DIR/NETCDF
   export HDF5=$DIR/grib2
   export WRFPLUS_DIR="${WRF_FOLDER}"/WRFPLUS
@@ -38528,25 +37702,11 @@ if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = 
   cd "${WRF_FOLDER}"/Downloads
   # Retrieve the exact WRF source version selected for this install.
   # The source is staged separately from the reusable library prefix.
-  wget -c https://github.com/wrf-model/WRF/releases/download/v${WRF_VERSION}/v${WRF_VERSION}.tar.gz -O WRF-${WRF_VERSION}.tar.gz
-  env -u LD_LIBRARY_PATH tar -xzf WRF-${WRF_VERSION}.tar.gz -C "${WRF_FOLDER}"/
-
-  # If statment for changing folder name
-  # Check if WRF directory exists
-  if [ -d "${WRF_FOLDER}/WRF" ]; then
-    mv -f "${WRF_FOLDER}/WRF" "${WRF_FOLDER}/WRF-${WRF_VERSION}"
-
-  # Else, check for any folder matching WRFV*
-  else
-    for dir in "${WRF_FOLDER}"/WRFV*; do
-      if [ -d "$dir" ]; then
-        mv -f "$dir" "${WRF_FOLDER}/WRF-${WRF_VERSION}"
-        break
-      fi
-    done
-  fi
-
-  cd "${WRF_FOLDER}"/WRF-${WRF_VERSION}
+  # Clone directly into the versioned WRF directory.
+  # Initialize all release-pinned submodules during the clone.
+  # No extracted-directory rename is required.
+  git clone --branch "v${WRF_VERSION}" --recurse-submodules https://github.com/wrf-model/WRF.git "${WRF_FOLDER}"/WRF-${WRF_VERSION} || exit 1
+  cd "${WRF_FOLDER}"/WRF-${WRF_VERSION} || exit 1
 
   ./clean -a
 
@@ -38607,22 +37767,9 @@ if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = 
   cd "${WRF_FOLDER}"/Downloads
   # Fetch WPS independently of WRF so each version is explicit;
   # the subsequent configure step uses the matching WRF_DIR.
-  wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v${WPS_VERSION}.tar.gz -O WPS-${WPS_VERSION}.tar.gz
-  env -u LD_LIBRARY_PATH tar -xzf WPS-${WPS_VERSION}.tar.gz -C "${WRF_FOLDER}"/
-  # Keep WPS in its versioned directory without moving it onto itself.
-  if [ -d "${WRF_FOLDER}/WPS-${WPS_VERSION}" ]; then
-    echo "WPS-${WPS_VERSION} directory already exists; skipping rename."
-  elif [ -d "${WRF_FOLDER}/WPS" ]; then
-    mv -f "${WRF_FOLDER}/WPS" "${WRF_FOLDER}/WPS-${WPS_VERSION}"
-  else
-    for dir in "${WRF_FOLDER}"/WPSV* "${WRF_FOLDER}"/WPS-*; do
-      if [ -d "$dir" ]; then
-        mv -f "$dir" "${WRF_FOLDER}/WPS-${WPS_VERSION}"
-        break
-      fi
-    done
-  fi
-  cd "${WRF_FOLDER}"/WPS-${WPS_VERSION}
+  # Keep WPS in its versioned directory by cloning directly into it.
+  git clone --branch "v${WPS_VERSION}" --recurse-submodules https://github.com/wrf-model/WPS.git "${WRF_FOLDER}"/WPS-${WPS_VERSION} || exit 1
+  cd "${WRF_FOLDER}"/WPS-${WPS_VERSION} || exit 1
   ./clean -a
 
   # Automatic configuration feeds the preselected platform/model
@@ -38676,26 +37823,9 @@ if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = 
   # ----------------------------------------------------------------------
 
   cd "${WRF_FOLDER}"/Downloads
-  mkdir "${WRF_FOLDER}"/WRFPLUS
-  env -u LD_LIBRARY_PATH tar -xzf WRF-${WRF_VERSION}.tar.gz -C "${WRF_FOLDER}"/WRFPLUS
-
-  # If statement for changing folder name inside WRFPLUS
-  if [ -d "${WRF_FOLDER}/WRFPLUS/WRF" ]; then
-    mv -f "${WRF_FOLDER}/WRFPLUS/WRF" "${WRF_FOLDER}/WRFPLUS/WRF-${WRF_VERSION}"
-
-  else
-    for dir in "${WRF_FOLDER}/WRFPLUS"/WRFV*; do
-      if [ -d "$dir" ]; then
-        mv -f "$dir" "${WRF_FOLDER}/WRFPLUS/WRF-${WRF_VERSION}"
-        break
-      fi
-    done
-  fi
-
-  cd "${WRF_FOLDER}"/WRFPLUS/WRF-${WRF_VERSION}
-  mv * "${WRF_FOLDER}"/WRFPLUS
-  cd "${WRF_FOLDER}"/WRFPLUS
-  rm -rf WRF-${WRF_VERSION}/
+  # Clone directly into the independent WRFPLUS directory.
+  git clone --branch "v${WRF_VERSION}" --recurse-submodules https://github.com/wrf-model/WRF.git "${WRF_FOLDER}"/WRFPLUS || exit 1
+  cd "${WRF_FOLDER}"/WRFPLUS || exit 1
   export NETCDF=$DIR/NETCDF
   export HDF5=$DIR/grib2
 
@@ -38752,26 +37882,9 @@ if [ "$SYSTEMOS" = "MacOS" ] && [ "$macos_64bit_GNU" = "1" ] && [ "$WRF_PICK" = 
   # ----------------------------------------------------------------------
 
   cd "${WRF_FOLDER}"/Downloads
-  mkdir "${WRF_FOLDER}"/WRFDA
-  env -u LD_LIBRARY_PATH tar -xzf WRF-${WRF_VERSION}.tar.gz -C "${WRF_FOLDER}"/WRFDA
-
-  # If statement for changing folder name inside WRFDA
-  if [ -d "${WRF_FOLDER}/WRFDA/WRF" ]; then
-    mv -f "${WRF_FOLDER}/WRFDA/WRF" "${WRF_FOLDER}/WRFDA/WRF-${WRF_VERSION}"
-
-  else
-    for dir in "${WRF_FOLDER}/WRFDA"/WRFV*; do
-      if [ -d "$dir" ]; then
-        mv -f "$dir" "${WRF_FOLDER}/WRFDA/WRF-${WRF_VERSION}"
-        break
-      fi
-    done
-  fi
-
-  cd "${WRF_FOLDER}"/WRFDA/WRF-${WRF_VERSION}
-  mv * "${WRF_FOLDER}"/WRFDA
-  cd "${WRF_FOLDER}"/WRFDA
-  rm -rf WRF-${WRF_VERSION}/
+  # Clone directly into the independent WRFDA directory.
+  git clone --branch "v${WRF_VERSION}" --recurse-submodules https://github.com/wrf-model/WRF.git "${WRF_FOLDER}"/WRFDA || exit 1
+  cd "${WRF_FOLDER}"/WRFDA || exit 1
   export NETCDF=$DIR/NETCDF
   export HDF5=$DIR/grib2
   export WRFPLUS_DIR="${WRF_FOLDER}"/WRFPLUS
@@ -39634,25 +38747,11 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   cd "${WRF_FOLDER}"/Downloads
   # Retrieve the exact WRF source version selected for this install.
   # The source is staged separately from the reusable library prefix.
-  wget -c https://github.com/wrf-model/WRF/releases/download/v${WRF_VERSION}/v${WRF_VERSION}.tar.gz -O WRF-${WRF_VERSION}.tar.gz
-  env -u LD_LIBRARY_PATH tar -xzf WRF-${WRF_VERSION}.tar.gz -C "${WRF_FOLDER}"/
-
-  # If statment for changing folder name
-  # Check if WRF directory exists
-  if [ -d "${WRF_FOLDER}/WRF" ]; then
-    mv -f "${WRF_FOLDER}/WRF" "${WRF_FOLDER}/WRF-${WRF_VERSION}"
-
-  # Else, check for any folder matching WRFV*
-  else
-    for dir in "${WRF_FOLDER}"/WRFV*; do
-      if [ -d "$dir" ]; then
-        mv -f "$dir" "${WRF_FOLDER}/WRF-${WRF_VERSION}"
-        break
-      fi
-    done
-  fi
-
-  cd "${WRF_FOLDER}"/WRF-${WRF_VERSION}
+  # Clone directly into the versioned WRF directory.
+  # Initialize all release-pinned submodules during the clone.
+  # No extracted-directory rename is required.
+  git clone --branch "v${WRF_VERSION}" --recurse-submodules https://github.com/wrf-model/WRF.git "${WRF_FOLDER}"/WRF-${WRF_VERSION} || exit 1
+  cd "${WRF_FOLDER}"/WRF-${WRF_VERSION} || exit 1
   # Enable WRF support for larger NetCDF output files.
   export WRFIO_NCD_LARGE_FILE_SUPPORT=1
   ./clean -a
@@ -39715,22 +38814,9 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   cd "${WRF_FOLDER}"/Downloads
   # Fetch WPS independently of WRF so each version is explicit;
   # the subsequent configure step uses the matching WRF_DIR.
-  wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v${WPS_VERSION}.tar.gz -O WPS-${WPS_VERSION}.tar.gz
-  env -u LD_LIBRARY_PATH tar -xzf WPS-${WPS_VERSION}.tar.gz -C "${WRF_FOLDER}"/
-  # Keep WPS in its versioned directory without moving it onto itself.
-  if [ -d "${WRF_FOLDER}/WPS-${WPS_VERSION}" ]; then
-    echo "WPS-${WPS_VERSION} directory already exists; skipping rename."
-  elif [ -d "${WRF_FOLDER}/WPS" ]; then
-    mv -f "${WRF_FOLDER}/WPS" "${WRF_FOLDER}/WPS-${WPS_VERSION}"
-  else
-    for dir in "${WRF_FOLDER}"/WPSV* "${WRF_FOLDER}"/WPS-*; do
-      if [ -d "$dir" ]; then
-        mv -f "$dir" "${WRF_FOLDER}/WPS-${WPS_VERSION}"
-        break
-      fi
-    done
-  fi
-  cd "${WRF_FOLDER}"/WPS-${WPS_VERSION}
+  # Keep WPS in its versioned directory by cloning directly into it.
+  git clone --branch "v${WPS_VERSION}" --recurse-submodules https://github.com/wrf-model/WPS.git "${WRF_FOLDER}"/WPS-${WPS_VERSION} || exit 1
+  cd "${WRF_FOLDER}"/WPS-${WPS_VERSION} || exit 1
   ./clean -a
 
   # Automatic configuration feeds the preselected platform/model
@@ -39783,26 +38869,9 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   # Option 18 for gfortran/gcc and distributed memory
   # ----------------------------------------------------------------------
   cd "${WRF_FOLDER}"/Downloads
-  mkdir "${WRF_FOLDER}"/WRFPLUS
-  env -u LD_LIBRARY_PATH tar -xzf WRF-${WRF_VERSION}.tar.gz -C "${WRF_FOLDER}"/WRFPLUS
-
-  # If statement for changing folder name inside WRFPLUS
-  if [ -d "${WRF_FOLDER}/WRFPLUS/WRF" ]; then
-    mv -f "${WRF_FOLDER}/WRFPLUS/WRF" "${WRF_FOLDER}/WRFPLUS/WRF-${WRF_VERSION}"
-
-  else
-    for dir in "${WRF_FOLDER}/WRFPLUS"/WRFV*; do
-      if [ -d "$dir" ]; then
-        mv -f "$dir" "${WRF_FOLDER}/WRFPLUS/WRF-${WRF_VERSION}"
-        break
-      fi
-    done
-  fi
-
-  cd "${WRF_FOLDER}"/WRFPLUS/WRF-${WRF_VERSION}
-  mv * "${WRF_FOLDER}"/WRFPLUS
-  cd "${WRF_FOLDER}"/WRFPLUS
-  rm -rf WRF-${WRF_VERSION}/
+  # Clone directly into the independent WRFPLUS directory.
+  git clone --branch "v${WRF_VERSION}" --recurse-submodules https://github.com/wrf-model/WRF.git "${WRF_FOLDER}"/WRFPLUS || exit 1
+  cd "${WRF_FOLDER}"/WRFPLUS || exit 1
   export NETCDF=$DIR/NETCDF
   export HDF5=$DIR/grib2
   ./clean -a
@@ -39858,26 +38927,9 @@ if [ "$RHL_64bit_GNU" = "1" ] && [ "$WRF_PICK" = "1" ]; then
   # Option 18 for gfortran/gcc and distributed memory
   # ----------------------------------------------------------------------
   cd "${WRF_FOLDER}"/Downloads
-  mkdir "${WRF_FOLDER}"/WRFDA
-  env -u LD_LIBRARY_PATH tar -xzf WRF-${WRF_VERSION}.tar.gz -C "${WRF_FOLDER}"/WRFDA
-
-  # If statement for changing folder name inside WRFDA
-  if [ -d "${WRF_FOLDER}/WRFDA/WRF" ]; then
-    mv -f "${WRF_FOLDER}/WRFDA/WRF" "${WRF_FOLDER}/WRFDA/WRF-${WRF_VERSION}"
-
-  else
-    for dir in "${WRF_FOLDER}/WRFDA"/WRFV*; do
-      if [ -d "$dir" ]; then
-        mv -f "$dir" "${WRF_FOLDER}/WRFDA/WRF-${WRF_VERSION}"
-        break
-      fi
-    done
-  fi
-
-  cd "${WRF_FOLDER}"/WRFDA/WRF-${WRF_VERSION}
-  mv * "${WRF_FOLDER}"/WRFDA
-  cd "${WRF_FOLDER}"/WRFDA
-  rm -rf WRF-${WRF_VERSION}/
+  # Clone directly into the independent WRFDA directory.
+  git clone --branch "v${WRF_VERSION}" --recurse-submodules https://github.com/wrf-model/WRF.git "${WRF_FOLDER}"/WRFDA || exit 1
+  cd "${WRF_FOLDER}"/WRFDA || exit 1
   export NETCDF=$DIR/NETCDF
   export HDF5=$DIR/grib2
   export WRFPLUS_DIR="${WRF_FOLDER}"/WRFPLUS
@@ -40746,25 +39798,11 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRF_PICK" = "1" ]; then
   cd "${WRF_FOLDER}"/Downloads
   # Retrieve the exact WRF source version selected for this install.
   # The source is staged separately from the reusable library prefix.
-  wget -c https://github.com/wrf-model/WRF/releases/download/v${WRF_VERSION}/v${WRF_VERSION}.tar.gz -O WRF-${WRF_VERSION}.tar.gz
-  env -u LD_LIBRARY_PATH tar -xzf WRF-${WRF_VERSION}.tar.gz -C "${WRF_FOLDER}"/
-
-  # If statment for changing folder name
-  # Check if WRF directory exists
-  if [ -d "${WRF_FOLDER}/WRF" ]; then
-    mv -f "${WRF_FOLDER}/WRF" "${WRF_FOLDER}/WRF-${WRF_VERSION}"
-
-  # Else, check for any folder matching WRFV*
-  else
-    for dir in "${WRF_FOLDER}"/WRFV*; do
-      if [ -d "$dir" ]; then
-        mv -f "$dir" "${WRF_FOLDER}/WRF-${WRF_VERSION}"
-        break
-      fi
-    done
-  fi
-
-  cd "${WRF_FOLDER}"/WRF-${WRF_VERSION}
+  # Clone directly into the versioned WRF directory.
+  # Initialize all release-pinned submodules during the clone.
+  # No extracted-directory rename is required.
+  git clone --branch "v${WRF_VERSION}" --recurse-submodules https://github.com/wrf-model/WRF.git "${WRF_FOLDER}"/WRF-${WRF_VERSION} || exit 1
+  cd "${WRF_FOLDER}"/WRF-${WRF_VERSION} || exit 1
   # Enable WRF support for larger NetCDF output files.
   export WRFIO_NCD_LARGE_FILE_SUPPORT=1
   ./clean -a
@@ -40827,22 +39865,9 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRF_PICK" = "1" ]; then
   cd "${WRF_FOLDER}"/Downloads
   # Fetch WPS independently of WRF so each version is explicit;
   # the subsequent configure step uses the matching WRF_DIR.
-  wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v${WPS_VERSION}.tar.gz -O WPS-${WPS_VERSION}.tar.gz
-  env -u LD_LIBRARY_PATH tar -xzf WPS-${WPS_VERSION}.tar.gz -C "${WRF_FOLDER}"/
-  # Keep WPS in its versioned directory without moving it onto itself.
-  if [ -d "${WRF_FOLDER}/WPS-${WPS_VERSION}" ]; then
-    echo "WPS-${WPS_VERSION} directory already exists; skipping rename."
-  elif [ -d "${WRF_FOLDER}/WPS" ]; then
-    mv -f "${WRF_FOLDER}/WPS" "${WRF_FOLDER}/WPS-${WPS_VERSION}"
-  else
-    for dir in "${WRF_FOLDER}"/WPSV* "${WRF_FOLDER}"/WPS-*; do
-      if [ -d "$dir" ]; then
-        mv -f "$dir" "${WRF_FOLDER}/WPS-${WPS_VERSION}"
-        break
-      fi
-    done
-  fi
-  cd "${WRF_FOLDER}"/WPS-${WPS_VERSION}
+  # Keep WPS in its versioned directory by cloning directly into it.
+  git clone --branch "v${WPS_VERSION}" --recurse-submodules https://github.com/wrf-model/WPS.git "${WRF_FOLDER}"/WPS-${WPS_VERSION} || exit 1
+  cd "${WRF_FOLDER}"/WPS-${WPS_VERSION} || exit 1
   ./clean -a
 
   # Automatic configuration feeds the preselected platform/model
@@ -40895,26 +39920,9 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRF_PICK" = "1" ]; then
   # Option 18 for gfortran/gcc and distributed memory
   # ----------------------------------------------------------------------
   cd "${WRF_FOLDER}"/Downloads
-  mkdir "${WRF_FOLDER}"/WRFPLUS
-  env -u LD_LIBRARY_PATH tar -xzf WRF-${WRF_VERSION}.tar.gz -C "${WRF_FOLDER}"/WRFPLUS
-
-  # If statement for changing folder name inside WRFPLUS
-  if [ -d "${WRF_FOLDER}/WRFPLUS/WRF" ]; then
-    mv -f "${WRF_FOLDER}/WRFPLUS/WRF" "${WRF_FOLDER}/WRFPLUS/WRF-${WRF_VERSION}"
-
-  else
-    for dir in "${WRF_FOLDER}/WRFPLUS"/WRFV*; do
-      if [ -d "$dir" ]; then
-        mv -f "$dir" "${WRF_FOLDER}/WRFPLUS/WRF-${WRF_VERSION}"
-        break
-      fi
-    done
-  fi
-
-  cd "${WRF_FOLDER}"/WRFPLUS/WRF-${WRF_VERSION}
-  mv * "${WRF_FOLDER}"/WRFPLUS
-  cd "${WRF_FOLDER}"/WRFPLUS
-  rm -rf WRF-${WRF_VERSION}/
+  # Clone directly into the independent WRFPLUS directory.
+  git clone --branch "v${WRF_VERSION}" --recurse-submodules https://github.com/wrf-model/WRF.git "${WRF_FOLDER}"/WRFPLUS || exit 1
+  cd "${WRF_FOLDER}"/WRFPLUS || exit 1
   export NETCDF=$DIR/NETCDF
   export HDF5=$DIR/grib2
   ./clean -a
@@ -40970,26 +39978,9 @@ if [ "$RHL_64bit_GNU" = "2" ] && [ "$WRF_PICK" = "1" ]; then
   # Option 18 for gfortran/gcc and distributed memory
   # ----------------------------------------------------------------------
   cd "${WRF_FOLDER}"/Downloads
-  mkdir "${WRF_FOLDER}"/WRFDA
-  env -u LD_LIBRARY_PATH tar -xzf WRF-${WRF_VERSION}.tar.gz -C "${WRF_FOLDER}"/WRFDA
-
-  # If statement for changing folder name inside WRFDA
-  if [ -d "${WRF_FOLDER}/WRFDA/WRF" ]; then
-    mv -f "${WRF_FOLDER}/WRFDA/WRF" "${WRF_FOLDER}/WRFDA/WRF-${WRF_VERSION}"
-
-  else
-    for dir in "${WRF_FOLDER}/WRFDA"/WRFV*; do
-      if [ -d "$dir" ]; then
-        mv -f "$dir" "${WRF_FOLDER}/WRFDA/WRF-${WRF_VERSION}"
-        break
-      fi
-    done
-  fi
-
-  cd "${WRF_FOLDER}"/WRFDA/WRF-${WRF_VERSION}
-  mv * "${WRF_FOLDER}"/WRFDA
-  cd "${WRF_FOLDER}"/WRFDA
-  rm -rf WRF-${WRF_VERSION}/
+  # Clone directly into the independent WRFDA directory.
+  git clone --branch "v${WRF_VERSION}" --recurse-submodules https://github.com/wrf-model/WRF.git "${WRF_FOLDER}"/WRFDA || exit 1
+  cd "${WRF_FOLDER}"/WRFDA || exit 1
   export NETCDF=$DIR/NETCDF
   export HDF5=$DIR/grib2
   export WRFPLUS_DIR="${WRF_FOLDER}"/WRFPLUS
@@ -41789,25 +40780,11 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRF_PICK" ]; then
   cd "${WRF_FOLDER}"/Downloads
   # Retrieve the exact WRF source version selected for this install.
   # The source is staged separately from the reusable library prefix.
-  wget -c https://github.com/wrf-model/WRF/releases/download/v${WRF_VERSION}/v${WRF_VERSION}.tar.gz -O WRF-${WRF_VERSION}.tar.gz
-  env -u LD_LIBRARY_PATH tar -xzf WRF-${WRF_VERSION}.tar.gz -C "${WRF_FOLDER}"/
-
-  # If statment for changing folder name
-  # Check if WRF directory exists
-  if [ -d "${WRF_FOLDER}/WRF" ]; then
-    mv -f "${WRF_FOLDER}/WRF" "${WRF_FOLDER}/WRF-${WRF_VERSION}"
-
-  # Else, check for any folder matching WRFV*
-  else
-    for dir in "${WRF_FOLDER}"/WRFV*; do
-      if [ -d "$dir" ]; then
-        mv -f "$dir" "${WRF_FOLDER}/WRF-${WRF_VERSION}"
-        break
-      fi
-    done
-  fi
-
-  cd "${WRF_FOLDER}"/WRF-${WRF_VERSION}
+  # Clone directly into the versioned WRF directory.
+  # Initialize all release-pinned submodules during the clone.
+  # No extracted-directory rename is required.
+  git clone --branch "v${WRF_VERSION}" --recurse-submodules https://github.com/wrf-model/WRF.git "${WRF_FOLDER}"/WRF-${WRF_VERSION} || exit 1
+  cd "${WRF_FOLDER}"/WRF-${WRF_VERSION} || exit 1
   # Enable WRF support for larger NetCDF output files.
   export WRFIO_NCD_LARGE_FILE_SUPPORT=1
   ./clean -a
@@ -41874,22 +40851,9 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRF_PICK" ]; then
   cd "${WRF_FOLDER}"/Downloads
   # Fetch WPS independently of WRF so each version is explicit;
   # the subsequent configure step uses the matching WRF_DIR.
-  wget -c https://github.com/wrf-model/WPS/archive/refs/tags/v${WPS_VERSION}.tar.gz -O WPS-${WPS_VERSION}.tar.gz
-  env -u LD_LIBRARY_PATH tar -xzf WPS-${WPS_VERSION}.tar.gz -C "${WRF_FOLDER}"/
-  # Keep WPS in its versioned directory without moving it onto itself.
-  if [ -d "${WRF_FOLDER}/WPS-${WPS_VERSION}" ]; then
-    echo "WPS-${WPS_VERSION} directory already exists; skipping rename."
-  elif [ -d "${WRF_FOLDER}/WPS" ]; then
-    mv -f "${WRF_FOLDER}/WPS" "${WRF_FOLDER}/WPS-${WPS_VERSION}"
-  else
-    for dir in "${WRF_FOLDER}"/WPSV* "${WRF_FOLDER}"/WPS-*; do
-      if [ -d "$dir" ]; then
-        mv -f "$dir" "${WRF_FOLDER}/WPS-${WPS_VERSION}"
-        break
-      fi
-    done
-  fi
-  cd "${WRF_FOLDER}"/WPS-${WPS_VERSION}
+  # Keep WPS in its versioned directory by cloning directly into it.
+  git clone --branch "v${WPS_VERSION}" --recurse-submodules https://github.com/wrf-model/WPS.git "${WRF_FOLDER}"/WPS-${WPS_VERSION} || exit 1
+  cd "${WRF_FOLDER}"/WPS-${WPS_VERSION} || exit 1
   ./clean -a
 
   # Automatic configuration feeds the preselected platform/model
@@ -41946,26 +40910,9 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRF_PICK" ]; then
   # Option 40 for intel and distributed memory
   # ----------------------------------------------------------------------
   cd "${WRF_FOLDER}"/Downloads
-  mkdir "${WRF_FOLDER}"/WRFPLUS
-  env -u LD_LIBRARY_PATH tar -xzf WRF-${WRF_VERSION}.tar.gz -C "${WRF_FOLDER}"/WRFPLUS
-
-  # If statement for changing folder name inside WRFPLUS
-  if [ -d "${WRF_FOLDER}/WRFPLUS/WRF" ]; then
-    mv -f "${WRF_FOLDER}/WRFPLUS/WRF" "${WRF_FOLDER}/WRFPLUS/WRF-${WRF_VERSION}"
-
-  else
-    for dir in "${WRF_FOLDER}/WRFPLUS"/WRFV*; do
-      if [ -d "$dir" ]; then
-        mv -f "$dir" "${WRF_FOLDER}/WRFPLUS/WRF-${WRF_VERSION}"
-        break
-      fi
-    done
-  fi
-
-  cd "${WRF_FOLDER}"/WRFPLUS/WRF-${WRF_VERSION}
-  mv * "${WRF_FOLDER}"/WRFPLUS
-  cd "${WRF_FOLDER}"/WRFPLUS
-  rm -rf WRF-${WRF_VERSION}/
+  # Clone directly into the independent WRFPLUS directory.
+  git clone --branch "v${WRF_VERSION}" --recurse-submodules https://github.com/wrf-model/WRF.git "${WRF_FOLDER}"/WRFPLUS || exit 1
+  cd "${WRF_FOLDER}"/WRFPLUS || exit 1
   export NETCDF=$DIR/NETCDF
   export HDF5=$DIR/grib2
   ./clean -a
@@ -42028,26 +40975,9 @@ if [ "$RHL_64bit_Intel" = "1" ] && [ "$WRF_PICK" ]; then
   # Option 40 for intel and distributed memory
   # ----------------------------------------------------------------------
   cd "${WRF_FOLDER}"/Downloads
-  mkdir "${WRF_FOLDER}"/WRFDA
-  env -u LD_LIBRARY_PATH tar -xzf WRF-${WRF_VERSION}.tar.gz -C "${WRF_FOLDER}"/WRFDA
-
-  # If statement for changing folder name inside WRFDA
-  if [ -d "${WRF_FOLDER}/WRFDA/WRF" ]; then
-    mv -f "${WRF_FOLDER}/WRFDA/WRF" "${WRF_FOLDER}/WRFDA/WRF-${WRF_VERSION}"
-
-  else
-    for dir in "${WRF_FOLDER}/WRFDA"/WRFV*; do
-      if [ -d "$dir" ]; then
-        mv -f "$dir" "${WRF_FOLDER}/WRFDA/WRF-${WRF_VERSION}"
-        break
-      fi
-    done
-  fi
-
-  cd "${WRF_FOLDER}"/WRFDA/WRF-${WRF_VERSION}
-  mv * "${WRF_FOLDER}"/WRFDA
-  cd "${WRF_FOLDER}"/WRFDA
-  rm -rf WRF-${WRF_VERSION}/
+  # Clone directly into the independent WRFDA directory.
+  git clone --branch "v${WRF_VERSION}" --recurse-submodules https://github.com/wrf-model/WRF.git "${WRF_FOLDER}"/WRFDA || exit 1
+  cd "${WRF_FOLDER}"/WRFDA || exit 1
   export NETCDF=$DIR/NETCDF
   export HDF5=$DIR/grib2
   export WRFPLUS_DIR="${WRF_FOLDER}"/WRFPLUS
